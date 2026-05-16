@@ -2,7 +2,7 @@
  * CameraView - 相机预览组件
  * 使用 react-native-vision-camera v5 实现实时相机预览
  */
-import React, { useState, useCallback, useRef, useEffect } from 'react'
+import React, { useCallback, useRef, useEffect } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import {
   Camera,
@@ -17,16 +17,38 @@ import {
 interface Props {
   onPhotoTaken?: (photoFile: PhotoFile) => void
   flash?: 'off' | 'on' | 'auto'
-  cameraRef?: React.RefObject<typeof Camera>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cameraRef?: React.RefObject<any>
   torchMode?: 'off' | 'on'
   isActive?: boolean
 }
 
+// 拍照辅助函数 - v5 API
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const anyRef = (r: any) => r
+export async function takePhoto(cameraRef: any, flashMode: 'off' | 'on' | 'auto'): Promise<PhotoFile | null> {
+  try {
+    const cam = cameraRef?.current
+    if (!cam) return null
+
+    const photoOutput = cam?.controller?.outputs?.find(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (o: any) => o?.capturePhotoToFile
+    )
+    if (photoOutput) {
+      const settings = {
+        flashMode: flashMode === 'auto' ? ('auto' as const) : flashMode,
+      }
+      const photo = await photoOutput.capturePhotoToFile(settings, {})
+      return photo
+    }
+    return null
+  } catch (e) {
+    console.error('[CameraView] 拍照失败:', e)
+    return null
+  }
+}
 
 export default function CameraView({
-  onPhotoTaken,
   flash = 'off',
   cameraRef: externalRef,
   torchMode,
@@ -34,7 +56,8 @@ export default function CameraView({
 }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const internalRef = useRef<any>(null)
-  const cameraRef = externalRef ? anyRef(externalRef) : internalRef
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cameraRef = externalRef ?? internalRef
 
   const { hasPermission, requestPermission } = useCameraPermission()
   const device = useCameraDevice('back')
@@ -70,7 +93,6 @@ export default function CameraView({
     )
   }
 
-  // v5: torchMode only supports 'on' | 'off'
   const actualTorch: 'on' | 'off' =
     torchMode === 'on' || flash === 'on' ? 'on' : 'off'
 
@@ -87,28 +109,6 @@ export default function CameraView({
       />
     </View>
   )
-}
-
-// 拍照辅助函数 - v5 API
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function takePhoto(cameraRef: any, flashMode: 'off' | 'on' | 'auto'): Promise<PhotoFile | null> {
-  try {
-    const photoOutput = cameraRef?.current?.controller?.outputs?.find(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (o: any) => o?.capturePhotoToFile
-    )
-    if (photoOutput) {
-      const settings = {
-        flashMode: flashMode === 'auto' ? ('auto' as const) : flashMode,
-      }
-      const photo = await photoOutput.capturePhotoToFile(settings, {})
-      return photo
-    }
-    return null
-  } catch (e) {
-    console.error('[CameraView] 拍照失败:', e)
-    return null
-  }
 }
 
 const styles = StyleSheet.create({

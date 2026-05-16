@@ -1,6 +1,6 @@
 /**
- * HomeScreen - 首页
- * 引导用户进入拍照或查看历史
+ * HomeScreen - 首页 v2
+ * 引导用户进入拍照或查看历史，包含首次使用引导
  */
 import React, { useEffect, useState } from 'react'
 import {
@@ -8,9 +8,9 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   Dimensions,
   ScrollView,
+  Modal,
 } from 'react-native'
 import Animated, {
   useSharedValue,
@@ -21,13 +21,15 @@ import Animated, {
   withTiming,
   withRepeat,
 } from 'react-native-reanimated'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
 
-const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window')
+const { width: SCREEN_W } = Dimensions.get('window')
+const ONBOARD_KEY = 'onboarded_v2'
 
 // 功能介绍数据
-const FEATURES: Array<{icon: string; title: string; desc: string; color: string}> = [
+const FEATURES: Array<{ icon: string; title: string; desc: string; color: string }> = [
   {
     icon: '📐',
     title: '构图辅助',
@@ -54,36 +56,59 @@ const FEATURES: Array<{icon: string; title: string; desc: string; color: string}
   },
 ]
 
+const ONBOARD_STEPS = [
+  {
+    icon: '📸',
+    title: '拍出更好的照片',
+    desc: '男友相机帮你教男朋友拍出更好看的照片！上传他拍的照片，我给你分析和建议～',
+  },
+  {
+    icon: '👗',
+    title: '姿势模板引导',
+    desc: '选择喜欢的姿势模板，它会显示半透明剪影，让男朋友知道该怎么站位～',
+  },
+  {
+    icon: '🤳',
+    title: '实时评分反馈',
+    desc: '拍照后自动分析构图、曝光、稳定性，给出俏皮点评和具体改进建议！',
+  },
+  {
+    icon: '💕',
+    title: '一起变好吧！',
+    desc: '记录每一次进步，看着分数一点点提高，男朋友摄影技术越来越好～',
+  },
+]
+
 export default function HomeScreen({ navigation }: any) {
   const [diaryCount, setDiaryCount] = useState(0)
   const [avgScore, setAvgScore] = useState(0)
+  const [showOnboard, setShowOnboard] = useState(false)
+  const [onboardStep, setOnboardStep] = useState(0)
   const { templates } = useTemplates()
 
   // 动画
   const titleY = useSharedValue(30)
   const titleOpacity = useSharedValue(0)
   const cameraScale = useSharedValue(0.8)
+  const statsOpacity = useSharedValue(0)
+  const featuresY = useSharedValue(20)
 
   useEffect(() => {
-    // 加载日记数据
     loadStats()
+    checkOnboard()
 
     // 标题入场动画
     titleY.value = withSpring(0, { damping: 16 })
     titleOpacity.value = withTiming(1, { duration: 500 })
 
     // 相机按钮脉冲
-    cameraScale.value = withDelay(
-      600,
-      withRepeat(
-        withSequence(
-          withSpring(1.05, { damping: 10 }),
-          withSpring(1, { damping: 10 })
-        ),
-        -1,
-        true
-      )
-    )
+    cameraScale.value = withDelay(600, withSpring(1, { damping: 10 }))
+
+    // 统计数据入场
+    statsOpacity.value = withDelay(400, withTiming(1, { duration: 400 }))
+
+    // 功能特性列表
+    featuresY.value = withDelay(700, withSpring(0, { damping: 14 }))
   }, [])
 
   async function loadStats() {
@@ -95,103 +120,181 @@ export default function HomeScreen({ navigation }: any) {
         setAvgScore(avg)
       }
     } catch (e) {
-      // ignore
+      console.warn('[HomeScreen] 加载日记失败:', e)
     }
   }
 
-  const titleAnimatedStyle = useAnimatedStyle(() => ({
+  async function checkOnboard() {
+    try {
+      const done = await AsyncStorage.getItem(ONBOARD_KEY)
+      if (!done) {
+        setShowOnboard(true)
+      }
+    } catch (e) {
+      setShowOnboard(true)
+    }
+  }
+
+  async function finishOnboard() {
+    try {
+      await AsyncStorage.setItem(ONBOARD_KEY, 'true')
+    } catch {}
+    setShowOnboard(false)
+  }
+
+  function nextOnboardStep() {
+    if (onboardStep < ONBOARD_STEPS.length - 1) {
+      setOnboardStep(onboardStep + 1)
+    } else {
+      finishOnboard()
+    }
+  }
+
+  const titleStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: titleY.value }],
     opacity: titleOpacity.value,
   }))
 
-  const cameraAnimatedStyle = useAnimatedStyle(() => ({
+  const cameraStyle = useAnimatedStyle(() => ({
     transform: [{ scale: cameraScale.value }],
   }))
 
-  const hasProgress = diaryCount > 0
+  const statsStyle = useAnimatedStyle(() => ({
+    opacity: statsOpacity.value,
+  }))
+
+  const featuresStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: featuresY.value }],
+    opacity: statsOpacity.value,
+  }))
+
+  const totalTemplates = templates.length
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
-      {/* Hero 区域 */}
-      <Animated.View style={[styles.hero, titleAnimatedStyle]}>
-        <View style={styles.avatarRow}>
-          <Text style={styles.avatarEmoji}>📸</Text>
-          <View style={styles.avatarBadge}>
-            <Text style={styles.avatarBadgeText}>男友相机</Text>
-          </View>
-        </View>
-        <Text style={styles.title}>让男友镜头下的你</Text>
-        <Text style={styles.titleAccent}>更美一点</Text>
-
-        {/* 进度提示 */}
-        {hasProgress && (
-          <View style={styles.progressHint}>
-            <Text style={styles.progressHintText}>
-              📊 已拍 {diaryCount} 张 · 平均分 {avgScore}
-            </Text>
-          </View>
-        )}
+    <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      {/* 顶部品牌区 */}
+      <Animated.View style={[styles.heroSection, titleStyle]}>
+        <Text style={styles.heroIcon}>📸</Text>
+        <Text style={styles.heroTitle}>男友相机</Text>
+        <Text style={styles.heroSubtitle}>让男朋友越拍越好 ❤️</Text>
       </Animated.View>
 
+      {/* 统计数据条 */}
+      {diaryCount > 0 && (
+        <Animated.View style={[styles.statsBar, statsStyle]}>
+          <View style={styles.statItem}>
+            <Text style={styles.statNumber}>{diaryCount}</Text>
+            <Text style={styles.statLabel}>已拍摄</Text>
+          </View>
+          <View style={styles.statDivider} />
+          <View style={styles.statItem}>
+            <Text style={[styles.statNumber, { color: avgScore >= 80 ? '#4CAF50' : avgScore >= 60 ? '#FFB347' : '#FF6B6B' }]}>
+              {avgScore}
+            </Text>
+            <Text style={styles.statLabel}>平均分</Text>
+          </View>
+          <View style={styles.statDivider} />
+          <View style={styles.statItem}>
+            <Text style={styles.statNumber}>{totalTemplates}</Text>
+            <Text style={styles.statLabel}>姿势模板</Text>
+          </View>
+        </Animated.View>
+      )}
+
       {/* 拍照主按钮 */}
-      <Animated.View style={[styles.cameraSection, cameraAnimatedStyle]}>
+      <Animated.View style={[styles.cameraBtnWrapper, cameraStyle]}>
         <TouchableOpacity
           style={styles.cameraBtn}
           onPress={() => navigation.navigate('Camera')}
           activeOpacity={0.85}
         >
           <View style={styles.cameraBtnInner}>
-            <Text style={styles.cameraBtnEmoji}>📷</Text>
+            <Text style={styles.cameraBtnIcon}>📷</Text>
           </View>
-          <View style={styles.cameraBtnRing} />
-          <View style={[styles.cameraBtnRing, styles.cameraBtnRing2]} />
+          <Text style={styles.cameraBtnText}>开始拍照</Text>
         </TouchableOpacity>
-        <Text style={styles.cameraBtnLabel}>开始拍照</Text>
-        <Text style={styles.cameraBtnSubLabel}>教男友拍出更好的照片</Text>
+
+        <View style={styles.cameraBtnSub}>
+          <Text style={styles.cameraBtnSubText}>
+            {totalTemplates > 0
+              ? `已有 ${totalTemplates} 个姿势模板可用`
+              : '正在加载姿势模板...'}
+          </Text>
+        </View>
       </Animated.View>
 
-      {/* 功能介绍 */}
-      <View style={styles.featuresSection}>
-        <Text style={styles.featuresTitle}>✨ 功能亮点</Text>
+      {/* 功能特性 */}
+      <Animated.View style={[styles.featuresSection, featuresStyle]}>
+        <Text style={styles.sectionTitle}>✨ 功能介绍</Text>
         <View style={styles.featuresGrid}>
           {FEATURES.map((f, i) => (
-            <View
-              key={i}
-              style={[styles.featureCard, { borderLeftColor: f.color }]}
-            >
+            <View key={i} style={[styles.featureCard, { borderLeftColor: f.color }]}>
               <Text style={styles.featureIcon}>{f.icon}</Text>
-              <View style={styles.featureContent}>
+              <View style={styles.featureText}>
                 <Text style={styles.featureTitle}>{f.title}</Text>
                 <Text style={styles.featureDesc}>{f.desc}</Text>
               </View>
             </View>
           ))}
         </View>
-      </View>
+      </Animated.View>
 
-      {/* 底部操作 */}
-      <View style={styles.bottomActions}>
-        <TouchableOpacity
-          style={styles.diaryBtn}
-          onPress={() => navigation.navigate('Diary')}
-        >
-          <Text style={styles.diaryBtnIcon}>📈</Text>
-          <Text style={styles.diaryBtnText}>
-            {hasProgress ? `进步日记 (${diaryCount})` : '进步日记'}
-          </Text>
+      {/* 底部导航 */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate('Diary')}>
+          <Text style={styles.bottomNavIcon}>📊</Text>
+          <Text style={styles.bottomNavText}>进步日记</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate('Camera')}>
+          <Text style={styles.bottomNavIcon}>📸</Text>
+          <Text style={styles.bottomNavText}>拍照</Text>
         </TouchableOpacity>
       </View>
 
-      {/* 提示语 */}
-      <Text style={styles.bottomTip}>
-        💡 拍照后保存到相册，评分会自动记录哦
-      </Text>
-
       <View style={{ height: 40 }} />
+
+      {/* 首次使用引导弹窗 */}
+      <Modal visible={showOnboard} transparent animationType="fade">
+        <View style={styles.onboardOverlay}>
+          <View style={styles.onboardCard}>
+            <View style={styles.onboardStepIndicator}>
+              {ONBOARD_STEPS.map((_, i) => (
+                <View
+                  key={i}
+                  style={[
+                    styles.onboardDot,
+                    i === onboardStep && styles.onboardDotActive,
+                    i < onboardStep && styles.onboardDotDone,
+                  ]}
+                />
+              ))}
+            </View>
+
+            <Text style={styles.onboardIcon}>{ONBOARD_STEPS[onboardStep].icon}</Text>
+            <Text style={styles.onboardTitle}>{ONBOARD_STEPS[onboardStep].title}</Text>
+            <Text style={styles.onboardDesc}>{ONBOARD_STEPS[onboardStep].desc}</Text>
+
+            <View style={styles.onboardBtns}>
+              {onboardStep > 0 && (
+                <TouchableOpacity
+                  style={styles.onboardBackBtn}
+                  onPress={() => setOnboardStep(onboardStep - 1)}
+                >
+                  <Text style={styles.onboardBackBtnText}>上一步</Text>
+                </TouchableOpacity>
+              )}
+              <TouchableOpacity
+                style={[styles.onboardNextBtn, onboardStep === 0 && styles.onboardNextBtnFull]}
+                onPress={nextOnboardStep}
+              >
+                <Text style={styles.onboardNextBtnText}>
+                  {onboardStep < ONBOARD_STEPS.length - 1 ? '下一步 →' : '开始使用 🎉'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   )
 }
@@ -199,177 +302,254 @@ export default function HomeScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FAFAFA',
   },
   content: {
     paddingTop: 60,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
-  hero: {
+  heroSection: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 24,
   },
-  avatarRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 12,
+  heroIcon: {
+    fontSize: 52,
+    marginBottom: 8,
   },
-  avatarEmoji: {
-    fontSize: 48,
-  },
-  avatarBadge: {
-    backgroundColor: '#FFF0F0',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-  },
-  avatarBadgeText: {
-    color: '#FF6B6B',
-    fontSize: 13,
-    fontWeight: 'bold',
-  },
-  title: {
-    fontSize: 28,
+  heroTitle: {
+    fontSize: 32,
     fontWeight: 'bold',
     color: '#333',
-    textAlign: 'center',
+    marginBottom: 4,
   },
-  titleAccent: {
-    fontSize: 28,
-    fontWeight: 'bold',
+  heroSubtitle: {
+    fontSize: 16,
     color: '#FF6B6B',
-    textAlign: 'center',
+    fontWeight: '500',
   },
-  progressHint: {
-    marginTop: 10,
-    backgroundColor: '#F5F5F5',
+  statsBar: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
     borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-  },
-  progressHintText: {
-    fontSize: 13,
-    color: '#888',
-  },
-  cameraSection: {
+    padding: 16,
+    marginBottom: 20,
     alignItems: 'center',
-    marginBottom: 36,
+    justifyContent: 'center',
+    gap: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  statItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  statNumber: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 2,
+  },
+  statDivider: {
+    width: 1,
+    height: 30,
+    backgroundColor: '#eee',
+  },
+  cameraBtnWrapper: {
+    alignItems: 'center',
+    marginBottom: 28,
   },
   cameraBtn: {
-    width: 100,
-    height: 100,
+    backgroundColor: '#FF6B6B',
+    borderRadius: 32,
+    paddingVertical: 20,
+    paddingHorizontal: 48,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
+    shadowColor: '#FF6B6B',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 4,
   },
   cameraBtnInner: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: '#FF6B6B',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 10,
-    elevation: 4,
-    shadowColor: '#FF6B6B',
-    shadowOpacity: 0.4,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 12,
+    marginBottom: 6,
   },
-  cameraBtnEmoji: {
-    fontSize: 30,
+  cameraBtnIcon: {
+    fontSize: 36,
   },
-  cameraBtnRing: {
-    position: 'absolute',
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    borderWidth: 2,
-    borderColor: 'rgba(255,107,107,0.3)',
+  cameraBtnText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
   },
-  cameraBtnRing2: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderColor: 'rgba(255,107,107,0.15)',
+  cameraBtnSub: {
+    marginTop: 10,
   },
-  cameraBtnLabel: {
+  cameraBtnSubText: {
+    fontSize: 13,
+    color: '#999',
+  },
+  featuresSection: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    marginTop: 4,
-  },
-  cameraBtnSubLabel: {
-    fontSize: 13,
-    color: '#aaa',
-    marginTop: 4,
-  },
-  featuresSection: {
-    marginBottom: 24,
-  },
-  featuresTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 14,
+    marginBottom: 12,
   },
   featuresGrid: {
     gap: 12,
   },
   featureCard: {
     flexDirection: 'row',
-    backgroundColor: '#FAFAFA',
-    borderRadius: 12,
+    backgroundColor: '#fff',
+    borderRadius: 14,
     padding: 14,
-    borderLeftWidth: 3,
-    gap: 12,
+    alignItems: 'flex-start',
+    borderLeftWidth: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 1,
   },
   featureIcon: {
-    fontSize: 28,
-    width: 40,
-    textAlign: 'center',
+    fontSize: 24,
+    marginRight: 12,
+    marginTop: 2,
   },
-  featureContent: {
+  featureText: {
     flex: 1,
   },
   featureTitle: {
     fontSize: 15,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 2,
+    marginBottom: 3,
   },
   featureDesc: {
-    fontSize: 12,
+    fontSize: 13,
     color: '#888',
-    lineHeight: 17,
+    lineHeight: 18,
   },
-  bottomActions: {
-    marginBottom: 12,
+  bottomNav: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 8,
+    gap: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  diaryBtn: {
+  bottomNavBtn: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFF5F5',
-    borderRadius: 25,
-    paddingVertical: 14,
+    paddingVertical: 12,
+    borderRadius: 14,
     gap: 8,
-    borderWidth: 1.5,
-    borderColor: '#FF6B6B',
   },
-  diaryBtnIcon: {
+  bottomNavIcon: {
     fontSize: 18,
   },
-  diaryBtnText: {
+  bottomNavText: {
     fontSize: 15,
-    color: '#FF6B6B',
-    fontWeight: 'bold',
+    fontWeight: '600',
+    color: '#333',
   },
-  bottomTip: {
-    fontSize: 12,
-    color: '#ccc',
+  // Onboarding
+  onboardOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  onboardCard: {
+    backgroundColor: '#fff',
+    borderRadius: 24,
+    padding: 32,
+    width: '100%',
+    maxWidth: 340,
+    alignItems: 'center',
+  },
+  onboardStepIndicator: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 24,
+  },
+  onboardDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#ddd',
+  },
+  onboardDotActive: {
+    backgroundColor: '#FF6B6B',
+    width: 20,
+  },
+  onboardDotDone: {
+    backgroundColor: '#FFB347',
+  },
+  onboardIcon: {
+    fontSize: 52,
+    marginBottom: 16,
+  },
+  onboardTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 12,
     textAlign: 'center',
-    marginTop: 8,
+  },
+  onboardDesc: {
+    fontSize: 15,
+    color: '#666',
+    textAlign: 'center',
+    lineHeight: 22,
+    marginBottom: 28,
+  },
+  onboardBtns: {
+    flexDirection: 'row',
+    gap: 12,
+    width: '100%',
+  },
+  onboardBackBtn: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 25,
+    borderWidth: 1.5,
+    borderColor: '#ddd',
+    alignItems: 'center',
+  },
+  onboardBackBtnText: {
+    fontSize: 15,
+    color: '#999',
+  },
+  onboardNextBtn: {
+    flex: 2,
+    paddingVertical: 14,
+    borderRadius: 25,
+    backgroundColor: '#FF6B6B',
+    alignItems: 'center',
+  },
+  onboardNextBtnFull: {
+    flex: 1,
+  },
+  onboardNextBtnText: {
+    fontSize: 15,
+    color: '#fff',
+    fontWeight: 'bold',
   },
 })
