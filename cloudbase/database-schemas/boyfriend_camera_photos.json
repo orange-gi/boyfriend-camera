@@ -1,0 +1,21 @@
+{
+  "name": "boyfriend_camera_photos",
+  "description": "男友相机 - 照片分析记录（CloudBase NoSQL Collection）",
+  "type": "collection",
+  "fields": [
+    {"name": "_id", "type": "string", "description": "记录ID（自动生成）"},
+    {"name": "user_id", "type": "string", "description": "用户ID"},
+    {"name": "score", "type": "number", "description": "总体评分 0-10"},
+    {"name": "highlights", "type": "array", "description": "亮点夸夸数组"},
+    {"name": "suggestions", "type": "array", "description": "改进建议数组"},
+    {"name": "tip", "type": "string", "description": "今日技巧"},
+    {"name": "analysis_text", "type": "string", "description": "完整分析文案"},
+    {"name": "image_url", "type": "string", "description": "照片 CloudBase 存储路径"},
+    {"name": "created_at", "type": "string", "description": "创建时间 ISO 字符串"}
+  ],
+  "indexes": [
+    {"name": "idx_user_id", "fields": ["user_id"]},
+    {"name": "idx_created_at", "fields": ["created_at"]}
+  ],
+  "status": "已创建（2026-05-16 通过 boyfriend-camera-setup 云函数创建）"
+}
