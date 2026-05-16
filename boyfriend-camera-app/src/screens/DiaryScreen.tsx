@@ -14,7 +14,7 @@ import {
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import ProgressChart, { type DiaryEntry } from '../components/diary/ProgressChart'
-import { getDiary, type DiaryRecord } from '../services/analyzer'
+import { getDiary, writeDiary, type DiaryRecord } from '../services/analyzer'
 
 export default function DiaryScreen({ navigation }: any) {
   const [records, setRecords] = useState<DiaryRecord[]>([])
@@ -40,8 +40,8 @@ export default function DiaryScreen({ navigation }: any) {
         style: 'destructive',
         onPress: async () => {
           const updated = records.filter((r) => r.date !== date)
+          await writeDiary(updated)
           setRecords(updated)
-          await loadDiary()
         },
       },
     ])

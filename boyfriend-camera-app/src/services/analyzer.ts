@@ -256,6 +256,15 @@ export async function saveToDiary(record: DiaryRecord): Promise<void> {
   }
 }
 
+/** 直接覆盖保存整个日记数组（用于删除操作） */
+export async function writeDiary(records: DiaryRecord[]): Promise<void> {
+  try {
+    await AsyncStorage.setItem(DIARY_KEY, JSON.stringify(records))
+  } catch (e) {
+    console.error('[Analyzer] 写入日记失败:', e)
+  }
+}
+
 export async function getDiary(): Promise<DiaryRecord[]> {
   try {
     const raw = await AsyncStorage.getItem(DIARY_KEY)
