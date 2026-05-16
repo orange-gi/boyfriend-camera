@@ -114,6 +114,21 @@ const PRAISE_POOL: Record<string, string[]> = {
     '室内也能拍出这种感觉，太会找了！',
     '这个角度室内拍得超有质感！',
   ],
+  night_good: [
+    '夜景灯光把人拍得超有氛围感！',
+    '霓虹灯光下也能这么美，男朋友你开窍了！',
+    '夜景这么难拍你都能拿捏，厉害了！',
+  ],
+  portrait_mode: [
+    '背景虚化刚刚好！主体超突出，男朋友你用了人像模式吗？',
+    '这虚化层次感绝了，男朋友你是专业的吗？',
+    '主体清晰背景柔和，这构图审美在线！',
+  ],
+  closeup_good: [
+    '近景特写太有感觉了！皮肤质感满分～',
+    '怼脸拍也能这么好看，男朋友拍照技术在线！',
+    '怼脸自拍竟然这么上镜，这张绝了！',
+  ],
 }
 
 // 建议文案池
@@ -175,6 +190,10 @@ export interface AnalyzeContext {
   lastScore?: number
   /** 最近 N 次的平均分（连续好评检测） */
   recentAvg?: number
+  /** 连续高分次数（用于连续好评文案） */
+  streakCount?: number
+  /** 总拍摄次数 */
+  totalShoots?: number
   /** 是否为首次拍摄 */
   isFirstPhoto?: boolean
   /** 场景类型（用于场景专属夸奖） */
@@ -192,7 +211,7 @@ export async function analyzePhoto(
   context: AnalyzeContext = {}
 ): Promise<AnalysisResult> {
   const { facePosition, faceCount, brightness, sharpness, tiltAngle } = params
-  const { lastScore, recentAvg, isFirstPhoto, sceneType } = context
+  const { lastScore, recentAvg, streakCount = 0, totalShoots = 0, isFirstPhoto, sceneType } = context
   const problems: string[] = []
   const suggestions: string[] = []
   const praise: string[] = []
@@ -284,14 +303,24 @@ export async function analyzePhoto(
   if (sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.outdoor_good))
   if (sceneType === 'indoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.indoor_good))
 
+  // 近景特写夸奖（人脸面积大）
+  if (facePosition && facePosition.area > 0.25 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.closeup_good))
+
   // 首次好评
   if (isFirstPhoto && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.first_good))
 
   // 进步鼓励
   if (lastScore !== undefined && totalScore > lastScore) praise.push(pickRandom(PRAISE_POOL.progress_up))
 
-  // 连续好评
-  if (recentAvg !== undefined && recentAvg >= 80 && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.streak))
+  // 连续好评（使用 streakCount 更精确）
+  if (streakCount >= 2 && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.streak))
+  // 备选：使用 recentAvg 判断
+  if (recentAvg !== undefined && recentAvg >= 80 && totalScore >= 80 && streakCount < 2) praise.push(pickRandom(PRAISE_POOL.streak))
+
+  // 老用户里程碑夸奖
+  if (totalShoots === 10 && totalScore >= 70) praise.push('🎉 十连拍达成！男朋友已经拍了10张，进步肉眼可见！')
+  if (totalShoots === 20 && totalScore >= 70) praise.push('🏆 二十连拍里程碑！摄影师已在线，女朋友感动哭泣！')
+  if (totalShoots === 50 && totalScore >= 70) praise.push('👑 五十次快门！男朋友你是被拍照耽误的摄影师吧！')
 
   // 确保至少有夸奖
   if (praise.length === 0) {
