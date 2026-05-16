@@ -101,6 +101,32 @@ export default function DiaryScreen({ navigation }: any) {
     return { weekAvg, weekCount, streak }
   }, [records])
 
+  // 月度统计数据
+  const monthlyStats = useMemo(() => {
+    const now = new Date()
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+    const monthRecords = records.filter((r) => new Date(r.date) >= monthStart)
+    const monthAvg = monthRecords.length > 0
+      ? Math.round(monthRecords.reduce((s, r) => s + r.score, 0) / monthRecords.length)
+      : 0
+    const monthCount = monthRecords.length
+    const monthBest = monthRecords.length > 0
+      ? Math.max(...monthRecords.map((r) => r.score))
+      : 0
+    // 上月数据
+    const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
+    const prevMonthRecords = records.filter((r) => {
+      const d = new Date(r.date)
+      return d >= prevMonthStart && d <= prevMonthEnd
+    })
+    const prevMonthAvg = prevMonthRecords.length > 0
+      ? Math.round(prevMonthRecords.reduce((s, r) => s + r.score, 0) / prevMonthRecords.length)
+      : 0
+    const monthDiff = monthAvg - prevMonthAvg
+    return { monthAvg, monthCount, monthBest, monthDiff, prevMonthAvg }
+  }, [records])
+
   // 进步趋势
   const trendText = () => {
     if (totalCount < 3) return '继续加油！'
@@ -275,6 +301,54 @@ export default function DiaryScreen({ navigation }: any) {
                 <Text style={styles.trendText}>{trendText()}</Text>
               </View>
             </View>
+
+            {/* 打卡徽章栏 */}
+            {totalCount > 0 && (
+              <View style={styles.badgeRow}>
+                {weeklyStats.streak >= 3 && (
+                  <View style={[styles.badge, styles.badgeBronze]}>
+                    <Text style={styles.badgeText}>🔥 连续{weeklyStats.streak}天</Text>
+                  </View>
+                )}
+                {weeklyStats.streak >= 7 && (
+                  <View style={[styles.badge, styles.badgeSilver]}>
+                    <Text style={styles.badgeText}>🏆 连续打卡一周</Text>
+                  </View>
+                )}
+                {monthlyStats.monthBest >= 90 && (
+                  <View style={[styles.badge, styles.badgeGold]}>
+                    <Text style={styles.badgeText}>🌟 月度最佳{monthlyStats.monthBest}分</Text>
+                  </View>
+                )}
+                {monthlyStats.monthDiff > 5 && (
+                  <View style={[styles.badge, styles.badgeGreen]}>
+                    <Text style={styles.badgeText}>📈 比上月+{monthlyStats.monthDiff}分</Text>
+                  </View>
+                )}
+              </View>
+            )}
+
+            {/* 本月 vs 上月对比 */}
+            {monthlyStats.monthCount > 0 && (
+              <View style={styles.monthCompareRow}>
+                <View style={styles.monthItem}>
+                  <Text style={styles.monthLabel}>本月</Text>
+                  <Text style={styles.monthNum}>{monthlyStats.monthAvg}分</Text>
+                  <Text style={styles.monthSub}>{monthlyStats.monthCount}次</Text>
+                </View>
+                <View style={styles.monthDivider}>
+                  <Text style={styles.monthVs}>vs</Text>
+                  <Text style={[styles.monthDiffText, { color: monthlyStats.monthDiff >= 0 ? '#4CAF50' : '#FF6B6B' }]}>
+                    {monthlyStats.monthDiff >= 0 ? '+' : ''}{monthlyStats.monthDiff}分
+                  </Text>
+                </View>
+                <View style={styles.monthItem}>
+                  <Text style={styles.monthLabel}>上月</Text>
+                  <Text style={styles.monthNum}>{monthlyStats.prevMonthAvg > 0 ? monthlyStats.prevMonthAvg + '分' : '-'}</Text>
+                  <Text style={styles.monthSub}>{monthlyStats.monthDiff === 0 ? '持平' : monthlyStats.monthDiff > 0 ? '有进步' : '继续加油'}</Text>
+                </View>
+              </View>
+            )}
 
             {/* 进步曲线 */}
             <Text style={styles.sectionTitle}>📊 进步曲线</Text>
@@ -517,5 +591,76 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  // 打卡徽章
+  badgeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    paddingHorizontal: 16,
+    marginTop: 10,
+  },
+  badge: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 14,
+  },
+  badgeBronze: {
+    backgroundColor: '#FFF3E0',
+  },
+  badgeSilver: {
+    backgroundColor: '#F0F0F0',
+  },
+  badgeGold: {
+    backgroundColor: '#FFF8E1',
+  },
+  badgeGreen: {
+    backgroundColor: '#E8F5E9',
+  },
+  badgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  // 月度对比
+  monthCompareRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fafafa',
+    marginHorizontal: 16,
+    marginTop: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+  },
+  monthItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  monthDivider: {
+    alignItems: 'center',
+    paddingHorizontal: 12,
+  },
+  monthVs: {
+    fontSize: 11,
+    color: '#aaa',
+  },
+  monthDiffText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+  monthLabel: {
+    fontSize: 11,
+    color: '#aaa',
+    marginBottom: 2,
+  },
+  monthNum: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  monthSub: {
+    fontSize: 10,
+    color: '#999',
+    marginTop: 2,
   },
 })
