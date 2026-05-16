@@ -43,17 +43,16 @@ export async function syncTemplates(): Promise<PoseTemplate[]> {
     return getCachedTemplates()
   }
   
-  // 有更新，合并到缓存
-  const cached = await getCachedTemplates()
-  const merged = [...cached, ...data.update]
+  // 云端返回的是完整模板集，直接替换缓存（避免重复追加）
+  const templates = data.update
   await AsyncStorage.setItem(
     TEMPLATE_CACHE_PREFIX + data.latestVersion,
-    JSON.stringify(merged)
+    JSON.stringify(templates)
   )
   await setLocalVersion(data.latestVersion)
-  console.log('[TemplateSync] 已更新到 v' + data.latestVersion)
+  console.log('[TemplateSync] 已更新到 v' + data.latestVersion + '，共 ' + templates.length + ' 个模板')
   
-  return merged
+  return templates
 }
 
 export async function getCachedTemplates(): Promise<PoseTemplate[]> {
