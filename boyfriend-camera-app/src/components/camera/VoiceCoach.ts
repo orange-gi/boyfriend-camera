@@ -35,6 +35,15 @@ const EXPRESSION_TIPS = {
   YAW_LEFT: '脸稍微转过来一点，别侧太多',
   YAW_RIGHT: '脸稍微往这边转一点，别只露侧脸',
   ROLL_TILTED: '头稍微正一点，歪着显脸大哦～',
+  // 新增表情提示
+  NERVOUS_FACE: '放松～别僵着，自然一点更好看～',
+  TILTED_HEAD_GOOD: '歪头好可爱！就是现在按快门～',
+  BOTH_EYES_CLOSED: '两只眼睛都闭了，提醒她睁开～',
+  TONGUE_OUT: '哈哈表情太搞怪了！这个也可以抓拍～',
+  SURPRISED_FACE: '这惊讶表情好生动！就是现在！',
+  SERIOUS_FACE: '表情太严肃了，笑一个试试～',
+  PERFECT_FACE: '表情完美！光线也棒，按快门的最佳时机！',
+  TALKING_FACE: '在说话的时候抓拍，自然又生动～',
 }
 
 // 场景专项提示
@@ -240,8 +249,12 @@ class VoiceCoach {
     yawAngle?: number
     rollAngle?: number
     sharpness?: number
+    /** 张嘴程度（0-1），检测惊讶表情 */
+    mouthOpen?: number
+    /** 检测歪头（有意图的） */
+    isHeadTilt?: boolean
   }): Promise<void> {
-    const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle, sharpness } = params
+    const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle, sharpness, mouthOpen, isHeadTilt } = params
 
     // 模糊检测
     if (sharpness !== undefined && sharpness < 60) {
@@ -249,7 +262,19 @@ class VoiceCoach {
       return
     }
 
-    // 闭眼检测
+    // 惊讶表情（张嘴）
+    if (mouthOpen !== undefined && mouthOpen > 0.4 && smiling !== true) {
+      await this.speak(EXPRESSION_TIPS.SURPRISED_FACE)
+      return
+    }
+
+    // 两只眼睛都闭了
+    if (leftEyeOpen === false && rightEyeOpen === false) {
+      await this.speak(EXPRESSION_TIPS.BOTH_EYES_CLOSED)
+      return
+    }
+
+    // 闭眼检测（单眼闭）
     if ((leftEyeOpen === false || rightEyeOpen === false) && smiling !== true) {
       await this.speak(EXPRESSION_TIPS.CLOSED_EYES)
       return
@@ -267,8 +292,12 @@ class VoiceCoach {
       }
     }
 
-    // 头部倾斜检测
-    if (rollAngle !== undefined && Math.abs(rollAngle) > 15) {
+    // 头部倾斜检测（有意图的歪头 - 10-20度之间）
+    if (rollAngle !== undefined && Math.abs(rollAngle) > 10 && Math.abs(rollAngle) <= 20) {
+      await this.speak(EXPRESSION_TIPS.TILTED_HEAD_GOOD)
+      return
+    }
+    if (rollAngle !== undefined && Math.abs(rollAngle) > 20) {
       await this.speak(EXPRESSION_TIPS.ROLL_TILTED)
       return
     }
@@ -279,9 +308,31 @@ class VoiceCoach {
       return
     }
 
-    // 眼睛状态
+    // 无笑容且无表情
+    if (smiling === false) {
+      await this.speak(EXPRESSION_TIPS.SERIOUS_FACE)
+      return
+    }
+
+    // 眼睛状态好
     if (leftEyeOpen && rightEyeOpen && smiling === undefined) {
       await this.speak(EXPRESSION_TIPS.EYES_OPEN_GOOD)
+    }
+  }
+
+  /** 滤镜推荐提示（基于场景类型） */
+  async speakFilterTip(sceneType: 'warm_light' | 'cool_light' | 'night' | 'sunset' | 'indoor' | 'outdoor'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      warm_light: ['暖色调照片用暖色滤镜更好看～试试「暖阳」滤镜', '这种自然光用暖色滤镜超搭！'],
+      cool_light: ['冷色调光线配冷色滤镜，氛围感绝绝子～', '这种光线下冷色滤镜很有质感！'],
+      night: ['夜景配「胶片」或「电影」滤镜超有感觉！', '晚上拍照「电影」滤镜氛围感拉满！'],
+      sunset: ['夕阳配「黄金」滤镜，颜色会更浓郁～', '这种暖色调用「暖阳」滤镜更好看！'],
+      indoor: ['室内用「柔光」滤镜，皮肤看起来更细腻～', '室内光线「柔光」滤镜超适合！'],
+      outdoor: ['户外用「生动」滤镜，颜色会更鲜活～', '外景拍照「生动」滤镜绝绝子！'],
+    }
+    const arr = tips[sceneType] || []
+    if (arr.length > 0) {
+      await this.speak(arr[Math.floor(Math.random() * arr.length)], true)
     }
   }
 
