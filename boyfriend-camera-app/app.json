@@ -1,0 +1,80 @@
+{
+  "expo": {
+    "name": "男友相机",
+    "slug": "boyfriend-camera",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFF5F6"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/icon.png"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.orange.boyfriendcamera",
+      "buildNumber": "1",
+      "associatedDomains": ["applinks:boyfriend.camera.yuchengji.com"],
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSPhotoLibraryUsageDescription": "「男友相机」需要访问相册以便选择男友拍摄的照片进行分析。",
+        "NSCameraUsageDescription": "「男友相机」需要相机权限以便拍摄新照片进行分析。"
+      },
+      "appleTeamId": "U298GYL33F"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FFF5F6"
+      },
+      "package": "com.orange.boyfriendcamera",
+      "permissions": ["READ_EXTERNAL_STORAGE", "CAMERA"]
+    },
+    "scheme": "boyfriend-camera",
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-web-browser",
+      "expo-asset",
+      "expo-image",
+      "expo-file-system",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "「男友相机」需要访问相册以便选择男友拍摄的照片进行分析。",
+          "cameraPermission": "「男友相机」需要相机权限以便拍摄新照片进行分析。"
+        }
+      ]
+    ],
+    "privacyManifests": {
+      "NSPrivacyAccessedAPITypes": [
+        {
+          "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+          "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
+        },
+        {
+          "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+          "NSPrivacyAccessedAPITypeReasons": ["C617.1"]
+        },
+        {
+          "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
+          "NSPrivacyAccessedAPITypeReasons": ["35F9.1"]
+        }
+      ],
+      "NSPrivacyTracking": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "boyfriend-camera"
+      }
+    }
+  }
+}

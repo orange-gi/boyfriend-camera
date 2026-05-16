@@ -4,7 +4,7 @@
   "functionRoot": "./functions",
   "functions": [
     {
-      "name": "analyze-photo",
+      "name": "boyfriend-camera-analyze-photo",
       "timeout": 60,
       "runtime": "Nodejs18.15",
       "memorySize": 512,
