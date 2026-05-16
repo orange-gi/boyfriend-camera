@@ -70,7 +70,7 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
         const filePath = await photo.saveToTemporaryFileAsync()
         photo.dispose()
         return { filePath }
-      } catch {
+      } catch (_e) {
         photo.dispose()
         return null
       }

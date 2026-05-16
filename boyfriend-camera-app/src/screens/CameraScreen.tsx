@@ -51,16 +51,14 @@ async function saveRecentTemplate(templateId: string) {
     const filtered = ids.filter((id) => id !== templateId)
     const updated = [templateId, ...filtered].slice(0, 5)
     await AsyncStorage.setItem(RECENT_KEY, JSON.stringify(updated))
-  } catch {}
+  } catch (_e) { /* 忽略权限拒绝 */ }
 }
 
 async function getRecentTemplateIds(): Promise<string[]> {
   try {
     const raw = await AsyncStorage.getItem(RECENT_KEY)
     return raw ? JSON.parse(raw) : []
-  } catch {
-    return []
-  }
+  } catch (_e) { return [] }
 }
 
 export default function CameraScreen({ navigation }: any) {

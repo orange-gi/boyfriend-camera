@@ -252,7 +252,7 @@ export default function ResultScreen({ route, navigation }: any) {
       } else {
         Alert.alert('保存失败', '请检查相册权限')
       }
-    } catch {
+    } catch (_e) {
       Alert.alert('保存失败', '请检查相册权限')
     } finally {
       setSaving(false)
@@ -283,7 +283,7 @@ export default function ResultScreen({ route, navigation }: any) {
       try {
         const fallbackMessage = `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`
         await Share.share({ message: fallbackMessage })
-      } catch {
+      } catch (_e) {
         Alert.alert('分享失败', '请稍后重试')
       }
     }

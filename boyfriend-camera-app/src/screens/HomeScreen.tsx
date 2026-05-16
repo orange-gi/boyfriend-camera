@@ -175,7 +175,7 @@ export default function HomeScreen({ navigation }: any) {
       const dismissed = await AsyncStorage.getItem(TIP_DISMISS_KEY)
       const today = new Date().toDateString()
       if (dismissed === today) setTipDismissed(true)
-    } catch {}
+    } catch (_e) { /* ignore */ }
   }
 
   async function dismissTip() {
@@ -185,7 +185,7 @@ export default function HomeScreen({ navigation }: any) {
   }
 
   async function finishOnboard() {
-    try { await AsyncStorage.setItem(ONBOARD_KEY, 'true') } catch {}
+    try { await AsyncStorage.setItem(ONBOARD_KEY, 'true') } catch (_e) { /* ignore */ }
     setShowOnboard(false)
   }
 
