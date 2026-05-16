@@ -13,8 +13,10 @@ import {
   Alert,
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
-import ProgressChart, { type DiaryEntry } from '../components/diary/ProgressChart'
+import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, type DiaryRecord } from '../services/analyzer'
+import EmptyState from '../components/common/EmptyState'
+import { scoreColor } from '../theme/colors'
 
 export default function DiaryScreen({ navigation }: any) {
   const [records, setRecords] = useState<DiaryRecord[]>([])
@@ -144,7 +146,7 @@ export default function DiaryScreen({ navigation }: any) {
   }
 
   // FlatList 数据（只显示有记录的日期）
-  const entries: DiaryEntry[] = records.map((r) => ({
+  const entries: any[] = records.map((r) => ({
     date: r.date,
     score: r.score,
     suggestions: r.suggestions,
@@ -263,34 +265,20 @@ export default function DiaryScreen({ navigation }: any) {
   if (totalCount === 0) {
     return (
       <View style={styles.emptyContainer}>
-        {/* 加载骨架屏 */}
         {loading ? (
-          <>
+          <View style={styles.skeletonWrapper}>
             <View style={styles.skeletonEmoji} />
             <View style={styles.skeletonTitle} />
             <View style={styles.skeletonSubtitle} />
             <View style={styles.skeletonBtn} />
-          </>
+          </View>
         ) : (
-          <>
-            <Text style={styles.emptyEmoji}>📈</Text>
-            <Text style={styles.emptyTitle}>还没有进步记录</Text>
-            <Text style={styles.emptySubtitle}>拍几张照片，开始记录你们的拍照进步吧～</Text>
-            {/* 快速上手提示 */}
-            <View style={styles.emptyTips}>
-              <Text style={styles.emptyTipTitle}>💡 拍照小贴士</Text>
-              <Text style={styles.emptyTipText}>• 拍照时保持光线充足</Text>
-              <Text style={styles.emptyTipText}>• 打开九宫格辅助构图</Text>
-              <Text style={styles.emptyTipText}>• 选择喜欢的姿势模板</Text>
-              <Text style={styles.emptyTipText}>• 试试语音教练指导</Text>
-            </View>
-            <TouchableOpacity
-              style={styles.emptyBtn}
-              onPress={() => navigation.navigate('Camera')}
-            >
-              <Text style={styles.emptyBtnText}>📸 去拍照</Text>
-            </TouchableOpacity>
-          </>
+          <EmptyState
+            icon="📈"
+            title="还没有进步记录"
+            subtitle="拍几张照片，开始记录你们的拍照进步吧～"
+            action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera') }}
+          />
         )}
       </View>
     )
@@ -446,27 +434,33 @@ export default function DiaryScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#FAFAFA',
   },
   listContent: {
-    paddingTop: 16,
-    paddingHorizontal: 16,
+    paddingTop: 20,
+    paddingHorizontal: 20,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
+    color: '#333',
   },
   cameraBtn: {
     backgroundColor: '#FF6B6B',
-    borderRadius: 18,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    borderRadius: 20,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    shadowColor: '#FF6B6B',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 3,
   },
   cameraBtnText: {
     color: '#fff',
@@ -475,18 +469,19 @@ const styles = StyleSheet.create({
   },
   statsCard: {
     backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 16,
+    borderRadius: 20,
+    padding: 20,
     marginBottom: 20,
-    elevation: 2,
+    elevation: 3,
     shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
+    shadowOpacity: 0.07,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 12,
   },
   statsRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 16,
   },
   statItem: {
     flex: 1,
@@ -494,63 +489,63 @@ const styles = StyleSheet.create({
   },
   statDivider: {
     width: 1,
-    height: 32,
+    height: 40,
     backgroundColor: '#eee',
   },
   statNum: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#333',
   },
   statLabel: {
-    fontSize: 11,
+    fontSize: 12,
     color: '#999',
-    marginTop: 2,
+    marginTop: 4,
   },
   trendRow: {
-    marginTop: 12,
-    paddingTop: 12,
+    marginTop: 16,
+    paddingTop: 16,
     borderTopWidth: 1,
     borderTopColor: '#f0f0f0',
     alignItems: 'center',
   },
   trendText: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#555',
     fontWeight: '600',
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 12,
-    marginTop: 4,
+    marginBottom: 14,
+    marginTop: 8,
   },
   recordCard: {
     flexDirection: 'row',
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 14,
-    marginBottom: 8,
-    elevation: 1,
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 10,
+    elevation: 2,
     shadowColor: '#000',
-    shadowOpacity: 0.03,
-    shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 4,
-    gap: 12,
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    gap: 14,
   },
   scoreBadge: {
-    width: 52,
-    height: 52,
-    borderRadius: 12,
+    width: 56,
+    height: 56,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
   },
   scoreNum: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    lineHeight: 26,
+    lineHeight: 28,
   },
   scoreGrade: {
     fontSize: 11,
@@ -564,11 +559,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 4,
   },
   recordRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
   deleteHint: {
     fontSize: 10,
@@ -577,8 +573,8 @@ const styles = StyleSheet.create({
   weeklyRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 12,
-    paddingTop: 12,
+    marginTop: 16,
+    paddingTop: 16,
     borderTopWidth: 1,
     borderTopColor: '#f0f0f0',
   },
@@ -588,33 +584,33 @@ const styles = StyleSheet.create({
   },
   weeklyDivider: {
     width: 1,
-    height: 36,
+    height: 40,
     backgroundColor: '#eee',
   },
   weeklyLabel: {
-    fontSize: 10,
+    fontSize: 11,
     color: '#aaa',
-    marginBottom: 2,
+    marginBottom: 4,
   },
   weeklyNum: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
   },
   weeklySub: {
-    fontSize: 10,
+    fontSize: 11,
     color: '#bbb',
-    marginTop: 1,
+    marginTop: 2,
   },
   recordDate: {
     fontSize: 14,
     color: '#666',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   newTag: {
     backgroundColor: '#FF6B6B',
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
   },
   newTagText: {
     color: '#fff',
@@ -624,8 +620,8 @@ const styles = StyleSheet.create({
   recordTip: {
     fontSize: 13,
     color: '#888',
-    marginTop: 6,
-    lineHeight: 18,
+    marginTop: 8,
+    lineHeight: 20,
   },
   faceCount: {
     fontSize: 12,
@@ -674,8 +670,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#FAFAFA',
     padding: 40,
+  },
+  skeletonWrapper: {
+    alignItems: 'center',
   },
   emptyEmoji: {
     fontSize: 60,
