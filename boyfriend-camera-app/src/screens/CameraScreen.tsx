@@ -75,6 +75,7 @@ export default function CameraScreen({ navigation }: any) {
   const [isActive, setIsActive] = useState(true)
   const [cameraFacing, setCameraFacing] = useState<'front' | 'back'>('back')
   const [selectedCategory, setSelectedCategory] = useState<string>('全部')
+  const [cameraError, setCameraError] = useState<string | null>(null)
   // 聚焦指示
   const [focusPoint, setFocusPoint] = useState<{ x: number; y: number } | null>(null)
   const focusAnim = useRef(new Animated.Value(0)).current
@@ -235,6 +236,7 @@ export default function CameraScreen({ navigation }: any) {
           flash={flash}
           isActive={isActive}
           torchMode={flash === 'on' ? 'on' : 'off'}
+          onError={(err) => setCameraError(err)}
         />
       </View>
 

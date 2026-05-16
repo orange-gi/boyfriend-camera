@@ -30,6 +30,7 @@ interface Props {
   torchMode?: 'off' | 'on'
   isActive?: boolean
   facing?: 'front' | 'back'
+  onError?: (error: string) => void
 }
 
 const CameraView = forwardRef<CameraViewRef, Props>(({
@@ -37,6 +38,7 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
   torchMode,
   isActive = true,
   facing = 'back',
+  onError,
 }, ref) => {
   const internalRef = useRef<CameraRef>(null)
   const photoOutputRef = useRef<CameraPhotoOutput | null>(null)
@@ -88,6 +90,14 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
     }
   }, [hasPermission, requestPermission])
 
+  useEffect(() => {
+    if (!hasPermission) {
+      onError?.('permission_denied')
+    } else if (!device) {
+      onError?.('no_device')
+    }
+  }, [hasPermission, device])
+
   if (!hasPermission) {
     return (
       <View style={styles.permissionContainer}>
@@ -103,6 +113,7 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
     return (
       <View style={styles.permissionContainer}>
         <Text style={styles.permissionText}>❌ 未找到相机设备</Text>
+        <Text style={styles.permissionSubText}>请确保相机可用</Text>
       </View>
     )
   }
@@ -141,6 +152,12 @@ const styles = StyleSheet.create({
   permissionText: {
     color: '#fff',
     fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  permissionSubText: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 13,
     textAlign: 'center',
     marginBottom: 20,
   },
