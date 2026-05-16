@@ -16,6 +16,11 @@ const FACE_TIPS = {
   OFF_CENTER_BOTTOM: '镜头稍微上移一点',
   GOOD_POSITION: '位置刚刚好！笑一个～',
   MULTI_FACE: '哇，有好多人～对焦在你身上哦',
+  // 新增
+  GOOD_SIZE: '大小刚刚好！就是现在，按快门！',
+  FACE_TOO_EDGE: '往中间站一点点，脸有点靠边了～',
+  LOOK_AT_CAMERA: '看镜头！眼神更有神～',
+  BLINK_PROMPT: '眨眨眼活动一下，准备好再拍～',
 }
 
 const STABILITY_TIPS = {
@@ -59,6 +64,18 @@ const SCENE_TIPS = {
   SIDE_LIGHT: '侧光有立体感，但脸有一半是暗的，稍微转一下～',
   GROUP_TOO_FAR: '人太多了挤不下，往后退一步大家都入镜～',
   LOW_ANGLE: '这个低角度好特别！就是抬头有点累，舒服点吗？',
+  // 新增场景提示
+  RAINY_WINDOW: '雨天的窗边光线好柔和，在这拍超有感觉～',
+  NIGHT_LIGHTS: '夜景灯光氛围感绝了！打开闪光灯补补光～',
+  SUNSET_GLOW: '夕阳光线好温柔！逆光拍剪影超美的～',
+  OVERCAST_SOFT: '阴天的光线超柔和，不用担心过曝，拍起来！',
+  RESTAURANT_WARM: '餐厅暖光下皮肤好通透，这光线绝了！',
+  BEACH_BRIGHT: '海边阳光太强烈了，找个阴凉处或用闪光灯～',
+  FOREST_FILTERED: '树荫下的光线像加了滤镜，超适合拍照！',
+  STREET_NEON: '街头的霓虹灯光超有感觉，让她在灯光下站好～',
+  GYM_SPORTS: '运动风来一张！动作舒展一点，笑得灿烂～',
+  BIRTHDAY_CAKE: '生日蛋糕前光线暖暖的，转过来面向光源～',
+  MUSEUM_LIGHT: '博物馆灯光适合拍照，让人站在灯光正下方～',
 }
 
 // 通用鼓励语
@@ -73,6 +90,17 @@ const ENCOURAGEMENT = [
   '背景和人都很和谐！',
   '男友摄影水平又提高了呢～',
   '这张我要存下来！',
+  // 新增鼓励语
+  '眼神好亮！',
+  '表情好生动～',
+  '这个角度绝了！',
+  '背景和衣服颜色好搭！',
+  '越拍越自然了！',
+  '姿势好优雅！',
+  '笑得好甜！',
+  '这光线把皮肤拍得好通透～',
+  '动作再大一点更好看～',
+  '情侣照甜度拉满了！',
 ]
 
 type FaceTipKey = keyof typeof FACE_TIPS
