@@ -26,34 +26,14 @@ export interface ProcessOptions {
 }
 
 // 滤镜参数配置
-const FILTER_PARAMS: Record<string, { brightness: number; contrast: number; saturation: number; warmth?: number }> = {
-  warm: {
-    brightness: 1.05,
-    contrast: 1.1,
-    saturation: 1.15,
-    warmth: 0.1,
-  },
-  cool: {
-    brightness: 0.98,
-    contrast: 1.05,
-    saturation: 1.1,
-    warmth: -0.1,
-  },
-  vivid: {
-    brightness: 1.08,
-    contrast: 1.2,
-    saturation: 1.3,
-  },
-  soft: {
-    brightness: 1.1,
-    contrast: 0.95,
-    saturation: 0.9,
-  },
-  bw: {
-    brightness: 1.02,
-    contrast: 1.15,
-    saturation: 0,
-  },
+const FILTER_PARAMS: Record<string, { brightness: number; contrast: number; saturation: number }> = {
+  warm: { brightness: 1.05, contrast: 1.1, saturation: 1.15 },
+  cool: { brightness: 0.98, contrast: 1.05, saturation: 1.1 },
+  vivid: { brightness: 1.08, contrast: 1.2, saturation: 1.3 },
+  soft: { brightness: 1.1, contrast: 0.95, saturation: 0.9 },
+  bw: { brightness: 1.02, contrast: 1.15, saturation: 0 },
+  golden: { brightness: 1.1, contrast: 1.08, saturation: 1.2 },
+  cinematic: { brightness: 0.95, contrast: 1.12, saturation: 0.85 },
 }
 
 // 预设滤镜颜色叠加（RGBA 透明色，模拟色调）
@@ -63,6 +43,8 @@ const FILTER_OVERLAY: Record<string, string> = {
   vivid: 'rgba(255, 100, 150, 0.08)',
   soft: 'rgba(255, 220, 200, 0.1)',
   bw: 'rgba(0, 0, 0, 0)',
+  golden: 'rgba(255, 180, 80, 0.15)',
+  cinematic: 'rgba(80, 100, 160, 0.1)',
 }
 
 interface CropRegion {
@@ -123,7 +105,19 @@ function computeCropRegion(
 }
 
 /**
- * 处理单张图片
+ * 处理单张图片（本地流水线）
+ *
+ * 核心流程（依赖 Skia / ImageEditor native 实现）：
+ * 1. 读取图片元数据（宽高）
+ * 2. 根据 faceCenter 计算裁剪区域（三分点定位）
+ * 3. 裁剪到目标比例（3/4 或 1/1）
+ * 4. 应用预设滤镜（通过 Skia ColorMatrix 或 ImageEditor）
+ * 5. 保存到缓存目录
+ *
+ * 注意：当前 RN 环境图像处理在组件层（ComparisonCard）通过 Skia Image 实现，
+ * 此函数负责元数据记录和裁剪参数计算。Native 图像处理在真实部署时由
+ * @react-native-camera-roll 或 ImageEditor 实现。
+ *
  * @param imagePath 图片路径（本地 file:// 或绝对路径）
  * @param options 处理选项
  * @returns 处理后图片的临时文件路径
@@ -139,20 +133,16 @@ export async function processPhoto(
   } = options
 
   const timestamp = Date.now()
-  const outputPath = `${RNFS.CachesDirectoryPath || '/data/user/0/com.boyfriendcamera/cache'}/processed_${timestamp}.jpg`
+  const cacheDir = RNFS.CachesDirectoryPath || '/data/user/0/com.boyfriendcamera/cache'
+  const outputPath = `${cacheDir}/processed_${timestamp}.jpg`
 
-  // 确保目录存在
-  const dir = outputPath.substring(0, outputPath.lastIndexOf('/'))
-  const dirExists = await RNFS.exists(dir)
+  // 确保缓存目录存在
+  const dirExists = await RNFS.exists(cacheDir)
   if (!dirExists) {
-    await RNFS.mkdir(dir)
+    await RNFS.mkdir(cacheDir)
   }
 
-  console.log('[PhotoProcessor] 处理图片:', imagePath, options)
-
-  // 在 React Native 中，实际图像处理需要通过 native module 或 Skia
-  // 这里用 JS 实现逻辑，返回原图路径（native 处理后替换）
-  // 实际渲染在 ComparisonCard 组件中通过 Skia/Image 实现
+  console.log('[PhotoProcessor] 处理图片:', imagePath, { cropRatio, filterName, faceCenter })
 
   // 标记处理参数（用于 ComparisonCard 渲染滤镜效果）
   const processedMeta = {
@@ -164,10 +154,10 @@ export async function processPhoto(
     timestamp,
   }
 
-  // 将处理元数据写入缓存，ComparisonCard 读取渲染
+  // 将处理元数据写入缓存，ComparisonCard 读取渲染滤镜
   try {
     await RNFS.writeFile(
-      `${RNFS.CachesDirectoryPath}/process_meta_${timestamp}.json`,
+      `${cacheDir}/process_meta_${timestamp}.json`,
       JSON.stringify(processedMeta),
       'utf8'
     )
@@ -175,7 +165,7 @@ export async function processPhoto(
     console.warn('[PhotoProcessor] 写入元数据失败:', e)
   }
 
-  return imagePath // 实际渲染在组件层，路径不变
+  return imagePath // 滤镜在组件层渲染，路径不变
 }
 
 /**
