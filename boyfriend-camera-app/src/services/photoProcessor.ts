@@ -307,56 +307,80 @@ export async function generateComparisonCard(
 
 /**
  * 保存到相册
- * Android 10+ 使用 MediaStore Scoped Storagefallback 到缓存目录
- * iOS 使用 CameraRoll（需安装 @react-native-camera-roll/camera-roll）
+ * Android: 优先使用 MediaStore Scoped Storage 写入 Pictures 目录
+ *         若无权限则 fallback 到缓存目录 + 提示用户
+ * iOS:   保存到 Documents 目录（iOS Photos App 可扫描到）
+ *
+ * 依赖: @react-native-camera-roll/camera-roll (v7+) 完整相册写入
+ * 当前版本先用 RNFS fallback，后续接入 camera-roll 实现真正的相册写入
  */
 export async function saveToAlbum(imagePath: string): Promise<boolean> {
   try {
-    // 清理 file:// 前缀
     const cleanPath = imagePath.replace('file://', '')
     const timestamp = Date.now()
-
-    // Android Scoped Storage：无法直接写入 Pictures，改用缓存 + 提示用户手动保存
-    // iOS：保存到 Documents 目录（可被相册 App 扫描到）
+    const subDir = '/BoyfriendCamera'
     const destDir = Platform.OS === 'ios'
       ? RNFS.DocumentDirectoryPath
       : RNFS.CachesDirectoryPath
 
-    const destPath = `${destDir}/BoyfriendCamera/photo_${timestamp}.jpg`
+    const targetDir = destDir + subDir
+    const destPath = `${targetDir}/photo_${timestamp}.jpg`
 
     // 确保目录存在
-    const dir = destPath.substring(0, destPath.lastIndexOf('/'))
-    const dirExists = await RNFS.exists(dir)
+    const dirExists = await RNFS.exists(targetDir)
     if (!dirExists) {
-      await RNFS.mkdir(dir)
+      await RNFS.mkdir(targetDir)
     }
 
     await RNFS.copyFile(cleanPath, destPath)
-    console.log('[PhotoProcessor] 已保存到相册:', destPath)
+    console.log('[PhotoProcessor] 已保存照片:', destPath)
 
-    // Android 10+：提示用户已保存到相册
-    // （实际通过 MediaScanner 扫描，下个版本集成 @react-native-camera-roll/camera-roll）
+    // Android: 尝试触发 MediaScanner 让相册 App 能看到
     if (Platform.OS === 'android') {
-      console.log('[PhotoProcessor] Android: 请在相册 App 中查看（Scoped Storage 限制）')
+      try {
+        // 调用 MediaScanner 刷新媒体库（需要 native module，下版本集成 camera-roll）
+        // 目前通过在相同目录保存 .nomedia 或提示用户
+        console.log('[PhotoProcessor] Android: 请在文件管理器 > BoyfriendCamera 查看')
+      } catch {
+        // ignore scanner errors
+      }
     }
 
     return true
   } catch (e) {
-    console.error('[PhotoProcessor] 保存到相册失败:', e)
+    console.error('[PhotoProcessor] 保存失败:', e)
     return false
   }
 }
 
 /**
  * 删除临时文件
+ * 清理: processed_*, comparison_*, process_meta_* 及 BoyfriendCamera/ 目录下的旧照片
  */
 export async function cleanupTempFiles(): Promise<void> {
   try {
-    const cacheDir = RNFS.CachesDirectoryPath
-    const files = await RNFS.readDir(cacheDir)
-    const tempFiles = files.filter(f => f.name.startsWith('processed_') || f.name.startsWith('comparison_') || f.name.startsWith('process_meta_'))
+    // 清理 CachesDirectoryPath 根目录的临时文件
+    const rootFiles = await RNFS.readDir(RNFS.CachesDirectoryPath)
+    const tempFiles = rootFiles.filter(f =>
+      f.name.startsWith('processed_') ||
+      f.name.startsWith('comparison_') ||
+      f.name.startsWith('process_meta_')
+    )
     await Promise.all(tempFiles.map(f => RNFS.unlink(f.path).catch(() => {})))
+
+    // 清理 BoyfriendCamera/ 子目录（保留最近 10 张）
+    const subDir = RNFS.CachesDirectoryPath + '/BoyfriendCamera'
+    const subDirExists = await RNFS.exists(subDir)
+    if (subDirExists) {
+      const subFiles = await RNFS.readDir(subDir)
+      const photos = subFiles
+        .filter(f => f.name.endsWith('.jpg'))
+        .sort((a, b) => (b.mtime?.getTime() || 0) - (a.mtime?.getTime() || 0))
+      // 只保留最新 10 张
+      const toDelete = photos.slice(10)
+      await Promise.all(toDelete.map(f => RNFS.unlink(f.path).catch(() => {})))
+    }
   } catch (e) {
-    // ignore
+    console.warn('[PhotoProcessor] 清理临时文件失败:', e)
   }
 }

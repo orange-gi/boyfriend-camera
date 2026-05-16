@@ -72,6 +72,8 @@ export function useFaceDetection() {
   const [faces, setFaces] = useState<FaceInfo[]>([])
   const [isDetecting, setIsDetecting] = useState(false)
   const frameCountRef = useRef(0)
+  // 保存最新人脸结果（避免闭包陈旧）
+  const latestFacesRef = useRef<FaceInfo[]>([])
 
   /**
    * 处理单帧图像，检测人脸
@@ -107,11 +109,13 @@ export function useFaceDetection() {
       frameCountRef.current += 1
       if (frameCountRef.current % 3 === 0) {
         const mock = cameraFacing === 'front' ? mockFrontCameraFace() : mockBackCameraFace()
-        const withConfidence = { ...mock, confidence: 0.85 }
+        const withConfidence: FaceInfo = { ...mock, confidence: 0.85 }
         setFaces([withConfidence])
+        latestFacesRef.current = [withConfidence]
         return [withConfidence]
       }
-      return faces // 返回上一次结果
+      // 返回最新结果而非闭包中的 faces
+      return latestFacesRef.current
     } finally {
       setIsDetecting(false)
     }
