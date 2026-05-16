@@ -19,6 +19,7 @@ import {
 export interface PoseTemplate {
   id: string
   name: string
+  description?: string
   thumbnail: string
   overlayUrl: string
   voiceTip: string

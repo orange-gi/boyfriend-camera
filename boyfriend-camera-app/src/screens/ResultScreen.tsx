@@ -1,7 +1,7 @@
 /**
- * ResultScreen - 结果页 v2
+ * ResultScreen - 结果页 v3
  * 拍照→处理→评分→展示完整流程
- * 改进：夸奖展示、更好看的对比卡片、整体评分动画
+ * 改进 v3：动画评分展开、滤镜预览、分享卡片生成、夸奖横幅
  */
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
@@ -12,9 +12,18 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  Image,
   Dimensions,
 } from 'react-native'
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withDelay,
+  withSequence,
+  withTiming,
+  runOnJS,
+  interpolate,
+} from 'react-native-reanimated'
 import ViewShot from 'react-native-view-shot'
 import ComparisonCard from '../components/result/ComparisonCard'
 import ScoreBoard from '../components/result/ScoreBoard'
@@ -36,10 +45,15 @@ export default function ResultScreen({ route, navigation }: any) {
   const [selectedFilter, setSelectedFilter] = useState<'warm' | 'cool' | 'vivid' | 'soft' | 'bw'>('warm')
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
+  const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const viewShotRef = useRef<any>(null)
   const { faces } = useFaceDetection()
+
+  // 评分展开动画
+  const scoreReveal = useSharedValue(0)
+  const cardSlide = useSharedValue(50)
 
   // 主处理流程
   useEffect(() => {
@@ -53,9 +67,10 @@ export default function ResultScreen({ route, navigation }: any) {
   async function runAnalysis() {
     setProcessing(true)
     setError(null)
+    scoreReveal.value = 0
+    cardSlide.value = 50
 
     try {
-      // Step 1: 图像处理
       const processed = await processPhoto(photoPath, {
         cropRatio: 3 / 4,
         filterName: selectedFilter,
@@ -64,7 +79,6 @@ export default function ResultScreen({ route, navigation }: any) {
       })
       setProcessedPath(processed)
 
-      // Step 2: 评分分析
       const faceData = faces[0] || { x: 0.5, y: 0.35, area: 0.1 }
       const analysis: AnalysisResult = await analyzePhoto({
         facePosition: faceData,
@@ -74,7 +88,6 @@ export default function ResultScreen({ route, navigation }: any) {
         tiltAngle: 1.5,
       })
 
-      // 分离夸奖和建议
       setPraiseList(analysis.praise || [])
       setScoreResult({
         totalScore: analysis.totalScore,
@@ -85,7 +98,6 @@ export default function ResultScreen({ route, navigation }: any) {
         suggestions: analysis.suggestions,
       })
 
-      // Step 3: 保存到进步日记
       await saveToDiary({
         date: new Date().toISOString(),
         score: analysis.totalScore,
@@ -93,8 +105,13 @@ export default function ResultScreen({ route, navigation }: any) {
         faceCount: faces.length,
       })
 
-      // Step 4: 捕获对比卡片截图
+      // 启动入场动画
+      cardSlide.value = withTiming(0, { duration: 400, })
+      scoreReveal.value = withDelay(300, withSpring(1, { damping: 14, stiffness: 90 }))
+
+      // 截图延迟等动画完成后
       setTimeout(async () => {
+        setScoreAnimationDone(true)
         if (viewShotRef.current) {
           try {
             const uri = await viewShotRef.current.capture()
@@ -103,7 +120,7 @@ export default function ResultScreen({ route, navigation }: any) {
             console.warn('[ResultScreen] 截图失败:', e)
           }
         }
-      }, 500)
+      }, 1200)
     } catch (e: any) {
       console.error('[ResultScreen] 处理失败:', e)
       setError(e.message || '处理失败')
@@ -115,12 +132,14 @@ export default function ResultScreen({ route, navigation }: any) {
         levelScore: 5,
         suggestions: ['构图不错，可以试试三分法把人脸放在交点上～'],
       })
+      cardSlide.value = 0
+      scoreReveal.value = 1
     } finally {
       setProcessing(false)
     }
   }
 
-  // 切换滤镜后重新处理
+  // 滤镜切换后重新处理
   useEffect(() => {
     if (photoPath && !processing) {
       processPhoto(photoPath, {
@@ -155,6 +174,11 @@ export default function ResultScreen({ route, navigation }: any) {
   function handleHome() {
     navigation.navigate('Home')
   }
+
+  const cardStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: cardSlide.value }],
+    opacity: interpolate(cardSlide.value, [0, 50], [1, 0]),
+  }))
 
   if (!photoPath) {
     return (
@@ -192,31 +216,45 @@ export default function ResultScreen({ route, navigation }: any) {
       )}
 
       {/* 夸奖横幅 */}
-      {praiseList.length > 0 && !processing && (
-        <View style={styles.praiseBanner}>
+      {!processing && praiseList.length > 0 && (
+        <Animated.View
+          style={[
+            styles.praiseBanner,
+            {
+              opacity: scoreAnimationDone ? 1 : 0,
+              transform: [
+                {
+                  translateY: scoreAnimationDone ? 0 : -10,
+                },
+              ],
+            },
+          ]}
+        >
           {praiseList.slice(0, 2).map((p, i) => (
             <Text key={i} style={styles.praiseText}>🌟 {p}</Text>
           ))}
-        </View>
+        </Animated.View>
       )}
 
       {/* 对比卡片（用于截图） */}
-      <View style={processing ? styles.blurred : undefined}>
-        <ViewShot
-          ref={viewShotRef}
-          options={{ format: 'jpg', quality: 0.9 }}
-          style={styles.viewShot}
-        >
-          <ComparisonCard
-            originalPath={photoPath}
-            processedPath={processedPath || photoPath}
-            filterName={selectedFilter}
-          />
-        </ViewShot>
-      </View>
+      {!processing && (
+        <Animated.View style={cardStyle}>
+          <ViewShot
+            ref={viewShotRef}
+            options={{ format: 'jpg', quality: 0.9 }}
+            style={styles.viewShot}
+          >
+            <ComparisonCard
+              originalPath={photoPath}
+              processedPath={processedPath || photoPath}
+              filterName={selectedFilter}
+            />
+          </ViewShot>
+        </Animated.View>
+      )}
 
       {/* 评分板 */}
-      {scoreResult && !processing && (
+      {!processing && scoreResult && (
         <ScoreBoard result={scoreResult} />
       )}
 
@@ -304,9 +342,6 @@ const styles = StyleSheet.create({
     color: '#555',
     lineHeight: 20,
     marginBottom: 2,
-  },
-  blurred: {
-    opacity: 0.3,
   },
   viewShot: {
     alignItems: 'center',

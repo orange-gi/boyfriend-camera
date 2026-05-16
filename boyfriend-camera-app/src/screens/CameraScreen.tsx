@@ -15,7 +15,10 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  TextInput,
+  Animated,
 } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import CompositionLines from '../components/camera/CompositionLines'
 import PoseTemplateOverlay, { type PoseTemplate } from '../components/camera/PoseTemplateOverlay'
@@ -40,6 +43,28 @@ const CATEGORY_COLORS: Record<string, string> = {
   '情侣合照': '#FD79A8',
 }
 
+const RECENT_KEY = 'recent_templates'
+
+// 最近使用的模板 ID（最多存5个）
+async function saveRecentTemplate(templateId: string) {
+  try {
+    const raw = await AsyncStorage.getItem(RECENT_KEY)
+    const ids: string[] = raw ? JSON.parse(raw) : []
+    const filtered = ids.filter((id) => id !== templateId)
+    const updated = [templateId, ...filtered].slice(0, 5)
+    await AsyncStorage.setItem(RECENT_KEY, JSON.stringify(updated))
+  } catch {}
+}
+
+async function getRecentTemplateIds(): Promise<string[]> {
+  try {
+    const raw = await AsyncStorage.getItem(RECENT_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch {
+    return []
+  }
+}
+
 export default function CameraScreen({ navigation }: any) {
   const [mode, setMode] = useState<CompositionMode>('grid')
   const [activeTemplate, setActiveTemplate] = useState<PoseTemplate | null>(null)
@@ -50,6 +75,15 @@ export default function CameraScreen({ navigation }: any) {
   const [isActive, setIsActive] = useState(true)
   const [cameraFacing, setCameraFacing] = useState<'front' | 'back'>('back')
   const [selectedCategory, setSelectedCategory] = useState<string>('全部')
+  // 聚焦指示
+  const [focusPoint, setFocusPoint] = useState<{ x: number; y: number } | null>(null)
+  const focusAnim = useRef(new Animated.Value(0)).current
+  // 模板搜索
+  const [templateSearch, setTemplateSearch] = useState('')
+  // 长按预览的模板
+  const [longPressTemplate, setLongPressTemplate] = useState<PoseTemplate | null>(null)
+  // 最近模板 ID 列表
+  const [recentIds, setRecentIds] = useState<string[]>([])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cameraRef = useRef<any>(null)
@@ -76,6 +110,11 @@ export default function CameraScreen({ navigation }: any) {
     voiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
   }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
 
+  // 加载最近模板
+  useEffect(() => {
+    getRecentTemplateIds().then(setRecentIds)
+  }, [showTemplateModal])
+
   // 拍照
   const handleTakePhoto = useCallback(async () => {
     if (isCapturing) return
@@ -101,14 +140,17 @@ export default function CameraScreen({ navigation }: any) {
   }, [flash, isCapturing, navigation])
 
   // 选择模板
-  const handleSelectTemplate = useCallback((template: PoseTemplate) => {
+  const handleSelectTemplate = useCallback(async (template: PoseTemplate) => {
     setActiveTemplate(template)
     setShowTemplateModal(false)
+    setTemplateSearch('')
     if (template.voiceTip) {
       voiceCoach.speakTemplateTip(template.voiceTip)
     }
     setShowVoiceTip(true)
     setTimeout(() => setShowVoiceTip(false), 4000)
+    await saveRecentTemplate(template.id)
+    setRecentIds(await getRecentTemplateIds())
   }, [])
 
   const handleVoiceTipConfirm = useCallback(() => {
@@ -148,10 +190,39 @@ export default function CameraScreen({ navigation }: any) {
     return Array.from(cats)
   }, [templates])
 
-  const filteredTemplates = useMemo(
-    () => (selectedCategory === '全部' ? templates : templates.filter((t) => t.category === selectedCategory)),
-    [templates, selectedCategory]
-  )
+  const filteredTemplates = useMemo(() => {
+    let list = selectedCategory === '全部' ? templates : templates.filter((t) => t.category === selectedCategory)
+    if (templateSearch.trim()) {
+      const q = templateSearch.toLowerCase()
+      list = list.filter(
+        (t) =>
+          t.name.toLowerCase().includes(q) ||
+          (t.description || '').toLowerCase().includes(q) ||
+          (t.category || '').toLowerCase().includes(q)
+      )
+    }
+    return list
+  }, [templates, selectedCategory, templateSearch])
+
+  // 最近模板（去重，限制3个）
+  const recentTemplates = useMemo(() => {
+    return recentIds
+      .map((id) => templates.find((t) => t.id === id))
+      .filter(Boolean)
+      .slice(0, 3) as PoseTemplate[]
+  }, [recentIds, templates])
+
+  // 点击屏幕聚焦（模拟，实际需要 native 联动）
+  function handleScreenTap(e: { nativeEvent: { locationX: number; locationY: number } }) {
+    const { locationX, locationY } = e.nativeEvent
+    setFocusPoint({ x: locationX, y: locationY })
+    focusAnim.setValue(0)
+    Animated.sequence([
+      Animated.timing(focusAnim, { toValue: 1, duration: 200, useNativeDriver: false }),
+      Animated.timing(focusAnim, { toValue: 0, duration: 600, useNativeDriver: false }),
+    ]).start(() => setFocusPoint(null))
+    voiceCoach.speak('已对焦', false)
+  }
 
   return (
     <View style={styles.container}>
@@ -167,6 +238,25 @@ export default function CameraScreen({ navigation }: any) {
 
       {/* 构图线叠加 */}
       <CompositionLines mode={mode} />
+
+      {/* 点击聚焦指示 */}
+      {focusPoint && (
+        <Animated.View
+          style={[
+            styles.focusRing,
+            {
+              left: focusPoint.x - 30,
+              top: focusPoint.y - 30,
+              opacity: focusAnim.interpolate({ inputRange: [0, 0.3, 1], outputRange: [0, 1, 0] }),
+              transform: [
+                {
+                  scale: focusAnim.interpolate({ inputRange: [0, 0.3, 1], outputRange: [0.5, 1.2, 1] }),
+                },
+              ],
+            },
+          ]}
+        />
+      )}
 
       {/* 姿势模板 */}
       <PoseTemplateOverlay
@@ -226,6 +316,14 @@ export default function CameraScreen({ navigation }: any) {
           </TouchableOpacity>
         </View>
       )}
+
+      {/* 稳定性指示 */}
+      <StabilityIndicator
+        tiltX={stability.tiltX}
+        tiltY={stability.tiltY}
+        shakeLevel={stability.shakeLevel}
+        onUnstable={() => voiceCoach.speak('手稳住！', true)}
+      />
 
       {/* 底部控制栏 */}
       <View style={styles.bottomBar}>
@@ -289,6 +387,48 @@ export default function CameraScreen({ navigation }: any) {
               </TouchableOpacity>
             </View>
 
+            {/* 搜索框 */}
+            <View style={styles.searchBar}>
+              <Text style={styles.searchIcon}>🔍</Text>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="搜索姿势、场景..."
+                placeholderTextColor="#aaa"
+                value={templateSearch}
+                onChangeText={setTemplateSearch}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+              {templateSearch.length > 0 && (
+                <TouchableOpacity onPress={() => setTemplateSearch('')}>
+                  <Text style={styles.searchClear}>✕</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+
+            {/* 最近使用 */}
+            {!templateSearch && recentTemplates.length > 0 && (
+              <View style={styles.recentSection}>
+                <Text style={styles.recentTitle}>⏱ 最近使用</Text>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
+                  {recentTemplates.map((t) => {
+                    const color = CATEGORY_COLORS[t.category || ''] || '#FF6B6B'
+                    return (
+                      <TouchableOpacity
+                        key={t.id}
+                        style={[styles.recentCard, { borderColor: color }]}
+                        onPress={() => handleSelectTemplate(t)}
+                        activeOpacity={0.7}
+                      >
+                        <Image source={{ uri: t.thumbnail }} style={styles.recentThumb} resizeMode="contain" />
+                        <Text style={styles.recentName} numberOfLines={1}>{t.name}</Text>
+                      </TouchableOpacity>
+                    )
+                  })}
+                </ScrollView>
+              </View>
+            )}
+
             {/* 分类标签 */}
             <ScrollView
               horizontal
@@ -346,6 +486,8 @@ export default function CameraScreen({ navigation }: any) {
                         isActive && styles.templateCardActive,
                       ]}
                       onPress={() => handleSelectTemplate(item)}
+                      onLongPress={() => setLongPressTemplate(item)}
+                      delayLongPress={500}
                       activeOpacity={0.7}
                     >
                       <Image
@@ -368,6 +510,37 @@ export default function CameraScreen({ navigation }: any) {
             )}
           </View>
         </View>
+      </Modal>
+
+      {/* 长按模板预览 */}
+      <Modal visible={!!longPressTemplate} transparent animationType="fade" onRequestClose={() => setLongPressTemplate(null)}>
+        <TouchableOpacity
+          style={styles.previewOverlay}
+          activeOpacity={1}
+          onPress={() => setLongPressTemplate(null)}
+        >
+          <View style={styles.previewCard}>
+            <Image
+              source={{ uri: longPressTemplate?.thumbnail || '' }}
+              style={styles.previewImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.previewName}>{longPressTemplate?.name}</Text>
+            <Text style={styles.previewDesc}>{longPressTemplate?.description}</Text>
+            {longPressTemplate?.voiceTip && (
+              <Text style={styles.previewTip}>💬 {longPressTemplate.voiceTip}</Text>
+            )}
+            <TouchableOpacity
+              style={styles.previewUseBtn}
+              onPress={() => {
+                if (longPressTemplate) handleSelectTemplate(longPressTemplate)
+                setLongPressTemplate(null)
+              }}
+            >
+              <Text style={styles.previewUseBtnText}>使用这个姿势 →</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
       </Modal>
     </View>
   )
@@ -652,5 +825,126 @@ const styles = StyleSheet.create({
   loadingText: {
     color: '#999',
     fontSize: 14,
+  },
+  // 聚焦指示器
+  focusRing: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#FFD700',
+    backgroundColor: 'rgba(255,215,0,0.1)',
+    zIndex: 50,
+  },
+  // 搜索
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    marginHorizontal: 16,
+    marginBottom: 10,
+    height: 38,
+    gap: 8,
+  },
+  searchIcon: {
+    fontSize: 14,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+    color: '#333',
+    padding: 0,
+  },
+  searchClear: {
+    color: '#aaa',
+    fontSize: 14,
+    padding: 2,
+  },
+  // 最近使用
+  recentSection: {
+    paddingHorizontal: 16,
+    marginBottom: 10,
+  },
+  recentTitle: {
+    fontSize: 12,
+    color: '#888',
+    marginBottom: 6,
+    fontWeight: '600',
+  },
+  recentCard: {
+    width: 64,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderWidth: 1.5,
+    padding: 6,
+  },
+  recentThumb: {
+    width: 48,
+    height: 64,
+  },
+  recentName: {
+    fontSize: 10,
+    color: '#666',
+    marginTop: 2,
+    textAlign: 'center',
+  },
+  // 长按预览
+  previewOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  previewCard: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 24,
+    width: '85%',
+    maxWidth: 300,
+    alignItems: 'center',
+  },
+  previewImage: {
+    width: 140,
+    height: 200,
+    marginBottom: 16,
+  },
+  previewName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 6,
+  },
+  previewDesc: {
+    fontSize: 13,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 8,
+    lineHeight: 18,
+  },
+  previewTip: {
+    fontSize: 12,
+    color: '#FF6B6B',
+    backgroundColor: '#FFF0F0',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  previewUseBtn: {
+    backgroundColor: '#FF6B6B',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 28,
+  },
+  previewUseBtnText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 })
