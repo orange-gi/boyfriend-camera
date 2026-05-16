@@ -37,6 +37,21 @@ const EXPRESSION_TIPS = {
   ROLL_TILTED: '头稍微正一点，歪着显脸大哦～',
 }
 
+// 场景专项提示
+const SCENE_TIPS = {
+  BACKLIGHT: '背景太亮了！让人脸朝向光源，这样脸就不会黑黑的啦～',
+  STRONG_SUNLIGHT: '太阳有点晒，让女朋友眯眼睛了！找个阴凉处试试～',
+  DARK_SCENE: '这里光线有点暗，打开手机手电筒补补光～',
+  REFLECTIVE_SCREEN: '手机屏幕反光太厉害了，换个角度试试～',
+  BACKGROUNDS_CROWDED: '背景有点乱，让人站到简洁的地方会更好看～',
+  GROUND_SHOOT: '仰拍显腿长！这个角度好棒！',
+  CEILING_LIGHT: '头顶的光太硬了，脸上有阴影，往边上挪一挪～',
+  WINDOW_LIGHT: '窗边光线超美的！让人脸朝向窗户，效果绝绝子～',
+  SIDE_LIGHT: '侧光有立体感，但脸有一半是暗的，稍微转一下～',
+  GROUP_TOO_FAR: '人太多了挤不下，往后退一步大家都入镜～',
+  LOW_ANGLE: '这个低角度好特别！就是抬头有点累，舒服点吗？',
+}
+
 // 通用鼓励语
 const ENCOURAGEMENT = [
   '这张构图超棒！',
@@ -44,6 +59,11 @@ const ENCOURAGEMENT = [
   '进步好大呀！',
   '背景好干净，主体好突出！',
   '氛围感满满～',
+  '色彩好好看～',
+  '姿势好自然！',
+  '背景和人都很和谐！',
+  '男友摄影水平又提高了呢～',
+  '这张我要存下来！',
 ]
 
 type FaceTipKey = keyof typeof FACE_TIPS
@@ -176,6 +196,42 @@ class VoiceCoach {
     }
   }
 
+  /** 场景光线提示 */
+  async speakSceneTip(scene: keyof typeof SCENE_TIPS): Promise<void> {
+    await this.speak(SCENE_TIPS[scene], true)
+  }
+
+  /** 推荐下一步动作（拍照后） */
+  async speakNextTip(previousScore: number): Promise<void> {
+    if (previousScore < 60) {
+      const tips = [
+        '换个角度试试，让女朋友站到窗边～',
+        '光线不好的时候，靠近一点开闪光灯试试～',
+        '试试让人把手举起来，和背景形成高低差～',
+        '换个位置试试，背景干净更显高级感～',
+      ]
+      const tip = tips[Math.floor(Math.random() * tips.length)]
+      await this.speak(tip, true)
+    } else if (previousScore < 80) {
+      const tips = [
+        '这张不错！再试一个角度，找到最美的光线～',
+        '动作可以再丰富一点，比如歪头或者托腮～',
+        '换个姿势试试，和背景互动一下会更有趣～',
+        '再来一张！光线刚好的时候多拍几张选最好的～',
+      ]
+      const tip = tips[Math.floor(Math.random() * tips.length)]
+      await this.speak(tip, true)
+    } else {
+      const tips = [
+        '哇塞！这张绝了！可以直接发朋友圈！',
+        '男朋友你是开挂了吗？这张太美了吧！',
+        '这张我要存下来当头像！继续这个感觉！',
+      ]
+      const tip = tips[Math.floor(Math.random() * tips.length)]
+      await this.speak(tip, true)
+    }
+  }
+
   /** 表情分析提示（基于 MLKit 检测结果） */
   async speakExpressionTip(params: {
     smiling?: boolean
@@ -249,5 +305,5 @@ class VoiceCoach {
   }
 }
 
-export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
+export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
 export default new VoiceCoach()
