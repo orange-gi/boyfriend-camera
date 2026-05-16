@@ -480,6 +480,11 @@ export interface DiaryRecord {
   score: number
   suggestions: string[]
   faceCount: number
+  /** 分项分数（用于进步检测） */
+  compositionScore?: number
+  exposureScore?: number
+  stabilityScore?: number
+  levelScore?: number
 }
 
 export async function saveToDiary(record: DiaryRecord): Promise<void> {
