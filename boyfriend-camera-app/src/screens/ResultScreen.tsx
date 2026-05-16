@@ -198,6 +198,13 @@ export default function ResultScreen({ route, navigation }: any) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      {/* 错误提示横幅 */}
+      {error && !processing && (
+        <View style={styles.errorBanner}>
+          <Text style={styles.errorBannerText}>⚠️ {error}</Text>
+        </View>
+      )}
+
       {/* 标题 */}
       <View style={styles.titleRow}>
         <Text style={styles.title}>📸 拍照分析</Text>
@@ -406,5 +413,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 15,
     fontWeight: 'bold',
+  },
+  errorBanner: {
+    backgroundColor: '#FFF3CD',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    marginBottom: 12,
+  },
+  errorBannerText: {
+    fontSize: 13,
+    color: '#856404',
+    textAlign: 'center',
   },
 })

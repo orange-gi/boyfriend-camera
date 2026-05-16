@@ -87,7 +87,7 @@ export default function CameraScreen({ navigation }: any) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cameraRef = useRef<any>(null)
-  const { templates, loading: templatesLoading, markUsed } = useTemplates()
+  const { templates, loading: templatesLoading, error: templatesError, refresh, markUsed } = useTemplates()
   const stability = useStability()
   const voiceCoach = useRef(VoiceCoach).current
 
@@ -265,14 +265,6 @@ export default function CameraScreen({ navigation }: any) {
         onTipPress={handleVoiceTipConfirm}
       />
 
-      {/* 稳定性指示 */}
-      <StabilityIndicator
-        tiltX={stability.tiltX}
-        tiltY={stability.tiltY}
-        shakeLevel={stability.shakeLevel}
-        onUnstable={() => voiceCoach.speak('手稳住！', true)}
-      />
-
       {/* 顶部控制栏 */}
       <View style={styles.topBar}>
         <TouchableOpacity
@@ -318,7 +310,7 @@ export default function CameraScreen({ navigation }: any) {
         </View>
       )}
 
-      {/* 稳定性指示 */}
+      {/* 稳定性指示（唯一实例） */}
       <StabilityIndicator
         tiltX={stability.tiltX}
         tiltY={stability.tiltY}
@@ -464,7 +456,17 @@ export default function CameraScreen({ navigation }: any) {
 
             {templatesLoading ? (
               <View style={styles.loadingContainer}>
-                <Text style={styles.loadingText}>加载模板中...</Text>
+                <Text style={styles.loadingText}>⏳ 正在加载姿势模板...</Text>
+              </View>
+            ) : templatesError ? (
+              <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>⚠️ {templatesError}</Text>
+                <TouchableOpacity
+                  style={styles.retryBtn}
+                  onPress={refresh}
+                >
+                  <Text style={styles.retryBtnText}>点击重试</Text>
+                </TouchableOpacity>
               </View>
             ) : filteredTemplates.length === 0 ? (
               <View style={styles.loadingContainer}>
@@ -826,6 +828,19 @@ const styles = StyleSheet.create({
   loadingText: {
     color: '#999',
     fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  retryBtn: {
+    backgroundColor: '#FF6B6B',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 16,
+  },
+  retryBtnText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: 'bold',
   },
   // 聚焦指示器
   focusRing: {

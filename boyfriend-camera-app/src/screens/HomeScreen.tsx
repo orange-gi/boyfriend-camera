@@ -110,7 +110,7 @@ export default function HomeScreen({ navigation }: any) {
   const [avgScore, setAvgScore] = useState(0)
   const [showOnboard, setShowOnboard] = useState(false)
   const [onboardStep, setOnboardStep] = useState(0)
-  const { templates } = useTemplates()
+  const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
   // 动画
   const titleY = useSharedValue(30)
@@ -275,11 +275,17 @@ export default function HomeScreen({ navigation }: any) {
         </TouchableOpacity>
 
         <View style={styles.cameraBtnSub}>
-          <Text style={styles.cameraBtnSubText}>
-            {totalTemplates > 0
-              ? `已有 ${totalTemplates} 个姿势模板可用`
-              : '正在加载姿势模板...'}
-          </Text>
+          {templatesLoading ? (
+            <Text style={styles.cameraBtnSubText}>⏳ 正在加载姿势模板...</Text>
+          ) : templatesError ? (
+            <TouchableOpacity onPress={refresh}>
+              <Text style={[styles.cameraBtnSubText, { color: '#FF6B6B' }]}>⚠️ 加载失败，点击重试</Text>
+            </TouchableOpacity>
+          ) : totalTemplates > 0 ? (
+            <Text style={styles.cameraBtnSubText}>已有 {totalTemplates} 个姿势模板可用</Text>
+          ) : (
+            <Text style={styles.cameraBtnSubText}>姿势模板加载中...</Text>
+          )}
         </View>
       </Animated.View>
 
