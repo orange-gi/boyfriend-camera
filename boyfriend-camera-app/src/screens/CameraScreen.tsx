@@ -26,7 +26,7 @@ import StabilityIndicator from '../components/camera/StabilityIndicator'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { useTemplates } from '../hooks/useTemplates'
 import { useStability } from '../hooks/useStability'
-import CameraView, { takePhoto } from '../components/camera/CameraView'
+import CameraView, { CameraViewRef } from '../components/camera/CameraView'
 
 type CompositionMode = 'grid' | 'golden' | 'triangle'
 
@@ -86,7 +86,7 @@ export default function CameraScreen({ navigation }: any) {
   const [recentIds, setRecentIds] = useState<string[]>([])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cameraRef = useRef<any>(null)
+  const cameraRef = useRef<CameraViewRef>(null)
   const { templates, loading: templatesLoading, error: templatesError, refresh, markUsed } = useTemplates()
   const stability = useStability()
   const voiceCoach = useRef(VoiceCoach).current
@@ -121,7 +121,7 @@ export default function CameraScreen({ navigation }: any) {
     setIsCapturing(true)
 
     try {
-      const photo = await takePhoto(cameraRef, flash)
+      const photo = await cameraRef.current?.takePhoto(flash)
 
       if (photo) {
         navigation.navigate('Result', {
@@ -230,7 +230,7 @@ export default function CameraScreen({ navigation }: any) {
       {/* 相机预览 */}
       <View style={StyleSheet.absoluteFill}>
         <CameraView
-          cameraRef={cameraRef}
+          ref={cameraRef}
           flash={flash}
           isActive={isActive}
           torchMode={flash === 'on' ? 'on' : 'off'}

@@ -96,6 +96,14 @@ export default function StabilityIndicator({
       }).start()
     }
     prevShake.current = shakeLevel
+
+    // 清理函数：组件卸载时停止动画，防止内存泄漏
+    return () => {
+      if (loopAnimRef.current) {
+        loopAnimRef.current.stop()
+        loopAnimRef.current = null
+      }
+    }
   }, [shakeLevel])
 
   const isStable = Math.abs(tiltX) < STABLE_THRESHOLD && Math.abs(tiltY) < STABLE_THRESHOLD

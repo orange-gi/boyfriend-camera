@@ -1,8 +1,13 @@
 /**
  * CameraView - 相机预览组件
  * 使用 react-native-vision-camera v5 实现实时相机预览
+ *
+ * v5 API 说明：
+ * - usePhotoOutput() 创建 PhotoOutput 实例
+ * - Camera 的 outputs prop 接收 PhotoOutput 实例
+ * - capturePhotoToFile() 直接写文件，返回 PhotoFile { filePath }
  */
-import React, { useCallback, useRef, useEffect } from 'react'
+import React, { forwardRef, useCallback, useImperativeHandle, useRef, useEffect } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import {
   Camera,
@@ -12,61 +17,68 @@ import {
   PhotoFile,
   CommonResolutions,
   CameraPhotoOutput,
+  Photo,
+  CameraRef,
 } from 'react-native-vision-camera'
 
+export interface CameraViewRef {
+  takePhoto: (flashMode?: 'off' | 'on' | 'auto') => Promise<PhotoFile | null>
+}
+
 interface Props {
-  onPhotoTaken?: (photoFile: PhotoFile) => void
   flash?: 'off' | 'on' | 'auto'
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cameraRef?: React.RefObject<any>
   torchMode?: 'off' | 'on'
   isActive?: boolean
 }
 
-// 拍照辅助函数 - v5 API
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function takePhoto(cameraRef: any, flashMode: 'off' | 'on' | 'auto'): Promise<PhotoFile | null> {
-  try {
-    const cam = cameraRef?.current
-    if (!cam) return null
-
-    const photoOutput = cam?.controller?.outputs?.find(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (o: any) => o?.capturePhotoToFile
-    )
-    if (photoOutput) {
-      const settings = {
-        flashMode: flashMode === 'auto' ? ('auto' as const) : flashMode,
-      }
-      const photo = await photoOutput.capturePhotoToFile(settings, {})
-      return photo
-    }
-    return null
-  } catch (e) {
-    console.error('[CameraView] 拍照失败:', e)
-    return null
-  }
-}
-
-export default function CameraView({
+const CameraView = forwardRef<CameraViewRef, Props>(({
   flash = 'off',
-  cameraRef: externalRef,
   torchMode,
   isActive = true,
-}: Props) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const internalRef = useRef<any>(null)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cameraRef = externalRef ?? internalRef
+}, ref) => {
+  const internalRef = useRef<CameraRef>(null)
+  const photoOutputRef = useRef<CameraPhotoOutput | null>(null)
 
   const { hasPermission, requestPermission } = useCameraPermission()
   const device = useCameraDevice('back')
 
   // Photo output - v5 API
-  const photoOutput: CameraPhotoOutput = usePhotoOutput({
+  const photoOutput = usePhotoOutput({
     targetResolution: CommonResolutions.UHD_4_3,
     qualityPrioritization: 'quality',
   })
+
+  // 存储 photoOutput 供 takePhoto 使用
+  useEffect(() => {
+    photoOutputRef.current = photoOutput
+  }, [photoOutput])
+
+  // 拍照方法 - v5 API 正确用法
+  const takePhoto = useCallback(async (flashMode: 'off' | 'on' | 'auto' = 'off'): Promise<PhotoFile | null> => {
+    const output = photoOutputRef.current
+    if (!output) return null
+    try {
+      const photo: Photo = await output.capturePhoto(
+        { flashMode: flashMode === 'auto' ? 'auto' : flashMode },
+        {}
+      )
+      try {
+        const filePath = await photo.saveToTemporaryFileAsync()
+        photo.dispose()
+        return { filePath }
+      } catch {
+        photo.dispose()
+        return null
+      }
+    } catch (e) {
+      console.error('[CameraView] 拍照失败:', e)
+      return null
+    }
+  }, [])
+
+  useImperativeHandle(ref, () => ({
+    takePhoto,
+  }), [takePhoto])
 
   useEffect(() => {
     if (!hasPermission) {
@@ -99,7 +111,6 @@ export default function CameraView({
   return (
     <View style={styles.container}>
       <Camera
-        ref={cameraRef}
         style={StyleSheet.absoluteFill}
         device={device}
         isActive={isActive}
@@ -109,7 +120,9 @@ export default function CameraView({
       />
     </View>
   )
-}
+})
+
+CameraView.displayName = 'CameraView'
 
 const styles = StyleSheet.create({
   container: {
@@ -118,24 +131,43 @@ const styles = StyleSheet.create({
   },
   permissionContainer: {
     flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000',
+    padding: 20,
   },
   permissionText: {
     color: '#fff',
     fontSize: 16,
+    textAlign: 'center',
     marginBottom: 20,
   },
   permissionBtn: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#FD79A8',
     paddingHorizontal: 24,
     paddingVertical: 12,
-    borderRadius: 20,
+    borderRadius: 24,
   },
   permissionBtnText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 })
+
+export default CameraView
+
+// 导出兼容层 - 旧版 takePhoto 接口（deprecated，已废弃）
+export async function takePhoto(
+  cameraRef: React.RefObject<CameraViewRef>,
+  flashMode: 'off' | 'on' | 'auto' = 'off'
+): Promise<PhotoFile | null> {
+  try {
+    const cam = cameraRef?.current
+    if (!cam) return null
+    return await cam.takePhoto(flashMode)
+  } catch (e) {
+    console.error('[CameraView] takePhoto 失败:', e)
+    return null
+  }
+}

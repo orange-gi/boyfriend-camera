@@ -49,6 +49,58 @@ const PRAISE_POOL: Record<string, string[]> = {
     '歪？是谁把照片扶正的？是我男朋友！（骄傲）',
     '端得比桌子还平，男朋友你是强迫症附体了吗？',
   ],
+  // 新增：夜景专属夸奖
+  night_great: [
+    '夜景灯光把人拍得超有氛围感！',
+    '霓虹灯光下也能这么美，男朋友你开窍了！',
+    '夜景这么难拍你都能拿捏，厉害了！',
+    '夜色里的你格外美，男朋友这构图绝了！',
+    '夜拍能拿高分，男朋友你是专业的吗！',
+    '暗光环境下还能保持清晰，男朋友太靠谱了～',
+  ],
+  // 新增：人像虚化专属夸奖
+  portrait_bokeh: [
+    '背景虚化层次感绝了，主体超突出！',
+    '这虚化效果像专业相机拍出来的，男朋友你行啊！',
+    '主体清晰背景柔和，这构图审美在线！',
+    '焦外虚化好美，男朋友你用了人像模式吧？',
+    '虚实对比绝了，摄影师潜力无限！',
+  ],
+  // 新增：侧光/戏剧光夸奖
+  dramatic_light: [
+    '侧光勾勒出脸部轮廓，好有电影感！',
+    '这光影对比绝了，像杂志大片！',
+    '戏剧性光线下也能拿高分，男朋友审美在线！',
+  ],
+  // 新增：可爱风格夸奖
+  cute_style: [
+    '这表情也太可爱了吧！男朋友拍得好甜～',
+    '俏皮感十足！男朋友抓到了你的灵动瞬间！',
+    '这组照片好有活力，男朋友把可爱都收进来了！',
+    '甜甜的笑容被定格了，男朋友摄影有进步呢～',
+  ],
+  // 新增：高级感夸奖
+  high_end: [
+    '这组照片有高级感！像杂志内页！',
+    '色调好舒服，男朋友审美开挂了？',
+    '氛围感拉满，这构图有点东西！',
+    '男朋友你确定是男朋友不是摄影师吗？这质感绝了！',
+    '这组照片我要发朋友圈炫耀一下～',
+  ],
+  // 新增：进步超大时专属夸奖
+  breakthrough: [
+    '这张是男朋友的巅峰之作吧！',
+    '肉眼可见的突破！这张照片要存档！',
+    '男朋友进化速度惊人，这进步太明显了！',
+    '这张照片有被惊艳到！男朋友开挂了！',
+    '从这张开始男朋友正式升级为专业摄影师！',
+  ],
+  // 新增：细节处理夸奖
+  detail_great: [
+    '发丝都清晰可见，这细节处理太棒了！',
+    '连睫毛都数得清，男朋友这手稳得离谱！',
+    '细节满分！这清晰度可以直接出片了！',
+  ],
   face_great: [
     '正脸怼镜头，表情超自然，男朋友这次抓得真好！',
     '笑容满分！这表情一看就是发自内心的开心～',
@@ -166,12 +218,16 @@ const PRAISE_POOL: Record<string, string[]> = {
     '俯拍显脸小的秘密被男朋友发现了！',
     '这个俯拍角度绝了，显瘦效果满分！',
     '从上往下拍这角度选得太好了，脸小小的好可爱～',
+    '俯拍角度选得好，下巴尖尖的视觉效果出来了～',
+    '这个角度好显瘦！男朋友你是怎么想到的？',
   ],
   // 仰拍好评（大长腿效果）
   low_angle_good: [
     '仰拍大长腿效果出来了，男朋友你懂啊！',
     '这张拍出大长腿了，男朋友你蹲得好低！',
     '仰角选得好，腿看起来超长，这角度绝了！',
+    '哇！大长腿效果拉满！男朋友你趴得好低哈哈～',
+    '仰拍真的显高，男朋友这个机位选得妙！',
   ],
   // 构图极端优秀（构图满分时）
   composition_perfect: [
@@ -189,6 +245,8 @@ const PRAISE_POOL: Record<string, string[]> = {
     '背景虚化刚刚好！主体超突出，男朋友你用了人像模式吗？',
     '这虚化层次感绝了，男朋友你是专业的吗？',
     '主体清晰背景柔和，这构图审美在线！',
+    '人像模式用得恰到好处，这虚化效果绝了！',
+    '前景虚化有层次，男朋友这构图思路可以！',
   ],
   closeup_good: [
     '近景特写太有感觉了！皮肤质感满分～',
@@ -251,6 +309,33 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '眼神不知道在看哪里，下次让她看镜头哦～',
     '眼睛闭着拍出来了，提醒她睁大眼睛再来～',
     '表情太僵了！笑一个，让气氛轻松自然点～',
+  ],
+  // 新增：夜景相关建议
+  night: [
+    '夜景光线复杂，试试打开闪光灯补补光～',
+    '暗光环境下尽量找光源，让脸亮起来～',
+    '夜景拍糊了？打开夜景模式或找光源更亮的地方～',
+    '晚上光线不足，手要更稳，深呼吸后按快门～',
+    '夜间逆光很美但脸太黑，转过来让脸朝向光源～',
+  ],
+  // 新增：人像虚化建议
+  bokeh: [
+    '背景太实了，试试用人像模式虚化背景～',
+    '找些好看的背景，虚化掉杂乱的元素～',
+    '背景和主体分不开，试试走近一点让背景虚化～',
+  ],
+  // 新增：雨天建议
+  rainy: [
+    '雨天的光线比较柔和，找个窗户边试试～',
+    '雨滴落在玻璃上很有氛围感，可以利用这个元素～',
+    '雨天光线偏暗，可以靠近窗户或开灯补光～',
+  ],
+  // 新增：运动/抓拍建议
+  motion: [
+    '要抓拍动态瞬间？提前对焦在主体位置～',
+    '运动中拍糊了，试试用连拍模式多拍几张～',
+    '要拍跳跃照？让他跳起来后数3、2、1再按快门～',
+    '抓拍笑容需要耐心等待，可以让她先做动作再抓拍～',
   ],
 }
 
@@ -387,7 +472,19 @@ export async function analyzePhoto(
   if (sceneType === 'indoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.indoor_good))
 
   // 近景特写夸奖（人脸面积大）
-  if (facePosition && facePosition.area > 0.25 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.closeup_good))
+  if (facePosition && (facePosition.area ?? 0) > 0.25 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.closeup_good))
+
+  // 夜景专属夸奖
+  if (brightness < 80 && brightness >= 30 && totalScore >= 78) praise.push(pickRandom(PRAISE_POOL.night_great))
+
+  // 人像虚化夸奖
+  if (totalScore >= 80 && facePosition && (facePosition.area ?? 0) > 0.15 && (facePosition.area ?? 0) < 0.35) praise.push(pickRandom(PRAISE_POOL.portrait_bokeh))
+
+  // 细节处理夸奖（清晰度极高）
+  if (sharpness > 150 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.detail_great))
+
+  // 进步突破时专属夸奖
+  if (lastScore !== undefined && totalScore - lastScore >= 20) praise.push(pickRandom(PRAISE_POOL.breakthrough))
 
   // 首次好评
   if (isFirstPhoto && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.first_good))
@@ -450,6 +547,11 @@ export async function analyzePhoto(
   if (totalShoots === 10 && totalScore >= 70) praise.push('🎉 十连拍达成！男朋友已经拍了10张，进步肉眼可见！')
   if (totalShoots === 20 && totalScore >= 70) praise.push('🏆 二十连拍里程碑！摄影师已在线，女朋友感动哭泣！')
   if (totalShoots === 50 && totalScore >= 70) praise.push('👑 五十次快门！男朋友你是被拍照耽误的摄影师吧！')
+  if (totalShoots === 100 && totalScore >= 70) praise.push('💎 百次快门达成！男朋友已经是拍照达人了！')
+  if (totalShoots === 5 && totalScore >= 80) praise.push('🌟 五连拍高分！男朋友你是有天赋的！')
+  if (totalShoots === 30 && totalScore >= 80) praise.push('🔥 三十张里程碑！这男朋友太会拍了！')
+  // 首次突破90分
+  if (totalScore >= 90 && totalShoots > 0 && totalShoots < 5) praise.push('🎯 首次突破90分！男朋友你开挂了！')
 
   // 确保至少有夸奖
   if (praise.length === 0) {

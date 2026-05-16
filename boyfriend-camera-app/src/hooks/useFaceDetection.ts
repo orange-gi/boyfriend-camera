@@ -119,7 +119,7 @@ export function useFaceDetection() {
     } finally {
       setIsDetecting(false)
     }
-  }, [faces])
+  }, [])
 
   /**
    * 手动设置人脸信息（用于测试或手动标注场景）
