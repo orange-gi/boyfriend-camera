@@ -5,14 +5,19 @@
  *
  * 接入 MLKit Face Detection 步骤:
  * 1. 安装: npm install @react-native-ml-kit/face-detection
- * 2. 在 CameraScreen 中获取 frame
+ * 2. 在 CameraScreen 中获取 frame:
+ *    const frame = ... // VisionCamera frame
+ *    const { faces: detectedFaces } = useFaceDetection()
+ *    const results = await detectedFaces(frame, 'front')
  * 3. 调用: const faces = await FaceDetection.processImage(frame)
- * 4. 映射到 FaceInfo 格式
+ * 4. 映射到 FaceInfo 格式（见 processFrame 注释中的 MLKit 映射代码）
+ * 5. 将 MLKit 的各维度的 probability > 0.5 转为布尔值
  *
  * Mock 模式（MLKit 未安装时）：
  * - 前置摄像头：模拟居中正脸，适当面积
  * - 后置摄像头：模拟较小面积（距离远）
- * - 随机表情数据（smiling/eyes），用于 VoiceCoach 测试
+ * - 随机表情数据（smiling/eyes），confidence 固定 0.85
+ * - 适用于 VoiceCoach 和 ResultScreen 开发测试
  */
 import { useState, useCallback, useRef } from 'react'
 
@@ -27,6 +32,8 @@ export interface FaceInfo {
   leftEyeOpen?: boolean
   rightEyeOpen?: boolean
   smiling?: boolean
+  /** 检测置信度（MLKit 返回，Mock 模式固定 0.85） */
+  confidence?: number
 }
 
 /** 模拟前置摄像头人脸（较大，居中） */
@@ -100,8 +107,9 @@ export function useFaceDetection() {
       frameCountRef.current += 1
       if (frameCountRef.current % 3 === 0) {
         const mock = cameraFacing === 'front' ? mockFrontCameraFace() : mockBackCameraFace()
-        setFaces([mock])
-        return [mock]
+        const withConfidence = { ...mock, confidence: 0.85 }
+        setFaces([withConfidence])
+        return [withConfidence]
       }
       return faces // 返回上一次结果
     } finally {
