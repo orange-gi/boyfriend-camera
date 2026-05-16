@@ -125,6 +125,66 @@ const PRAISE_POOL: Record<string, string[]> = {
     '暗光环境表现这么稳，闪光灯用得刚刚好～',
     '室内昏暗也能拿捏，这光线氛围感绝了！',
   ],
+  // 构图改善（与上次比构图分提升）
+  composition_improved: [
+    '这次构图比上次好多了！终于把人放对位置了～',
+    '构图进步好大！男朋友开窍了呀～',
+    '这次把人放到了正确的位置，看起来舒服多了！',
+  ],
+  // 眼神/表情改善
+  expression_improved: [
+    '这次表情自然多了！比上次好看～',
+    '眼神有光多了，这笑容太加分了！',
+    '这次表情管理好多了，继续保持～',
+  ],
+  // 光线改善
+  lighting_improved: [
+    '这次光线拿捏得比上次好，看起来皮肤状态超好！',
+    '终于找到合适的光线了，整个人都在发光～',
+    '这次亮度刚刚好，不像上次过曝或太暗了！',
+  ],
+  // 稳定性改善
+  stability_improved: [
+    '这次手稳多了，照片清晰度大幅提升！',
+    '终于不糊了，男朋友你开挂了吗？哈哈～',
+    '这张清晰度比上次好太多，明显进步了！',
+  ],
+  // 情侣合照专属夸奖
+  couple_photo: [
+    '情侣照甜蜜感拉满！两个人的互动超有爱～',
+    '这张情侣照可以直接当手机壁纸了！',
+    '两人合照拍得也太甜了，男朋友摄影技术在线！',
+  ],
+  // 虚化效果好评
+  bokeh_good: [
+    '背景虚化层次感绝了，主体超突出！',
+    '这虚化效果像专业相机拍出来的，男朋友你行啊！',
+    '背景虚化得刚刚好，主体和背景关系处理得太棒了！',
+  ],
+  // 俯拍好评（俯视角度）
+  top_angle_good: [
+    '俯拍显脸小的秘密被男朋友发现了！',
+    '这个俯拍角度绝了，显瘦效果满分！',
+    '从上往下拍这角度选得太好了，脸小小的好可爱～',
+  ],
+  // 仰拍好评（大长腿效果）
+  low_angle_good: [
+    '仰拍大长腿效果出来了，男朋友你懂啊！',
+    '这张拍出大长腿了，男朋友你蹲得好低！',
+    '仰角选得好，腿看起来超长，这角度绝了！',
+  ],
+  // 构图极端优秀（构图满分时）
+  composition_perfect: [
+    '构图满分！专业摄影师都要点赞的水平！',
+    '黄金比例构图，男朋友你是艺术生吗？',
+    '这张构图堪称完美，教科书级别！',
+  ],
+  // 综合表现平稳
+  steady_progress: [
+    '整体表现稳定，男朋友继续保持这个水平～',
+    '虽然没有特别惊艳，但整体很均衡！',
+    '这张很稳，没有明显短板，继续加油！',
+  ],
   portrait_mode: [
     '背景虚化刚刚好！主体超突出，男朋友你用了人像模式吗？',
     '这虚化层次感绝了，男朋友你是专业的吗？',
@@ -211,6 +271,16 @@ export interface AnalyzeContext {
   isFirstPhoto?: boolean
   /** 场景类型（用于场景专属夸奖） */
   sceneType?: 'indoor' | 'outdoor' | 'other'
+  /** 上次构图分（构图改善检测） */
+  lastCompositionScore?: number
+  /** 上次表情分（表情改善检测） */
+  lastExpressionScore?: number
+  /** 上次光线分（光线改善检测） */
+  lastExposureScore?: number
+  /** 上次稳定分（稳定改善检测） */
+  lastStabilityScore?: number
+  /** 是否情侣合照 */
+  isCouplePhoto?: boolean
 }
 
 export async function analyzePhoto(
@@ -224,7 +294,7 @@ export async function analyzePhoto(
   context: AnalyzeContext = {}
 ): Promise<AnalysisResult> {
   const { facePosition, faceCount, brightness, sharpness, tiltAngle } = params
-  const { lastScore, recentAvg, streakCount = 0, totalShoots = 0, isFirstPhoto, sceneType } = context
+  const { lastScore, recentAvg, streakCount = 0, totalShoots = 0, isFirstPhoto, sceneType, lastCompositionScore, lastExpressionScore, lastExposureScore, lastStabilityScore, isCouplePhoto } = context
   const problems: string[] = []
   const suggestions: string[] = []
   const praise: string[] = []
@@ -328,7 +398,48 @@ export async function analyzePhoto(
   }
 
   // 进步鼓励
-  if (lastScore !== undefined && totalScore > lastScore) praise.push(pickRandom(PRAISE_POOL.progress_up))
+  if (lastScore !== undefined && totalScore > lastScore) {
+    praise.push(pickRandom(PRAISE_POOL.progress_up))
+    // 检测具体维度进步
+    if (lastCompositionScore !== undefined && compositionScore > lastCompositionScore) {
+      praise.push(pickRandom(PRAISE_POOL.composition_improved))
+    }
+    if (lastExpressionScore !== undefined && faceCount > 0) {
+      praise.push(pickRandom(PRAISE_POOL.expression_improved))
+    }
+    if (lastExposureScore !== undefined && exposureScore > lastExposureScore) {
+      praise.push(pickRandom(PRAISE_POOL.lighting_improved))
+    }
+    if (lastStabilityScore !== undefined && stabilityScore > lastStabilityScore) {
+      praise.push(pickRandom(PRAISE_POOL.stability_improved))
+    }
+    if (totalScore - lastScore >= 15) {
+      praise.push('进步幅度好大！男朋友你偷偷练习了吗？')
+    }
+  }
+
+  // 情侣合照专属夸奖
+  if (isCouplePhoto && faceCount >= 2 && totalScore >= 70) {
+    praise.push(pickRandom(PRAISE_POOL.couple_photo))
+  }
+
+  // 构图分满分追加专属夸奖
+  if (compositionScore === 40) praise.push(pickRandom(PRAISE_POOL.composition_perfect))
+
+  // 俯拍/仰拍场景（通过 facePosition.y 推断）
+  if (facePosition) {
+    if (facePosition.y > 0.6 && totalScore >= 70) {
+      praise.push(pickRandom(PRAISE_POOL.top_angle_good))
+    }
+    if (facePosition.y < 0.3 && totalScore >= 70) {
+      praise.push(pickRandom(PRAISE_POOL.low_angle_good))
+    }
+  }
+
+  // 综合平稳表现（没有突出项但总分不差）
+  if (totalScore >= 70 && praise.length === 1) {
+    praise.push(pickRandom(PRAISE_POOL.steady_progress))
+  }
 
   // 连续好评（使用 streakCount 更精确）
   if (streakCount >= 2 && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.streak))
