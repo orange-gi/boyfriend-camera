@@ -304,9 +304,35 @@ export default function ResultScreen({ route, navigation }: any) {
       {/* 处理中状态 */}
       {processing && (
         <View style={styles.processingOverlay}>
-          <ActivityIndicator size="large" color="#FF6B6B" />
-          <Text style={styles.processingText}>正在分析照片...</Text>
+          {/* 骨架卡片占位 */}
+          <View style={styles.skeletonCard}>
+            <View style={styles.skeletonCardImage} />
+            <View style={styles.skeletonCardRow}>
+              <View style={styles.skeletonBadge} />
+              <View style={styles.skeletonBadge} />
+              <View style={styles.skeletonBadge} />
+            </View>
+          </View>
+          <ActivityIndicator size="large" color="#FF6B6B" style={{ marginTop: 20 }} />
+          <Text style={styles.processingText}>正在分析构图...</Text>
           <Text style={styles.processingSubText}>稍等一下，马上就好～</Text>
+          {/* 处理步骤指示 */}
+          <View style={styles.processingSteps}>
+            <View style={[styles.processStep, styles.processStepActive]}>
+              <Text style={styles.processStepDot}>1</Text>
+              <Text style={styles.processStepLabel}>构图分析</Text>
+            </View>
+            <View style={styles.processStepLine} />
+            <View style={[styles.processStep, processing ? styles.processStepActive : styles.processStepPending]}>
+              <Text style={styles.processStepDot}>2</Text>
+              <Text style={styles.processStepLabel}>光线检测</Text>
+            </View>
+            <View style={styles.processStepLine} />
+            <View style={[styles.processStep, styles.processStepPending]}>
+              <Text style={styles.processStepDot}>3</Text>
+              <Text style={styles.processStepLabel}>生成评分</Text>
+            </View>
+          </View>
         </View>
       )}
 
@@ -419,6 +445,72 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 32,
     paddingHorizontal: 20,
+  },
+  // 骨架卡
+  skeletonCard: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 16,
+    overflow: 'hidden',
+    width: '100%',
+    height: 260,
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  skeletonCardImage: {
+    flex: 1,
+    backgroundColor: '#e0e0e0',
+  },
+  skeletonCardRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 12,
+  },
+  skeletonBadge: {
+    width: 60,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#d0d0d0',
+  },
+  // 处理步骤
+  processingSteps: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  processStep: {
+    alignItems: 'center',
+  },
+  processStepActive: {
+    opacity: 1,
+  },
+  processStepPending: {
+    opacity: 0.4,
+  },
+  processStepDot: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#FF6B6B',
+    color: '#fff',
+    textAlign: 'center',
+    lineHeight: 24,
+    fontSize: 12,
+    fontWeight: 'bold',
+    overflow: 'hidden',
+  },
+  processStepLine: {
+    width: 24,
+    height: 2,
+    backgroundColor: '#e0e0e0',
+    marginHorizontal: 4,
+    marginBottom: 16,
+  },
+  processStepLabel: {
+    fontSize: 11,
+    color: '#999',
+    marginTop: 4,
   },
   processingText: {
     marginTop: 12,

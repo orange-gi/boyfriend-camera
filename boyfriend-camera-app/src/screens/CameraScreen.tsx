@@ -231,6 +231,7 @@ export default function CameraScreen({ navigation }: any) {
       <View style={StyleSheet.absoluteFill}>
         <CameraView
           ref={cameraRef}
+          facing={cameraFacing}
           flash={flash}
           isActive={isActive}
           torchMode={flash === 'on' ? 'on' : 'off'}
