@@ -160,15 +160,20 @@ export default function DiaryScreen({ navigation }: any) {
 
   const renderRecord = ({ item, index }: { item: DiaryRecord; index: number }) => {
     const date = new Date(item.date)
-    const dateStr = date.toLocaleDateString('zh-CN', {
-      month: 'short',
-      day: 'numeric',
-      weekday: 'short',
-    })
-    const timeStr = date.toLocaleTimeString('zh-CN', {
-      hour: '2-digit',
-      minute: '2-digit',
-    })
+    const isValidDate = !isNaN(date.getTime())
+    const dateStr = isValidDate
+      ? date.toLocaleDateString('zh-CN', {
+          month: 'short',
+          day: 'numeric',
+          weekday: 'short',
+        })
+      : '未知日期'
+    const timeStr = isValidDate
+      ? date.toLocaleTimeString('zh-CN', {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      : ''
 
     const sc = item.score >= 80 ? COLORS.scoreGreat : item.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
     const scoreGrade = item.score >= 90 ? 'S' : item.score >= 80 ? 'A' : item.score >= 70 ? 'B' : item.score >= 60 ? 'C' : 'D'
@@ -268,7 +273,7 @@ export default function DiaryScreen({ navigation }: any) {
           <EmptyState
             icon="📈"
             title="还没有进步记录"
-            subtitle="拍几张照片，开始记录你们的拍照进步吧～"
+            subtitle="还没有进步记录，快去拍一张吧～"
             action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera') }}
           />
         )}
