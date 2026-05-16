@@ -2,7 +2,7 @@
  * DiaryScreen - 进步日记
  * 展示历史评分和进步曲线
  */
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import {
   View,
   Text,
@@ -32,6 +32,21 @@ export default function DiaryScreen({ navigation }: any) {
     setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
   }
 
+  async function handleDeleteRecord(date: string) {
+    Alert.alert('删除记录', '确定要删除这条进步记录吗？', [
+      { text: '取消', style: 'cancel' },
+      {
+        text: '删除',
+        style: 'destructive',
+        onPress: async () => {
+          const updated = records.filter((r) => r.date !== date)
+          setRecords(updated)
+          await loadDiary()
+        },
+      },
+    ])
+  }
+
   async function handleRefresh() {
     setRefreshing(true)
     await loadDiary()
@@ -50,8 +65,41 @@ export default function DiaryScreen({ navigation }: any) {
     : 0
 
   // 最高分和最近分
-  const maxScore = totalCount > 0 ? Math.max(...records.map(r => r.score)) : 0
+  const maxScore = totalCount > 0 ? Math.max(...records.map((r) => r.score)) : 0
   const recentScore = totalCount > 0 ? records[0].score : 0
+
+  // 周统计数据
+  const weeklyStats = useMemo(() => {
+    const now = new Date()
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+    const weekRecords = records.filter((r) => new Date(r.date) >= weekAgo)
+    const weekAvg =
+      weekRecords.length > 0
+        ? Math.round(weekRecords.reduce((s, r) => s + r.score, 0) / weekRecords.length)
+        : 0
+    const weekCount = weekRecords.length
+    // 计算连续拍照天数
+    let streak = 0
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const sortedAsc = [...records].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    )
+    const checkDate = new Date(today)
+    for (let i = 0; i < 30; i++) {
+      const dayStr = checkDate.toISOString().split('T')[0]
+      const hasRecord = sortedAsc.some((r) => r.date.split('T')[0] === dayStr)
+      if (hasRecord) {
+        streak++
+        checkDate.setDate(checkDate.getDate() - 1)
+      } else if (i === 0) {
+        checkDate.setDate(checkDate.getDate() - 1)
+      } else {
+        break
+      }
+    }
+    return { weekAvg, weekCount, streak }
+  }, [records])
 
   // 进步趋势
   const trendText = () => {
@@ -65,7 +113,7 @@ export default function DiaryScreen({ navigation }: any) {
   }
 
   // FlatList 数据（只显示有记录的日期）
-  const entries: DiaryEntry[] = records.map(r => ({
+  const entries: DiaryEntry[] = records.map((r) => ({
     date: r.date,
     score: r.score,
     suggestions: r.suggestions,
@@ -87,7 +135,12 @@ export default function DiaryScreen({ navigation }: any) {
     const scoreGrade = item.score >= 90 ? 'S' : item.score >= 80 ? 'A' : item.score >= 70 ? 'B' : item.score >= 60 ? 'C' : 'D'
 
     return (
-      <View style={styles.recordCard}>
+      <TouchableOpacity
+        style={styles.recordCard}
+        onLongPress={() => handleDeleteRecord(item.date)}
+        delayLongPress={600}
+        activeOpacity={0.8}
+      >
         {/* 左侧分数 */}
         <View style={[styles.scoreBadge, { backgroundColor: scoreColor + '18' }]}>
           <Text style={[styles.scoreNum, { color: scoreColor }]}>{item.score}</Text>
@@ -98,11 +151,16 @@ export default function DiaryScreen({ navigation }: any) {
         <View style={styles.recordContent}>
           <View style={styles.recordHeader}>
             <Text style={styles.recordDate}>{dateStr} {timeStr}</Text>
-            {index === 0 && (
-              <View style={styles.newTag}>
-                <Text style={styles.newTagText}>NEW</Text>
-              </View>
-            )}
+            <View style={styles.recordRight}>
+              {index === 0 && (
+                <View style={styles.newTag}>
+                  <Text style={styles.newTagText}>NEW</Text>
+                </View>
+              )}
+              {totalCount >= 3 && (
+                <Text style={styles.deleteHint}>长按删除</Text>
+              )}
+            </View>
           </View>
 
           {/* 维度小分 */}
@@ -117,7 +175,7 @@ export default function DiaryScreen({ navigation }: any) {
             <Text style={styles.faceCount}>👤 {item.faceCount}人</Text>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -182,6 +240,35 @@ export default function DiaryScreen({ navigation }: any) {
                   <Text style={styles.statLabel}>最高分</Text>
                 </View>
               </View>
+
+              {/* 周统计条 */}
+              {totalCount > 0 && (
+                <View style={styles.weeklyRow}>
+                  <View style={styles.weeklyItem}>
+                    <Text style={styles.weeklyLabel}>本周</Text>
+                    <Text style={[styles.weeklyNum, { color: weeklyStats.weekAvg >= 80 ? '#4CAF50' : weeklyStats.weekAvg >= 60 ? '#FFB347' : '#FF6B6B' }]}>
+                      {weeklyStats.weekAvg > 0 ? weeklyStats.weekAvg + '分' : '-'}
+                    </Text>
+                    <Text style={styles.weeklySub}>{weeklyStats.weekCount}次</Text>
+                  </View>
+                  <View style={styles.weeklyDivider} />
+                  <View style={styles.weeklyItem}>
+                    <Text style={styles.weeklyLabel}>连续拍照</Text>
+                    <Text style={[styles.weeklyNum, { color: weeklyStats.streak >= 3 ? '#4CAF50' : '#FFB347' }]}>
+                      {weeklyStats.streak}天 🔥
+                    </Text>
+                    <Text style={styles.weeklySub}>{weeklyStats.streak >= 7 ? '太厉害了！' : weeklyStats.streak >= 3 ? '继续加油' : '每天拍一张'}</Text>
+                  </View>
+                  <View style={styles.weeklyDivider} />
+                  <View style={styles.weeklyItem}>
+                    <Text style={styles.weeklyLabel}>最近一次</Text>
+                    <Text style={[styles.weeklyNum, { color: recentScore >= 80 ? '#4CAF50' : recentScore >= 60 ? '#FFB347' : '#FF6B6B' }]}>
+                      {recentScore > 0 ? recentScore + '分' : '-'}
+                    </Text>
+                    <Text style={styles.weeklySub}>{totalCount}次总计</Text>
+                  </View>
+                </View>
+              )}
 
               {/* 趋势 */}
               <View style={styles.trendRow}>
@@ -328,6 +415,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  recordRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  deleteHint: {
+    fontSize: 10,
+    color: '#ccc',
+  },
+  weeklyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+  },
+  weeklyItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  weeklyDivider: {
+    width: 1,
+    height: 36,
+    backgroundColor: '#eee',
+  },
+  weeklyLabel: {
+    fontSize: 10,
+    color: '#aaa',
+    marginBottom: 2,
+  },
+  weeklyNum: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  weeklySub: {
+    fontSize: 10,
+    color: '#bbb',
+    marginTop: 1,
   },
   recordDate: {
     fontSize: 14,
