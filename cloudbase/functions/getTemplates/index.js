@@ -2,7 +2,7 @@
  * 男友相机 - getTemplates 云函数 v4
  * 21 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照
  */
-const CURRENT_VERSION = 4
+const CURRENT_VERSION = 5
 
 const SVG_001 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDY1IDE4MCBMIDgwIDI4MCIvPjxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzUgMTgwIEwgMTIwIDI4MCIvPjxwYXRoIGQ9Ik0gNzAgOTAgUSAzMCAxMzAgMjAgMTYwIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTSAxMzAgOTAgUSAxNjAgMTEwIDE3NSAxMzAiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNIDY1IDE4MCBRIDU1IDIyMCA1MCAyODAiLz48cGF0aCBkPSJNIDEzNSAxODAgUSAxNDUgMjIwIDE1MCAyODAiLz4KICAKPC9zdmc+'
 const SVG_002 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDc0IDgwIFEgNjUgMTE1IDcwIDE3MCBMIDg1IDI4MCIvPjxwYXRoIGQ9Ik0gMTI2IDgwIFEgMTM1IDExNSAxMzAgMTcwIEwgMTE1IDI4MCIvPjxwYXRoIGQ9Ik0gNzQgODggUSA0MCAxMDAgMzUgMTUwIFEgNDUgMTQ1IDU1IDE1NSIvPjxwYXRoIGQ9Ik0gMTI2IDg4IFEgMTU1IDk1IDE2NSAxMTUiLz48cGF0aCBkPSJNIDcwIDE3MCBRIDYwIDIxMCA1NSAyODAiLz48cGF0aCBkPSJNIDEzMCAxNzAgUSAxNDAgMjEwIDE0NSAyODAiLz4KICAKPC9zdmc+'
@@ -26,6 +26,12 @@ const SVG_019 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vc
 const SVG_020 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8ZWxsaXBzZSBjeD0iODgiIGN5PSI1MCIgcng9IjI0IiByeT0iMjgiLz48cGF0aCBkPSJNIDY0IDgwIFEgNTUgMTE1IDU5IDE2MCBMIDc0IDI4MCIvPjxwYXRoIGQ9Ik0gMTEyIDgwIFEgMTIyIDExNSAxMTggMTYwIEwgMTA1IDI4MCIvPjxwYXRoIGQ9Ik0gNjQgODggUSA0NCA4MiAzNCA4OCBRIDMwIDk1IDM3IDEwMiIvPjxwYXRoIGQ9Ik0gMTEyIDg4IFEgMTM2IDc4IDE1MCA2OCBRIDE2MiA4MCAxNTUgOTIiLz48cGF0aCBkPSJNIDU5IDE2MCBRIDQ5IDIwMCA0NSAyODAiLz48cGF0aCBkPSJNIDExOCAxNjAgUSAxMjggMjAwIDEzMiAyODAiLz48ZWxsaXBzZSBjeD0iMTQwIiBjeT0iNTIiIHJ4PSIyNCIgcnk9IjI4Ii8+PHBhdGggZD0iTSAxMTYgODIgUSAxMDggMTE3IDExMiAxNjUgTCAxMjUgMjcwIi8+PHBhdGggZD0iTSAxNjQgODIgUSAxNzQgMTE3IDE3MCAxNjUgTCAxNTcgMjcwIi8+PHBhdGggZD0iTSAxMTYgOTAgUSA5NSA4NSA4MiA5MCBRIDc4IDk4IDg1IDEwNSIvPjxwYXRoIGQ9Ik0gMTY0IDkwIFEgMTc4IDgyIDE4OCA4OCBRIDE5MiA5NSAxODYgMTAyIi8+PHBhdGggZD0iTSAxMTIgMTY1IFEgMTA0IDIwNSAxMDAgMjcwIi8+PHBhdGggZD0iTSAxNzAgMTY1IFEgMTc2IDIwNSAxODAgMjcwIi8+CiAgCjwvc3ZnPg=='
 const SVG_021 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8ZWxsaXBzZSBjeD0iODUiIGN5PSI1MCIgcng9IjI0IiByeT0iMjgiLz48cGF0aCBkPSJNIDYxIDgwIFEgNTIgMTE1IDU2IDE2NSBMIDcyIDI4MCIvPjxwYXRoIGQ9Ik0gMTA5IDgwIFEgMTE4IDExNSAxMTQgMTY1IEwgMTAwIDI4MCIvPjxwYXRoIGQ9Ik0gNjEgODggUSAyNSA5MCAxNSAxMTAiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNIDEwOSA4OCBRIDE0NSA4NSAxNjAgOTIgUSAxNzIgMTA1IDE2OCAxMTgiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNIDU2IDE2NSBRIDQ2IDIwNSA0MiAyODAiLz48cGF0aCBkPSJNIDExNCAxNjUgUSAxMjQgMjA1IDEyOCAyODAiLz48ZWxsaXBzZSBjeD0iMTQwIiBjeT0iNTAiIHJ4PSIyNCIgcnk9IjI4Ii8+PHBhdGggZD0iTSAxMTYgODAgUSAxMDggMTE1IDExMiAxNjUgTCAxMjYgMjcwIi8+PHBhdGggZD0iTSAxNjQgODAgUSAxNzQgMTE1IDE3MCAxNjUgTCAxNTYgMjcwIi8+PHBhdGggZD0iTSAxNjQgODggUSAxODggOTUgMTk4IDExNSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0gMTEyIDE2NSBRIDEwNCAyMDUgMTAwIDI3MCIvPjxwYXRoIGQ9Ik0gMTcwIDE2NSBRIDE3OCAyMDUgMTgyIDI3MCIvPjxwYXRoIGQ9Ik0gMTUgMTEwIFEgOCAxMzAgMTIgMTU1IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTSAxOTggMTE1IFEgMjA1IDEzNSAyMDAgMTU4IiBmaWxsPSJub25lIi8+CiAgCjwvc3ZnPg=='
 
+
+const SVG_022 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8ZWxsaXBzZSBjeD0iMTAwIiBjeT0iNDgiIHJ4PSIyNSIgcnk9IjI4Ii8+PHBhdGggZD0iTSA3OCA3NiBRIDcwIDEwNSA3MiAxNDUgTCA4NSAxOTAiLz48cGF0aCBkPSJNIDEyMiA3NiBRIDEzMCAxMDUgMTI4IDE0NSBMIDExOCAxOTAiLz48cGF0aCBkPSJNIDcyIDE0NSBRIDQwIDE0MCAxMCAxNjUiLz48cGF0aCBkPSJNIDEyOCAxNDUgUSAxNjAgMTM1IDE5NSAxNTUiLz48cGF0aCBkPSJNIDg1IDE5MCBRIDcwIDIzMCA1NSAyODAiLz48cGF0aCBkPSJNIDExOCAxOTAgUSAxMzAgMjMwIDE0NSAyODAiLz48cGF0aCBkPSJNIDU1IDI4MCBRIDQ1IDI5NSAzMCAzMDAiLz48cGF0aCBkPSJNIDE0NSAyODAgUSAxNTUgMjk1IDE3MCAzMDAiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSI1MCIgcj0iMTAiIGZpbGw9InJnYmEoMjU1LDE4MCwzMCwwLjcpIiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNIDg1IDE0MCBRIDcwIDE1MCA3MCAxNjAiLz48cGF0aCBkPSJNIDExNSAxNDAgUSAxMjUgMTUwIDEyNSAxNjAiLz4KICAKPC9zdmc+'
+const SVG_023 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8ZWxsaXBzZSBjeD0iMTAwIiBjeT0iNDgiIHJ4PSIyNSIgcnk9IjI4Ii8+PHBhdGggZD0iTSA3OCA3NiBRIDcwIDEwNSA3MiAxNDUgTCA4NSAxOTAiLz48cGF0aCBkPSJNIDEyMiA3NiBRIDEzMCAxMDUgMTI4IDE0NSBMIDExOCAxOTAiLz48cGF0aCBkPSJNIDcyIDE0NSBRIDQwIDE0MCAxMCAxNjUiLz48cGF0aCBkPSJNIDEyOCAxNDUgUSAxNjAgMTM1IDE5NSAxNTUiLz48cGF0aCBkPSJNIDg1IDE5MCBRIDcwIDIzMCA1NSAyODAiLz48cGF0aCBkPSJNIDExOCAxOTAgUSAxMzAgMjMwIDE0NSAyODAiLz48cGF0aCBkPSJNIDU1IDI4MCBRIDQ1IDI5NSAzMCAzMDAiLz48cGF0aCBkPSJNIDE0NSAyODAgUSAxNTUgMjk1IDE3MCAzMDAiLz48b29zaGFkb3cgZD0iTSA5MCAxMDAgUSA4MCA4NSA4MCA5MCIvPjwvc3ZnPg=='
+const SVG_024 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8ZWxsaXBzZSBjeD0iMTAwIiBjeT0iNDgiIHJ4PSIyNSIgcnk9IjI4Ii8+PHBhdGggZD0iTSA3OCA3NiBRIDcwIDEwNSA3MiAxNDUgTCA4NSAxOTAiLz48cGF0aCBkPSJNIDEyMiA3NiBRIDEzMCAxMDUgMTI4IDE0NSBMIDExOCAxOTAiLz48cGF0aCBkPSJNIDcyIDE0NSBRIDQwIDE0MCAxMCAxNjUiLz48cGF0aCBkPSJNIDEyOCAxNDUgUSAxNjAgMTM1IDE5NSAxNTUiLz48cGF0aCBkPSJNIDg1IDE5MCBRIDcwIDIzMCA1NSAyODAiLz48cGF0aCBkPSJNIDExOCAxOTAgUSAxMzAgMjMwIDE0NSAyODAiLz48cGF0aCBkPSJNIDU1IDI4MCBRIDQ1IDI5NSAzMCAzMDAiLz48cGF0aCBkPSJNIDE0NSAyODAgUSAxNTUgMjk1IDE3MCAzMDAiLz48cmVjdCB4PSI3MCIgeT0iMjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIxNSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2U9Im5vbmUiLz48bGluZSB4MT0iODAiIHkxPSIyOCIgeDI9IjkwIiB5Mj0iMjgiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+'
+const SVG_025 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDc0IDgwIFEgNjUgMTE1IDY4IDE1OCBMIDgyIDI4MCIvPjxwYXRoIGQ9Ik0gMTI2IDgwIFEgMTM4IDExNSAxMzIgMTU4IEwgMTIwIDI4MCIvPjxlbGxpcHNlIGN4PSI2MCIgY3k9IjE1MCIgcng9IjgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuNCkiIHN0cm9rZT0ibm9uZSIvPjxlbGxpcHNlIGN4PSIxNDAiIGN5PSIxNTAiIHJ4PSI4IiByeT0iNiIgZmlsbD0icmdiYSgyNTUsMTA3LDEwNywwLjQpIiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNIDY4IDE1OCBRIDU4IDE5OCA1NSAyODAiLz48cGF0aCBkPSJNIDEzMiAxNTggUSAxNDIgMTk4IDE0NSAyODAiLz48cGF0aCBkPSJNIDYwIDE1MCBRIDU1IDE1NSA1NSAxNjAiLz48cGF0aCBkPSJNIDE0MCAxNTAgUSAxNDUgMTU1IDE0NSAxNjAiLz48cGF0aCBkPSJNIDY4IDE1OCBRIDU4IDIwMCA1NSAyODAiLz48cGF0aCBkPSJNIDEzMiAxNTggUSAxNDIgMjAwIDE0NSAyODAiLz4KICAKPC9zdmc+'
+
 // 所有模板定义
 const ALL_TEMPLATES = [
   {
@@ -36,7 +42,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_001,
     voiceTip: "侧身站好，轻轻回头看我，笑一个～",
     category: "室内日常",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_002",
@@ -46,7 +52,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_002,
     voiceTip: "单手轻轻撩一下耳边头发，下巴微微抬起",
     category: "室内日常",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_003",
@@ -56,7 +62,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_003,
     voiceTip: "用手托住一边脸，眼睛看我，眼神温柔一点",
     category: "室内日常",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_004",
@@ -66,7 +72,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_004,
     voiceTip: "先背对我，然后慢慢转身，回头那一瞬间按下快门！",
     category: "室内日常",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_005",
@@ -76,7 +82,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_005,
     voiceTip: "双手捧杯，眼睛看镜头，嘴角微微上扬～",
     category: "室内日常",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_006",
@@ -86,7 +92,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_006,
     voiceTip: "随手拿本书，或者靠在书架旁边，看书看我随你～",
     category: "室内日常",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_007",
@@ -96,7 +102,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_007,
     voiceTip: "靠在沙发上，一只手撑着脸，看镜头笑一个～",
     category: "室内日常",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_008",
@@ -106,7 +112,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_008,
     voiceTip: "在海边慢慢跑起来，裙摆飞扬的瞬间抓拍！",
     category: "户外风景",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_009",
@@ -116,7 +122,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_009,
     voiceTip: "站在樱花树下，抬头看花，让花瓣落在头发上～",
     category: "户外风景",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_010",
@@ -126,7 +132,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_010,
     voiceTip: "往前走别回头，自然地走起来，我抓拍你！",
     category: "户外风景",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_011",
@@ -136,7 +142,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_011,
     voiceTip: "站在天台边缘，背光拍摄，剪影超有感觉～",
     category: "户外风景",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_012",
@@ -146,7 +152,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_012,
     voiceTip: "拿起甜品勺或茶杯，侧一点脸庞，嘴角带笑～",
     category: "餐厅美食",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_013",
@@ -156,7 +162,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_013,
     voiceTip: "对着火锅举筷子，让热气模糊一点点脸庞，氛围感拉满！",
     category: "餐厅美食",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_014",
@@ -166,7 +172,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_014,
     voiceTip: "戴上复古发带，下巴微微抬起，眼神带点故事感～",
     category: "特殊风格",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_015",
@@ -176,7 +182,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_015,
     voiceTip: "双手比个耶，或者举过头顶，笑得灿烂一点！",
     category: "特殊风格",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_016",
@@ -186,7 +192,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_016,
     voiceTip: "让身后的灯光在脸上形成光斑，眼睛看我，别眨眼～",
     category: "特殊风格",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_017",
@@ -196,7 +202,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_017,
     voiceTip: "靠在窗边，看窗外或看镜头，让雨水成为背景～",
     category: "特殊风格",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_018",
@@ -206,7 +212,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_018,
     voiceTip: "两人背对镜头，手牵手站好，男友从背后揽住你的腰～",
     category: "情侣合照",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_019",
@@ -216,7 +222,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_019,
     voiceTip: "女友站着别动，男友从后面抱住，然后一起看镜头～",
     category: "情侣合照",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_020",
@@ -226,7 +232,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_020,
     voiceTip: "两人面对面，你看着我我看着你，笑着抓拍～",
     category: "情侣合照",
-    version: 4,
+    version: 5,
   },
   {
     id: "template_021",
@@ -236,16 +242,58 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_021,
     voiceTip: "两人背对镜头，手自然垂在两侧牵着，头微微侧一点～",
     category: "情侣合照",
-    version: 4,
+    version: 5,
+  },
+  {
+    id: "template_022",
+    name: "生日派对",
+    description: "生日帽+蛋糕，温馨甜蜜的生日纪念",
+    overlayUrl: SVG_022,
+    thumbnail: SVG_022,
+    voiceTip: "戴上生日帽，双手捧脸笑一个，准备许愿吹蜡烛！",
+    category: "特殊风格",
+    version: 5,
+  },
+  {
+    id: "template_023",
+    name: "毕业留念",
+    description: "毕业袍+抛帽，定格青春的高光时刻",
+    overlayUrl: SVG_023,
+    thumbnail: SVG_023,
+    voiceTip: "穿上毕业袍，把帽子抛向天空，笑得灿烂点！",
+    category: "特殊风格",
+    version: 5,
+  },
+  {
+    id: "template_024",
+    name: "旅拍打卡",
+    description: "地标建筑前，旅行感满满的打卡照",
+    overlayUrl: SVG_024,
+    thumbnail: SVG_024,
+    voiceTip: "背对地标建筑，一只手比耶，头微微抬起看向镜头～",
+    category: "户外风景",
+    version: 5,
+  },
+  {
+    id: "template_025",
+    name: "宠物合影",
+    description: "和萌宠一起入镜，温馨有爱的瞬间",
+    overlayUrl: SVG_025,
+    thumbnail: SVG_025,
+    voiceTip: "蹲下或坐下，让宠物在旁边，然后看向镜头笑～",
+    category: "情侣合照",
+    version: 5,
   }
 ];
 
 exports.main = async (event = {}, context = {}) => {
   const localVersion = event.localVersion || 0
   const update = ALL_TEMPLATES.filter(t => t.version > localVersion)
+  const CATEGORIES = ['室内日常', '户外风景', '餐厅美食', '特殊风格', '情侣合照']
   return {
     latestVersion: CURRENT_VERSION,
     update,
     totalCount: ALL_TEMPLATES.length,
+    categories: CATEGORIES,
   }
 }
