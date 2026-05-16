@@ -29,18 +29,20 @@ interface Props {
   flash?: 'off' | 'on' | 'auto'
   torchMode?: 'off' | 'on'
   isActive?: boolean
+  facing?: 'front' | 'back'
 }
 
 const CameraView = forwardRef<CameraViewRef, Props>(({
   flash = 'off',
   torchMode,
   isActive = true,
+  facing = 'back',
 }, ref) => {
   const internalRef = useRef<CameraRef>(null)
   const photoOutputRef = useRef<CameraPhotoOutput | null>(null)
 
   const { hasPermission, requestPermission } = useCameraPermission()
-  const device = useCameraDevice('back')
+  const device = useCameraDevice(facing)
 
   // Photo output - v5 API
   const photoOutput = usePhotoOutput({

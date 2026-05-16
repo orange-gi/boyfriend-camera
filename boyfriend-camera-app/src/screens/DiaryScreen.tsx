@@ -19,17 +19,22 @@ import { getDiary, writeDiary, type DiaryRecord } from '../services/analyzer'
 export default function DiaryScreen({ navigation }: any) {
   const [records, setRecords] = useState<DiaryRecord[]>([])
   const [refreshing, setRefreshing] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useFocusEffect(
     useCallback(() => {
-      loadDiary()
+      let cancelled = false
+      loadDiary().then(diary => {
+        if (cancelled) return
+        setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+        setLoading(false)
+      })
+      return () => { cancelled = true }
     }, [])
   )
 
   async function loadDiary() {
-    const diary = await getDiary()
-    // 按时间倒序
-    setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+    return await getDiary()
   }
 
   async function handleDeleteRecord(date: string) {
@@ -258,15 +263,35 @@ export default function DiaryScreen({ navigation }: any) {
   if (totalCount === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyEmoji}>📈</Text>
-        <Text style={styles.emptyTitle}>还没有进步记录</Text>
-        <Text style={styles.emptySubtitle}>拍几张照片，开始记录你们的拍照进步吧～</Text>
-        <TouchableOpacity
-          style={styles.emptyBtn}
-          onPress={() => navigation.navigate('Camera')}
-        >
-          <Text style={styles.emptyBtnText}>📸 去拍照</Text>
-        </TouchableOpacity>
+        {/* 加载骨架屏 */}
+        {loading ? (
+          <>
+            <View style={styles.skeletonEmoji} />
+            <View style={styles.skeletonTitle} />
+            <View style={styles.skeletonSubtitle} />
+            <View style={styles.skeletonBtn} />
+          </>
+        ) : (
+          <>
+            <Text style={styles.emptyEmoji}>📈</Text>
+            <Text style={styles.emptyTitle}>还没有进步记录</Text>
+            <Text style={styles.emptySubtitle}>拍几张照片，开始记录你们的拍照进步吧～</Text>
+            {/* 快速上手提示 */}
+            <View style={styles.emptyTips}>
+              <Text style={styles.emptyTipTitle}>💡 拍照小贴士</Text>
+              <Text style={styles.emptyTipText}>• 拍照时保持光线充足</Text>
+              <Text style={styles.emptyTipText}>• 打开九宫格辅助构图</Text>
+              <Text style={styles.emptyTipText}>• 选择喜欢的姿势模板</Text>
+              <Text style={styles.emptyTipText}>• 试试语音教练指导</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.emptyBtn}
+              onPress={() => navigation.navigate('Camera')}
+            >
+              <Text style={styles.emptyBtnText}>📸 去拍照</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     )
   }
@@ -679,6 +704,56 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  emptyTips: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 16,
+    width: '100%',
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  emptyTipTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 10,
+  },
+  emptyTipText: {
+    fontSize: 13,
+    color: '#666',
+    lineHeight: 22,
+  },
+  // 加载骨架屏
+  skeletonEmoji: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#e0e0e0',
+    marginBottom: 16,
+  },
+  skeletonTitle: {
+    width: 160,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#e0e0e0',
+    marginBottom: 8,
+  },
+  skeletonSubtitle: {
+    width: 240,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#e0e0e0',
+    marginBottom: 24,
+  },
+  skeletonBtn: {
+    width: 140,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#e0e0e0',
   },
   // 打卡徽章
   badgeRow: {
