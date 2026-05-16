@@ -31,7 +31,7 @@ import ComparisonCard from '../components/result/ComparisonCard'
 import ScoreBoard from '../components/result/ScoreBoard'
 import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
-import { analyzePhoto, saveToDiary, type AnalysisResult } from '../services/analyzer'
+import { analyzePhoto, saveToDiary, getDiary, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
 
 const { width: SCREEN_W } = Dimensions.get('window')
@@ -82,13 +82,28 @@ export default function ResultScreen({ route, navigation }: any) {
       setProcessedPath(processed)
 
       const faceData = faces[0] || { x: 0.5, y: 0.35, area: 0.1 }
-      const analysis: AnalysisResult = await analyzePhoto({
-        facePosition: faceData,
-        faceCount: faces.length,
-        brightness: 140,
-        sharpness: 150,
-        tiltAngle: 1.5,
-      })
+      // 构建分析上下文（用于夸奖池增强）
+      const diary = await getDiary()
+      const lastRecord = diary[0] // 按时间倒序，最近一条
+      const recentScores = diary.slice(0, 5).map(d => d.score)
+      const recentAvg = recentScores.length > 0
+        ? recentScores.reduce((s, v) => s + v, 0) / recentScores.length
+        : undefined
+
+      const analysis: AnalysisResult = await analyzePhoto(
+        {
+          facePosition: faceData,
+          faceCount: faces.length,
+          brightness: 140,
+          sharpness: 150,
+          tiltAngle: 1.5,
+        },
+        {
+          lastScore: lastRecord?.score,
+          recentAvg,
+          isFirstPhoto: diary.length === 0,
+        }
+      )
 
       setPraiseList(analysis.praise || [])
       setScoreResult({
