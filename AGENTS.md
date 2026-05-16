@@ -1,4 +1,12 @@
-# AGENTS.md - 项目成员
+# AGENTS.md - 男友相机项目
+
+## 基本信息
+
+- **项目名**: 男友相机 (boyfriend-camera)
+- **GitHub**: https://github.com/orange-gi/boyfriend-camera
+- **域名**: boyfriend.camera.yuchengji.com
+- **Agent 名**: nanyou
+- **CloudBase envId**: `jiulou-4gu5ljkpa1082b3c`（与知与行共用）
 
 ## 成员
 
@@ -6,12 +14,4 @@
 |------|------|------|
 | 总理 | /root/.openclaw/agent-zongli/ | 全局协调、项目管理 |
 | 小二 | /root/.openclaw/agent-xiaoer/ | 知与行 App 开发（参考架构） |
-| 男友相机 | /root/.openclaw/agent-nanyou/ | 男友相机 App 开发 |
-
-## 项目关联
-
-男友相机复刻知与行的架构：
-- 复用 `jiulou-4gu5ljkpa1082b3c` CloudBase 环境
-- 复用知与行的登录/认证模块
-- 新建 `analyze-photo` 云函数
-- 新建 `photo_analysis` 数据库表
+| nanyou（你） | /root/.openclaw/agent-nanyou/ | 男友相机 App 开发 |

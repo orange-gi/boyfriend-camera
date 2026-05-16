@@ -1,6 +1,9 @@
-# 📸 男友相机 - NanYou Camera
+# 📸 男友相机 - boyfriend-camera
 
 > 让男友镜头下的你更美
+
+**GitHub**: https://github.com/orange-gi/boyfriend-camera  
+**域名**: boyfriend.camera.yuchengji.com
 
 ## 产品介绍
 
