@@ -81,6 +81,39 @@ const PRAISE_POOL: Record<string, string[]> = {
     '这张构图有层次！前景背景搭配得很好～',
     '空间感拿捏了，背景和人关系处理得超棒！',
   ],
+  // 进步鼓励（与上次相比有提升时）
+  progress_up: [
+    '比上次进步了！继续保持这个感觉～',
+    '这张比上次拍得好！男朋友开窍了呀～',
+    '肉眼可见的进步！男朋友学得真快～',
+    '越拍越顺眼了，继续保持这个节奏！',
+    '每次都在进步，男朋友你是潜力股！',
+  ],
+  // 连续好评（连续高分时）
+  streak: [
+    '连续高分！这男朋友是开挂了吗？',
+    '男朋友摄影水平稳定发挥，太靠谱了！',
+    '连续几次都这么高分，男朋友你是认真的吗？',
+    '摄影师养成了！这稳定输出也太厉害了吧～',
+  ],
+  // 新用户首张好评
+  first_good: [
+    '第一次拍就这么有感觉，男朋友是有天赋的！',
+    '首张就拿高分，男朋友你之前是不是偷偷练过？',
+    '第一印象满分！继续保持这个水平哦～',
+  ],
+  // 特定场景好评
+  outdoor_good: [
+    '户外光线拿捏得恰到好处，这背景绝了！',
+    '外景拍得太好了，有大片感！',
+    '逆光剪影好有意境，男朋友你懂浪漫啊～',
+    '这个取景也太会选了吧，审美在线！',
+  ],
+  indoor_good: [
+    '室内的光线氛围感拉满了！',
+    '室内也能拍出这种感觉，太会找了！',
+    '这个角度室内拍得超有质感！',
+  ],
 }
 
 // 建议文案池
@@ -137,14 +170,29 @@ function pickRandom(arr: string[]): string {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
-export async function analyzePhoto(params: {
-  facePosition: { x: number; y: number; area: number } | null
-  faceCount: number
-  brightness: number // 0-255
-  sharpness: number // 拉普拉斯方差，>100 为清晰
-  tiltAngle: number // 倾斜角度度数
-}): Promise<AnalysisResult> {
+export interface AnalyzeContext {
+  /** 上次得分（进步检测） */
+  lastScore?: number
+  /** 最近 N 次的平均分（连续好评检测） */
+  recentAvg?: number
+  /** 是否为首次拍摄 */
+  isFirstPhoto?: boolean
+  /** 场景类型（用于场景专属夸奖） */
+  sceneType?: 'indoor' | 'outdoor' | 'other'
+}
+
+export async function analyzePhoto(
+  params: {
+    facePosition: { x: number; y: number; area: number } | null
+    faceCount: number
+    brightness: number // 0-255
+    sharpness: number // 拉普拉斯方差，>100 为清晰
+    tiltAngle: number // 倾斜角度度数
+  },
+  context: AnalyzeContext = {}
+): Promise<AnalysisResult> {
   const { facePosition, faceCount, brightness, sharpness, tiltAngle } = params
+  const { lastScore, recentAvg, isFirstPhoto, sceneType } = context
   const problems: string[] = []
   const suggestions: string[] = []
   const praise: string[] = []
@@ -231,6 +279,19 @@ export async function analyzePhoto(params: {
 
   // 总分优秀时追加额外夸奖
   if (totalScore >= 90) praise.push(pickRandom(PRAISE_POOL.total_great))
+
+  // 场景专属夸奖
+  if (sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.outdoor_good))
+  if (sceneType === 'indoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.indoor_good))
+
+  // 首次好评
+  if (isFirstPhoto && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.first_good))
+
+  // 进步鼓励
+  if (lastScore !== undefined && totalScore > lastScore) praise.push(pickRandom(PRAISE_POOL.progress_up))
+
+  // 连续好评
+  if (recentAvg !== undefined && recentAvg >= 80 && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.streak))
 
   // 确保至少有夸奖
   if (praise.length === 0) {
