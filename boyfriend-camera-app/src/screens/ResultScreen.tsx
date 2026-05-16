@@ -376,6 +376,17 @@ export default function ResultScreen({ route, navigation }: any) {
         </Animated.View>
       )}
 
+      {/* 分享引导卡片 */}
+      {!processing && scoreResult && (
+        <View style={styles.shareTipCard}>
+          <Text style={styles.shareTipIcon}>📤</Text>
+          <View style={styles.shareTipText}>
+            <Text style={styles.shareTipTitle}>分享给闺蜜</Text>
+            <Text style={styles.shareTipDesc}>让她们也羡慕你们的进步～</Text>
+          </View>
+        </View>
+      )}
+
       {/* 对比卡片（用于截图） */}
       {!processing && (
         <Animated.View style={cardStyle}>
@@ -401,25 +412,31 @@ export default function ResultScreen({ route, navigation }: any) {
       {/* 操作按钮 */}
       {!processing && (
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.retryBtn} onPress={handleRetry} activeOpacity={0.7}>
-            <Text style={styles.retryBtnText}>🔄 重拍</Text>
+          <TouchableOpacity
+            style={styles.actionBtnSecondary}
+            onPress={handleRetry}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.actionBtnSecondaryIcon}>🔄</Text>
+            <Text style={styles.actionBtnSecondaryText}>重拍</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.shareBtn}
+            style={styles.actionBtnShare}
             onPress={handleShare}
             activeOpacity={0.8}
           >
-            <Text style={styles.shareBtnText}>📤 分享</Text>
+            <Text style={styles.actionBtnShareIcon}>📤</Text>
+            <Text style={styles.actionBtnShareText}>分享</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.saveBtn, saving && styles.saveBtnDisabled]}
+            style={[styles.actionBtnPrimary, saving && styles.actionBtnDisabled]}
             onPress={handleSave}
             disabled={saving}
             activeOpacity={0.8}
           >
-            <Text style={styles.saveBtnText}>{saving ? '保存中...' : '💾 保存'}</Text>
+            <Text style={styles.actionBtnPrimaryText}>{saving ? '保存中...' : '💾 保存到相册'}</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -543,69 +560,129 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   praiseBanner: {
-    marginHorizontal: 16,
-    marginBottom: 12,
-    backgroundColor: '#FFF5F0',
-    borderRadius: 12,
-    padding: 12,
+    marginHorizontal: 20,
+    marginBottom: 14,
+    backgroundColor: '#FFF8F0',
+    borderRadius: 16,
+    padding: 14,
     borderLeftWidth: 4,
     borderLeftColor: '#FFB347',
+    shadowColor: '#FFB347',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 2,
   },
   praiseText: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#555',
-    lineHeight: 20,
+    lineHeight: 22,
+    marginBottom: 4,
+  },
+  shareTipCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF5F5',
+    borderRadius: 16,
+    padding: 14,
+    marginHorizontal: 20,
+    marginBottom: 14,
+    gap: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,107,107,0.15)',
+  },
+  shareTipIcon: {
+    fontSize: 28,
+  },
+  shareTipText: {
+    flex: 1,
+  },
+  shareTipTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#FF6B6B',
     marginBottom: 2,
+  },
+  shareTipDesc: {
+    fontSize: 13,
+    color: '#999',
   },
   viewShot: {
     alignItems: 'center',
   },
   actions: {
     flexDirection: 'row',
-    gap: 12,
-    paddingHorizontal: 16,
-    marginTop: 16,
+    gap: 10,
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 8,
   },
-  retryBtn: {
-    flex: 1,
-    paddingVertical: 14,
-    borderRadius: 25,
-    borderWidth: 1.5,
-    borderColor: '#ddd',
+  actionBtnSecondary: {
+    flex: 1.2,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 24,
+    borderWidth: 1.5,
+    borderColor: '#eee',
     backgroundColor: '#fff',
+    gap: 6,
+    shadowColor: '#000',
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 1,
   },
-  retryBtnText: {
-    fontSize: 15,
+  actionBtnSecondaryIcon: {
+    fontSize: 16,
+  },
+  actionBtnSecondaryText: {
+    fontSize: 14,
     color: '#666',
     fontWeight: '600',
   },
-  shareBtn: {
-    flex: 1,
+  actionBtnShare: {
+    flex: 1.2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 14,
-    borderRadius: 25,
+    borderRadius: 24,
     borderWidth: 1.5,
     borderColor: '#FFB347',
-    alignItems: 'center',
     backgroundColor: '#FFFBF5',
-    marginHorizontal: 6,
+    gap: 6,
+    shadowColor: '#FFB347',
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 1,
   },
-  shareBtnText: {
-    fontSize: 15,
+  actionBtnShareIcon: {
+    fontSize: 16,
+  },
+  actionBtnShareText: {
+    fontSize: 14,
     color: '#FFB347',
-    fontWeight: '600',
+    fontWeight: '700',
   },
-  saveBtn: {
-    flex: 2,
-    paddingVertical: 14,
-    borderRadius: 25,
-    backgroundColor: '#FF6B6B',
+  actionBtnPrimary: {
+    flex: 2.4,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 24,
+    backgroundColor: '#FF6B6B',
+    gap: 8,
+    shadowColor: '#FF6B6B',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  saveBtnDisabled: {
+  actionBtnDisabled: {
     opacity: 0.6,
   },
-  saveBtnText: {
+  actionBtnPrimaryText: {
     fontSize: 15,
     color: '#fff',
     fontWeight: 'bold',
