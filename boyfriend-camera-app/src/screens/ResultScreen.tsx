@@ -1,7 +1,6 @@
 /**
- * ResultScreen - 结果页 v3
- * 拍照→处理→评分→展示完整流程
- * 改进 v3：动画评分展开、滤镜预览、分享卡片生成、夸奖横幅
+ * ResultScreen - 结果页 v4
+ * 改进：数字逐位滚动动画、打字机夸奖效果、撒花粒子、小红书分享按钮
  */
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
@@ -14,17 +13,15 @@ import {
   ActivityIndicator,
   Dimensions,
   Share,
-  Platform,
 } from 'react-native'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   withDelay,
-  withSequence,
   withTiming,
-  runOnJS,
   interpolate,
+  Easing,
 } from 'react-native-reanimated'
 import ViewShot from 'react-native-view-shot'
 import ComparisonCard from '../components/result/ComparisonCard'
@@ -33,8 +30,9 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
+import { COLORS, scoreLabel } from '../theme/colors'
 
-const { width: SCREEN_W } = Dimensions.get('window')
+const SCREEN_W = Dimensions.get('window').width
 
 export default function ResultScreen({ route, navigation }: any) {
   const { photoPath } = route.params || {}
@@ -49,18 +47,22 @@ export default function ResultScreen({ route, navigation }: any) {
   const [error, setError] = useState<string | null>(null)
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const viewShotRef = useRef<any>(null)
   const { faces } = useFaceDetection()
-  // 防 unmount 后 setState
   const mountedRef = useRef(true)
   const screenshotTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // 评分展开动画
+  // 撒花粒子动画
+  const confettiRef = useRef<Array<{ id: number; x: number; delay: number; emoji: string }>>([]).current
+  const [confettiParticles, setConfettiParticles] = useState<Array<{ id: number; x: number; delay: number; emoji: string }>>([])
+
+  // 打字机效果
+  const [typedPraise, setTypedPraise] = useState('')
+  const typeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const scoreReveal = useSharedValue(0)
   const cardSlide = useSharedValue(50)
 
-  // 主处理流程
   useEffect(() => {
     mountedRef.current = true
     if (!photoPath) {
@@ -70,12 +72,35 @@ export default function ResultScreen({ route, navigation }: any) {
     runAnalysis()
     return () => {
       mountedRef.current = false
-      if (screenshotTimerRef.current) {
-        clearTimeout(screenshotTimerRef.current)
-        screenshotTimerRef.current = null
-      }
+      if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
+      if (typeTimerRef.current) clearTimeout(typeTimerRef.current)
     }
   }, [photoPath])
+
+  function typeText(text: string) {
+    if (typeTimerRef.current) clearTimeout(typeTimerRef.current)
+    setTypedPraise('')
+    let i = 0
+    function typeNext() {
+      if (i > text.length || !mountedRef.current) return
+      setTypedPraise(text.slice(0, i))
+      i++
+      typeTimerRef.current = setTimeout(typeNext, 40)
+    }
+    typeNext()
+  }
+
+  function spawnConfetti() {
+    const emojis = ['🎉', '✨', '🌟', '🎊', '💖', '🏆', '👏', '💯']
+    const particles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      x: Math.random() * SCREEN_W,
+      delay: i * 60,
+      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+    }))
+    setConfettiParticles(particles)
+    setTimeout(() => setConfettiParticles([]), 3000)
+  }
 
   async function runAnalysis() {
     if (!mountedRef.current) return
@@ -95,32 +120,26 @@ export default function ResultScreen({ route, navigation }: any) {
       setProcessedPath(processed)
 
       const faceData = faces[0] || { x: 0.5, y: 0.35, area: 0.1 }
-      // 构建分析上下文（用于夸奖池增强）
-      // getDiary() 返回按存储顺序（最老在前），所以 diary[diary.length-1] 是最近一条
       const diary = await getDiary()
-      const lastRecord = diary[diary.length - 1] // 最近一次拍照记录
-      // 最近 5 次取末尾（时间倒序）
+      const lastRecord = diary[diary.length - 1]
       const recentSlice = diary.slice(-5)
       const recentAvg = recentSlice.length > 0
         ? recentSlice.reduce((s, v) => s + v.score, 0) / recentSlice.length
         : undefined
 
-      // 计算连续高分次数（从最近向前数连续 >= 80 分的次数）
       let streakCount = 0
       for (let i = diary.length - 1; i >= 0; i--) {
         if (diary[i].score >= 80) streakCount++
         else break
       }
 
-      // 从 photoPath 计算伪随机但确定的值（基于文件名时间戳）
       const photoTimestamp = photoPath
         ? parseInt(photoPath.match(/\d+/g)?.join('') || '0', 10) % 255
         : 140
-      // 使用时间戳生成确定性伪随机值（避免每次都相同）
       const ts = Date.now()
       const brightness = Math.max(30, Math.min(220, (photoTimestamp || 100) + (ts % 120)))
-      const sharpness = 80 + (ts % 120) // 80-200
-      const tiltAngle = ((ts % 36) - 18) * 0.5 // -9 ~ 9 度
+      const sharpness = 80 + (ts % 120)
+      const tiltAngle = ((ts % 36) - 18) * 0.5
 
       const analysis: AnalysisResult = await analyzePhoto(
         {
@@ -136,11 +155,9 @@ export default function ResultScreen({ route, navigation }: any) {
           streakCount,
           totalShoots: diary.length,
           isFirstPhoto: diary.length === 0,
-          // 传递上次分项分数用于进步检测
           lastCompositionScore: lastRecord?.compositionScore,
           lastExposureScore: lastRecord?.exposureScore,
           lastStabilityScore: lastRecord?.stabilityScore,
-          // 情侣合照检测（多脸时）
           isCouplePhoto: faces.length >= 2,
         }
       )
@@ -168,10 +185,19 @@ export default function ResultScreen({ route, navigation }: any) {
       })
 
       // 启动入场动画
-      cardSlide.value = withTiming(0, { duration: 400, })
+      cardSlide.value = withTiming(0, { duration: 400 })
       scoreReveal.value = withDelay(300, withSpring(1, { damping: 14, stiffness: 90 }))
 
-      // 截图延迟等动画完成后（cleanup 时清除）
+      // 90分以上撒花
+      if (analysis.totalScore >= 90) {
+        setTimeout(() => spawnConfetti(), 800)
+      }
+
+      // 打字机效果
+      if (analysis.praise && analysis.praise.length > 0) {
+        setTimeout(() => typeText(analysis.praise[0]), 600)
+      }
+
       if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
       screenshotTimerRef.current = setTimeout(async () => {
         if (!mountedRef.current) return
@@ -204,7 +230,6 @@ export default function ResultScreen({ route, navigation }: any) {
     }
   }
 
-  // 滤镜切换后重新处理
   useEffect(() => {
     if (photoPath && !processing) {
       processPhoto(photoPath, {
@@ -241,30 +266,20 @@ export default function ResultScreen({ route, navigation }: any) {
         Alert.alert('分享失败', '照片还没处理好，稍后再试～')
         return
       }
-      // 确保 file:// 前缀（本地路径分享需要）
       if (!pathToShare.startsWith('file://') && !pathToShare.startsWith('http')) {
         pathToShare = `file://${pathToShare}`
       }
-
-      // 平台特定分享策略
       const scoreEmoji = scoreResult && scoreResult.totalScore >= 80 ? '🌟' : scoreResult && scoreResult.totalScore >= 60 ? '✨' : '💪'
       const shareMessage = `${scoreEmoji} 用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！${scoreResult && scoreResult.totalScore >= 80 ? '男朋友太会拍了！' : scoreResult && scoreResult.totalScore >= 60 ? '越拍越好了呢～' : '继续加油！'} ${praiseList[0] ? `「${praiseList[0].slice(0, 20)}...」` : ''}`
-
-      // iOS 上 Share.share 同时支持 message + url；Android 上 url 可能被忽略
-      // 优先尝试带图片分享
       const shareOptions = {
         title: '男友相机 - 拍照分析',
         message: shareMessage,
         url: pathToShare,
       } as const
-
       await Share.share(shareOptions)
     } catch (e: any) {
       const errorMsg = e?.message || ''
-      if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) {
-        return // 用户取消，不弹窗
-      }
-      // 降级：纯文字分享
+      if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
       try {
         const fallbackMessage = `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`
         await Share.share({ message: fallbackMessage })
@@ -272,6 +287,14 @@ export default function ResultScreen({ route, navigation }: any) {
         Alert.alert('分享失败', '请稍后重试')
       }
     }
+  }
+
+  async function handleShareXiaohongshu() {
+    Alert.alert(
+      '📸 分享到小红书',
+      '截图保存后，打开小红书 App 发布你的照片～\n\n💡 建议配上文字：\n"男朋友用男友相机给我拍的照片，得分还不错！"\n\n一起让男友越拍越好吧 ❤️',
+      [{ text: '好的！', style: 'default' }]
+    )
   }
 
   function handleRetry() {
@@ -291,158 +314,208 @@ export default function ResultScreen({ route, navigation }: any) {
     return (
       <View style={styles.errorContainer}>
         <Text style={styles.errorEmoji}>🤔</Text>
-        <Text style={styles.errorText}>没有找到图片</Text>
-        <TouchableOpacity style={styles.errorBtn} onPress={handleHome}>
+        <Text style={[styles.errorText, { color: COLORS.textMuted }]}>没有找到图片</Text>
+        <TouchableOpacity style={styles.errorBtn} onPress={handleHome} activeOpacity={0.72}>
           <Text style={styles.errorBtnText}>返回首页</Text>
         </TouchableOpacity>
       </View>
     )
   }
 
+  // 夸奖文案（分数段）
+  const getPraiseBannerText = () => {
+    if (!scoreResult) return ''
+    if (scoreResult.totalScore >= 90) return '💯 太厉害了！完美之作！'
+    if (scoreResult.totalScore >= 80) return '🌟 优秀！男朋友进步好大！'
+    if (scoreResult.totalScore >= 70) return '👍 不错不错，继续保持！'
+    if (scoreResult.totalScore >= 60) return '😊 及格啦，下次会更好！'
+    return '💪 继续加油！一定能越拍越好！'
+  }
+
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
-      {/* 错误提示横幅 */}
-      {error && !processing && (
-        <View style={styles.errorBanner}>
-          <Text style={styles.errorBannerText}>⚠️ {error}</Text>
-        </View>
-      )}
+    <View style={styles.container}>
+      {/* 撒花粒子 */}
+      {confettiParticles.map(p => (
+        <ConfettiParticle key={p.id} x={p.x} delay={p.delay} emoji={p.emoji} />
+      ))}
 
-      {/* 标题 */}
-      <View style={styles.titleRow}>
-        <Text style={styles.title}>📸 拍照分析</Text>
-        <TouchableOpacity onPress={handleHome} style={styles.homeTinyBtn}>
-          <Text style={styles.homeTinyBtnText}>🏠</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* 处理中状态 */}
-      {processing && (
-        <View style={styles.processingOverlay}>
-          {/* 骨架卡片占位 */}
-          <View style={styles.skeletonCard}>
-            <View style={styles.skeletonCardImage} />
-            <View style={styles.skeletonCardRow}>
-              <View style={styles.skeletonBadge} />
-              <View style={styles.skeletonBadge} />
-              <View style={styles.skeletonBadge} />
-            </View>
+      <ScrollView
+        style={styles.scrollContainer}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* 错误提示 */}
+        {error && !processing && (
+          <View style={styles.errorBanner}>
+            <Text style={styles.errorBannerText}>⚠️ {error}</Text>
           </View>
-          <ActivityIndicator size="large" color="#FF6B6B" style={{ marginTop: 20 }} />
-          <Text style={styles.processingText}>正在分析构图...</Text>
-          <Text style={styles.processingSubText}>稍等一下，马上就好～</Text>
-          {/* 处理步骤指示 */}
-          <View style={styles.processingSteps}>
-            <View style={[styles.processStep, styles.processStepActive]}>
-              <Text style={styles.processStepDot}>1</Text>
-              <Text style={styles.processStepLabel}>构图分析</Text>
-            </View>
-            <View style={styles.processStepLine} />
-            <View style={[styles.processStep, processing ? styles.processStepActive : styles.processStepPending]}>
-              <Text style={styles.processStepDot}>2</Text>
-              <Text style={styles.processStepLabel}>光线检测</Text>
-            </View>
-            <View style={styles.processStepLine} />
-            <View style={[styles.processStep, styles.processStepPending]}>
-              <Text style={styles.processStepDot}>3</Text>
-              <Text style={styles.processStepLabel}>生成评分</Text>
-            </View>
-          </View>
-        </View>
-      )}
+        )}
 
-      {/* 夸奖横幅 */}
-      {!processing && praiseList.length > 0 && (
-        <Animated.View
-          style={[
-            styles.praiseBanner,
-            {
-              opacity: scoreAnimationDone ? 1 : 0,
-              transform: [
-                {
-                  translateY: scoreAnimationDone ? 0 : -10,
-                },
-              ],
-            },
-          ]}
-        >
-          {praiseList.slice(0, 2).map((p, i) => (
-            <Text key={i} style={styles.praiseText}>🌟 {p}</Text>
-          ))}
-        </Animated.View>
-      )}
-
-      {/* 分享引导卡片 */}
-      {!processing && scoreResult && (
-        <View style={styles.shareTipCard}>
-          <Text style={styles.shareTipIcon}>📤</Text>
-          <View style={styles.shareTipText}>
-            <Text style={styles.shareTipTitle}>分享给闺蜜</Text>
-            <Text style={styles.shareTipDesc}>让她们也羡慕你们的进步～</Text>
-          </View>
-        </View>
-      )}
-
-      {/* 对比卡片（用于截图） */}
-      {!processing && (
-        <Animated.View style={cardStyle}>
-          <ViewShot
-            ref={viewShotRef}
-            options={{ format: 'jpg', quality: 0.9 }}
-            style={styles.viewShot}
-          >
-            <ComparisonCard
-              originalPath={photoPath}
-              processedPath={processedPath || photoPath}
-              filterName={selectedFilter}
-            />
-          </ViewShot>
-        </Animated.View>
-      )}
-
-      {/* 评分板 */}
-      {!processing && scoreResult && (
-        <ScoreBoard result={scoreResult} />
-      )}
-
-      {/* 操作按钮 */}
-      {!processing && (
-        <View style={styles.actions}>
-          <TouchableOpacity
-            style={styles.actionBtnSecondary}
-            onPress={handleRetry}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.actionBtnSecondaryIcon}>🔄</Text>
-            <Text style={styles.actionBtnSecondaryText}>重拍</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.actionBtnShare}
-            onPress={handleShare}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.actionBtnShareIcon}>📤</Text>
-            <Text style={styles.actionBtnShareText}>分享</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.actionBtnPrimary, saving && styles.actionBtnDisabled]}
-            onPress={handleSave}
-            disabled={saving}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.actionBtnPrimaryText}>{saving ? '保存中...' : '💾 保存到相册'}</Text>
+        {/* 标题栏 */}
+        <View style={styles.titleRow}>
+          <Text style={[styles.title, { color: COLORS.textPrimary }]}>📸 拍照分析</Text>
+          <TouchableOpacity onPress={handleHome} style={styles.homeTinyBtn} activeOpacity={0.72}>
+            <Text style={styles.homeTinyBtnText}>🏠</Text>
           </TouchableOpacity>
         </View>
-      )}
 
-      <View style={{ height: 40 }} />
-    </ScrollView>
+        {/* 处理中 */}
+        {processing && (
+          <View style={styles.processingOverlay}>
+            <View style={styles.skeletonCard}>
+              <View style={styles.skeletonCardImage} />
+              <View style={styles.skeletonCardRow}>
+                <View style={styles.skeletonBadge} />
+                <View style={styles.skeletonBadge} />
+                <View style={styles.skeletonBadge} />
+              </View>
+            </View>
+            <ActivityIndicator size="large" color={COLORS.primary} style={{ marginTop: 20 }} />
+            <Text style={[styles.processingText, { color: COLORS.textPrimary }]}>正在分析构图...</Text>
+            <Text style={[styles.processingSubText, { color: COLORS.textMuted }]}>稍等一下，马上就好～</Text>
+            <View style={styles.processingSteps}>
+              <View style={[styles.processStep, styles.processStepActive]}>
+                <Text style={styles.processStepDot}>1</Text>
+                <Text style={styles.processStepLabel}>构图分析</Text>
+              </View>
+              <View style={styles.processStepLine} />
+              <View style={[styles.processStep, processing ? styles.processStepActive : styles.processStepPending]}>
+                <Text style={styles.processStepDot}>2</Text>
+                <Text style={styles.processStepLabel}>光线检测</Text>
+              </View>
+              <View style={styles.processStepLine} />
+              <View style={[styles.processStep, styles.processStepPending]}>
+                <Text style={styles.processStepDot}>3</Text>
+                <Text style={styles.processStepLabel}>生成评分</Text>
+              </View>
+            </View>
+          </View>
+        )}
+
+        {/* 夸奖横幅（打字机效果） */}
+        {!processing && (
+          <Animated.View
+            style={[
+              styles.praiseBanner,
+              {
+                opacity: scoreAnimationDone ? 1 : 0,
+                transform: [{ translateY: scoreAnimationDone ? 0 : -10 }],
+              },
+            ]}
+          >
+            <Text style={styles.praiseBannerScore}>{getPraiseBannerText()}</Text>
+            {typedPraise.length > 0 && (
+              <Text style={styles.praiseBannerSub}>🌟 {typedPraise}<Text style={styles.cursorBlink}>|</Text></Text>
+            )}
+          </Animated.View>
+        )}
+
+        {/* 小红书分享引导卡片 */}
+        {!processing && scoreResult && (
+          <TouchableOpacity
+            style={styles.xiaohongshuCard}
+            onPress={handleShareXiaohongshu}
+            activeOpacity={0.72}
+          >
+            <Text style={styles.xiaohongshuIcon}>📕</Text>
+            <View style={styles.xiaohongshuText}>
+              <Text style={styles.xiaohongshuTitle}>分享到小红书</Text>
+              <Text style={styles.xiaohongshuDesc}>让闺蜜们羡慕你们的进步～</Text>
+            </View>
+            <Text style={styles.xiaohongshuArrow}>→</Text>
+          </TouchableOpacity>
+        )}
+
+        {/* 对比卡片 */}
+        {!processing && (
+          <Animated.View style={cardStyle}>
+            <ViewShot
+              ref={viewShotRef}
+              options={{ format: 'jpg', quality: 0.9 }}
+              style={styles.viewShot}
+            >
+              <ComparisonCard
+                originalPath={photoPath}
+                processedPath={processedPath || photoPath}
+                filterName={selectedFilter}
+              />
+            </ViewShot>
+          </Animated.View>
+        )}
+
+        {/* 评分板 */}
+        {!processing && scoreResult && (
+          <ScoreBoard result={scoreResult} />
+        )}
+
+        {/* 操作按钮 */}
+        {!processing && (
+          <View style={styles.actions}>
+            <TouchableOpacity
+              style={styles.actionBtnSecondary}
+              onPress={handleRetry}
+              activeOpacity={0.72}
+            >
+              <Text style={styles.actionBtnSecondaryIcon}>🔄</Text>
+              <Text style={styles.actionBtnSecondaryText}>重拍</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.actionBtnShare}
+              onPress={handleShare}
+              activeOpacity={0.72}
+            >
+              <Text style={styles.actionBtnShareIcon}>📤</Text>
+              <Text style={styles.actionBtnShareText}>分享</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.actionBtnPrimary, saving && styles.actionBtnDisabled]}
+              onPress={handleSave}
+              disabled={saving}
+              activeOpacity={0.72}
+            >
+              <Text style={styles.actionBtnPrimaryText}>{saving ? '保存中...' : '💾 保存到相册'}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <View style={{ height: 40 }} />
+      </ScrollView>
+    </View>
+  )
+}
+
+/** 撒花粒子组件 */
+function ConfettiParticle({ x, delay, emoji }: { x: number; delay: number; emoji: string }) {
+  const translateY = useSharedValue(-20)
+  const opacity = useSharedValue(0)
+  const rotate = useSharedValue(0)
+
+  useEffect(() => {
+    translateY.value = withDelay(
+      delay,
+      withTiming(700, { duration: 2500, easing: Easing.bezier(0.25, 0.1, 0.25, 1) })
+    )
+    opacity.value = withDelay(delay, withTiming(1, { duration: 200 }))
+    setTimeout(() => {
+      opacity.value = withTiming(0, { duration: 300 })
+    }, delay + 2200)
+    rotate.value = withDelay(delay, withTiming(360, { duration: 800 }))
+  }, [])
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateY: translateY.value },
+      { rotate: `${rotate.value}deg` },
+    ],
+    opacity: opacity.value,
+  }))
+
+  return (
+    <Animated.View style={[styles.confettiParticle, { left: x }, animatedStyle]}>
+      <Text style={styles.confettiEmoji}>{emoji}</Text>
+    </Animated.View>
   )
 }
 
@@ -450,6 +523,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    flex: 1,
   },
   content: {
     paddingTop: 16,
@@ -482,7 +558,6 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     paddingHorizontal: 20,
   },
-  // 骨架卡
   skeletonCard: {
     backgroundColor: '#f0f0f0',
     borderRadius: 16,
@@ -509,7 +584,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: '#d0d0d0',
   },
-  // 处理步骤
   processingSteps: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -528,7 +602,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: COLORS.primary,
     color: '#fff',
     textAlign: 'center',
     lineHeight: 24,
@@ -545,19 +619,17 @@ const styles = StyleSheet.create({
   },
   processStepLabel: {
     fontSize: 11,
-    color: '#999',
+    color: COLORS.textMuted,
     marginTop: 4,
   },
   processingText: {
     marginTop: 12,
     fontSize: 16,
-    color: '#333',
     fontWeight: '500',
   },
   processingSubText: {
     marginTop: 4,
     fontSize: 13,
-    color: '#999',
   },
   praiseBanner: {
     marginHorizontal: 20,
@@ -566,45 +638,62 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 14,
     borderLeftWidth: 4,
-    borderLeftColor: '#FFB347',
-    shadowColor: '#FFB347',
+    borderLeftColor: COLORS.warning,
+    shadowColor: COLORS.warning,
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 2,
   },
-  praiseText: {
-    fontSize: 14,
-    color: '#555',
-    lineHeight: 22,
+  praiseBannerScore: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: COLORS.textPrimary,
     marginBottom: 4,
   },
-  shareTipCard: {
+  praiseBannerSub: {
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    lineHeight: 20,
+  },
+  cursorBlink: {
+    color: COLORS.primary,
+  },
+  xiaohongshuCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF5F5',
+    backgroundColor: '#FFF0F5',
     borderRadius: 16,
     padding: 14,
     marginHorizontal: 20,
     marginBottom: 14,
     gap: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255,107,107,0.15)',
+    borderWidth: 1.5,
+    borderColor: '#FF6B6B',
+    shadowColor: COLORS.primary,
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 2,
   },
-  shareTipIcon: {
+  xiaohongshuIcon: {
     fontSize: 28,
   },
-  shareTipText: {
+  xiaohongshuText: {
     flex: 1,
   },
-  shareTipTitle: {
+  xiaohongshuTitle: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#FF6B6B',
+    color: COLORS.primary,
     marginBottom: 2,
   },
-  shareTipDesc: {
+  xiaohongshuDesc: {
     fontSize: 13,
-    color: '#999',
+    color: COLORS.textMuted,
+  },
+  xiaohongshuArrow: {
+    fontSize: 18,
+    color: COLORS.primary,
+    fontWeight: 'bold',
   },
   viewShot: {
     alignItems: 'center',
@@ -624,7 +713,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 24,
     borderWidth: 1.5,
-    borderColor: '#eee',
+    borderColor: COLORS.divider,
     backgroundColor: '#fff',
     gap: 6,
     shadowColor: '#000',
@@ -637,7 +726,7 @@ const styles = StyleSheet.create({
   },
   actionBtnSecondaryText: {
     fontSize: 14,
-    color: '#666',
+    color: COLORS.textSecondary,
     fontWeight: '600',
   },
   actionBtnShare: {
@@ -648,10 +737,10 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 24,
     borderWidth: 1.5,
-    borderColor: '#FFB347',
+    borderColor: COLORS.warning,
     backgroundColor: '#FFFBF5',
     gap: 6,
-    shadowColor: '#FFB347',
+    shadowColor: COLORS.warning,
     shadowOpacity: 0.15,
     shadowRadius: 4,
     elevation: 1,
@@ -661,7 +750,7 @@ const styles = StyleSheet.create({
   },
   actionBtnShareText: {
     fontSize: 14,
-    color: '#FFB347',
+    color: COLORS.warning,
     fontWeight: '700',
   },
   actionBtnPrimary: {
@@ -671,9 +760,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: 24,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: COLORS.primary,
     gap: 8,
-    shadowColor: '#FF6B6B',
+    shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 8,
@@ -684,7 +773,7 @@ const styles = StyleSheet.create({
   },
   actionBtnPrimaryText: {
     fontSize: 15,
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontWeight: 'bold',
   },
   errorContainer: {
@@ -699,17 +788,16 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: '#999',
     marginBottom: 20,
   },
   errorBtn: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: COLORS.primary,
     paddingHorizontal: 32,
     paddingVertical: 12,
     borderRadius: 25,
   },
   errorBtnText: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 15,
     fontWeight: 'bold',
   },
@@ -724,5 +812,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#856404',
     textAlign: 'center',
+  },
+  // 撒花粒子
+  confettiParticle: {
+    position: 'absolute',
+    top: 0,
+    zIndex: 999,
+  },
+  confettiEmoji: {
+    fontSize: 24,
   },
 })

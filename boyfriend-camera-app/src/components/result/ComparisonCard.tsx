@@ -1,7 +1,6 @@
 /**
- * ComparisonCard - 原图/优化对比卡片 v2
+ * ComparisonCard - 原图/优化对比卡片
  * 左右并排展示原图和优化图，支持滤镜切换
- * 注意：不包含 ViewShot，由父组件管理截图
  */
 import React, { useState } from 'react'
 import {
@@ -12,12 +11,13 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native'
-import { getFilterParams } from '../../services/photoProcessor'
+import { COLORS } from '../../theme/colors'
 
 interface Props {
   originalPath: string
   processedPath: string
   filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | null
+  onFilterChange?: (f: string) => void
 }
 
 const { width: SCREEN_W } = Dimensions.get('window')
@@ -25,46 +25,44 @@ const CARD_GAP = 8
 const CARD_WIDTH = (SCREEN_W - 32 - CARD_GAP) / 2
 const CARD_HEIGHT = Math.round(CARD_WIDTH * (4 / 3))
 
-const FILTER_LABELS: Record<string, string> = {
-  warm: '暖色调',
-  cool: '冷色调',
-  vivid: '鲜艳',
-  soft: '柔美',
-  bw: '黑白',
+const FILTERS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw'; label: string; color: string }> = [
+  { key: 'warm', label: '暖色', color: COLORS.filterWarm },
+  { key: 'cool', label: '冷色', color: COLORS.filterCool },
+  { key: 'vivid', label: '鲜艳', color: COLORS.filterVivid },
+  { key: 'soft', label: '柔美', color: COLORS.filterSoft },
+  { key: 'bw', label: '黑白', color: COLORS.filterBw },
+]
+
+const OVERLAY_COLORS: Record<string, string> = {
+  warm: 'rgba(255, 140, 0, 0.15)',
+  cool: 'rgba(74, 144, 217, 0.15)',
+  vivid: 'rgba(255, 80, 130, 0.1)',
+  soft: 'rgba(255, 182, 193, 0.12)',
+  bw: 'rgba(0, 0, 0, 0.45)',
 }
 
-const FILTER_COLORS: Record<string, string> = {
-  warm: '#FF8C00',
-  cool: '#4A90D9',
-  vivid: '#FF6B6B',
-  soft: '#FFB6C1',
-  bw: '#888888',
+// 内嵌纯色 placeholder（无需网络）
+function PlaceholderImage({ label, color }: { label: string; color: string }) {
+  return (
+    <View style={[styles.placeholder, { backgroundColor: color }]}>
+      <Text style={styles.placeholderText}>{label}</Text>
+    </View>
+  )
 }
-
-function getOverlayColor(filter: string | null): string {
-  if (!filter) return 'transparent'
-  const colors: Record<string, string> = {
-    warm: 'rgba(255, 180, 80, 0.18)',
-    cool: 'rgba(80, 140, 255, 0.18)',
-    vivid: 'rgba(255, 80, 130, 0.12)',
-    soft: 'rgba(255, 210, 190, 0.15)',
-    bw: 'rgba(0, 0, 0, 0.5)',
-  }
-  return colors[filter] || 'transparent'
-}
-
-const PLACEHOLDER_ORIGINAL = 'https://placehold.co/' + Math.round(CARD_WIDTH) + 'x' + Math.round(CARD_HEIGHT) + '/222/fff?text=原图'
-const PLACEHOLDER_PROCESSED = 'https://placehold.co/' + Math.round(CARD_WIDTH) + 'x' + Math.round(CARD_HEIGHT) + '/FF6B6B/fff?text=优化图'
 
 export default function ComparisonCard({
   originalPath,
   processedPath,
   filterName = 'warm',
+  onFilterChange,
 }: Props) {
-  const [activeFilter, setActiveFilter] = useState(filterName)
+  const [activeFilter, setActiveFilter] = useState<string>(filterName ?? 'warm')
+  const overlayColor = activeFilter ? (OVERLAY_COLORS[activeFilter] || 'transparent') : 'transparent'
 
-  const filters: Array<'warm' | 'cool' | 'vivid' | 'soft' | 'bw'> = ['warm', 'cool', 'vivid', 'soft', 'bw']
-  const overlayColor = getOverlayColor(activeFilter)
+  const handleFilterPress = (f: string) => {
+    setActiveFilter(f)
+    onFilterChange?.(f)
+  }
 
   return (
     <View style={styles.container}>
@@ -72,11 +70,16 @@ export default function ComparisonCard({
       <View style={styles.comparisonRow}>
         {/* 原图 */}
         <View style={styles.card}>
-          <Image
-            source={{ uri: originalPath || PLACEHOLDER_ORIGINAL }}
-            style={[styles.cardImage, { width: CARD_WIDTH, height: CARD_HEIGHT }]}
-            resizeMode="cover"
-          />
+          {originalPath ? (
+            <Image
+              source={{ uri: originalPath }}
+              style={[styles.cardImage, { width: CARD_WIDTH, height: CARD_HEIGHT }]}
+              resizeMode="cover"
+            />
+          ) : (
+            <PlaceholderImage label="📷 原图" color="#333" />
+          )}
+          <View style={[styles.cardOverlay, { width: CARD_WIDTH, height: CARD_HEIGHT }]} />
           <View style={styles.cardLabel}>
             <Text style={styles.cardLabelText}>📷 原图</Text>
           </View>
@@ -84,59 +87,51 @@ export default function ComparisonCard({
 
         {/* 优化图 */}
         <View style={styles.card}>
-          <Image
-            source={{ uri: processedPath || originalPath || PLACEHOLDER_PROCESSED }}
-            style={[styles.cardImage, { width: CARD_WIDTH, height: CARD_HEIGHT }]}
-            resizeMode="cover"
-          />
-          {/* 滤镜色调叠加 */}
-          <View
-            style={[
-              styles.filterOverlay,
-              { backgroundColor: overlayColor, width: CARD_WIDTH, height: CARD_HEIGHT },
-            ]}
-          />
+          {processedPath || originalPath ? (
+            <Image
+              source={{ uri: processedPath || originalPath }}
+              style={[styles.cardImage, { width: CARD_WIDTH, height: CARD_HEIGHT }]}
+              resizeMode="cover"
+            />
+          ) : (
+            <PlaceholderImage label="✨ 优化图" color={COLORS.primary} />
+          )}
+          {activeFilter !== 'bw' && (
+            <View style={[styles.filterOverlay, { backgroundColor: overlayColor as string, width: CARD_WIDTH, height: CARD_HEIGHT }]} />
+          )}
+          {activeFilter === 'bw' && (
+            <View style={[styles.filterOverlayBW, { width: CARD_WIDTH, height: CARD_HEIGHT }]} />
+          )}
           <View style={styles.cardLabel}>
-            <Text style={styles.cardLabelText}>
-              ✨ {activeFilter ? FILTER_LABELS[activeFilter] : '优化'}
-            </Text>
+            <Text style={styles.cardLabelText}>✨ 优化图</Text>
           </View>
         </View>
       </View>
 
-      {/* 效果说明 */}
-      <View style={styles.effectRow}>
-        <Text style={styles.effectIcon}>🎯</Text>
-        <Text style={styles.effectText}>
-          智能裁剪至三分点 · {activeFilter ? FILTER_LABELS[activeFilter] : '原色'}滤镜 · 轻度美颜
-        </Text>
-      </View>
-
-      {/* 滤镜选择栏 */}
-      <View style={styles.filterBar}>
-        {filters.map((f) => {
-          const isActive = activeFilter === f
-          return (
+      {/* 滤镜选择器 */}
+      <View style={styles.filterRow}>
+        <Text style={styles.filterLabel}>滤镜：</Text>
+        <View style={styles.filterBtns}>
+          {FILTERS.map((f) => (
             <TouchableOpacity
-              key={f}
+              key={f.key}
               style={[
-                styles.filterChip,
-                isActive && { backgroundColor: FILTER_COLORS[f] },
+                styles.filterBtn,
+                activeFilter === f.key && { backgroundColor: f.color + '30', borderColor: f.color },
               ]}
-              onPress={() => setActiveFilter(f)}
+              onPress={() => setActiveFilter(f.key)}
               activeOpacity={0.7}
             >
-              <Text
-                style={[
-                  styles.filterChipText,
-                  isActive && styles.filterChipTextActive,
-                ]}
-              >
-                {FILTER_LABELS[f]}
+              <View style={[styles.filterDot, { backgroundColor: f.color }]} />
+              <Text style={[
+                styles.filterBtnText,
+                activeFilter === f.key && { color: f.color, fontWeight: '600' },
+              ]}>
+                {f.label}
               </Text>
             </TouchableOpacity>
-          )
-        })}
+          ))}
+        </View>
       </View>
     </View>
   )
@@ -144,20 +139,41 @@ export default function ComparisonCard({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 8,
+    paddingHorizontal: 16,
   },
   comparisonRow: {
     flexDirection: 'row',
     gap: CARD_GAP,
-    paddingHorizontal: 16,
   },
   card: {
-    position: 'relative',
     borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: COLORS.bgCard,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 2,
   },
   cardImage: {
+    borderRadius: 12,
+  },
+  placeholder: {
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+  },
+  placeholderText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  cardOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
     borderRadius: 12,
   },
   filterOverlay: {
@@ -166,59 +182,63 @@ const styles = StyleSheet.create({
     left: 0,
     borderRadius: 12,
   },
+  filterOverlayBW: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    borderRadius: 12,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
   cardLabel: {
     position: 'absolute',
     bottom: 8,
     left: 8,
-    right: 8,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    borderRadius: 6,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 8,
     paddingHorizontal: 8,
-    paddingVertical: 4,
-    alignItems: 'center',
+    paddingVertical: 3,
   },
   cardLabelText: {
     color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontSize: 11,
+    fontWeight: '600',
   },
-  effectRow: {
+  filterRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 12,
-    marginHorizontal: 16,
-    gap: 6,
+    marginTop: 14,
+    paddingHorizontal: 4,
+    gap: 8,
   },
-  effectIcon: {
-    fontSize: 14,
+  filterLabel: {
+    fontSize: 13,
+    color: COLORS.textMuted,
+    width: 36,
   },
-  effectText: {
-    fontSize: 12,
-    color: '#888',
-  },
-  filterBar: {
+  filterBtns: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-    marginTop: 12,
-    gap: 6,
     flexWrap: 'wrap',
+    gap: 6,
+    flex: 1,
   },
-  filterChip: {
-    paddingHorizontal: 12,
+  filterBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 14,
-    backgroundColor: '#f0f0f0',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: COLORS.divider,
+    backgroundColor: COLORS.bgCard,
+    gap: 4,
   },
-  filterChipText: {
+  filterDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  filterBtnText: {
     fontSize: 12,
-    color: '#666',
-  },
-  filterChipTextActive: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: COLORS.textSecondary,
   },
 })

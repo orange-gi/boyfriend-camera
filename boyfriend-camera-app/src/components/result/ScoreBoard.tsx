@@ -1,26 +1,18 @@
 /**
- * ScoreBoard - 评分板
- * 展示总分 + 各维度分条 + 俏皮建议文案
+ * ScoreBoard - 评分板 v2
+ * 改进：总分逐位滚动动画、各维度依次展开动画
  */
-import React from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withDelay,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated'
-import { useEffect } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import { View, Text, StyleSheet, Animated } from 'react-native'
+import { COLORS, scoreColor, scoreLabel } from '../../theme/colors'
 
 export interface ScoreResult {
-  totalScore: number      // 0-100
-  compositionScore: number // 构图 0-40
-  exposureScore: number   // 曝光 0-30
-  stabilityScore: number  // 稳定 0-20
-  levelScore: number      // 水平 0-10
-  suggestions: string[]   // 改进建议文案
+  totalScore: number
+  compositionScore: number
+  exposureScore: number
+  stabilityScore: number
+  levelScore: number
+  suggestions: string[]
 }
 
 interface Props {
@@ -36,18 +28,41 @@ interface DimensionProps {
   delay: number
 }
 
-function DimensionBar({ label, icon, score, maxScore, color, delay }: DimensionProps) {
-  const progress = useSharedValue(0)
+function AnimatedNumber({ value, style, color }: { value: number; style: any; color?: string }) {
+  const animValue = useRef(new Animated.Value(0)).current
+  const [display, setDisplay] = React.useState(0)
 
   useEffect(() => {
-    progress.value = withDelay(delay, withSpring(score / maxScore, { damping: 16 }))
-  }, [score, maxScore])
+    animValue.setValue(0)
+    Animated.timing(animValue, {
+      toValue: value,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start()
+    const listener = animValue.addListener((v) => setDisplay(Math.round(v.value)))
+    return () => animValue.removeListener(listener)
+  }, [value])
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    width: `${progress.value * 100}%`,
-  }))
+  return (
+    <Animated.Text style={[style, color ? { color } : {}]}>
+      {display}
+    </Animated.Text>
+  )
+}
 
-  const percentage = Math.round((score / maxScore) * 100)
+function DimensionBar({ label, icon, score, maxScore, color, delay }: DimensionProps) {
+  const progress = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    Animated.spring(progress, {
+      toValue: score / maxScore,
+      delay,
+      damping: 16,
+      useNativeDriver: false,
+    }).start()
+  }, [score, maxScore, delay])
+
+  const percentage = useMemo(() => Math.round((score / maxScore) * 100), [score, maxScore])
 
   return (
     <View style={styles.dimRow}>
@@ -55,170 +70,161 @@ function DimensionBar({ label, icon, score, maxScore, color, delay }: DimensionP
       <View style={styles.dimContent}>
         <View style={styles.dimHeader}>
           <Text style={styles.dimLabel}>{label}</Text>
-          <Text style={[styles.dimScore, { color }]}>
-            {score}/{maxScore}
-          </Text>
+          <Text style={[styles.dimScore, { color }]}>{score}分</Text>
         </View>
         <View style={styles.barTrack}>
           <Animated.View
-            style={[styles.barFill, { backgroundColor: color }, animatedStyle]}
+            style={[
+              styles.barFill,
+              { backgroundColor: color },
+              {
+                width: progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ['0%', '100%'],
+                }),
+              },
+            ]}
           />
         </View>
+        <Text style={styles.dimPercent}>{percentage}%</Text>
       </View>
     </View>
   )
 }
 
-const DIMENSIONS: Array<Omit<DimensionProps, 'delay'>> = [
-  { label: '构图', icon: '🎯', score: 0, maxScore: 40, color: '#FF6B6B' },
-  { label: '曝光', icon: '💡', score: 0, maxScore: 30, color: '#FFB347' },
-  { label: '稳定', icon: '🤚', score: 0, maxScore: 20, color: '#4ECDC4' },
-  { label: '水平', icon: '📏', score: 0, maxScore: 10, color: '#9B8FE8' },
-]
-
-// 总分评语
-function getTotalComment(score: number): string {
-  if (score >= 90) return '💯 完美男友镜头！太会拍了吧！'
-  if (score >= 80) return '🌟 非常棒！男朋友潜力无限！'
-  if (score >= 70) return '👍 不错不错，已经比大多数男友强了！'
-  if (score >= 60) return '💪 有点感觉了，继续加油！'
-  if (score >= 50) return '😅 还需要调教一下～'
-  return '🤦‍♂️ 男朋友摄影课开课啦！'
-}
-
 export default function ScoreBoard({ result }: Props) {
-  const { totalScore, compositionScore, exposureScore, stabilityScore, levelScore, suggestions } = result
+  const {
+    totalScore,
+    compositionScore,
+    exposureScore,
+    stabilityScore,
+    levelScore,
+    suggestions,
+  } = result
 
-  const scoreScale = useSharedValue(0.5)
-  const scoreOpacity = useSharedValue(0)
+  const totalColor = scoreColor(totalScore)
 
-  useEffect(() => {
-    scoreOpacity.value = withTiming(1, { duration: 300 })
-    scoreScale.value = withSequence(
-      withSpring(1.08, { damping: 10 }),
-      withSpring(1, { damping: 12 })
-    )
-  }, [])
-
-  const scoreAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scoreScale.value }],
-    opacity: scoreOpacity.value,
-  }))
-
-  const scoreColor = totalScore >= 80 ? '#4CAF50' : totalScore >= 60 ? '#FFB347' : '#FF6B6B'
+  const dimensions = [
+    { label: '构图', icon: '🎯', score: compositionScore, maxScore: 40, color: COLORS.primary },
+    { label: '曝光', icon: '💡', score: exposureScore, maxScore: 30, color: COLORS.warning },
+    { label: '稳定', icon: '🤚', score: stabilityScore, maxScore: 20, color: '#4ECDC4' },
+    { label: '水平', icon: '📏', score: levelScore, maxScore: 10, color: '#9B8FE8' },
+  ]
 
   return (
     <View style={styles.container}>
-      {/* 总分展示 */}
-      <Animated.View style={[styles.totalSection, scoreAnimatedStyle]}>
-        <Text style={styles.totalLabel}>综合评分</Text>
-        <Text style={[styles.totalScore, { color: scoreColor }]}>{totalScore}</Text>
-        <Text style={styles.totalSuffix}>分</Text>
-        <Text style={styles.totalComment}>{getTotalComment(totalScore)}</Text>
-      </Animated.View>
+      {/* 总分卡片 */}
+      <View style={styles.totalCard}>
+        <View style={[styles.totalBadge, { backgroundColor: totalColor + '15' }]}>
+          <AnimatedNumber value={totalScore} style={[styles.totalScore, { color: totalColor }]} />
+          <Text style={[styles.totalLabel, { color: totalColor }]}>综合评分</Text>
+        </View>
+        <View style={styles.totalMeta}>
+          <Text style={[styles.totalGrade, { color: totalColor }]}>{scoreLabel(totalScore)}</Text>
+          <Text style={styles.totalSubtitle}>总分 100 · 构图40 · 曝光30 · 稳定20 · 水平10</Text>
+        </View>
+      </View>
 
-      {/* 维度分条 */}
-      <View style={styles.dimensionsSection}>
-        {([
-          { ...DIMENSIONS[0], score: compositionScore, delay: 100 },
-          { ...DIMENSIONS[1], score: exposureScore, delay: 200 },
-          { ...DIMENSIONS[2], score: stabilityScore, delay: 300 },
-          { ...DIMENSIONS[3], score: levelScore, delay: 400 },
-        ] as DimensionProps[]).map((dim, i) => (
-          <DimensionBar key={i} {...dim} />
+      {/* 分维度条 */}
+      <View style={styles.dimsCard}>
+        <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>📊 详细评分</Text>
+        {dimensions.map((d, i) => (
+          <DimensionBar key={d.label} {...d} delay={i * 80} />
         ))}
       </View>
 
-      {/* 俏皮建议 */}
-      {suggestions && suggestions.length > 0 && (
-        <View style={styles.suggestionsSection}>
-          <Text style={styles.suggestionsTitle}>💬 今日点评</Text>
+      {/* 改进建议 */}
+      {suggestions.length > 0 && (
+        <View style={styles.suggestCard}>
+          <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>💡 改进建议</Text>
           {suggestions.map((s, i) => (
-            <View key={i} style={styles.suggestionItem}>
-              <Text style={styles.suggestionBullet}>•</Text>
-              <Text style={styles.suggestionText}>{s}</Text>
+            <View key={i} style={styles.suggestRow}>
+              <Text style={styles.suggestBullet}>•</Text>
+              <Text style={[styles.suggestText, { color: COLORS.textSecondary }]}>{s}</Text>
             </View>
           ))}
         </View>
       )}
-
-      {/* 小技巧 */}
-      <View style={styles.tipSection}>
-        <Text style={styles.tipLabel}>💡 今日技巧</Text>
-        <Text style={styles.tipText}>
-          拍照前让男友说"1、2、3茄子"，在"3"的时候按下快门，比直接拍更自然！
-        </Text>
-      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
+    gap: 12,
   },
-  totalSection: {
+  totalCard: {
+    backgroundColor: COLORS.bgCard,
+    borderRadius: 16,
+    padding: 24,
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+    overflow: 'hidden',
   },
-  totalLabel: {
-    fontSize: 13,
-    color: '#999',
-    marginBottom: 4,
+  totalBadge: {
+    borderRadius: 20,
+    padding: 16,
+    alignItems: 'center',
+    minWidth: 90,
   },
   totalScore: {
-    fontSize: 80,
+    fontSize: 42,
     fontWeight: 'bold',
-    lineHeight: 90,
-  },
-  totalSuffix: {
-    fontSize: 20,
-    color: '#999',
-    marginTop: -8,
-  },
-  totalComment: {
-    fontSize: 15,
-    color: '#555',
-    marginTop: 8,
     textAlign: 'center',
   },
-  dimensionsSection: {
-    backgroundColor: '#f9f9f9',
+  totalLabel: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  totalMeta: { flex: 1, marginLeft: 16 },
+  totalGrade: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  totalSubtitle: {
+    fontSize: 12,
+    color: COLORS.textMuted,
+    lineHeight: 18,
+  },
+  dimsCard: {
+    backgroundColor: COLORS.bgCard,
     borderRadius: 16,
     padding: 16,
-    gap: 14,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginBottom: 14,
   },
   dimRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    marginBottom: 12,
   },
-  dimIcon: {
-    fontSize: 18,
-    width: 24,
-    textAlign: 'center',
-  },
-  dimContent: {
-    flex: 1,
-  },
+  dimIcon: { fontSize: 18, width: 28, textAlign: 'center' },
+  dimContent: { flex: 1, marginLeft: 10 },
   dimHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5,
+    marginBottom: 4,
   },
-  dimLabel: {
-    fontSize: 13,
-    color: '#555',
-    fontWeight: '500',
-  },
-  dimScore: {
-    fontSize: 13,
-    fontWeight: 'bold',
-  },
+  dimLabel: { fontSize: 13, color: COLORS.textSecondary },
+  dimScore: { fontSize: 13, fontWeight: '600' },
   barTrack: {
     height: 8,
-    backgroundColor: 'rgba(0,0,0,0.06)',
+    backgroundColor: COLORS.divider,
     borderRadius: 4,
     overflow: 'hidden',
   },
@@ -226,53 +232,36 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 4,
   },
-  suggestionsSection: {
-    marginTop: 16,
-    backgroundColor: '#FFF9F0',
-    borderRadius: 12,
-    padding: 14,
+  dimPercent: {
+    fontSize: 10,
+    color: COLORS.textMuted,
+    marginTop: 2,
+    textAlign: 'right',
   },
-  suggestionsTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#FF8C00',
+  suggestCard: {
+    backgroundColor: COLORS.bgCard,
+    borderRadius: 16,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  suggestRow: {
+    flexDirection: 'row',
     marginBottom: 8,
+    paddingRight: 8,
   },
-  suggestionItem: {
-    flexDirection: 'row',
-    marginBottom: 4,
-    gap: 6,
-  },
-  suggestionBullet: {
-    color: '#FF8C00',
+  suggestBullet: {
     fontSize: 14,
-    lineHeight: 20,
+    color: COLORS.primary,
+    marginRight: 8,
+    marginTop: 1,
   },
-  suggestionText: {
+  suggestText: {
     flex: 1,
-    fontSize: 13,
-    color: '#555',
-    lineHeight: 20,
-  },
-  tipSection: {
-    marginTop: 12,
-    backgroundColor: '#F0F7FF',
-    borderRadius: 12,
-    padding: 14,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 8,
-  },
-  tipLabel: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: '#4A90D9',
-    flexShrink: 0,
-  },
-  tipText: {
-    flex: 1,
-    fontSize: 13,
-    color: '#555',
+    fontSize: 14,
     lineHeight: 20,
   },
 })

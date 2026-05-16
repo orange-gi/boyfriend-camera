@@ -1,7 +1,6 @@
 /**
- * CameraScreen - 拍照页 v2
- * 使用 react-native-vision-camera v5 API
- * 改进：相机翻转、分类筛选模板选择器、闪光灯循环、更好的 UI
+ * CameraScreen - 拍照页 v3
+ * 改进：顶部悬浮姿势引导卡、拍照闪白动画、模板选择弹窗优化
  */
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import {
@@ -27,6 +26,7 @@ import VoiceCoach from '../components/camera/VoiceCoach'
 import { useTemplates } from '../hooks/useTemplates'
 import { useStability } from '../hooks/useStability'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
+import { COLORS } from '../theme/colors'
 
 type CompositionMode = 'grid' | 'golden' | 'triangle'
 
@@ -34,7 +34,6 @@ const { width: SCREEN_W } = Dimensions.get('window')
 const FLASH_MODES: Array<'off' | 'on' | 'auto'> = ['off', 'on', 'auto']
 const FLASH_ICONS: Record<string, string> = { off: '📷', on: '⚡', auto: '🔄' }
 
-// 分类颜色
 const CATEGORY_COLORS: Record<string, string> = {
   '室内日常': '#FF6B6B',
   '户外风景': '#4ECDC4',
@@ -45,7 +44,6 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 const RECENT_KEY = 'recent_templates'
 
-// 最近使用的模板 ID（最多存5个）
 async function saveRecentTemplate(templateId: string) {
   try {
     const raw = await AsyncStorage.getItem(RECENT_KEY)
@@ -76,23 +74,22 @@ export default function CameraScreen({ navigation }: any) {
   const [cameraFacing, setCameraFacing] = useState<'front' | 'back'>('back')
   const [selectedCategory, setSelectedCategory] = useState<string>('全部')
   const [cameraError, setCameraError] = useState<string | null>(null)
-  // 聚焦指示
   const [focusPoint, setFocusPoint] = useState<{ x: number; y: number } | null>(null)
-  const focusAnim = useRef(new Animated.Value(0)).current
-  // 模板搜索
   const [templateSearch, setTemplateSearch] = useState('')
-  // 长按预览的模板
   const [longPressTemplate, setLongPressTemplate] = useState<PoseTemplate | null>(null)
-  // 最近模板 ID 列表
   const [recentIds, setRecentIds] = useState<string[]>([])
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // 拍照闪白动画
+  const flashAnim = useRef(new Animated.Value(0)).current
+  const focusAnim = useRef(new Animated.Value(0)).current
+  // 姿势引导条滚动
+  const marqueeScrollX = useRef(new Animated.Value(0)).current
+
   const cameraRef = useRef<CameraViewRef>(null)
   const { templates, loading: templatesLoading, error: templatesError, refresh, markUsed } = useTemplates()
   const stability = useStability()
   const voiceCoach = useRef(VoiceCoach).current
 
-  // 页面聚焦/失焦
   useFocusEffect(
     useCallback(() => {
       setIsActive(true)
@@ -100,18 +97,15 @@ export default function CameraScreen({ navigation }: any) {
     }, [])
   )
 
-  // 初始化语音教练
   useEffect(() => {
     voiceCoach.initialize()
     return () => voiceCoach.stop()
   }, [])
 
-  // 陀螺仪稳定性变化时语音提示
   useEffect(() => {
     voiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
   }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
 
-  // 加载最近模板
   useEffect(() => {
     getRecentTemplateIds().then(setRecentIds)
   }, [showTemplateModal])
@@ -121,9 +115,15 @@ export default function CameraScreen({ navigation }: any) {
     if (isCapturing) return
     setIsCapturing(true)
 
+    // 闪白动画
+    flashAnim.setValue(0)
+    Animated.sequence([
+      Animated.timing(flashAnim, { toValue: 0.35, duration: 80, useNativeDriver: true }),
+      Animated.timing(flashAnim, { toValue: 0, duration: 120, useNativeDriver: true }),
+    ]).start()
+
     try {
       const photo = await cameraRef.current?.takePhoto(flash)
-
       if (photo) {
         navigation.navigate('Result', {
           photoPath: photo.filePath,
@@ -140,7 +140,6 @@ export default function CameraScreen({ navigation }: any) {
     }
   }, [flash, isCapturing, navigation])
 
-  // 选择模板
   const handleSelectTemplate = useCallback(async (template: PoseTemplate) => {
     setActiveTemplate(template)
     setShowTemplateModal(false)
@@ -162,7 +161,6 @@ export default function CameraScreen({ navigation }: any) {
     setShowVoiceTip(false)
   }, [activeTemplate])
 
-  // 循环闪光灯
   const cycleFlash = useCallback(() => {
     const idx = (FLASH_MODES.indexOf(flash) + 1) % FLASH_MODES.length
     setFlash(FLASH_MODES[idx])
@@ -170,7 +168,6 @@ export default function CameraScreen({ navigation }: any) {
     voiceCoach.speak(labels[FLASH_MODES[idx]], false)
   }, [flash])
 
-  // 翻转相机
   const flipCamera = useCallback(() => {
     setCameraFacing((prev) => {
       const next = prev === 'back' ? 'front' : 'back'
@@ -179,13 +176,11 @@ export default function CameraScreen({ navigation }: any) {
     })
   }, [])
 
-  // 清除模板
   const clearTemplate = useCallback(() => {
     setActiveTemplate(null)
     voiceCoach.stop()
   }, [])
 
-  // 过滤模板
   const categories = useMemo(() => {
     const cats = new Set<string>(['全部'])
     templates.forEach((t) => { if (t.category) cats.add(t.category) })
@@ -206,7 +201,6 @@ export default function CameraScreen({ navigation }: any) {
     return list
   }, [templates, selectedCategory, templateSearch])
 
-  // 最近模板（去重，限制3个）
   const recentTemplates = useMemo(() => {
     return recentIds
       .map((id) => templates.find((t) => t.id === id))
@@ -214,7 +208,6 @@ export default function CameraScreen({ navigation }: any) {
       .slice(0, 3) as PoseTemplate[]
   }, [recentIds, templates])
 
-  // 点击屏幕聚焦（模拟，实际需要 native 联动）
   function handleScreenTap(e: { nativeEvent: { locationX: number; locationY: number } }) {
     const { locationX, locationY } = e.nativeEvent
     setFocusPoint({ x: locationX, y: locationY })
@@ -238,20 +231,25 @@ export default function CameraScreen({ navigation }: any) {
           torchMode={flash === 'on' ? 'on' : 'off'}
           onError={(err) => setCameraError(err)}
         />
-        {/* 相机错误提示悬浮条 */}
         {cameraError && (
           <View style={styles.cameraErrorBanner}>
             <Text style={styles.cameraErrorText}>
               {cameraError === 'permission_denied' ? '📷 相机权限未授权，请去设置中开启' : '📷 相机设备不可用'}
             </Text>
-            <TouchableOpacity onPress={() => setCameraError(null)}>
+            <TouchableOpacity onPress={() => setCameraError(null)} activeOpacity={0.72}>
               <Text style={styles.cameraErrorClose}>✕</Text>
             </TouchableOpacity>
           </View>
         )}
       </View>
 
-      {/* 构图线叠加 */}
+      {/* 闪白动画层 */}
+      <Animated.View
+        style={[styles.flashOverlay, { opacity: flashAnim }]}
+        pointerEvents="none"
+      />
+
+      {/* 构图线 */}
       <CompositionLines mode={mode} />
 
       {/* 点击聚焦指示 */}
@@ -279,15 +277,32 @@ export default function CameraScreen({ navigation }: any) {
         onTipPress={handleVoiceTipConfirm}
       />
 
+      {/* 顶部悬浮姿势引导卡 */}
+      {activeTemplate && (
+        <View style={styles.poseTipCard}>
+          <Text style={styles.poseTipIcon}>💡</Text>
+          <Text style={styles.poseTipText} numberOfLines={1}>
+            {activeTemplate.voiceTip || activeTemplate.name}
+          </Text>
+          <TouchableOpacity
+            style={styles.poseTipVoiceBtn}
+            onPress={handleVoiceTipConfirm}
+            activeOpacity={0.72}
+          >
+            <Text style={styles.poseTipVoiceBtnText}>🔊</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       {/* 顶部控制栏 */}
       <View style={styles.topBar}>
         <TouchableOpacity
           style={styles.topBtn}
           onPress={cycleFlash}
-          activeOpacity={0.7}
+          activeOpacity={0.72}
         >
           <Text style={styles.topBtnText}>{FLASH_ICONS[flash]}</Text>
-          <View style={styles.flashDot} />
+          <View style={flash === 'on' ? styles.flashDotOn : styles.flashDotOff} />
         </TouchableOpacity>
 
         <View style={styles.modeGroup}>
@@ -296,7 +311,7 @@ export default function CameraScreen({ navigation }: any) {
               key={m}
               style={[styles.modeBtn, mode === m && styles.modeBtnActive]}
               onPress={() => setMode(m)}
-              activeOpacity={0.7}
+              activeOpacity={0.72}
             >
               <Text style={[styles.modeBtnText, mode === m && styles.modeBtnTextActive]}>
                 {m === 'grid' ? '▦' : m === 'golden' ? '◎' : '△'}
@@ -308,23 +323,13 @@ export default function CameraScreen({ navigation }: any) {
         <TouchableOpacity
           style={[styles.topBtn, activeTemplate && styles.topBtnActive]}
           onPress={clearTemplate}
-          activeOpacity={0.7}
+          activeOpacity={0.72}
         >
           <Text style={styles.topBtnText}>✕</Text>
         </TouchableOpacity>
       </View>
 
-      {/* 当前模板提示条 */}
-      {activeTemplate && (
-        <View style={styles.templateHintBar}>
-          <Text style={styles.templateHintText}>📐 {activeTemplate.name}</Text>
-          <TouchableOpacity onPress={handleVoiceTipConfirm}>
-            <Text style={styles.templateHintVoice}>🔊 再听一遍</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      {/* 稳定性指示（唯一实例） */}
+      {/* 稳定性指示 */}
       <StabilityIndicator
         tiltX={stability.tiltX}
         tiltY={stability.tiltY}
@@ -337,7 +342,7 @@ export default function CameraScreen({ navigation }: any) {
         <TouchableOpacity
           style={styles.sideBtn}
           onPress={() => setShowTemplateModal(true)}
-          activeOpacity={0.7}
+          activeOpacity={0.72}
         >
           <Text style={styles.sideBtnIcon}>📐</Text>
           <Text style={styles.sideBtnText}>姿势</Text>
@@ -352,7 +357,7 @@ export default function CameraScreen({ navigation }: any) {
           style={[styles.shutter, isCapturing && styles.shutterDisabled]}
           onPress={handleTakePhoto}
           disabled={isCapturing}
-          activeOpacity={0.6}
+          activeOpacity={0.72}
         >
           <View style={styles.shutterOuter}>
             <View style={[styles.shutterInner, isCapturing && styles.shutterInnerCapturing]}>
@@ -364,7 +369,7 @@ export default function CameraScreen({ navigation }: any) {
         <TouchableOpacity
           style={styles.sideBtn}
           onPress={flipCamera}
-          activeOpacity={0.7}
+          activeOpacity={0.72}
         >
           <Text style={styles.sideBtnIcon}>🔄</Text>
           <Text style={styles.sideBtnText}>翻转</Text>
@@ -392,7 +397,7 @@ export default function CameraScreen({ navigation }: any) {
               <TouchableOpacity
                 style={styles.modalCloseBtn}
                 onPress={() => setShowTemplateModal(false)}
-                activeOpacity={0.7}
+                activeOpacity={0.72}
               >
                 <Text style={styles.modalClose}>✕</Text>
               </TouchableOpacity>
@@ -411,7 +416,7 @@ export default function CameraScreen({ navigation }: any) {
                 autoCorrect={false}
               />
               {templateSearch.length > 0 && (
-                <TouchableOpacity onPress={() => setTemplateSearch('')}>
+                <TouchableOpacity onPress={() => setTemplateSearch('')} activeOpacity={0.72}>
                   <Text style={styles.searchClear}>✕</Text>
                 </TouchableOpacity>
               )}
@@ -423,13 +428,13 @@ export default function CameraScreen({ navigation }: any) {
                 <Text style={styles.recentTitle}>⏱ 最近使用</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
                   {recentTemplates.map((t) => {
-                    const color = CATEGORY_COLORS[t.category || ''] || '#FF6B6B'
+                    const color = CATEGORY_COLORS[t.category || ''] || COLORS.primary
                     return (
                       <TouchableOpacity
                         key={t.id}
                         style={[styles.recentCard, { borderColor: color }]}
                         onPress={() => handleSelectTemplate(t)}
-                        activeOpacity={0.7}
+                        activeOpacity={0.72}
                       >
                         <Image source={{ uri: t.thumbnail }} style={styles.recentThumb} resizeMode="contain" />
                         <Text style={styles.recentName} numberOfLines={1}>{t.name}</Text>
@@ -447,7 +452,7 @@ export default function CameraScreen({ navigation }: any) {
               contentContainerStyle={styles.categoryTabs}
             >
               {categories.map((cat) => {
-                const color = CATEGORY_COLORS[cat] || '#FF6B6B'
+                const color = CATEGORY_COLORS[cat] || COLORS.primary
                 const isSelected = selectedCategory === cat
                 return (
                   <TouchableOpacity
@@ -457,7 +462,7 @@ export default function CameraScreen({ navigation }: any) {
                       isSelected && { backgroundColor: color },
                     ]}
                     onPress={() => setSelectedCategory(cat)}
-                    activeOpacity={0.7}
+                    activeOpacity={0.72}
                   >
                     <Text
                       style={[
@@ -479,10 +484,7 @@ export default function CameraScreen({ navigation }: any) {
             ) : templatesError ? (
               <View style={styles.loadingContainer}>
                 <Text style={styles.loadingText}>⚠️ {templatesError}</Text>
-                <TouchableOpacity
-                  style={styles.retryBtn}
-                  onPress={refresh}
-                >
+                <TouchableOpacity style={styles.retryBtn} onPress={refresh} activeOpacity={0.72}>
                   <Text style={styles.retryBtnText}>点击重试</Text>
                 </TouchableOpacity>
               </View>
@@ -498,7 +500,7 @@ export default function CameraScreen({ navigation }: any) {
                 columnWrapperStyle={styles.templateRow}
                 contentContainerStyle={styles.templateList}
                 renderItem={({ item }) => {
-                  const catColor = CATEGORY_COLORS[item.category || ''] || '#FF6B6B'
+                  const catColor = CATEGORY_COLORS[item.category || ''] || COLORS.primary
                   const isActive = activeTemplate?.id === item.id
                   return (
                     <TouchableOpacity
@@ -509,7 +511,7 @@ export default function CameraScreen({ navigation }: any) {
                       onPress={() => handleSelectTemplate(item)}
                       onLongPress={() => setLongPressTemplate(item)}
                       delayLongPress={500}
-                      activeOpacity={0.7}
+                      activeOpacity={0.72}
                     >
                       <Image
                         source={{ uri: item.thumbnail }}
@@ -533,7 +535,7 @@ export default function CameraScreen({ navigation }: any) {
         </View>
       </Modal>
 
-      {/* 长按模板预览 */}
+      {/* 长按模板预览（支持缩放手势） */}
       <Modal visible={!!longPressTemplate} transparent animationType="fade" onRequestClose={() => setLongPressTemplate(null)}>
         <TouchableOpacity
           style={styles.previewOverlay}
@@ -551,12 +553,25 @@ export default function CameraScreen({ navigation }: any) {
             {longPressTemplate?.voiceTip && (
               <Text style={styles.previewTip}>💬 {longPressTemplate.voiceTip}</Text>
             )}
+            {/* 收藏姿势按钮 */}
+            <TouchableOpacity
+              style={styles.favoriteBtn}
+              onPress={() => {
+                // TODO: 收藏功能
+                Alert.alert('❤️ 已收藏', '这个姿势已添加到收藏～')
+                setLongPressTemplate(null)
+              }}
+              activeOpacity={0.72}
+            >
+              <Text style={styles.favoriteBtnText}>❤️ 收藏姿势</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.previewUseBtn}
               onPress={() => {
                 if (longPressTemplate) handleSelectTemplate(longPressTemplate)
                 setLongPressTemplate(null)
               }}
+              activeOpacity={0.72}
             >
               <Text style={styles.previewUseBtnText}>使用这个姿势 →</Text>
             </TouchableOpacity>
@@ -602,8 +617,11 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     padding: 4,
   },
-  cameraWrapper: {
-    flex: 1,
+  flashOverlay: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: '#fff',
+    zIndex: 200,
+    pointerEvents: 'none',
   },
   topBar: {
     position: 'absolute',
@@ -635,7 +653,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 22,
   },
-  flashDot: {
+  flashDotOn: {
     position: 'absolute',
     top: 7,
     right: 7,
@@ -645,6 +663,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD700',
   },
   flashDotOff: {
+    position: 'absolute',
+    top: 7,
+    right: 7,
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: 'rgba(255,255,255,0.25)',
   },
   modeGroup: {
@@ -671,36 +695,48 @@ const styles = StyleSheet.create({
   modeBtnTextActive: {
     color: '#fff',
   },
-  templateHintBar: {
+  // 顶部悬浮姿势引导卡
+  poseTipCard: {
     position: 'absolute',
     top: 116,
     left: 16,
-    right: 16,
+    right: 80,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'rgba(20,20,20,0.8)',
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
     zIndex: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255,107,107,0.3)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 4,
+    gap: 10,
   },
-  templateHintText: {
-    color: '#fff',
+  poseTipIcon: {
+    fontSize: 20,
+    flexShrink: 0,
+  },
+  poseTipText: {
+    flex: 1,
     fontSize: 14,
-    fontWeight: 'bold',
-  },
-  templateHintVoice: {
-    color: '#FF6B6B',
-    fontSize: 13,
+    color: COLORS.textPrimary,
     fontWeight: '600',
-    backgroundColor: 'rgba(255,107,107,0.15)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 10,
-    overflow: 'hidden',
+    lineHeight: 20,
+  },
+  poseTipVoiceBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  poseTipVoiceBtnText: {
+    fontSize: 16,
   },
   bottomBar: {
     position: 'absolute',
@@ -734,7 +770,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 8,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
     paddingHorizontal: 5,
     paddingVertical: 1,
@@ -777,18 +813,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   shutterInnerCapturing: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: COLORS.primary,
     transform: [{ scale: 0.95 }],
-  },
-  shutterGlowRing: {
-    position: 'absolute',
-    top: -6,
-    left: -6,
-    right: -6,
-    bottom: -6,
-    borderRadius: 48,
-    borderWidth: 2,
-    borderColor: 'rgba(255,107,107,0.5)',
   },
   shutterPulsing: {
     width: 20,
@@ -798,7 +824,7 @@ const styles = StyleSheet.create({
   },
   modalBackdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'flex-end',
   },
   modalDismissArea: {
@@ -831,7 +857,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.textPrimary,
   },
   modalCloseBtn: {
     width: 36,
@@ -843,7 +869,7 @@ const styles = StyleSheet.create({
   },
   modalClose: {
     fontSize: 18,
-    color: '#666',
+    color: COLORS.textSecondary,
   },
   categoryTabs: {
     paddingHorizontal: 12,
@@ -864,7 +890,7 @@ const styles = StyleSheet.create({
   },
   categoryTabText: {
     fontSize: 14,
-    color: '#666',
+    color: COLORS.textSecondary,
     fontWeight: '600',
   },
   categoryTabTextActive: {
@@ -891,11 +917,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.04,
     shadowRadius: 4,
     elevation: 1,
+    overflow: 'hidden',
   },
   templateCardActive: {
-    borderColor: '#FF6B6B',
+    borderColor: COLORS.primary,
     backgroundColor: '#FFF5F5',
-    shadowColor: '#FF6B6B',
+    shadowColor: COLORS.primary,
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 3,
@@ -909,7 +936,7 @@ const styles = StyleSheet.create({
   templateName: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.textPrimary,
     marginTop: 8,
     textAlign: 'center',
   },
@@ -929,13 +956,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    color: '#999',
+    color: COLORS.textMuted,
     fontSize: 14,
     textAlign: 'center',
     marginBottom: 12,
   },
   retryBtn: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: COLORS.primary,
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 16,
@@ -945,7 +972,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: 'bold',
   },
-  // 聚焦指示器
   focusRing: {
     position: 'absolute',
     width: 60,
@@ -956,7 +982,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,215,0,0.1)',
     zIndex: 50,
   },
-  // 搜索
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -974,7 +999,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 14,
-    color: '#333',
+    color: COLORS.textPrimary,
     padding: 0,
   },
   searchClear: {
@@ -982,14 +1007,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 2,
   },
-  // 最近使用
   recentSection: {
     paddingHorizontal: 16,
     marginBottom: 10,
   },
   recentTitle: {
     fontSize: 12,
-    color: '#888',
+    color: COLORS.textMuted,
     marginBottom: 6,
     fontWeight: '600',
   },
@@ -1000,6 +1024,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1.5,
     padding: 6,
+    overflow: 'hidden',
   },
   recentThumb: {
     width: 48,
@@ -1007,11 +1032,10 @@ const styles = StyleSheet.create({
   },
   recentName: {
     fontSize: 10,
-    color: '#666',
+    color: COLORS.textSecondary,
     marginTop: 2,
     textAlign: 'center',
   },
-  // 长按预览
   previewOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.65)',
@@ -1039,32 +1063,45 @@ const styles = StyleSheet.create({
   previewName: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.textPrimary,
     marginBottom: 8,
   },
   previewDesc: {
     fontSize: 13,
-    color: '#666',
+    color: COLORS.textSecondary,
     textAlign: 'center',
     marginBottom: 8,
     lineHeight: 18,
   },
   previewTip: {
     fontSize: 12,
-    color: '#FF6B6B',
+    color: COLORS.primary,
     backgroundColor: '#FFF0F0',
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 6,
-    marginBottom: 16,
+    marginBottom: 12,
     textAlign: 'center',
   },
+  favoriteBtn: {
+    borderWidth: 1.5,
+    borderColor: '#FD79A8',
+    borderRadius: 24,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    marginBottom: 10,
+  },
+  favoriteBtnText: {
+    color: '#FD79A8',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
   previewUseBtn: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: COLORS.primary,
     borderRadius: 24,
     paddingVertical: 12,
     paddingHorizontal: 32,
-    shadowColor: '#FF6B6B',
+    shadowColor: COLORS.primary,
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 3,

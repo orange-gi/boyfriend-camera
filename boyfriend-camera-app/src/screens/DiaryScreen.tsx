@@ -1,8 +1,8 @@
 /**
- * DiaryScreen - 进步日记
- * 展示历史评分和进步曲线
+ * DiaryScreen - 进步日记 v3
+ * 改进：卡片网格统计、渐变趋势横幅、紧凑迷你进度条、动画数字
  */
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import {
   View,
   Text,
@@ -11,12 +11,13 @@ import {
   TouchableOpacity,
   RefreshControl,
   Alert,
+  Animated,
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, type DiaryRecord } from '../services/analyzer'
 import EmptyState from '../components/common/EmptyState'
-import { scoreColor } from '../theme/colors'
+import { COLORS, scoreColor } from '../theme/colors'
 
 export default function DiaryScreen({ navigation }: any) {
   const [records, setRecords] = useState<DiaryRecord[]>([])
@@ -85,7 +86,6 @@ export default function DiaryScreen({ navigation }: any) {
         ? Math.round(weekRecords.reduce((s, r) => s + r.score, 0) / weekRecords.length)
         : 0
     const weekCount = weekRecords.length
-    // 计算连续拍照天数
     let streak = 0
     const today = new Date()
     today.setHours(0, 0, 0, 0)
@@ -120,7 +120,6 @@ export default function DiaryScreen({ navigation }: any) {
     const monthBest = monthRecords.length > 0
       ? Math.max(...monthRecords.map((r) => r.score))
       : 0
-    // 上月数据
     const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
     const prevMonthRecords = records.filter((r) => {
@@ -134,23 +133,30 @@ export default function DiaryScreen({ navigation }: any) {
     return { monthAvg, monthCount, monthBest, monthDiff, prevMonthAvg }
   }, [records])
 
-  // 进步趋势
-  const trendText = () => {
-    if (totalCount < 3) return '继续加油！'
+  // 进步趋势文案
+  const trendInfo = useMemo(() => {
+    if (totalCount < 3) return { text: '继续加油！', color: COLORS.textMuted, gradient: ['#f0f0f0', '#e8e8e8'] }
     const recent5 = records.slice(0, Math.min(5, totalCount))
     const avg = recent5.reduce((s, r) => s + r.score, 0) / recent5.length
-    if (avg >= 80) return '📸 男友进化中！'
-    if (avg >= 65) return '📈 稳步提升中'
-    if (avg >= 50) return '💪 还需要多练习'
-    return '😅 革命尚未成功'
-  }
+    if (avg >= 80) return { text: '📸 男友进化中！', color: COLORS.success, gradient: ['#E8F5E9', '#C8E6C9'] }
+    if (avg >= 65) return { text: '📈 稳步提升中', color: COLORS.success, gradient: ['#E3F2FD', '#BBDEFB'] }
+    if (avg >= 50) return { text: '💪 还需要多练习', color: COLORS.warning, gradient: ['#FFF8E1', '#FFECB3'] }
+    return { text: '😅 革命尚未成功', color: COLORS.primary, gradient: ['#FFF3F3', '#FFE0E0'] }
+  }, [totalCount, records])
 
-  // FlatList 数据（只显示有记录的日期）
+  // 进度动画 ref
+  const progressAnimRef = useRef(new Animated.Value(0)).current
+
+  // FlatList 数据
   const entries: any[] = records.map((r) => ({
     date: r.date,
     score: r.score,
     suggestions: r.suggestions,
   }))
+
+  // 迷你进度条颜色
+  const miniBarColors = ['#FF6B6B', '#FFB347', '#4ECDC4', '#A29BFE']
+  const miniBarMaxScores = [40, 30, 20, 10]
 
   const renderRecord = ({ item, index }: { item: DiaryRecord; index: number }) => {
     const date = new Date(item.date)
@@ -164,27 +170,33 @@ export default function DiaryScreen({ navigation }: any) {
       minute: '2-digit',
     })
 
-    const scoreColor = item.score >= 80 ? '#4CAF50' : item.score >= 60 ? '#FFB347' : '#FF6B6B'
+    const sc = item.score >= 80 ? COLORS.scoreGreat : item.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
     const scoreGrade = item.score >= 90 ? 'S' : item.score >= 80 ? 'A' : item.score >= 70 ? 'B' : item.score >= 60 ? 'C' : 'D'
-
-    // 与前一条记录的分差（records 是时间倒序，index+1 是上一次）
     const prevRecord = records[index + 1]
     const scoreDiff = prevRecord ? item.score - prevRecord.score : null
+
+    // 紧凑迷你进度条
+    const hasBreakdown = item.compositionScore !== undefined
+    const dims = [
+      { label: '构图', score: item.compositionScore ?? 0, max: 40 },
+      { label: '曝光', score: item.exposureScore ?? 0, max: 30 },
+      { label: '稳定', score: item.stabilityScore ?? 0, max: 20 },
+      { label: '水平', score: item.levelScore ?? 0, max: 10 },
+    ].filter(d => d.score > 0 || item.compositionScore !== undefined)
 
     return (
       <TouchableOpacity
         style={styles.recordCard}
         onLongPress={() => handleDeleteRecord(item.date)}
         delayLongPress={600}
-        activeOpacity={0.8}
+        activeOpacity={0.72}
       >
         {/* 左侧分数 */}
-        <View style={[styles.scoreBadge, { backgroundColor: scoreColor + '18' }]}>
-          <Text style={[styles.scoreNum, { color: scoreColor }]}>{item.score}</Text>
-          <Text style={[styles.scoreGrade, { color: scoreColor }]}>{scoreGrade}</Text>
-          {/* 分差指示 */}
+        <View style={[styles.scoreBadge, { backgroundColor: sc + '18' }]}>
+          <Text style={[styles.scoreNum, { color: sc }]}>{item.score}</Text>
+          <Text style={[styles.scoreGrade, { color: sc }]}>{scoreGrade}</Text>
           {scoreDiff !== null && (
-            <Text style={[styles.scoreDiff, { color: scoreDiff >= 0 ? '#4CAF50' : '#FF6B6B' }]}>
+            <Text style={[styles.scoreDiff, { color: scoreDiff >= 0 ? COLORS.success : COLORS.primary }]}>
               {scoreDiff > 0 ? `+${scoreDiff}` : `${scoreDiff}`}
             </Text>
           )}
@@ -196,7 +208,7 @@ export default function DiaryScreen({ navigation }: any) {
             <Text style={styles.recordDate}>{dateStr} {timeStr}</Text>
             <View style={styles.recordRight}>
               {index === 0 && (
-                <View style={styles.newTag}>
+                <View style={[styles.newTag, { backgroundColor: COLORS.primary }]}>
                   <Text style={styles.newTagText}>NEW</Text>
                 </View>
               )}
@@ -206,55 +218,35 @@ export default function DiaryScreen({ navigation }: any) {
             </View>
           </View>
 
-          {/* 维度小分 */}
           {item.suggestions.length > 0 && (
             <Text style={styles.recordTip} numberOfLines={2}>
               💡 {item.suggestions[0]}
             </Text>
           )}
 
-          {/* 人脸数 */}
           {item.faceCount > 0 && (
             <Text style={styles.faceCount}>👤 {item.faceCount}人</Text>
           )}
 
-          {/* 分项分数条（构图/光线/稳定/水平） */}
-          {item.compositionScore !== undefined && (
-            <View style={styles.breakdownRow}>
-              <View style={styles.breakdownItem}>
-                <Text style={styles.breakdownLabel}>构图</Text>
-                <View style={styles.breakdownBar}>
-                  <View style={[styles.breakdownFill, { width: `${Math.min(100, (item.compositionScore / 40) * 100)}%`, backgroundColor: '#FF6B6B' }]} />
-                </View>
-                <Text style={styles.breakdownScore}>{item.compositionScore}</Text>
-              </View>
-              {item.exposureScore !== undefined && (
-                <View style={styles.breakdownItem}>
-                  <Text style={styles.breakdownLabel}>光线</Text>
-                  <View style={styles.breakdownBar}>
-                    <View style={[styles.breakdownFill, { width: `${Math.min(100, (item.exposureScore / 30) * 100)}%`, backgroundColor: '#FFB347' }]} />
+          {/* 紧凑迷你进度条 - 横向一行 */}
+          {hasBreakdown && (
+            <View style={styles.miniBarRow}>
+              {dims.map((d, i) => {
+                const pct = Math.min(100, (d.score / d.max) * 100)
+                return (
+                  <View key={d.label} style={styles.miniBarItem}>
+                    <View style={styles.miniBarTrack}>
+                      <View
+                        style={[
+                          styles.miniBarFill,
+                          { width: `${pct}%`, backgroundColor: miniBarColors[i] },
+                        ]}
+                      />
+                    </View>
+                    <Text style={styles.miniBarLabel}>{d.label}</Text>
                   </View>
-                  <Text style={styles.breakdownScore}>{item.exposureScore}</Text>
-                </View>
-              )}
-              {item.stabilityScore !== undefined && (
-                <View style={styles.breakdownItem}>
-                  <Text style={styles.breakdownLabel}>稳定</Text>
-                  <View style={styles.breakdownBar}>
-                    <View style={[styles.breakdownFill, { width: `${Math.min(100, (item.stabilityScore / 20) * 100)}%`, backgroundColor: '#4ECDC4' }]} />
-                  </View>
-                  <Text style={styles.breakdownScore}>{item.stabilityScore}</Text>
-                </View>
-              )}
-              {item.levelScore !== undefined && (
-                <View style={styles.breakdownItem}>
-                  <Text style={styles.breakdownLabel}>水平</Text>
-                  <View style={styles.breakdownBar}>
-                    <View style={[styles.breakdownFill, { width: `${Math.min(100, (item.levelScore / 10) * 100)}%`, backgroundColor: '#A29BFE' }]} />
-                  </View>
-                  <Text style={styles.breakdownScore}>{item.levelScore}</Text>
-                </View>
-              )}
+                )
+              })}
             </View>
           )}
         </View>
@@ -295,10 +287,11 @@ export default function DiaryScreen({ navigation }: any) {
           <>
             {/* 标题栏 */}
             <View style={styles.header}>
-              <Text style={styles.title}>📈 进步日记</Text>
+              <Text style={[styles.title, { color: COLORS.textPrimary }]}>📈 进步日记</Text>
               <TouchableOpacity
                 style={styles.cameraBtn}
                 onPress={() => navigation.navigate('Camera')}
+                activeOpacity={0.72}
               >
                 <Text style={styles.cameraBtnText}>📸 拍照</Text>
               </TouchableOpacity>
@@ -308,60 +301,87 @@ export default function DiaryScreen({ navigation }: any) {
             <View style={styles.statsCard}>
               <View style={styles.statsRow}>
                 <View style={styles.statItem}>
-                  <Text style={styles.statNum}>{totalCount}</Text>
+                  <AnimatedCountUp value={totalCount} style={styles.statNum} color={COLORS.textPrimary} />
                   <Text style={styles.statLabel}>拍照次数</Text>
                 </View>
                 <View style={styles.statDivider} />
                 <View style={styles.statItem}>
-                  <Text style={styles.statNum}>{avgScore}</Text>
+                  <AnimatedCountUp value={avgScore} style={styles.statNum} color={COLORS.textPrimary} suffix="分" />
                   <Text style={styles.statLabel}>平均分</Text>
                 </View>
                 <View style={styles.statDivider} />
                 <View style={styles.statItem}>
-                  <Text style={[styles.statNum, { color: totalProgress >= 0 ? '#4CAF50' : '#FF6B6B' }]}>
-                    {totalProgress >= 0 ? `+${totalProgress}` : totalProgress}
-                  </Text>
+                  <AnimatedProgressNum value={totalProgress} style={styles.statNum} />
                   <Text style={styles.statLabel}>总进步</Text>
                 </View>
                 <View style={styles.statDivider} />
                 <View style={styles.statItem}>
-                  <Text style={[styles.statNum, { color: '#FFB347' }]}>{maxScore}</Text>
+                  <AnimatedCountUp value={maxScore} style={styles.statNum} color={COLORS.warning} suffix="分" />
                   <Text style={styles.statLabel}>最高分</Text>
                 </View>
               </View>
 
-              {/* 周统计条 */}
+              {/* 周统计卡片网格 */}
               {totalCount > 0 && (
-                <View style={styles.weeklyRow}>
-                  <View style={styles.weeklyItem}>
-                    <Text style={styles.weeklyLabel}>本周</Text>
-                    <Text style={[styles.weeklyNum, { color: weeklyStats.weekAvg >= 80 ? '#4CAF50' : weeklyStats.weekAvg >= 60 ? '#FFB347' : '#FF6B6B' }]}>
-                      {weeklyStats.weekAvg > 0 ? weeklyStats.weekAvg + '分' : '-'}
+                <View style={styles.weeklyGrid}>
+                  {/* 本周平均分 */}
+                  <View style={[styles.weeklyCard, { backgroundColor: COLORS.primary + '12' }]}>
+                    <Text style={styles.weeklyCardIcon}>📊</Text>
+                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.weekAvg >= 80 ? COLORS.success : weeklyStats.weekAvg >= 60 ? COLORS.warning : COLORS.primary }]}>
+                      {weeklyStats.weekAvg > 0 ? weeklyStats.weekAvg : '-'}
                     </Text>
-                    <Text style={styles.weeklySub}>{weeklyStats.weekCount}次</Text>
+                    <Text style={styles.weeklyCardLabel}>本周均分</Text>
                   </View>
-                  <View style={styles.weeklyDivider} />
-                  <View style={styles.weeklyItem}>
-                    <Text style={styles.weeklyLabel}>连续拍照</Text>
-                    <Text style={[styles.weeklyNum, { color: weeklyStats.streak >= 3 ? '#4CAF50' : '#FFB347' }]}>
-                      {weeklyStats.streak}天 🔥
+
+                  {/* 本周拍摄次数 */}
+                  <View style={[styles.weeklyCard, { backgroundColor: '#FFF8E1' }]}>
+                    <Text style={styles.weeklyCardIcon}>📸</Text>
+                    <Text style={[styles.weeklyCardNum, { color: COLORS.warning }]}>
+                      {weeklyStats.weekCount}
                     </Text>
-                    <Text style={styles.weeklySub}>{weeklyStats.streak >= 7 ? '太厉害了！' : weeklyStats.streak >= 3 ? '继续加油' : '每天拍一张'}</Text>
+                    <Text style={styles.weeklyCardLabel}>本周拍摄</Text>
                   </View>
-                  <View style={styles.weeklyDivider} />
-                  <View style={styles.weeklyItem}>
-                    <Text style={styles.weeklyLabel}>最近一次</Text>
-                    <Text style={[styles.weeklyNum, { color: recentScore >= 80 ? '#4CAF50' : recentScore >= 60 ? '#FFB347' : '#FF6B6B' }]}>
-                      {recentScore > 0 ? recentScore + '分' : '-'}
+
+                  {/* 连续天数 */}
+                  <View style={[
+                    styles.weeklyCard,
+                    weeklyStats.streak >= 7
+                      ? { backgroundColor: '#FFF8E1', borderWidth: 2, borderColor: '#FFD700' }
+                      : { backgroundColor: COLORS.primaryLight },
+                  ]}>
+                    <Text style={styles.weeklyCardIcon}>{weeklyStats.streak >= 7 ? '🔥' : '📅'}</Text>
+                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.streak >= 7 ? '#E6A800' : COLORS.primary }]}>
+                      {weeklyStats.streak}
                     </Text>
-                    <Text style={styles.weeklySub}>{totalCount}次总计</Text>
+                    <Text style={styles.weeklyCardLabel}>连续天数</Text>
+                  </View>
+
+                  {/* 最近一次 */}
+                  <View style={[styles.weeklyCard, { backgroundColor: COLORS.success + '12' }]}>
+                    <Text style={styles.weeklyCardIcon}>🏆</Text>
+                    <Text style={[styles.weeklyCardNum, { color: COLORS.success }]}>
+                      {recentScore > 0 ? recentScore : '-'}
+                    </Text>
+                    <Text style={styles.weeklyCardLabel}>最近得分</Text>
                   </View>
                 </View>
               )}
 
-              {/* 趋势 */}
-              <View style={styles.trendRow}>
-                <Text style={styles.trendText}>{trendText()}</Text>
+              {/* 渐变色趋势横幅 */}
+              <View style={[styles.trendBanner, { backgroundColor: trendInfo.gradient[0] }]}>
+                <View style={[styles.trendBannerInner, { backgroundColor: trendInfo.gradient[1] }]}>
+                  <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
+                    {trendInfo.text}
+                  </Text>
+                  {totalProgress !== 0 && (
+                    <View style={styles.trendBannerRight}>
+                      <Text style={[styles.trendBannerNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.primary }]}>
+                        {totalProgress >= 0 ? `+${totalProgress}` : totalProgress}
+                      </Text>
+                      <Text style={styles.trendBannerNumLabel}>分</Text>
+                    </View>
+                  )}
+                </View>
               </View>
             </View>
 
@@ -374,7 +394,7 @@ export default function DiaryScreen({ navigation }: any) {
                   </View>
                 )}
                 {weeklyStats.streak >= 7 && (
-                  <View style={[styles.badge, styles.badgeSilver]}>
+                  <View style={[styles.badge, styles.badgeGold]}>
                     <Text style={styles.badgeText}>🏆 连续打卡一周</Text>
                   </View>
                 )}
@@ -401,7 +421,7 @@ export default function DiaryScreen({ navigation }: any) {
                 </View>
                 <View style={styles.monthDivider}>
                   <Text style={styles.monthVs}>vs</Text>
-                  <Text style={[styles.monthDiffText, { color: monthlyStats.monthDiff >= 0 ? '#4CAF50' : '#FF6B6B' }]}>
+                  <Text style={[styles.monthDiffText, { color: monthlyStats.monthDiff >= 0 ? COLORS.success : COLORS.primary }]}>
                     {monthlyStats.monthDiff >= 0 ? '+' : ''}{monthlyStats.monthDiff}分
                   </Text>
                 </View>
@@ -414,15 +434,15 @@ export default function DiaryScreen({ navigation }: any) {
             )}
 
             {/* 进步曲线 */}
-            <Text style={styles.sectionTitle}>📊 进步曲线</Text>
+            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>📊 进步曲线</Text>
             <ProgressChart entries={entries} height={200} />
 
             {/* 历史记录标题 */}
-            <Text style={styles.sectionTitle}>📋 历史记录</Text>
+            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>📋 历史记录</Text>
           </>
         }
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor="#FF6B6B" />
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor={COLORS.primary} />
         }
         ListFooterComponent={<View style={{ height: 40 }} />}
         showsVerticalScrollIndicator={false}
@@ -431,10 +451,61 @@ export default function DiaryScreen({ navigation }: any) {
   )
 }
 
+/** 数字递增动画组件 */
+function AnimatedCountUp({ value, style, color, suffix = '' }: {
+  value: number; style: any; color?: string; suffix?: string
+}) {
+  const animValue = useRef(new Animated.Value(0)).current
+  const [display, setDisplay] = React.useState(0)
+
+  useEffect(() => {
+    animValue.setValue(0)
+    Animated.timing(animValue, {
+      toValue: value,
+      duration: 800,
+      useNativeDriver: false,
+    }).start()
+    const listener = animValue.addListener((v) => setDisplay(Math.round(v.value)))
+    return () => animValue.removeListener(listener)
+  }, [value])
+
+  return (
+    <Animated.Text style={[style, color ? { color } : {}]}>
+      {display}{suffix}
+    </Animated.Text>
+  )
+}
+
+/** 进步数字动画（带箭头+颜色） */
+function AnimatedProgressNum({ value, style }: { value: number; style: any }) {
+  const animValue = useRef(new Animated.Value(0)).current
+  const [display, setDisplay] = React.useState(0)
+
+  useEffect(() => {
+    animValue.setValue(0)
+    Animated.timing(animValue, {
+      toValue: value,
+      duration: 600,
+      useNativeDriver: false,
+    }).start()
+    const listener = animValue.addListener((v) => setDisplay(Math.round(v.value)))
+    return () => animValue.removeListener(listener)
+  }, [value])
+
+  const color = value >= 0 ? COLORS.success : COLORS.primary
+  const arrow = value >= 0 ? '📈' : '📉'
+
+  return (
+    <Animated.Text style={[style, { color }]}>
+      {display >= 0 ? `+${display}` : display} {arrow}
+    </Animated.Text>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: COLORS.bg,
   },
   listContent: {
     paddingTop: 20,
@@ -449,26 +520,25 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#333',
   },
   cameraBtn: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: COLORS.primary,
     borderRadius: 20,
     paddingHorizontal: 18,
     paddingVertical: 10,
-    shadowColor: '#FF6B6B',
+    shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.25,
     shadowRadius: 6,
     elevation: 3,
   },
   cameraBtnText: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 14,
     fontWeight: 'bold',
   },
   statsCard: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bgCard,
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,
@@ -477,6 +547,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.07,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
+    overflow: 'hidden',
   },
   statsRow: {
     flexDirection: 'row',
@@ -490,40 +561,26 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 1,
     height: 40,
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.divider,
   },
   statNum: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: 'bold',
-    color: '#333',
   },
   statLabel: {
     fontSize: 12,
-    color: '#999',
+    color: COLORS.textMuted,
     marginTop: 4,
-  },
-  trendRow: {
-    marginTop: 16,
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
-    alignItems: 'center',
-  },
-  trendText: {
-    fontSize: 15,
-    color: '#555',
-    fontWeight: '600',
   },
   sectionTitle: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: '#333',
     marginBottom: 14,
     marginTop: 8,
   },
   recordCard: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bgCard,
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
@@ -532,6 +589,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
+    overflow: 'hidden',
     gap: 14,
   },
   scoreBadge: {
@@ -568,7 +626,7 @@ const styles = StyleSheet.create({
   },
   deleteHint: {
     fontSize: 10,
-    color: '#ccc',
+    color: COLORS.textMuted,
   },
   weeklyRow: {
     flexDirection: 'row',
@@ -576,7 +634,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: COLORS.divider,
   },
   weeklyItem: {
     flex: 1,
@@ -585,11 +643,11 @@ const styles = StyleSheet.create({
   weeklyDivider: {
     width: 1,
     height: 40,
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.divider,
   },
   weeklyLabel: {
     fontSize: 11,
-    color: '#aaa',
+    color: COLORS.textMuted,
     marginBottom: 4,
   },
   weeklyNum: {
@@ -598,34 +656,33 @@ const styles = StyleSheet.create({
   },
   weeklySub: {
     fontSize: 11,
-    color: '#bbb',
+    color: COLORS.textMuted,
     marginTop: 2,
   },
   recordDate: {
     fontSize: 14,
-    color: '#666',
+    color: COLORS.textSecondary,
     fontWeight: '600',
   },
   newTag: {
-    backgroundColor: '#FF6B6B',
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 3,
   },
   newTagText: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 10,
     fontWeight: 'bold',
   },
   recordTip: {
     fontSize: 13,
-    color: '#888',
+    color: COLORS.textMuted,
     marginTop: 8,
     lineHeight: 20,
   },
   faceCount: {
     fontSize: 12,
-    color: '#aaa',
+    color: COLORS.textMuted,
     marginTop: 4,
   },
   scoreDiff: {
@@ -646,13 +703,13 @@ const styles = StyleSheet.create({
   },
   breakdownLabel: {
     fontSize: 10,
-    color: '#888',
+    color: COLORS.textMuted,
     width: 26,
   },
   breakdownBar: {
     width: 40,
     height: 4,
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.divider,
     borderRadius: 2,
     overflow: 'hidden',
   },
@@ -662,7 +719,7 @@ const styles = StyleSheet.create({
   },
   breakdownScore: {
     fontSize: 10,
-    color: '#666',
+    color: COLORS.textSecondary,
     width: 16,
     textAlign: 'right',
   },
@@ -670,63 +727,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FAFAFA',
+    backgroundColor: COLORS.bg,
     padding: 40,
   },
   skeletonWrapper: {
     alignItems: 'center',
   },
-  emptyEmoji: {
-    fontSize: 60,
-    marginBottom: 16,
-  },
-  emptyTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
-  },
-  emptySubtitle: {
-    fontSize: 14,
-    color: '#999',
-    textAlign: 'center',
-    lineHeight: 20,
-    marginBottom: 24,
-  },
-  emptyBtn: {
-    backgroundColor: '#FF6B6B',
-    borderRadius: 25,
-    paddingHorizontal: 32,
-    paddingVertical: 14,
-  },
-  emptyBtnText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  emptyTips: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 16,
-    width: '100%',
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  emptyTipTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 10,
-  },
-  emptyTipText: {
-    fontSize: 13,
-    color: '#666',
-    lineHeight: 22,
-  },
-  // 加载骨架屏
   skeletonEmoji: {
     width: 60,
     height: 60,
@@ -754,12 +760,10 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: '#e0e0e0',
   },
-  // 打卡徽章
   badgeRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-    paddingHorizontal: 16,
     marginTop: 10,
   },
   badge: {
@@ -769,9 +773,6 @@ const styles = StyleSheet.create({
   },
   badgeBronze: {
     backgroundColor: '#FFF3E0',
-  },
-  badgeSilver: {
-    backgroundColor: '#F0F0F0',
   },
   badgeGold: {
     backgroundColor: '#FFF8E1',
@@ -783,12 +784,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
-  // 月度对比
   monthCompareRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fafafa',
-    marginHorizontal: 16,
+    backgroundColor: COLORS.bg,
     marginTop: 10,
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -804,7 +803,7 @@ const styles = StyleSheet.create({
   },
   monthVs: {
     fontSize: 11,
-    color: '#aaa',
+    color: COLORS.textMuted,
   },
   monthDiffText: {
     fontSize: 13,
@@ -812,17 +811,103 @@ const styles = StyleSheet.create({
   },
   monthLabel: {
     fontSize: 11,
-    color: '#aaa',
+    color: COLORS.textMuted,
     marginBottom: 2,
   },
   monthNum: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.textPrimary,
   },
   monthSub: {
     fontSize: 10,
-    color: '#999',
+    color: COLORS.textMuted,
+    marginTop: 2,
+  },
+  // 周统计卡片网格
+  weeklyGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  weeklyCard: {
+    flex: 1,
+    minWidth: '45%',
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  weeklyCardIcon: {
+    fontSize: 20,
+    marginBottom: 4,
+  },
+  weeklyCardNum: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  weeklyCardLabel: {
+    fontSize: 11,
+    color: COLORS.textMuted,
+    marginTop: 2,
+  },
+  // 渐变趋势横幅
+  trendBanner: {
+    marginTop: 12,
+    borderRadius: 14,
+    overflow: 'hidden',
+  },
+  trendBannerInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  trendBannerText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  trendBannerRight: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 2,
+  },
+  trendBannerNum: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  trendBannerNumLabel: {
+    fontSize: 12,
+    color: COLORS.textMuted,
+  },
+  // 迷你进度条
+  miniBarRow: {
+    flexDirection: 'row',
+    marginTop: 8,
+    gap: 6,
+  },
+  miniBarItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  miniBarTrack: {
+    width: '100%',
+    height: 4,
+    backgroundColor: COLORS.divider,
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  miniBarFill: {
+    height: '100%',
+    borderRadius: 2,
+  },
+  miniBarLabel: {
+    fontSize: 9,
+    color: COLORS.textMuted,
     marginTop: 2,
   },
 })

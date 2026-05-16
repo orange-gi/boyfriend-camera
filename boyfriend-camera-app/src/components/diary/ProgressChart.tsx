@@ -1,7 +1,6 @@
 /**
  * ProgressChart - 进步日记曲线
  * 使用 @shopify/react-native-skia 绘制折线图
- * 优化：useMemo 缓存 Skia Path 对象，避免每帧重建
  */
 import React, { useMemo } from 'react'
 import { View, Text, StyleSheet, useWindowDimensions } from 'react-native'
@@ -15,251 +14,258 @@ import {
   Circle,
   matchFont,
 } from '@shopify/react-native-skia'
-
-export interface DiaryEntry {
-  date: string   // ISO date string
-  score: number  // 0-100
-  suggestions?: string[]
-}
+import { COLORS } from '../../theme/colors'
+import type { DiaryRecord } from '../../services/analyzer'
 
 interface Props {
-  entries: DiaryEntry[]
+  entries: DiaryRecord[]
   height?: number
 }
 
-const PADDING_LEFT = 40
-const PADDING_RIGHT = 16
-const PADDING_TOP = 16
-const PADDING_BOTTOM = 32
+const PADDING = { L: 44, R: 12, T: 20, B: 36 }
 
-export default function ProgressChart({ entries, height = 180 }: Props) {
+export default function ProgressChart({ entries, height = 200 }: Props) {
   const { width: screenWidth } = useWindowDimensions()
-  const width = useMemo(() => screenWidth - 32, [screenWidth])
-
-  // 创建字体（只在字号变化时重建）
-  const labelFont = useMemo(() => matchFont({ fontFamily: 'System', fontSize: 10 }), [])
+  const width = screenWidth - 32
 
   // 排序：按时间升序
-  const sorted = [...entries]
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .slice(-10)  // 最多显示最近10条
+  const sorted = useMemo((): DiaryRecord[] =>
+    [...entries]
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .slice(-10),
+    [entries]
+  )
 
-  const chartWidth = width - PADDING_LEFT - PADDING_RIGHT
-  const chartHeight = height - PADDING_TOP - PADDING_BOTTOM
+  const chartW = width - PADDING.L - PADDING.R
+  const chartH = height - PADDING.T - PADDING.B
 
-  if (sorted.length < 2) {
+  // 空状态
+  if (sorted.length === 0) {
+    return (
+      <View style={[styles.empty, { height }]}>
+        <Text style={styles.emptyIcon}>📈</Text>
+        <Text style={styles.emptyTitle}>还没有进步记录</Text>
+        <Text style={styles.emptySub}>拍几张照片，就能看到分数一点点变高啦</Text>
+      </View>
+    )
+  }
+
+  // 单点：展示分数圆环
+  if (sorted.length === 1) {
+    const score = sorted[0].score
+    const cx = width / 2
+    const cy = height / 2 - 10
     return (
       <View style={[styles.container, { height }]}>
-        <View style={styles.emptyChart}>
-          <Text style={styles.emptyText}>📈 拍几张照片就能看到进步曲线啦</Text>
+        <View style={styles.singlePoint}>
+          <Text style={[styles.singleScore, { color: score >= 80 ? COLORS.scoreGreat : score >= 60 ? COLORS.scoreOk : COLORS.scoreBad }]}>
+            {score}
+          </Text>
+          <Text style={styles.singleLabel}>首次得分</Text>
+          <Text style={styles.singleDate}>
+            {new Date(sorted[0].date).toLocaleDateString('zh-CN')}
+          </Text>
         </View>
       </View>
     )
   }
 
-  const minScore = 0
-  const maxScore = 100
-
   // 坐标转换
-  const toX = (i: number) =>
-    PADDING_LEFT + (i / (sorted.length - 1)) * chartWidth
+  const toX = (i: number) => PADDING.L + (i / (sorted.length - 1)) * chartW
+  const toY = (score: number) => PADDING.T + (1 - score / 100) * chartH
 
-  const toY = (score: number) =>
-    PADDING_TOP + (1 - (score - minScore) / (maxScore - minScore)) * chartHeight
+  // Y 轴刻度
+  const yTicks = [0, 25, 50, 75, 100]
 
-  // 绘制折线 Path（useMemo 缓存，避免每次 render 重建）
+  // 渐变色区域 path
+  const areaPath = useMemo(() => {
+    const path = Skia.Path.Make()
+    const firstX = toX(0)
+    const lastX = toX(sorted.length - 1)
+    path.moveTo(firstX, PADDING.T + chartH)
+    sorted.forEach((e, i) => path.lineTo(toX(i), toY(e.score)))
+    path.lineTo(lastX, PADDING.T + chartH)
+    path.close()
+    return path
+  }, [sorted])
+
+  // 折线 path
   const linePath = useMemo(() => {
     const path = Skia.Path.Make()
-    sorted.forEach((entry, i) => {
+    sorted.forEach((e, i) => {
       const x = toX(i)
-      const y = toY(entry.score)
-      if (i === 0) {
-        path.moveTo(x, y)
-      } else {
-        path.lineTo(x, y)
-      }
+      const y = toY(e.score)
+      i === 0 ? path.moveTo(x, y) : path.lineTo(x, y)
     })
     return path
   }, [sorted])
 
-  // 渐变填充 Path
-  const fillPath = useMemo(() => {
-    const path = Skia.Path.Make()
-    path.addPath(linePath)
-    const lastX = toX(sorted.length - 1)
-    path.lineTo(lastX, PADDING_TOP + chartHeight)
-    path.lineTo(PADDING_LEFT, PADDING_TOP + chartHeight)
-    path.close()
-    return path
-  }, [linePath, sorted])
-
-  // Y轴网格线
-  const gridScores = [0, 25, 50, 75, 100]
-  const gridLines = useMemo(() =>
-    gridScores.map((score) => ({
-      score,
-      y: toY(score),
-    })),
-    [chartHeight]
-  )
-
-  // 数据点
-  const dataPoints = useMemo(() =>
-    sorted.map((entry, i) => ({
-      entry,
-      x: toX(i),
-      y: toY(entry.score),
-    })),
-    [sorted]
-  )
-
-  // 进步/退步标注
-  const annotations = useMemo(() =>
-    sorted.slice(1).map((entry, i) => {
-      const diff = entry.score - sorted[i].score
-      return { diff, x: toX(i + 1), y: toY(entry.score) }
-    }),
-    [sorted]
-  )
-
-  // 进步趋势颜色
-  const lastScore = sorted[sorted.length - 1].score
-  const firstScore = sorted[0].score
-  const isImproving = lastScore >= firstScore
-  const lineColor = isImproving ? '#FF6B6B' : '#6495ED'
+  // 得分渐变色（从红到绿）
+  const scoreGradient = useMemo(() => {
+    return Skia.Path.Make()
+  }, [])
 
   return (
     <View style={[styles.container, { height }]}>
+      {/* Y 轴刻度标签 */}
+      <View style={[styles.yAxis, { left: 0, top: 0, bottom: 0, width: PADDING.L }]}>
+        {yTicks.map((t) => (
+          <Text key={t} style={[styles.yLabel, { top: toY(t) - 6 }]}>
+            {t}
+          </Text>
+        ))}
+      </View>
+
       <Canvas style={{ width, height }}>
-        {/* Y轴网格 */}
-        {gridLines.map((g, i) => (
+        {/* 水平参考线 */}
+        {yTicks.map((t) => (
           <Line
-            key={i}
-            p1={vec(PADDING_LEFT, g.y)}
-            p2={vec(PADDING_LEFT + chartWidth, g.y)}
-            color={i % 2 === 0 ? 'rgba(0,0,0,0.06)' : 'rgba(0,0,0,0.03)'}
-            strokeWidth={1}
+            key={t}
+            p1={vec(PADDING.L, toY(t))}
+            p2={vec(width - PADDING.R, toY(t))}
+            color={t === 0 || t === 100 ? COLORS.divider : 'rgba(0,0,0,0.06)'}
+            strokeWidth={t === 0 || t === 100 ? 1 : 0.5}
           />
         ))}
 
-        {/* Y轴标签 */}
-        {gridLines.filter((_, i) => i % 2 === 0).map((g, i) => (
-          <SkiaText
-            key={`y-${i}`}
-            text={String(g.score)}
-            x={4}
-            y={g.y + 4}
-            font={labelFont}
-            color="rgba(0,0,0,0.3)"
+        {/* 渐变区域填充 */}
+        {sorted.length >= 2 && (
+          <Path
+            path={areaPath}
+            color="rgba(255,107,107,0.08)"
           />
-        ))}
-
-        {/* 渐变填充 */}
-        <Path
-          path={fillPath}
-          style="fill"
-          color={isImproving ? 'rgba(255,107,107,0.08)' : 'rgba(100,149,237,0.08)'}
-        />
+        )}
 
         {/* 折线 */}
         <Path
           path={linePath}
-          style="stroke"
+          color={COLORS.primary}
           strokeWidth={2.5}
-          color={lineColor}
+          style="stroke"
           strokeCap="round"
           strokeJoin="round"
         />
 
         {/* 数据点 */}
-        {dataPoints.map((p, i) => (
-          <Circle
-            key={i}
-            cx={p.x}
-            cy={p.y}
-            r={i === dataPoints.length - 1 ? 6 : 4}
-            color={lineColor}
-          />
-        ))}
-
-        {/* 进步标注 */}
-        {annotations.map((a, i) => {
-          if (Math.abs(a.diff) < 3) return null
+        {sorted.map((e, i) => {
+          const x = toX(i)
+          const y = toY(e.score)
+          const dotColor = e.score >= 80 ? COLORS.scoreGreat : e.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
           return (
-            <SkiaText
-              key={`ann-${i}`}
-              text={a.diff > 0 ? `+${a.diff}` : `${a.diff}`}
-              x={a.x + 6}
-              y={a.y - 6}
-              font={labelFont}
-              color={a.diff > 0 ? '#4CAF50' : '#FF5722'}
-            />
+            <React.Fragment key={i}>
+              <Circle cx={x} cy={y} r={4} color={dotColor} />
+              <Circle cx={x} cy={y} r={2} color="#fff" />
+            </React.Fragment>
           )
         })}
 
-        {/* X轴日期标签 */}
-        {sorted.filter((_, i) => i === 0 || i === sorted.length - 1 || sorted.length <= 5 || i % Math.ceil(sorted.length / 4) === 0).map((entry, i, arr) => {
-          const origIndex = sorted.indexOf(entry)
-          const x = toX(origIndex)
-          const date = new Date(entry.date)
-          const label = `${date.getMonth() + 1}/${date.getDate()}`
+        {/* X 轴日期标签（稀疏显示） */}
+        {sorted.map((e, i) => {
+          const show = sorted.length <= 5 || i === 0 || i === sorted.length - 1 || i % Math.ceil(sorted.length / 4) === 0
+          if (!show) return null
           return (
             <SkiaText
-              key={`x-${origIndex}`}
-              text={label}
-              x={x - 10}
-              y={PADDING_TOP + chartHeight + 16}
-              font={labelFont}
-              color="rgba(0,0,0,0.35)"
+              key={i}
+              text={new Date(e.date).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' })}
+              x={toX(i) - 20}
+              y={height - 8}
+              font={matchFont({ fontSize: 10, fontFamily: 'System' })}
+              color={COLORS.textMuted}
             />
           )
         })}
       </Canvas>
 
-      {/* 趋势标签 */}
-      <View style={[styles.trendTag, { backgroundColor: isImproving ? 'rgba(76,175,80,0.1)' : 'rgba(100,149,237,0.1)' }]}>
-        <Text style={[styles.trendText, { color: isImproving ? '#4CAF50' : '#6495ED' }]}>
-          {isImproving ? '📈 整体进步中' : '📉 需要多练习'}
-          {' · '}
-          共 {sorted.length} 次拍照
-        </Text>
-      </View>
+      {/* 最高/最低分标签 */}
+      {sorted.length > 0 && (() => {
+        const maxEntry = sorted.reduce((a, b) => a.score > b.score ? a : b)
+        const minEntry = sorted.reduce((a, b) => a.score < b.score ? a : b)
+        return (
+          <View style={styles.legendRow}>
+            <View style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: COLORS.scoreGreat }]} />
+              <Text style={styles.legendText}>最高 {maxEntry.score}分</Text>
+            </View>
+            <View style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: COLORS.scoreBad }]} />
+              <Text style={styles.legendText}>最低 {minEntry.score}分</Text>
+            </View>
+            <Text style={styles.legendCount}>共 {sorted.length} 次拍摄</Text>
+          </View>
+        )
+      })()}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 16,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bgCard,
     borderRadius: 16,
-    padding: 8,
     overflow: 'hidden',
-    elevation: 1,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 3,
+    paddingTop: 4,
   },
-  emptyChart: {
-    flex: 1,
+  yAxis: { position: 'absolute' },
+  yLabel: {
+    position: 'absolute',
+    right: 6,
+    fontSize: 10,
+    color: COLORS.textMuted,
+    width: 28,
+    textAlign: 'right',
+  },
+  legendRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: PADDING.L,
+    paddingBottom: 8,
+    gap: 12,
+  },
+  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  legendDot: { width: 8, height: 8, borderRadius: 4 },
+  legendText: { fontSize: 11, color: COLORS.textMuted },
+  legendCount: {
+    fontSize: 11,
+    color: COLORS.textMuted,
+    marginLeft: 'auto',
+  },
+  empty: {
+    backgroundColor: COLORS.bgCard,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 32,
   },
-  emptyText: {
-    color: '#bbb',
-    fontSize: 13,
-  },
-  trendTag: {
-    position: 'absolute',
-    bottom: 8,
-    right: 12,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-  },
-  trendText: {
-    fontSize: 11,
+  emptyIcon: { fontSize: 40, marginBottom: 10 },
+  emptyTitle: {
+    fontSize: 15,
     fontWeight: '600',
+    color: COLORS.textPrimary,
+    marginBottom: 6,
+  },
+  emptySub: {
+    fontSize: 13,
+    color: COLORS.textMuted,
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+  singlePoint: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  singleScore: {
+    fontSize: 48,
+    fontWeight: 'bold',
+  },
+  singleLabel: {
+    fontSize: 14,
+    color: COLORS.textMuted,
+    marginTop: 4,
+  },
+  singleDate: {
+    fontSize: 12,
+    color: COLORS.textMuted,
+    marginTop: 2,
   },
 })
