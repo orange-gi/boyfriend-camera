@@ -63,6 +63,23 @@ const PRAISE_POOL: Record<string, string[]> = {
     '男朋友摄影技术突飞猛进，给你点赞！',
     '这张照片我要存起来当头像！',
     '进步太大了，男朋友你是开挂了吗？',
+    '摄影师看了都要问你在哪学的！',
+    '这构图这光线，简直是教科书级别！',
+    '男朋友审美觉醒！女朋友感动哭了呜呜～',
+    '我可以拿这张去参赛吗？太可了！',
+  ],
+  multiple_faces: [
+    '情侣照甜蜜满分！两个人都超上镜～',
+    '闺蜜合影拍得也太好了吧！',
+    '多人合照构图也很棒，有层次感！',
+  ],
+  brightness_perfect: [
+    '光线刚刚好，整个人都在发光！',
+    '皮肤质感太好了，这光打得绝了！',
+  ],
+  small_group: [
+    '这张构图有层次！前景背景搭配得很好～',
+    '空间感拿捏了，背景和人关系处理得超棒！',
   ],
 }
 
@@ -161,6 +178,7 @@ export async function analyzePhoto(params: {
   }
   if (compositionScore >= 35) praise.push(pickRandom(PRAISE_POOL.composition_great))
   if (compositionScore >= 35 && faceCount > 0) praise.push(pickRandom(PRAISE_POOL.face_great))
+  if (faceCount > 1 && compositionScore >= 30) praise.push(pickRandom(PRAISE_POOL.multiple_faces))
 
   // 曝光分 0-30
   let exposureScore = 30
@@ -178,6 +196,7 @@ export async function analyzePhoto(params: {
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
   }
   if (exposureScore >= 28) praise.push(pickRandom(PRAISE_POOL.exposure_great))
+  if (exposureScore >= 28 && (brightness >= 80 && brightness <= 180)) praise.push(pickRandom(PRAISE_POOL.brightness_perfect))
 
   // 稳定分 0-20
   let stabilityScore = 20
