@@ -119,6 +119,12 @@ const PRAISE_POOL: Record<string, string[]> = {
     '霓虹灯光下也能这么美，男朋友你开窍了！',
     '夜景这么难拍你都能拿捏，厉害了！',
   ],
+  // 低光环境表现好
+  low_light_good: [
+    '光线这么暗都能拍清楚，男朋友你是专业的吗！',
+    '暗光环境表现这么稳，闪光灯用得刚刚好～',
+    '室内昏暗也能拿捏，这光线氛围感绝了！',
+  ],
   portrait_mode: [
     '背景虚化刚刚好！主体超突出，男朋友你用了人像模式吗？',
     '这虚化层次感绝了，男朋友你是专业的吗？',
@@ -142,6 +148,8 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '画面有点失衡，整体往这边挪一挪会更好看～',
     '人太小了，显得景大人小，下次走近一点～',
     '人太大，脸都顶到边框了，退后一点点吧～',
+    '背景有点乱，找个干净的墙或背景会更显高级～',
+    '这个角度太奇怪了，稍微换个视角试试～',
   ],
   exposure: [
     '我是藏在阴影里的神秘女友吗？打开闪光灯或靠近光源！',
@@ -152,6 +160,8 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '光线有点乱，脸上的阴影好奇怪……换个角度试试',
     '过曝了！脸上高光太亮，细节都没了～',
     '太暗了！感觉在拍恐怖片，打开光源试试～',
+    '逆光剪影挺有意境的，但脸太黑了，下次转过来试试～',
+    '顶光在脸上留下奇怪的阴影，往边上站一站躲开～',
   ],
   stability: [
     '这张照片自带马赛克滤镜，手稳住！深呼吸再按快门',
@@ -162,6 +172,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '动起来的照片更模糊，建议先让他站稳再拍',
     '糊了！对焦似乎没对上，下次先点一下屏幕对焦～',
     '有点糊，可能是快门太慢，让他手稳住再拍～',
+    '晚上光线暗容易糊，打开闪光灯或找光源更亮的地方～',
   ],
   level: [
     '地平线都歪了，我俩要倒啦！拍照时看下水平仪',
@@ -178,6 +189,8 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '拍到了！就是只有一点点……多拍几张总有一张完整～',
     '半张脸入镜了！稍微把镜头移一下，把脸拍完整～',
     '眼神不知道在看哪里，下次让她看镜头哦～',
+    '眼睛闭着拍出来了，提醒她睁大眼睛再来～',
+    '表情太僵了！笑一个，让气氛轻松自然点～',
   ],
 }
 
@@ -308,6 +321,11 @@ export async function analyzePhoto(
 
   // 首次好评
   if (isFirstPhoto && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.first_good))
+
+  // 低光环境表现好（亮度偏低但总分不差）
+  if (brightness < 80 && brightness >= 40 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.low_light_good))
+  }
 
   // 进步鼓励
   if (lastScore !== undefined && totalScore > lastScore) praise.push(pickRandom(PRAISE_POOL.progress_up))
