@@ -2,7 +2,7 @@
  * CompositionLines - 构图线组件
  * 使用 @shopify/react-native-skia 绘制九宫格/黄金螺旋/三角构图
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   Canvas,
@@ -64,10 +64,9 @@ export default function CompositionLines({ mode, opacity = 0.7 }: Props) {
     </Canvas>
   )
 
-  // 构建黄金螺旋线的 Path
-  const buildGoldenSpiral = (): ReturnType<typeof Skia.Path.Make> => {
+  // 构建黄金螺旋线的 Path（useMemo 缓存）
+  const goldenPath = useMemo(() => {
     const p = Skia.Path.Make()
-    // 简化的黄金螺旋近似
     const goldenX1 = width / PHI
     const goldenX2 = width - width / PHI
     const goldenY1 = height / PHI
@@ -89,12 +88,12 @@ export default function CompositionLines({ mode, opacity = 0.7 }: Props) {
     p.quadTo(goldenX1, goldenY1, width - goldenX1, goldenY1)
     p.quadTo(goldenX2, goldenY2, goldenX2, goldenY2)
     return p
-  }
+  }, [width, height])
 
   const goldenLines = (
     <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
       <Path
-        path={buildGoldenSpiral()}
+        path={goldenPath}
         style="stroke"
         strokeWidth={strokeWidth}
         color={strokeColor}
@@ -104,8 +103,8 @@ export default function CompositionLines({ mode, opacity = 0.7 }: Props) {
     </Canvas>
   )
 
-  // 三角构图的 Path
-  const buildTrianglePath = (): ReturnType<typeof Skia.Path.Make> => {
+  // 三角构图的 Path（useMemo 缓存）
+  const trianglePath = useMemo(() => {
     const p = Skia.Path.Make()
     const topX = width / 2
     const topY = height * 0.1
@@ -120,16 +119,15 @@ export default function CompositionLines({ mode, opacity = 0.7 }: Props) {
     p.lineTo(bottomRightX, bottomRightY)
     p.moveTo(bottomLeftX, bottomLeftY)
     p.lineTo(bottomRightX, bottomRightY)
-    // 垂直辅助线
     p.moveTo(topX, topY)
     p.lineTo(topX, bottomRightY)
     return p
-  }
+  }, [width, height])
 
   const triangleLines = (
     <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
       <Path
-        path={buildTrianglePath()}
+        path={trianglePath}
         style="stroke"
         strokeWidth={strokeWidth}
         color={strokeColor}

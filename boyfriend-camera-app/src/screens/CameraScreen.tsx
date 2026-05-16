@@ -87,7 +87,7 @@ export default function CameraScreen({ navigation }: any) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cameraRef = useRef<any>(null)
-  const { templates, loading: templatesLoading } = useTemplates()
+  const { templates, loading: templatesLoading, markUsed } = useTemplates()
   const stability = useStability()
   const voiceCoach = useRef(VoiceCoach).current
 
@@ -151,6 +151,7 @@ export default function CameraScreen({ navigation }: any) {
     setTimeout(() => setShowVoiceTip(false), 4000)
     await saveRecentTemplate(template.id)
     setRecentIds(await getRecentTemplateIds())
+    await markUsed(template.id)
   }, [])
 
   const handleVoiceTipConfirm = useCallback(() => {

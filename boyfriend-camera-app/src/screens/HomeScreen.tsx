@@ -20,12 +20,38 @@ import Animated, {
   withSequence,
   withTiming,
   withRepeat,
+  Easing,
 } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
 
 const { width: SCREEN_W } = Dimensions.get('window')
+
+// 每日小技巧（每天轮换一条）
+const DAILY_TIPS = [
+  { icon: '💡', text: '让男朋友蹲低一点，镜头仰拍更显瘦！' },
+  { icon: '🌟', text: '九宫格构图：把人脸放在交叉点上，超有感觉！' },
+  { icon: '📸', text: '逆光拍照时，开闪光灯可以补面部光线～' },
+  { icon: '🎯', text: '让男友说"1、2、3茄子"，在"3"时抓拍最自然！' },
+  { icon: '☀️', text: '下午3-5点的光线最柔和，拍出来皮肤超好～' },
+  { icon: '🌈', text: '雨天在窗边拍照，氛围感拉满！' },
+  { icon: '✨', text: '情侣照多拍背影，牵手、拥抱对视都很出片！' },
+  { icon: '🍽️', text: '餐厅拍照时让男友从侧面打光，避免顶光显脸大～' },
+  { icon: '🏖️', text: '海边拍照让男友蹲下，镜头朝上，超级显腿长！' },
+  { icon: '🌸', text: '樱花季拍照时带个小道具，气氛立刻不一样～' },
+  { icon: '🎨', text: '背景杂乱时开启人像模式，背景自动虚化！' },
+  { icon: '🌙', text: '夜景拍摄让男友双手拿稳手机，或者靠在固定物体上～' },
+  { icon: '💕', text: '笑容自然最重要，别让男友喊"茄子"喊太多遍，会僵！' },
+  { icon: '📐', text: '用好姿势模板，让他跟着剪影站位，简单又有效～' },
+  { icon: '☕', text: '咖啡厅选靠窗位置，自然光打在人脸上超好看！' },
+]
+function getDailyTip() {
+  const dayOfYear = Math.floor(
+    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
+  )
+  return DAILY_TIPS[dayOfYear % DAILY_TIPS.length]
+}
 const ONBOARD_KEY = 'onboarded_v2'
 
 // 功能介绍数据
@@ -168,6 +194,28 @@ export default function HomeScreen({ navigation }: any) {
     opacity: statsOpacity.value,
   }))
 
+  // 拍照按钮呼吸动画（未使用过的新用户）
+  const [isNewUser, setIsNewUser] = useState(false)
+  const pulseAnim = useSharedValue(1)
+
+  useEffect(() => {
+    if (diaryCount === 0) {
+      setIsNewUser(true)
+      // 呼吸动画
+      const interval = setInterval(() => {
+        pulseAnim.value = withSequence(
+          withTiming(1.05, { duration: 1000, easing: Easing.inOut(Easing.ease) }),
+          withTiming(1, { duration: 1000, easing: Easing.inOut(Easing.ease) })
+        )
+      }, 2000)
+      return () => clearInterval(interval)
+    }
+  }, [diaryCount])
+
+  const cameraBtnStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: cameraScale.value * pulseAnim.value }],
+  }))
+
   const totalTemplates = templates.length
 
   return (
@@ -178,6 +226,17 @@ export default function HomeScreen({ navigation }: any) {
         <Text style={styles.heroTitle}>男友相机</Text>
         <Text style={styles.heroSubtitle}>让男朋友越拍越好 ❤️</Text>
       </Animated.View>
+
+      {/* 每日小技巧 */}
+      {(() => {
+        const tip = getDailyTip()
+        return (
+          <View style={styles.dailyTip}>
+            <Text style={styles.dailyTipIcon}>{tip.icon}</Text>
+            <Text style={styles.dailyTipText}>{tip.text}</Text>
+          </View>
+        )
+      })()}
 
       {/* 统计数据条 */}
       {diaryCount > 0 && (
@@ -202,7 +261,8 @@ export default function HomeScreen({ navigation }: any) {
       )}
 
       {/* 拍照主按钮 */}
-      <Animated.View style={[styles.cameraBtnWrapper, cameraStyle]}>
+      <Animated.View style={[styles.cameraBtnWrapper, cameraBtnStyle]}>
+        {isNewUser && <View style={styles.newBadge}><Text style={styles.newBadgeText}>新</Text></View>}
         <TouchableOpacity
           style={styles.cameraBtn}
           onPress={() => navigation.navigate('Camera')}
@@ -327,6 +387,26 @@ const styles = StyleSheet.create({
     color: '#FF6B6B',
     fontWeight: '500',
   },
+  dailyTip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF8F0',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginBottom: 16,
+    marginHorizontal: 20,
+    gap: 10,
+  },
+  dailyTipIcon: {
+    fontSize: 20,
+  },
+  dailyTipText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#8B6914',
+    lineHeight: 20,
+  },
   statsBar: {
     flexDirection: 'row',
     backgroundColor: '#fff',
@@ -394,6 +474,21 @@ const styles = StyleSheet.create({
   cameraBtnSubText: {
     fontSize: 13,
     color: '#999',
+  },
+  newBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    backgroundColor: '#FF6B6B',
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    zIndex: 10,
+  },
+  newBadgeText: {
+    color: '#fff',
+    fontSize: 11,
+    fontWeight: 'bold',
   },
   featuresSection: {
     marginBottom: 20,

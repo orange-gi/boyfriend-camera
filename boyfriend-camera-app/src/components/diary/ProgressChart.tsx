@@ -1,8 +1,9 @@
 /**
  * ProgressChart - 进步日记曲线
  * 使用 @shopify/react-native-skia 绘制折线图
+ * 优化：useMemo 缓存 Skia Path 对象，避免每帧重建
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View, Text, StyleSheet, useWindowDimensions } from 'react-native'
 import {
   Canvas,
@@ -33,10 +34,10 @@ const PADDING_BOTTOM = 32
 
 export default function ProgressChart({ entries, height = 180 }: Props) {
   const { width: screenWidth } = useWindowDimensions()
-  const width = screenWidth - 32  // 去掉 padding
+  const width = useMemo(() => screenWidth - 32, [screenWidth])
 
-  // 创建字体
-  const labelFont = matchFont({ fontFamily: 'System', fontSize: 10 })
+  // 创建字体（只在字号变化时重建）
+  const labelFont = useMemo(() => matchFont({ fontFamily: 'System', fontSize: 10 }), [])
 
   // 排序：按时间升序
   const sorted = [...entries]
@@ -66,45 +67,60 @@ export default function ProgressChart({ entries, height = 180 }: Props) {
   const toY = (score: number) =>
     PADDING_TOP + (1 - (score - minScore) / (maxScore - minScore)) * chartHeight
 
-  // 绘制折线 Path
-  const linePath = Skia.Path.Make()
-  sorted.forEach((entry, i) => {
-    const x = toX(i)
-    const y = toY(entry.score)
-    if (i === 0) {
-      linePath.moveTo(x, y)
-    } else {
-      linePath.lineTo(x, y)
-    }
-  })
+  // 绘制折线 Path（useMemo 缓存，避免每次 render 重建）
+  const linePath = useMemo(() => {
+    const path = Skia.Path.Make()
+    sorted.forEach((entry, i) => {
+      const x = toX(i)
+      const y = toY(entry.score)
+      if (i === 0) {
+        path.moveTo(x, y)
+      } else {
+        path.lineTo(x, y)
+      }
+    })
+    return path
+  }, [sorted])
 
   // 渐变填充 Path
-  const fillPath = Skia.Path.Make()
-  fillPath.addPath(linePath)
-  const lastX = toX(sorted.length - 1)
-  fillPath.lineTo(lastX, PADDING_TOP + chartHeight)
-  fillPath.lineTo(PADDING_LEFT, PADDING_TOP + chartHeight)
-  fillPath.close()
+  const fillPath = useMemo(() => {
+    const path = Skia.Path.Make()
+    path.addPath(linePath)
+    const lastX = toX(sorted.length - 1)
+    path.lineTo(lastX, PADDING_TOP + chartHeight)
+    path.lineTo(PADDING_LEFT, PADDING_TOP + chartHeight)
+    path.close()
+    return path
+  }, [linePath, sorted])
 
   // Y轴网格线
   const gridScores = [0, 25, 50, 75, 100]
-  const gridLines = gridScores.map((score) => ({
-    score,
-    y: toY(score),
-  }))
+  const gridLines = useMemo(() =>
+    gridScores.map((score) => ({
+      score,
+      y: toY(score),
+    })),
+    [chartHeight]
+  )
 
   // 数据点
-  const dataPoints = sorted.map((entry, i) => ({
-    entry,
-    x: toX(i),
-    y: toY(entry.score),
-  }))
+  const dataPoints = useMemo(() =>
+    sorted.map((entry, i) => ({
+      entry,
+      x: toX(i),
+      y: toY(entry.score),
+    })),
+    [sorted]
+  )
 
   // 进步/退步标注
-  const annotations = sorted.slice(1).map((entry, i) => {
-    const diff = entry.score - sorted[i].score
-    return { diff, x: toX(i + 1), y: toY(entry.score) }
-  })
+  const annotations = useMemo(() =>
+    sorted.slice(1).map((entry, i) => {
+      const diff = entry.score - sorted[i].score
+      return { diff, x: toX(i + 1), y: toY(entry.score) }
+    }),
+    [sorted]
+  )
 
   // 进步趋势颜色
   const lastScore = sorted[sorted.length - 1].score

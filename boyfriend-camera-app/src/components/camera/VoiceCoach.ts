@@ -15,6 +15,7 @@ const FACE_TIPS = {
   OFF_CENTER_TOP: '镜头稍微下移一点',
   OFF_CENTER_BOTTOM: '镜头稍微上移一点',
   GOOD_POSITION: '位置刚刚好！笑一个～',
+  MULTI_FACE: '哇，有好多人～对焦在你身上哦',
 }
 
 const STABILITY_TIPS = {
@@ -23,6 +24,22 @@ const STABILITY_TIPS = {
   EXTREME_SHAKE: '太抖了！深呼吸，憋住气再拍',
   TILTED: '手机有点歪，看一下水平仪',
 }
+
+// 表情检测提示
+const EXPRESSION_TIPS = {
+  BLURRY: '照片有点糊了，让他手拿稳一点～',
+  CLOSED_EYES: '好像有人闭眼了，提醒他睁大眼睛！',
+  NO_SMILE: '笑一个！自然一点更好看～',
+}
+
+// 通用鼓励语
+const ENCOURAGEMENT = [
+  '这张构图超棒！',
+  '光线拿捏得真好～',
+  '进步好大呀！',
+  '背景好干净，主体好突出！',
+  '氛围感满满～',
+]
 
 type FaceTipKey = keyof typeof FACE_TIPS
 type StabilityTipKey = keyof typeof STABILITY_TIPS
@@ -143,6 +160,19 @@ class VoiceCoach {
   /** 朗读模板的语音提示 */
   async speakTemplateTip(tip: string): Promise<void> {
     await this.speak(tip, true) // 强制朗读
+  }
+
+  /** 多脸检测提示 */
+  async speakMultiFaceTip(faceCount: number): Promise<void> {
+    if (faceCount > 1) {
+      await this.speak(FACE_TIPS.MULTI_FACE)
+    }
+  }
+
+  /** 鼓励语播报 */
+  async speakEncouragement(): Promise<void> {
+    const tip = ENCOURAGEMENT[Math.floor(Math.random() * ENCOURAGEMENT.length)]
+    await this.speak(tip, true)
   }
 
   setEnabled(enabled: boolean): void {

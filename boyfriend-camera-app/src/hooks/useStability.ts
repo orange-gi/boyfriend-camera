@@ -68,10 +68,12 @@ export function useStability() {
   // 滑动窗口历史
   const historyRef = useRef<number[]>([])
   const lastStableRef = useRef(true)
+  const stableDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // 节流控制，避免频繁更新
   const lastUpdateRef = useRef(0)
   const UPDATE_INTERVAL = 150 // ms
+  const STABLE_DEBOUNCE = 400 // 稳定状态切换防抖（ms）
 
   useEffect(() => {
     setUpdateIntervalForType(SensorTypes.accelerometer, 80) // 80ms 采样
@@ -102,10 +104,22 @@ export function useStability() {
       const rawShake = Math.min(1, deviation / 3)
 
       const shakeLevel = kfShake.current.update(rawShake)
-      const isStable = shakeLevel < STABILITY_THRESHOLD && lastStableRef.current
+      const wouldBeStable = shakeLevel < STABILITY_THRESHOLD
 
-      if (isStable !== lastStableRef.current) {
-        lastStableRef.current = isStable
+      // 稳定性状态切换需要防抖，防止频繁闪烁
+      let isStable = lastStableRef.current
+      if (wouldBeStable !== isStable) {
+        if (stableDebounceRef.current) clearTimeout(stableDebounceRef.current)
+        stableDebounceRef.current = setTimeout(() => {
+          lastStableRef.current = wouldBeStable
+          setData((prev) => ({
+            ...prev,
+            isStable: wouldBeStable,
+          }))
+        }, STABLE_DEBOUNCE)
+        // 立即更新抖动数据，但延迟稳定状态
+      } else {
+        isStable = wouldBeStable
       }
 
       setData({
@@ -121,6 +135,7 @@ export function useStability() {
       kfX.current.reset()
       kfY.current.reset()
       kfShake.current.reset()
+      if (stableDebounceRef.current) clearTimeout(stableDebounceRef.current)
     }
   }, [])
 
