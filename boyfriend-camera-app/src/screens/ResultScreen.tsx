@@ -90,6 +90,13 @@ export default function ResultScreen({ route, navigation }: any) {
         ? recentScores.reduce((s, v) => s + v, 0) / recentScores.length
         : undefined
 
+      // 计算连续高分次数（连续 >= 80 分的次数）
+      let streakCount = 0
+      for (const record of diary) {
+        if (record.score >= 80) streakCount++
+        else break
+      }
+
       const analysis: AnalysisResult = await analyzePhoto(
         {
           facePosition: faceData,
@@ -101,6 +108,8 @@ export default function ResultScreen({ route, navigation }: any) {
         {
           lastScore: lastRecord?.score,
           recentAvg,
+          streakCount,
+          totalShoots: diary.length,
           isFirstPhoto: diary.length === 0,
         }
       )
