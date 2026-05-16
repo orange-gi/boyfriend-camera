@@ -1,7 +1,8 @@
 /**
  * cloudbase.ts - CloudBase 初始化和登录
  */
-import cloudbase from '@cloudbase/js-sdk'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const cloudbase = require('@cloudbase/js-sdk')
 
 const app = cloudbase.init({
   env: 'jiulou-4gu5ljkpa1082b3c',

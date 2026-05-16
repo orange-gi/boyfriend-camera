@@ -4,6 +4,14 @@
   "functionRoot": "./functions",
   "functions": [
     {
+      "name": "getTemplates",
+      "timeout": 10,
+      "runtime": "Nodejs18.15",
+      "memorySize": 256,
+      "handler": "index.main",
+      "installDependency": true
+    },
+    {
       "name": "boyfriend-camera-analyze-photo",
       "timeout": 60,
       "runtime": "Nodejs18.15",
