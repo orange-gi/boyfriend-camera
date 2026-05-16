@@ -30,6 +30,11 @@ const EXPRESSION_TIPS = {
   BLURRY: '照片有点糊了，让他手拿稳一点～',
   CLOSED_EYES: '好像有人闭眼了，提醒他睁大眼睛！',
   NO_SMILE: '笑一个！自然一点更好看～',
+  SMILING_GOOD: '这个笑容绝了！就是现在，按快门！',
+  EYES_OPEN_GOOD: '眼神超有光，这表情太加分了！',
+  YAW_LEFT: '脸稍微转过来一点，别侧太多',
+  YAW_RIGHT: '脸稍微往这边转一点，别只露侧脸',
+  ROLL_TILTED: '头稍微正一点，歪着显脸大哦～',
 }
 
 // 通用鼓励语
@@ -45,20 +50,22 @@ type FaceTipKey = keyof typeof FACE_TIPS
 type StabilityTipKey = keyof typeof STABILITY_TIPS
 
 class VoiceCoach {
-  private enabled: boolean = true
+  private enabled: boolean = false
+  private initialized: boolean = false
   private lastFaceTip: string = ''
   private lastStabilityTip: string = ''
   private cooldownMs: number = 3000  // 提示冷却时间
   private lastSpokeAt: number = 0
 
   async initialize(): Promise<void> {
-    if (this.enabled) return
+    if (this.initialized) return
     try {
       await Tts.setDefaultLanguage('zh-CN')
       await Tts.setDefaultRate(0.5)  // 适中语速
       await Tts.setDefaultPitch(1.1) // 稍高音调，更温柔
       await Tts.setDucking(true)
       this.enabled = true
+      this.initialized = true
       console.log('[VoiceCoach] TTS initialized')
     } catch (e) {
       console.error('[VoiceCoach] TTS init failed:', e)
@@ -169,6 +176,59 @@ class VoiceCoach {
     }
   }
 
+  /** 表情分析提示（基于 MLKit 检测结果） */
+  async speakExpressionTip(params: {
+    smiling?: boolean
+    leftEyeOpen?: boolean
+    rightEyeOpen?: boolean
+    yawAngle?: number
+    rollAngle?: number
+    sharpness?: number
+  }): Promise<void> {
+    const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle, sharpness } = params
+
+    // 模糊检测
+    if (sharpness !== undefined && sharpness < 60) {
+      await this.speak(EXPRESSION_TIPS.BLURRY)
+      return
+    }
+
+    // 闭眼检测
+    if ((leftEyeOpen === false || rightEyeOpen === false) && smiling !== true) {
+      await this.speak(EXPRESSION_TIPS.CLOSED_EYES)
+      return
+    }
+
+    // 头部偏转检测
+    if (yawAngle !== undefined) {
+      if (yawAngle < -20) {
+        await this.speak(EXPRESSION_TIPS.YAW_RIGHT)
+        return
+      }
+      if (yawAngle > 20) {
+        await this.speak(EXPRESSION_TIPS.YAW_LEFT)
+        return
+      }
+    }
+
+    // 头部倾斜检测
+    if (rollAngle !== undefined && Math.abs(rollAngle) > 15) {
+      await this.speak(EXPRESSION_TIPS.ROLL_TILTED)
+      return
+    }
+
+    // 笑容检测
+    if (smiling === true) {
+      await this.speak(EXPRESSION_TIPS.SMILING_GOOD)
+      return
+    }
+
+    // 眼睛状态
+    if (leftEyeOpen && rightEyeOpen && smiling === undefined) {
+      await this.speak(EXPRESSION_TIPS.EYES_OPEN_GOOD)
+    }
+  }
+
   /** 鼓励语播报 */
   async speakEncouragement(): Promise<void> {
     const tip = ENCOURAGEMENT[Math.floor(Math.random() * ENCOURAGEMENT.length)]
@@ -177,15 +237,17 @@ class VoiceCoach {
 
   setEnabled(enabled: boolean): void {
     this.enabled = enabled
-    if (!enabled) {
+    if (!enabled && this.initialized) {
       Tts.stop()
     }
   }
 
   stop(): void {
-    Tts.stop()
+    if (this.initialized) {
+      Tts.stop()
+    }
   }
 }
 
-export { FACE_TIPS, STABILITY_TIPS }
+export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
 export default new VoiceCoach()
