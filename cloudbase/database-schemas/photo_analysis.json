@@ -1,0 +1,19 @@
+{
+  "name": "photo_analysis",
+  "description": "男友相机 - 照片分析记录",
+  "columns": [
+    {"name": "id", "type": "varchar", "primary": true, "not_null": true},
+    {"name": "user_id", "type": "varchar", "not_null": true, "comment": "用户ID"},
+    {"name": "score", "type": "decimal", "comment": "总体评分 0-10"},
+    {"name": "highlights", "type": "text", "comment": "亮点夸夸 JSON 数组"},
+    {"name": "suggestions", "type": "text", "comment": "改进建议 JSON 数组"},
+    {"name": "tip", "type": "text", "comment": "今日技巧"},
+    {"name": "analysis_text", "type": "text", "comment": "完整分析文案"},
+    {"name": "image_url", "type": "varchar", "comment": "照片 CloudBase 存储路径"},
+    {"name": "created_at", "type": "datetime", "default": "CURRENT_TIMESTAMP"}
+  ],
+  "indexes": [
+    {"name": "idx_user_id", "columns": ["user_id"]},
+    {"name": "idx_created_at", "columns": ["created_at"]}
+  ]
+}

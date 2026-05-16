@@ -1,0 +1,7 @@
+{
+  "name": "analyze-photo",
+  "version": "1.0.0",
+  "description": "男友相机 - 照片AI分析云函数",
+  "main": "index.js",
+  "dependencies": {}
+}

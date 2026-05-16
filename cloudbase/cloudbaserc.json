@@ -1,0 +1,18 @@
+{
+  "version": "2.0",
+  "envId": "jiulou-4gu5ljkpa1082b3c",
+  "functionRoot": "./functions",
+  "functions": [
+    {
+      "name": "analyze-photo",
+      "timeout": 60,
+      "runtime": "Nodejs18.15",
+      "memorySize": 512,
+      "handler": "index.main",
+      "installDependency": true,
+      "envVariables": {
+        "MINIMAX_API_KEY": "sk-cp-eBYEw7ImOYJDNU5T6fWx18TDdVNlJCtT1eX99cbbibw0zGzjQ8DUstAt7TcBhXLjrOR4hYyeV3FqgoNfUzds6vJN4IhhMTY9w1fRwhJlyFQ3fP02_SYn49Y"
+      }
+    }
+  ]
+}
