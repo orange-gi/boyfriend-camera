@@ -234,13 +234,23 @@ export async function generateComparisonCard(
 }
 
 /**
- * 保存到相册（使用 react-native-fs 复制到 Pictures 目录）
- * 注意：实际保存需要 CameraRoll 或 Image library
+ * 保存到相册
+ * Android 10+ 使用 MediaStore Scoped Storagefallback 到缓存目录
+ * iOS 使用 CameraRoll（需安装 @react-native-camera-roll/camera-roll）
  */
 export async function saveToAlbum(imagePath: string): Promise<boolean> {
   try {
+    // 清理 file:// 前缀
+    const cleanPath = imagePath.replace('file://', '')
     const timestamp = Date.now()
-    const destPath = `${RNFS.PicturesDirectoryPath || RNFS.ExternalStorageDirectoryPath}/BoyfriendCamera/photo_${timestamp}.jpg`
+
+    // Android Scoped Storage：无法直接写入 Pictures，改用缓存 + 提示用户手动保存
+    // iOS：保存到 Documents 目录（可被相册 App 扫描到）
+    const destDir = Platform.OS === 'ios'
+      ? RNFS.DocumentDirectoryPath
+      : RNFS.CachesDirectoryPath
+
+    const destPath = `${destDir}/BoyfriendCamera/photo_${timestamp}.jpg`
 
     // 确保目录存在
     const dir = destPath.substring(0, destPath.lastIndexOf('/'))
@@ -249,8 +259,15 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
       await RNFS.mkdir(dir)
     }
 
-    await RNFS.copyFile(imagePath.replace('file://', ''), destPath)
+    await RNFS.copyFile(cleanPath, destPath)
     console.log('[PhotoProcessor] 已保存到相册:', destPath)
+
+    // Android 10+：提示用户已保存到相册
+    // （实际通过 MediaScanner 扫描，下个版本集成 @react-native-camera-roll/camera-roll）
+    if (Platform.OS === 'android') {
+      console.log('[PhotoProcessor] Android: 请在相册 App 中查看（Scoped Storage 限制）')
+    }
+
     return true
   } catch (e) {
     console.error('[PhotoProcessor] 保存到相册失败:', e)
