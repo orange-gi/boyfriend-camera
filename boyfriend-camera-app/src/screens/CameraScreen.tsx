@@ -238,6 +238,17 @@ export default function CameraScreen({ navigation }: any) {
           torchMode={flash === 'on' ? 'on' : 'off'}
           onError={(err) => setCameraError(err)}
         />
+        {/* 相机错误提示悬浮条 */}
+        {cameraError && (
+          <View style={styles.cameraErrorBanner}>
+            <Text style={styles.cameraErrorText}>
+              {cameraError === 'permission_denied' ? '📷 相机权限未授权，请去设置中开启' : '📷 相机设备不可用'}
+            </Text>
+            <TouchableOpacity onPress={() => setCameraError(null)}>
+              <Text style={styles.cameraErrorClose}>✕</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       {/* 构图线叠加 */}
@@ -556,6 +567,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+  },
+  cameraErrorBanner: {
+    position: 'absolute',
+    top: 60,
+    left: 16,
+    right: 16,
+    backgroundColor: 'rgba(255, 80, 80, 0.95)',
+    borderRadius: 12,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    zIndex: 100,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  cameraErrorText: {
+    color: '#fff',
+    fontSize: 13,
+    flex: 1,
+    lineHeight: 18,
+  },
+  cameraErrorClose: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 8,
+    padding: 4,
   },
   cameraWrapper: {
     flex: 1,
