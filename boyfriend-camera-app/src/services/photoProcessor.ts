@@ -196,6 +196,88 @@ export function getFilterParams(filterName: string | null): {
 }
 
 /**
+ * 获取 Skia ColorMatrix 参数
+ * 返回可用于 Skia Image 滤镜的 color matrix 数组
+ * 格式: [r, g, b, a, t] 每通道乘数 + 偏移
+ *
+ * 基于 brightness/contrast/saturation 组合计算
+ */
+export function getColorMatrix(filterName: string | null): number[] {
+  // 恒等矩阵（不做任何处理）
+  const identity = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+
+  if (!filterName || !FILTER_PARAMS[filterName]) return identity
+
+  const p = FILTER_PARAMS[filterName]
+  const { brightness, contrast, saturation } = p
+
+  // 亮度调整: 加法 (brightness - 1) * 255
+  const b = brightness
+  // 对比度调整: 乘法
+  const c = contrast
+  // 饱和度调整: 通过灰度系数实现
+  const s = saturation
+
+  // 饱和度转 ColorMatrix
+  const sr = 1 - s
+  const lumR = 0.3086 * sr
+  const lumG = 0.6094 * sr
+  const lumB = 0.0820 * sr
+
+  // 组合: 先饱和度 → 对比度 → 亮度
+  // Skia ColorMatrix 顺序: RGBA 各通道乘数 + 位移
+  // 饱和度矩阵 (saturation transform)
+  const satMatrix = [
+    lumR + s, lumG, lumB, 0, 0,
+    lumR, lumG + s, lumB, 0, 0,
+    lumR, lumG, lumB + s, 0, 0,
+    0, 0, 0, 1, 0,
+  ]
+
+  // 对比度矩阵 (centered at 0.5, scaled by c)
+  const t1 = (1 - c) / 2
+  const contrastMatrix = [
+    c, 0, 0, 0, t1,
+    0, c, 0, 0, t1,
+    0, 0, c, 0, t1,
+    0, 0, 0, 1, 0,
+  ]
+
+  // 亮度矩阵
+  const brightnessOffset = (b - 1) * 0.5
+  const brightnessMatrix = [
+    1, 0, 0, 0, brightnessOffset,
+    0, 1, 0, 0, brightnessOffset,
+    0, 0, 1, 0, brightnessOffset,
+    0, 0, 0, 1, 0,
+  ]
+
+  // 矩阵乘法: Saturation × Contrast × Brightness
+  // Skia 中矩阵左乘效果：m3 * m2 * m1 * color
+  // 我们按顺序: color → brightnessMatrix → contrastMatrix → satMatrix
+  return multiplyMatrices(satMatrix, multiplyMatrices(contrastMatrix, brightnessMatrix))
+}
+
+/** 4x5 矩阵乘法 */
+function multiplyMatrices(a: number[], b: number[]): number[] {
+  const result = new Array(20).fill(0)
+  for (let row = 0; row < 4; row++) {
+    for (let col = 0; col < 5; col++) {
+      let sum = 0
+      for (let k = 0; k < 4; k++) {
+        sum += a[row * 5 + k] * b[k * 5 + col]
+      }
+      // 处理位移列 (col === 4)
+      if (col === 4) {
+        sum += a[row * 5 + 4]
+      }
+      result[row * 5 + col] = sum
+    }
+  }
+  return result
+}
+
+/**
  * 生成对比卡片（使用 react-native-view-shot）
  * 将原图和优化图并排截图
  */
