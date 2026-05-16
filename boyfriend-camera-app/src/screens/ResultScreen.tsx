@@ -13,6 +13,7 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
+  Share,
 } from 'react-native'
 import Animated, {
   useSharedValue,
@@ -167,6 +168,23 @@ export default function ResultScreen({ route, navigation }: any) {
     }
   }
 
+  async function handleShare() {
+    try {
+      const pathToShare = comparisonUri || processedPath || photoPath
+      // React Native Share API（分享图片 URI）
+      await Share.share({
+        title: '男友相机 - 拍照分析',
+        message: `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`,
+        url: pathToShare,
+      })
+    } catch (e: any) {
+      // 用户取消分享时不弹错误
+      if (e.message !== 'User did not share') {
+        Alert.alert('分享失败', '请稍后重试')
+      }
+    }
+  }
+
   function handleRetry() {
     navigation.goBack()
   }
@@ -273,6 +291,14 @@ export default function ResultScreen({ route, navigation }: any) {
           </TouchableOpacity>
 
           <TouchableOpacity
+            style={styles.shareBtn}
+            onPress={handleShare}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.shareBtnText}>📤 分享</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             style={[styles.saveBtn, saving && styles.saveBtnDisabled]}
             onPress={handleSave}
             disabled={saving}
@@ -371,6 +397,21 @@ const styles = StyleSheet.create({
   retryBtnText: {
     fontSize: 15,
     color: '#666',
+    fontWeight: '600',
+  },
+  shareBtn: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 25,
+    borderWidth: 1.5,
+    borderColor: '#FFB347',
+    alignItems: 'center',
+    backgroundColor: '#FFFBF5',
+    marginHorizontal: 6,
+  },
+  shareBtnText: {
+    fontSize: 15,
+    color: '#FFB347',
     fontWeight: '600',
   },
   saveBtn: {
