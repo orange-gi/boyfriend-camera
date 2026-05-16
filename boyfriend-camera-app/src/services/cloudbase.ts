@@ -1,43 +1,54 @@
 /**
- * cloudbase.ts - CloudBase 初始化和登录
+ * cloudbase.ts - CloudBase HTTP API 调用
+ * 直接使用 fetch 调用云函数，无需 JS SDK（SDK 不兼容 React Native）
+ *
+ * 云函数 HTTP 调用格式：
+ * POST https://{envId}.service.tcloudbase.com/{functionName}
+ * Header: Content-Type: application/json
+ *
+ * 注意：未认证的 HTTP 调用有限流，生产环境应通过云接入配置认证
  */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const cloudbase = require('@cloudbase/js-sdk')
+import { Linking } from 'react-native'
 
-const app = cloudbase.init({
-  env: 'jiulou-4gu5ljkpa1082b3c',
-  region: 'ap-shanghai',
-})
+const ENV_ID = 'jiulou-4gu5ljkpa1082b3c'
+const REGION = 'ap-shanghai'
 
-export async function login(): Promise<any> {
-  // 匿名登录
+/**
+ * 调用云函数（HTTP API 方式）
+ * @param name 云函数名
+ * @param data 请求参数
+ * @returns 云函数返回值，失败返回 null
+ */
+export async function callFunction(name: string, data: object = {}): Promise<any> {
+  const url = `https://${ENV_ID}.${REGION}.tcloudbase.com/tcb/${name}`
+
   try {
-    const auth = app.auth({ persistence: 'local' })
-    await auth.anonymousAuthProvider().signIn()
-    console.log('[CloudBase] 匿名登录成功')
-    return auth
-  } catch (e: any) {
-    console.error('[CloudBase] 登录失败:', e.message)
-    return null
-  }
-}
-
-export async function getCurrentUser(): Promise<any> {
-  const auth = app.auth({ persistence: 'local' })
-  return await auth.getCurrentUser()
-}
-
-export async function callFunction(name: string, data: object): Promise<any> {
-  try {
-    const res = await app.callFunction({
-      name,
-      data,
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-TCB-EnvID': ENV_ID,
+      },
+      body: JSON.stringify(data),
     })
-    return res
+
+    if (!res.ok) {
+      console.warn(`[CloudBase] HTTP ${res.status} for ${name}`)
+      return null
+    }
+
+    const json = await res.json()
+    // 云函数结果通常在 .data 字段
+    return json.data ?? json
   } catch (e: any) {
-    console.error('[CloudBase] callFunction error:', e.message)
+    console.error(`[CloudBase] callFunction(${name}) failed:`, e.message)
     return null
   }
 }
 
-export default app
+/**
+ * 打开云控制台（调试用）
+ */
+export function openCloudConsole(): void {
+  Linking.openURL(`https://console.cloud.tencent.com/tcb/env/${ENV_ID}`)
+}

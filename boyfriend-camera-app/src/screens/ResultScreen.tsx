@@ -52,6 +52,9 @@ export default function ResultScreen({ route, navigation }: any) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const viewShotRef = useRef<any>(null)
   const { faces } = useFaceDetection()
+  // 防 unmount 后 setState
+  const mountedRef = useRef(true)
+  const screenshotTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // 评分展开动画
   const scoreReveal = useSharedValue(0)
@@ -59,14 +62,23 @@ export default function ResultScreen({ route, navigation }: any) {
 
   // 主处理流程
   useEffect(() => {
+    mountedRef.current = true
     if (!photoPath) {
       setProcessing(false)
       return
     }
     runAnalysis()
+    return () => {
+      mountedRef.current = false
+      if (screenshotTimerRef.current) {
+        clearTimeout(screenshotTimerRef.current)
+        screenshotTimerRef.current = null
+      }
+    }
   }, [photoPath])
 
   async function runAnalysis() {
+    if (!mountedRef.current) return
     setProcessing(true)
     setError(null)
     scoreReveal.value = 0
@@ -79,6 +91,7 @@ export default function ResultScreen({ route, navigation }: any) {
         autoRetouch: true,
         faceCenter: faces[0] ? { x: faces[0].x, y: faces[0].y } : undefined,
       })
+      if (!mountedRef.current) return
       setProcessedPath(processed)
 
       const faceData = faces[0] || { x: 0.5, y: 0.35, area: 0.1 }
@@ -105,7 +118,7 @@ export default function ResultScreen({ route, navigation }: any) {
         : 140
       // 使用时间戳生成确定性伪随机值（避免每次都相同）
       const ts = Date.now()
-      const brightness = Math.max(30, Math.min(220, photoTimestamp || 100 + (ts % 120)))
+      const brightness = Math.max(30, Math.min(220, (photoTimestamp || 100) + (ts % 120)))
       const sharpness = 80 + (ts % 120) // 80-200
       const tiltAngle = ((ts % 36) - 18) * 0.5 // -9 ~ 9 度
 
@@ -132,6 +145,7 @@ export default function ResultScreen({ route, navigation }: any) {
         }
       )
 
+      if (!mountedRef.current) return
       setPraiseList(analysis.praise || [])
       setScoreResult({
         totalScore: analysis.totalScore,
@@ -157,19 +171,22 @@ export default function ResultScreen({ route, navigation }: any) {
       cardSlide.value = withTiming(0, { duration: 400, })
       scoreReveal.value = withDelay(300, withSpring(1, { damping: 14, stiffness: 90 }))
 
-      // 截图延迟等动画完成后
-      setTimeout(async () => {
+      // 截图延迟等动画完成后（cleanup 时清除）
+      if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
+      screenshotTimerRef.current = setTimeout(async () => {
+        if (!mountedRef.current) return
         setScoreAnimationDone(true)
         if (viewShotRef.current) {
           try {
             const uri = await viewShotRef.current.capture()
-            setComparisonUri(uri)
+            if (mountedRef.current) setComparisonUri(uri)
           } catch (e) {
             console.warn('[ResultScreen] 截图失败:', e)
           }
         }
       }, 1200)
     } catch (e: any) {
+      if (!mountedRef.current) return
       console.error('[ResultScreen] 处理失败:', e)
       setError(e.message || '处理失败')
       setScoreResult({
@@ -183,7 +200,7 @@ export default function ResultScreen({ route, navigation }: any) {
       cardSlide.value = 0
       scoreReveal.value = 1
     } finally {
-      setProcessing(false)
+      if (mountedRef.current) setProcessing(false)
     }
   }
 
@@ -194,7 +211,9 @@ export default function ResultScreen({ route, navigation }: any) {
         cropRatio: 3 / 4,
         filterName: selectedFilter,
         autoRetouch: true,
-      }).then(setProcessedPath)
+      }).then(path => {
+        if (mountedRef.current) setProcessedPath(path)
+      })
     }
   }, [selectedFilter])
 

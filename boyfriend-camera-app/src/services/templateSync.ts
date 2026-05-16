@@ -1,9 +1,11 @@
 /**
  * templateSync.ts - 模板同步服务
  * 从云函数获取模板增量包，缓存到 AsyncStorage
+ * 云函数不可用时 fallback 到内置默认模板
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { callFunction } from './cloudbase'
+import { DEFAULT_TEMPLATES } from './defaultTemplates'
 import type { PoseTemplate } from '../components/camera/PoseTemplateOverlay'
 
 const TEMPLATE_CACHE_PREFIX = 'template_cache_v'
@@ -29,30 +31,42 @@ export async function setLocalVersion(version: number): Promise<void> {
 
 export async function syncTemplates(): Promise<PoseTemplate[]> {
   const localVersion = await getLocalVersion()
-  
-  // 调用云函数检查更新
-  const res = await callFunction('getTemplates', { localVersion })
-  if (!res) {
-    // 网络不可用，返回缓存
-    return getCachedTemplates()
+
+  try {
+    // 调用云函数检查更新
+    const res = await callFunction('getTemplates', { localVersion })
+    if (!res) throw new Error('云函数返回为空')
+
+    // CloudBase 云函数结果可能在 res 或 res.result 中
+    const data: TemplateUpdate = (res as any).result ?? res
+
+    // 如果没有有效数据
+    if (!data || !Array.isArray(data.update)) {
+      throw new Error('云函数返回数据格式异常')
+    }
+
+    // 云端无更新
+    if (data.latestVersion <= localVersion) {
+      console.log('[TemplateSync] 无更新，当前版本:', localVersion)
+      return getCachedTemplates()
+    }
+
+    // 云端返回完整模板集，缓存并返回
+    const templates = data.update
+    await AsyncStorage.setItem(
+      TEMPLATE_CACHE_PREFIX + data.latestVersion,
+      JSON.stringify(templates)
+    )
+    await setLocalVersion(data.latestVersion)
+    console.log('[TemplateSync] 已更新到 v' + data.latestVersion + '，共 ' + templates.length + ' 个模板')
+    return templates
+  } catch (e) {
+    console.warn('[TemplateSync] 云函数不可用，使用离线模板:', (e as Error).message)
+    // 无缓存且云函数不可用 → 返回内置默认模板
+    const cached = await getCachedTemplates()
+    if (cached.length > 0) return cached
+    return DEFAULT_TEMPLATES
   }
-  
-  const data = res.result as TemplateUpdate
-  if (data.latestVersion <= localVersion) {
-    console.log('[TemplateSync] 无更新，当前版本:', localVersion)
-    return getCachedTemplates()
-  }
-  
-  // 云端返回的是完整模板集，直接替换缓存（避免重复追加）
-  const templates = data.update
-  await AsyncStorage.setItem(
-    TEMPLATE_CACHE_PREFIX + data.latestVersion,
-    JSON.stringify(templates)
-  )
-  await setLocalVersion(data.latestVersion)
-  console.log('[TemplateSync] 已更新到 v' + data.latestVersion + '，共 ' + templates.length + ' 个模板')
-  
-  return templates
 }
 
 export async function getCachedTemplates(): Promise<PoseTemplate[]> {
@@ -60,8 +74,13 @@ export async function getCachedTemplates(): Promise<PoseTemplate[]> {
   if (localVersion === 0) return []
   try {
     const cached = await AsyncStorage.getItem(TEMPLATE_CACHE_PREFIX + localVersion)
-    return cached ? JSON.parse(cached) : []
+    if (cached) {
+      const templates = JSON.parse(cached) as PoseTemplate[]
+      if (templates.length > 0) return templates
+    }
   } catch {
-    return []
+    // ignore
   }
+  // 缓存为空，返回默认模板
+  return DEFAULT_TEMPLATES
 }

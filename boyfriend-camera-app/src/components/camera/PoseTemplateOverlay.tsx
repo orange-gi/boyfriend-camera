@@ -3,7 +3,7 @@
  * 可拖动、缩放的半透明 SVG 剪影叠加
  * 使用 Image 加载 data URI，支持 PanResponder 拖动 + pinch 缩放
  */
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {
   View,
   StyleSheet,
@@ -43,6 +43,18 @@ export default function PoseTemplateOverlay({ template, onTipPress }: Props) {
   const lastScale = useRef(1.0)
   const lastOffset = useRef({ x: 0, y: 0 })
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 })
+  // 监听器 ID ref，用于清理
+  const listenerId = useRef<string | null>(null)
+
+  // listener cleanup：组件卸载时移除所有监听，防止内存泄漏
+  useEffect(() => {
+    return () => {
+      pan.removeAllListeners()
+      if (listenerId.current !== null) {
+        pan.removeListener(listenerId.current)
+      }
+    }
+  }, [])
 
   const panResponder = useRef(
     PanResponder.create({
@@ -63,11 +75,14 @@ export default function PoseTemplateOverlay({ template, onTipPress }: Props) {
 
       onPanResponderRelease: () => {
         pan.flattenOffset()
-        // 读取当前值（通过监听方式）
-        const sub = pan.addListener(({ x, y }: { x: number; y: number }) => {
-          lastOffset.current = { x, y }
-          setPanOffset({ x, y })
-          pan.removeListener(sub)
+        // flattenOffset 后，用一次性监听读取最终位置
+        if (listenerId.current !== null) pan.removeListener(listenerId.current)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        listenerId.current = pan.addListener((v: any) => {
+          lastOffset.current = { x: Number(v.x), y: Number(v.y) }
+          setPanOffset(lastOffset.current)
+          pan.removeListener(listenerId.current!)
+          listenerId.current = null
         })
       },
     })

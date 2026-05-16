@@ -7,8 +7,6 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { login } from './src/services/cloudbase'
-
 import HomeScreen from './src/screens/HomeScreen'
 import CameraScreen from './src/screens/CameraScreen'
 import ResultScreen from './src/screens/ResultScreen'
@@ -18,17 +16,10 @@ const Stack = createNativeStackNavigator()
 
 export default function App() {
   const [ready, setReady] = useState(false)
-  const [loginError, setLoginError] = useState<string | null>(null)
 
   useEffect(() => {
-    initApp()
-  }, [])
-
-  async function initApp() {
-    console.log('[App] 初始化...')
-    await login()
     setReady(true)
-  }
+  }, [])
 
   if (!ready) {
     return (
