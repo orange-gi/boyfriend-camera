@@ -25,6 +25,7 @@ import Animated, {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
+import { scoreColor } from '../theme/colors'
 
 const { width: SCREEN_W } = Dimensions.get('window')
 
@@ -247,7 +248,7 @@ export default function HomeScreen({ navigation }: any) {
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: avgScore >= 80 ? '#4CAF50' : avgScore >= 60 ? '#FFB347' : '#FF6B6B' }]}>
+            <Text style={[styles.statNumber, { color: scoreColor(avgScore) }]}>
               {avgScore}
             </Text>
             <Text style={styles.statLabel}>平均分</Text>
@@ -262,12 +263,18 @@ export default function HomeScreen({ navigation }: any) {
 
       {/* 拍照主按钮 */}
       <Animated.View style={[styles.cameraBtnWrapper, cameraBtnStyle]}>
-        {isNewUser && <View style={styles.newBadge}><Text style={styles.newBadgeText}>新</Text></View>}
+        {isNewUser && (
+          <View style={styles.newBadge}>
+            <Text style={styles.newBadgeText}>新</Text>
+          </View>
+        )}
         <TouchableOpacity
-          style={styles.cameraBtn}
+          style={[styles.cameraBtn, isNewUser && styles.cameraBtnNewUser]}
           onPress={() => navigation.navigate('Camera')}
           activeOpacity={0.85}
         >
+          {/* 呼吸光环 */}
+          {isNewUser && <View style={styles.cameraGlowRing} />}
           <View style={styles.cameraBtnInner}>
             <Text style={styles.cameraBtnIcon}>📷</Text>
           </View>
@@ -294,26 +301,44 @@ export default function HomeScreen({ navigation }: any) {
         <Text style={styles.sectionTitle}>✨ 功能介绍</Text>
         <View style={styles.featuresGrid}>
           {FEATURES.map((f, i) => (
-            <View key={i} style={[styles.featureCard, { borderLeftColor: f.color }]}>
-              <Text style={styles.featureIcon}>{f.icon}</Text>
+            <TouchableOpacity
+              key={i}
+              style={[styles.featureCard, { borderLeftColor: f.color }]}
+              activeOpacity={0.75}
+              onPress={() => {
+                if (f.title === '姿势模板') navigation.navigate('Camera')
+                if (f.title === '进步日记') navigation.navigate('Diary')
+              }}
+            >
+              <View style={[styles.featureIconWrap, { backgroundColor: f.color + '18' }]}>
+                <Text style={styles.featureIcon}>{f.icon}</Text>
+              </View>
               <View style={styles.featureText}>
                 <Text style={styles.featureTitle}>{f.title}</Text>
                 <Text style={styles.featureDesc}>{f.desc}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </Animated.View>
 
       {/* 底部导航 */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate('Diary')}>
+        <TouchableOpacity
+          style={[styles.bottomNavBtn, styles.bottomNavBtnActive]}
+          onPress={() => navigation.navigate('Diary')}
+          activeOpacity={0.7}
+        >
           <Text style={styles.bottomNavIcon}>📊</Text>
-          <Text style={styles.bottomNavText}>进步日记</Text>
+          <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>进步日记</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate('Camera')}>
+        <TouchableOpacity
+          style={[styles.bottomNavBtn, styles.bottomNavBtnActive]}
+          onPress={() => navigation.navigate('Camera')}
+          activeOpacity={0.7}
+        >
           <Text style={styles.bottomNavIcon}>📸</Text>
-          <Text style={styles.bottomNavText}>拍照</Text>
+          <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>拍照</Text>
         </TouchableOpacity>
       </View>
 
@@ -376,33 +401,45 @@ const styles = StyleSheet.create({
   },
   heroSection: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 28,
+    paddingTop: 20,
   },
   heroIcon: {
-    fontSize: 52,
-    marginBottom: 8,
+    fontSize: 64,
+    marginBottom: 12,
   },
   heroTitle: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 4,
+    marginBottom: 8,
+    letterSpacing: 1,
   },
   heroSubtitle: {
-    fontSize: 16,
+    fontSize: 17,
     color: '#FF6B6B',
-    fontWeight: '500',
+    fontWeight: '600',
+    backgroundColor: 'rgba(255,107,107,0.08)',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 16,
+    overflow: 'hidden',
   },
   dailyTip: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFF8F0',
-    borderRadius: 12,
+    borderRadius: 14,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 16,
-    marginHorizontal: 20,
+    marginHorizontal: 4,
     gap: 10,
+    shadowColor: '#FFB347',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 2,
   },
   dailyTipIcon: {
     fontSize: 20,
@@ -416,17 +453,18 @@ const styles = StyleSheet.create({
   statsBar: {
     flexDirection: 'row',
     backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 16,
+    borderRadius: 18,
+    padding: 20,
     marginBottom: 20,
+    marginHorizontal: 4,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 0,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
   },
   statItem: {
     flex: 1,
@@ -453,21 +491,38 @@ const styles = StyleSheet.create({
   },
   cameraBtn: {
     backgroundColor: '#FF6B6B',
-    borderRadius: 32,
-    paddingVertical: 20,
-    paddingHorizontal: 48,
+    borderRadius: 36,
+    paddingVertical: 22,
+    paddingHorizontal: 56,
     alignItems: 'center',
     shadowColor: '#FF6B6B',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 6,
+    overflow: 'visible',
+    position: 'relative',
+  },
+  cameraBtnNewUser: {
+    paddingVertical: 24,
+    paddingHorizontal: 60,
+  },
+  cameraGlowRing: {
+    position: 'absolute',
+    top: -8,
+    left: -8,
+    right: -8,
+    bottom: -8,
+    borderRadius: 44,
+    borderWidth: 2,
+    borderColor: 'rgba(255,107,107,0.3)',
+    backgroundColor: 'transparent',
   },
   cameraBtnInner: {
     marginBottom: 6,
   },
   cameraBtnIcon: {
-    fontSize: 36,
+    fontSize: 42,
   },
   cameraBtnText: {
     fontSize: 18,
@@ -511,46 +566,58 @@ const styles = StyleSheet.create({
   featureCard: {
     flexDirection: 'row',
     backgroundColor: '#fff',
-    borderRadius: 14,
-    padding: 14,
+    borderRadius: 16,
+    padding: 16,
     alignItems: 'flex-start',
     borderLeftWidth: 4,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    elevation: 1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  featureCardPressed: {
+    backgroundColor: '#FFF8F8',
+    transform: [{ scale: 0.98 }],
   },
   featureIcon: {
-    fontSize: 24,
-    marginRight: 12,
+    fontSize: 28,
+    marginRight: 14,
     marginTop: 2,
+  },
+  featureIconWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 0,
   },
   featureText: {
     flex: 1,
   },
   featureTitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 3,
+    marginBottom: 4,
   },
   featureDesc: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#888',
-    lineHeight: 18,
+    lineHeight: 20,
   },
   bottomNav: {
     flexDirection: 'row',
     backgroundColor: '#fff',
     borderRadius: 20,
-    padding: 8,
-    gap: 8,
+    padding: 6,
+    gap: 6,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 4,
   },
   bottomNavBtn: {
     flex: 1,
@@ -558,16 +625,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    borderRadius: 14,
+    borderRadius: 16,
     gap: 8,
   },
+  bottomNavBtnActive: {
+    backgroundColor: 'rgba(255,107,107,0.1)',
+  },
   bottomNavIcon: {
-    fontSize: 18,
+    fontSize: 20,
   },
   bottomNavText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: '#999',
+  },
+  bottomNavTextActive: {
+    color: '#FF6B6B',
+    fontWeight: '700',
   },
   // Onboarding
   onboardOverlay: {
