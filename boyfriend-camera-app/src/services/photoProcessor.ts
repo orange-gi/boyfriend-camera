@@ -142,7 +142,7 @@ export async function processPhoto(
     await RNFS.mkdir(cacheDir)
   }
 
-  console.log('[PhotoProcessor] 处理图片:', imagePath, { cropRatio, filterName, faceCenter })
+  // 处理图片: imagePath
 
   // 标记处理参数（用于 ComparisonCard 渲染滤镜效果）
   const processedMeta = {
@@ -297,7 +297,7 @@ export async function generateComparisonCard(
       format: 'jpg',
       quality: 0.9,
     })
-    console.log('[PhotoProcessor] 对比卡片已生成:', uri)
+    // 对比卡片已生成
     return uri
   } catch (e) {
     console.error('[PhotoProcessor] 截图失败:', e)
@@ -333,14 +333,14 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
     }
 
     await RNFS.copyFile(cleanPath, destPath)
-    console.log('[PhotoProcessor] 已保存照片:', destPath)
+    // 已保存照片
 
     // Android: 尝试触发 MediaScanner 让相册 App 能看到
     if (Platform.OS === 'android') {
       try {
         // 调用 MediaScanner 刷新媒体库（需要 native module，下版本集成 camera-roll）
         // 目前通过在相同目录保存 .nomedia 或提示用户
-        console.log('[PhotoProcessor] Android: 请在文件管理器 > BoyfriendCamera 查看')
+        // Android: 请在文件管理器查看
       } catch {
         // ignore scanner errors
       }

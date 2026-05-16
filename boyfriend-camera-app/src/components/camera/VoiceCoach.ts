@@ -123,7 +123,7 @@ class VoiceCoach {
       await Tts.setDucking(true)
       this.enabled = true
       this.initialized = true
-      console.log('[VoiceCoach] TTS initialized')
+      // TTS ready
     } catch (e) {
       console.error('[VoiceCoach] TTS init failed:', e)
     }
