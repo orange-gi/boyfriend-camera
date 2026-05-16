@@ -160,6 +160,10 @@ export default function DiaryScreen({ navigation }: any) {
     const scoreColor = item.score >= 80 ? '#4CAF50' : item.score >= 60 ? '#FFB347' : '#FF6B6B'
     const scoreGrade = item.score >= 90 ? 'S' : item.score >= 80 ? 'A' : item.score >= 70 ? 'B' : item.score >= 60 ? 'C' : 'D'
 
+    // 与前一条记录的分差（records 是时间倒序，index+1 是上一次）
+    const prevRecord = records[index + 1]
+    const scoreDiff = prevRecord ? item.score - prevRecord.score : null
+
     return (
       <TouchableOpacity
         style={styles.recordCard}
@@ -171,6 +175,12 @@ export default function DiaryScreen({ navigation }: any) {
         <View style={[styles.scoreBadge, { backgroundColor: scoreColor + '18' }]}>
           <Text style={[styles.scoreNum, { color: scoreColor }]}>{item.score}</Text>
           <Text style={[styles.scoreGrade, { color: scoreColor }]}>{scoreGrade}</Text>
+          {/* 分差指示 */}
+          {scoreDiff !== null && (
+            <Text style={[styles.scoreDiff, { color: scoreDiff >= 0 ? '#4CAF50' : '#FF6B6B' }]}>
+              {scoreDiff > 0 ? `+${scoreDiff}` : `${scoreDiff}`}
+            </Text>
+          )}
         </View>
 
         {/* 右侧内容 */}
@@ -199,6 +209,46 @@ export default function DiaryScreen({ navigation }: any) {
           {/* 人脸数 */}
           {item.faceCount > 0 && (
             <Text style={styles.faceCount}>👤 {item.faceCount}人</Text>
+          )}
+
+          {/* 分项分数条（构图/光线/稳定/水平） */}
+          {item.compositionScore !== undefined && (
+            <View style={styles.breakdownRow}>
+              <View style={styles.breakdownItem}>
+                <Text style={styles.breakdownLabel}>构图</Text>
+                <View style={styles.breakdownBar}>
+                  <View style={[styles.breakdownFill, { width: `${Math.min(100, (item.compositionScore / 40) * 100)}%`, backgroundColor: '#FF6B6B' }]} />
+                </View>
+                <Text style={styles.breakdownScore}>{item.compositionScore}</Text>
+              </View>
+              {item.exposureScore !== undefined && (
+                <View style={styles.breakdownItem}>
+                  <Text style={styles.breakdownLabel}>光线</Text>
+                  <View style={styles.breakdownBar}>
+                    <View style={[styles.breakdownFill, { width: `${Math.min(100, (item.exposureScore / 30) * 100)}%`, backgroundColor: '#FFB347' }]} />
+                  </View>
+                  <Text style={styles.breakdownScore}>{item.exposureScore}</Text>
+                </View>
+              )}
+              {item.stabilityScore !== undefined && (
+                <View style={styles.breakdownItem}>
+                  <Text style={styles.breakdownLabel}>稳定</Text>
+                  <View style={styles.breakdownBar}>
+                    <View style={[styles.breakdownFill, { width: `${Math.min(100, (item.stabilityScore / 20) * 100)}%`, backgroundColor: '#4ECDC4' }]} />
+                  </View>
+                  <Text style={styles.breakdownScore}>{item.stabilityScore}</Text>
+                </View>
+              )}
+              {item.levelScore !== undefined && (
+                <View style={styles.breakdownItem}>
+                  <Text style={styles.breakdownLabel}>水平</Text>
+                  <View style={styles.breakdownBar}>
+                    <View style={[styles.breakdownFill, { width: `${Math.min(100, (item.levelScore / 10) * 100)}%`, backgroundColor: '#A29BFE' }]} />
+                  </View>
+                  <Text style={styles.breakdownScore}>{item.levelScore}</Text>
+                </View>
+              )}
+            </View>
           )}
         </View>
       </TouchableOpacity>
@@ -556,6 +606,44 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#aaa',
     marginTop: 4,
+  },
+  scoreDiff: {
+    fontSize: 11,
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  breakdownRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 8,
+    gap: 6,
+  },
+  breakdownItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  breakdownLabel: {
+    fontSize: 10,
+    color: '#888',
+    width: 26,
+  },
+  breakdownBar: {
+    width: 40,
+    height: 4,
+    backgroundColor: '#eee',
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  breakdownFill: {
+    height: '100%',
+    borderRadius: 2,
+  },
+  breakdownScore: {
+    fontSize: 10,
+    color: '#666',
+    width: 16,
+    textAlign: 'right',
   },
   emptyContainer: {
     flex: 1,
