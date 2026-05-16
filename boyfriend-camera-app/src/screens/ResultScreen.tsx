@@ -14,6 +14,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Share,
+  Platform,
 } from 'react-native'
 import Animated, {
   useSharedValue,
@@ -170,16 +171,39 @@ export default function ResultScreen({ route, navigation }: any) {
 
   async function handleShare() {
     try {
-      const pathToShare = comparisonUri || processedPath || photoPath
-      // React Native Share API（分享图片 URI）
-      await Share.share({
+      let pathToShare = comparisonUri || processedPath || photoPath
+      if (!pathToShare) {
+        Alert.alert('分享失败', '照片还没处理好，稍后再试～')
+        return
+      }
+      // 确保 file:// 前缀（本地路径分享需要）
+      if (!pathToShare.startsWith('file://') && !pathToShare.startsWith('http')) {
+        pathToShare = `file://${pathToShare}`
+      }
+
+      // 平台特定分享策略
+      const scoreEmoji = scoreResult && scoreResult.totalScore >= 80 ? '🌟' : scoreResult && scoreResult.totalScore >= 60 ? '✨' : '💪'
+      const shareMessage = `${scoreEmoji} 用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！${scoreResult && scoreResult.totalScore >= 80 ? '男朋友太会拍了！' : scoreResult && scoreResult.totalScore >= 60 ? '越拍越好了呢～' : '继续加油！'} ${praiseList[0] ? `「${praiseList[0].slice(0, 20)}...」` : ''}`
+
+      // iOS 上 Share.share 同时支持 message + url；Android 上 url 可能被忽略
+      // 优先尝试带图片分享
+      const shareOptions = {
         title: '男友相机 - 拍照分析',
-        message: `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`,
+        message: shareMessage,
         url: pathToShare,
-      })
+      } as const
+
+      await Share.share(shareOptions)
     } catch (e: any) {
-      // 用户取消分享时不弹错误
-      if (e.message !== 'User did not share') {
+      const errorMsg = e?.message || ''
+      if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) {
+        return // 用户取消，不弹窗
+      }
+      // 降级：纯文字分享
+      try {
+        const fallbackMessage = `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`
+        await Share.share({ message: fallbackMessage })
+      } catch {
         Alert.alert('分享失败', '请稍后重试')
       }
     }
