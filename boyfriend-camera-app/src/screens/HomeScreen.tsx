@@ -365,7 +365,7 @@ export default function HomeScreen({ navigation }: any) {
             <View style={styles.onboardBtns}>
               {onboardStep > 0 && (
                 <TouchableOpacity style={styles.onboardBackBtn} onPress={() => setOnboardStep(onboardStep - 1)} activeOpacity={0.72}>
-                  <Text style={styles.onboardBackBtnText}>上一步</Text>
+                  <Text style={[styles.onboardBackBtnText, { color: COLORS.primary }]}>‹ 上一步</Text>
                 </TouchableOpacity>
               )}
               <TouchableOpacity style={[styles.onboardNextBtn, onboardStep === 0 && styles.onboardNextBtnFull]} onPress={nextOnboardStep} activeOpacity={0.72}>
@@ -435,8 +435,8 @@ const styles = StyleSheet.create({
   onboardTitle: { fontSize: 22, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' },
   onboardDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22, marginBottom: 28 },
   onboardBtns: { flexDirection: 'row', gap: 12, width: '100%' },
-  onboardBackBtn: { flex: 1, paddingVertical: 14, borderRadius: 25, borderWidth: 1.5, borderColor: COLORS.divider, alignItems: 'center' },
-  onboardBackBtnText: { fontSize: 15, color: COLORS.textMuted },
+  onboardBackBtn: { flex: 1, paddingVertical: 14, borderRadius: 25, borderWidth: 1.5, borderColor: COLORS.primary, alignItems: 'center', backgroundColor: 'transparent' },
+  onboardBackBtnText: { fontSize: 15, color: COLORS.primary, fontWeight: '600' },
   onboardNextBtn: { flex: 2, paddingVertical: 14, borderRadius: 25, backgroundColor: COLORS.primary, alignItems: 'center' },
   onboardNextBtnFull: { flex: 1 },
   onboardNextBtnText: { fontSize: 15, fontWeight: 'bold' },
