@@ -163,7 +163,7 @@ export default function ResultScreen({ route, navigation }: any) {
           lastScore: lastRecord?.score,
           recentAvg,
           streakCount,
-          totalShoots: diary.length,
+          totalShoots: diary.length + 1,  // 当前是第 N 张照片（diary 是之前 N-1 张）
           isFirstPhoto: diary.length === 0,
           lastCompositionScore: lastRecord?.compositionScore,
           lastExposureScore: lastRecord?.exposureScore,
