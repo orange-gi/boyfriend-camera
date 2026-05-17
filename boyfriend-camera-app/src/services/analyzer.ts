@@ -455,6 +455,8 @@ export interface AnalyzeContext {
   lastStabilityScore?: number
   /** 是否情侣合照 */
   isCouplePhoto?: boolean
+  /** 历史最高分（用于新纪录检测） */
+  peakScore?: number
 }
 
 export async function analyzePhoto(
@@ -468,7 +470,7 @@ export async function analyzePhoto(
   context: AnalyzeContext = {}
 ): Promise<AnalysisResult> {
   const { facePosition, faceCount, brightness, sharpness, tiltAngle } = params
-  const { lastScore, recentAvg, streakCount = 0, totalShoots = 0, isFirstPhoto, sceneType, lastCompositionScore, lastExpressionScore, lastExposureScore, lastStabilityScore, isCouplePhoto } = context
+  const { lastScore, recentAvg, streakCount = 0, totalShoots = 0, isFirstPhoto, sceneType, lastCompositionScore, lastExpressionScore, lastExposureScore, lastStabilityScore, isCouplePhoto, peakScore } = context
   const problems: string[] = []
   const suggestions: string[] = []
   const praise: string[] = []
@@ -642,6 +644,18 @@ export async function analyzePhoto(
   // 首次突破90分
   if (totalScore >= 90 && totalShoots > 0 && totalShoots < 5) praise.push('🎯 首次突破90分！男朋友你开挂了！')
 
+  // 新纪录检测（当本次分数超越历史最高分）
+  if (peakScore !== undefined && totalScore > peakScore && totalScore >= 70) {
+    const margin = totalScore - peakScore
+    if (totalScore >= 90) {
+      praise.push(`🏆🏆🏆 新纪录！！！历史最高${peakScore}→${totalScore}！男朋友这是开挂了吧！`)
+    } else if (totalScore >= 80) {
+      praise.push(`📸 新纪录达成！历史最高${peakScore}，这次${totalScore}分！男朋友进化了！`)
+    } else {
+      praise.push(`✨ 新纪录！历史最高${peakScore}→${totalScore}，继续保持！`)
+    }
+  }
+
   // 确保至少有夸奖
   if (praise.length === 0) {
     if (totalScore >= 80) {
@@ -663,6 +677,33 @@ export async function analyzePhoto(
     problems,
     praise,
   }
+}
+
+// 巅峰记录存储
+const PEAK_KEY = 'peak_score'
+
+/** 获取历史最高分 */
+export async function getPeakScore(): Promise<number> {
+  try {
+    const raw = await AsyncStorage.getItem(PEAK_KEY)
+    return raw ? parseInt(raw, 10) : 0
+  } catch {
+    return 0
+  }
+}
+
+/** 更新历史最高分（仅当分数更高时） */
+export async function updatePeakScore(score: number): Promise<boolean> {
+  const current = await getPeakScore()
+  if (score > current) {
+    try {
+      await AsyncStorage.setItem(PEAK_KEY, String(score))
+      return true // 新纪录
+    } catch {
+      return false
+    }
+  }
+  return false
 }
 
 // 进步日记存储

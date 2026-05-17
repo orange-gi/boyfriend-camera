@@ -28,7 +28,7 @@ import ComparisonCard from '../components/result/ComparisonCard'
 import ScoreBoard from '../components/result/ScoreBoard'
 import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
-import { analyzePhoto, saveToDiary, getDiary, type AnalysisResult } from '../services/analyzer'
+import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
 import { COLORS } from '../theme/colors'
 
@@ -186,6 +186,7 @@ export default function ResultScreen({ route, navigation }: any) {
           lastExposureScore: lastRecord?.exposureScore,
           lastStabilityScore: lastRecord?.stabilityScore,
           isCouplePhoto: faces.length >= 2,
+          peakScore: await getPeakScore(),
         }
       )
 
@@ -210,6 +211,7 @@ export default function ResultScreen({ route, navigation }: any) {
         stabilityScore: analysis.stabilityScore,
         levelScore: analysis.levelScore,
       })
+      await updatePeakScore(analysis.totalScore)
 
       // 启动入场动画
       cardSlide.value = withTiming(0, { duration: 400 })
