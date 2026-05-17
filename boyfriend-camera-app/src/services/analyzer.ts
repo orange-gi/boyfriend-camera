@@ -480,6 +480,41 @@ const PRAISE_POOL: Record<string, string[]> = {
     '男朋友找的这个角度超有感觉，背景好干净！',
     '阳台拍照超有氛围，男朋友审美在线！',
   ],
+  // 滑雪场景夸奖
+  ski_resort_good: [
+    '滑雪服也能拍出大片感！男朋友太会了！',
+    '雪地光线超柔和，这皮肤状态绝了！',
+    '滑雪场景拍出高级感，男朋友有眼光！',
+    '雪景大片感十足，男朋友这构图很有想法！',
+  ],
+  // 海边栈道夸奖
+  boardwalk_good: [
+    '栈道海风感拍出来了，男朋友构图进步了！',
+    '海边栈道的空间感超好，层次感十足！',
+    '海风飘逸的感觉捕捉到了，超有氛围！',
+    '男朋友找的这个角度超有电影感！',
+  ],
+  // 家居绿植夸奖
+  home_plants_good: [
+    '居家感拍得超温馨，男朋友太会了！',
+    '绿植背景好清新，这色调绝了！',
+    '家居照也能这么有质感，男朋友审美在线！',
+    '男朋友把日常感拍出了杂志大片的感觉！',
+  ],
+  // 游乐园飞椅夸奖
+  amusement_ride_good: [
+    '动感活力感满满！男朋友抓拍到你的快乐瞬间！',
+    '游乐园大片感十足，笑容超有感染力！',
+    '男朋友把快乐氛围都收进镜头里了！',
+    '动感十足！男朋友这抓拍技术可以出道了～',
+  ],
+  // 礁石海浪夸奖
+  rocky_beach_good: [
+    '礁石浪花感拍出来了，男朋友有天赋！',
+    '海边礁石的氛围感绝了，超有感觉！',
+    '浪花和人物关系处理得太好了！',
+    '男朋友把海边的浪漫都定格了！',
+  ],
 }
 
 // 建议文案池
@@ -912,6 +947,17 @@ export async function analyzePhoto(
 
   // 人像虚化夸奖
   if (totalScore >= 80 && facePosition && (facePosition.area ?? 0) > 0.15 && (facePosition.area ?? 0) < 0.35) praise.push(pickRandom(PRAISE_POOL.bokeh_good))
+
+  // 滑雪场景夸奖（高亮度户外 + 高对比 = 雪景）
+  if (brightness > 200 && sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.ski_resort_good))
+  // 海边栈道夸奖（高亮度户外 + 高sharpness = 清晰海景）
+  if (brightness > 160 && sceneType === 'outdoor' && sharpness > 140 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.boardwalk_good))
+  // 家居绿植夸奖（柔和亮度室内 + 中等sharpness）
+  if (brightness >= 100 && brightness <= 180 && sceneType === 'indoor' && sharpness > 100 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.home_plants_good))
+  // 游乐园飞椅夸奖（户外 + 动感 = 活力场景）
+  if (sceneType === 'outdoor' && sharpness > 120 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.amusement_ride_good))
+  // 礁石海浪夸奖（高亮度户外 + 特殊环境 = 礁石海岸）
+  if (brightness > 150 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.rocky_beach_good))
 
   // 细节处理夸奖（清晰度极高）
   if (sharpness > 150 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.detail_great))
