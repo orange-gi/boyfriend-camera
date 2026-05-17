@@ -1,6 +1,7 @@
 /**
- * ComparisonCard - 原图/优化对比卡片
- * 左右并排展示原图和优化图，支持滤镜切换
+ * ComparisonCard - 原图/优化对比卡片 v2
+ * 升级：使用 Skia Canvas + ColorMatrix 实现真正的滤镜效果
+ * (brightness/contrast/saturation 而非简单颜色叠加)
  */
 import React, { useState, useEffect } from 'react'
 import {
@@ -11,6 +12,8 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native'
+import { Canvas, Image as SkiaImage, ColorMatrix, useImage } from '@shopify/react-native-skia'
+import { getColorMatrix } from '../../services/photoProcessor'
 import { COLORS } from '../../theme/colors'
 
 interface Props {
@@ -35,22 +38,44 @@ const FILTERS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden'
   { key: 'cinematic', label: '电影', color: COLORS.filterCinematic },
 ]
 
-const OVERLAY_COLORS: Record<string, string> = {
-  warm: 'rgba(255, 140, 0, 0.15)',
-  cool: 'rgba(74, 144, 217, 0.15)',
-  vivid: 'rgba(255, 80, 130, 0.1)',
-  soft: 'rgba(255, 182, 193, 0.12)',
-  bw: 'rgba(0, 0, 0, 0.45)',
-  golden: 'rgba(255, 160, 60, 0.18)',
-  cinematic: 'rgba(80, 100, 160, 0.15)',
-}
-
 // 内嵌纯色 placeholder（无需网络）
 function PlaceholderImage({ label, color }: { label: string; color: string }) {
   return (
     <View style={[styles.placeholder, { backgroundColor: color }]}>
       <Text style={styles.placeholderText}>{label}</Text>
     </View>
+  )
+}
+
+/**
+ * 使用 Skia Canvas + ColorMatrix 实现真正的滤镜效果
+ * ColorMatrix child 对 SkiaImage 应用 brightness/contrast/saturation 调整
+ */
+function FilteredImage({ uri, filter, width, height }: { uri: string; filter: string | null; width: number; height: number }) {
+  const image = useImage(uri)
+  const matrix = getColorMatrix(filter)
+
+  if (!image) {
+    return (
+      <Image
+        source={{ uri }}
+        style={{ width, height }}
+        resizeMode="cover"
+      />
+    )
+  }
+
+  return (
+    <Canvas style={{ width, height }}>
+      <SkiaImage
+        image={image}
+        width={width}
+        height={height}
+        fit="cover"
+      >
+        <ColorMatrix matrix={matrix} />
+      </SkiaImage>
+    </Canvas>
   )
 }
 
@@ -61,19 +86,15 @@ export default function ComparisonCard({
   onFilterChange,
 }: Props) {
   const [activeFilter, setActiveFilter] = useState<string>(filterName ?? 'warm')
-  const overlayColor = activeFilter ? (OVERLAY_COLORS[activeFilter] || 'transparent') : 'transparent'
 
-  // 同步外部 filterName 变化（避免 prop 变了但本地 state 没更新的情况）
+  // 同步外部 filterName 变化
   useEffect(() => {
     if (filterName && filterName !== activeFilter) {
       setActiveFilter(filterName)
     }
   }, [filterName])
 
-  const handleFilterPress = (f: string) => {
-    setActiveFilter(f)
-    onFilterChange?.(f)
-  }
+  const effectivePath = processedPath || originalPath
 
   return (
     <View style={styles.container}>
@@ -90,30 +111,24 @@ export default function ComparisonCard({
           ) : (
             <PlaceholderImage label="📷 原图" color="#333" />
           )}
-          <View style={[styles.cardOverlay, { width: CARD_WIDTH, height: CARD_HEIGHT }]} />
-          <View style={styles.cardLabel}>
+          <View style={[styles.cardLabel, styles.cardLabelLeft]}>
             <Text style={styles.cardLabelText}>📷 原图</Text>
           </View>
         </View>
 
-        {/* 优化图 */}
+        {/* 优化图（使用 Skia ColorMatrix 滤镜） */}
         <View style={styles.card}>
-          {processedPath || originalPath ? (
-            <Image
-              source={{ uri: processedPath || originalPath }}
-              style={[styles.cardImage, { width: CARD_WIDTH, height: CARD_HEIGHT }]}
-              resizeMode="cover"
+          {effectivePath ? (
+            <FilteredImage
+              uri={effectivePath}
+              filter={activeFilter}
+              width={CARD_WIDTH}
+              height={CARD_HEIGHT}
             />
           ) : (
             <PlaceholderImage label="✨ 优化图" color={COLORS.primary} />
           )}
-          {activeFilter !== 'bw' && (
-            <View style={[styles.filterOverlay, { backgroundColor: overlayColor as string, width: CARD_WIDTH, height: CARD_HEIGHT }]} />
-          )}
-          {activeFilter === 'bw' && (
-            <View style={[styles.filterOverlayBW, { width: CARD_WIDTH, height: CARD_HEIGHT }]} />
-          )}
-          <View style={styles.cardLabel}>
+          <View style={[styles.cardLabel, styles.cardLabelRight]}>
             <Text style={styles.cardLabelText}>✨ 优化图</Text>
           </View>
         </View>
@@ -130,7 +145,10 @@ export default function ComparisonCard({
                 styles.filterBtn,
                 activeFilter === f.key && { backgroundColor: f.color + '30', borderColor: f.color },
               ]}
-              onPress={() => setActiveFilter(f.key)}
+              onPress={() => {
+                setActiveFilter(f.key)
+                onFilterChange?.(f.key)
+              }}
               activeOpacity={0.7}
             >
               <View style={[styles.filterDot, { backgroundColor: f.color }]} />
@@ -181,33 +199,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
-  cardOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    borderRadius: 12,
-  },
-  filterOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    borderRadius: 12,
-  },
-  filterOverlayBW: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    borderRadius: 12,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-  },
   cardLabel: {
     position: 'absolute',
     bottom: 8,
-    left: 8,
     backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 3,
+  },
+  cardLabelLeft: {
+    left: 8,
+  },
+  cardLabelRight: {
+    right: 8,
   },
   cardLabelText: {
     color: '#fff',
