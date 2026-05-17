@@ -31,8 +31,8 @@ const FILTERS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden'
   { key: 'vivid', label: '鲜艳', color: COLORS.filterVivid },
   { key: 'soft', label: '柔美', color: COLORS.filterSoft },
   { key: 'bw', label: '黑白', color: COLORS.filterBw },
-  { key: 'golden', label: '金棕', color: '#E8A838' },
-  { key: 'cinematic', label: '电影', color: '#5B7FA6' },
+  { key: 'golden', label: '金棕', color: COLORS.filterGolden },
+  { key: 'cinematic', label: '电影', color: COLORS.filterCinematic },
 ]
 
 const OVERLAY_COLORS: Record<string, string> = {
