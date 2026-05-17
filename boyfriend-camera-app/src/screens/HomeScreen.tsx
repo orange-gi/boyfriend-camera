@@ -30,6 +30,18 @@ import { COLORS, scoreColor } from '../theme/colors'
 
 const { width: SCREEN_W } = Dimensions.get('window')
 
+function getTimeGreeting(): string {
+  const hour = new Date().getHours()
+  if (hour < 6) return '夜深了还在拍照呀～'
+  if (hour < 9) return '早上好！今天也要美美的～'
+  if (hour < 12) return '上午好！光线正好～'
+  if (hour < 14) return '中午好！吃饱了来拍一张～'
+  if (hour < 17) return '下午好！阳光正好～'
+  if (hour < 19) return '傍晚好！夕阳超美的～'
+  if (hour < 22) return '晚上好！夜景模式开启～'
+  return '夜深了还不睡？拍张照再睡～'
+}
+
 const DAILY_TIPS = [
   { icon: '💡', text: '让男朋友蹲低一点，镜头仰拍更显瘦！' },
   { icon: '🌟', text: '九宫格构图：把人脸放在交叉点上，超有感觉！' },
@@ -211,6 +223,7 @@ export default function HomeScreen({ navigation }: any) {
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
       {/* 顶部品牌区 */}
       <Animated.View style={[styles.heroSection, titleStyle]}>
+        <Text style={[styles.timeGreeting, { color: COLORS.textMuted }]}>{getTimeGreeting()}</Text>
         <Text style={styles.heroIcon}>📸</Text>
         <Text style={[styles.heroTitle, { color: COLORS.textPrimary }]}>男友相机</Text>
         <Text style={[styles.heroSubtitle, { color: COLORS.primary }]}>{'让男朋友越拍越好 ❤️'}</Text>
@@ -372,6 +385,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: 60, paddingHorizontal: 20 },
   heroSection: { alignItems: 'center', marginBottom: 28, paddingTop: 20 },
+  timeGreeting: { fontSize: 14, marginBottom: 4, letterSpacing: 0.5 },
   heroIcon: { fontSize: 64, marginBottom: 12 },
   heroTitle: { fontSize: 36, fontWeight: 'bold', marginBottom: 8, letterSpacing: 1 },
   heroSubtitle: { fontSize: 17, fontWeight: '600', backgroundColor: COLORS.primaryLight, paddingHorizontal: 16, paddingVertical: 6, borderRadius: 16, overflow: 'hidden' },

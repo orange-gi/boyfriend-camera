@@ -355,10 +355,17 @@ export default function ResultScreen({ route, navigation }: any) {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* 错误提示 */}
+        {/* 错误提示 + 重试 */}
         {error && !processing && (
           <View style={styles.errorBanner}>
             <Text style={styles.errorBannerText}>⚠️ {error}</Text>
+            <TouchableOpacity
+              style={styles.errorRetryBtn}
+              onPress={runAnalysis}
+              activeOpacity={0.72}
+            >
+              <Text style={styles.errorRetryBtnText}>🔄 重新分析</Text>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -818,11 +825,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     marginBottom: 12,
+    alignItems: 'center',
   },
   errorBannerText: {
     fontSize: 13,
     color: '#856404',
     textAlign: 'center',
+    marginBottom: 8,
+  },
+  errorRetryBtn: {
+    backgroundColor: '#856404',
+    borderRadius: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 6,
+  },
+  errorRetryBtnText: {
+    fontSize: 13,
+    color: '#fff',
+    fontWeight: '600',
   },
   // 撒花粒子
   confettiParticle: {
