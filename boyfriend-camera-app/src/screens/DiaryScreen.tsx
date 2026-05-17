@@ -273,7 +273,7 @@ export default function DiaryScreen({ navigation }: any) {
           <EmptyState
             icon="📈"
             title="还没有进步记录"
-            subtitle="还没有进步记录，快去拍一张吧～"
+            subtitle="每拍一张就会记录一次～让男朋友看看你们的成长曲线！"
             action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera') }}
           />
         )}

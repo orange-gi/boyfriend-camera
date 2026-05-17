@@ -308,7 +308,8 @@ export default function ResultScreen({ route, navigation }: any) {
   }
 
   function handleRetry() {
-    navigation.goBack()
+    // 直接跳转相机重拍，体验更流畅
+    navigation.navigate('Camera')
   }
 
   function handleHome() {

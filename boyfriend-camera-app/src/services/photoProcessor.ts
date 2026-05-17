@@ -176,17 +176,6 @@ export async function processPhoto(
     console.warn('[PhotoProcessor] 写入元数据失败:', e)
   }
 
-  // 元数据写入缓存（ComparisonCard 读取后渲染滤镜效果）
-  try {
-    await RNFS.writeFile(
-      `${cacheDir}/process_meta_${timestamp}.json`,
-      JSON.stringify(processedMeta),
-      'utf8'
-    )
-  } catch (e) {
-    console.warn('[PhotoProcessor] 写入元数据失败:', e)
-  }
-
   // 返回处理后的路径（滤镜在 ComparisonCard Skia 层渲染）
   return outputPath
 }

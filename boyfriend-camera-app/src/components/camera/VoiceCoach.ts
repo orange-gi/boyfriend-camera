@@ -76,6 +76,21 @@ const SCENE_TIPS = {
   GYM_SPORTS: '运动风来一张！动作舒展一点，笑得灿烂～',
   BIRTHDAY_CAKE: '生日蛋糕前光线暖暖的，转过来面向光源～',
   MUSEUM_LIGHT: '博物馆灯光适合拍照，让人站在灯光正下方～',
+  // 新场景提示（模板扩展）
+  CAFE_DATE: '咖啡馆光线暖暖的！让人靠近窗户或者台灯～',
+  BOOKSTORE: '书店里的光线很柔和，靠书架站着超有文艺感！',
+  KITCHEN_COOKING: '厨房里灶台前光线暖暖的，笑着拍一张～',
+  SUBWAY_STATION: '地铁站灯光冷调很有都市感！靠着栏杆随意一点～',
+  BEACH_SUNSET: '海边日落光线超美！侧身站着让夕阳打在侧脸上～',
+  BALCONY_VIEW: '阳台光线超通透！靠在栏杆上看向远方～',
+  BEDROOM_COZY: '卧室里靠窗光线最柔和，歪头笑一个～',
+  CAR_SELFIE: '车里拍照也超有感觉！侧身看向窗外，光影绝绝子～',
+  GARDEN_FLOWERS: '花丛里光线斑驳，蹲下来仰拍超好看！',
+  BALCONY_NIGHT: '夜景阳台好浪漫！打开闪光灯补补光～',
+  BATHROOM_MIRROR: '浴室镜子自拍光线好均匀，笑一个～',
+  ROOFTOP_CITY: '天台夜景璀璨！开闪光灯让人脸亮起来～',
+  SNOW_WINTER: '雪地里光线反射很强，戴上墨镜或找阴影～',
+  STADIUM_STAND: '体育场灯光超足！抬头笑一个抓拍～',
 }
 
 // 通用鼓励语
