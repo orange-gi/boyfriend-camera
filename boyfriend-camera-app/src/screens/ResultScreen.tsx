@@ -46,6 +46,7 @@ export default function ResultScreen({ route, navigation }: any) {
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
+  const [processStep, setProcessStep] = useState(1) // 1-3 动画步骤
 
   const viewShotRef = useRef<any>(null)
   const { faces } = useFaceDetection()
@@ -76,6 +77,15 @@ export default function ResultScreen({ route, navigation }: any) {
       if (typeTimerRef.current) clearTimeout(typeTimerRef.current)
     }
   }, [photoPath])
+
+  // 处理步骤动画（每 600ms 切换一步）
+  useEffect(() => {
+    if (!processing) return
+    setProcessStep(1)
+    const t2 = setTimeout(() => { if (mountedRef.current) setProcessStep(2) }, 600)
+    const t3 = setTimeout(() => { if (mountedRef.current) setProcessStep(3) }, 1200)
+    return () => { clearTimeout(t2); clearTimeout(t3) }
+  }, [processing])
 
   function typeText(text: string) {
     if (typeTimerRef.current) clearTimeout(typeTimerRef.current)
@@ -374,17 +384,17 @@ export default function ResultScreen({ route, navigation }: any) {
             <Text style={[styles.processingText, { color: COLORS.textPrimary }]}>正在分析构图...</Text>
             <Text style={[styles.processingSubText, { color: COLORS.textMuted }]}>稍等一下，马上就好～</Text>
             <View style={styles.processingSteps}>
-              <View style={[styles.processStep, styles.processStepActive]}>
+              <View style={[styles.processStep, processStep >= 1 ? styles.processStepActive : styles.processStepPending]}>
                 <Text style={styles.processStepDot}>1</Text>
                 <Text style={styles.processStepLabel}>构图分析</Text>
               </View>
               <View style={styles.processStepLine} />
-              <View style={[styles.processStep, processing ? styles.processStepActive : styles.processStepPending]}>
+              <View style={[styles.processStep, processStep >= 2 ? styles.processStepActive : styles.processStepPending]}>
                 <Text style={styles.processStepDot}>2</Text>
                 <Text style={styles.processStepLabel}>光线检测</Text>
               </View>
               <View style={styles.processStepLine} />
-              <View style={[styles.processStep, styles.processStepPending]}>
+              <View style={[styles.processStep, processStep >= 3 ? styles.processStepActive : styles.processStepPending]}>
                 <Text style={styles.processStepDot}>3</Text>
                 <Text style={styles.processStepLabel}>生成评分</Text>
               </View>
