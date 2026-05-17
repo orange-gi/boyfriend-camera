@@ -22,6 +22,19 @@ const FACE_TIPS = {
   FACE_TOO_EDGE: '往中间站一点点，脸有点靠边了～',
   LOOK_AT_CAMERA: '看镜头！眼神更有神～',
   BLINK_PROMPT: '眨眨眼活动一下，准备好再拍～',
+  // 新增边缘场景
+  FACE_MOVING: '别动！脸不要晃来晃去的～',
+  FACE_PARTIAL: '脸稍微侧了一点，正对镜头会更好看～',
+  LOW_ANGLE_FACE: '抬头看镜头！低角度显下巴～',
+  HIGH_ANGLE_FACE: '稍微低头一点点，眼睛更有神～',
+  // 模板切换确认
+  TEMPLATE_CHANGED: '已切换到新姿势！跟着指导摆好～',
+  // 拍摄失败
+  CAPTURE_FAILED: '拍照失败了，再试一次吧～',
+  // 相册保存
+  SAVED_TO_ALBUM: '已保存到相册！可以去相册里找找看～',
+  // 拍照成功
+  CLICK_SNAP: '咔嚓！拍好了～来看看效果吧！',
 }
 
 const STABILITY_TIPS = {
@@ -438,6 +451,41 @@ class VoiceCoach {
     ]
     const tip = tips[Math.floor(Math.random() * tips.length)]
     await this.speak(tip, true)
+  }
+
+  /** 模板切换确认 */
+  async speakTemplateChanged(): Promise<void> {
+    await this.speak(FACE_TIPS.TEMPLATE_CHANGED, true)
+  }
+
+  /** 拍照失败提示 */
+  async speakCaptureFailed(): Promise<void> {
+    await this.speak(FACE_TIPS.CAPTURE_FAILED, true)
+  }
+
+  /** 相册保存成功提示 */
+  async speakSavedToAlbum(): Promise<void> {
+    await this.speak(FACE_TIPS.SAVED_TO_ALBUM, true)
+  }
+
+  /** 脸在移动提示 */
+  async speakFaceMoving(): Promise<void> {
+    await this.speak(FACE_TIPS.FACE_MOVING)
+  }
+
+  /** 脸部分出镜提示 */
+  async speakFacePartial(): Promise<void> {
+    await this.speak(FACE_TIPS.FACE_PARTIAL)
+  }
+
+  /** 低角度提示 */
+  async speakLowAngle(): Promise<void> {
+    await this.speak(FACE_TIPS.LOW_ANGLE_FACE)
+  }
+
+  /** 高角度提示 */
+  async speakHighAngle(): Promise<void> {
+    await this.speak(FACE_TIPS.HIGH_ANGLE_FACE)
   }
 
   /** 鼓励语播报 */
