@@ -438,6 +438,48 @@ const PRAISE_POOL: Record<string, string[]> = {
     '公园光影斑驳，这构图好有层次感！',
     '男朋友在公园也能找到这种光影，太会了！',
   ],
+  // 新增：闺蜜照夸奖
+  bestie_photo: [
+    '闺蜜照拍得超有默契！两个人的互动感绝了！',
+    '和闺蜜一起入镜，这张照片太有故事感了！',
+    '闺蜜合照也能这么好看，男朋友摄影技术在线！',
+  ],
+  // 新增：火锅美食场景夸奖
+  hotpot_good: [
+    '火锅热气腾腾，这氛围感太到位了！',
+    '火锅配美人，这构图绝了！',
+    '男朋友拍美食也有两下子，这张绝了！',
+  ],
+  // 新增：车内自拍夸奖
+  car_selfie_good: [
+    '车里也能拍出这种氛围感，男朋友你好有创意！',
+    '车窗外的风景和人完美融合，超有感觉！',
+    '车内自拍光线超均匀，男朋友你开窍了！',
+  ],
+  // 新增：雪景夸奖
+  snow_scene_good: [
+    '雪地里皮肤好通透！白茫茫的背景超浪漫～',
+    '雪景光线柔和，这肤色绝了！',
+    '男朋友在雪天也能拍出这种氛围感，太厉害了！',
+  ],
+  // 新增：宠物合照夸奖
+  pet_photo_good: [
+    '和萌宠一起入镜，这张照片太有爱了！',
+    '男朋友把宠物和人都拍得很好看，这张绝了！',
+    '毛孩子入镜更可爱了，男朋友你真会！',
+  ],
+  // 新增：晨光夸奖
+  morning_light_good: [
+    '清晨的光线好柔和，整个人都在发光！',
+    '早安光线超通透，这皮肤状态绝了！',
+    '早晨的光线最有质感，男朋友你这角度绝了！',
+  ],
+  // 新增：夜景都市夸奖
+  city_night_good: [
+    '都市夜景璀璨，这张照片好有故事感！',
+    '城市灯光做背景超有氛围，男朋友审美在线！',
+    '夜景都市感拉满，这构图太会了！',
+  ],
 }
 
 // 建议文案池
@@ -552,6 +594,18 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '暗光下噪点有点多，晚上光线要充足一点～',
     '暗处颗粒感有点重，光线再亮一点效果更好～',
     '夜晚拍照噪点明显，打开闪光灯试试～',
+  ],
+  // 新增：表情僵硬建议
+  stiff_expression: [
+    '表情有点僵，放松一点笑会更自然～',
+    '太紧绷了！深呼吸，让表情自然流动～',
+    '笑得更自然一点，自然的笑容最好看～',
+  ],
+  // 新增：背景遮挡建议
+  hand_occluding: [
+    '手挡住了一部分脸，稍微调整一下手的位置～',
+    '手指入镜了，让手自然垂下或者做个小动作～',
+    '手抢镜了！把手稍微移开一点点～',
   ],
 }
 
@@ -902,6 +956,36 @@ export async function analyzePhoto(
   // 人像虚化场景：户外且背景实（构图分数中等）→ 建议人像模式
   if (sceneType === 'outdoor' && compositionScore < 35 && totalScore >= 60) {
     suggestions.push(pickRandom(SUGGESTION_POOL.bokeh))
+  }
+
+  // 表情僵硬建议
+  if (brightness >= 80 && brightness <= 180 && faceCount > 0 && stabilityScore >= 15 && compositionScore >= 30 && totalScore >= 60 && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.stiff_expression))
+  }
+
+  // 闺蜜照夸奖（多人合照且非情侣）
+  if (faceCount > 1 && !isCouplePhoto && compositionScore >= 30 && totalScore >= 70) {
+    praise.push(pickRandom(PRAISE_POOL.bestie_photo))
+  }
+
+  // 晨光夸奖（亮度适中偏高+户外+构图好）
+  if (brightness >= 140 && brightness <= 220 && compositionScore >= 35 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.morning_light_good))
+  }
+
+  // 雪景夸奖（户外+高亮度+构图好+总分高）
+  if (brightness >= 180 && compositionScore >= 35 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.snow_scene_good))
+  }
+
+  // 都市夜景夸奖（低亮度+构图优秀）
+  if (brightness >= 30 && brightness < 100 && compositionScore >= 35 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.city_night_good))
+  }
+
+  // 宠物合照夸奖（人脸存在+总分高+构图中等）
+  if (faceCount > 0 && compositionScore >= 30 && totalScore >= 75 && stabilityScore >= 15) {
+    praise.push(pickRandom(PRAISE_POOL.pet_photo_good))
   }
 
   // 确保至少有夸奖
