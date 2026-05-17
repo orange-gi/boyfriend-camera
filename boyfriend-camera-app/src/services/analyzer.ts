@@ -890,6 +890,20 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.mall_display_good))
   }
 
+  // 场景专属建议（从未触发的建议池类别）
+  // 雨天场景：亮度偏低且室内 → 提醒雨天光线柔和
+  if (brightness < 100 && sceneType === 'indoor' && totalScore >= 60) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rainy))
+  }
+  // 运动/抓拍场景：清晰度偏低且人脸面积适中 → 建议连拍
+  if (sharpness < 100 && sharpness >= 50 && facePosition && facePosition.area >= 0.1 && facePosition.area <= 0.3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.motion))
+  }
+  // 人像虚化场景：户外且背景实（构图分数中等）→ 建议人像模式
+  if (sceneType === 'outdoor' && compositionScore < 35 && totalScore >= 60) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.bokeh))
+  }
+
   // 确保至少有夸奖
   if (praise.length === 0) {
     if (totalScore >= 80) {
