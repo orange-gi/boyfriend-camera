@@ -142,7 +142,18 @@ export async function processPhoto(
     await RNFS.mkdir(cacheDir)
   }
 
-  // 处理图片: imagePath
+  // 实际处理：复制原图到输出路径（滤镜在 ComparisonCard 通过 Skia 实时渲染）
+  try {
+    const cleanPath = imagePath.replace('file://', '')
+    const exists = await RNFS.exists(cleanPath)
+    if (exists) {
+      await RNFS.copyFile(cleanPath, outputPath)
+    }
+  } catch (e) {
+    console.warn('[PhotoProcessor] 图片复制失败，使用原路径:', e)
+    // 复制失败时返回原路径，滤镜仍在组件层渲染
+    return imagePath
+  }
 
   // 标记处理参数（用于 ComparisonCard 渲染滤镜效果）
   const processedMeta = {
@@ -165,7 +176,19 @@ export async function processPhoto(
     console.warn('[PhotoProcessor] 写入元数据失败:', e)
   }
 
-  return imagePath // 滤镜在组件层渲染，路径不变
+  // 元数据写入缓存（ComparisonCard 读取后渲染滤镜效果）
+  try {
+    await RNFS.writeFile(
+      `${cacheDir}/process_meta_${timestamp}.json`,
+      JSON.stringify(processedMeta),
+      'utf8'
+    )
+  } catch (e) {
+    console.warn('[PhotoProcessor] 写入元数据失败:', e)
+  }
+
+  // 返回处理后的路径（滤镜在 ComparisonCard Skia 层渲染）
+  return outputPath
 }
 
 /**
