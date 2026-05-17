@@ -23,16 +23,20 @@ export function useTemplates() {
   async function loadTemplates() {
     setLoading(true)
     setError(null)
+    let cached: Awaited<ReturnType<typeof getCachedTemplates>> = []
     try {
       // 先取本地缓存
-      const cached = await getCachedTemplates()
+      cached = await getCachedTemplates()
       if (cached.length > 0) setTemplates(cached)
 
       // 再同步云端
       const synced = await syncTemplates()
       if (synced.length > 0) setTemplates(synced)
     } catch (e: any) {
-      setError(e.message)
+      // 仅在完全没有数据时才报错，有缓存时网络失败不算致命错误
+      if (cached.length === 0) {
+        setError(e.message || '加载失败，请检查网络后重试')
+      }
     } finally {
       setLoading(false)
     }
