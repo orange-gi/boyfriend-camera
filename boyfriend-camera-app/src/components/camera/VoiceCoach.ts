@@ -595,6 +595,49 @@ class VoiceCoach {
     await this.speak(tip, true)
   }
 
+  /** 新纪录达成提示 */
+  async speakNewRecord(previousScore: number, newScore: number): Promise<void> {
+    const tips = [
+      `新纪录达成！从${previousScore}分到${newScore}分，太厉害了！`,
+      `破纪录啦！男朋友你又进步了，继续保持！`,
+      `${newScore}分！历史新高！男朋友你是最棒的！`,
+      `哇塞！${newScore}分！男朋友拍照技术又进化了！`,
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, true)
+  }
+
+  /** 进步日记里程碑提示 */
+  async speakDiaryMilestone(type: 'first' | 'streak3' | 'streak7' | 'week10'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      first: ['第一次记日记！这是成长的开始，继续加油～'],
+      streak3: ['连续拍了三天！男朋友越来越有摄影师的感觉了～'],
+      streak7: ['一周连续拍照！坚持就是胜利，进步肉眼可见！'],
+      week10: ['十周啦！男朋友已经成了半个摄影师！'],
+    }
+    const arr = tips[type] || []
+    if (arr.length > 0) await this.speak(arr[0], true)
+  }
+
+  /** 比拼模式提示（对比两张照片时） */
+  async speakComparisonTip(isImproved: boolean, diff: number): Promise<void> {
+    if (isImproved) {
+      const tips = [
+        `进步了${diff}分！这张比上次好多了，继续保持～`,
+        `比上次高了${diff}分！男朋友越拍越好了！`,
+        `${diff}分的进步！这张构图/光线更棒了～`,
+      ]
+      await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    } else {
+      const tips = [
+        '这张和上次差不多，男朋友继续保持～',
+        '分数差不多，但每张都在进步！',
+        '再来一张试试，找找更好的角度～',
+      ]
+      await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    }
+  }
+
   setEnabled(enabled: boolean): void {
     this.enabled = enabled
     if (!enabled && this.initialized) {
