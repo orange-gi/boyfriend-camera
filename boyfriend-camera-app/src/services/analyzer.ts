@@ -624,6 +624,54 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '背景和人分不开，开人像模式虚化背景试试～',
     '背景有点抢镜，找个更简洁的背景会更好～',
   ],
+  // 户外场景专属建议
+  outdoor_specific: [
+    '户外光线好，但背景太乱会影响主体，找个干净的角落试试～',
+    '逆光拍摄时记得让人脸朝向光源，这样脸才不会黑黑的～',
+    '天晴户外正午光线太硬，找个树荫或阴凉处，光线更柔和～',
+    '户外仰拍显腿长，但要注意让女朋友抬头看镜头～',
+  ],
+  // 夜景场景专属建议
+  night_specific: [
+    '夜景光线复杂，开闪光灯或找个光源补补光～',
+    '晚上拍照容易糊，打开手机闪光灯或靠近光源更亮的地方～',
+    '夜景逆光很美，但脸太黑！转过来让脸朝向光源～',
+    '夜间拍摄手要更稳，深呼吸后双手握手机再按快门～',
+  ],
+  // 餐厅/美食场景专属建议
+  restaurant_specific: [
+    '餐厅暖光下皮肤超好！让人靠近窗户或台灯～',
+    '美食照让人捧着食物或举杯，画面更生动～',
+    '餐厅里找窗边位置，光线绝绝子！',
+    '火锅热气腾腾很有氛围，让人脸稍微离热气远一点～',
+  ],
+  // 海边/沙滩场景专属建议
+  beach_specific: [
+    '海边阳光太刺眼了，找个阴凉处或让女朋友微微眯眼～',
+    '沙滩光线反射很强，脸上的阴影不好控制，靠近一点拍～',
+    '海边拍逆光剪影超有感觉！转过身让阳光在身后～',
+    '沙滩上人多背景乱，往没人的地方走走～',
+  ],
+  // 情侣合照专属建议
+  couple_specific: [
+    '情侣照最重要的是互动！靠近一点，眼神交流一下～',
+    '两人合照要选好站位，别让一个人顶到边框～',
+    '情侣照可以让女朋友站着，男友从背后环抱更甜蜜～',
+    '两人合照时，视线方向要留白，别把画面撑太满～',
+  ],
+  // 室内日常场景专属建议
+  indoor_specific: [
+    '室内最重要的是光线！靠近窗户站，皮肤会看起来更好～',
+    '室内光线不够的话，打开手机闪光灯补一下～',
+    '家里找个干净的背景，比杂乱的角落更显气质～',
+    '室内镜子自拍光线好均匀，试试对着镜子拍～',
+  ],
+  // 宠物互动专属建议
+  pet_specific: [
+    '和宠物互动的时候抓拍，表情最自然可爱～',
+    '拍宠物时对焦在眼睛上，眼睛有光才好看～',
+    '宠物跑来跑去不好拍，让她先hold住宠物再拍～',
+  ],
 }
 
 function pickRandom(arr: string[]): string {
@@ -1030,6 +1078,20 @@ export async function analyzePhoto(
     } else {
       praise.push('加油！多拍几张，摄影师也是练出来的～')
     }
+  }
+
+  // 场景专属建议（基于 sceneType 上下文补充）
+  if (sceneType === 'outdoor' && totalScore < 80) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.outdoor_specific))
+  }
+  if (brightness < 50 && totalScore < 80) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.night_specific))
+  }
+  if (isCouplePhoto && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.couple_specific))
+  }
+  if (sceneType === 'indoor' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.indoor_specific))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
