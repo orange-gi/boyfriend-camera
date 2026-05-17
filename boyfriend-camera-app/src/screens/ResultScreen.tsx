@@ -59,6 +59,16 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
   const [processStep, setProcessStep] = useState(1) // 1-3 动画步骤
 
+  // 处理步骤对应的文案
+  const processStepText = (() => {
+    switch (processStep) {
+      case 1: return '正在分析构图...'
+      case 2: return '正在检测光线...'
+      case 3: return '正在生成评分...'
+      default: return '正在分析中...'
+    }
+  })()
+
   const viewShotRef = useRef<any>(null)
   const { faces } = useFaceDetection()
   const mountedRef = useRef(true)
@@ -427,7 +437,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               </View>
             </View>
             <ActivityIndicator size="large" color={COLORS.primary} style={{ marginTop: 20 }} />
-            <Text style={[styles.processingText, { color: COLORS.textPrimary }]}>正在分析构图...</Text>
+            <Text style={[styles.processingText, { color: COLORS.textPrimary }]}>{processStepText}</Text>
             <Text style={[styles.processingSubText, { color: COLORS.textMuted }]}>稍等一下，马上就好～</Text>
             <View style={styles.processingSteps}>
               <View style={[styles.processStep, processStep >= 1 ? styles.processStepActive : styles.processStepPending]}>
