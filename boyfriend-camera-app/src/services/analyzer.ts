@@ -347,6 +347,97 @@ const PRAISE_POOL: Record<string, string[]> = {
     '这色调好高级，男朋友你是学过设计吗？',
     '时尚大片感！这张可以直接上时尚博主了～',
   ],
+  // 书店/图书馆场景夸奖
+  bookstore_good: [
+    '书店里的光线超有质感！男朋友这构图很有文艺气息～',
+    '在书架前拍照超有感觉，男朋友你懂文艺风！',
+    '书香气质拉满，这张照片很有故事感！',
+    '男朋友这构图很有文艺感，像杂志内页！',
+  ],
+  // 超市/便利店场景夸奖
+  supermarket_fun: [
+    '超市拍照也这么有创意，男朋友你太会玩了！',
+    '和零食道具互动超可爱，这创意绝了！',
+    '男朋友把生活场景都拍成大片了！',
+    '这张好有生活气息，俏皮感拉满！',
+  ],
+  // 泳池边夸奖
+  pool_side_good: [
+    '泳池边的光线超通透，这肤色绝了！',
+    '泳池边拍得超有夏日感，男朋友你好会选场景！',
+    '阳光泳池超有感觉，这构图太懂女生了！',
+    '泳池边的肤色好通透，男朋友摄影技术在线！',
+  ],
+  // 天台阳台夸奖
+  balcony_view_good: [
+    '阳台光线超通透，这构图好有空间感！',
+    '天台/阳台的视野绝了，构图很有层次！',
+    '男朋友找的这个角度超有感觉，背景好干净！',
+    '阳台拍照超有氛围，男朋友审美在线！',
+  ],
+  // 露营帐篷夸奖
+  camping_tent_good: [
+    '帐篷前拍照超有户外感，男朋友这构图绝了！',
+    '露营场景也拍得这么好看，男朋友你好会找角度！',
+    '帐篷背景超有感觉，男朋友你是有探险精神的摄影师！',
+    '野营风照片好有感觉，这张要存档！',
+  ],
+  // 湖边夸奖
+  lake_side_good: [
+    '湖边光线超柔，水面反光好美！',
+    '湖边的倒影好有意境，男朋友这构图太会了！',
+    '水面波光粼粼，男朋友拍得好浪漫！',
+    '男朋友在湖边也能拍出这种氛围感，太厉害了！',
+  ],
+  // 画廊/博物馆夸奖
+  gallery_good: [
+    '画廊氛围感拉满，这张照片很有艺术气息！',
+    '在画作旁边的构图很有层次感，男朋友审美在线！',
+    '博物馆里的光影也拿捏了，男朋友你是有文化底蕴的摄影师！',
+    '这张照片像在讲述一个故事，男朋友你开窍了！',
+  ],
+  // 商场橱窗夸奖
+  mall_display_good: [
+    '橱窗灯光下皮肤好通透，男朋友这场景选绝了！',
+    '都市感拉满！商场橱窗也能拍出大片感！',
+    '男朋友在商场里也能找到这种光影，太会了！',
+    '霓虹灯光下超有感觉，男朋友你懂都市风！',
+  ],
+  // 桥上夜景夸奖
+  bridge_night_good: [
+    '桥上的夜景灯光好璀璨，男朋友这角度选绝了！',
+    '夜景桥梁做背景超有氛围，这构图太浪漫了！',
+    '男朋友在桥上也能找到最佳机位，太厉害了！',
+    '这张夜景好有都市感，背景和人都很和谐！',
+  ],
+  // 摩天轮夸奖
+  ferris_wheel_master: [
+    '摩天轮里的光线超柔和，这氛围绝了！',
+    '摩天轮俯瞰城市的角度超浪漫，男朋友你懂浪漫啊！',
+    '在摩天轮里拍照超有感觉，这张可以直接发朋友圈！',
+    '男朋友在摩天轮里也拍出这么好看的照片，太厉害了！',
+  ],
+  // 浴室镜自拍夸奖
+  mirror_selfie_master: [
+    '浴室镜自拍光线超均匀，男朋友你终于发现这个黄金机位了！',
+    '镜子里反射也拿捏了，这构图太专业了！',
+    '浴室光线下皮肤状态好好，男朋友你懂找光！',
+    '镜子自拍也能这么有质感，男朋友你进步好大！',
+  ],
+  // 星空夜景夸奖
+  starry_night_good: [
+    '星空下拍照超有感觉，男朋友你在用心捕捉这一刻！',
+    '星星落在眼睛里的感觉出来了，这张绝了！',
+    '夜空璀璨，这张照片好有诗意！',
+    '男朋友拍星空超有耐心，这张照片值得珍藏！',
+  ],
+  // 公园长椅夸奖
+  park_bench_good: [
+    '公园长椅超有生活感，男朋友这场景找得好！',
+    '长椅上的午后时光被定格了，好治愈！',
+    '公园光影斑驳，这构图好有层次感！',
+    '男朋友在公园也能找到这种光影，太会了！',
+  ],
 }
 
 // 建议文案池
@@ -654,6 +745,20 @@ export async function analyzePhoto(
   if (sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.outdoor_good))
   if (sceneType === 'indoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.indoor_good))
 
+  // 基于亮度的场景推断夸奖
+  // 明亮户外场景（户外阳光充足）
+  if (brightness > 180 && facePosition && compositionScore >= 35 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.outdoor_good))
+  }
+  // 室内柔和光场景（亮度适中，非直射阳光）
+  if (brightness >= 80 && brightness <= 160 && exposureScore >= 25 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.indoor_good))
+  }
+  // 逆光/戏剧光场景（高对比度，背景亮主体暗或有轮廓光）
+  if (brightness > 200 && facePosition && compositionScore >= 35 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.dramatic_light))
+  }
+
   // 近景特写夸奖（人脸面积大）
   if (facePosition && (facePosition.area ?? 0) > 0.25 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.closeup_good))
 
@@ -675,6 +780,20 @@ export async function analyzePhoto(
   // 低光环境表现好（亮度偏低但总分不差）
   if (brightness < 80 && brightness >= 40 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.low_light_good))
+  }
+
+  // 极暗但稳定 = 星空夜景或天台夜景
+  if (brightness < 40 && stabilityScore >= 18 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.starry_night_good))
+    praise.push(pickRandom(PRAISE_POOL.night_great))
+  }
+
+  // 高亮度户外 + 构图优秀 = 泳池/天台等明亮场景
+  if (brightness > 180 && compositionScore >= 35 && facePosition && totalScore >= 78) {
+    // 仅在户外场景标记
+    if (sceneType === 'outdoor') {
+      praise.push(pickRandom(PRAISE_POOL.pool_side_good))
+    }
   }
 
   // 进步鼓励
