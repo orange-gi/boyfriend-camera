@@ -157,6 +157,7 @@ export default function CameraScreen({ navigation }: any) {
           photoWidth: undefined,
           photoHeight: undefined,
         })
+        voiceCoach.speakCaptureSuccess()
       } else {
         Alert.alert('拍照失败', '请重试')
       }

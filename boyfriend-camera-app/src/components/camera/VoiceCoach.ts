@@ -297,7 +297,7 @@ class VoiceCoach {
 
   /** 表情分析提示（基于 MLKit 检测结果） */
   async speakExpressionTip(params: EmotionDetection): Promise<void> {
-    const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle, sharpness, mouthOpen, isHeadTilt } = params
+    const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle, sharpness, mouthOpen } = params
 
     // 模糊检测
     if (sharpness !== undefined && sharpness < 60) {
@@ -384,6 +384,19 @@ class VoiceCoach {
     if (arr.length > 0) {
       await this.speak(arr[Math.floor(Math.random() * arr.length)], true)
     }
+  }
+
+  /** 拍照成功确认 */
+  async speakCaptureSuccess(): Promise<void> {
+    const tips = [
+      '咔嚓！拍好啦～',
+      '拍到了！来看看效果吧～',
+      '完美！就是这张！',
+      '好漂亮！男朋友你真棒～',
+      '咔嚓！等不及看照片了！',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, true)
   }
 
   /** 鼓励语播报 */
