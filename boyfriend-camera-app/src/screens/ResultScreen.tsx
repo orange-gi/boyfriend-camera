@@ -268,7 +268,19 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     } catch (e: any) {
       if (!mountedRef.current) return
       console.error('[ResultScreen] 处理失败:', e)
-      setError(e.message || '处理失败')
+      // 根据错误类型给出更友好的提示
+      const errMsg = String(e?.message || e || '')
+      let friendlyError: string
+      if (errMsg.includes('INVALID_IMAGE_PATH') || errMsg.includes('IMAGE_NOT_FOUND')) {
+        friendlyError = '图片读取失败，请重新拍照'
+      } else if (errMsg.includes('CACHE_DIR')) {
+        friendlyError = '存储空间不足，请清理手机空间后重试'
+      } else if (errMsg.includes('permission') || errMsg.includes('PERMISSION')) {
+        friendlyError = '缺少必要权限，请在设置中开启相册权限'
+      } else {
+        friendlyError = '分析出了点小问题，请重新拍照试试'
+      }
+      setError(friendlyError)
       setScoreResult({
         totalScore: 72,
         compositionScore: 35,
@@ -407,13 +419,22 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         {error && !processing && (
           <View style={styles.errorBanner}>
             <Text style={styles.errorBannerText}>⚠️ {error}</Text>
-            <TouchableOpacity
-              style={styles.errorRetryBtn}
-              onPress={runAnalysis}
-              activeOpacity={0.72}
-            >
-              <Text style={styles.errorRetryBtnText}>🔄 重新分析</Text>
-            </TouchableOpacity>
+            <View style={styles.errorBannerBtns}>
+              <TouchableOpacity
+                style={styles.errorRetryBtn}
+                onPress={runAnalysis}
+                activeOpacity={0.72}
+              >
+                <Text style={styles.errorRetryBtnText}>🔄 重试</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.errorRetryBtn, styles.errorSecondaryBtn]}
+                onPress={handleHome}
+                activeOpacity={0.72}
+              >
+                <Text style={styles.errorSecondaryBtnText}>🏠 首页</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
 
@@ -933,9 +954,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF3CD',
     borderRadius: 8,
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 12,
     marginBottom: 12,
     alignItems: 'center',
+  },
+  errorBannerBtns: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 4,
   },
   errorBannerText: {
     fontSize: 13,
@@ -947,11 +973,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#856404',
     borderRadius: 16,
     paddingHorizontal: 20,
-    paddingVertical: 6,
+    paddingVertical: 7,
   },
   errorRetryBtnText: {
     fontSize: 13,
     color: '#fff',
+    fontWeight: '600',
+  },
+  errorSecondaryBtn: {
+    backgroundColor: '#f0e6c8',
+    borderWidth: 1,
+    borderColor: '#c9a84c',
+  },
+  errorSecondaryBtnText: {
+    fontSize: 13,
+    color: '#856404',
     fontWeight: '600',
   },
   // 撒花粒子
