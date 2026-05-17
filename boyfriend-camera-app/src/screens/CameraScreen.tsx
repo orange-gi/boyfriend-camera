@@ -98,6 +98,16 @@ export default function CameraScreen({ navigation }: any) {
   const [longPressTemplate, setLongPressTemplate] = useState<PoseTemplate | null>(null)
   const [isFavorite, setIsFavorite] = useState(false)
   const [recentIds, setRecentIds] = useState<string[]>([])
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([])
+
+  // 加载收藏列表
+  useEffect(() => {
+    getFavoriteTemplateIds().then(setFavoriteIds)
+  }, [])
+  useFocusEffect(useCallback(() => {
+    getRecentTemplateIds().then(setRecentIds)
+    getFavoriteTemplateIds().then(setFavoriteIds)
+  }, []))
 
   // 拍照闪白动画
   const flashAnim = useRef(new Animated.Value(0)).current
@@ -242,12 +252,18 @@ export default function CameraScreen({ navigation }: any) {
 
   const categories = useMemo(() => {
     const cats = new Set<string>(['全部'])
+    if (favoriteIds.length > 0) cats.add('收藏')
     templates.forEach((t) => { if (t.category) cats.add(t.category) })
     return Array.from(cats)
-  }, [templates])
+  }, [templates, favoriteIds])
 
   const filteredTemplates = useMemo(() => {
-    let list = selectedCategory === '全部' ? templates : templates.filter((t) => t.category === selectedCategory)
+    let list: PoseTemplate[]
+    if (selectedCategory === '收藏') {
+      list = favoriteIds.map((id) => templates.find((t) => t.id === id)).filter(Boolean) as PoseTemplate[]
+    } else {
+      list = selectedCategory === '全部' ? templates : templates.filter((t) => t.category === selectedCategory)
+    }
     if (templateSearch.trim()) {
       const q = templateSearch.toLowerCase()
       list = list.filter(
@@ -258,7 +274,7 @@ export default function CameraScreen({ navigation }: any) {
       )
     }
     return list
-  }, [templates, selectedCategory, templateSearch])
+  }, [templates, selectedCategory, templateSearch, favoriteIds])
 
   const recentTemplates = useMemo(() => {
     return recentIds
@@ -572,10 +588,30 @@ export default function CameraScreen({ navigation }: any) {
               </View>
             ) : filteredTemplates.length === 0 ? (
               <View style={styles.loadingContainer}>
-                <Text style={styles.loadingText}>该分类暂无模板～</Text>
+                {selectedCategory === '收藏' ? (
+                  <>
+                    <Text style={styles.loadingText}>💛 还没有收藏任何模板</Text>
+                    <Text style={[styles.loadingText, { fontSize: 12, marginTop: 6, color: '#888' }]}>长按模板可收藏，下次快速找到～</Text>
+                  </>
+                ) : templateSearch ? (
+                  <>
+                    <Text style={styles.loadingText}>没有找到「{templateSearch}」相关模板</Text>
+                    <Text style={[styles.loadingText, { fontSize: 12, marginTop: 6, color: '#888' }]}>试试其他关键词或切换分类～</Text>
+                  </>
+                ) : (
+                  <Text style={styles.loadingText}>该分类暂无模板～</Text>
+                )}
               </View>
             ) : (
-              <FlatList
+              <>
+                {(templateSearch || selectedCategory !== '全部') && filteredTemplates.length > 0 && (
+                  <Text style={{ paddingHorizontal: 16, paddingVertical: 6, fontSize: 12, color: '#888' }}>
+                    {templateSearch
+                      ? `🔍 找到 ${filteredTemplates.length} 个「${templateSearch}」相关模板`
+                      : `📋 ${selectedCategory} 共 ${filteredTemplates.length} 个模板`}
+                  </Text>
+                )}
+                <FlatList
                 data={filteredTemplates}
                 keyExtractor={(item) => item.id}
                 numColumns={2}
@@ -615,6 +651,7 @@ export default function CameraScreen({ navigation }: any) {
                   )
                 }}
               />
+              </>
             )}
           </View>
         </View>
