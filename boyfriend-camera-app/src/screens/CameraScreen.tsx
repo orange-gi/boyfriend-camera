@@ -43,6 +43,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 }
 
 const RECENT_KEY = 'recent_templates'
+const FAVORITE_KEY = 'favorite_templates'
 
 async function saveRecentTemplate(templateId: string) {
   try {
@@ -61,6 +62,25 @@ async function getRecentTemplateIds(): Promise<string[]> {
   } catch (_e) { return [] }
 }
 
+async function getFavoriteTemplateIds(): Promise<string[]> {
+  try {
+    const raw = await AsyncStorage.getItem(FAVORITE_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch (_e) { return [] }
+}
+
+async function toggleFavoriteTemplate(templateId: string): Promise<boolean> {
+  const ids = await getFavoriteTemplateIds()
+  const isFav = ids.includes(templateId)
+  if (isFav) {
+    await AsyncStorage.setItem(FAVORITE_KEY, JSON.stringify(ids.filter(id => id !== templateId)))
+    return false
+  } else {
+    await AsyncStorage.setItem(FAVORITE_KEY, JSON.stringify([templateId, ...ids]))
+    return true
+  }
+}
+
 export default function CameraScreen({ navigation }: any) {
   const [mode, setMode] = useState<CompositionMode>('grid')
   const [activeTemplate, setActiveTemplate] = useState<PoseTemplate | null>(null)
@@ -75,6 +95,7 @@ export default function CameraScreen({ navigation }: any) {
   const [focusPoint, setFocusPoint] = useState<{ x: number; y: number } | null>(null)
   const [templateSearch, setTemplateSearch] = useState('')
   const [longPressTemplate, setLongPressTemplate] = useState<PoseTemplate | null>(null)
+  const [isFavorite, setIsFavorite] = useState(false)
   const [recentIds, setRecentIds] = useState<string[]>([])
 
   // 拍照闪白动画
@@ -107,6 +128,14 @@ export default function CameraScreen({ navigation }: any) {
   useEffect(() => {
     getRecentTemplateIds().then(setRecentIds)
   }, [showTemplateModal])
+
+  // 长按模板时检查收藏状态
+  useEffect(() => {
+    if (!longPressTemplate) return
+    getFavoriteTemplateIds().then(ids => {
+      setIsFavorite(ids.includes(longPressTemplate.id))
+    })
+  }, [longPressTemplate])
 
   // 拍照
   const handleTakePhoto = useCallback(async () => {
@@ -553,15 +582,22 @@ export default function CameraScreen({ navigation }: any) {
             )}
             {/* 收藏姿势按钮 */}
             <TouchableOpacity
-              style={styles.favoriteBtn}
-              onPress={() => {
-                // TODO: 收藏功能
-                Alert.alert('❤️ 已收藏', '这个姿势已添加到收藏～')
-                setLongPressTemplate(null)
+              style={[styles.favoriteBtn, isFavorite && styles.favoriteBtnActive]}
+              onPress={async () => {
+                if (!longPressTemplate) return
+                const nowFav = await toggleFavoriteTemplate(longPressTemplate.id)
+                setIsFavorite(nowFav)
+                if (nowFav) {
+                  Alert.alert('❤️ 收藏成功', `"${longPressTemplate.name}" 已添加到收藏～`)
+                } else {
+                  Alert.alert('💔 取消收藏', `"${longPressTemplate.name}" 已从收藏移除`)
+                }
               }}
               activeOpacity={0.72}
             >
-              <Text style={styles.favoriteBtnText}>❤️ 收藏姿势</Text>
+              <Text style={[styles.favoriteBtnText, isFavorite && styles.favoriteBtnTextActive]}>
+                {isFavorite ? '❤️ 已收藏' : '🤍 收藏姿势'}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.previewUseBtn}
@@ -1089,10 +1125,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 10,
   },
+  favoriteBtnActive: {
+    backgroundColor: '#FD79A8',
+  },
   favoriteBtnText: {
     color: '#FD79A8',
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  favoriteBtnTextActive: {
+    color: '#fff',
   },
   previewUseBtn: {
     backgroundColor: COLORS.primary,
