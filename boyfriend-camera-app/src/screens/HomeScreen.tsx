@@ -92,6 +92,7 @@ export default function HomeScreen({ navigation }: any) {
   const [tipDismissed, setTipDismissed] = useState(false)
   const [displayDiaryCount, setDisplayDiaryCount] = useState(0)
   const [displayAvgScore, setDisplayAvgScore] = useState(0)
+  const [statsLoading, setStatsLoading] = useState(true)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
   // 动画 shared values
@@ -161,6 +162,7 @@ export default function HomeScreen({ navigation }: any) {
   }, [diaryCount, avgScore])
 
   async function loadStats() {
+    setStatsLoading(true)
     try {
       const diary = await getDiary()
       setDiaryCount(diary.length)
@@ -172,6 +174,8 @@ export default function HomeScreen({ navigation }: any) {
       }
     } catch (e) {
       console.warn('[HomeScreen] 加载日记失败:', e)
+    } finally {
+      setStatsLoading(false)
     }
   }
 
@@ -246,7 +250,24 @@ export default function HomeScreen({ navigation }: any) {
       })()}
 
       {/* 统计数据条 */}
-      {diaryCount > 0 && (
+      {statsLoading ? (
+        <View style={styles.statsBar}>
+          <View style={styles.statItem}>
+            <View style={styles.statNumberSkeleton} />
+            <View style={styles.statLabelSkeleton} />
+          </View>
+          <View style={styles.statDivider} />
+          <View style={styles.statItem}>
+            <View style={styles.statNumberSkeleton} />
+            <View style={styles.statLabelSkeleton} />
+          </View>
+          <View style={styles.statDivider} />
+          <View style={styles.statItem}>
+            <View style={styles.statNumberSkeleton} />
+            <View style={styles.statLabelSkeleton} />
+          </View>
+        </View>
+      ) : (diaryCount > 0 ? (
         <Animated.View style={[styles.statsBar, statsStyle]}>
           <View style={styles.statItem}>
             <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{displayDiaryCount}</Text>
@@ -263,7 +284,7 @@ export default function HomeScreen({ navigation }: any) {
             <Text style={styles.statLabel}>姿势模板</Text>
           </View>
         </Animated.View>
-      )}
+      ) : null)}
 
       {/* 拍照主按钮 */}
       <Animated.View style={[styles.cameraBtnWrapper, cameraStyle]}>
@@ -398,6 +419,8 @@ const styles = StyleSheet.create({
   statsBar: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: 18, padding: 20, marginBottom: 20, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.08, shadowRadius: 12, elevation: 3 },
   statItem: { flex: 1, alignItems: 'center' },
   statNumber: { fontSize: 26, fontWeight: 'bold' },
+  statNumberSkeleton: { width: 28, height: 28, borderRadius: 6, backgroundColor: '#e8e8e8', marginBottom: 4 },
+  statLabelSkeleton: { width: 36, height: 12, borderRadius: 6, backgroundColor: '#eeeeee' },
   statLabel: { fontSize: 12, color: COLORS.textMuted, marginTop: 2 },
   statDivider: { width: 1, height: 30, backgroundColor: COLORS.divider },
   cameraBtnWrapper: { alignItems: 'center', marginBottom: 28 },
