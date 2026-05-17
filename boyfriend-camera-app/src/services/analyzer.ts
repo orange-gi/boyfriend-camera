@@ -154,6 +154,57 @@ const PRAISE_POOL: Record<string, string[]> = {
     '连续几次都这么高分，男朋友你是认真的吗？',
     '摄影师养成了！这稳定输出也太厉害了吧～',
   ],
+  // 多维度全能夸奖（构图+曝光+稳定+水平全优秀）
+  all_dimension_perfect: [
+    '四维全能！这张照片简直是教科书级别，男朋友你已经不是男朋友了，是摄影师！',
+    '构图完美+光线完美+稳定完美+水平完美=这张满分之作！',
+    '男朋友这是开挂了吧？四维全能，女朋友已经感动到说不出话！',
+    '专业摄影师级别的表现！构图/光线/稳定/水平全部在线，这张存档！',
+    '全能选手！男朋友的摄影水平已经进入next level！',
+    '男朋友你确定没偷偷学摄影？这表现太惊艳了！',
+  ],
+  // 构图+曝光双优
+  composition_exposure_master: [
+    '构图和光线都是满分表现！男朋友你是在哪里进修过吗？',
+    '构图讲究、光线到位，这张大片感拉满了！',
+    '男朋友审美在线！构图和光线配合得刚刚好～',
+  ],
+  // 构图+稳定双优
+  composition_stability_master: [
+    '构图讲究还稳如老狗，男朋友这是进化了吧！',
+    '构图专业+手稳如山，这张照片经得起放大！',
+    '男朋友终于同时搞定了构图和手抖，进步太大了！',
+  ],
+  // 曝光+稳定双优
+  exposure_stability_master: [
+    '光线拿捏得稳，手也稳，这张可以放大做海报！',
+    '光线和清晰度都完美，男朋友这表现太靠谱了～',
+    '男朋友终于不抖了！光线也刚刚好，感动哭了！',
+  ],
+  // 表情+构图双优
+  expression_composition_master: [
+    '表情自然+构图讲究，这张可以直接上杂志了！',
+    '男朋友你把表情和构图都拿捏了，太厉害了吧！',
+    '表情到位+位置讲究，这张绝了！',
+  ],
+  // 夜景+稳定双优
+  night_stability_master: [
+    '夜景这么暗还能拍这么清晰，男朋友你用了夜视模式吗？',
+    '暗光环境下手这么稳，夜拍达人就是你了！',
+    '夜景+清晰双优，男朋友你晚上也能这么靠谱吗？',
+  ],
+  // 人像+虚化双优
+  portrait_bokeh_master: [
+    '人像和虚化效果都很棒，男朋友你用了人像模式吧？',
+    '主体突出+背景虚化，这效果像单反拍的！',
+    '男朋友终于搞定了人像摄影，这虚化层次感绝了！',
+  ],
+  // 近景+表情双优
+  closeup_expression_master: [
+    '近景特写+表情满分，这张脸部细节太清晰了！',
+    '放大看都这么好看，男朋友你把细节都收进来了！',
+    '近景+表情双优，男朋友你是细节控吗？',
+  ],
   // 新用户首张好评
   first_good: [
     '第一次拍就这么有感觉，男朋友是有天赋的！',
@@ -654,6 +705,39 @@ export async function analyzePhoto(
     } else {
       praise.push(`✨ 新纪录！历史最高${peakScore}→${totalScore}，继续保持！`)
     }
+  }
+
+  // 多维度全能夸奖（构图+曝光+稳定+水平全优秀）
+  const allPerfect = compositionScore >= 35 && exposureScore >= 28 && stabilityScore >= 18 && levelScore >= 9
+  if (allPerfect) praise.push(pickRandom(PRAISE_POOL.all_dimension_perfect))
+
+  // 构图+曝光双优
+  if (compositionScore >= 35 && exposureScore >= 28 && !allPerfect) {
+    praise.push(pickRandom(PRAISE_POOL.composition_exposure_master))
+  }
+  // 构图+稳定双优
+  if (compositionScore >= 35 && stabilityScore >= 18 && !allPerfect) {
+    praise.push(pickRandom(PRAISE_POOL.composition_stability_master))
+  }
+  // 曝光+稳定双优
+  if (exposureScore >= 28 && stabilityScore >= 18 && !allPerfect) {
+    praise.push(pickRandom(PRAISE_POOL.exposure_stability_master))
+  }
+  // 表情+构图双优（人脸存在时）
+  if (faceCount > 0 && compositionScore >= 35 && !allPerfect) {
+    praise.push(pickRandom(PRAISE_POOL.expression_composition_master))
+  }
+  // 夜景+稳定双优
+  if (brightness < 80 && stabilityScore >= 18 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.night_stability_master))
+  }
+  // 人像+虚化双优
+  if (facePosition && (facePosition.area ?? 0) > 0.15 && (facePosition.area ?? 0) < 0.35 && totalScore >= 80) {
+    praise.push(pickRandom(PRAISE_POOL.portrait_bokeh_master))
+  }
+  // 近景+表情双优
+  if (facePosition && (facePosition.area ?? 0) > 0.25 && faceCount > 0 && !allPerfect) {
+    praise.push(pickRandom(PRAISE_POOL.closeup_expression_master))
   }
 
   // 确保至少有夸奖
