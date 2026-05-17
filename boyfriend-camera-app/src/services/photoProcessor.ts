@@ -11,6 +11,7 @@
  * 5. 保存到临时文件
  */
 import { Platform } from 'react-native'
+import type { RefObject } from 'react'
 import { captureRef } from 'react-native-view-shot'
 import RNFS from 'react-native-fs'
 
@@ -321,8 +322,7 @@ function multiplyMatrices(a: number[], b: number[]): number[] {
 export async function generateComparisonCard(
   originalPath: string,
   processedPath: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  viewShotRef: React.RefObject<unknown>
+  viewShotRef: RefObject<unknown>
 ): Promise<string> {
   if (!viewShotRef.current) {
     console.warn('[PhotoProcessor] viewShot ref not ready')

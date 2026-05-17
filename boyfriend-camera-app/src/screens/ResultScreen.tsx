@@ -293,7 +293,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       } else {
         Alert.alert('保存失败', '请检查相册权限')
       }
-    } catch (_e) {
+    } catch {
       Alert.alert('保存失败', '请检查相册权限')
     } finally {
       setSaving(false)
@@ -324,7 +324,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       try {
         const fallbackMessage = `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`
         await Share.share({ message: fallbackMessage })
-      } catch (_e) {
+      } catch {
         Alert.alert('分享失败', '请稍后重试')
       }
     }
