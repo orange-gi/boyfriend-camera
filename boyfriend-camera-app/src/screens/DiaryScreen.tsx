@@ -55,6 +55,24 @@ export default function DiaryScreen({ navigation }: any) {
     ])
   }
 
+  async function handleClearAll() {
+    Alert.alert(
+      '清空全部记录',
+      '确定要清空所有进步记录吗？此操作不可恢复。',
+      [
+        { text: '取消', style: 'cancel' },
+        {
+          text: '清空全部',
+          style: 'destructive',
+          onPress: async () => {
+            await writeDiary([])
+            setRecords([])
+          },
+        },
+      ]
+    )
+  }
+
   async function handleRefresh() {
     setRefreshing(true)
     await loadDiary()
@@ -307,13 +325,24 @@ export default function DiaryScreen({ navigation }: any) {
             {/* 标题栏 */}
             <View style={styles.header}>
               <Text style={[styles.title, { color: COLORS.textPrimary }]}>📈 进步日记</Text>
-              <TouchableOpacity
-                style={styles.cameraBtn}
-                onPress={() => navigation.navigate('Camera')}
-                activeOpacity={0.72}
-              >
-                <Text style={styles.cameraBtnText}>📸 拍照</Text>
-              </TouchableOpacity>
+              <View style={styles.headerActions}>
+                {totalCount > 0 && (
+                  <TouchableOpacity
+                    style={styles.clearAllBtn}
+                    onPress={handleClearAll}
+                    activeOpacity={0.72}
+                  >
+                    <Text style={styles.clearAllBtnText}>🗑️ 清空</Text>
+                  </TouchableOpacity>
+                )}
+                <TouchableOpacity
+                  style={styles.cameraBtn}
+                  onPress={() => navigation.navigate('Camera')}
+                  activeOpacity={0.72}
+                >
+                  <Text style={styles.cameraBtnText}>📸 拍照</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* 统计卡片 */}
@@ -555,6 +584,24 @@ const styles = StyleSheet.create({
     color: COLORS.textOnPrimary,
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  clearAllBtn: {
+    backgroundColor: COLORS.bgCard,
+    borderRadius: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: COLORS.divider,
+  },
+  clearAllBtnText: {
+    color: COLORS.textMuted,
+    fontSize: 13,
+    fontWeight: '500',
   },
   statsCard: {
     backgroundColor: COLORS.bgCard,
