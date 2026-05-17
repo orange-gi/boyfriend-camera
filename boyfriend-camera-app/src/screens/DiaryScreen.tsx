@@ -458,6 +458,59 @@ export default function DiaryScreen({ navigation }: any) {
             {/* 打卡徽章栏 */}
             {totalCount > 0 && (
               <View style={styles.badgeRow}>
+                {/* 男朋友等级徽章 */}
+                {avgScore >= 90 && (
+                  <View style={[styles.badge, styles.badgeGold]}>
+                    <Text style={styles.badgeText}>👑 大师级摄影师</Text>
+                  </View>
+                )}
+                {avgScore >= 80 && avgScore < 90 && (
+                  <View style={[styles.badge, styles.badgeGold]}>
+                    <Text style={styles.badgeText}>⭐ 专业摄影师</Text>
+                  </View>
+                )}
+                {avgScore >= 70 && avgScore < 80 && (
+                  <View style={[styles.badge, { backgroundColor: '#4ECDC4' + '20', borderColor: '#4ECDC4' }]}>
+                    <Text style={[styles.badgeText, { color: '#4ECDC4' }]}>📸 进阶摄影师</Text>
+                  </View>
+                )}
+                {avgScore >= 60 && avgScore < 70 && (
+                  <View style={[styles.badge, { backgroundColor: '#FFB347' + '20', borderColor: '#FFB347' }]}>
+                    <Text style={[styles.badgeText, { color: '#FFB347' }]}>📷 成长中摄影师</Text>
+                  </View>
+                )}
+                {avgScore < 60 && avgScore > 0 && (
+                  <View style={[styles.badge, styles.badgeBronze]}>
+                    <Text style={styles.badgeText}>🌱 摄影新手</Text>
+                  </View>
+                )}
+                {/* 拍摄次数里程碑 */}
+                {totalCount >= 100 && (
+                  <View style={[styles.badge, styles.badgeGold]}>
+                    <Text style={styles.badgeText}>💎 百次快门</Text>
+                  </View>
+                )}
+                {totalCount >= 50 && totalCount < 100 && (
+                  <View style={[styles.badge, styles.badgeGold]}>
+                    <Text style={styles.badgeText}>👑 五十次快门</Text>
+                  </View>
+                )}
+                {totalCount >= 30 && totalCount < 50 && (
+                  <View style={[styles.badge, { backgroundColor: '#A29BFE' + '20', borderColor: '#A29BFE' }]}>
+                    <Text style={[styles.badgeText, { color: '#A29BFE' }]}>🔥 三十次快门</Text>
+                  </View>
+                )}
+                {totalCount >= 20 && totalCount < 30 && (
+                  <View style={[styles.badge, { backgroundColor: '#A29BFE' + '20', borderColor: '#A29BFE' }]}>
+                    <Text style={[styles.badgeText, { color: '#A29BFE' }]}>🌟 二十次快门</Text>
+                  </View>
+                )}
+                {totalCount >= 10 && totalCount < 20 && (
+                  <View style={[styles.badge, styles.badgeGreen]}>
+                    <Text style={styles.badgeText}>🌟 十次快门</Text>
+                  </View>
+                )}
+                {/* 连续打卡 */}
                 {weeklyStats.streak >= 3 && (
                   <View style={[styles.badge, styles.badgeBronze]}>
                     <Text style={styles.badgeText}>🔥 连续{weeklyStats.streak}天</Text>
@@ -468,6 +521,7 @@ export default function DiaryScreen({ navigation }: any) {
                     <Text style={styles.badgeText}>🏆 连续打卡一周</Text>
                   </View>
                 )}
+                {/* 月度成就 */}
                 {monthlyStats.monthBest >= 90 && (
                   <View style={[styles.badge, styles.badgeGold]}>
                     <Text style={styles.badgeText}>🌟 月度最佳{monthlyStats.monthBest}分</Text>
@@ -476,6 +530,12 @@ export default function DiaryScreen({ navigation }: any) {
                 {monthlyStats.monthDiff > 5 && (
                   <View style={[styles.badge, styles.badgeGreen]}>
                     <Text style={styles.badgeText}>📈 比上月+{monthlyStats.monthDiff}分</Text>
+                  </View>
+                )}
+                {/* 首次突破90分 */}
+                {maxScore >= 90 && totalCount >= 3 && avgScore >= 75 && (
+                  <View style={[styles.badge, styles.badgeGold]}>
+                    <Text style={styles.badgeText}>🎯 突破90分</Text>
                   </View>
                 )}
               </View>
@@ -858,15 +918,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 5,
     borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'transparent',
   },
   badgeBronze: {
     backgroundColor: '#FFF3E0',
+    borderColor: '#FFB347',
   },
   badgeGold: {
     backgroundColor: '#FFF8E1',
+    borderColor: '#FFD700',
   },
   badgeGreen: {
     backgroundColor: '#E8F5E9',
+    borderColor: '#4CAF50',
   },
   badgeText: {
     fontSize: 12,
