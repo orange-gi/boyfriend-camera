@@ -35,7 +35,7 @@ import { COLORS } from '../theme/colors'
 const SCREEN_W = Dimensions.get('window').width
 
 export default function ResultScreen({ route, navigation }: any) {
-  const { photoPath } = route.params || {}
+  const { photoPath, templateCategory } = route.params || {}
 
   const [processedPath, setProcessedPath] = useState<string>('')
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
@@ -156,6 +156,17 @@ export default function ResultScreen({ route, navigation }: any) {
       // tiltAngle: 模拟值 -15° 到 +15°
       const tiltAngle = (((ts * 17 + photoTimestamp * 3) % 300) - 150) * 0.1
 
+      // 根据模板分类推断场景类型
+      const sceneTypeMap: Record<string, 'indoor' | 'outdoor' | 'other'> = {
+        '室内日常': 'indoor',
+        '室内场景': 'indoor',
+        '餐厅美食': 'indoor',
+        '户外风景': 'outdoor',
+        '特殊风格': 'other',
+        '情侣合照': 'other',
+      }
+      const sceneType = templateCategory ? (sceneTypeMap[templateCategory] ?? 'other') : 'other'
+
       const analysis: AnalysisResult = await analyzePhoto(
         {
           facePosition: faceData,
@@ -170,6 +181,7 @@ export default function ResultScreen({ route, navigation }: any) {
           streakCount,
           totalShoots: diary.length + 1,  // 当前是第 N 张照片（diary 是之前 N-1 张）
           isFirstPhoto: diary.length === 0,
+          sceneType,
           lastCompositionScore: lastRecord?.compositionScore,
           lastExposureScore: lastRecord?.exposureScore,
           lastStabilityScore: lastRecord?.stabilityScore,

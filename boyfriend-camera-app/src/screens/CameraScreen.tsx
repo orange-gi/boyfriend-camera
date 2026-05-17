@@ -179,6 +179,7 @@ export default function CameraScreen({ navigation }: any) {
           photoPath: photo.filePath,
           photoWidth: undefined,
           photoHeight: undefined,
+          templateCategory: activeTemplate?.category ?? null,
         })
         voiceCoach.speakCaptureSuccess()
       } else {
