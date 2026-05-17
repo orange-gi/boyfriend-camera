@@ -143,13 +143,18 @@ export default function ResultScreen({ route, navigation }: any) {
         else break
       }
 
+      // 模拟分析参数（真实场景由 MLKit 人脸检测 + 亮度分析提供）
+      // 使用 Date.now() 变化确保每次拍摄都有不同的模拟参数，增加多样性
+      const ts = Date.now()
       const photoTimestamp = photoPath
         ? parseInt(photoPath.match(/\d+/g)?.join('') || '0', 10) % 255
         : 140
-      const ts = Date.now()
-      const brightness = Math.max(30, Math.min(220, (photoTimestamp || 100) + (ts % 120)))
-      const sharpness = 80 + (ts % 120)
-      const tiltAngle = ((ts % 36) - 18) * 0.5
+      // brightness: 模拟值 50-230，涵盖暗光、正常、过曝场景
+      const brightness = Math.max(30, Math.min(230, 50 + ((ts + photoTimestamp * 7) % 180)))
+      // sharpness: 模拟值 60-180，涵盖模糊到清晰
+      const sharpness = 60 + ((ts * 13) % 120)
+      // tiltAngle: 模拟值 -15° 到 +15°
+      const tiltAngle = (((ts * 17 + photoTimestamp * 3) % 300) - 150) * 0.1
 
       const analysis: AnalysisResult = await analyzePhoto(
         {
