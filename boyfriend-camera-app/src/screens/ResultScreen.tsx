@@ -250,7 +250,7 @@ export default function ResultScreen({ route, navigation }: any) {
         if (mountedRef.current) setProcessedPath(path)
       })
     }
-  }, [selectedFilter])
+  }, [selectedFilter, photoPath])
 
   async function handleSave() {
     setSaving(true)
