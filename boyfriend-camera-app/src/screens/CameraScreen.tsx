@@ -123,7 +123,7 @@ export default function CameraScreen({ navigation }: any) {
 
   useEffect(() => {
     voiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
-  }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
+  }, [stability.tiltX, stability.tiltY, stability.shakeLevel, voiceCoach])
 
   useEffect(() => {
     getRecentTemplateIds().then(setRecentIds)
@@ -179,14 +179,14 @@ export default function CameraScreen({ navigation }: any) {
     await saveRecentTemplate(template.id)
     setRecentIds(await getRecentTemplateIds())
     await markUsed(template.id)
-  }, [])
+  }, [markUsed])
 
   const handleVoiceTipConfirm = useCallback(() => {
     if (activeTemplate?.voiceTip) {
       voiceCoach.speakTemplateTip(activeTemplate.voiceTip)
     }
     setShowVoiceTip(false)
-  }, [activeTemplate])
+  }, [activeTemplate, voiceCoach])
 
   const cycleFlash = useCallback(() => {
     const idx = (FLASH_MODES.indexOf(flash) + 1) % FLASH_MODES.length
