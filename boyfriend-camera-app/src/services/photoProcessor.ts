@@ -293,21 +293,23 @@ export function getColorMatrix(filterName: string | null): number[] {
   return multiplyMatrices(satMatrix, multiplyMatrices(contrastMatrix, brightnessMatrix))
 }
 
-/** 4x5 矩阵乘法 */
+/** 4x5 ColorMatrix 乘法: result = B × A（先应用 A，再应用 B） */
 function multiplyMatrices(a: number[], b: number[]): number[] {
   const result = new Array(20).fill(0)
   for (let row = 0; row < 4; row++) {
-    for (let col = 0; col < 5; col++) {
+    for (let col = 0; col < 4; col++) {
       let sum = 0
       for (let k = 0; k < 4; k++) {
-        sum += a[row * 5 + k] * b[k * 5 + col]
-      }
-      // 处理位移列 (col === 4)
-      if (col === 4) {
-        sum += a[row * 5 + 4]
+        sum += b[row * 5 + k] * a[k * 5 + col]
       }
       result[row * 5 + col] = sum
     }
+    // offset 列: result[offset] = b[offset] + Σ(b_row_k × a_k_offset)
+    let offsetSum = b[row * 5 + 4]
+    for (let k = 0; k < 4; k++) {
+      offsetSum += b[row * 5 + k] * a[k * 5 + 4]
+    }
+    result[row * 5 + 4] = offsetSum
   }
   return result
 }
@@ -332,10 +334,10 @@ export async function generateComparisonCard(
       format: 'jpg',
       quality: 0.9,
     })
-    // 对比卡片已生成
     return uri
   } catch (e) {
-    console.error('[PhotoProcessor] 截图失败:', e)
+    console.error('[PhotoProcessor] 对比卡片截图失败:', e)
+    // 回退到返回原处理图
     return processedPath
   }
 }
