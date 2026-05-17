@@ -126,6 +126,12 @@ export async function processPhoto(
   imagePath: string,
   options: ProcessOptions = {}
 ): Promise<string> {
+  // 路径合法性校验
+  if (!imagePath || typeof imagePath !== 'string') {
+    console.warn('[PhotoProcessor] 非法图片路径:', imagePath)
+    throw new Error('INVALID_IMAGE_PATH')
+  }
+
   const {
     cropRatio = 3 / 4,
     filterName = null,
@@ -137,22 +143,39 @@ export async function processPhoto(
   const outputPath = `${cacheDir}/processed_${timestamp}.jpg`
 
   // 确保缓存目录存在
-  const dirExists = await RNFS.exists(cacheDir)
-  if (!dirExists) {
-    await RNFS.mkdir(cacheDir)
-  }
-
-  // 实际处理：复制原图到输出路径（滤镜在 ComparisonCard 通过 Skia 实时渲染）
   try {
-    const cleanPath = imagePath.replace('file://', '')
-    const exists = await RNFS.exists(cleanPath)
-    if (exists) {
-      await RNFS.copyFile(cleanPath, outputPath)
+    const dirExists = await RNFS.exists(cacheDir)
+    if (!dirExists) {
+      await RNFS.mkdir(cacheDir)
     }
   } catch (e) {
-    console.warn('[PhotoProcessor] 图片复制失败，使用原路径:', e)
-    // 复制失败时返回原路径，滤镜仍在组件层渲染
-    return imagePath
+    console.error('[PhotoProcessor] 创建缓存目录失败:', e)
+    throw new Error('CACHE_DIR_CREATE_FAILED')
+  }
+
+  // 清理路径前缀
+  const cleanPath = imagePath.replace(/^file:\/\//, '').trim()
+
+  // 验证图片文件存在且可读
+  let sourceExists = false
+  try {
+    sourceExists = await RNFS.exists(cleanPath)
+  } catch (e) {
+    console.error('[PhotoProcessor] 检查图片存在性失败:', e)
+    throw new Error('IMAGE_READ_ERROR')
+  }
+
+  if (!sourceExists) {
+    console.error('[PhotoProcessor] 图片文件不存在:', cleanPath)
+    throw new Error('IMAGE_NOT_FOUND')
+  }
+
+  // 复制原图到输出路径（滤镜在 ComparisonCard 通过 Skia 实时渲染）
+  try {
+    await RNFS.copyFile(cleanPath, outputPath)
+  } catch (e) {
+    console.error('[PhotoProcessor] 图片复制失败:', e)
+    throw new Error('IMAGE_COPY_FAILED')
   }
 
   // 标记处理参数（用于 ComparisonCard 渲染滤镜效果）
@@ -327,8 +350,17 @@ export async function generateComparisonCard(
  * 当前版本先用 RNFS fallback，后续接入 camera-roll 实现真正的相册写入
  */
 export async function saveToAlbum(imagePath: string): Promise<boolean> {
+  if (!imagePath || typeof imagePath !== 'string') {
+    console.warn('[PhotoProcessor] saveToAlbum: 非法路径参数')
+    return false
+  }
   try {
-    const cleanPath = imagePath.replace('file://', '')
+    const cleanPath = imagePath.replace(/^file:\/\//, '').trim()
+    // 验证源文件存在
+    if (!(await RNFS.exists(cleanPath))) {
+      console.warn('[PhotoProcessor] saveToAlbum: 源文件不存在:', cleanPath)
+      return false
+    }
     const timestamp = Date.now()
     const subDir = '/BoyfriendCamera'
     const destDir = Platform.OS === 'ios'
