@@ -43,7 +43,17 @@ export default function ResultScreen({ route, navigation }: any) {
   const [praiseList, setPraiseList] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [processing, setProcessing] = useState(true)
-  const [selectedFilter, setSelectedFilter] = useState<'warm' | 'cool' | 'vivid' | 'soft' | 'bw'>('warm')
+  const [selectedFilter, setSelectedFilter] = useState<'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic'>('warm')
+
+const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic'; label: string; emoji: string }> = [
+  { key: 'warm', label: '暖黄', emoji: '🌅' },
+  { key: 'cool', label: '冷调', emoji: '❄️' },
+  { key: 'vivid', label: '生动', emoji: '🎨' },
+  { key: 'soft', label: '柔和', emoji: '🌸' },
+  { key: 'bw', label: '黑白', emoji: '🖤' },
+  { key: 'golden', label: '金棕', emoji: '✨' },
+  { key: 'cinematic', label: '电影', emoji: '🎬' },
+]
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
@@ -468,6 +478,28 @@ export default function ResultScreen({ route, navigation }: any) {
           </TouchableOpacity>
         )}
 
+        {/* 滤镜选择器 */}
+        {!processing && (
+          <View style={styles.filterPicker}>
+            <Text style={styles.filterPickerTitle}>🎨 滤镜</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterPickerList}>
+              {FILTER_OPTIONS.map((f) => (
+                <TouchableOpacity
+                  key={f.key}
+                  onPress={() => setSelectedFilter(f.key)}
+                  style={[styles.filterChip, selectedFilter === f.key && styles.filterChipActive]}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.filterChipEmoji}>{f.emoji}</Text>
+                  <Text style={[styles.filterChipLabel, selectedFilter === f.key && styles.filterChipLabelActive]}>
+                    {f.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+
         {/* 对比卡片 */}
         {!processing && (
           <Animated.View style={cardStyle}>
@@ -594,6 +626,46 @@ const styles = StyleSheet.create({
   },
   homeTinyBtnText: {
     fontSize: 18,
+  },
+  filterPicker: {
+    marginHorizontal: 16,
+    marginTop: 12,
+  },
+  filterPickerTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+    marginBottom: 8,
+  },
+  filterPickerList: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingRight: 16,
+  },
+  filterChip: {
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    backgroundColor: '#f5f5f5',
+    minWidth: 56,
+  },
+  filterChipActive: {
+    backgroundColor: '#FFE4EC',
+    borderWidth: 1.5,
+    borderColor: '#FD79A8',
+  },
+  filterChipEmoji: {
+    fontSize: 18,
+    marginBottom: 2,
+  },
+  filterChipLabel: {
+    fontSize: 11,
+    color: '#999',
+  },
+  filterChipLabelActive: {
+    color: '#FD79A8',
+    fontWeight: '600',
   },
   processingOverlay: {
     alignItems: 'center',

@@ -16,7 +16,7 @@ import { COLORS } from '../../theme/colors'
 interface Props {
   originalPath: string
   processedPath: string
-  filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | null
+  filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic' | null
   onFilterChange?: (f: string) => void
 }
 
@@ -25,12 +25,14 @@ const CARD_GAP = 8
 const CARD_WIDTH = (SCREEN_W - 32 - CARD_GAP) / 2
 const CARD_HEIGHT = Math.round(CARD_WIDTH * (4 / 3))
 
-const FILTERS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw'; label: string; color: string }> = [
+const FILTERS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic'; label: string; color: string }> = [
   { key: 'warm', label: '暖色', color: COLORS.filterWarm },
   { key: 'cool', label: '冷色', color: COLORS.filterCool },
   { key: 'vivid', label: '鲜艳', color: COLORS.filterVivid },
   { key: 'soft', label: '柔美', color: COLORS.filterSoft },
   { key: 'bw', label: '黑白', color: COLORS.filterBw },
+  { key: 'golden', label: '金棕', color: '#E8A838' },
+  { key: 'cinematic', label: '电影', color: '#5B7FA6' },
 ]
 
 const OVERLAY_COLORS: Record<string, string> = {
@@ -39,6 +41,8 @@ const OVERLAY_COLORS: Record<string, string> = {
   vivid: 'rgba(255, 80, 130, 0.1)',
   soft: 'rgba(255, 182, 193, 0.12)',
   bw: 'rgba(0, 0, 0, 0.45)',
+  golden: 'rgba(255, 160, 60, 0.18)',
+  cinematic: 'rgba(80, 100, 160, 0.15)',
 }
 
 // 内嵌纯色 placeholder（无需网络）

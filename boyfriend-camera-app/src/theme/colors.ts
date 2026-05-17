@@ -40,6 +40,8 @@ export const COLORS = {
   filterVivid: '#FF6B6B',
   filterSoft: '#FFB6C1',
   filterBw: '#888888',
+  filterGolden: '#E8A838',
+  filterCinematic: '#5B7FA6',
 } as const
 
 /** 根据分数返回对应颜色 */

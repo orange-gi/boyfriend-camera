@@ -18,7 +18,7 @@ export interface ProcessOptions {
   /** 目标裁剪比例，如 3/4, 1/1 */
   cropRatio?: number
   /** 滤镜名称 */
-  filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | null
+  filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic' | null
   /** 是否启用轻度美颜 */
   autoRetouch?: boolean
   /** 人脸中心位置（归一化 0-1），用于裁剪定位 */
