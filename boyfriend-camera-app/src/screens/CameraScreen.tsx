@@ -116,6 +116,11 @@ export default function CameraScreen({ navigation }: any) {
   // 姿势引导条滚动
   const marqueeScrollX = useRef(new Animated.Value(0)).current
 
+  // captureRetryRef 指向重试函数；doCapture 读取这些 ref 拿到最新状态
+  const flashRef = useRef(flash)
+  const activeTemplateRef = useRef(activeTemplate)
+  const captureRetryRef = useRef<() => void>(() => {})
+
   const cameraRef = useRef<CameraViewRef>(null)
   const { templates, loading: templatesLoading, error: templatesError, refresh, markUsed } = useTemplates()
   const stability = useStability()
@@ -170,11 +175,17 @@ export default function CameraScreen({ navigation }: any) {
     })
   }, [longPressTemplate])
 
-  // 拍照
-  const handleTakePhoto = useCallback(async () => {
-    if (isCapturing) return
-    setIsCapturing(true)
+  // 同步 ref（让 doCapture 在任意时刻都能读到最新状态）
+  useEffect(() => {
+    flashRef.current = flash
+  }, [flash])
+  useEffect(() => {
+    activeTemplateRef.current = activeTemplate
+  }, [activeTemplate])
 
+  // 实际执行拍照的内部函数（读取 ref 保证闭包新鲜）
+  const doCapture = async () => {
+    captureRetryRef.current = doCapture // 让 Alert 重试按钮能调用最新闭包的 doCapture
     // 闪白动画
     flashAnim.setValue(0)
     Animated.sequence([
@@ -183,24 +194,36 @@ export default function CameraScreen({ navigation }: any) {
     ]).start()
 
     try {
-      const photo = await cameraRef.current?.takePhoto(flash)
+      const photo = await cameraRef.current?.takePhoto(flashRef.current)
       if (photo) {
         navigation.navigate('Result', {
           photoPath: photo.filePath,
           photoWidth: undefined,
           photoHeight: undefined,
-          templateCategory: activeTemplate?.category ?? null,
+          templateCategory: activeTemplateRef.current?.category ?? null,
         })
         VoiceCoach.speakCaptureSuccess()
       } else {
-        Alert.alert('拍照失败', '请重试')
+        Alert.alert('📷 拍照遇到点小状况', '可以换个角度重试一下～', [
+          { text: '算了', style: 'cancel' },
+          { text: '重试', onPress: () => captureRetryRef.current() },
+        ])
       }
     } catch (e: any) {
-      Alert.alert('拍照失败', e.message || '请重试')
-    } finally {
-      setIsCapturing(false)
+      Alert.alert('📷 拍照失败', e.message || '请检查相机是否可用', [
+        { text: '算了', style: 'cancel' },
+        { text: '重试', onPress: () => captureRetryRef.current() },
+      ])
     }
-  }, [flash, isCapturing, navigation])
+  }
+
+  // 拍照
+  const handleTakePhoto = useCallback(async () => {
+    if (isCapturing) return
+    setIsCapturing(true)
+    await doCapture()
+    setIsCapturing(false)
+  }, [isCapturing])
 
   const handleSelectTemplate = useCallback(async (template: PoseTemplate) => {
     markManualTemplate()
