@@ -630,3 +630,17 @@ export async function getDiary(): Promise<DiaryRecord[]> {
     return []
   }
 }
+
+/** 表情检测数据结构（用于 VoiceCoach 提示） */
+export interface EmotionDetection {
+  smiling?: boolean
+  leftEyeOpen?: boolean
+  rightEyeOpen?: boolean
+  yawAngle?: number
+  rollAngle?: number
+  sharpness?: number
+  /** 张嘴程度（0-1），检测惊讶表情 */
+  mouthOpen?: number
+  /** 检测歪头（有意图的） */
+  isHeadTilt?: boolean
+}

@@ -4,6 +4,7 @@
  * 使用 react-native-tts 朗读
  */
 import Tts from 'react-native-tts'
+import { type EmotionDetection } from '../../services/analyzer'
 
 // 提示文案
 const FACE_TIPS = {
@@ -285,18 +286,7 @@ class VoiceCoach {
   }
 
   /** 表情分析提示（基于 MLKit 检测结果） */
-  async speakExpressionTip(params: {
-    smiling?: boolean
-    leftEyeOpen?: boolean
-    rightEyeOpen?: boolean
-    yawAngle?: number
-    rollAngle?: number
-    sharpness?: number
-    /** 张嘴程度（0-1），检测惊讶表情 */
-    mouthOpen?: number
-    /** 检测歪头（有意图的） */
-    isHeadTilt?: boolean
-  }): Promise<void> {
+  async speakExpressionTip(params: EmotionDetection): Promise<void> {
     const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle, sharpness, mouthOpen, isHeadTilt } = params
 
     // 模糊检测
