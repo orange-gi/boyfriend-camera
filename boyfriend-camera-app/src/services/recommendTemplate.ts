@@ -6,30 +6,33 @@ import type { SceneContext } from './sceneAnalysis'
 
 /** 场景 → 优先匹配的模板分类 */
 const SCENE_CATEGORY_MAP: Record<string, string[]> = {
-  indoor: ['室内日常', '餐厅美食', '情侣合照'],
+  indoor: ['室内日常', '室内场景', '餐厅美食', '情侣合照'],
   outdoor: ['户外风景', '特殊风格'],
-  night: ['室内日常', '餐厅美食'],
+  night: ['室内日常', '室内场景', '特殊风格'],
   unknown: ['室内日常', '户外风景'],
 }
 
-/** 光线 → 优先模板 id（内置 fallback） */
-const LIGHTING_TEMPLATE_IDS: Record<string, string[]> = {
-  dark: ['local_003', 'local_006'],
-  normal: ['local_001', 'local_002'],
-  bright: ['local_005', 'local_006'],
-  backlit: ['local_004', 'local_001'],
-  unknown: ['local_001'],
+/** 光线 → 优先匹配的模板分类（光线适配分类） */
+const LIGHTING_CATEGORY_MAP: Record<string, string[]> = {
+  dark: ['特殊风格', '室内场景'],    // 暗光环境适合夜景/室内氛围
+  normal: ['室内日常', '户外风景'],   // 正常光线下各类都适合
+  bright: ['户外风景', '特殊风格'],  // 明亮户外适合风景
+  backlit: ['室内日常', '室内场景'], // 逆光场景适合室内
+  unknown: [],
 }
 
 function scoreTemplate(template: PoseTemplate, ctx: SceneContext): number {
   let score = 0
-  const categories = SCENE_CATEGORY_MAP[ctx.scene] ?? SCENE_CATEGORY_MAP.unknown
-  if (template.category && categories.includes(template.category)) {
+  // 场景匹配基础分
+  const sceneCategories = SCENE_CATEGORY_MAP[ctx.scene] ?? SCENE_CATEGORY_MAP.unknown
+  if (template.category && sceneCategories.includes(template.category)) {
     score += 10
   }
-  const preferredIds = LIGHTING_TEMPLATE_IDS[ctx.lighting] ?? LIGHTING_TEMPLATE_IDS.unknown
-  const idRank = preferredIds.indexOf(template.id)
-  if (idRank >= 0) score += 8 - idRank
+  // 光线匹配额外加分
+  const lightingCategories = LIGHTING_CATEGORY_MAP[ctx.lighting] ?? []
+  if (template.category && lightingCategories.includes(template.category)) {
+    score += 5
+  }
   return score
 }
 
