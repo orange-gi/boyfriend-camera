@@ -357,11 +357,36 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   }
 
   async function handleShareXiaohongshu() {
-    Alert.alert(
-      '📸 分享到小红书',
-      '截图保存后，打开小红书 App 发布你的照片～\n\n💡 建议配上文字：\n"男朋友用男友相机给我拍的照片，得分还不错！"\n\n一起让男友越拍越好吧 ❤️',
-      [{ text: '好的！', style: 'default' }]
-    )
+    try {
+      let pathToShare = comparisonUri || processedPath || photoPath
+      if (!pathToShare) {
+        Alert.alert('分享失败', '照片还没处理好，稍后再试～')
+        return
+      }
+      if (!pathToShare.startsWith('file://') && !pathToShare.startsWith('http')) {
+        pathToShare = `file://${pathToShare}`
+      }
+      const scoreText = scoreResult?.totalScore != null ? `${scoreResult.totalScore}分` : '还不错'
+      const shareMessage = `📸 用「男友相机」给女朋友拍的照片，得分 ${scoreText}！${scoreResult && scoreResult.totalScore >= 80 ? '男朋友太会拍了！' : scoreResult && scoreResult.totalScore >= 60 ? '越拍越好了呢～' : '继续加油！'}\n\n💡 建议配文：男朋友用「男友相机」给我拍照，越拍越好了！❤️\n#拍照教程 #情侣日常 #手机摄影`
+
+      const shareOptions = {
+        title: '分享到小红书',
+        message: shareMessage,
+        url: pathToShare,
+      } as const
+      await Share.share(shareOptions)
+    } catch (e: any) {
+      const errorMsg = e?.message || ''
+      if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
+      // fallback: 仅发文字
+      const scoreText = scoreResult?.totalScore != null ? `${scoreResult.totalScore}分` : '还不错'
+      const fallbackMsg = `📸 用「男友相机」给女朋友拍照，得分 ${scoreText}！越拍越好了～❤️ #拍照教程 #情侣日常`
+      try {
+        await Share.share({ message: fallbackMsg })
+      } catch {
+        Alert.alert('分享失败', '请稍后重试')
+      }
+    }
   }
 
   function handleRetry() {
