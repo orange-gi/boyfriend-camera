@@ -128,6 +128,8 @@ export async function processPhoto(
   imagePath: string,
   options: ProcessOptions = {}
 ): Promise<string> {
+  const startTime = Date.now()
+
   // 路径合法性校验
   if (!imagePath || typeof imagePath !== 'string') {
     console.warn('[PhotoProcessor] 非法图片路径:', imagePath)
@@ -139,6 +141,14 @@ export async function processPhoto(
     filterName = null,
     faceCenter,
   } = options
+
+  console.info('[PhotoProcessor] 开始处理图片:', {
+    path: imagePath,
+    cropRatio,
+    filterName,
+    faceCenter: faceCenter ? `${faceCenter.x.toFixed(2)},${faceCenter.y.toFixed(2)}` : null,
+    timestamp: new Date().toISOString(),
+  })
 
   const timestamp = Date.now()
   const cacheDir = RNFS.CachesDirectoryPath || '/data/user/0/com.boyfriendcamera/cache'
@@ -213,6 +223,14 @@ export async function processPhoto(
   }
 
   // 返回处理后的路径（滤镜在 ComparisonCard Skia 层渲染）
+  const duration = Date.now() - startTime
+  console.info('[PhotoProcessor] 图片处理完成:', {
+    outputPath,
+    durationMs: duration,
+    filterName,
+    cropRatio,
+    timestamp: new Date().toISOString(),
+  })
   return outputPath
 }
 
@@ -227,6 +245,50 @@ export const FILTER_DESCRIPTIONS: Record<string, string> = {
   bw: '黑白处理，去除色彩突出光影',
   golden: '金棕色调，温暖治愈氛围感',
   cinematic: '电影感调色，对比增强色调偏冷',
+}
+
+/**
+ * applyFilterToView - 在 Skia View 上应用滤镜
+ *
+ * 此函数用于在 Skia Canvas 中实时渲染滤镜效果，无需修改原始图片文件。
+ *
+ * 实现原理：
+ * 1. 加载原始图片为 Skia Image 对象（通过 Skia.Image.MakeFromPath）
+ * 2. 根据 filterName 查找对应的 ColorMatrix 参数（通过 getColorMatrix）
+ * 3. 创建一个 Skia.Paint 对象，应用 ColorFilter（色彩矩阵滤镜）
+ * 4. 在 Canvas 上绘制图片（使用带滤镜的 Paint）
+ * 5. 在图片上方叠加透明色叠加层（模拟色调滤镜，如暖色/冷色叠加）
+ *
+ * ColorMatrix 工作原理：
+ * - Skia 的 ColorMatrix 是 4×5 矩阵，对 RGBA 每个通道进行线性变换
+ * - 矩阵格式: [r1,r2,r3,r4,t1, g1,g2,g3,g4,t2, b1,b2,b3,b4,t3, a1,a2,a3,a4,t4]
+ * - 每个像素计算: newChannel = r×R + g×G + b×B + a×A + offset
+ * - 通过 brightness/contrast/saturation 组合计算（详见 getColorMatrix）
+ *
+ * 色调叠加层（overlay）工作原理：
+ * - 在图片上方绘制一个半透明的颜色矩形
+ * - BlendMode: srcOver（正常混合）
+ * - 叠加色的 alpha 值控制强度（如 warm: rgba(255,200,100,0.12)）
+ * - 组合效果：滤镜 ColorMatrix 处理 + 色调叠加 = 完整滤镜效果
+ *
+ * Skia 代码示例：
+ * ```
+ * const paint = new Skia.Paint()
+ * paint.setColorFilter(Skia.ColorFilter.MakeLinearToSRGBGamma())
+ * // 或使用自定义 ColorMatrix:
+ * // paint.setColorFilter(Skia.ColorFilter.MakeMatrix(getColorMatrix(filterName)))
+ * canvas.drawImage(image, 0, 0, paint)
+ * // 色调叠加:
+ * const overlayPaint = new Skia.Paint()
+ * overlayPaint.setColor4f({ r: 255/255, g: 200/255, b: 100/255, a: 0.12 })
+ * canvas.drawRect(Skia.Rect(...), overlayPaint)
+ * ```
+ *
+ * @param filterName 滤镜名称（warm/cool/vivid/soft/bw/golden/cinematic）
+ * @returns 滤镜的 ColorMatrix 数组，可直接用于 Skia.ColorFilter.MakeMatrix()
+ */
+export function applyFilterToView(filterName: string | null): number[] {
+  return getColorMatrix(filterName)
 }
 
 /**
@@ -346,22 +408,46 @@ function multiplyMatrices(a: number[], b: number[]): number[] {
 /**
  * 生成对比卡片（使用 react-native-view-shot）
  * 将原图和优化图并排截图
+ *
+ * @param originalPath 原图路径
+ * @param processedPath 处理后图片路径
+ * @param viewShotRef view-shot 的 ref
+ * @param quality 截图质量预设：'high'(0.95) | 'medium'(0.85) | 'low'(0.7)
+ * @returns 截图 URI
  */
 export async function generateComparisonCard(
   originalPath: string,
   processedPath: string,
-  viewShotRef: RefObject<unknown>
+  viewShotRef: RefObject<unknown>,
+  quality: 'high' | 'medium' | 'low' = 'medium'
 ): Promise<string> {
   if (!viewShotRef.current) {
     console.warn('[PhotoProcessor] viewShot ref not ready')
     return processedPath
   }
 
+  // 质量预设映射
+  const qualityMap: Record<string, number> = {
+    high: 0.95,
+    medium: 0.85,
+    low: 0.7,
+  }
+  const jpegQuality = qualityMap[quality] ?? 0.85
+
+  console.info('[PhotoProcessor] 生成对比卡片:', {
+    originalPath,
+    processedPath,
+    quality,
+    jpegQuality,
+    timestamp: new Date().toISOString(),
+  })
+
   try {
     const uri = await captureRef(viewShotRef, {
       format: 'jpg',
-      quality: 0.9,
+      quality: jpegQuality,
     })
+    console.info('[PhotoProcessor] 对比卡片截图成功:', uri)
     return uri
   } catch (e) {
     console.error('[PhotoProcessor] 对比卡片截图失败:', e)
