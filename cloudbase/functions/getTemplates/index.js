@@ -345,11 +345,17 @@ const ALL_TEMPLATES = [
 exports.main = async (event = {}, context = {}) => {
   const localVersion = event.localVersion || 0
   const update = ALL_TEMPLATES.filter(t => t.version > localVersion)
-  const CATEGORIES = ['室内日常', '户外风景', '餐厅美食', '特殊风格', '情侣合照']
+  const CATEGORIES = ['室内日常', '室内场景', '户外风景', '餐厅美食', '特殊风格', '情侣合照']
+  // 分类计数
+  const categoryCount = CATEGORIES.reduce((acc, cat) => {
+    acc[cat] = ALL_TEMPLATES.filter(t => t.category === cat).length
+    return acc
+  }, {})
   return {
     latestVersion: CURRENT_VERSION,
     update,
     totalCount: ALL_TEMPLATES.length,
     categories: CATEGORIES,
+    categoryCount,
   }
 }
