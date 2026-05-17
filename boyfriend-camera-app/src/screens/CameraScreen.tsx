@@ -25,6 +25,7 @@ import StabilityIndicator from '../components/camera/StabilityIndicator'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { useTemplates } from '../hooks/useTemplates'
 import { useStability } from '../hooks/useStability'
+import { useSceneRecommendation } from '../hooks/useSceneRecommendation'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
 import { COLORS } from '../theme/colors'
 
@@ -109,6 +110,28 @@ export default function CameraScreen({ navigation }: any) {
   const stability = useStability()
   const voiceCoach = useRef(VoiceCoach).current
 
+  const handleAutoRecommended = useCallback((template: PoseTemplate) => {
+    setActiveTemplate(template)
+    setShowVoiceTip(true)
+    voiceCoach.speak(`已为你推荐「${template.name}」姿势，跟着半透明剪影站位～`, true)
+    if (template.voiceTip) {
+      setTimeout(() => voiceCoach.speakTemplateTip(template.voiceTip), 2800)
+    }
+    setTimeout(() => setShowVoiceTip(false), 6000)
+  }, [voiceCoach])
+
+  const {
+    recommended: autoRecommended,
+    markManual: markManualTemplate,
+    resetAuto: resetAutoTemplate,
+    recommendNow,
+    isAutoRecommended,
+  } = useSceneRecommendation({
+    templates,
+    enabled: !templatesLoading,
+    onRecommended: handleAutoRecommended,
+  })
+
   useFocusEffect(
     useCallback(() => {
       setIsActive(true)
@@ -169,6 +192,7 @@ export default function CameraScreen({ navigation }: any) {
   }, [flash, isCapturing, navigation])
 
   const handleSelectTemplate = useCallback(async (template: PoseTemplate) => {
+    markManualTemplate()
     setActiveTemplate(template)
     setShowTemplateModal(false)
     setTemplateSearch('')
@@ -180,7 +204,7 @@ export default function CameraScreen({ navigation }: any) {
     await saveRecentTemplate(template.id)
     setRecentIds(await getRecentTemplateIds())
     await markUsed(template.id)
-  }, [markUsed])
+  }, [markUsed, markManualTemplate])
 
   const handleVoiceTipConfirm = useCallback(() => {
     if (activeTemplate?.voiceTip) {
@@ -207,7 +231,9 @@ export default function CameraScreen({ navigation }: any) {
   const clearTemplate = useCallback(() => {
     setActiveTemplate(null)
     voiceCoach.stop()
-  }, [])
+    resetAutoTemplate()
+    recommendNow()
+  }, [resetAutoTemplate, recommendNow, voiceCoach])
 
   const categories = useMemo(() => {
     const cats = new Set<string>(['全部'])
@@ -308,6 +334,9 @@ export default function CameraScreen({ navigation }: any) {
       {/* 顶部悬浮姿势引导卡 */}
       {activeTemplate && (
         <View style={styles.poseTipCard}>
+          {isAutoRecommended && autoRecommended?.id === activeTemplate.id && (
+            <Text style={styles.autoRecommendBadge}>✨ 智能推荐</Text>
+          )}
           <Text style={styles.poseTipIcon}>💡</Text>
           <Text style={styles.poseTipText} numberOfLines={1}>
             {activeTemplate.voiceTip || activeTemplate.name}
@@ -736,6 +765,19 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   // 顶部悬浮姿势引导卡
+  autoRecommendBadge: {
+    position: 'absolute',
+    top: -10,
+    left: 12,
+    backgroundColor: COLORS.primary,
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: '700',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
   poseTipCard: {
     position: 'absolute',
     top: 116,
