@@ -74,6 +74,16 @@ const EXPRESSION_TIPS = {
   HAIR_TOSS: '轻轻甩一下头发，风感十足！',
   LOOK_AWAY_SLY: '假装看旁边，眼神更有戏～',
   SIDE_SMILE: '侧脸微笑最有感觉！就是现在～',
+  FOCUS_BREATH: '深呼吸～放松肩膀，表情更自然～',
+  LOOK_DOWN_THEN_UP: '先低头看地，再抬眼看向镜头，自然抓拍～',
+  CHEEKS_PUFF: '鼓起腮帮子，超萌！可以抓拍～',
+  SULKING_FACE: '假装嘟嘴生气，好可爱！就是现在～',
+  SLEEPY_EYES: '睡眼惺忪也好美～就是现在拍！',
+  TONGUE_KISS: '嘟嘴送吻pose，超甜！',
+  STARING_INTENSE: '眼神放空看远方，更有故事感～',
+  // 组合动作提示
+  MOVE_CLOSER: '靠近一点拍特写！',
+  MOVE_BACK: '退后一点，让背景更完整～',
 }
 
 // 场景专项提示
