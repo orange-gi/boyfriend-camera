@@ -93,6 +93,10 @@ function DimensionBar({ label, icon, score, maxScore, color, delay }: DimensionP
 }
 
 export default function ScoreBoard({ result }: Props) {
+  // 防御性检查，防止 ResultScreen 还未设置 scoreResult 时崩溃
+  if (!result) {
+    return null
+  }
   const {
     totalScore,
     compositionScore,
