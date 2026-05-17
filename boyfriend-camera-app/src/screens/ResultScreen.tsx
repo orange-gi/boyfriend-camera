@@ -2,7 +2,7 @@
  * ResultScreen - 结果页 v4
  * 改进：数字逐位滚动动画、打字机夸奖效果、撒花粒子、小红书分享按钮
  */
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import {
   View,
   Text,
@@ -60,14 +60,14 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   const [processStep, setProcessStep] = useState(1) // 1-3 动画步骤
 
   // 处理步骤对应的文案
-  const processStepText = (() => {
+  const processStepText = useMemo(() => {
     switch (processStep) {
       case 1: return '正在分析构图...'
       case 2: return '正在检测光线...'
       case 3: return '正在生成评分...'
       default: return '正在分析中...'
     }
-  })()
+  }, [processStep])
 
   const viewShotRef = useRef<any>(null)
   const { faces } = useFaceDetection()
