@@ -19,21 +19,32 @@ export function useSceneRecommendation({
 }: Options) {
   const [recommended, setRecommended] = useState<PoseTemplate | null>(null)
   const [context, setContext] = useState<SceneContext | null>(null)
+  const [recommendationError, setRecommendationError] = useState<string | null>(null)
   const manualOverride = useRef(false)
   const didAutoRecommend = useRef(false)
 
   useEffect(() => {
     if (!enabled || templates.length === 0) return
     if (manualOverride.current || didAutoRecommend.current) return
+    setRecommendationError(null)
 
-    const ctx = detectSceneContext()
-    const pick = recommendTemplate(templates, ctx)
-    if (!pick) return
+    try {
+      const ctx = detectSceneContext()
+      const pick = recommendTemplate(templates, ctx)
+      if (!pick) {
+        // 推荐结果为空时记录兜底提示，不崩溃
+        setRecommendationError('暂无合适模板，手动选择吧～')
+        return
+      }
 
-    didAutoRecommend.current = true
-    setContext(ctx)
-    setRecommended(pick)
-    onRecommended?.(pick, ctx)
+      didAutoRecommend.current = true
+      setContext(ctx)
+      setRecommended(pick)
+      onRecommended?.(pick, ctx)
+    } catch (e) {
+      // 场景分析或推荐异常不传播，优雅降级
+      setRecommendationError('场景分析失败，手动选择模板吧～')
+    }
   }, [templates, enabled, onRecommended])
 
   const markManual = useCallback(() => {
@@ -45,29 +56,42 @@ export function useSceneRecommendation({
     didAutoRecommend.current = false
     setRecommended(null)
     setContext(null)
+    setRecommendationError(null)
   }, [])
 
   const recommendNow = useCallback(() => {
     if (templates.length === 0) return null
-    const ctx = detectSceneContext()
-    const pick = recommendTemplate(templates, ctx)
-    if (!pick) return null
-    didAutoRecommend.current = true
-    setContext(ctx)
-    setRecommended(pick)
-    onRecommended?.(pick, ctx)
-    return pick
+    try {
+      const ctx = detectSceneContext()
+      const pick = recommendTemplate(templates, ctx)
+      if (!pick) {
+        setRecommendationError('暂无合适模板，手动选择吧～')
+        return null
+      }
+      didAutoRecommend.current = true
+      setContext(ctx)
+      setRecommended(pick)
+      onRecommended?.(pick, ctx)
+      return pick
+    } catch (e) {
+      setRecommendationError('推荐失败，手动选择模板吧～')
+      return null
+    }
   }, [templates, onRecommended])
 
   const updateFromFrame = useCallback(
     (frameBrightness: number) => {
       if (manualOverride.current || templates.length === 0) return
-      const ctx = detectSceneContext({ frameBrightness })
-      const pick = recommendTemplate(templates, ctx)
-      if (!pick) return
-      setContext(ctx)
-      setRecommended(pick)
-      onRecommended?.(pick, ctx)
+      try {
+        const ctx = detectSceneContext({ frameBrightness })
+        const pick = recommendTemplate(templates, ctx)
+        if (!pick) return
+        setContext(ctx)
+        setRecommended(pick)
+        onRecommended?.(pick, ctx)
+      } catch {
+        // 帧更新时静默降级，不打扰用户
+      }
     },
     [templates, onRecommended]
   )
@@ -75,6 +99,7 @@ export function useSceneRecommendation({
   return {
     recommended,
     context,
+    recommendationError,
     markManual,
     resetAuto,
     recommendNow,
