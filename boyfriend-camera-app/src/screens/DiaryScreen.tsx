@@ -27,14 +27,25 @@ export default function DiaryScreen({ navigation }: any) {
 
   const loadDiaryData = useCallback(() => {
     let cancelled = false
-    getDiary().then(diary => {
-      if (cancelled) return
-      setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
-      getPeakScore().then(score => {
-        if (!cancelled) setPeakScore(score)
+    getDiary()
+      .then(diary => {
+        if (cancelled) return
+        setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+        return getPeakScore()
       })
-      if (!cancelled) setLoading(false)
-    })
+      .then(score => {
+        if (cancelled || score === undefined) return
+        setPeakScore(score)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setRecords([])
+          setPeakScore(0)
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
     return () => { cancelled = true }
   }, [])
 
@@ -47,9 +58,13 @@ export default function DiaryScreen({ navigation }: any) {
         text: '删除',
         style: 'destructive',
         onPress: async () => {
-          const updated = records.filter((r) => r.date !== date)
-          await writeDiary(updated)
-          setRecords(updated)
+          try {
+            const updated = records.filter((r) => r.date !== date)
+            await writeDiary(updated)
+            setRecords(updated)
+          } catch (e) {
+            Alert.alert('删除失败', '请稍后重试')
+          }
         },
       },
     ])
@@ -65,8 +80,12 @@ export default function DiaryScreen({ navigation }: any) {
           text: '清空全部',
           style: 'destructive',
           onPress: async () => {
-            await writeDiary([])
-            setRecords([])
+            try {
+              await writeDiary([])
+              setRecords([])
+            } catch (e) {
+              Alert.alert('清空失败', '请稍后重试')
+            }
           },
         },
       ]
