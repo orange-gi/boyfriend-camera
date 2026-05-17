@@ -49,6 +49,30 @@ const PRAISE_POOL: Record<string, string[]> = {
     '歪？是谁把照片扶正的？是我男朋友！（骄傲）',
     '端得比桌子还平，男朋友你是强迫症附体了吗？',
   ],
+  // 95-100 分专属满分文案
+  score_95_100: [
+    '满分之作！！！男朋友你是偷偷进修了吗？这张照片可以上杂志封面了！',
+    '100 分！！！这张照片我要存档一万遍！男朋友你是开挂了吗！',
+    '男朋友摄影水平已经达到专业级了！这张照片太绝了！',
+    '满分满分！这构图这光线简直是教科书级别！可以直接去参赛了！',
+    '男朋友审美觉醒！女朋友感动到哭！这张照片值得裱起来！',
+    '满分！！！这张照片是里程碑！男朋友从摄影师毕业了！',
+    '男朋友你确定不是偷偷请了摄影师的？这表现太惊艳了！',
+    '100 分神作！这张照片朋友看了都要问你在哪拍的！',
+  ],
+  // 85-94 分高分专属文案
+  score_85_94: [
+    '这张太可了！男朋友审美在线，这构图绝了！',
+    '高分之作！男朋友进步太大了，这张要收藏！',
+    '这张照片有高级感！构图讲究，光线也棒！',
+    '男朋友越来越会拍了！这张可以直接发朋友圈！',
+    '哇塞！男朋友你这构图有点东西啊，要被夸爆了！',
+    '这张照片太惊艳了！构图完美+光线到位，男朋友你行啊！',
+    '男朋友摄影天赋开始显露了！这张太有感觉了！',
+    '这张构图绝绝子！男朋友审美在线，继续保持！',
+    '男朋友越来越有摄影师范儿了！这张要存档！',
+    '高分！构图讲究+光线完美，男朋友你这波赢麻了！',
+  ],
   // 新增：夜景专属夸奖
   night_great: [
     '夜景灯光把人拍得超有氛围感！',
@@ -528,6 +552,24 @@ const PRAISE_POOL: Record<string, string[]> = {
     '俏皮可爱！男朋友把日常感拍出来了！',
     '生活气息满满，这张照片好真实好喜欢！',
   ],
+  // 咖啡馆场景夸奖
+  cafe_scene_good: [
+    '咖啡馆氛围感满分！这张照片好有小资情调～',
+    '男朋友拍出了咖啡馆的文艺感，这张绝了！',
+    '咖啡馆光线超柔和，这肤色绝了！',
+  ],
+  // 烘焙坊场景夸奖
+  bakery_good: [
+    '面包店香气仿佛都能闻到，这张照片太有感觉了！',
+    '暖黄色灯光下皮肤超通透，男朋友好会找角度！',
+    '男朋友把甜品店的温暖氛围都拍进来了！',
+  ],
+  // 夜市小吃场景夸奖
+  night_market_good: [
+    '夜市灯光超有烟火气，这张照片好有感觉！',
+    '男朋友把夜市的热闹氛围都收进来了！',
+    '夜市小吃配美人，这构图绝了！',
+  ],
   // 新增：健身房场景夸奖
   gym_fitness_good: [
     '运动风满满！男朋友拍出了活力感！',
@@ -952,6 +994,13 @@ export async function analyzePhoto(
   // 总分优秀时追加额外夸奖
   if (totalScore >= 90) praise.push(pickRandom(PRAISE_POOL.total_great))
 
+  // 高分区间专属文案（95-100分段、85-94分段）
+  if (totalScore >= 95) {
+    praise.push(pickRandom(PRAISE_POOL.score_95_100))
+  } else if (totalScore >= 85 && totalScore < 95) {
+    praise.push(pickRandom(PRAISE_POOL.score_85_94))
+  }
+
   // 场景专属夸奖
   if (sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.outdoor_good))
   if (sceneType === 'indoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.indoor_good))
@@ -1200,6 +1249,21 @@ export async function analyzePhoto(
   // 雪景夸奖（户外+高亮度+构图好+总分高）
   if (brightness >= 180 && compositionScore >= 35 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.snow_scene_good))
+  }
+
+  // 咖啡馆场景夸奖（室内+暖光+构图好）
+  if (brightness >= 100 && brightness <= 180 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.cafe_scene_good || PRAISE_POOL.indoor_good))
+  }
+
+  // 烘焙坊/面包店场景夸奖（室内+暖黄光+总分高）
+  if (brightness >= 120 && brightness <= 200 && sceneType === 'indoor' && totalScore >= 72) {
+    praise.push(pickRandom(PRAISE_POOL.bakery_good || PRAISE_POOL.indoor_good))
+  }
+
+  // 夜市/小吃街场景夸奖（低亮度+高饱和）
+  if (brightness >= 40 && brightness < 100 && totalScore >= 70 && sceneType === 'outdoor') {
+    praise.push(pickRandom(PRAISE_POOL.night_market_good || PRAISE_POOL.city_night_good))
   }
 
   // 都市夜景夸奖（低亮度+构图优秀）
