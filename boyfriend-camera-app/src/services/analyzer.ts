@@ -58,13 +58,13 @@ const PRAISE_POOL: Record<string, string[]> = {
     '夜拍能拿高分，男朋友你是专业的吗！',
     '暗光环境下还能保持清晰，男朋友太靠谱了～',
   ],
-  // 新增：人像虚化专属夸奖
-  portrait_bokeh: [
+  // 新增：人像虚化专属夸奖（合并 bokeh_good 唯一条目）
+  bokeh_good: [
     '背景虚化层次感绝了，主体超突出！',
     '这虚化效果像专业相机拍出来的，男朋友你行啊！',
-    '主体清晰背景柔和，这构图审美在线！',
+    '背景虚化得刚刚好，主体和背景关系处理得太棒了！',
     '焦外虚化好美，男朋友你用了人像模式吧？',
-    '虚实对比绝了，摄影师潜力无限！',
+    '前景虚化有层次，男朋友这构图思路可以！',
   ],
   // 新增：侧光/戏剧光夸奖
   dramatic_light: [
@@ -172,11 +172,6 @@ const PRAISE_POOL: Record<string, string[]> = {
     '室内也能拍出这种感觉，太会找了！',
     '这个角度室内拍得超有质感！',
   ],
-  night_good: [
-    '夜景灯光把人拍得超有氛围感！',
-    '霓虹灯光下也能这么美，男朋友你开窍了！',
-    '夜景这么难拍你都能拿捏，厉害了！',
-  ],
   // 低光环境表现好
   low_light_good: [
     '光线这么暗都能拍清楚，男朋友你是专业的吗！',
@@ -213,12 +208,7 @@ const PRAISE_POOL: Record<string, string[]> = {
     '这张情侣照可以直接当手机壁纸了！',
     '两人合照拍得也太甜了，男朋友摄影技术在线！',
   ],
-  // 虚化效果好评
-  bokeh_good: [
-    '背景虚化层次感绝了，主体超突出！',
-    '这虚化效果像专业相机拍出来的，男朋友你行啊！',
-    '背景虚化得刚刚好，主体和背景关系处理得太棒了！',
-  ],
+
   // 俯拍好评（俯视角度）
   top_angle_good: [
     '俯拍显脸小的秘密被男朋友发现了！',
@@ -259,13 +249,6 @@ const PRAISE_POOL: Record<string, string[]> = {
     '整体表现稳定，男朋友继续保持这个水平～',
     '虽然没有特别惊艳，但整体很均衡！',
     '这张很稳，没有明显短板，继续加油！',
-  ],
-  portrait_mode: [
-    '背景虚化刚刚好！主体超突出，男朋友你用了人像模式吗？',
-    '这虚化层次感绝了，男朋友你是专业的吗？',
-    '主体清晰背景柔和，这构图审美在线！',
-    '人像模式用得恰到好处，这虚化效果绝了！',
-    '前景虚化有层次，男朋友这构图思路可以！',
   ],
   closeup_good: [
     '近景特写太有感觉了！皮肤质感满分～',
@@ -584,7 +567,7 @@ export async function analyzePhoto(
   if (brightness < 80 && brightness >= 30 && totalScore >= 78) praise.push(pickRandom(PRAISE_POOL.night_great))
 
   // 人像虚化夸奖
-  if (totalScore >= 80 && facePosition && (facePosition.area ?? 0) > 0.15 && (facePosition.area ?? 0) < 0.35) praise.push(pickRandom(PRAISE_POOL.portrait_bokeh))
+  if (totalScore >= 80 && facePosition && (facePosition.area ?? 0) > 0.15 && (facePosition.area ?? 0) < 0.35) praise.push(pickRandom(PRAISE_POOL.bokeh_good))
 
   // 细节处理夸奖（清晰度极高）
   if (sharpness > 150 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.detail_great))
