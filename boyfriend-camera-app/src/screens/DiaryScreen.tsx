@@ -25,22 +25,20 @@ export default function DiaryScreen({ navigation }: any) {
   const [refreshing, setRefreshing] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  useFocusEffect(
-    useCallback(() => {
-      let cancelled = false
-      loadDiary().then(async diary => {
-        if (cancelled) return
-        setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
-        setPeakScore(await getPeakScore())
-        setLoading(false)
+  const loadDiaryData = useCallback(() => {
+    let cancelled = false
+    getDiary().then(diary => {
+      if (cancelled) return
+      setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+      getPeakScore().then(score => {
+        if (!cancelled) setPeakScore(score)
       })
-      return () => { cancelled = true }
-    }, [])
-  )
+      if (!cancelled) setLoading(false)
+    })
+    return () => { cancelled = true }
+  }, [])
 
-  async function loadDiary() {
-    return await getDiary()
-  }
+  useFocusEffect(loadDiaryData)
 
   async function handleDeleteRecord(date: string) {
     Alert.alert('删除记录', '确定要删除这条进步记录吗？', [
@@ -77,7 +75,7 @@ export default function DiaryScreen({ navigation }: any) {
 
   async function handleRefresh() {
     setRefreshing(true)
-    const diary = await loadDiary()
+    const diary = await getDiary()
     setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
     setPeakScore(await getPeakScore())
     setRefreshing(false)
