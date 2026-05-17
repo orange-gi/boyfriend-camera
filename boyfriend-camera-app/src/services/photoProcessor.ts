@@ -217,6 +217,19 @@ export async function processPhoto(
 }
 
 /**
+ * 滤镜中文描述（用于 UI 提示）
+ */
+export const FILTER_DESCRIPTIONS: Record<string, string> = {
+  warm: '暖调增强，肤色更柔和通透',
+  cool: '冷调降温，清新通透感',
+  vivid: '高饱和，人像更鲜活有活力',
+  soft: '柔化处理，轻微过曝营造梦幻感',
+  bw: '黑白处理，去除色彩突出光影',
+  golden: '金棕色调，温暖治愈氛围感',
+  cinematic: '电影感调色，对比增强色调偏冷',
+}
+
+/**
  * 应用滤镜后的视觉参数
  * 用于 ComparisonCard 中 Skia 绘制时使用
  */
@@ -225,6 +238,7 @@ export function getFilterParams(filterName: string | null): {
   contrast: number
   saturation: number
   overlayColor: string
+  description: string
 } {
   if (!filterName || !FILTER_PARAMS[filterName]) {
     return {
@@ -232,6 +246,7 @@ export function getFilterParams(filterName: string | null): {
       contrast: 1,
       saturation: 1,
       overlayColor: 'transparent',
+      description: '无滤镜',
     }
   }
   const p = FILTER_PARAMS[filterName]
@@ -240,6 +255,7 @@ export function getFilterParams(filterName: string | null): {
     contrast: p.contrast,
     saturation: p.saturation,
     overlayColor: FILTER_OVERLAY[filterName] || 'transparent',
+    description: FILTER_DESCRIPTIONS[filterName] || '无滤镜',
   }
 }
 
