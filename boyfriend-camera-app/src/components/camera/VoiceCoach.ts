@@ -121,7 +121,7 @@ const SCENE_TIPS = {
   // 健身房场景
   GYM: '健身房镜前光线均匀！侧身站着，笑着拍一张超有活力～',
   // 露营场景
-  CAMPING: '露营帐篷前光线超美！靠近帐篷站着，背景超有感觉～',
+  CAMPING_TENT: '露营帐篷前光线超美！靠近帐篷站着，背景超有感觉～',
   // 露台野餐
   ROOFTOP_PICNIC: '天台野餐光线绝绝子！坐着拍一张，背景是城市天际线～',
   // 樱花季
@@ -137,6 +137,23 @@ const SCENE_TIPS = {
   ROOFTOP_STARS: '天台星空好美！抬头看天空，让星星落在眼睛里～',
   BALCONY_MORNING: '清晨阳台光线好清新！捧着咖啡看向远方，笑一个～',
   POOL_SIDE: '泳池边光线充足！靠在泳池边，侧身站好～',
+  // 闺蜜逛街场景
+  BESTIE_SHOPPING: '和闺蜜逛街超有活力！靠在橱窗前，笑着拍一张～',
+  // 雪景场景
+  SNOW_SCENE: '雪地里光线超柔和！白茫茫的背景超浪漫，打开闪光灯补补光～',
+  // 宠物互动场景
+  PET_INTERACTION: '和宠物互动的时候抓拍，表情最自然可爱！',
+  // 车内自拍场景（已有 CAR_SELFIE，保持唯一）
+  // 雾霾天气场景
+  FOGGY_WEATHER: '雾霾天光线很柔和，不用担心过曝，拍起来！',
+  // 清晨晨光场景
+  MORNING_SUNRISE: '清晨的光线最柔和！迎着阳光笑一个，整个人都在发光～',
+  // 逆光剪影场景
+  BACKLIGHT_SILHOUETTE: '逆光拍剪影超有感觉！转过身来，让光线打在侧脸上～',
+  // 闺蜜合照场景
+  BESTIE_PHOTO: '闺蜜照最重要的是互动！靠近一点，笑着抓拍～',
+  // 夜市小吃场景
+  NIGHT_MARKET: '夜市灯光超有氛围感！找个人少的角落，让灯光打在脸上～',
 }
 
 // 通用鼓励语
@@ -649,6 +666,56 @@ class VoiceCoach {
     if (this.initialized) {
       Tts.stop()
     }
+  }
+
+  /** 姿势动作提示（引导摆姿势） */
+  async speakPoseTip(poseType: 'hand_hip' | 'lean_wall' | 'sit_down' | 'lie_down' | 'wave_hand' | 'neck_stretch'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      hand_hip: ['一只手叉腰，另一只手自然垂下，歪头笑一个～', '手放腰上，下巴微微抬起，这个角度超显瘦！'],
+      lean_wall: ['靠在墙上，一条腿弯曲，重心在另一条腿上，超有感觉～', '找个墙靠着，一只手撑墙，另一只手撩头发～'],
+      sit_down: ['坐好了！双脚并拢或者一前一后，坐姿显腿长～', '坐下来，一只手撑在身后，看镜头笑一个～'],
+      lie_down: ['躺下来试试！仰拍显脸小，光线也超柔和～', '躺在沙发或床上，头微微抬起，这个角度绝了！'],
+      wave_hand: ['轻轻挥手打招呼，自然又可爱！就是现在按快门～', '挥挥手活动一下，在最自然的时候抓拍～'],
+      neck_stretch: ['伸长脖子，下巴微微收紧，这样显脸小！', '下巴收紧一点，脖子拉长，视觉效果超显瘦～'],
+    }
+    const arr = tips[poseType] || []
+    if (arr.length > 0) {
+      const tip = arr[Math.floor(Math.random() * arr.length)]
+      await this.speak(tip, true)
+    }
+  }
+
+  /** 强烈日光建议提示 */
+  async speakSunnyTip(): Promise<void> {
+    const tips = [
+      '阳光好刺眼！找个阴凉处或者背光站～',
+      '光线太晒了！换个角度或者等云来～',
+      '让女朋友眯眼睛了！找个柔和的光线更好看～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, true)
+  }
+
+  /** 对焦确认提示（告诉用户相机已对焦到正确位置） */
+  async speakFocusConfirmed(): Promise<void> {
+    const tips = [
+      '对焦好了！就是现在，按快门～',
+      '找到你了！笑一个，咔嚓！',
+      '锁定！准备好就拍～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, true)
+  }
+
+  /** 构图完美时机提示 */
+  async speakPerfectComposition(): Promise<void> {
+    const tips = [
+      '构图完美！光线也棒，这是最佳拍摄时机！',
+      '位置刚刚好！就是现在，拍！',
+      '一切就绪！男朋友按快门的最佳时机！',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, true)
   }
 }
 
