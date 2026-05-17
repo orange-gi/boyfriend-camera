@@ -147,11 +147,16 @@ export default function DiaryScreen({ navigation }: any) {
   // 进度动画 ref
   const progressAnimRef = useRef(new Animated.Value(0)).current
 
-  // FlatList 数据
-  const entries: any[] = records.map((r) => ({
+  // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
+  const entries: DiaryRecord[] = records.map((r) => ({
     date: r.date,
     score: r.score,
     suggestions: r.suggestions,
+    faceCount: r.faceCount,
+    compositionScore: r.compositionScore,
+    exposureScore: r.exposureScore,
+    stabilityScore: r.stabilityScore,
+    levelScore: r.levelScore,
   }))
 
   // 迷你进度条颜色
