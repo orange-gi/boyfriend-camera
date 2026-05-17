@@ -362,7 +362,7 @@ export default function DiaryScreen({ navigation }: any) {
     <View style={styles.container}>
       <FlatList
         data={records.slice(0, 20)}
-        keyExtractor={(item) => item.date}
+        keyExtractor={(item, index) => `${item.date}-${index}`}
         renderItem={renderRecord}
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
