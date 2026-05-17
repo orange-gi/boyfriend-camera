@@ -505,8 +505,13 @@ export default function CameraScreen({ navigation }: any) {
             </ScrollView>
 
             {templatesLoading ? (
-              <View style={styles.loadingContainer}>
-                <Text style={styles.loadingText}>⏳ 正在加载姿势模板...</Text>
+              <View style={styles.templateSkeletonGrid}>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <View key={i} style={styles.templateSkeletonCard}>
+                    <View style={styles.templateSkeletonIcon} />
+                    <View style={styles.templateSkeletonLabel} />
+                  </View>
+                ))}
               </View>
             ) : templatesError ? (
               <View style={styles.loadingContainer}>
@@ -988,6 +993,34 @@ const styles = StyleSheet.create({
   loadingContainer: {
     padding: 40,
     alignItems: 'center',
+  },
+  templateSkeletonGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 12,
+    paddingTop: 8,
+  },
+  templateSkeletonCard: {
+    width: '23%',
+    margin: '1%',
+    aspectRatio: 0.75,
+    backgroundColor: COLORS.skeletonBase,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  templateSkeletonIcon: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: COLORS.skeletonHighlight,
+    marginBottom: 6,
+  },
+  templateSkeletonLabel: {
+    width: 40,
+    height: 10,
+    borderRadius: 4,
+    backgroundColor: COLORS.skeletonHighlight,
   },
   loadingText: {
     color: COLORS.textMuted,

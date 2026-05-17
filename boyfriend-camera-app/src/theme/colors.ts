@@ -30,6 +30,9 @@ export const COLORS = {
 
   // 分割
   divider: '#EEEEEE',
+  // Skeleton 骨架屏
+  skeletonBase: '#EBEBEB',
+  skeletonHighlight: '#F5F5F5',
 
   // 滤镜
   filterWarm: '#FF8C00',
