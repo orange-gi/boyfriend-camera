@@ -200,6 +200,10 @@ export default function CameraScreen({ navigation }: any) {
     if (template.voiceTip) {
       voiceCoach.speakTemplateTip(template.voiceTip)
     }
+    // 模板分类专属提示
+    if (template.category) {
+      voiceCoach.speakCategoryTip(template.category)
+    }
     setShowVoiceTip(true)
     setTimeout(() => setShowVoiceTip(false), 4000)
     await saveRecentTemplate(template.id)
