@@ -14,6 +14,7 @@ import { Platform } from 'react-native'
 import type { RefObject } from 'react'
 import { captureRef } from 'react-native-view-shot'
 import RNFS from 'react-native-fs'
+import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 
 export interface ProcessOptions {
   /** 目标裁剪比例，如 3/4, 1/1 */
@@ -392,12 +393,24 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
     await RNFS.copyFile(cleanPath, destPath)
     // 已保存照片
 
+    // 使用 CameraRoll 写入系统相册
+    try {
+      const photoUri = `file://${destPath}`
+      const result = await CameraRoll.save(photoUri, {
+        type: 'photo',
+        album: 'BoyfriendCamera',
+      })
+      console.log('[PhotoProcessor] 写入系统相册成功:', result)
+    } catch (crError) {
+      console.warn('[PhotoProcessor] CameraRoll 保存失败，文件已保存到缓存:', crError)
+      // 文件已保存到缓存，用户可在文件管理器中查看
+    }
+
     // Android: 尝试触发 MediaScanner 让相册 App 能看到
     if (Platform.OS === 'android') {
       try {
-        // 调用 MediaScanner 刷新媒体库（需要 native module，下版本集成 camera-roll）
-        // 目前通过在相同目录保存 .nomedia 或提示用户
-        // Android: 请在文件管理器查看
+        // 调用 MediaScanner 刷新媒体库（通过 CameraRoll 实现）
+        // CameraRoll.save 已自动触发 MediaScanner
       } catch {
         // ignore scanner errors
       }
