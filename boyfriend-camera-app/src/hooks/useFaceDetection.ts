@@ -168,6 +168,15 @@ export function useFaceDetection() {
   const clearFaces = useCallback(() => {
     setFaces([])
     frameCountRef.current = 0
+    latestFacesRef.current = []
+    // 重置 Mock 状态（每次拍照后重新开始）
+    _mockFrontX = 0.5
+    _mockFrontY = 0.4
+    _mockFrontArea = 0.14
+    _mockSmiling = false
+    _mockBackX = 0.5
+    _mockBackY = 0.38
+    _mockBackArea = 0.05
   }, [])
 
   return {

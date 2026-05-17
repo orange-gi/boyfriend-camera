@@ -1093,6 +1093,24 @@ export async function recalcPeakScore(diary: DiaryRecord[]): Promise<void> {
   }
 }
 
+/** 获取进步曲线数据（用于 ProgressChart）
+ * @param limit 返回最近 N 条记录，默认 30
+ */
+export async function getScoreHistory(limit: number = 30): Promise<{ date: string; score: number }[]> {
+  try {
+    const raw = await AsyncStorage.getItem(DIARY_KEY)
+    if (!raw) return []
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return []
+    // 只返回有效的分数记录
+    return parsed
+      .filter((r): r is DiaryRecord => r && typeof r.score === 'number' && typeof r.date === 'string')
+      .slice(-limit)
+  } catch {
+    return []
+  }
+}
+
 // 进步日记存储
 export interface DiaryRecord {
   date: string
