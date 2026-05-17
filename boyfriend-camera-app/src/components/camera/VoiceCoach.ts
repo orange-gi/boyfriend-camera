@@ -39,9 +39,25 @@ const FACE_TIPS = {
 
 const STABILITY_TIPS = {
   STABLE: '手很稳，可以按快门了',
+  STABLE_2: '稳如磐石！就是现在，拍！',
+  STABLE_3: '稳得离谱！这姿势绝了，按快门！',
+  STABLE_4: '双手稳住了！角度也好，按下去！',
+  STABLE_5: '手不抖了！这光线这角度，绝了！',
   SHAKY: '稳住！手别抖',
+  SHAKY_2: '手有点抖，深呼吸一下再拍～',
+  SHAKY_3: '稍微稳住一点，憋住气按快门！',
+  SHAKY_4: '手别晃！靠墙或找支撑会更稳～',
+  SHAKY_5: '深呼吸～把手机拿稳了再拍！',
   EXTREME_SHAKE: '太抖了！深呼吸，憋住气再拍',
+  EXTREME_SHAKE_2: '手机抖得厉害！先稳下来再拍～',
+  EXTREME_SHAKE_3: '太晃了！找个东西靠着或者蹲下来拍～',
+  EXTREME_SHAKE_4: '手在抖！深呼吸憋住，轻轻按快门～',
   TILTED: '手机有点歪，看一下水平仪',
+  TILTED_2: '歪了！打开相机网格线对齐一下～',
+  TILTED_3: '手机斜了，把水平仪对准再拍～',
+  TILTED_4: '歪着拍像喝醉了一样哈哈，扶正再拍～',
+  TILTED_5: '地平线歪了，打开九宫格对齐试试～',
+  TILTED_6: '斜了斜了！稍微转一下手机就好～',
 }
 
 // 表情检测提示
@@ -219,6 +235,18 @@ const ENCOURAGEMENT = [
 type FaceTipKey = keyof typeof FACE_TIPS
 type StabilityTipKey = keyof typeof STABILITY_TIPS
 
+/** 从稳定性提示池中随机选取同类提示 */
+function pickStabilityTip(category: 'STABLE' | 'SHAKY' | 'EXTREME_SHAKE' | 'TILTED'): string {
+  const variants: Record<string, string[]> = {
+    STABLE: [STABILITY_TIPS.STABLE, STABILITY_TIPS.STABLE_2, STABILITY_TIPS.STABLE_3, STABILITY_TIPS.STABLE_4, STABILITY_TIPS.STABLE_5],
+    SHAKY: [STABILITY_TIPS.SHAKY, STABILITY_TIPS.SHAKY_2, STABILITY_TIPS.SHAKY_3, STABILITY_TIPS.SHAKY_4, STABILITY_TIPS.SHAKY_5],
+    EXTREME_SHAKE: [STABILITY_TIPS.EXTREME_SHAKE, STABILITY_TIPS.EXTREME_SHAKE_2, STABILITY_TIPS.EXTREME_SHAKE_3, STABILITY_TIPS.EXTREME_SHAKE_4],
+    TILTED: [STABILITY_TIPS.TILTED, STABILITY_TIPS.TILTED_2, STABILITY_TIPS.TILTED_3, STABILITY_TIPS.TILTED_4, STABILITY_TIPS.TILTED_5, STABILITY_TIPS.TILTED_6],
+  }
+  const pool = variants[category] || [STABILITY_TIPS.STABLE]
+  return pool[Math.floor(Math.random() * pool.length)]
+}
+
 class VoiceCoach {
   private enabled: boolean = false
   private initialized: boolean = false
@@ -226,6 +254,9 @@ class VoiceCoach {
   private lastStabilityTip: string = ''
   private cooldownMs: number = 3000  // 提示冷却时间
   private lastSpokeAt: number = 0
+  // 去重：记录最近 3 条提示文本，用于避免相似提示连续重复
+  private recentTips: string[] = []
+  private readonly MAX_RECENT_TIPS = 3
 
   async initialize(): Promise<void> {
     if (this.initialized) return
@@ -255,8 +286,24 @@ class VoiceCoach {
     // 冷却检查（同一条提示 3 秒内不重复）
     if (!force && now - this.lastSpokeAt < this.cooldownMs) return
 
+    // 去重：检查最近 3 条提示，如果文本相似度超过 80% 则跳过
+    if (!force) {
+      const similarity = this.recentTips.filter(recent =>
+        text.length > 3 && recent.length > 3 && (
+          text.includes(recent.substring(0, Math.min(6, recent.length))) ||
+          recent.includes(text.substring(0, Math.min(6, text.length)))
+        )
+      ).length
+      if (similarity > 0) return // 避免连续相似提示
+    }
+
     this.lastSpokeAt = now
     this.lastFaceTip = text
+    // 记录最近提示（去重用）
+    this.recentTips.push(text)
+    if (this.recentTips.length > this.MAX_RECENT_TIPS) {
+      this.recentTips.shift()
+    }
 
     try {
       await Tts.stop()
@@ -335,20 +382,23 @@ class VoiceCoach {
     tiltY: number,
     shakeLevel: number
   ): Promise<void> {
-    if (shakeLevel > 0.8) {
-      await this.speak(STABILITY_TIPS.EXTREME_SHAKE)
-      return
-    }
-    if (shakeLevel > 0.65) {
-      await this.speak(STABILITY_TIPS.SHAKY)
-      return
-    }
-    if (Math.abs(tiltX) > 8 || Math.abs(tiltY) > 8) {
-      await this.speak(STABILITY_TIPS.TILTED)
-      return
-    }
-    if (shakeLevel < 0.3 && Math.abs(tiltX) < 5 && Math.abs(tiltY) < 5) {
-      await this.speak(STABILITY_TIPS.STABLE, true) // 强制播报（状态好）
+    const shakeTip = shakeLevel > 0.8
+      ? pickStabilityTip('EXTREME_SHAKE')
+      : shakeLevel > 0.65
+      ? pickStabilityTip('SHAKY')
+      : null
+
+    const tiltTip = (Math.abs(tiltX) > 8 || Math.abs(tiltY) > 8)
+      ? pickStabilityTip('TILTED')
+      : null
+
+    const stableTip = (shakeLevel < 0.3 && Math.abs(tiltX) < 5 && Math.abs(tiltY) < 5)
+      ? pickStabilityTip('STABLE')
+      : null
+
+    const selectedTip = shakeTip || tiltTip || stableTip
+    if (selectedTip) {
+      await this.speak(selectedTip, !!stableTip)
     }
   }
 
