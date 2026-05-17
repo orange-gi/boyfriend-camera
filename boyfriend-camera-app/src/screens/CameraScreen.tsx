@@ -456,13 +456,28 @@ export default function CameraScreen({ navigation }: any) {
 
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>📐 姿势模板</Text>
-              <TouchableOpacity
-                style={styles.modalCloseBtn}
-                onPress={() => setShowTemplateModal(false)}
-                activeOpacity={0.72}
-              >
-                <Text style={styles.modalClose}>✕</Text>
-              </TouchableOpacity>
+              <View style={styles.modalHeaderActions}>
+                <TouchableOpacity
+                  style={styles.randomBtn}
+                  onPress={() => {
+                    const randomIdx = Math.floor(Math.random() * filteredTemplates.length)
+                    if (filteredTemplates[randomIdx]) {
+                      handleSelectTemplate(filteredTemplates[randomIdx])
+                      setShowTemplateModal(false)
+                    }
+                  }}
+                  activeOpacity={0.72}
+                >
+                  <Text style={styles.randomBtnText}>🎲 随机</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalCloseBtn}
+                  onPress={() => setShowTemplateModal(false)}
+                  activeOpacity={0.72}
+                >
+                  <Text style={styles.modalClose}>✕</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* 搜索框 */}
@@ -588,6 +603,9 @@ export default function CameraScreen({ navigation }: any) {
                       <Text style={styles.templateName} numberOfLines={1}>
                         {item.name}
                       </Text>
+                      {item.voiceTip && (
+                        <Text style={styles.templateVoiceTip} numberOfLines={1}>💬 {item.voiceTip.slice(0, 15)}...</Text>
+                      )}
                       {item.category && (
                         <View style={[styles.templateCategory, { backgroundColor: catColor }]}>
                           <Text style={styles.templateCategoryText}>{item.category}</Text>
@@ -941,6 +959,22 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
   },
+  modalHeaderActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  randomBtn: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    borderRadius: 16,
+  },
+  randomBtnText: {
+    color: COLORS.textOnPrimary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -1037,6 +1071,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 11,
     fontWeight: 'bold',
+  },
+  templateVoiceTip: {
+    fontSize: 11,
+    color: COLORS.textMuted,
+    marginTop: 4,
+    textAlign: 'center',
   },
   loadingContainer: {
     padding: 40,
