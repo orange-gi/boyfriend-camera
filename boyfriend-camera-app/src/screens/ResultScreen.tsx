@@ -31,6 +31,7 @@ import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
 import { COLORS } from '../theme/colors'
+import voiceCoach from '../components/camera/VoiceCoach'
 
 const SCREEN_W = Dimensions.get('window').width
 
@@ -277,6 +278,7 @@ export default function ResultScreen({ route, navigation }: any) {
       const pathToSave = comparisonUri || processedPath || photoPath
       const ok = await saveToAlbum(pathToSave)
       if (ok) {
+        await voiceCoach.speakSavedToAlbum()
         Alert.alert('✅ 保存成功', '照片已保存到相册，快去发朋友圈吧～')
       } else {
         Alert.alert('保存失败', '请检查相册权限')
@@ -347,6 +349,9 @@ export default function ResultScreen({ route, navigation }: any) {
         <Text style={[styles.errorText, { color: COLORS.textMuted }]}>没有找到图片</Text>
         <TouchableOpacity style={styles.errorBtn} onPress={handleHome} activeOpacity={0.72}>
           <Text style={styles.errorBtnText}>返回首页</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.errorRetryBtn, { marginTop: 12 }]} onPress={() => navigation.goBack()} activeOpacity={0.72}>
+          <Text style={styles.errorRetryBtnText}>🔄 重新拍照</Text>
         </TouchableOpacity>
       </View>
     )
