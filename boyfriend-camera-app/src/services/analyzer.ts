@@ -901,15 +901,19 @@ export async function analyzePhoto(
     }
   }
 
+  // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
+  const uniqueSuggestions = [...new Set(suggestions)]
+  const uniquePraise = [...new Set(praise)]
+
   return {
     totalScore,
     compositionScore,
     exposureScore,
     stabilityScore,
     levelScore,
-    suggestions,
+    suggestions: uniqueSuggestions,
     problems,
-    praise,
+    praise: uniquePraise,
   }
 }
 
