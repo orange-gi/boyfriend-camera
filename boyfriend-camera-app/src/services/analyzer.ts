@@ -844,6 +844,36 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.closeup_expression_master))
   }
 
+  // 滤镜完美夸奖（总分高+构图优秀+曝光优秀）
+  if (totalScore >= 85 && compositionScore >= 35 && exposureScore >= 28) {
+    praise.push(pickRandom(PRAISE_POOL.filter_perfect))
+  }
+
+  // 抓拍夸奖（动态场景+人脸存在）
+  if (faceCount > 0 && (brightness > 180 || brightness < 80) && totalScore >= 72) {
+    praise.push(pickRandom(PRAISE_POOL.candid_great))
+  }
+
+  // 氛围感夸奖（总分高+曝光适中）
+  if (totalScore >= 80 && brightness >= 60 && brightness <= 200 && praise.length >= 1) {
+    praise.push(pickRandom(PRAISE_POOL.vibe_perfect))
+  }
+
+  // 男友成长夸奖（总分提升 10+）
+  if (lastScore !== undefined && totalScore - lastScore >= 10 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.growth_praise))
+  }
+
+  // 书店/图书馆场景夸奖
+  if (totalScore >= 75 && sceneType === 'indoor' && compositionScore >= 30) {
+    praise.push(pickRandom(PRAISE_POOL.bookstore_good))
+  }
+
+  // 商场橱窗场景夸奖
+  if (totalScore >= 75 && sceneType === 'indoor' && brightness >= 120 && brightness <= 220) {
+    praise.push(pickRandom(PRAISE_POOL.mall_display_good))
+  }
+
   // 确保至少有夸奖
   if (praise.length === 0) {
     if (totalScore >= 80) {
