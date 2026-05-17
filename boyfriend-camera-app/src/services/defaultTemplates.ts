@@ -1,7 +1,7 @@
 /**
  * defaultTemplates.ts - 内置默认模板
  * 当云函数不可用时，作为离线 fallback
- * 包含 8 个最常用模板，覆盖主要场景
+ * 包含 15 个常用模板，覆盖主要场景类别
  */
 import type { PoseTemplate } from '../components/camera/PoseTemplateOverlay'
 
@@ -71,5 +71,55 @@ export const DEFAULT_TEMPLATES: PoseTemplate[] = [
     overlayUrl: SVG_HOLDING_HANDS, thumbnail: SVG_HOLDING_HANDS,
     voiceTip: '两个人背对镜头站好，手牵手，等我倒数三二一！',
     category: '情侣合照', version: 1,
+  },
+  // === 以下模板与云函数 50 模板集保持一致 offline fallback ===
+  {
+    id: 'local_009', name: '下午茶优雅',
+    description: '下午茶甜点时刻，优雅精致的女孩',
+    overlayUrl: SVG_HAND_RAISE, thumbnail: SVG_HAND_RAISE,
+    voiceTip: '拿起甜品勺或茶杯，侧一点脸庞，嘴角带笑～',
+    category: '餐厅美食', version: 1,
+  },
+  {
+    id: 'local_010', name: '天台夕阳',
+    description: '天台夕阳剪影，氛围感大片',
+    overlayUrl: SVG_SAKURA, thumbnail: SVG_SAKURA,
+    voiceTip: '站在天台边缘，背光拍摄，剪影超有感觉～',
+    category: '户外风景', version: 1,
+  },
+  {
+    id: 'local_011', name: '咖啡馆约会',
+    description: '面对面坐着喝咖啡，文艺感满满的约会照',
+    overlayUrl: SVG_COFFEE, thumbnail: SVG_COFFEE,
+    voiceTip: '两个人对坐，手捧咖啡杯，看向镜头笑一个～',
+    category: '室内场景', version: 1,
+  },
+  {
+    id: 'local_012', name: '复古胶片',
+    description: '复古穿搭胶片风，穿越时光的美',
+    overlayUrl: SVG_HAND_RAISE, thumbnail: SVG_HAND_RAISE,
+    voiceTip: '戴上复古发带，下巴微微抬起，眼神带点故事感～',
+    category: '特殊风格', version: 1,
+  },
+  {
+    id: 'local_013', name: '街拍走路',
+    description: '自然走路抓拍，时尚街拍感信手拈来',
+    overlayUrl: SVG_RUNNING, thumbnail: SVG_RUNNING,
+    voiceTip: '往前走别回头，自然地走起来，我抓拍你！',
+    category: '户外风景', version: 1,
+  },
+  {
+    id: 'local_014', name: '夜景灯光',
+    description: '城市夜景，霓虹灯光中美美出镜',
+    overlayUrl: SVG_BACK_TURN, thumbnail: SVG_BACK_TURN,
+    voiceTip: '让身后的灯光在脸上形成光斑，眼睛看我，别眨眼～',
+    category: '特殊风格', version: 1,
+  },
+  {
+    id: 'local_015', name: '旅拍打卡',
+    description: '地标建筑前，旅行感满满的打卡照',
+    overlayUrl: SVG_SAKURA, thumbnail: SVG_SAKURA,
+    voiceTip: '背对地标建筑，一只手比耶，头微微抬起看向镜头～',
+    category: '户外风景', version: 1,
   },
 ]
