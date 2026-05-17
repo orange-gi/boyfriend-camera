@@ -141,9 +141,9 @@ export default function DiaryScreen({ navigation }: any) {
     ? Math.round(records.reduce((sum, r) => sum + r.score, 0) / totalCount)
     : 0
 
-  // 总进步（第一条 - 最后一条）
+  // 总进步（第一条=最旧 - 最后一条=最新）：进步为正说明越拍越好
   const totalProgress = totalCount >= 2
-    ? records[0].score - records[records.length - 1].score
+    ? records[records.length - 1].score - records[0].score
     : 0
 
   // 最高分：优先使用存储的巅峰分，兼顾日记内最高
