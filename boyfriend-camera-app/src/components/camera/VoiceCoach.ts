@@ -210,7 +210,12 @@ class VoiceCoach {
   async initialize(): Promise<void> {
     if (this.initialized) return
     try {
-      await Tts.setDefaultLanguage('zh-CN')
+      // 优先使用中文，失败时回退到普通话
+      try {
+        await Tts.setDefaultLanguage('zh-CN')
+      } catch {
+        await Tts.setDefaultLanguage('zh')
+      }
       await Tts.setDefaultRate(0.5)  // 适中语速
       await Tts.setDefaultPitch(1.1) // 稍高音调，更温柔
       await Tts.setDucking(true)
@@ -218,7 +223,8 @@ class VoiceCoach {
       this.initialized = true
       // TTS ready
     } catch (e) {
-      console.error('[VoiceCoach] TTS init failed:', e)
+      console.warn('[VoiceCoach] TTS init failed (voice tips disabled):', e)
+      // 不阻塞流程，语音提示静默降级
     }
   }
 
@@ -550,6 +556,23 @@ class VoiceCoach {
         '两人牵手、对视、拥抱，试试不同的互动方式～',
         '情侣照背景要干净，这样两个人才最突出～',
       ],
+      // 新增户外场景
+      '户外海边': [
+        '海风吹起头发超浪漫！侧身迎风最上镜～',
+        '海边光线强，逆光或侧逆光拍出来最有感觉！',
+        '沙滩当背景干净开阔，人物居中或三分都好拍～',
+      ],
+      '城市街拍': [
+        '街头背景要干净！找面纯色墙或简洁背景～',
+        '街拍最重要的是自然感，边走边拍最生动～',
+        '城市灯光下可以拍夜景人像，光斑超有氛围～',
+      ],
+      // 新增夜景专属
+      '夜景灯光': [
+        '夜景光线复杂，找个光源在背后或侧面的位置～',
+        '霓虹灯下皮肤会显得更白净，让女友靠近光源～',
+        '夜拍时手要稳，憋住呼吸再按快门～',
+      ],
     }
     const arr = tips[category] || []
     if (arr.length > 0) {
@@ -713,6 +736,39 @@ class VoiceCoach {
       '构图完美！光线也棒，这是最佳拍摄时机！',
       '位置刚刚好！就是现在，拍！',
       '一切就绪！男朋友按快门的最佳时机！',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, true)
+  }
+
+  /** 过曝警告提示 */
+  async speakOverexposed(): Promise<void> {
+    const tips = [
+      '光线太亮了！换个位置或者让女朋友背光站～',
+      '脸有点过曝，往阴影处挪一点点～',
+      '背景太亮脸黑了！调整一下角度，让脸朝向光源～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip)
+  }
+
+  /** 欠曝（太暗）提示 */
+  async speakUnderexposed(): Promise<void> {
+    const tips = [
+      '有点暗了！往窗边或者光源处靠一点～',
+      '脸有点黑，让女朋友面向光源站～',
+      '光线不够，找个亮一点的地方试试～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip)
+  }
+
+  /** 进步表扬提示 */
+  async speakProgressPraise(diff: number): Promise<void> {
+    const tips = [
+      `进步了${diff}分！男朋友越拍越好了！`,
+      `比上次高了${diff}分！这张构图/光线更棒了～`,
+      `${diff}分的进步！男朋友开窍了！`,
     ]
     const tip = tips[Math.floor(Math.random() * tips.length)]
     await this.speak(tip, true)
