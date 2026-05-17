@@ -25,8 +25,18 @@ export async function callFunction(name: string, data: object = {}): Promise<any
   try {
     const res = await app.callFunction({ name, data })
     return res.result ?? res
-  } catch (e: any) {
-    console.error(`[CloudBase] callFunction(${name}) failed:`, e?.message ?? e)
+  } catch (e: unknown) {
+    // 细化错误类型，便于模板同步服务判断失败原因
+    const msg = e instanceof Error ? e.message : String(e)
+    if (msg.includes('401') || msg.includes('unauthorized') || msg.includes('token')) {
+      console.warn(`[CloudBase] callFunction(${name}) 认证失败，请检查 CloudBase 配置`)
+    } else if (msg.includes('timeout') || msg.includes('ETIMEDOUT') || msg.includes('network')) {
+      console.warn(`[CloudBase] callFunction(${name}) 网络超时，将使用离线模板`)
+    } else if (msg.includes('function not found') || msg.includes('FunctionNotFound')) {
+      console.warn(`[CloudBase] callFunction(${name}) 云函数不存在`)
+    } else {
+      console.warn(`[CloudBase] callFunction(${name}) 调用失败:`, msg)
+    }
     return null
   }
 }
@@ -35,5 +45,5 @@ export async function callFunction(name: string, data: object = {}): Promise<any
  * 打开云控制台（调试用）
  */
 export function openCloudConsole(): void {
-  // React Native Linking 在浏览器环境不可用
+  // React Native Linking 在浏览器环境不可用，生产环境可通过 scheme 跳转
 }
