@@ -12,6 +12,7 @@ import {
   RefreshControl,
   Alert,
   Animated,
+  Easing,
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import ProgressChart from '../components/diary/ProgressChart'
@@ -19,37 +20,62 @@ import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord }
 import EmptyState from '../components/common/EmptyState'
 import { COLORS } from '../theme/colors'
 
+/** Shimmer 动画背景：灰色 → 浅灰 → 灰色 */
+const shimmerBg = (anim: Animated.Value) => ({
+  backgroundColor: anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['#e8e8e8', '#f5f5f5'],
+  }),
+})
+
 export default function DiaryScreen({ navigation }: any) {
   const [records, setRecords] = useState<DiaryRecord[]>([])
   const [peakScore, setPeakScore] = useState(0)
   const [refreshing, setRefreshing] = useState(false)
+  const shimmerAnim = useRef(new Animated.Value(0)).current
   const [loading, setLoading] = useState(true)
 
-  const loadDiaryData = useCallback(() => {
-    let cancelled = false
-    getDiary()
-      .then(diary => {
-        if (cancelled) return
-        setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
-        return getPeakScore()
-      })
-      .then(score => {
-        if (cancelled || score === undefined) return
-        setPeakScore(score)
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setRecords([])
-          setPeakScore(0)
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
-    return () => { cancelled = true }
+  const loadDiaryData = useCallback(async () => {
+    setLoading(true)
+    try {
+      const [diary, score] = await Promise.all([getDiary(), getPeakScore()])
+      setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+      setPeakScore(score)
+    } catch {
+      setRecords([])
+      setPeakScore(0)
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
-  useFocusEffect(loadDiaryData)
+  useFocusEffect(useCallback(() => {
+    loadDiaryData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []))
+
+  // Shimmer 动画
+  useEffect(() => {
+    if (!loading) return
+    const shimmer = Animated.loop(
+      Animated.sequence([
+        Animated.timing(shimmerAnim, {
+          toValue: 1,
+          duration: 900,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shimmerAnim, {
+          toValue: 0,
+          duration: 900,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ])
+    )
+    shimmer.start()
+    return () => shimmer.stop()
+  }, [loading])
 
   async function handleDeleteRecord(date: string) {
     Alert.alert('删除记录', '确定要删除这条进步记录吗？', [
@@ -98,10 +124,15 @@ export default function DiaryScreen({ navigation }: any) {
 
   async function handleRefresh() {
     setRefreshing(true)
-    const diary = await getDiary()
-    setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
-    setPeakScore(await getPeakScore())
-    setRefreshing(false)
+    try {
+      const [diary, score] = await Promise.all([getDiary(), getPeakScore()])
+      setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+      setPeakScore(score)
+    } catch {
+      /* silent fail on refresh */
+    } finally {
+      setRefreshing(false)
+    }
   }
 
   // 统计数据
@@ -321,10 +352,10 @@ export default function DiaryScreen({ navigation }: any) {
       <View style={styles.emptyContainer}>
         {loading ? (
           <View style={styles.skeletonWrapper}>
-            <View style={styles.skeletonEmoji} />
-            <View style={styles.skeletonTitle} />
-            <View style={styles.skeletonSubtitle} />
-            <View style={styles.skeletonBtn} />
+            <Animated.View style={[styles.skeletonEmoji, shimmerBg(shimmerAnim)]} />
+            <Animated.View style={[styles.skeletonTitle, shimmerBg(shimmerAnim)]} />
+            <Animated.View style={[styles.skeletonSubtitle, shimmerBg(shimmerAnim)]} />
+            <Animated.View style={[styles.skeletonBtn, shimmerBg(shimmerAnim)]} />
           </View>
         ) : (
           <>
@@ -365,6 +396,14 @@ export default function DiaryScreen({ navigation }: any) {
         keyExtractor={(item, index) => `${item.date}-${index}`}
         renderItem={renderRecord}
         contentContainerStyle={styles.listContent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor={COLORS.primary}
+            colors={[COLORS.primary]}
+          />
+        }
         ListHeaderComponent={
           <>
             {/* 标题栏 */}
@@ -593,9 +632,6 @@ export default function DiaryScreen({ navigation }: any) {
             {/* 历史记录标题 */}
             <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>📋 历史记录</Text>
           </>
-        }
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor={COLORS.primary} />
         }
         ListFooterComponent={<View style={{ height: 40 }} />}
         showsVerticalScrollIndicator={false}
@@ -908,28 +944,28 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#e8e8e8',
     marginBottom: 16,
   },
   skeletonTitle: {
     width: 160,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#e8e8e8',
     marginBottom: 8,
   },
   skeletonSubtitle: {
     width: 240,
     height: 16,
     borderRadius: 8,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#e8e8e8',
     marginBottom: 24,
   },
   skeletonBtn: {
     width: 140,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#e8e8e8',
   },
   badgeRow: {
     flexDirection: 'row',
