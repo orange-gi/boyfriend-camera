@@ -940,6 +940,24 @@ export async function updatePeakScore(score: number): Promise<boolean> {
   return false
 }
 
+/** 从日记列表重新计算并同步峰值分（删除记录后调用） */
+export async function recalcPeakScore(diary: DiaryRecord[]): Promise<void> {
+  if (diary.length === 0) {
+    try {
+      await AsyncStorage.removeItem(PEAK_KEY)
+    } catch {
+      /* ignore */
+    }
+    return
+  }
+  const max = Math.max(...diary.map(r => r.score))
+  try {
+    await AsyncStorage.setItem(PEAK_KEY, String(max))
+  } catch {
+    /* ignore */
+  }
+}
+
 // 进步日记存储
 export interface DiaryRecord {
   date: string

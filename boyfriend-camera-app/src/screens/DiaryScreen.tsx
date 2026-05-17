@@ -15,7 +15,7 @@ import {
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import ProgressChart from '../components/diary/ProgressChart'
-import { getDiary, writeDiary, getPeakScore, type DiaryRecord } from '../services/analyzer'
+import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
 import EmptyState from '../components/common/EmptyState'
 import { COLORS } from '../theme/colors'
 
@@ -61,7 +61,9 @@ export default function DiaryScreen({ navigation }: any) {
           try {
             const updated = records.filter((r) => r.date !== date)
             await writeDiary(updated)
+            await recalcPeakScore(updated)
             setRecords(updated)
+            setPeakScore(updated.length > 0 ? Math.max(...updated.map(r => r.score)) : 0)
           } catch (e) {
             Alert.alert('删除失败', '请稍后重试')
           }
@@ -82,7 +84,9 @@ export default function DiaryScreen({ navigation }: any) {
           onPress: async () => {
             try {
               await writeDiary([])
+              await recalcPeakScore([])
               setRecords([])
+              setPeakScore(0)
             } catch (e) {
               Alert.alert('清空失败', '请稍后重试')
             }

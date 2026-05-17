@@ -2,7 +2,7 @@
  * ComparisonCard - 原图/优化对比卡片
  * 左右并排展示原图和优化图，支持滤镜切换
  */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   StyleSheet,
@@ -62,6 +62,13 @@ export default function ComparisonCard({
 }: Props) {
   const [activeFilter, setActiveFilter] = useState<string>(filterName ?? 'warm')
   const overlayColor = activeFilter ? (OVERLAY_COLORS[activeFilter] || 'transparent') : 'transparent'
+
+  // 同步外部 filterName 变化（避免 prop 变了但本地 state 没更新的情况）
+  useEffect(() => {
+    if (filterName && filterName !== activeFilter) {
+      setActiveFilter(filterName)
+    }
+  }, [filterName])
 
   const handleFilterPress = (f: string) => {
     setActiveFilter(f)

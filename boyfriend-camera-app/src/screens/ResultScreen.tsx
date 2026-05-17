@@ -74,6 +74,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   const scoreReveal = useSharedValue(0)
   const cardSlide = useSharedValue(50)
 
+  // 初始化 VoiceCoach（TTS 引擎）
+  useEffect(() => {
+    voiceCoach.initialize().catch(() => { /* ignore init errors */ })
+  }, [])
+
   useEffect(() => {
     mountedRef.current = true
     if (!photoPath) {
