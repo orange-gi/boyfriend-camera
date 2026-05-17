@@ -306,12 +306,32 @@ export default function DiaryScreen({ navigation }: any) {
             <View style={styles.skeletonBtn} />
           </View>
         ) : (
-          <EmptyState
-            icon="📈"
-            title="还没有进步记录"
-            subtitle={`${scenarioTip} 第一次约会、周末出游、节日礼物…每拍一张都会悄悄记录成长哦～`}
-            action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera') }}
-          />
+          <>
+            {/* 预览进度图表（给用户展示效果） */}
+            <View style={styles.emptyPreviewCard}>
+              <Text style={styles.emptyPreviewTitle}>📊 你的进步轨迹</Text>
+              <View style={styles.emptyChartPlaceholder}>
+                <Text style={styles.emptyChartPlaceholderText}>📈</Text>
+                <Text style={styles.emptyChartPlaceholderSubtext}>开始拍照后，这里会显示你的进步曲线</Text>
+              </View>
+            </View>
+
+            {/* 拍照小贴士 */}
+            <View style={styles.emptyTipCard}>
+              <Text style={styles.emptyTipTitle}>💡 拍照小贴士</Text>
+              <Text style={styles.emptyTipText}>
+                第一张照片不要有压力！男朋友可以先从「侧身回眸」这种简单的姿势开始，
+                三分法构图 + 光线均匀，基本就能拿到 75 分以上～
+              </Text>
+            </View>
+
+            <EmptyState
+              icon="📈"
+              title="还没有进步记录"
+              subtitle={`${scenarioTip} 第一次约会、周末出游、节日礼物…每拍一张都会悄悄记录成长哦～`}
+              action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera') }}
+            />
+          </>
         )}
       </View>
     )
@@ -979,5 +999,59 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: COLORS.textMuted,
     marginTop: 2,
+  },
+  // 空状态预览卡片
+  emptyPreviewCard: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  emptyPreviewTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: COLORS.textSecondary,
+    marginBottom: 12,
+  },
+  emptyChartPlaceholder: {
+    alignItems: 'center',
+    paddingVertical: 20,
+    opacity: 0.5,
+  },
+  emptyChartPlaceholderText: {
+    fontSize: 40,
+    marginBottom: 8,
+  },
+  emptyChartPlaceholderSubtext: {
+    fontSize: 13,
+    color: COLORS.textMuted,
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+  // 空状态小贴士
+  emptyTipCard: {
+    backgroundColor: '#FFF8E1',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: '#FFB347',
+  },
+  emptyTipTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#8B6914',
+    marginBottom: 6,
+  },
+  emptyTipText: {
+    fontSize: 13,
+    color: '#6B5310',
+    lineHeight: 20,
   },
 })
