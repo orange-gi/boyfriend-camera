@@ -65,7 +65,6 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   const screenshotTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // 撒花粒子动画
-  const confettiRef = useRef<Array<{ id: number; x: number; delay: number; emoji: string }>>([]).current
   const [confettiParticles, setConfettiParticles] = useState<Array<{ id: number; x: number; delay: number; emoji: string }>>([])
 
   // 打字机效果

@@ -235,6 +235,10 @@ export default function CameraScreen({ navigation }: any) {
     voiceCoach.speak(labels[FLASH_MODES[idx]], false)
   }, [flash])
 
+  const handleStabilityUnstable = useCallback(() => {
+    voiceCoach.speak('手稳住！', true)
+  }, [voiceCoach])
+
   const flipCamera = useCallback(() => {
     setCameraFacing((prev) => {
       const next = prev === 'back' ? 'front' : 'back'
@@ -412,7 +416,7 @@ export default function CameraScreen({ navigation }: any) {
         tiltX={stability.tiltX}
         tiltY={stability.tiltY}
         shakeLevel={stability.shakeLevel}
-        onUnstable={() => voiceCoach.speak('手稳住！', true)}
+        onUnstable={handleStabilityUnstable}
       />
 
       {/* 底部控制栏 */}
