@@ -633,16 +633,32 @@ export async function analyzePhoto(
   if (compositionScore >= 35 && faceCount > 0) praise.push(pickRandom(PRAISE_POOL.face_great))
   if (faceCount > 1 && compositionScore >= 30) praise.push(pickRandom(PRAISE_POOL.multiple_faces))
 
+  // 人脸被裁切检测
+  if (facePosition && compositionScore < 35) {
+    const tooCloseToEdge = facePosition.x < 0.08 || facePosition.x > 0.92 ||
+      facePosition.y < 0.12 || facePosition.y > 0.88
+    if (tooCloseToEdge) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.face_cut_off))
+    }
+  }
+
+  // 噪点检测（亮度尚可但清晰度低 = 暗光噪点）
+  if (brightness >= 60 && brightness <= 160 && sharpness < 80 && sharpness >= 50) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.noise_in_dark))
+  }
+
   // 曝光分 0-30
   let exposureScore = 30
   if (brightness < 40) {
     exposureScore -= 20
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
+    suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
   } else if (brightness > 220) {
     exposureScore -= 15
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
+    suggestions.push(pickRandom(SUGGESTION_POOL.over_exposure))
   } else if (brightness < 60 || brightness > 200) {
     exposureScore -= 8
     problems.push('exposure')
