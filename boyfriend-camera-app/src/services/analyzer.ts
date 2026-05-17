@@ -925,12 +925,6 @@ export async function updatePeakScore(score: number): Promise<boolean> {
 }
 
 // 进步日记存储
-export interface DiaryEntry {
-  date: string
-  score: number
-  suggestions?: string[]
-}
-
 export interface DiaryRecord {
   date: string
   score: number

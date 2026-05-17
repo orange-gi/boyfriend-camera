@@ -118,17 +118,16 @@ export default function CameraScreen({ navigation }: any) {
   const cameraRef = useRef<CameraViewRef>(null)
   const { templates, loading: templatesLoading, error: templatesError, refresh, markUsed } = useTemplates()
   const stability = useStability()
-  const voiceCoach = useRef(VoiceCoach).current
-
+  // VoiceCoach 是默认导出的实例，直接引用即可
   const handleAutoRecommended = useCallback((template: PoseTemplate) => {
     setActiveTemplate(template)
     setShowVoiceTip(true)
-    voiceCoach.speak(`已为你推荐「${template.name}」姿势，跟着半透明剪影站位～`, true)
+    VoiceCoach.speak(`已为你推荐「${template.name}」姿势，跟着半透明剪影站位～`, true)
     if (template.voiceTip) {
-      setTimeout(() => voiceCoach.speakTemplateTip(template.voiceTip), 2800)
+      setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 2800)
     }
     setTimeout(() => setShowVoiceTip(false), 6000)
-  }, [voiceCoach])
+  }, [])
 
   const {
     recommended: autoRecommended,
@@ -150,13 +149,13 @@ export default function CameraScreen({ navigation }: any) {
   )
 
   useEffect(() => {
-    voiceCoach.initialize()
-    return () => voiceCoach.stop()
+    VoiceCoach.initialize()
+    return () => VoiceCoach.stop()
   }, [])
 
   useEffect(() => {
-    voiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
-  }, [stability.tiltX, stability.tiltY, stability.shakeLevel, voiceCoach])
+    VoiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
+  }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
 
   useEffect(() => {
     getRecentTemplateIds().then(setRecentIds)
@@ -191,7 +190,7 @@ export default function CameraScreen({ navigation }: any) {
           photoHeight: undefined,
           templateCategory: activeTemplate?.category ?? null,
         })
-        voiceCoach.speakCaptureSuccess()
+        VoiceCoach.speakCaptureSuccess()
       } else {
         Alert.alert('拍照失败', '请重试')
       }
@@ -208,11 +207,11 @@ export default function CameraScreen({ navigation }: any) {
     setShowTemplateModal(false)
     setTemplateSearch('')
     if (template.voiceTip) {
-      voiceCoach.speakTemplateTip(template.voiceTip)
+      VoiceCoach.speakTemplateTip(template.voiceTip)
     }
     // 模板分类专属提示
     if (template.category) {
-      voiceCoach.speakCategoryTip(template.category)
+      VoiceCoach.speakCategoryTip(template.category)
     }
     setShowVoiceTip(true)
     setTimeout(() => setShowVoiceTip(false), 4000)
@@ -223,36 +222,36 @@ export default function CameraScreen({ navigation }: any) {
 
   const handleVoiceTipConfirm = useCallback(() => {
     if (activeTemplate?.voiceTip) {
-      voiceCoach.speakTemplateTip(activeTemplate.voiceTip)
+      VoiceCoach.speakTemplateTip(activeTemplate.voiceTip)
     }
     setShowVoiceTip(false)
-  }, [activeTemplate, voiceCoach])
+  }, [activeTemplate])
 
   const cycleFlash = useCallback(() => {
     const idx = (FLASH_MODES.indexOf(flash) + 1) % FLASH_MODES.length
     setFlash(FLASH_MODES[idx])
     const labels: Record<string, string> = { off: '闪光灯关闭', on: '闪光灯打开', auto: '闪光灯自动' }
-    voiceCoach.speak(labels[FLASH_MODES[idx]], false)
+    VoiceCoach.speak(labels[FLASH_MODES[idx]], false)
   }, [flash])
 
   const handleStabilityUnstable = useCallback(() => {
-    voiceCoach.speak('手稳住！', true)
-  }, [voiceCoach])
+    VoiceCoach.speak('手稳住！', true)
+  }, [])
 
   const flipCamera = useCallback(() => {
     setCameraFacing((prev) => {
       const next = prev === 'back' ? 'front' : 'back'
-      voiceCoach.speak(next === 'front' ? '切换前置摄像头，自拍模式～' : '切换后置摄像头', false)
+      VoiceCoach.speak(next === 'front' ? '切换前置摄像头，自拍模式～' : '切换后置摄像头', false)
       return next
     })
   }, [])
 
   const clearTemplate = useCallback(() => {
     setActiveTemplate(null)
-    voiceCoach.stop()
+    VoiceCoach.stop()
     resetAutoTemplate()
     recommendNow()
-  }, [resetAutoTemplate, recommendNow, voiceCoach])
+  }, [resetAutoTemplate, recommendNow])
 
   const categories = useMemo(() => {
     const cats = new Set<string>(['全部'])
@@ -295,7 +294,7 @@ export default function CameraScreen({ navigation }: any) {
       Animated.timing(focusAnim, { toValue: 1, duration: 200, useNativeDriver: false }),
       Animated.timing(focusAnim, { toValue: 0, duration: 600, useNativeDriver: false }),
     ]).start(() => setFocusPoint(null))
-    voiceCoach.speak('已对焦', false)
+    VoiceCoach.speak('已对焦', false)
   }
 
   return (
