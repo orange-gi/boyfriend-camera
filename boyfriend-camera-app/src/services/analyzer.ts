@@ -607,6 +607,23 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '手指入镜了，让手自然垂下或者做个小动作～',
     '手抢镜了！把手稍微移开一点点～',
   ],
+  // 新增：前景过多建议
+  foreground_clutter: [
+    '前景有点杂乱了，让背景更干净一点～',
+    '前景东西太多了，有点干扰主体了～',
+    '画面有点堵，把前景的东西移开试试～',
+  ],
+  // 新增：竖图横图建议
+  orientation_hint: [
+    '全身照用竖图更好看，男朋友试试竖着拍～',
+    '近景特写横图更有电影感，换个方向试试～',
+  ],
+  // 新增：背景虚化不够建议
+  background_too_sharp: [
+    '背景有点实，试试走近一点让背景虚化～',
+    '背景和人分不开，开人像模式虚化背景试试～',
+    '背景有点抢镜，找个更简洁的背景会更好～',
+  ],
 }
 
 function pickRandom(arr: string[]): string {
@@ -963,10 +980,26 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.stiff_expression))
   }
 
+  // 火锅/美食场景夸奖（亮度高+室内+构图好）
+  if (brightness >= 140 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.hotpot_good))
+  }
+
   // 闺蜜照夸奖（多人合照且非情侣）
   if (faceCount > 1 && !isCouplePhoto && compositionScore >= 30 && totalScore >= 70) {
     praise.push(pickRandom(PRAISE_POOL.bestie_photo))
   }
+
+  // 情侣合照专属夸夸（2人入镜+构图不错）
+  if (isCouplePhoto && faceCount === 2 && compositionScore >= 30 && totalScore >= 65) {
+    praise.push(pickRandom(PRAISE_POOL.couple_photo))
+  }
+
+  // 户外高光环境夸奖（户外+高亮度+构图好）
+  if (sceneType === 'outdoor' && brightness >= 160 && compositionScore >= 35 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.outdoor_good))
+  }
+
 
   // 晨光夸奖（亮度适中偏高+户外+构图好）
   if (brightness >= 140 && brightness <= 220 && compositionScore >= 35 && totalScore >= 75) {
