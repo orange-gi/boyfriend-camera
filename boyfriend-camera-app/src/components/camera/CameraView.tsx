@@ -7,8 +7,8 @@
  * - Camera 的 outputs prop 接收 PhotoOutput 实例
  * - capturePhotoToFile() 直接写文件，返回 PhotoFile { filePath }
  */
-import React, { forwardRef, useCallback, useImperativeHandle, useRef, useEffect } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import React, { forwardRef, useCallback, useImperativeHandle, useRef, useEffect, useState } from 'react'
+import { View, StyleSheet, Text, TouchableOpacity, Linking, Platform } from 'react-native'
 import {
   Camera,
   useCameraDevice,
@@ -45,6 +45,8 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
 
   const { hasPermission, requestPermission } = useCameraPermission()
   const device = useCameraDevice(facing)
+  const [requestedPermission, setRequestedPermission] = useState(false)
+  const [retryKey, setRetryKey] = useState(0) // 用于强制刷新相机
 
   // Photo output - v5 API
   const photoOutput = usePhotoOutput({
@@ -86,7 +88,7 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
 
   useEffect(() => {
     if (!hasPermission) {
-      requestPermission()
+      requestPermission().then(() => setRequestedPermission(true))
     }
   }, [hasPermission, requestPermission])
 
@@ -98,13 +100,40 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
     }
   }, [hasPermission, device])
 
+  const handleOpenSettings = () => {
+    if (Platform.OS === 'ios') {
+      Linking.openURL('app-settings:')
+    } else {
+      Linking.openSettings()
+    }
+  }
+
+  const handleRetry = () => {
+    setRequestedPermission(false)
+    setRetryKey((k) => k + 1)
+    requestPermission().then(() => setRequestedPermission(true))
+  }
+
   if (!hasPermission) {
     return (
       <View style={styles.permissionContainer}>
         <Text style={styles.permissionText}>📷 需要相机权限</Text>
-        <TouchableOpacity style={styles.permissionBtn} onPress={requestPermission}>
-          <Text style={styles.permissionBtnText}>授权相机</Text>
-        </TouchableOpacity>
+        {requestedPermission ? (
+          <>
+            <Text style={styles.permissionSubText}>好像被拒绝了🥲</Text>
+            <Text style={styles.permissionSubText}>去设置里开启权限就能拍照啦～</Text>
+            <TouchableOpacity style={styles.permissionBtn} onPress={handleOpenSettings}>
+              <Text style={styles.permissionBtnText}>去设置</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.retryBtn} onPress={handleRetry}>
+              <Text style={styles.retryBtnText}>重试</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <TouchableOpacity style={styles.permissionBtn} onPress={handleRetry}>
+            <Text style={styles.permissionBtnText}>授权相机</Text>
+          </TouchableOpacity>
+        )}
       </View>
     )
   }
@@ -114,6 +143,9 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
       <View style={styles.permissionContainer}>
         <Text style={styles.permissionText}>❌ 未找到相机设备</Text>
         <Text style={styles.permissionSubText}>请确保相机可用</Text>
+        <TouchableOpacity style={styles.retryBtn} onPress={handleRetry}>
+          <Text style={styles.retryBtnText}>重试</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -171,6 +203,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  retryBtn: {
+    marginTop: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  retryBtnText: {
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: 14,
   },
 })
 
