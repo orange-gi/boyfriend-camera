@@ -379,7 +379,7 @@ export default function DiaryScreen({ navigation }: any) {
 
             <EmptyState
               icon="📈"
-              title="还没有进步记录"
+              title="还没有记录哦，快去拍一张吧！"
               subtitle={`${scenarioTip} 第一次约会、周末出游、节日礼物…每拍一张都会悄悄记录成长哦～`}
               action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera') }}
             />

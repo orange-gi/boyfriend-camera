@@ -608,9 +608,11 @@ export default function CameraScreen({ navigation }: any) {
               </View>
             ) : templatesError ? (
               <View style={styles.loadingContainer}>
-                <Text style={styles.loadingText}>⚠️ {templatesError}</Text>
+                <Text style={styles.emptyStateIcon}>📡</Text>
+                <Text style={styles.emptyStateTitle}>网络不给力～</Text>
+                <Text style={styles.loadingText}>{templatesError}</Text>
                 <TouchableOpacity style={styles.retryBtn} onPress={refresh} activeOpacity={0.72}>
-                  <Text style={styles.retryBtnText}>点击重试</Text>
+                  <Text style={styles.retryBtnText}>🔄 重新加载模板</Text>
                 </TouchableOpacity>
               </View>
             ) : filteredTemplates.length === 0 ? (
@@ -1190,6 +1192,16 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 13,
     fontWeight: 'bold',
+  },
+  emptyStateIcon: {
+    fontSize: 48,
+    marginBottom: 12,
+  },
+  emptyStateTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: COLORS.textPrimary,
+    marginBottom: 8,
   },
   focusRing: {
     position: 'absolute',
