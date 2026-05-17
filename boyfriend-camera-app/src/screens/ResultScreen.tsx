@@ -2,7 +2,7 @@
  * ResultScreen - 结果页 v4
  * 改进：数字逐位滚动动画、打字机夸奖效果、撒花粒子、小红书分享按钮
  */
-import React, { useEffect, useState, useCallback, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   View,
   Text,
@@ -287,7 +287,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       const pathToSave = comparisonUri || processedPath || photoPath
       const ok = await saveToAlbum(pathToSave)
       if (ok) {
-        await voiceCoach.speakSavedToAlbum()
+        try { await voiceCoach.speakSavedToAlbum() } catch { /* ignore TTS errors */ }
         Alert.alert('✅ 保存成功', '照片已保存到相册，快去发朋友圈吧～')
       } else {
         Alert.alert('保存失败', '请检查相册权限')
