@@ -151,10 +151,13 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
           const x = toX(i)
           const y = toY(e.score)
           const dotColor = e.score >= 80 ? COLORS.scoreGreat : e.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
+          const isMax = sorted.length > 0 && e.score === Math.max(...sorted.map(s => s.score))
           return (
             <React.Fragment key={i}>
-              <Circle cx={x} cy={y} r={4} color={dotColor} />
-              <Circle cx={x} cy={y} r={2} color="#fff" />
+              {/* 最高分特殊标记：金色光晕 */}
+              {isMax && <Circle cx={x} cy={y} r={9} color="rgba(255,215,0,0.3)" />}
+              <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? '#FFD700' : dotColor} />
+              <Circle cx={x} cy={y} r={isMax ? 3 : 2} color="#fff" />
             </React.Fragment>
           )
         })}
