@@ -470,3 +470,47 @@ export async function cleanupTempFiles(): Promise<void> {
     console.warn('[PhotoProcessor] 清理临时文件失败:', e)
   }
 }
+
+/**
+ * 推荐 JPEG 压缩质量
+ * 根据图片大小智能选择压缩比：大图高压缩（省空间），小图低压缩（保质量）
+ * @param fileSizeBytes 图片文件大小（字节）
+ * @returns 推荐的 JPEG quality (0.3-0.95)
+ */
+export function getOptimalJpegQuality(fileSizeBytes: number): number {
+  const sizeMB = fileSizeBytes / 1024 / 1024
+  if (sizeMB > 10) return 0.5       // 超大图 → 强压缩
+  if (sizeMB > 5) return 0.65      // 大图 → 中等压缩
+  if (sizeMB > 2) return 0.8       // 中图 → 轻压缩
+  return 0.92                        // 小图 → 保质量
+}
+
+/**
+ * 预估处理后文件大小
+ * @param originalSizeMB 原始文件大小（MB）
+ * @param filterName 滤镜名称
+ * @returns 预估压缩后大小（MB）
+ */
+export function estimateCompressedSize(originalSizeMB: number, filterName: string | null): number {
+  // 滤镜会增加一点文件大小（色彩数据更丰富）
+  const filterOverhead = filterName && filterName !== 'bw' ? 1.05 : 1.0
+  // 压缩比估算
+  const compressionRatio = originalSizeMB > 5 ? 0.6 : 0.8
+  return originalSizeMB * compressionRatio * filterOverhead
+}
+
+/**
+ * 图片尺寸安全检查
+ * 防止超大图片导致内存溢出，返回推荐的缩放比例
+ * @param width 图片宽度
+ * @param height 图片高度
+ * @returns 推荐的缩放比例 (0.1 - 1.0)
+ */
+export function getSafeScaleFactor(width: number, height: number): number {
+  const pixelCount = width * height
+  const maxPixels = 4096 * 4096  // 16MP 上限
+  const largePixels = 3840 * 2160 // 4K 上限
+  if (pixelCount > maxPixels) return Math.sqrt(maxPixels / pixelCount)
+  if (pixelCount > largePixels) return Math.sqrt(largePixels / pixelCount)
+  return 1.0
+}
