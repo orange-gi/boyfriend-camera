@@ -260,6 +260,15 @@ export default function DiaryScreen({ navigation }: any) {
   }
 
   if (totalCount === 0) {
+    const hour = new Date().getHours()
+    const scenarioTip = hour < 12
+      ? '出门约会前先练几张开胃拍～'
+      : hour < 17
+      ? '周末出游时让男朋友多练练，每一张都是进步！'
+      : hour < 20
+      ? '晚餐约会最适合拍出氛围感大片～'
+      : '夜晚约会也别错过，开启夜景模式试试！'
+
     return (
       <View style={styles.emptyContainer}>
         {loading ? (
@@ -273,7 +282,7 @@ export default function DiaryScreen({ navigation }: any) {
           <EmptyState
             icon="📈"
             title="还没有进步记录"
-            subtitle="第一次约会、周末出游、节日礼物…每拍一张都会悄悄记录成长哦～记得让男朋友多练练，进步会很明显！"
+            subtitle={`${scenarioTip} 第一次约会、周末出游、节日礼物…每拍一张都会悄悄记录成长哦～`}
             action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera') }}
           />
         )}
