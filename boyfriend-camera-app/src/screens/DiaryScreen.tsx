@@ -15,21 +15,23 @@ import {
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import ProgressChart from '../components/diary/ProgressChart'
-import { getDiary, writeDiary, type DiaryRecord } from '../services/analyzer'
+import { getDiary, writeDiary, getPeakScore, type DiaryRecord } from '../services/analyzer'
 import EmptyState from '../components/common/EmptyState'
 import { COLORS } from '../theme/colors'
 
 export default function DiaryScreen({ navigation }: any) {
   const [records, setRecords] = useState<DiaryRecord[]>([])
+  const [peakScore, setPeakScore] = useState(0)
   const [refreshing, setRefreshing] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useFocusEffect(
     useCallback(() => {
       let cancelled = false
-      loadDiary().then(diary => {
+      loadDiary().then(async diary => {
         if (cancelled) return
         setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+        setPeakScore(await getPeakScore())
         setLoading(false)
       })
       return () => { cancelled = true }
@@ -75,7 +77,9 @@ export default function DiaryScreen({ navigation }: any) {
 
   async function handleRefresh() {
     setRefreshing(true)
-    await loadDiary()
+    const diary = await loadDiary()
+    setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+    setPeakScore(await getPeakScore())
     setRefreshing(false)
   }
 
@@ -90,8 +94,8 @@ export default function DiaryScreen({ navigation }: any) {
     ? records[0].score - records[records.length - 1].score
     : 0
 
-  // 最高分和最近分
-  const maxScore = totalCount > 0 ? Math.max(...records.map((r) => r.score)) : 0
+  // 最高分：优先使用存储的巅峰分，兼顾日记内最高
+  const maxScore = peakScore > 0 ? peakScore : (totalCount > 0 ? Math.max(...records.map((r) => r.score)) : 0)
   const recentScore = totalCount > 0 ? records[0].score : 0
 
   // 周统计数据
