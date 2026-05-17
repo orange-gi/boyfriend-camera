@@ -30,7 +30,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, scoreLabel } from '../theme/colors'
+import { COLORS } from '../theme/colors'
 
 const SCREEN_W = Dimensions.get('window').width
 

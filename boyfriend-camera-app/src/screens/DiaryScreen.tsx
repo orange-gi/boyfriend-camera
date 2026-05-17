@@ -17,7 +17,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, type DiaryRecord } from '../services/analyzer'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, scoreColor } from '../theme/colors'
+import { COLORS } from '../theme/colors'
 
 export default function DiaryScreen({ navigation }: any) {
   const [records, setRecords] = useState<DiaryRecord[]>([])
