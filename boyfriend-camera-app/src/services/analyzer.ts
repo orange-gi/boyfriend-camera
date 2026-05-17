@@ -1081,6 +1081,22 @@ export async function saveToDiary(record: DiaryRecord): Promise<void> {
     const trimmed = existing.slice(-30)
     await AsyncStorage.setItem(DIARY_KEY, JSON.stringify(trimmed))
   } catch (e) {
+    // 存储空间不足时，尝试删除最旧的记录再保存
+    if (String(e).includes('QUOTA') || String(e).includes('quota') || String(e).includes('space')) {
+      try {
+        const existing = await getDiary()
+        // 删除最旧的一条记录
+        if (existing.length > 0) {
+          existing.shift()
+          existing.push(record)
+          await AsyncStorage.setItem(DIARY_KEY, JSON.stringify(existing))
+          return
+        }
+      } catch {
+        console.error('[Analyzer] 存储空间不足，保存日记失败:', e)
+        return
+      }
+    }
     console.error('[Analyzer] 保存日记失败:', e)
   }
 }
@@ -1097,7 +1113,10 @@ export async function writeDiary(records: DiaryRecord[]): Promise<void> {
 export async function getDiary(): Promise<DiaryRecord[]> {
   try {
     const raw = await AsyncStorage.getItem(DIARY_KEY)
-    return raw ? JSON.parse(raw) : []
+    if (!raw) return []
+    const parsed = JSON.parse(raw)
+    // 过滤无效记录，防止损坏数据导致崩溃
+    return Array.isArray(parsed) ? parsed.filter(r => r && typeof r.score === 'number' && r.date) : []
   } catch {
     return []
   }

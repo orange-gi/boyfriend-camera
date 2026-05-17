@@ -171,6 +171,17 @@ export async function processPhoto(
     throw new Error('IMAGE_NOT_FOUND')
   }
 
+  // 验证文件大小，防止处理超大图片导致内存溢出
+  try {
+    const stat = await RNFS.stat(cleanPath)
+    const sizeMB = (stat.size || 0) / 1024 / 1024
+    if (sizeMB > 20) {
+      console.warn('[PhotoProcessor] 图片过大(', sizeMB.toFixed(1), 'MB)，可能影响处理性能')
+    }
+  } catch (e) {
+    console.warn('[PhotoProcessor] 无法获取文件大小:', e)
+  }
+
   // 复制原图到输出路径（滤镜在 ComparisonCard 通过 Skia 实时渲染）
   try {
     await RNFS.copyFile(cleanPath, outputPath)
