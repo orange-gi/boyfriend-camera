@@ -623,6 +623,19 @@ const PRAISE_POOL: Record<string, string[]> = {
     '男朋友审美在线！这角度选得太绝了！',
   ],
   // ========== 一般档位文案（60-79分） ==========
+  // ========== 中高分段文案（80-84分）新增 ==========
+  score_80_84: [
+    '这张拍得很不错！男朋友进步超快的，这张有被夸到！',
+    '80分以上了！男朋友审美开窍，这张构图感绝了！',
+    '这张很可！离高分只差一点点，下次光线再好点就能冲90！',
+    '男朋友这张拍出了感觉！这水平继续保持，下次冲满分！',
+    '这张有被惊喜到！构图讲究了，继续保持这个感觉！',
+    '不错的分数！男朋友越拍越好了，这张值得收藏！',
+    '这张已经很好看了！再注意一个细节就能上85了～',
+    '男朋友感觉越来越专业了，这张可以上相册精选！',
+    '这张有范儿！构图和光线配合得刚刚好～',
+    '好家伙，这张离大片只差一点点距离了！',
+  ],
   score_60_79: [
     '这张还可以！男朋友有进步的空间，继续加油～',
     '比及格线好多了！男朋友正在进步中，再接再厉～',
@@ -1133,6 +1146,8 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.score_95_100))
   } else if (totalScore >= 85 && totalScore < 95) {
     praise.push(pickRandom(PRAISE_POOL.score_85_94))
+  } else if (totalScore >= 80 && totalScore < 85) {
+    praise.push(pickRandom(PRAISE_POOL.score_80_84))
   } else if (totalScore >= 60 && totalScore < 80) {
     praise.push(pickRandom(PRAISE_POOL.score_60_79))
   } else if (totalScore >= 40 && totalScore < 60) {
