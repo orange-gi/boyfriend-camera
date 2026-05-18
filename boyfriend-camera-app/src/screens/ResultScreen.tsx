@@ -23,6 +23,7 @@ import Animated, {
   withTiming,
   interpolate,
   Easing,
+  FadeInDown,
 } from 'react-native-reanimated'
 import ViewShot, { ViewShotRef } from 'react-native-view-shot'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -70,6 +71,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
+  const [newRecordBanner, setNewRecordBanner] = useState(false)
   const [processStep, setProcessStep] = useState(1) // 1-4 动画步骤
 
   // 处理步骤对应的文案
@@ -158,6 +160,20 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     }))
     setConfettiParticles(particles)
     confettiClearTimerRef.current = setTimeout(() => setConfettiParticles([]), 3000)
+  }
+
+  /** 新纪录特浓撒花（粒子更多、emoji 更喜庆） */
+  function spawnNewRecordConfetti() {
+    if (confettiClearTimerRef.current) clearTimeout(confettiClearTimerRef.current)
+    const newRecordEmojis = ['🏆', '🎉', '💯', '🌟', '✨', '🎊', '👑', '💖', '👏', '🏅']
+    const particles = Array.from({ length: 40 }, (_, i) => ({
+      id: 100 + i,
+      x: Math.random() * SCREEN_W,
+      delay: i * 40,
+      emoji: newRecordEmojis[Math.floor(Math.random() * newRecordEmojis.length)],
+    }))
+    setConfettiParticles(particles)
+    confettiClearTimerRef.current = setTimeout(() => setConfettiParticles([]), 5000)
   }
 
   async function runAnalysis() {
@@ -273,14 +289,23 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         stabilityScore: analysis.stabilityScore,
         levelScore: analysis.levelScore,
       })
-      await updatePeakScore(analysis.totalScore)
+      const isNewRecord = await updatePeakScore(analysis.totalScore)
 
       // 启动入场动画
       cardSlide.value = withTiming(0, { duration: 400 })
       scoreReveal.value = withDelay(300, withSpring(1, { damping: 14, stiffness: 90 }))
 
-      // 90分以上撒花
-      if (analysis.totalScore >= 90) {
+      // 新纪录特浓撒花 + TTS 播报
+      if (isNewRecord) {
+        setNewRecordBanner(true)
+        setTimeout(() => spawnNewRecordConfetti(), 500)
+        setTimeout(async () => {
+          try {
+            await voiceCoach.speakNewRecord(0, analysis.totalScore)
+          } catch { /* ignore TTS errors */ }
+        }, 600)
+      } else if (analysis.totalScore >= 90) {
+        // 普通高分撒花
         setTimeout(() => spawnConfetti(), 800)
       }
 
@@ -640,6 +665,17 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           </Animated.View>
         )}
 
+        {/* 新纪录横幅 */}
+        {!processing && newRecordBanner && scoreResult && (
+          <Animated.View
+            entering={FadeInDown.duration(400)}
+            style={styles.newRecordBanner}
+          >
+            <Text style={styles.newRecordBannerText}>🏆 破纪录了！历史最高分！</Text>
+            <Text style={styles.newRecordBannerSub}>男朋友太强了，继续保持这个状态！</Text>
+          </Animated.View>
+        )}
+
         {/* 评分板 */}
         {!processing && scoreResult && (
           <ScoreBoard result={scoreResult} />
@@ -750,6 +786,34 @@ const styles = StyleSheet.create({
   content: {
     paddingTop: 16,
     paddingBottom: 20,
+  },
+  newRecordBanner: {
+    marginHorizontal: 20,
+    marginTop: 8,
+    marginBottom: 4,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    backgroundColor: '#FFF8E1',
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#FFD700',
+    alignItems: 'center',
+    shadowColor: '#FFD700',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  newRecordBannerText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#B8860B',
+    marginBottom: 4,
+  },
+  newRecordBannerSub: {
+    fontSize: 13,
+    color: '#8B6914',
+    textAlign: 'center',
   },
   titleRow: {
     flexDirection: 'row',
