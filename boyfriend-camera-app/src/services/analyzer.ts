@@ -825,6 +825,37 @@ const PRAISE_POOL: Record<string, string[]> = {
     '每拍一张都在进步，很棒！',
     '男朋友的摄影技术在肉眼可见地提升！',
   ],
+  // ========== Round 5 新增夸奖池 ==========
+  // 演唱会场景夸奖
+  concert_good: [
+    '演唱会灯光下也能这么美，男朋友你懂光！',
+    '舞台灯光配美人，男朋友这构图绝了！',
+    '跟着节奏动起来的瞬间被定格了，超有感染力！',
+  ],
+  // 温泉泡汤场景夸奖
+  hotspring_good: [
+    '温泉水汽缭绕超有氛围感！男朋友你懂浪漫～',
+    '泡汤照拍得也太美了，水汽营造的氛围感绝了！',
+    '蒸汽红红的脸蛋超可爱，男朋友抓拍得真好！',
+  ],
+  // 天台夜景夸奖
+  rooftop_night_good: [
+    '天台夜景璀璨，背景超美！男朋友好会选角度～',
+    '城市天际线做背景，这张照片好有故事感！',
+    '天台夜景氛围感拉满，男朋友你是专业的吗！',
+  ],
+  // 露营篝火场景夸奖
+  camping_campfire_good: [
+    '篝火火光打在脸上好温暖，这张照片太有氛围感了～',
+    '露营篝火照绝了，火光映在脸上的感觉太美了！',
+    '男朋友把露营的浪漫感都拍进来了！',
+  ],
+  // 闺蜜逛街场景夸奖
+  bestie_street_good: [
+    '闺蜜逛街照超有活力！两个人都超上镜～',
+    '逛街也能拍出大片感，男朋友你行啊！',
+    '闺蜜合影两个人都好好看，男朋友摄影在线！',
+  ],
 }
 
 // 建议文案池
@@ -1162,6 +1193,55 @@ const SUGGESTION_POOL: Record<string, string[]> = {
   subject_too_large: [
     '脸都顶到边框了，稍微退后一点点，画面留点边～',
     '人太大显得拥挤，退后一点让背景多一点更舒服～',
+  ],
+  // ========== Round 5 新增建议池 ==========
+  // 咖啡馆场景建议
+  cafe_specific: [
+    '咖啡馆光线暖暖的！让人靠近窗户，台灯旁边光线也超柔和～',
+    '咖啡馆拍照背景要选干净的，桌上东西太多会显得乱～',
+    '咖啡杯可以当道具！捧着咖啡侧头看镜头，氛围感绝了～',
+  ],
+  // 花季/樱花场景建议
+  floral_season_specific: [
+    '樱花季光线斑驳！风吹过来的时候按下快门，花瓣落在发丝上绝了～',
+    '花丛里拍特写让人靠近花朵，但别让花挡住脸～',
+    '花季背景花瓣太多会让焦点模糊，让女朋友站在花前面一点～',
+  ],
+  // 复古胶片风建议
+  vintage_film_specific: [
+    '复古胶片风最重要的是色调！让男朋友拍的时候稍微欠曝一点～',
+    '胶片感要控制好光线，正午阳光太硬，早晚光线更柔和～',
+    '复古风格背景要选有年代感的墙面或自然场景，色调会更统一～',
+  ],
+  // 演唱会场景建议
+  concert_specific: [
+    '演唱会灯光变化很快，连拍几张选最清晰的那张～',
+    '演唱会现场开闪光灯会影响旁边的人，用手电筒补光或靠近舞台灯～',
+    '演唱会表情夸张一点更有氛围，跟着节奏动起来～',
+  ],
+  // 温泉/泡汤场景建议
+  hotspring_specific: [
+    '温泉场景水汽缭绕超有氛围！但雾气太重照片会模糊，稍微等一下再拍～',
+    '泡汤场景表情要放松自然，蒸汽会让人脸红红的，超可爱～',
+    '温泉里光线偏暗，找个没有遮挡的光源让脸亮起来～',
+  ],
+  // 滑雪场景建议
+  ski_resort_specific: [
+    '雪地里光线反射极强！戴墨镜保护眼睛，或者站在阴影里拍～',
+    '滑雪场景白色背景太亮，拍摄时稍微降低一点曝光补偿～',
+    '雪景里拍特写让男朋友蹲低一点，仰角拍出来超有感觉～',
+  ],
+  // 天台夜景建议
+  rooftop_night_specific: [
+    '天台夜景开闪光灯让人脸亮起来，背景城市灯光会更突出～',
+    '天台风大拍的时候让男朋友站稳了，防止手机被吹歪～',
+    '天台夜景要选个好看的角度，让城市灯光成为背景～',
+  ],
+  // 露营篝火建议
+  camping_campfire_specific: [
+    '篝火火光打在脸上超有氛围感！但火光忽明忽暗，连拍几张最稳定的～',
+    '篝火旁拍摄时别让男朋友太靠近火，脸上的火光太亮会过曝～',
+    '露营场景天色暗得早，要抓紧黄昏时段拍照光线最好～',
   ],
 }
 
@@ -1670,6 +1750,27 @@ export async function analyzePhoto(
   if (streakCount >= 3 && recentAvg !== undefined && totalScore > (recentAvg - 5)) {
     praise.push(pickRandom(PRAISE_POOL.consecutive_improvement))
   }
+  // ========== Round 5 新增场景专属夸奖 ==========
+  // 演唱会场景夸奖（低亮度+户外+总分高）
+  if (brightness < 80 && sceneType === 'outdoor' && sharpness > 120 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.concert_good))
+  }
+  // 温泉场景夸奖（室内+低亮度+暖光）
+  if (brightness >= 40 && brightness <= 120 && sceneType === 'indoor' && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.hotspring_good))
+  }
+  // 天台夜景夸奖（低亮度户外+总分高）
+  if (brightness < 60 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.rooftop_night_good))
+  }
+  // 露营篝火夸奖（户外+中等亮度+总分高）
+  if (brightness >= 30 && brightness <= 100 && sceneType === 'outdoor' && totalScore >= 72) {
+    praise.push(pickRandom(PRAISE_POOL.camping_campfire_good))
+  }
+  // 闺蜜逛街夸奖（多人+户外）
+  if (faceCount > 1 && sceneType === 'outdoor' && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.bestie_street_good))
+  }
 
   // 确保至少有夸奖
   if (praise.length === 0) {
@@ -1694,6 +1795,24 @@ export async function analyzePhoto(
   }
   if (sceneType === 'indoor' && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.indoor_specific))
+  }
+  // ========== Round 5 新增场景专属建议 ==========
+  // 咖啡馆场景建议
+  if (brightness >= 80 && brightness <= 180 && sceneType === 'indoor' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.cafe_specific))
+  }
+  // 雪景/滑雪场景建议
+  if (brightness >= 160 && sceneType === 'outdoor' && totalScore < 78) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.snow_specific))
+    suggestions.push(pickRandom(SUGGESTION_POOL.ski_resort_specific))
+  }
+  // 天台夜景建议
+  if (brightness < 80 && sceneType === 'outdoor' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rooftop_night_specific))
+  }
+  // 露营篝火建议
+  if (brightness >= 40 && brightness <= 100 && sceneType === 'outdoor' && totalScore < 70) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.camping_campfire_specific))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
