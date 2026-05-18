@@ -19,7 +19,9 @@ export interface TemplateUpdate {
 export async function getLocalVersion(): Promise<number> {
   try {
     const v = await AsyncStorage.getItem(LOCAL_VERSION_KEY)
-    return v ? parseInt(v, 10) : 0
+    if (!v) return 0
+    const parsed = parseInt(v, 10)
+    return Number.isNaN(parsed) ? 0 : parsed
   } catch {
     return 0
   }
