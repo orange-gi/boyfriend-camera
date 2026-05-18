@@ -50,7 +50,21 @@ export default function ResultScreen() {
   const [praiseList, setPraiseList] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [processing, setProcessing] = useState(true)
-  const [selectedFilter, setSelectedFilter] = useState<'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'>('warm')
+  const [selectedFilter, setSelectedFilter] = useState<'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'>(
+    (() => {
+      // 根据模板分类智能推荐滤镜
+      const catFilterMap: Record<string, 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'> = {
+        '餐厅美食': 'food',
+        '户外风景': 'golden',
+        '城市街拍': 'cinematic',
+        '室内场景': 'warm',
+        '特殊风格': 'vivid',
+        '情侣合照': 'portrait',
+        '室内日常': 'soft',
+      }
+      return templateCategory ? (catFilterMap[templateCategory] ?? 'warm') : 'warm'
+    })()
+  )
 
 const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'; label: string; emoji: string }> = [
   { key: 'warm', label: '暖黄', emoji: '🌅' },
