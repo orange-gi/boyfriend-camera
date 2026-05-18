@@ -182,6 +182,26 @@ const EXPRESSION_TIPS = {
   POSE_HAND_FACE: '一只手轻轻放在脸旁边，显脸小效果满分～',
   POSE_FIGURE_8: '双手比个8放在下巴旁边，超显脸小！',
   POSE_ARM_WAVE: '一只手臂举起来，活力感拉满！',
+  // ========== Round 7 新增表情/动作提示 ==========
+  POSE_LIE_DOWN: '躺在草地上或床上，仰头看镜头，超有氛围～',
+  POSE_HAND_CHEEK: '双手托腮，甜美感拉满！',
+  POSE_KISS_FINGER: '手指轻轻亲一下，再指向镜头，俏皮死了！',
+  POSE_WAVE_BEYOND: '对着镜头轻轻挥手，活力满满～',
+  POSE_COUNTDOWN: '倒数321！就是现在！',
+  POSE_BREATH_IN: '深呼吸～肩膀放松，表情更自然～',
+  POSE_SHAKE_HAIR: '轻轻甩一下头发，动态抓拍更自然！',
+  POSE_FLOOR_CROSS_LEGS: '盘腿坐着，歪头看镜头，慵懒又自然～',
+  POSE_KNEEL: '单膝跪地，仰头看镜头，超有气场！',
+  POSE_HOLD_BALLOON: '拿着气球拍照，超有童话感～',
+  POSE_PET_CUDDLE: '和宠物互动抓拍，表情最自然可爱！',
+  POSE_HOLD_FLOWER: '捧着花束，侧头微笑，温柔感拉满～',
+  POSE_BOOK_READ: '假装看书或杂志，文艺感十足！',
+  POSE_MIRROR_SELFIE: '对着镜子自拍，抓拍最有感觉～',
+  POSE_ICE_CREAM: '拿着冰淇淋或咖啡，俏皮自然！',
+  POSE_SCARF_FLOW: '围巾或披肩随风飘动，动感抓拍超美！',
+  POSE_BATHROBE: '穿浴袍靠在窗边，慵懒又高级～',
+  POSE_UMBRELLA: '撑把透明伞，雨天氛围感绝了！',
+  POSE_BIKE: '骑着自行车或靠在一旁，活力满满！',
 }
 
 // 场景专项提示
@@ -389,6 +409,17 @@ const LIGHT_TIPS = {
   GLOW_REFLECT: '找个发光的屏幕放在脸下方，补光又自然～',
   CANDLE_LIGHT: '烛光氛围感绝了！脸靠近一点，光更柔和～',
   SUNSET_SIDE: '夕阳侧光超有层次！让光打在侧脸上～',
+  // ========== Round 7 新增光线提示 ==========
+  WINDOW_SOFT: '窗边自然光超柔和！让人脸朝向窗户～',
+  DOORWAY_LIGHT: '门洞光超有戏剧感！站在光影交界处～',
+  OVERCAST_PERFECT: '阴天光线像柔光箱，拍出来皮肤超好～',
+  MORNING_GOLD: '晨光暖暖的！侧身站着让光线打在侧脸上～',
+  SCREEN_FILL: '用手机屏幕补光！白色背景亮度刚好～',
+  WHITE_WALL_BOUNCE: '白墙会反光！站在墙边让光线更均匀～',
+  MIRROR_REFLECT: '镜子能反射光线！靠近镜子让光打均匀～',
+  SHADE_PERFECT: '阴凉处光线超柔和！脸上的光刚刚好～',
+  LAMP_WARM: '台灯光暖暖的！靠近台灯脸会超柔和～',
+  FLUORESCENT_SOFT: '日光灯有点平！靠近窗户找自然光～',
 }
 
 // 构图专项语音提示
@@ -420,6 +451,23 @@ const COMPOSITION_TIPS = {
   SPiral_POSE: '试试螺旋构图，姿势有延伸感～',
   SENTINEL_POSE: '侧身站着，肩膀和脚成三角形，超有气场～',
   CENTER_DOT: '把人放在画面正中心，更有冲击力～',
+  // ========== Round 7 新增构图提示 ==========
+  FILL_VERTICAL: '竖图拍全身超显腿长！试试竖着拍～',
+  HORIZONTAL_CINEMA: '横图拍近景有电影感！换个方向试试～',
+  LOW_HORIZON: '低角度仰拍超显气质！抬头看镜头试试～',
+  HIGH_ANGLE: '俯拍显脸小！从上往下拍试试～',
+  FRAME_EDGES: '画面边缘留点空间，不要让人贴着边框～',
+  HEADROOM: '头顶留白太多！稍微往下挪一挪～',
+  GROUND_LINE: '地平线稍微偏一点，构图更有张力～',
+  BODY_CURVES: '身体稍微侧一下，S形曲线超有气质～',
+  HANDS_NATURAL: '手不知道怎么放？拿个道具自然一点～',
+  HAIR_TUCK: '头发稍微理一下，光线会把它照得更通透～',
+  JAWLINE_TILT: '稍微抬一点下巴，下颌线会更清晰～',
+  SHOULDER_ANGLE: '肩膀稍微侧一下，体型更显瘦～',
+  ARM_GAP: '手臂稍微离身体远一点，显得更瘦～',
+  LEGS_STAGGER: '站姿稍微错开，一只脚稍微往前伸～',
+  PROFILE_SHOT: '试试侧脸！轮廓感超强的～',
+  COLLAR_EXPOSE: '稍微拉一下衣领，脖子线条更修长～',
 }
 
 // 每日首次打开欢迎语
