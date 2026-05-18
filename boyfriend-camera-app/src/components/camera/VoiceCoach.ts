@@ -254,6 +254,7 @@ class VoiceCoach {
   private lastStabilityTip: string = ''
   private cooldownMs: number = 3000  // 提示冷却时间
   private lastSpokeAt: number = 0
+  private speaking: boolean = false  // 防止并发 TTS 调用
   // 去重：记录最近 3 条提示文本，用于避免相似提示连续重复
   private recentTips: string[] = []
   private readonly MAX_RECENT_TIPS = 3
@@ -280,7 +281,7 @@ class VoiceCoach {
   }
 
   async speak(text: string, force: boolean = false): Promise<void> {
-    if (!this.enabled || !text) return
+    if (!this.enabled || !text || this.speaking) return
 
     const now = Date.now()
     // 冷却检查（同一条提示 3 秒内不重复）
@@ -306,9 +307,12 @@ class VoiceCoach {
     }
 
     try {
+      this.speaking = true
       await Tts.stop()
       await Tts.speak(text)
+      this.speaking = false
     } catch (e: any) {
+      this.speaking = false
       // 忽略 TTS 播报异常（用户静音/系统繁忙/无语音引擎）
       const errStr = String(e ?? '')
       if (
