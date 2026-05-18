@@ -89,6 +89,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
   // 撒花粒子动画
   const [confettiParticles, setConfettiParticles] = useState<Array<{ id: number; x: number; delay: number; emoji: string }>>([])
+  const confettiClearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // 打字机效果
   const [typedPraise, setTypedPraise] = useState('')
@@ -114,6 +115,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       mountedRef.current = false
       if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
       if (typeTimerRef.current) clearTimeout(typeTimerRef.current)
+      if (confettiClearTimerRef.current) clearTimeout(confettiClearTimerRef.current)
     }
   }, [photoPath])
 
@@ -141,6 +143,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   }
 
   function spawnConfetti() {
+    if (confettiClearTimerRef.current) clearTimeout(confettiClearTimerRef.current)
     const emojis = ['🎉', '✨', '🌟', '🎊', '💖', '🏆', '👏', '💯']
     const particles = Array.from({ length: 20 }, (_, i) => ({
       id: i,
@@ -149,7 +152,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       emoji: emojis[Math.floor(Math.random() * emojis.length)],
     }))
     setConfettiParticles(particles)
-    setTimeout(() => setConfettiParticles([]), 3000)
+    confettiClearTimerRef.current = setTimeout(() => setConfettiParticles([]), 3000)
   }
 
   async function runAnalysis() {
