@@ -407,7 +407,7 @@ export default function DiaryScreen() {
 
             <EmptyState
               type="diary"
-              onAction={() => navigation.navigate('Camera' as any)}
+              onAction={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
             />
           </>
         )}
@@ -447,7 +447,7 @@ export default function DiaryScreen() {
                 )}
                 <TouchableOpacity
                   style={styles.cameraBtn}
-                  onPress={() => navigation.navigate('Camera' as any)}
+                  onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
                   activeOpacity={0.72}
                 >
                   <Text style={styles.cameraBtnText}>📸 拍照</Text>

@@ -218,12 +218,12 @@ export default function CameraScreen() {
     try {
       const photo = await cameraRef.current?.takePhoto(flashRef.current)
       if (photo) {
-        navigation.navigate('Result' as any, {
+        navigation.navigate({ name: 'Result' as const, params: {
           photoPath: photo.filePath,
           photoWidth: undefined,
           photoHeight: undefined,
           templateCategory: activeTemplateRef.current?.category ?? null,
-        })
+        }}),
         VoiceCoach.speakCaptureSuccess()
       } else {
         Alert.alert('📷 拍照遇到点小状况', '可以换个角度重试一下～', [
@@ -231,8 +231,9 @@ export default function CameraScreen() {
           { text: '重试', onPress: () => captureRetryRef.current() },
         ])
       }
-    } catch (e: any) {
-      Alert.alert('📷 拍照失败', e.message || '请检查相机是否可用', [
+    } catch (e: unknown) {
+      const errMsg = e instanceof Error ? e.message : String(e)
+      Alert.alert('📷 拍照失败', errMsg || '请检查相机是否可用', [
         { text: '算了', style: 'cancel' },
         { text: '重试', onPress: () => captureRetryRef.current() },
       ])

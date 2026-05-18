@@ -24,7 +24,7 @@ import Animated, {
   interpolate,
   Easing,
 } from 'react-native-reanimated'
-import ViewShot from 'react-native-view-shot'
+import ViewShot, { ViewShotRef } from 'react-native-view-shot'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RouteProp } from '@react-navigation/native'
 import type { RootStackParamList } from '../../App'
@@ -82,7 +82,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     }
   }, [processStep])
 
-  const viewShotRef = useRef<any>(null)
+  const viewShotRef = useRef<ViewShotRef | null>(null)
   const { faces } = useFaceDetection()
   const mountedRef = useRef(true)
   const screenshotTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -171,10 +171,10 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       })
       if (!mountedRef.current) return
       setProcessedPath(processed)
-    } catch (e: any) {
+    } catch (e) {
       if (!mountedRef.current) return
       console.debug('[ResultScreen] processPhoto failed:', e)
-      const errMsg = String(e?.message || e || '')
+      const errMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : String(e ?? '')
       if (errMsg.includes('INVALID_IMAGE_PATH') || errMsg.includes('IMAGE_NOT_FOUND')) {
         setError('图片读取失败，请重新拍照')
       } else if (errMsg.includes('CACHE_DIR') || errMsg.includes('space') || errMsg.includes('quota')) {
@@ -297,10 +297,10 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           }
         }
       }, 1200)
-    } catch (e: any) {
+    } catch (e) {
       if (!mountedRef.current) return
       console.debug('[ResultScreen] 处理失败（用户友好提示已展示）:', e)
-      const errMsg = String(e?.message || e || '')
+      const errMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : String(e ?? '')
       let friendlyError: string
       if (errMsg.includes('INVALID_IMAGE_PATH') || errMsg.includes('IMAGE_NOT_FOUND')) {
         friendlyError = '图片读取失败，请重新拍照'
@@ -375,8 +375,8 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         url: pathToShare,
       } as const
       await Share.share(shareOptions)
-    } catch (e: any) {
-      const errorMsg = e?.message || ''
+    } catch (e) {
+      const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : ''
       if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
       try {
         const fallbackMessage = `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`
@@ -406,8 +406,8 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         url: pathToShare,
       } as const
       await Share.share(shareOptions)
-    } catch (e: any) {
-      const errorMsg = e?.message || ''
+    } catch (e) {
+      const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : ''
       if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
       // fallback: 仅发文字
       const scoreText = scoreResult?.totalScore != null ? `${scoreResult.totalScore}分` : '还不错'
@@ -422,11 +422,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
   function handleRetry() {
     // 直接跳转相机重拍，体验更流畅
-    navigation.navigate('Camera' as any)
+    navigation.navigate({ name: 'Camera' as const, params: {} })
   }
 
   function handleHome() {
-    navigation.navigate('Home' as any)
+    navigation.navigate({ name: 'Home' as const, params: undefined })
   }
 
   const cardStyle = useAnimatedStyle(() => ({
@@ -666,7 +666,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         {!processing && (
           <TouchableOpacity
             style={styles.diaryEntryBtn}
-            onPress={() => navigation.navigate('Diary' as any)}
+            onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })}
             activeOpacity={0.72}
           >
             <Text style={styles.diaryEntryBtnText}>📖 查看进步日记</Text>

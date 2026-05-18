@@ -1717,7 +1717,7 @@ export async function saveToDiary(record: DiaryRecord): Promise<boolean> {
     return true
   } catch (e) {
     // 存储空间不足时，尝试删除最旧的记录再保存
-    const errStr = String((e as any)?.message || e || '')
+    const errStr = e instanceof Error ? e.message : typeof e === 'string' ? e : String(e ?? '')
     if (errStr.includes('QUOTA') || errStr.includes('quota') || errStr.includes('space')) {
       try {
         const existing = await getDiary()

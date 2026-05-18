@@ -32,10 +32,10 @@ export function useTemplates() {
       // 再同步云端
       const synced = await syncTemplates()
       if (synced.length > 0) setTemplates(synced)
-    } catch (e: any) {
+    } catch (e: unknown) {
       // 仅在完全没有数据时才报错，有缓存时网络失败不算致命错误
       if (cached.length === 0) {
-        setError(e.message || '加载失败，请检查网络后重试')
+        setError((e instanceof Error ? e.message : String(e)) || '加载失败，请检查网络后重试')
       }
     } finally {
       setLoading(false)

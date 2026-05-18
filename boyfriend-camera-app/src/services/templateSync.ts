@@ -40,7 +40,7 @@ export async function syncTemplates(): Promise<PoseTemplate[]> {
     if (!res) throw new Error('云函数返回为空')
 
     // CloudBase 云函数结果可能在 res 或 res.result 中
-    const data: TemplateUpdate = (res as any).result ?? res
+    const data: TemplateUpdate = res.result ?? res
 
     // 如果没有有效数据
     if (!data || !Array.isArray(data.update)) {

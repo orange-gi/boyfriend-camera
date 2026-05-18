@@ -616,10 +616,10 @@ class VoiceCoach {
       await Tts.stop()
       await Tts.speak(text)
       this.speaking = false
-    } catch (e: any) {
+    } catch (e: unknown) {
       this.speaking = false
       // 忽略 TTS 播报异常（用户静音/系统繁忙/无语音引擎）
-      const errStr = String(e ?? '')
+      const errStr = e instanceof Error ? e.message : typeof e === 'string' ? e : String(e ?? '')
       if (
         errStr.includes('not bound') ||
         errStr.includes('not initialized') ||

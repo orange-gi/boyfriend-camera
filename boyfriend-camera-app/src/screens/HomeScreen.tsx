@@ -334,7 +334,7 @@ export default function HomeScreen() {
         )}
         <TouchableOpacity
           style={[styles.cameraBtn, isNewUser && styles.cameraBtnNewUser]}
-          onPress={() => navigation.navigate('Camera' as any)}
+          onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
           activeOpacity={0.72}
         >
           {/* 双重呼吸光晕 */}
@@ -388,8 +388,8 @@ export default function HomeScreen() {
               style={[styles.featureCard, { borderLeftColor: f.color }]}
               activeOpacity={0.72}
               onPress={() => {
-                if (f.title === '姿势模板') navigation.navigate('Camera' as any)
-                if (f.title === '进步日记') navigation.navigate('Diary' as any)
+                if (f.title === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} })
+                if (f.title === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined })
               }}
             >
               <View style={[styles.featureIconWrap, { backgroundColor: f.color + '18' }]}>
@@ -406,11 +406,11 @@ export default function HomeScreen() {
 
       {/* 底部导航 */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate('Diary' as any)} activeOpacity={0.72}>
+        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
           <Text style={styles.bottomNavIcon}>📊</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>进步日记</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate('Camera' as any)} activeOpacity={0.72}>
+        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
           <Text style={styles.bottomNavIcon}>📸</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>拍照</Text>
         </TouchableOpacity>
