@@ -10,9 +10,10 @@ import { COLORS } from '../../theme/colors'
 export type EmptyStateType =
   | 'default'    // 默认空状态
   | 'network'    // 网络错误
-  | 'capture'   // 拍照失败
+  | 'capture'    // 拍照失败
   | 'noResult'   // 无推荐结果
   | 'template'   // 模板加载失败
+  | 'diary'      // 进步日记为空（首次使用）
 
 /** 各预设类型的默认内容 */
 const PRESETS: Record<EmptyStateType, { icon: string; title: string; subtitle?: string; actionLabel?: string }> = {
@@ -44,6 +45,12 @@ const PRESETS: Record<EmptyStateType, { icon: string; title: string; subtitle?: 
     title: '模板加载失败',
     subtitle: '请检查网络后重新加载',
     actionLabel: '重试',
+  },
+  diary: {
+    icon: '📝',
+    title: '还没有进步记录',
+    subtitle: '开始拍照吧！每张照片都会记录在这里，看着分数一点点提高超有成就感的～',
+    actionLabel: '去拍照',
   },
 }
 
