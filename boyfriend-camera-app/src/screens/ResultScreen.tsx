@@ -78,6 +78,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       case 1: return '正在分析构图...'
       case 2: return '正在检测光线...'
       case 3: return '正在生成评分...'
+      case 4: return '完成！正在加载结果...'
       default: return '正在分析中...'
     }
   }, [processStep])
@@ -121,7 +122,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
   // 处理步骤动画（每 600ms 切换一步）
   useEffect(() => {
-    if (!processing) return
+    if (!processing) {
+      // 处理完成时，确保显示第 4 步（完成）
+      setProcessStep(4)
+      return
+    }
     setProcessStep(1)
     const t2 = setTimeout(() => { if (mountedRef.current) setProcessStep(2) }, 600)
     const t3 = setTimeout(() => { if (mountedRef.current) setProcessStep(3) }, 1200)
