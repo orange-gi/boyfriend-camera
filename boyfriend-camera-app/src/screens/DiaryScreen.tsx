@@ -762,7 +762,7 @@ export default function DiaryScreen() {
 
 /** 数字递增动画组件 */
 function AnimatedCountUp({ value, style, color, suffix = '' }: {
-  value: number; style: any; color?: string; suffix?: string
+  value: number; style: import('react-native').TextStyle; color?: string; suffix?: string
 }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
@@ -786,7 +786,7 @@ function AnimatedCountUp({ value, style, color, suffix = '' }: {
 }
 
 /** 进步数字动画（带箭头+颜色） */
-function AnimatedProgressNum({ value, style }: { value: number; style: any }) {
+function AnimatedProgressNum({ value, style }: { value: number; style: import('react-native').TextStyle }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
 

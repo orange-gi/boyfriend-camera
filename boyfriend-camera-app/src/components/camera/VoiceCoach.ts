@@ -604,8 +604,8 @@ class VoiceCoach {
   private recentTips: string[] = []
   private readonly MAX_RECENT_TIPS = 3
   // TTS 事件监听器引用（用于 cleanup）
-  private ttsFinishListener: any = null
-  private ttsCancelListener: any = null
+  private _finishHandler: (() => void) | null = null
+  private _cancelHandler: (() => void) | null = null
 
   async initialize(): Promise<void> {
     if (this.initialized) return
@@ -621,12 +621,10 @@ class VoiceCoach {
       await Tts.setDucking(true)
 
       // 注册 TTS 完成/取消事件，确保 speaking 标志正确复位
-      this.ttsFinishListener = Tts.addEventListener('tts-finish', () => {
-        this.speaking = false
-      })
-      this.ttsCancelListener = Tts.addEventListener('tts-cancel', () => {
-        this.speaking = false
-      })
+      this._finishHandler = () => { this.speaking = false }
+      this._cancelHandler = () => { this.speaking = false }
+      Tts.addEventListener('tts-finish', this._finishHandler)
+      Tts.addEventListener('tts-cancel', this._cancelHandler)
 
       this.enabled = true
       this.initialized = true
@@ -638,13 +636,13 @@ class VoiceCoach {
 
   /** 清理 TTS 事件监听器（组件卸载时调用） */
   destroy(): void {
-    if (this.ttsFinishListener) {
-      this.ttsFinishListener.remove()
-      this.ttsFinishListener = null
+    if (this._finishHandler) {
+      Tts.removeEventListener('tts-finish', this._finishHandler)
+      this._finishHandler = null
     }
-    if (this.ttsCancelListener) {
-      this.ttsCancelListener.remove()
-      this.ttsCancelListener = null
+    if (this._cancelHandler) {
+      Tts.removeEventListener('tts-cancel', this._cancelHandler)
+      this._cancelHandler = null
     }
     this.initialized = false
     this.enabled = false

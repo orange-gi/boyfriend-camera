@@ -886,7 +886,7 @@ export function generateWatermarkSVG(
   const rectHeight = textHeight + 8
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${imageWidth}" height="${imageHeight}">
   <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" rx="6" ry="6" fill="rgba(0,0,0,${opacity})"/>
-  <text x="${x - textWidth / 2 - 8}" y="${y + fontSizeNum * 0.35}" font-family="sans-serif" font-size="${fontSizeNum}" fill="rgba(255,255,255,${opacity! + 0.2})" text-anchor="middle">${text}</text>
+  <text x="${x - textWidth / 2 - 8}" y="${y + fontSizeNum * 0.35}" font-family="sans-serif" font-size="${fontSizeNum}" fill="rgba(255,255,255,${Math.min(1, opacity! + 0.2)})" text-anchor="middle">${text}</text>
 </svg>`
 }
 

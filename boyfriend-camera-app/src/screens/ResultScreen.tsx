@@ -58,9 +58,12 @@ export default function ResultScreen() {
         '户外风景': 'golden',
         '城市街拍': 'cinematic',
         '室内场景': 'warm',
+        '室内人像': 'portrait',
         '特殊风格': 'vivid',
         '情侣合照': 'portrait',
         '室内日常': 'soft',
+        '自拍技巧': 'soft',
+        '构图技巧': 'cinematic',
       }
       return templateCategory ? (catFilterMap[templateCategory] ?? 'warm') : 'warm'
     })()
