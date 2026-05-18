@@ -1073,7 +1073,9 @@ export async function analyzePhoto(
   }
   if (levelScore >= 9) praise.push(pickRandom(PRAISE_POOL.level_great))
 
-  const totalScore = compositionScore + exposureScore + stabilityScore + levelScore
+  // clamp 到 0-100 范围，防止边界情况下越界
+  const rawTotal = compositionScore + exposureScore + stabilityScore + levelScore
+  const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal)))
 
   // 总分优秀时追加额外夸奖
   if (totalScore >= 90) praise.push(pickRandom(PRAISE_POOL.total_great))
