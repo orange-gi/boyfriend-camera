@@ -1408,6 +1408,7 @@ class VoiceCoach {
       '情侣合照': ['情侣合照！两个人的甜蜜要记录下来～', '双人模式！靠近一点，笑一个～'],
       '特殊风格': ['特殊风格！创意满分，男朋友准备好了吗～', '风格模式！这张要有大片感！'],
       '室内场景': ['室内场景！找到好光线就成功一半了～', '室内模式！找个窗边位置试试～'],
+      '城市街拍': ['城市街拍！找个有特色的背景，照片更有故事感～', '街头模式！城市的角落都是大片背景～'],
     }
     const pool = tips[category] || [`已切换到${category}场景～`] 
     await this.speak(pool[Math.floor(Math.random() * pool.length)], true)
@@ -1419,6 +1420,18 @@ class VoiceCoach {
       '早上的光线好柔和，现在拍照超适合！',
       '晨光时光光线超美！趁现在多拍几张～',
       '早起的福利！这种光线拍照最好看了～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+  }
+
+  /** 夜景拍摄提示 */
+  async speakNightTip(): Promise<void> {
+    const tips = [
+      '夜景拍摄要注意稳定手机，男朋友尽量端稳一点～',
+      '晚上光线暗，男朋友尽量找光源让脸亮起来～',
+      '夜晚拍照有氛围感！找霓虹灯或路灯当背景超好看～',
+      '夜景模式！让脸上的光均匀一点，出来的照片会很美～',
+      '晚上拍照要稳住！男朋友尽量让手机正对着脸～',
     ]
     await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
   }
