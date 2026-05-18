@@ -45,22 +45,53 @@ function getTimeGreeting(): string {
   return '夜深了还不睡？拍张照再睡～'
 }
 
+const ONBOARD_STEPS = [
+  { icon: '📸', title: '让男友拍出好照片', desc: '上传他拍的照片，我来帮你分析哪里拍得好、哪里可以改进，让男友越拍越好看💖' },
+  { icon: '👗', title: '姿势模板超好用', desc: '选择一个喜欢的姿势，屏幕上会出现半透明剪影——让男朋友直接照着站，简单又有效！' },
+  { icon: '📈', title: '实时评分&俏皮点评', desc: '拍完自动分析构图、光线、稳定性，给出俏皮又有用的改进建议，还能记录进步日记📒' },
+  { icon: '🤳', title: '一起变好吧！', desc: '每次拍照都是进步机会，看着分数一点点涨，男友从青铜变王者不是梦！快去拍一张吧～' },
+]
+
+// 首次使用拍照姿势引导提示
+const FIRST_TIME_POSE_TIPS = [
+  { icon: '👀', text: '先让他拍一张试试，不管好不好看都是进步的起点！' },
+  { icon: '🧍‍♀️', text: '教他站到你的对面，保持一臂左右的距离～' },
+  { icon: '📐', text: '提醒他打开九宫格辅助线，构图会好很多！' },
+  { icon: '✨', text: '第一次可以选一个简单的姿势模板，照着剪影站就行～' },
+  { icon: '💪', text: '夸一夸他的第一张！鼓励比批评更有用哦～' },
+]
+
 const DAILY_TIPS = [
-  { icon: '💡', text: '让男朋友蹲低一点，镜头仰拍更显瘦！' },
+  { icon: '💡', text: '让男朋友蹲低一点，镜头仰拍更显瘦！这招绝了！' },
   { icon: '🌟', text: '九宫格构图：把人脸放在交叉点上，超有感觉！' },
-  { icon: '📸', text: '逆光拍照时，开闪光灯可以补面部光线～' },
-  { icon: '🎯', text: '让男友说"1、2、3茄子"，在"3"时抓拍最自然！' },
-  { icon: '☀️', text: '下午3-5点的光线最柔和，拍出来皮肤超好～' },
-  { icon: '🌈', text: '雨天在窗边拍照，氛围感拉满！' },
-  { icon: '✨', text: '情侣照多拍背影，牵手、拥抱对视都很出片！' },
-  { icon: '🍽️', text: '餐厅拍照时让男友从侧面打光，避免顶光显脸大～' },
+  { icon: '📸', text: '逆光拍照时，开闪光灯可以补面部光线～脸不会黑黑的啦！' },
+  { icon: '🎯', text: '让男友说"1、2、3茄子"，在"3"时抓拍表情最自然！' },
+  { icon: '☀️', text: '下午3-5点的光线最柔和，拍出来皮肤像开了滤镜～' },
+  { icon: '🌈', text: '雨天在窗边拍照，氛围感拉满！超有电影感！' },
+  { icon: '✨', text: '情侣照多拍背影！牵手、拥抱、对视，每一张都超甜～' },
+  { icon: '🍽️', text: '餐厅拍照选靠窗位置！自然光打在脸上超好看～' },
   { icon: '🏖️', text: '海边拍照让男友蹲下，镜头朝上，超级显腿长！' },
-  { icon: '🌸', text: '樱花季拍照时带个小道具，气氛立刻不一样～' },
-  { icon: '🎨', text: '背景杂乱时开启人像模式，背景自动虚化！' },
+  { icon: '🌸', text: '樱花季拍照带个小道具！气球、书本、咖啡杯都可以～' },
+  { icon: '🎨', text: '背景杂乱时开启人像模式，背景自动虚化，主体超突出！' },
   { icon: '🌙', text: '夜景拍摄让男友双手拿稳手机，或者靠在固定物体上～' },
-  { icon: '💕', text: '笑容自然最重要，别让男友喊"茄子"喊太多遍，会僵！' },
-  { icon: '📐', text: '用好姿势模板，让他跟着剪影站位，简单又有效～' },
-  { icon: '☕', text: '咖啡厅选靠窗位置，自然光打在人脸上超好看！' },
+  { icon: '💕', text: '笑容自然最重要！别让男友喊"茄子"太多遍，会僵住哈哈哈' },
+  { icon: '📐', text: '用好姿势模板！让他跟着剪影站位，简单有效不费脑子～' },
+  { icon: '☕', text: '咖啡厅选靠窗位置！自然光打在人脸上超柔和～' },
+  { icon: '🦵', text: '坐姿拍照时让男友稍微高一点拍，俯拍显脸小！' },
+  { icon: '🎬', text: '假装在看远处的风景被抓拍，比直接看镜头自然一百倍！' },
+  { icon: '💨', text: '让头发自然垂落或者轻轻甩起来，发丝在阳光下发光绝了！' },
+  { icon: '🌤️', text: '阴天的云就是天然柔光箱！光线均匀柔和，拍人像超棒～' },
+  { icon: '🍃', text: '找树叶/花丛做前景，虚化后超有氛围感！' },
+  { icon: '🪞', text: '对着镜子自拍时，手机稍微侧一点拍，避免镜面反光～' },
+  { icon: '🏠', text: '家里拍照找窗边或白墙做背景，简单干净又好看！' },
+  { icon: '👠', text: '站着拍照时一只脚微微往前伸，腿看起来更长！' },
+  { icon: '🌂', text: '阳光下拍照用手在额头前挡一下光，眼神更清晰～' },
+  { icon: '🎧', text: '让男友从下往上拍，45度俯角是显瘦黄金角度！' },
+  { icon: '📱', text: '夜晚在路灯下拍照，光线暖暖的超有感觉～' },
+  { icon: '🍂', text: '秋天落叶地上随便一站都好看！金黄色的背景绝了～' },
+  { icon: '🧣', text: '冬天围巾是天然反光板！把脸衬得红润通透～' },
+  { icon: '🌆', text: '城市街拍找个干净的墙或涂鸦墙当背景，超有范儿！' },
+  { icon: '🛋️', text: '沙发/床上拍照时多扔几个抱枕在周围，温馨感拉满！' },
 ]
 
 function getDailyTip() {
@@ -80,7 +111,7 @@ const FEATURES: Array<{ icon: string; title: string; desc: string; color: string
   { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好', color: '#9B8FE8' },
 ]
 
-const ONBOARD_STEPS = [
+const ONBOARD_STEPS_ORIG = [
   { icon: '📸', title: '拍出更好的照片', desc: '男友相机帮你教男朋友拍出更好看的照片！上传他拍的照片，我给你分析和建议～' },
   { icon: '👗', title: '姿势模板引导', desc: '选择喜欢的姿势模板，它会显示半透明剪影，让男朋友知道该怎么站位～' },
   { icon: '🤳', title: '实时评分反馈', desc: '拍照后自动分析构图、曝光、稳定性，给出俏皮点评和具体改进建议！' },
@@ -97,6 +128,7 @@ export default function HomeScreen() {
   const [displayDiaryCount, setDisplayDiaryCount] = useState(0)
   const [displayAvgScore, setDisplayAvgScore] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
+  const [poseTipIndex, setPoseTipIndex] = useState(0)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
   // 动画 shared values
@@ -165,6 +197,17 @@ export default function HomeScreen() {
     }
   }, [diaryCount, avgScore])
 
+  const isNewUser = diaryCount === 0
+
+  // 首次用户：轮换拍照姿势小贴士
+  useEffect(() => {
+    if (!isNewUser) return
+    const interval = setInterval(() => {
+      setPoseTipIndex(i => (i + 1) % FIRST_TIME_POSE_TIPS.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [isNewUser])
+
   async function loadStats() {
     setStatsLoading(true)
     try {
@@ -224,7 +267,6 @@ export default function HomeScreen() {
   const featuresStyle = useAnimatedStyle(() => ({ transform: [{ translateY: featuresY.value }], opacity: statsOpacity.value }))
   const tipStyle = useAnimatedStyle(() => ({ opacity: titleOpacity.value }))
 
-  const isNewUser = diaryCount === 0
   const totalTemplates = templates.length
 
   return (
@@ -335,6 +377,14 @@ export default function HomeScreen() {
         </View>
       </Animated.View>
 
+      {/* 首次用户拍照姿势引导提示 */}
+      {isNewUser && (
+        <Animated.View style={styles.poseTipCard}>
+          <Text style={styles.poseTipIcon}>{FIRST_TIME_POSE_TIPS[poseTipIndex].icon}</Text>
+          <Text style={styles.poseTipText}>{FIRST_TIME_POSE_TIPS[poseTipIndex].text}</Text>
+        </Animated.View>
+      )}
+
       {/* 功能特性 */}
       <Animated.View style={[styles.featuresSection, featuresStyle]}>
         <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>✨ 功能介绍</Text>
@@ -438,6 +488,9 @@ const styles = StyleSheet.create({
   cameraBtnSubText: { fontSize: 13, color: COLORS.textMuted },
   newBadge: { position: 'absolute', top: -4, right: -4, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 2, zIndex: 10 },
   newBadgeText: { color: COLORS.textOnPrimary, fontSize: 11, fontWeight: 'bold' },
+  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF0F5', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 12, marginBottom: 20, gap: 10, borderWidth: 1, borderColor: '#FFD6E0' },
+  poseTipIcon: { fontSize: 22, flexShrink: 0 },
+  poseTipText: { flex: 1, fontSize: 14, color: '#C0607A', lineHeight: 20 },
   featuresSection: { marginBottom: 20 },
   sectionTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 12 },
   featuresGrid: { gap: 12 },
