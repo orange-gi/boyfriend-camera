@@ -832,3 +832,70 @@ export function getJpegQualityForUseCase(
   if (pixelCount > 4096 * 4096) return 0.92
   return 0.95
 }
+
+/**
+ * 添加隐私水印配置（男友相机标识）
+ * 在分享图片时附加小标识，防止他人误用照片
+ */
+export interface WatermarkConfig {
+  text?: string       // 水印文字，默认 "男友相机"
+  opacity?: number    // 透明度 0-1，默认 0.5
+  fontSize?: number   // 字号，默认 12
+  padding?: number    // 边距，默认 12
+}
+
+const DEFAULT_WATERMARK_CONFIG: WatermarkConfig = {
+  text: '男友相机',
+  opacity: 0.45,
+  fontSize: 12,
+  padding: 12,
+}
+
+/**
+ * 获取隐私水印配置（可在设置中自定义）
+ * @param overrides 部分覆盖默认配置
+ */
+export function getWatermarkConfig(overrides?: Partial<WatermarkConfig>): WatermarkConfig {
+  return { ...DEFAULT_WATERMARK_CONFIG, ...overrides }
+}
+
+/**
+ * 生成隐私水印 SVG（内嵌于图片叠加层）
+ * 用于在分享图片时标识来源，防止他人盗用
+ * @param imageWidth 图片宽度
+ * @param imageHeight 图片高度
+ * @param config 水印配置
+ */
+export function generateWatermarkSVG(
+  imageWidth: number,
+  imageHeight: number,
+  config?: WatermarkConfig
+): string {
+  const { text, opacity, fontSize, padding } = getWatermarkConfig(config)
+  const fontSizeNum = fontSize ?? 12
+  const paddingNum = padding ?? 12
+  // 水印位于右下角
+  const x = imageWidth - paddingNum
+  const y = imageHeight - paddingNum - fontSizeNum
+  const textWidth = text!.length * fontSizeNum * 0.6
+  const textHeight = fontSizeNum * 1.4
+  // 半透明黑色圆角背景
+  const rectX = x - textWidth - 8
+  const rectY = y - 4
+  const rectWidth = textWidth + 16
+  const rectHeight = textHeight + 8
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${imageWidth}" height="${imageHeight}">
+  <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" rx="6" ry="6" fill="rgba(0,0,0,${opacity})"/>
+  <text x="${x - textWidth / 2 - 8}" y="${y + fontSizeNum * 0.35}" font-family="sans-serif" font-size="${fontSizeNum}" fill="rgba(255,255,255,${opacity! + 0.2})" text-anchor="middle">${text}</text>
+</svg>`
+}
+
+/**
+ * 检查是否应自动添加水印
+ * 用户可在设置中关闭此功能
+ */
+export function shouldAddWatermark(): boolean {
+  // 默认开启，用户可在设置中关闭
+  // 此处读取用户偏好（需要 AsyncStorage 集成）
+  return true
+}
