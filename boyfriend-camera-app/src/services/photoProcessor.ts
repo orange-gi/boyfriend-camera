@@ -52,7 +52,7 @@ const FILTER_OVERLAY: Record<string, string> = {
   cool: 'rgba(100, 150, 255, 0.12)',
   vivid: 'rgba(255, 100, 150, 0.08)',
   soft: 'rgba(255, 220, 200, 0.1)',
-  bw: 'rgba(0, 0, 0, 0)',
+  bw: 'rgba(180, 160, 140, 0.08)', // 黑白辅以微暖叠加以增加质感
   golden: 'rgba(255, 180, 80, 0.15)',
   cinematic: 'rgba(80, 100, 160, 0.1)',
   // ========== Round 3 新增叠加色 ==========
