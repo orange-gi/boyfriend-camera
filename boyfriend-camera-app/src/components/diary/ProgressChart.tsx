@@ -100,11 +100,6 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
     return path
   }, [sorted])
 
-  // 得分渐变色（从红到绿）
-  const scoreGradient = useMemo(() => {
-    return Skia.Path.Make()
-  }, [])
-
   return (
     <View style={[styles.container, { height }]}>
       {/* Y 轴刻度标签 */}
