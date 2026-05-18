@@ -111,6 +111,27 @@ const SVG_099 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vc
 const SVG_100 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8bGluZSB4MT0iMTAwIiB5MT0iNDAiIHgyPSIxMDAiIHkyPSI0MCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMSIvPgogIDxsaW5lIHgxPSIxMDAiIHkxPSI2MCIgeDI9IjEwMCIgeTI9IjYwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4zKSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTSA3OCA4MiBRIDYwIDExMCA2NSAxNjUgTCA4NCAyODAiLz4KICA8cGF0aCBkPSJNIDEyMiA4MiBRIDEzOSAxMTAgMTM1IDE2NSBUIDEyMSAyODAiLz4KICA8cGF0aCBkPSJNIDY1IDE2NSBRIDU1IDIwNSA1MCAyODAiLz4KICA8cGF0aCBkPSJNIDEzNSAxNjUgUSAxNDUgMjA1IDE1MCAyODAiLz4KCjwvc3ZnPg=='
 
 // ===== 全部 90 个模板 =====
+const SVG_101 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_102 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_103 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_104 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_105 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_106 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_107 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_108 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_109 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_110 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_111 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_112 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_113 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_114 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_115 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_116 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_117 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_118 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_119 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+const SVG_120 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cGF0aCBkPSJNIDc4IDgyIFEgNjAgMTEwIDY1IDE2NSBUIDg0IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTIyIDgyIFEgMTM5IDExMCAxMzUgMTY1IEwgMTIxIDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgMTY1IFEgNTUgMjA1IDUwIDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTM1IDE2NSBRIDE0NSAyMDUgMTUwIDI4MCIvPgo8L3N2Zz4='
+
 const ALL_TEMPLATES = [
   {
     id: "template_001",
@@ -1023,6 +1044,207 @@ const ALL_TEMPLATES = [
     category: "构图技巧",
     version: 1,
   },
+  {
+    id: "template_101",
+    name: "菱形框架构图",
+    description: "找菱形或钻石形状的场景（窗户、镜子、地砖），把人放在菱形中心，构图立刻高级起来～",
+    overlayUrl: SVG_101,
+    thumbnail: SVG_101,
+    voiceTip: "找菱形或钻石形状的场景（窗户、镜子、地砖），把人放在菱形中心，构图立刻高级起来～",
+    category: "构图技巧",
+    version: 1,
+  },
+  {
+    id: "template_102",
+    name: "螺旋生长",
+    description: "找有螺旋元素的场景（楼梯、贝壳、旋涡），顺着螺旋构图，画面超有动感～",
+    overlayUrl: SVG_102,
+    thumbnail: SVG_102,
+    voiceTip: "找有螺旋元素的场景（楼梯、贝壳、旋涡），顺着螺旋构图，画面超有动感～",
+    category: "城市街拍",
+    version: 1,
+  },
+  {
+    id: "template_103",
+    name: "镜像对称",
+    description: "找对称的场景（镜面、玻璃、水面），利用对称反射增加层次感～",
+    overlayUrl: SVG_103,
+    thumbnail: SVG_103,
+    voiceTip: "找对称的场景（镜面、玻璃、水面），利用对称反射增加层次感～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_104",
+    name: "三角山峰",
+    description: "找有山峰或尖顶的场景，让人物站在三角形的顶点，超有气势～",
+    overlayUrl: SVG_104,
+    thumbnail: SVG_104,
+    voiceTip: "找有山峰或尖顶的场景，让人物站在三角形的顶点，超有气势～",
+    category: "室内场景",
+    version: 1,
+  },
+  {
+    id: "template_105",
+    name: "波浪地平线",
+    description: "找波浪形或起伏的场景，利用曲线构图，画面柔美又流畅～",
+    overlayUrl: SVG_105,
+    thumbnail: SVG_105,
+    voiceTip: "找波浪形或起伏的场景，利用曲线构图，画面柔美又流畅～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_106",
+    name: "星光绽放",
+    description: "找发光源或有星芒的场景，让光芒从身后透出，超有仙气～",
+    overlayUrl: SVG_106,
+    thumbnail: SVG_106,
+    voiceTip: "找发光源或有星芒的场景，让光芒从身后透出，超有仙气～",
+    category: "情侣合照",
+    version: 1,
+  },
+  {
+    id: "template_107",
+    name: "渐变纵深",
+    description: "找有明暗对比的场景，让光线形成纵深感，立体感立刻拉满～",
+    overlayUrl: SVG_107,
+    thumbnail: SVG_107,
+    voiceTip: "找有明暗对比的场景，让光线形成纵深感，立体感立刻拉满～",
+    category: "室内日常",
+    version: 1,
+  },
+  {
+    id: "template_108",
+    name: "圆形统一",
+    description: "找圆形元素（镜子、拱门、窗户），利用圆形构图，画面完整又有焦点～",
+    overlayUrl: SVG_108,
+    thumbnail: SVG_108,
+    voiceTip: "找圆形元素（镜子、拱门、窗户），利用圆形构图，画面完整又有焦点～",
+    category: "构图技巧",
+    version: 1,
+  },
+  {
+    id: "template_109",
+    name: "网格矩阵",
+    description: "找网格或格子场景（窗格、铁丝网），打破网格制造张力，超有艺术感～",
+    overlayUrl: SVG_109,
+    thumbnail: SVG_109,
+    voiceTip: "找网格或格子场景（窗格、铁丝网），打破网格制造张力，超有艺术感～",
+    category: "城市街拍",
+    version: 1,
+  },
+  {
+    id: "template_110",
+    name: "弧形彩虹",
+    description: "找弧形元素（彩虹、拱桥、隧道），顺着弧线构图，画面有延伸感～",
+    overlayUrl: SVG_110,
+    thumbnail: SVG_110,
+    voiceTip: "找弧形元素（彩虹、拱桥、隧道），顺着弧线构图，画面有延伸感～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_111",
+    name: "光影分割",
+    description: "找有明显光影分界的场景，让光线切割画面，形成戏剧感～",
+    overlayUrl: SVG_111,
+    thumbnail: SVG_111,
+    voiceTip: "找有明显光影分界的场景，让光线切割画面，形成戏剧感～",
+    category: "室内场景",
+    version: 1,
+  },
+  {
+    id: "template_112",
+    name: "同心圆环",
+    description: "找同心圆元素（靶心、涟漪、漩涡），利用圆环构图，焦点超明确～",
+    overlayUrl: SVG_112,
+    thumbnail: SVG_112,
+    voiceTip: "找同心圆元素（靶心、涟漪、漩涡），利用圆环构图，焦点超明确～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_113",
+    name: "之字动感",
+    description: "找有锯齿或曲折线条的场景，之字构图充满活力和动感～",
+    overlayUrl: SVG_113,
+    thumbnail: SVG_113,
+    voiceTip: "找有锯齿或曲折线条的场景，之字构图充满活力和动感～",
+    category: "情侣合照",
+    version: 1,
+  },
+  {
+    id: "template_114",
+    name: "辐射线条",
+    description: "找有辐射线条的场景（光芒、射灯、铁路），从中心向外辐射，画面张力十足～",
+    overlayUrl: SVG_114,
+    thumbnail: SVG_114,
+    voiceTip: "找有辐射线条的场景（光芒、射灯、铁路），从中心向外辐射，画面张力十足～",
+    category: "室内日常",
+    version: 1,
+  },
+  {
+    id: "template_115",
+    name: "窗格图案",
+    description: "找有规则的窗格场景，让人物打破规则，构图立刻有趣起来～",
+    overlayUrl: SVG_115,
+    thumbnail: SVG_115,
+    voiceTip: "找有规则的窗格场景，让人物打破规则，构图立刻有趣起来～",
+    category: "构图技巧",
+    version: 1,
+  },
+  {
+    id: "template_116",
+    name: "分形树叶",
+    description: "找有自然叶脉或树枝的场景，利用自然线条，画面清新又有生机～",
+    overlayUrl: SVG_116,
+    thumbnail: SVG_116,
+    voiceTip: "找有自然叶脉或树枝的场景，利用自然线条，画面清新又有生机～",
+    category: "城市街拍",
+    version: 1,
+  },
+  {
+    id: "template_117",
+    name: "倒影水池",
+    description: "找有水面或玻璃的场景，利用倒影增加层次，对称又梦幻～",
+    overlayUrl: SVG_117,
+    thumbnail: SVG_117,
+    voiceTip: "找有水面或玻璃的场景，利用倒影增加层次，对称又梦幻～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_118",
+    name: "六边形阵",
+    description: "找六边形或蜂巢场景，规律的几何图形让构图更有设计感～",
+    overlayUrl: SVG_118,
+    thumbnail: SVG_118,
+    voiceTip: "找六边形或蜂巢场景，规律的几何图形让构图更有设计感～",
+    category: "室内场景",
+    version: 1,
+  },
+  {
+    id: "template_119",
+    name: "光之走廊",
+    description: "找走廊或纵深感强的场景，让光线引导视线，画面深邃又神秘～",
+    overlayUrl: SVG_119,
+    thumbnail: SVG_119,
+    voiceTip: "找走廊或纵深感强的场景，让光线引导视线，画面深邃又神秘～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_120",
+    name: "宇宙漩涡",
+    description: "找旋涡或星系元素的场景，螺旋构图超有宇宙感，大片感拉满～",
+    overlayUrl: SVG_120,
+    thumbnail: SVG_120,
+    voiceTip: "找旋涡或星系元素的场景，螺旋构图超有宇宙感，大片感拉满～",
+    category: "情侣合照",
+    version: 1,
+  }
+
 ];
 
 // ========== Round 5: 搜索索引 ==========
