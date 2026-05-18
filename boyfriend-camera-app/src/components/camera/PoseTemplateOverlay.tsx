@@ -77,9 +77,8 @@ export default function PoseTemplateOverlay({ template, onTipPress }: Props) {
         pan.flattenOffset()
         // flattenOffset 后，用一次性监听读取最终位置
         if (listenerId.current !== null) pan.removeListener(listenerId.current)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        listenerId.current = pan.addListener((v: any) => {
-          lastOffset.current = { x: Number(v.x), y: Number(v.y) }
+        listenerId.current = pan.addListener((v: { x?: unknown; y?: unknown }) => {
+          lastOffset.current = { x: Number(v.x ?? 0), y: Number(v.y ?? 0) }
           setPanOffset(lastOffset.current)
           pan.removeListener(listenerId.current!)
           listenerId.current = null
