@@ -7,7 +7,7 @@ import type { SceneContext } from './sceneAnalysis'
 /** 场景 → 优先匹配的模板分类 */
 const SCENE_CATEGORY_MAP: Record<string, string[]> = {
   indoor: ['室内日常', '室内场景', '餐厅美食', '情侣合照'],
-  outdoor: ['户外风景', '特殊风格'],
+  outdoor: ['户外风景', '特殊风格', '城市街拍'],
   night: ['室内日常', '室内场景', '特殊风格'],
   unknown: ['室内日常', '户外风景'],
 }
@@ -15,8 +15,8 @@ const SCENE_CATEGORY_MAP: Record<string, string[]> = {
 /** 光线 → 优先匹配的模板分类（光线适配分类） */
 const LIGHTING_CATEGORY_MAP: Record<string, string[]> = {
   dark: ['特殊风格', '室内场景'],    // 暗光环境适合夜景/室内氛围
-  normal: ['室内日常', '户外风景'],   // 正常光线下各类都适合
-  bright: ['户外风景', '特殊风格'],  // 明亮户外适合风景
+  normal: ['室内日常', '户外风景', '城市街拍'],   // 正常光线下各类都适合
+  bright: ['户外风景', '特殊风格', '城市街拍'],  // 明亮户外适合风景和街拍
   backlit: ['室内日常', '室内场景'], // 逆光场景适合室内
   unknown: [],
 }
@@ -51,7 +51,11 @@ export function recommendTemplate(
 
   const best = ranked[0]
   if (!best || best.score <= 0) {
-    return templates[0]
+    // 兜底：优先返回室内日常类模板（有道具可用），而非随机的第一个
+    const fallback = templates.find(t =>
+      ['室内日常', '室内场景', '城市街拍'].includes(t.category ?? '')
+    )
+    return fallback ?? templates[0]
   }
   return best.template
 }
