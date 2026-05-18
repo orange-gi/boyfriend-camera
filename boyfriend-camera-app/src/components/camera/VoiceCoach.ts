@@ -438,6 +438,7 @@ class VoiceCoach {
 
   async speak(text: string, force: boolean = false): Promise<void> {
     if (!this.enabled || !text || this.speaking) return
+    if (!this.initialized) return // TTS 未就绪，静默跳过
 
     const now = Date.now()
     // 冷却检查（同一条提示 3 秒内不重复）
