@@ -885,6 +885,14 @@ const PRAISE_POOL: Record<string, string[]> = {
     '逛街也能拍出大片感，男朋友你行啊！',
     '闺蜜合影两个人都好好看，男朋友摄影在线！',
   ],
+  // 情侣浪漫场景夸奖（情感加分）
+  couple_romantic: [
+    '这张情侣照也太甜了吧！两个人超有CP感～',
+    '男朋友把我俩拍得像电影截图，浪漫感拉满！',
+    '这组情侣照发朋友圈绝对爆赞，狗粮撒得刚刚好！',
+    '两个人的互动感超自然，男朋友你这构图有电影感了！',
+    '情侣拍照最高境界就是这种自然又甜蜜的感觉，男朋友开窍了！',
+  ],
 }
 
 // 建议文案池
@@ -1274,9 +1282,19 @@ const SUGGESTION_POOL: Record<string, string[]> = {
   ],
 }
 
-function pickRandom(arr: string[]): string {
+/** 通用随机抽取（带防御性空值检查） */
+function pickRandom(arr: string[] | undefined): string {
   if (!arr || arr.length === 0) return ''
   return arr[Math.floor(Math.random() * arr.length)]
+}
+
+/** 从对象池中安全抽取，防止键名拼写错误或未定义导致崩溃 */
+function pickFromPool<T extends string[]>(
+  pool: Record<string, T>,
+  key: string,
+  fallback: string[] = []
+): string {
+  return pickRandom(pool[key] ?? fallback)
 }
 
 export interface AnalyzeContext {
@@ -1541,6 +1559,10 @@ export async function analyzePhoto(
   // 情侣合照专属夸奖
   if (isCouplePhoto && faceCount >= 2 && totalScore >= 70) {
     praise.push(pickRandom(PRAISE_POOL.couple_photo))
+  }
+  // 情侣浪漫场景夸奖（高分组）
+  if (isCouplePhoto && faceCount >= 2 && totalScore >= 85) {
+    praise.push(pickRandom(PRAISE_POOL.couple_romantic))
   }
 
   // 构图分满分追加专属夸奖
