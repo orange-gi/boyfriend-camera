@@ -41,7 +41,7 @@ export function useSceneRecommendation({
       setContext(ctx)
       setRecommended(pick)
       onRecommended?.(pick, ctx)
-    } catch (e) {
+    } catch (e: unknown) {
       // 场景分析或推荐异常不传播，优雅降级
       setRecommendationError('场景分析失败，手动选择模板吧～')
     }
@@ -73,7 +73,7 @@ export function useSceneRecommendation({
       setRecommended(pick)
       onRecommended?.(pick, ctx)
       return pick
-    } catch (e) {
+    } catch (e: unknown) {
       setRecommendationError('推荐失败，手动选择模板吧～')
       return null
     }
@@ -89,9 +89,7 @@ export function useSceneRecommendation({
         setContext(ctx)
         setRecommended(pick)
         onRecommended?.(pick, ctx)
-      } catch {
-        // 帧更新时静默降级，不打扰用户
-      }
+      } catch { /* ignore */ }
     },
     [templates, onRecommended]
   )

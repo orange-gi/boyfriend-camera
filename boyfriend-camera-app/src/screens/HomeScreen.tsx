@@ -212,7 +212,7 @@ export default function HomeScreen() {
         setDisplayDiaryCount(diary.length)
         setDisplayAvgScore(avg)
       }
-    } catch (e) {
+    } catch (e: unknown) {
       console.warn('[HomeScreen] 加载日记失败:', e)
     } finally {
       setStatsLoading(false)
@@ -223,7 +223,7 @@ export default function HomeScreen() {
     try {
       const done = await AsyncStorage.getItem(ONBOARD_KEY)
       if (!done) setShowOnboard(true)
-    } catch { setShowOnboard(true) }
+    } catch { setShowOnboard(true) /* ignore */ }
   }
 
   async function checkTipDismissed() {
