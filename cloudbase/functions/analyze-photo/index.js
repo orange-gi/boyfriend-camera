@@ -80,6 +80,9 @@ exports.main = async function (event, context) {
       },
     ];
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15秒超时
+
     const response = await fetch("https://api.minimaxi.chat/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -92,7 +95,9 @@ exports.main = async function (event, context) {
         max_tokens: 1024,
         temperature: 0.7,
       }),
+      signal: controller.signal,
     });
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -100,17 +105,37 @@ exports.main = async function (event, context) {
       return { error: "AI 分析失败，请重试", code: 500 };
     }
 
+    if (response.status === 0 || response.statusText === 'abort') {
+      console.error("[analyze-photo] 请求超时");
+      return { error: "分析超时，请检查网络后重试", code: 504 };
+    }
+
     const result = await response.json();
     const analysisText = result.choices?.[0]?.message?.content || "";
 
-    // 简单解析文本，提取评分（如果有）
-    // 后续可以扩展为结构化 JSON 输出
+    // 尝试解析结构化内容
+    let parsed = { analysis: analysisText };
+    try {
+      // 尝试提取三个部分
+      const highlightsMatch = analysisText.match(/亮点夸夸[：:]?\s*([\s\S]*?)(?=改进建议|今日技巧|$)/i);
+      const suggestMatch = analysisText.match(/改进建议[：:]?\s*([\s\S]*?)(?=今日技巧|$)/i);
+      const tipMatch = analysisText.match(/今日技巧[：:]?\s*([\s\S]*?)$/i);
+
+      if (highlightsMatch || suggestMatch || tipMatch) {
+        parsed = {
+          analysis: analysisText,
+          highlights: highlightsMatch ? highlightsMatch[1].trim() : '',
+          suggestions: suggestMatch ? suggestMatch[1].trim() : '',
+          dailyTip: tipMatch ? tipMatch[1].trim() : '',
+        };
+      }
+    } catch (_e) {
+      // 解析失败，返回原始文本
+    }
+
     return {
       code: 0,
-      data: {
-        analysis: analysisText,
-        // TODO: 结构化解析 score/highlights/suggestions/tip
-      },
+      data: parsed,
     };
   } catch (error) {
     console.error("[analyze-photo] 异常:", error);
