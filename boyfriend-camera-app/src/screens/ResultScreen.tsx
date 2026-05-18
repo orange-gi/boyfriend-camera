@@ -299,7 +299,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       }, 1200)
     } catch (e: any) {
       if (!mountedRef.current) return
-      console.error('[ResultScreen] 处理失败:', e)
+      console.warn('[ResultScreen] 处理失败（用户友好提示已展示）:', e)
       const errMsg = String(e?.message || e || '')
       let friendlyError: string
       if (errMsg.includes('INVALID_IMAGE_PATH') || errMsg.includes('IMAGE_NOT_FOUND')) {
