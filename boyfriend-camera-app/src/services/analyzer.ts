@@ -1551,7 +1551,8 @@ export async function getScoreHistory(limit: number = 30): Promise<{ date: strin
     return parsed
       .filter((r): r is DiaryRecord => r && typeof r.score === 'number' && typeof r.date === 'string')
       .slice(-limit)
-  } catch {
+  } catch (e) {
+    console.warn('[Diary] getScoreHistory failed:', e)
     return []
   }
 }
@@ -1616,7 +1617,8 @@ export async function getDiary(): Promise<DiaryRecord[]> {
     const parsed = JSON.parse(raw)
     // 过滤无效记录，防止损坏数据导致崩溃
     return Array.isArray(parsed) ? parsed.filter(r => r && typeof r.score === 'number' && r.date) : []
-  } catch {
+  } catch (e) {
+    console.warn('[Diary] getDiary failed:', e)
     return []
   }
 }

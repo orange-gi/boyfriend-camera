@@ -585,7 +585,7 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
         type: 'photo',
         album: 'BoyfriendCamera',
       })
-      console.log('[PhotoProcessor] 写入系统相册成功:', result)
+      console.debug('[PhotoProcessor] 写入系统相册成功:', result)
     } catch (crError) {
       console.warn('[PhotoProcessor] CameraRoll 保存失败，文件已保存到缓存:', crError)
       // 文件已保存到缓存，用户可在文件管理器中查看
