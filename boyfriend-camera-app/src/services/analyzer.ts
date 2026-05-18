@@ -1445,7 +1445,9 @@ const PEAK_KEY = 'peak_score'
 export async function getPeakScore(): Promise<number> {
   try {
     const raw = await AsyncStorage.getItem(PEAK_KEY)
-    return raw ? parseInt(raw, 10) : 0
+    if (!raw) return 0
+    const parsed = parseInt(raw, 10)
+    return Number.isNaN(parsed) ? 0 : parsed
   } catch {
     return 0
   }
