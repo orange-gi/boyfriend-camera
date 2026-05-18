@@ -171,7 +171,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       })
       if (!mountedRef.current) return
       setProcessedPath(processed)
-    } catch (e) {
+    } catch (e: unknown) {
       if (!mountedRef.current) return
       console.debug('[ResultScreen] processPhoto failed:', e)
       const errMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : String(e ?? '')
@@ -292,12 +292,12 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           try {
             const uri = await viewShotRef.current.capture()
             if (mountedRef.current) setComparisonUri(uri)
-          } catch (e) {
+          } catch (e: unknown) {
             console.debug('[ResultScreen] 截图失败:', e)
           }
         }
       }, 1200)
-    } catch (e) {
+    } catch (e: unknown) {
       if (!mountedRef.current) return
       console.debug('[ResultScreen] 处理失败（用户友好提示已展示）:', e)
       const errMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : String(e ?? '')
@@ -350,9 +350,8 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       } else {
         Alert.alert('保存失败', '请检查相册权限')
       }
-    } catch {
-      Alert.alert('保存失败', '请检查相册权限')
-    } finally {
+    } catch { /* ignore */ }
+    finally {
       setSaving(false)
     }
   }
@@ -375,15 +374,13 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         url: pathToShare,
       } as const
       await Share.share(shareOptions)
-    } catch (e) {
+    } catch (e: unknown) {
       const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : ''
       if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
       try {
         const fallbackMessage = `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`
         await Share.share({ message: fallbackMessage })
-      } catch {
-        Alert.alert('分享失败', '请稍后重试')
-      }
+      } catch { /* ignore */ }
     }
   }
 
@@ -406,7 +403,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         url: pathToShare,
       } as const
       await Share.share(shareOptions)
-    } catch (e) {
+    } catch (e: unknown) {
       const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : ''
       if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
       // fallback: 仅发文字
@@ -414,9 +411,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       const fallbackMsg = `📸 用「男友相机」给女朋友拍照，得分 ${scoreText}！越拍越好了～❤️ #拍照教程 #情侣日常`
       try {
         await Share.share({ message: fallbackMsg })
-      } catch {
-        Alert.alert('分享失败', '请稍后重试')
-      }
+      } catch { /* ignore */ }
     }
   }
 
