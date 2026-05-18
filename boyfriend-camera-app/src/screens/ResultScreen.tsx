@@ -411,7 +411,28 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         pathToShare = `file://${pathToShare}`
       }
       const scoreEmoji = scoreResult && scoreResult.totalScore >= 80 ? '🌟' : scoreResult && scoreResult.totalScore >= 60 ? '✨' : '💪'
-      const shareMessage = `${scoreEmoji} 用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！${scoreResult && scoreResult.totalScore >= 80 ? '男朋友太会拍了！' : scoreResult && scoreResult.totalScore >= 60 ? '越拍越好了呢～' : '继续加油！'} ${praiseList[0] ? `「${praiseList[0].slice(0, 20)}...」` : ''}`
+      const shareMessages = scoreResult && scoreResult.totalScore >= 80
+        ? [
+            `🌟 用「男友相机」拍了一张 ${scoreResult.totalScore} 分的照片！男朋友太会拍了！`,
+            `🏆 ${scoreResult.totalScore}分神作！男朋友摄影师天赋满点！`,
+            `💯 满分之作！这张 ${scoreResult.totalScore} 分的照片要永久保存！`,
+            `✨ ${scoreResult.totalScore}分的男朋友视角！闺蜜看了都羡慕！`,
+            `📸 ${scoreResult.totalScore}分的约会照！男朋友开窍了！`,
+          ]
+        : scoreResult && scoreResult.totalScore >= 60
+        ? [
+            `✨ 用「男友相机」拍了一张 ${scoreResult.totalScore} 分的照片！越拍越好了呢～`,
+            `👍 ${scoreResult.totalScore}分！男朋友进步肉眼可见！`,
+            `🌱 ${scoreResult.totalScore}分！继续加油，下次冲满分！`,
+          ]
+        : [
+            `💪 用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！继续加油！`,
+            `🌱 ${scoreResult?.totalScore ?? '--'}分起步！每拍一张都在进步～`,
+          ]
+      const baseMessage = shareMessages[Math.floor(Math.random() * shareMessages.length)]
+      const shareMessage = praiseList[0]
+        ? `${baseMessage}\n「${praiseList[0].slice(0, 25)}...」`
+        : baseMessage
       const shareOptions = {
         title: '男友相机 - 拍照分析',
         message: shareMessage,
@@ -422,7 +443,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : ''
       if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
       try {
-        const fallbackMessage = `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`
+        const fallbackMessages = [
+          `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`,
+          `📸 男友相机新照片 ${scoreResult?.totalScore ?? '--'} 分！男朋友在进步中～`,
+        ]
+        const fallbackMessage = fallbackMessages[Math.floor(Math.random() * fallbackMessages.length)]
         await Share.share({ message: fallbackMessage })
       } catch { /* ignore */ }
     }
