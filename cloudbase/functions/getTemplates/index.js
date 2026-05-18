@@ -3,7 +3,7 @@
  * 80 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/新场景
  * v14: 新增搜索索引、难度标签、分类筛选、缓存优化
  */
-const CURRENT_VERSION = 14
+const CURRENT_VERSION = 15
 
 const SVG_001 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDY1IDE4MCBMIDgwIDI4MCIvPjxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzUgMTgwIEwgMTIwIDI4MCIvPjxwYXRoIGQ9Ik0gNzAgOTAgUSAzMCAxMzAgMjAgMTYwIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTSAxMzAgOTAgUSAxNjAgMTEwIDE3NSAxMzAiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNIDY1IDE4MCBRIDU1IDIyMCA1MCAyODAiLz48cGF0aCBkPSJNIDEzNSAxODAgUSAxNDUgMjIwIDE1MCAyODAiLz4KICAKPC9zdmc+'
 const SVG_002 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDc0IDgwIFEgNjUgMTE1IDcwIDE3MCBMIDg1IDI4MCIvPjxwYXRoIGQ9Ik0gMTI2IDgwIFEgMTM1IDExNSAxMzAgMTcwIEwgMTE1IDI4MCIvPjxwYXRoIGQ9Ik0gNzQgODggUSA0MCAxMDAgMzUgMTUwIFEgNDUgMTQ1IDU1IDE1NSIvPjxwYXRoIGQ9Ik0gMTI2IDg4IFEgMTU1IDk1IDE2NSAxMTUiLz48cGF0aCBkPSJNIDcwIDE3MCBRIDYwIDIxMCA1NSAyODAiLz48cGF0aCBkPSJNIDEzMCAxNzAgUSAxNDAgMjEwIDE0NSAyODAiLz4KICAKPC9zdmc+'
@@ -466,16 +466,16 @@ const SVG_049 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vc
 const SVG_050 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NSIgcng9IjI2IiByeT0iMzAiLz4KICA8cmVjdCB4PSI2MCIgeT0iMTAwIiB3aWR0aD0iNDAiIGhlaWdodD0iMTAiIGZpbGw9InJnYmEoMjU1LDEwNywxMDcsMC41KSIgc3Ryb2tlPSJub25lIi8+CiAgPHBhdGggZD0iTSA3OCA4MiBRIDYwIDExMCA2NSAxNjUgTCA4NCAyODAiLz4KICA8cGF0aCBkPSJNIDEyMiA4MiBRIDEzOSAxMTAgMTM1IDE2NSBMIDEyMSAyODAiLz4KICA8cGF0aCBkPSJNIDY1IDE2NSBRIDU1IDIwNSA1MCAyODAiLz4KICA8cGF0aCBkPSJNIDEzNSAxNjUgUSAxNDUgMjA1IDE1MCAyODAiLz4KPC9zdmc+'
 
 const NEW_TEMPLATES = [
-  { id: "template_041", name: "校园操场", description: "操场跑道背景，活力满满的青春校园感", overlayUrl: SVG_041, thumbnail: SVG_041, voiceTip: "站在跑道边，一只手插兜，看镜头笑一个～", category: "户外风景", version: 8 },
-  { id: "template_042", name: "温泉泡汤", description: "温泉水汽缭绕，慵懒放松的温泉美人", overlayUrl: SVG_042, thumbnail: SVG_042, voiceTip: "靠在温泉池边，侧头看镜头，表情放松自然～", category: "室内场景", version: 8 },
-  { id: "template_043", name: "旋转木马", description: "游乐园旋转木马，梦幻少女感十足", overlayUrl: SVG_043, thumbnail: SVG_043, voiceTip: "坐在木马上，一只手扶着柱子，回眸看镜头笑～", category: "户外风景", version: 8 },
-  { id: "template_044", name: "植物园温室", description: "绿植环绕的温室花园，清新自然感", overlayUrl: SVG_044, thumbnail: SVG_044, voiceTip: "站在绿植前，低头闻花香或抬头看镜头，超有感觉～", category: "户外风景", version: 8 },
-  { id: "template_045", name: "演唱会现场", description: "演唱会/音乐节现场，跟着节奏动起来", overlayUrl: SVG_045, thumbnail: SVG_045, voiceTip: "举起双手跟着音乐摇摆，笑容灿烂抓拍～", category: "特殊风格", version: 8 },
-  { id: "template_046", name: "酒吧霓虹灯", description: "酒吧夜店霓虹灯前，都市夜生活感", overlayUrl: SVG_046, thumbnail: SVG_046, voiceTip: "靠在吧台边，让霓虹灯光打在脸上，超有氛围～", category: "特殊风格", version: 8 },
-  { id: "template_047", name: "阳台早餐", description: "阳台早餐时光，悠闲的小资情调", overlayUrl: SVG_047, thumbnail: SVG_047, voiceTip: "捧着咖啡或果汁，坐在阳台椅子上，看镜头笑一个～", category: "室内场景", version: 8 },
-  { id: "template_048", name: "艺术展馆", description: "艺术展馆画廊，文艺气质拉满", overlayUrl: SVG_048, thumbnail: SVG_048, voiceTip: "站在艺术作品旁边侧身，回头看镜头，文艺感十足～", category: "室内场景", version: 8 },
-  { id: "template_049", name: "电音节蹦迪", description: "电音节/夜店蹦迪，酷炫动感风格", overlayUrl: SVG_049, thumbnail: SVG_049, voiceTip: "跟着节拍动起来，双手举起，笑容灿烂抓拍～", category: "特殊风格", version: 8 },
-  { id: "template_050", name: "居家睡衣", description: "卧室居家睡衣，温馨日常感", overlayUrl: SVG_050, thumbnail: SVG_050, voiceTip: "在床上或卧室里，歪头看镜头，笑容自然～", category: "室内场景", version: 8 },
+  { id: "template_041", name: "草地野餐", description: "草地野餐小清新，蓝天白云绿草超有活力", overlayUrl: SVG_041, thumbnail: SVG_041, voiceTip: "坐在野餐垫上，一手撑草地，侧头对我笑一个～", category: "户外风景", version: 15 },
+  { id: "template_042", name: "便利店门口", description: "便利店门口日常感，零食饮料做道具俏皮可爱", overlayUrl: SVG_042, thumbnail: SVG_042, voiceTip: "站在便利店门口，手里拿着零食饮料，俏皮看镜头～", category: "户外风景", version: 15 },
+  { id: "template_043", name: "植物园温室", description: "绿植环绕的温室花园，清新自然氧气感", overlayUrl: SVG_043, thumbnail: SVG_043, voiceTip: "站在温室绿植前，低头闻花香或抬头看镜头，超清新～", category: "室内场景", version: 15 },
+  { id: "template_044", name: "火车轨道", description: "火车轨道文艺感，铁轨延伸超有电影感", overlayUrl: SVG_044, thumbnail: SVG_044, voiceTip: "站在火车轨道边，侧身看镜头，超有电影感～", category: "户外风景", version: 15 },
+  { id: "template_045", name: "便利店零食", description: "便利店零食互动，俏皮可爱的日常感", overlayUrl: SVG_045, thumbnail: SVG_045, voiceTip: "拿起便利店的零食，俏皮地举起来看镜头～", category: "特殊风格", version: 15 },
+  { id: "template_046", name: "露台派对", description: "天台露台派对，夜景璀璨超有氛围感", overlayUrl: SVG_046, thumbnail: SVG_046, voiceTip: "站在天台露台，背靠城市灯光，侧身笑一个～", category: "特殊风格", version: 15 },
+  { id: "template_047", name: "湖边倒影", description: "湖边水面倒影超浪漫，波光粼粼氛围感", overlayUrl: SVG_047, thumbnail: SVG_047, voiceTip: "站在湖边，低头看水面或抬头看镜头，超浪漫～", category: "户外风景", version: 15 },
+  { id: "template_048", name: "商场橱窗", description: "商场橱窗灯光美，时尚都市感十足", overlayUrl: SVG_048, thumbnail: SVG_048, voiceTip: "靠在商场橱窗前，让灯光打在脸上，超有都市感～", category: "户外风景", version: 15 },
+  { id: "template_049", name: "酒吧氛围", description: "酒吧氛围灯光暗，霓虹光影超有感觉", overlayUrl: SVG_049, thumbnail: SVG_049, voiceTip: "靠在吧台边，让灯光打在侧脸上，超有氛围～", category: "室内场景", version: 15 },
+  { id: "template_050", name: "寺庙古风", description: "寺庙古建筑前，超有禅意和历史感", overlayUrl: SVG_050, thumbnail: SVG_050, voiceTip: "站在古建筑前，侧身回眸或正面看镜头，古风感十足～", category: "户外风景", version: 15 },
 ]
 
 // 将新模板追加到主列表
