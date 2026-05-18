@@ -327,17 +327,17 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     }
   }
 
+  // 仅在 filter 变化时重新处理（已在 runAnalysis 中处理过一次，photoPath 变化由 runAnalysis 内部处理）
   useEffect(() => {
-    if (photoPath && !processing) {
-      processPhoto(photoPath, {
-        cropRatio: 3 / 4,
-        filterName: selectedFilter,
-        autoRetouch: true,
-      }).then(path => {
-        if (mountedRef.current) setProcessedPath(path)
-      })
-    }
-  }, [selectedFilter, photoPath])
+    if (!photoPath || processing) return
+    processPhoto(photoPath, {
+      cropRatio: 3 / 4,
+      filterName: selectedFilter,
+      autoRetouch: true,
+    }).then(path => {
+      if (mountedRef.current) setProcessedPath(path)
+    }).catch(() => { /* 静默降级 */ })
+  }, [selectedFilter])
 
   async function handleSave() {
     setSaving(true)
