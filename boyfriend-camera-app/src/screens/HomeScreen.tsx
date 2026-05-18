@@ -111,13 +111,6 @@ const FEATURES: Array<{ icon: string; title: string; desc: string; color: string
   { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好', color: '#9B8FE8' },
 ]
 
-const ONBOARD_STEPS_ORIG = [
-  { icon: '📸', title: '拍出更好的照片', desc: '男友相机帮你教男朋友拍出更好看的照片！上传他拍的照片，我给你分析和建议～' },
-  { icon: '👗', title: '姿势模板引导', desc: '选择喜欢的姿势模板，它会显示半透明剪影，让男朋友知道该怎么站位～' },
-  { icon: '🤳', title: '实时评分反馈', desc: '拍照后自动分析构图、曝光、稳定性，给出俏皮点评和具体改进建议！' },
-  { icon: '💕', title: '一起变好吧！', desc: '记录每一次进步，看着分数一点点提高，男朋友摄影技术越来越好～' },
-]
-
 export default function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>()
   const [diaryCount, setDiaryCount] = useState(0)

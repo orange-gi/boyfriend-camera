@@ -173,7 +173,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       setProcessedPath(processed)
     } catch (e: any) {
       if (!mountedRef.current) return
-      console.error('[ResultScreen] processPhoto failed:', e)
+      console.debug('[ResultScreen] processPhoto failed:', e)
       const errMsg = String(e?.message || e || '')
       if (errMsg.includes('INVALID_IMAGE_PATH') || errMsg.includes('IMAGE_NOT_FOUND')) {
         setError('图片读取失败，请重新拍照')
@@ -293,13 +293,13 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
             const uri = await viewShotRef.current.capture()
             if (mountedRef.current) setComparisonUri(uri)
           } catch (e) {
-            console.warn('[ResultScreen] 截图失败:', e)
+            console.debug('[ResultScreen] 截图失败:', e)
           }
         }
       }, 1200)
     } catch (e: any) {
       if (!mountedRef.current) return
-      console.warn('[ResultScreen] 处理失败（用户友好提示已展示）:', e)
+      console.debug('[ResultScreen] 处理失败（用户友好提示已展示）:', e)
       const errMsg = String(e?.message || e || '')
       let friendlyError: string
       if (errMsg.includes('INVALID_IMAGE_PATH') || errMsg.includes('IMAGE_NOT_FOUND')) {
