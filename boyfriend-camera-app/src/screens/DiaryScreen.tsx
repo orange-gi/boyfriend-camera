@@ -622,6 +622,28 @@ export default function DiaryScreen() {
                     <Text style={styles.badgeText}>🎯 突破90分</Text>
                   </View>
                 )}
+                {/* 满分达成 */}
+                {maxScore === 100 && (
+                  <View style={[styles.badge, styles.badgeGold]}>
+                    <Text style={styles.badgeText}>💯 满分达成</Text>
+                  </View>
+                )}
+                {/* 进步之星：连续3次比上次分数高 */}
+                {totalCount >= 3 && (() => {
+                  const recent3 = records.slice(0, 3)
+                  const improved = recent3.length >= 2 && recent3[0].score > recent3[1].score
+                  return improved ? (
+                    <View style={[styles.badge, { backgroundColor: '#FF6B9D' + '20', borderColor: '#FF6B9D' }]}>
+                      <Text style={[styles.badgeText, { color: '#FF6B9D' }]}>📸 进步之星</Text>
+                    </View>
+                  ) : null
+                })()}
+                {/* 首次拍照鼓励 */}
+                {totalCount === 1 && (
+                  <View style={[styles.badge, styles.badgeGreen]}>
+                    <Text style={styles.badgeText}>🌱 第一次！继续加油</Text>
+                  </View>
+                )}
               </View>
             )}
 
