@@ -42,6 +42,13 @@ export const COLORS = {
   filterBw: '#888888',
   filterGolden: '#E8A838',
   filterCinematic: '#5B7FA6',
+  filterPortrait: '#E8B4C8',
+  filterFood: '#FF9A3C',
+  filterLandscape: '#5BBF8A',
+  filterNight: '#7B68EE',
+  filterSunset: '#FF6B6B',
+  filterFloral: '#FF69B4',
+  filterSnow: '#B0E0FF',
 } as const
 
 /** 根据分数返回对应颜色 */

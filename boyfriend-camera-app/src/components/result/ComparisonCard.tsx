@@ -28,12 +28,19 @@ const CARD_GAP = 8
 const CARD_WIDTH = (SCREEN_W - 32 - CARD_GAP) / 2
 const CARD_HEIGHT = Math.round(CARD_WIDTH * (4 / 3))
 
-const FILTERS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic'; label: string; color: string }> = [
+const FILTERS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'; label: string; color: string }> = [
   { key: 'warm', label: '暖色', color: COLORS.filterWarm },
   { key: 'cool', label: '冷色', color: COLORS.filterCool },
   { key: 'vivid', label: '鲜艳', color: COLORS.filterVivid },
   { key: 'soft', label: '柔美', color: COLORS.filterSoft },
   { key: 'bw', label: '黑白', color: COLORS.filterBw },
+  { key: 'portrait', label: '人像', color: COLORS.filterPortrait },
+  { key: 'food', label: '美食', color: COLORS.filterFood },
+  { key: 'landscape', label: '风景', color: COLORS.filterLandscape },
+  { key: 'night', label: '夜景', color: COLORS.filterNight },
+  { key: 'sunset', label: '日落', color: COLORS.filterSunset },
+  { key: 'floral', label: '花季', color: COLORS.filterFloral },
+  { key: 'snow', label: '雪景', color: COLORS.filterSnow },
   { key: 'golden', label: '金棕', color: COLORS.filterGolden },
   { key: 'cinematic', label: '电影', color: COLORS.filterCinematic },
 ]
