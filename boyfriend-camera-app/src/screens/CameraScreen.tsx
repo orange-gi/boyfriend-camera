@@ -160,6 +160,17 @@ export default function CameraScreen() {
   useFocusEffect(
     useCallback(() => {
       setIsActive(true)
+      // 每日首次打开欢迎语
+      ;(async () => {
+        try {
+          const today = new Date().toDateString()
+          const stored = await AsyncStorage.getItem('last_open_date')
+          if (stored !== today) {
+            await AsyncStorage.setItem('last_open_date', today)
+            VoiceCoach.speakDailyWelcome(true)
+          }
+        } catch { /* ignore */ }
+      })()
       return () => setIsActive(false)
     }, [])
   )
@@ -243,8 +254,11 @@ export default function CameraScreen() {
     setActiveTemplate(template)
     setShowTemplateModal(false)
     setTemplateSearch('')
+    // 模板选中确认语
+    VoiceCoach.speakTemplateSelected(template.name)
+    // 随后朗读具体动作指导
     if (template.voiceTip) {
-      VoiceCoach.speakTemplateTip(template.voiceTip)
+      setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 1500)
     }
     // 模板分类专属提示
     if (template.category) {

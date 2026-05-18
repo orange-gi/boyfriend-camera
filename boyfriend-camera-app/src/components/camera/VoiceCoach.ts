@@ -317,6 +317,26 @@ const COMPOSITION_TIPS = {
   CENTER_DOT: '把人放在画面正中心，更有冲击力～',
 }
 
+// 每日首次打开欢迎语
+const WELCOME_TIPS = [
+  '欢迎回来！今天让男朋友拍几张美美的照片吧～',
+  '男朋友准备好拍照了吗？准备好就开始吧！',
+  '约会拍照开始啦～让男朋友拿出最佳状态！',
+  '今天也要拍出好看的照片哦！男朋友准备好了吗～',
+  '男朋友相机上线！今天拍几张好看的～',
+  '开工啦！男朋友准备好拍摄最佳角度了吗～',
+  '男友相机为您服务！今天多拍几张，选最好的～',
+  '拍照时间到！男朋友摆好姿势，开始拍～',
+]
+
+// 模板选中确认语（用于选中新模板时的语音确认）
+const TEMPLATE_SELECT_TIPS = [
+  '已选择这个姿势！跟着指导站好～',
+  '姿势已更新！按照模板调整站位～',
+  '新姿势选好了！跟着模板试试看～',
+  '已切换姿势！调整好站位，准备好就拍～',
+]
+
 // 通用鼓励语
 const ENCOURAGEMENT = [
   '这张构图超棒！',
@@ -908,6 +928,21 @@ class VoiceCoach {
   /** 模板切换确认 */
   async speakTemplateChanged(): Promise<void> {
     await this.speak(FACE_TIPS.TEMPLATE_CHANGED, true)
+  }
+
+  /** 选中新模板时的语音确认（比切换确认更具体） */
+  async speakTemplateSelected(templateName: string): Promise<void> {
+    const tip = TEMPLATE_SELECT_TIPS[Math.floor(Math.random() * TEMPLATE_SELECT_TIPS.length)]
+    await this.speak(`${templateName}～${tip}`, true)
+  }
+
+  /** 每日首次打开欢迎语（判断是否今日首次使用）
+   *  @param isFirstToday 今天是否首次打开（由调用方传入判断逻辑）
+   */
+  async speakDailyWelcome(isFirstToday: boolean): Promise<void> {
+    if (!isFirstToday) return
+    const tip = WELCOME_TIPS[Math.floor(Math.random() * WELCOME_TIPS.length)]
+    await this.speak(tip, false)
   }
 
   /** 拍照失败提示 */

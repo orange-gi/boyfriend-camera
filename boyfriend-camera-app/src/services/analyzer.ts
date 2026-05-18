@@ -614,6 +614,24 @@ const PRAISE_POOL: Record<string, string[]> = {
     '创意构图拿捏了！这张照片与众不同！',
     '男朋友审美在线！这角度选得太绝了！',
   ],
+  // ========== 一般档位文案（60-79分） ==========
+  score_60_79: [
+    '这张还可以！男朋友有进步的空间，继续加油～',
+    '比及格线好多了！男朋友正在进步中，再接再厉～',
+    '这张有亮点！构图或光线有一项拿捏了～',
+    '男朋友在努力！细节再注意一下会更好～',
+    '这张有潜力！稍微调整一下角度就完美了～',
+    '整体还不错，有一两个方面特别棒！',
+    '男朋友感觉越来越好，这张有进步！',
+    '有点感觉了！就是还可以再精细一点～',
+    '这张有救！下次注意一个点就能提分～',
+    '男朋友在状态！继续拍下去会越来越好的～',
+    '有被惊喜到！男朋友这构图越来越有感觉了！',
+    '整体均衡，没有明显短板，继续保持～',
+    '比上次好多了！这张有被夸到～',
+    '男朋友审美在线，这张有被看到！',
+    '进步一点点！这感觉越来越对了～',
+  ],
   // ========== Round 1 新增 ==========
   // 糟糕分数鼓励（总分 < 50）
   low_score_encourage: [
@@ -1084,11 +1102,13 @@ export async function analyzePhoto(
   // 总分惊艳（100分场景）专属文案
   if (totalScore === 100) praise.push(pickRandom(PRAISE_POOL.total_amazing))
 
-  // 高分区间专属文案（95-100分段、85-94分段）
+  // 高分区间专属文案（95-100分段、85-94分段、60-79分段）
   if (totalScore >= 95) {
     praise.push(pickRandom(PRAISE_POOL.score_95_100))
   } else if (totalScore >= 85 && totalScore < 95) {
     praise.push(pickRandom(PRAISE_POOL.score_85_94))
+  } else if (totalScore >= 60 && totalScore < 80) {
+    praise.push(pickRandom(PRAISE_POOL.score_60_79))
   }
 
   // 场景专属夸奖

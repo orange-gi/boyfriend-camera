@@ -209,7 +209,10 @@ export async function processPhoto(
     console.warn('[PhotoProcessor] 无法获取文件大小:', e)
   }
 
-  // 复制原图到输出路径（滤镜在 ComparisonCard 通过 Skia 实时渲染）
+  // 复制原图到输出路径
+  // 注意：滤镜处理在 ComparisonCard 的 Skia 层实时渲染，真实滤镜效果（ColorMatrix + 色调叠加）
+  // 由 Skia.ColorFilter.MakeMatrix(getColorMatrix(filterName)) 实现，此函数负责计算参数并缓存元数据。
+  // Native 层不做像素级滤镜处理，保证性能最优且支持实时切换滤镜。
   try {
     await RNFS.copyFile(cleanPath, outputPath)
   } catch (e) {
@@ -354,6 +357,18 @@ export function getAvailableFilters(): Array<{ key: string; label: string; descr
  *
  * @param filterName 滤镜名称（warm/cool/vivid/soft/bw/golden/cinematic）
  * @returns 滤镜的 ColorMatrix 数组，可直接用于 Skia.ColorFilter.MakeMatrix()
+ */
+/**
+ * applyFilter - 在 Skia View 上应用滤镜（计算参数）
+ *
+ * 注意：此函数仅返回 ColorMatrix 参数数组，真实滤镜在 ComparisonCard Skia 层实现：
+ * 1. Skia.Image.MakeFromPath() 加载原图
+ * 2. Skia.Paint.setColorFilter(Skia.ColorFilter.MakeMatrix(getColorMatrix()))
+ * 3. canvas.drawImage(image, 0, 0, paint)
+ * 4. 叠加半透明色调层（FILTER_OVERLAY）模拟完整滤镜效果
+ *
+ * @param filterName 滤镜名称
+ * @returns ColorMatrix 数组，用于 Skia.ColorFilter.MakeMatrix()
  */
 export function applyFilterToView(filterName: string | null): number[] {
   return getColorMatrix(filterName)
