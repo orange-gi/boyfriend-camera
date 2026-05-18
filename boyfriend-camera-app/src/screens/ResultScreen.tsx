@@ -529,7 +529,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         )}
 
         {/* 小红书分享引导卡片 */}
-        {!processing && scoreResult && (
+        {!processing && scoreResult && photoPath && (
           <TouchableOpacity
             style={styles.xiaohongshuCard}
             onPress={handleShareXiaohongshu}
@@ -567,7 +567,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         )}
 
         {/* 对比卡片 */}
-        {!processing && (
+        {!processing && photoPath && (
           <Animated.View style={cardStyle}>
             <ViewShot
               ref={viewShotRef}
@@ -586,6 +586,18 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         {/* 评分板 */}
         {!processing && scoreResult && (
           <ScoreBoard result={scoreResult} />
+        )}
+
+        {/* 无图片时的友好提示 */}
+        {!processing && !photoPath && !scoreResult && (
+          <View style={styles.noPhotoContainer}>
+            <Text style={styles.noPhotoEmoji}>📷</Text>
+            <Text style={[styles.noPhotoTitle, { color: COLORS.textPrimary }]}>没有找到照片</Text>
+            <Text style={[styles.noPhotoDesc, { color: COLORS.textMuted }]}>好像出了点小问题，试试重新拍一张吧～</Text>
+            <TouchableOpacity style={styles.noPhotoBtn} onPress={() => navigation.goBack()} activeOpacity={0.72}>
+              <Text style={styles.noPhotoBtnText}>🔄 重新拍照</Text>
+            </TouchableOpacity>
+          </View>
         )}
 
         {/* 操作按钮 */}
@@ -1030,4 +1042,11 @@ const styles = StyleSheet.create({
   confettiEmoji: {
     fontSize: 24,
   },
+  // 无图片时的友好提示
+  noPhotoContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, gap: 12 },
+  noPhotoEmoji: { fontSize: 56, marginBottom: 8 },
+  noPhotoTitle: { fontSize: 20, fontWeight: 'bold' },
+  noPhotoDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22 },
+  noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: 14, paddingHorizontal: 28, paddingVertical: 12 },
+  noPhotoBtnText: { color: COLORS.textOnPrimary, fontSize: 16, fontWeight: 'bold' },
 })
