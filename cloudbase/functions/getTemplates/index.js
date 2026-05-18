@@ -772,7 +772,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_076,
     voiceTip: "站在窗帘旁边，让阳光从背后透进来，微微转身让光打在侧脸上～",
     category: "室内场景",
-    version: 1,
+    version: 16,
   },
   {
     id: "template_077",
@@ -781,7 +781,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_077,
     voiceTip: "躺在阳台躺椅上，一只手撑着脸，看镜头笑一个，慵懒又可爱～",
     category: "室内场景",
-    version: 1,
+    version: 16,
   },
   {
     id: "template_078",
@@ -790,7 +790,7 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_078,
     voiceTip: "靠在涂鸦墙前，双手插兜或比个pose，酷酷地看向镜头～",
     category: "城市街拍",
-    version: 1,
+    version: 16,
   },
   {
     id: "template_079",
