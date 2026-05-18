@@ -34,6 +34,14 @@ const FILTER_PARAMS: Record<string, { brightness: number; contrast: number; satu
   vivid: { brightness: 1.08, contrast: 1.2, saturation: 1.3 },
   soft: { brightness: 1.1, contrast: 0.95, saturation: 0.9 },
   bw: { brightness: 1.02, contrast: 1.15, saturation: 0 },
+  // ========== Round 3 新增滤镜 ==========
+  portrait: { brightness: 1.06, contrast: 1.12, saturation: 1.05 }, // 人像：轻微美颜+适中对比
+  food: { brightness: 1.1, contrast: 1.15, saturation: 1.3 }, // 美食：高饱和+高亮度
+  landscape: { brightness: 1.05, contrast: 1.18, saturation: 1.25 }, // 风景：增强饱和+蓝色调
+  night: { brightness: 0.95, contrast: 1.2, saturation: 0.9 }, // 夜景：增强对比+降饱和
+  sunset: { brightness: 1.08, contrast: 1.15, saturation: 1.2 }, // 日落：暖色调+高对比
+  floral: { brightness: 1.07, contrast: 1.08, saturation: 1.1 }, // 花季：柔和+适中饱和
+  snow: { brightness: 1.15, contrast: 1.05, saturation: 0.95 }, // 雪景：提亮+柔和
   golden: { brightness: 1.1, contrast: 1.08, saturation: 1.2 },
   cinematic: { brightness: 0.95, contrast: 1.12, saturation: 0.85 },
 }
@@ -47,6 +55,14 @@ const FILTER_OVERLAY: Record<string, string> = {
   bw: 'rgba(0, 0, 0, 0)',
   golden: 'rgba(255, 180, 80, 0.15)',
   cinematic: 'rgba(80, 100, 160, 0.1)',
+  // ========== Round 3 新增叠加色 ==========
+  portrait: 'rgba(255, 220, 200, 0.06)',
+  food: 'rgba(255, 180, 120, 0.1)',
+  landscape: 'rgba(120, 180, 220, 0.08)',
+  night: 'rgba(80, 100, 140, 0.12)',
+  sunset: 'rgba(255, 150, 80, 0.15)',
+  floral: 'rgba(255, 180, 200, 0.1)',
+  snow: 'rgba(200, 220, 255, 0.08)',
 }
 
 interface CropRegion {
@@ -245,6 +261,58 @@ export const FILTER_DESCRIPTIONS: Record<string, string> = {
   bw: '黑白处理，去除色彩突出光影',
   golden: '金棕色调，温暖治愈氛围感',
   cinematic: '电影感调色，对比增强色调偏冷',
+  // ========== Round 3 新增 ==========
+  portrait: '人像模式，轻微美颜+适中对比',
+  food: '美食模式，高饱和+高亮度',
+  landscape: '风景模式，增强饱和+蓝色调',
+  night: '夜景模式，增强对比+暖黄色调',
+  sunset: '日落模式，暖色调+高对比',
+  floral: '花季模式，柔和+适中饱和',
+  snow: '雪景模式，提亮+柔和冷调',
+}
+
+/** 场景推荐滤镜 */
+export const SCENE_FILTER_RECOMMENDATION: Record<string, string> = {
+  outdoor: 'vivid',
+  indoor: 'warm',
+  night: 'night',
+  sunset: 'sunset',
+  food: 'food',
+  portrait: 'portrait',
+  landscape: 'landscape',
+  floral: 'floral',
+  snow: 'snow',
+}
+
+/**
+ * 根据场景推荐合适滤镜
+ * @param sceneType 场景类型
+ * @returns 推荐的滤镜名称
+ */
+export function recommendFilter(sceneType: string): string {
+  return SCENE_FILTER_RECOMMENDATION[sceneType] ?? 'vivid'
+}
+
+/**
+ * 获取所有可用滤镜列表（用于 UI 渲染）
+ */
+export function getAvailableFilters(): Array<{ key: string; label: string; description: string }> {
+  return [
+    { key: 'vivid', label: '鲜活', description: '高饱和，人像更鲜活有活力' },
+    { key: 'warm', label: '暖调', description: '暖调增强，肤色更柔和通透' },
+    { key: 'cool', label: '冷调', description: '冷调降温，清新通透感' },
+    { key: 'soft', label: '柔化', description: '柔化处理，轻微过曝营造梦幻感' },
+    { key: 'golden', label: '金棕', description: '金棕色调，温暖治愈氛围感' },
+    { key: 'cinematic', label: '电影', description: '电影感调色，对比增强色调偏冷' },
+    { key: 'portrait', label: '人像', description: '人像模式，轻微美颜+适中对比' },
+    { key: 'food', label: '美食', description: '美食模式，高饱和+高亮度' },
+    { key: 'landscape', label: '风景', description: '风景模式，增强饱和+蓝色调' },
+    { key: 'night', label: '夜景', description: '夜景模式，增强对比+暖黄色调' },
+    { key: 'sunset', label: '日落', description: '日落模式，暖色调+高对比' },
+    { key: 'floral', label: '花季', description: '花季模式，柔和+适中饱和' },
+    { key: 'snow', label: '雪景', description: '雪景模式，提亮+柔和冷调' },
+    { key: 'bw', label: '黑白', description: '黑白处理，去除色彩突出光影' },
+  ]
 }
 
 /**
