@@ -923,6 +923,100 @@ class VoiceCoach {
     const tip = tips[Math.floor(Math.random() * tips.length)]
     await this.speak(tip, true)
   }
+
+  // ========== Round 2 新增 ==========
+  /** 倒计时提示（3-2-1） */
+  async speakCountdown(num: number): Promise<void> {
+    if (num === 3) await this.speak('三～', true)
+    else if (num === 2) await this.speak('二～', true)
+    else if (num === 1) await this.speak('一～笑一个！', true)
+  }
+
+  /** 低分鼓励（总分 < 50） */
+  async speakLowScore(score: number): Promise<void> {
+    const tips = [
+      `这张只有${score}分，没关系！多拍几张就好啦～`,
+      `${score}分不是终点！男朋友继续加油！`,
+      `${score}分只是开始！再来一张，肯定会更好！`,
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 满分/接近满分庆祝 */
+  async speakPerfectScore(score: number): Promise<void> {
+    const tips = [
+      `满分！${score}分！男朋友你是开挂了吗！这张太绝了！`,
+      `${score}分！男朋友摄影师天赋觉醒！这张要存档一万年！`,
+      `${score}分大片！这张照片可以直接上杂志封面了！`,
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 连续好评播报 */
+  async speakStreak(count: number): Promise<void> {
+    const tips = [
+      `连续${count}次高分！男朋友这稳定发挥太厉害了！`,
+      `${count}连拍都是好片！男朋友你是专业的吗！`,
+      `${count}次都这么高分，这摄影师养成了！`,
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 模板分类切换提示 */
+  async speakTemplateCategory(category: string): Promise<void> {
+    const tips: Record<string, string[]> = {
+      '室内日常': ['切换到室内日常～家里也能拍大片！', '室内场景！家里的角落都是拍照好地方～'],
+      '户外风景': ['户外风景！找个好背景就成功一半了～', '户外模式！让自然光帮你打光～'],
+      '餐厅美食': ['餐厅美食！暖光下的菜品和人都是大片～', '美食模式！边吃边拍两不误～'],
+      '情侣合照': ['情侣合照！两个人的甜蜜要记录下来～', '双人模式！靠近一点，笑一个～'],
+      '特殊风格': ['特殊风格！创意满分，男朋友准备好了吗～', '风格模式！这张要有大片感！'],
+      '室内场景': ['室内场景！找到好光线就成功一半了～', '室内模式！找个窗边位置试试～'],
+    }
+    const pool = tips[category] || [`已切换到${category}场景～`] 
+    await this.speak(pool[Math.floor(Math.random() * pool.length)], true)
+  }
+
+  /** 晨光拍摄提示 */
+  async speakMorningTip(): Promise<void> {
+    const tips = [
+      '早上的光线好柔和，现在拍照超适合！',
+      '晨光时光光线超美！趁现在多拍几张～',
+      '早起的福利！这种光线拍照最好看了～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+  }
+
+  /** 金色时刻提示 */
+  async speakGoldenHour(): Promise<void> {
+    const tips = [
+      '现在是金色时刻！夕阳的光最会说话，快拍！',
+      '黄昏光线超美！男朋友抓紧时间，这光绝了！',
+      'Golden Hour！男朋友快按快门，这光错过就没了！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+  }
+
+  /** 新纪录庆祝 */
+  async speakNewRecordAlert(score: number): Promise<void> {
+    const tips = [
+      `新纪录！${score}分！男朋友你破纪录了！`,
+      `${score}分！历史最高！男朋友进化了！`,
+      `🏆 新纪录达成！${score}分！男朋友太厉害了！`,
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 里程碑庆祝 */
+  async speakMilestone(count: number): Promise<void> {
+    const msgs: Record<number, string> = {
+      10: '🎉 十连拍达成！男朋友进步肉眼可见！',
+      20: '🏆 二十连拍里程碑！摄影师已在线！',
+      50: '👑 五十次快门！男朋友你是被拍照耽误的摄影师！',
+      100: '💎 百次快门达成！男朋友已经是拍照达人了！',
+    }
+    const msg = msgs[count] || `🎊 ${count}次拍摄达成！继续加油！`
+    await this.speak(msg, true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
