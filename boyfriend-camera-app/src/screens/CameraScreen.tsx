@@ -135,7 +135,8 @@ export default function CameraScreen() {
   const handleAutoRecommended = useCallback((template: PoseTemplate) => {
     setActiveTemplate(template)
     setShowVoiceTip(true)
-    VoiceCoach.speak(`已为你推荐「${template.name}」姿势，跟着半透明剪影站位～`, true)
+    VoiceCoach.speakTemplateSelected(template.name)
+    VoiceCoach.speak(`跟着半透明剪影站位～`, true)
     if (template.voiceTip) {
       setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 2800)
     }
