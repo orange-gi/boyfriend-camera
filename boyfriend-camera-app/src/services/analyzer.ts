@@ -933,6 +933,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
 }
 
 function pickRandom(arr: string[]): string {
+  if (!arr || arr.length === 0) return ''
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
@@ -1516,16 +1517,18 @@ export interface DiaryRecord {
   levelScore?: number
 }
 
-export async function saveToDiary(record: DiaryRecord): Promise<void> {
+export async function saveToDiary(record: DiaryRecord): Promise<boolean> {
   try {
     const existing = await getDiary()
     existing.push(record)
     // 只保留最近 30 条
     const trimmed = existing.slice(-30)
     await AsyncStorage.setItem(DIARY_KEY, JSON.stringify(trimmed))
+    return true
   } catch (e) {
     // 存储空间不足时，尝试删除最旧的记录再保存
-    if (String(e).includes('QUOTA') || String(e).includes('quota') || String(e).includes('space')) {
+    const errStr = String((e as any)?.message || e || '')
+    if (errStr.includes('QUOTA') || errStr.includes('quota') || errStr.includes('space')) {
       try {
         const existing = await getDiary()
         // 删除最旧的一条记录
@@ -1533,14 +1536,15 @@ export async function saveToDiary(record: DiaryRecord): Promise<void> {
           existing.shift()
           existing.push(record)
           await AsyncStorage.setItem(DIARY_KEY, JSON.stringify(existing))
-          return
+          return true
         }
       } catch {
         console.error('[Analyzer] 存储空间不足，保存日记失败:', e)
-        return
+        return false
       }
     }
     console.error('[Analyzer] 保存日记失败:', e)
+    return false
   }
 }
 
