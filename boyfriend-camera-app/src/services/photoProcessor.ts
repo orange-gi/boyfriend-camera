@@ -158,7 +158,7 @@ export async function processPhoto(
     faceCenter,
   } = options
 
-  console.info('[PhotoProcessor] 开始处理图片:', {
+  console.debug('[PhotoProcessor] 开始处理图片:', {
     path: imagePath,
     cropRatio,
     filterName,
@@ -243,7 +243,7 @@ export async function processPhoto(
 
   // 返回处理后的路径（滤镜在 ComparisonCard Skia 层渲染）
   const duration = Date.now() - startTime
-  console.info('[PhotoProcessor] 图片处理完成:', {
+  console.debug('[PhotoProcessor] 图片处理完成:', {
     outputPath,
     durationMs: duration,
     filterName,
@@ -517,7 +517,7 @@ export async function generateComparisonCard(
   }
   const jpegQuality = qualityMap[quality] ?? 0.85
 
-  console.info('[PhotoProcessor] 生成对比卡片:', {
+  console.debug('[PhotoProcessor] 生成对比卡片:', {
     originalPath,
     processedPath,
     quality,
@@ -530,7 +530,7 @@ export async function generateComparisonCard(
       format: 'jpg',
       quality: jpegQuality,
     })
-    console.info('[PhotoProcessor] 对比卡片截图成功:', uri)
+    console.debug('[PhotoProcessor] 对比卡片截图成功:', uri)
     return uri
   } catch (e) {
     console.error('[PhotoProcessor] 对比卡片截图失败:', e)
