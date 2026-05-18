@@ -977,6 +977,33 @@ const PRAISE_POOL: Record<string, string[]> = {
     '两个人的互动感超自然，男朋友你这构图有电影感了！',
     '情侣拍照最高境界就是这种自然又甜蜜的感觉，男朋友开窍了！',
   ],
+  // 无问题全能夸奖（所有维度都无 problems）
+  no_problems_master: [
+    '零问题！这张照片简直完美，男朋友你是怎么做到的？',
+    '挑不出毛病！构图光线稳定水平全部在线，这张太惊艳了！',
+    '完美得让人无话可说！男朋友你这张照片直接封神了！',
+    '零缺陷作品！男朋友的摄影水平已经next level了！',
+  ],
+  // 人脸大小理想夸奖（面积在 0.1-0.25 范围）
+  face_size_ideal: [
+    '人脸大小刚刚好！既能看到环境又突出主体～',
+    '这张人脸占比完美，男朋友你对距离的把控进步了！',
+    '人脸大小拿捏得恰到好处，构图感满分！',
+  ],
+  // 连拍精选夸奖（sharpness 极高）
+  ultra_sharp: [
+    '这张清晰得能数清睫毛！男朋友你的手稳如磐石！',
+    '超高清画质！每一根头发丝都清晰可见，专业！',
+    '这清晰度绝了！男朋友你确定不是开了三脚架？',
+    '放大看都经得起考验，这张照片锐度满分！',
+  ],
+  // 中间分高夸奖（60-79分）但有亮点
+  mid_score_hidden_gem: [
+    '这张虽然不是高分，但构图很有感觉！',
+    '分不高但氛围感很好，男朋友你懂审美～',
+    '这张有潜力！稍微调整一下光线就是大片～',
+    '分不够高但画面很干净，男朋友加油！',
+  ],
 }
 
 // 建议文案池
@@ -1545,6 +1572,11 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.score_0_39))
   }
 
+  // 无问题全能夸奖（problems 数组为空时）
+  if (problems.length === 0 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.no_problems_master))
+  }
+
   // 场景专属夸奖
   if (sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.outdoor_good))
   if (sceneType === 'indoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.indoor_good))
@@ -1578,6 +1610,11 @@ export async function analyzePhoto(
   // 近景特写夸奖（人脸面积大）
   if (facePosition && (facePosition.area ?? 0) > 0.25 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.closeup_good))
 
+  // 人脸大小理想夸奖（面积在 0.1-0.25 范围）
+  if (facePosition && (facePosition.area ?? 0) >= 0.1 && (facePosition.area ?? 0) <= 0.25 && totalScore >= 70) {
+    praise.push(pickRandom(PRAISE_POOL.face_size_ideal))
+  }
+
   // 夜景专属夸奖
   if (brightness < 80 && brightness >= 30 && totalScore >= 78) praise.push(pickRandom(PRAISE_POOL.night_great))
 
@@ -1597,6 +1634,9 @@ export async function analyzePhoto(
 
   // 细节处理夸奖（清晰度极高）
   if (sharpness > 150 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.detail_great))
+
+  // 超清晰夸奖（sharpness > 200）
+  if (sharpness > 200 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.ultra_sharp))
 
   // 进步突破时专属夸奖
   if (lastScore !== undefined && totalScore - lastScore >= 20) praise.push(pickRandom(PRAISE_POOL.breakthrough))
