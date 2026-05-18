@@ -389,6 +389,9 @@ class VoiceCoach {
   // 去重：记录最近 3 条提示文本，用于避免相似提示连续重复
   private recentTips: string[] = []
   private readonly MAX_RECENT_TIPS = 3
+  // TTS 事件监听器引用（用于 cleanup）
+  private ttsFinishListener: any = null
+  private ttsCancelListener: any = null
 
   async initialize(): Promise<void> {
     if (this.initialized) return
@@ -402,13 +405,35 @@ class VoiceCoach {
       await Tts.setDefaultRate(0.5)  // 适中语速
       await Tts.setDefaultPitch(1.1) // 稍高音调，更温柔
       await Tts.setDucking(true)
+
+      // 注册 TTS 完成/取消事件，确保 speaking 标志正确复位
+      this.ttsFinishListener = Tts.addEventListener('tts-finish', () => {
+        this.speaking = false
+      })
+      this.ttsCancelListener = Tts.addEventListener('tts-cancel', () => {
+        this.speaking = false
+      })
+
       this.enabled = true
       this.initialized = true
-      // TTS ready
     } catch (e) {
       console.warn('[VoiceCoach] TTS init failed (voice tips disabled):', e)
       // 不阻塞流程，语音提示静默降级
     }
+  }
+
+  /** 清理 TTS 事件监听器（组件卸载时调用） */
+  destroy(): void {
+    if (this.ttsFinishListener) {
+      this.ttsFinishListener.remove()
+      this.ttsFinishListener = null
+    }
+    if (this.ttsCancelListener) {
+      this.ttsCancelListener.remove()
+      this.ttsCancelListener = null
+    }
+    this.initialized = false
+    this.enabled = false
   }
 
   async speak(text: string, force: boolean = false): Promise<void> {

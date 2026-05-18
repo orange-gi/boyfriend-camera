@@ -227,8 +227,11 @@ export default function CameraScreen() {
   const handleTakePhoto = useCallback(async () => {
     if (isCapturing) return
     setIsCapturing(true)
-    await doCapture()
-    setIsCapturing(false)
+    try {
+      await doCapture()
+    } finally {
+      setIsCapturing(false)
+    }
   }, [isCapturing])
 
   const handleSelectTemplate = useCallback(async (template: PoseTemplate) => {
