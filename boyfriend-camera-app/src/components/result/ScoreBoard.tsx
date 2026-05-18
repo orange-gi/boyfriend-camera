@@ -31,17 +31,19 @@ interface DimensionProps {
 function AnimatedNumber({ value, style, color }: { value: number; style: any; color?: string }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
+  // 防御性检查，防止 NaN
+  const safeValue = typeof value === 'number' && !isNaN(value) ? value : 0
 
   useEffect(() => {
     animValue.setValue(0)
     Animated.timing(animValue, {
-      toValue: value,
+      toValue: safeValue,
       duration: 1500,
       useNativeDriver: false,
     }).start()
     const listener = animValue.addListener((v) => setDisplay(Math.round(v.value)))
     return () => animValue.removeListener(listener)
-  }, [value])
+  }, [safeValue])
 
   return (
     <Animated.Text style={[style, color ? { color } : {}]}>
@@ -52,17 +54,19 @@ function AnimatedNumber({ value, style, color }: { value: number; style: any; co
 
 function DimensionBar({ label, icon, score, maxScore, color, delay }: DimensionProps) {
   const progress = useRef(new Animated.Value(0)).current
+  // 防御性检查，防止 NaN 导致动画异常
+  const safeScore = typeof score === 'number' && !isNaN(score) ? score : 0
 
   useEffect(() => {
     Animated.spring(progress, {
-      toValue: score / maxScore,
+      toValue: safeScore / maxScore,
       delay,
       damping: 16,
       useNativeDriver: false,
     }).start()
-  }, [score, maxScore, delay])
+  }, [safeScore, maxScore, delay])
 
-  const percentage = useMemo(() => Math.round((score / maxScore) * 100), [score, maxScore])
+  const percentage = useMemo(() => Math.round((safeScore / maxScore) * 100), [safeScore, maxScore])
 
   return (
     <View style={styles.dimRow}>
