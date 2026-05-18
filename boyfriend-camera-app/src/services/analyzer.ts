@@ -30,6 +30,14 @@ const PRAISE_POOL: Record<string, string[]> = {
     '男朋友这构图感觉像学过摄影一样，舒服！',
     '构图拿捏得死死的！这张大片感拉满了！',
   ],
+  // 构图一般（28-34分）但整体不错的鼓励文案 Round 3 新增
+  composition_okay: [
+    '构图越来越有感觉了！这张位置刚好～',
+    '构图进步了！人站的位置比上次好看了～',
+    '这张构图更稳了，男朋友感觉越来越好！',
+    '构图更讲究了！主体位置比上次更舒服～',
+    '男朋友构图感在进步！这张位置刚刚好～',
+  ],
   exposure_great: [
     '光线刚刚好，皮肤看起来通透又自然！',
     '亮度满分！这光线简直是老天爷帮忙打的～',
@@ -1134,6 +1142,10 @@ export async function analyzePhoto(
   // 场景专属夸奖
   if (sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.outdoor_good))
   if (sceneType === 'indoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.indoor_good))
+  // 构图一般（28-34分）但整体不错的鼓励 Round 3 新增
+  if (compositionScore >= 28 && compositionScore < 35 && totalScore >= 70) {
+    praise.push(pickRandom(PRAISE_POOL.composition_okay))
+  }
 
   // 基于亮度的场景推断夸奖
   // 明亮户外场景（户外阳光充足）
