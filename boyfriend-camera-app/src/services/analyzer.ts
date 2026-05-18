@@ -588,6 +588,51 @@ const PRAISE_POOL: Record<string, string[]> = {
     '创意构图拿捏了！这张照片与众不同！',
     '男朋友审美在线！这角度选得太绝了！',
   ],
+  // ========== Round 1 新增 ==========
+  // 糟糕分数鼓励（总分 < 50）
+  low_score_encourage: [
+    '没关系！每张大片都是练出来的，多拍几张就好啦～',
+    '这张不够好没关系，再来一张！男朋友你的潜力在后面呢～',
+    '第一次不够完美太正常了！摄影师也是练出来的，继续加油～',
+    '这张只是热身！深呼吸，再来一张，肯定会更好～',
+    '男朋友别气馁，拍照就是多练，进步肉眼可见的！',
+  ],
+  // 连续提升夸奖（连续3次分数上涨）
+  consecutive_improvement: [
+    '连续进步！这学习速度也太快了吧！',
+    '每张都在进步，男朋友你是开了加速挂吗！',
+    '连续三次比上次好，这摄影师潜质藏不住了～',
+  ],
+  // 用了模板后高分夸奖
+  template_match_praise: [
+    '跟着模板拍果然没错！这姿势摆得太到位了！',
+    '模板用得好！男朋友完全理解了指导意图！',
+    '照着模板来就是不一样，这张大片感拉满！',
+  ],
+  // 金色时刻（golden hour）夸奖
+  golden_hour_good: [
+    '夕阳余晖把人拍得好温柔！男朋友这光用绝了～',
+    'Golden Hour 光线好美，男朋友抓到了！',
+    '黄昏的光最会说话，男朋友你懂这浪漫～',
+  ],
+  // 纪念日/特殊节日夸奖
+  celebration_day_good: [
+    '特殊日子拍的照片就是不一样！这张值得永久保存～',
+    '纪念日大片！这张照片太有意义了！',
+    '节日氛围感满满，男朋友你这张拍出了仪式感！',
+  ],
+  // 周末约会夸奖
+  weekend_date_good: [
+    '周末约会拍出大片感，这约会质量也太高了吧！',
+    '男朋友周末都在进化，这约会照绝了！',
+    '周末时光拍出这种大片，女朋友好幸福～',
+  ],
+  // 连续尝试终于成功的夸奖（多次低于60后首次超过80）
+  never_give_up: [
+    '终于成功了！男朋友不放弃的精神太赞了！',
+    '这张是坚持的回报！男朋友你终于做到了！',
+    '来之不易的佳作！这张值得炫耀一下～',
+  ],
 }
 
 // 建议文案池
@@ -1274,6 +1319,38 @@ export async function analyzePhoto(
   // 宠物合照夸奖（人脸存在+总分高+构图中等）
   if (faceCount > 0 && compositionScore >= 30 && totalScore >= 75 && stabilityScore >= 15) {
     praise.push(pickRandom(PRAISE_POOL.pet_photo_good))
+  }
+
+  // ========== Round 1 新增触发 ==========
+  // 糟糕分数鼓励（总分 < 50 但非最差）
+  if (totalScore < 50 && totalScore >= 30) {
+    praise.push(pickRandom(PRAISE_POOL.low_score_encourage))
+    suggestions.push('别气馁！多拍几张找到感觉就好～')
+  }
+  // 超低分安慰
+  if (totalScore < 30) {
+    praise.push('这张没达标没关系，重要的是多练习！')
+    suggestions.push('打开相机网格线，稳住手，多拍几张～')
+  }
+  // 金色时刻夸奖（黄昏阳光：亮度 150-210 且户外）
+  if (brightness >= 150 && brightness <= 210 && sceneType === 'outdoor' && compositionScore >= 35) {
+    praise.push(pickRandom(PRAISE_POOL.golden_hour_good))
+  }
+  // 纪念日场景夸奖（室内+暖光+构图好+高分）
+  if (brightness >= 100 && brightness <= 200 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 80) {
+    praise.push(pickRandom(PRAISE_POOL.celebration_day_good))
+  }
+  // 周末约会夸奖（户外+构图好+稳定+高分）
+  if (sceneType === 'outdoor' && compositionScore >= 35 && stabilityScore >= 15 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.weekend_date_good))
+  }
+  // 模板匹配夸奖（高构图分+高曝光分+总分高）
+  if (compositionScore >= 35 && exposureScore >= 28 && totalScore >= 82) {
+    praise.push(pickRandom(PRAISE_POOL.template_match_praise))
+  }
+  // 连续提升夸奖（streakCount >= 3 且本次分数 >= recentAvg - 5）
+  if (streakCount >= 3 && recentAvg !== undefined && totalScore > (recentAvg - 5)) {
+    praise.push(pickRandom(PRAISE_POOL.consecutive_improvement))
   }
 
   // 确保至少有夸奖
