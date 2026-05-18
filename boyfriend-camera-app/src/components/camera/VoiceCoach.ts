@@ -192,6 +192,74 @@ const SCENE_TIPS = {
   ROCKY_BEACH: '礁石上有浪花超浪漫！站稳了，侧身看向大海～',
 }
 
+// 夜景专属语音提示
+const NIGHT_TIPS = {
+  CITY_LIGHTS: '夜景灯光好美！打开闪光灯照亮人脸～',
+  CITY_LIGHTS_2: '城市灯光璀璨！让女朋友站在灯光前，脸不会黑～',
+  CITY_LIGHTS_3: '夜拍最重要的是补光！打开闪光灯或找光源～',
+  GLOW_STICK: '荧光棒挥动起来！夜晚的光轨超有氛围感～',
+  GLOW_STICK_2: '夜色里的小光源超有氛围，举起来拍一张～',
+  FIREFLY: '萤火虫的光点点超浪漫！蹲下来和它们合影～',
+  FIREFLY_2: '夏夜萤火虫好梦幻！快门慢一点，光点更密～',
+  ROOFTOP_NIGHT: '天台夜景好浪漫！打开闪光灯把人脸照亮～',
+  ROOFTOP_NIGHT_2: '夜幕下的城市好美！侧身站着，让灯光打在侧脸上～',
+  BALCONY_NIGHT_2: '夜阳台好浪漫！打开闪光灯补补光，表情更清晰～',
+  NEON_SIGN: '霓虹招牌光超有感觉！靠近光站着，超酷的～',
+  NEON_SIGN_2: '霓虹灯下拍一张！让灯光打在脸上，超有都市感～',
+  STARLIGHT: '星光下好浪漫！仰头看向天空，眼睛里有光～',
+  STARLIGHT_2: '夜晚星空超美！抬头仰望，星星落在眼睛里～',
+  LAMP_POST: '路灯下光线好暖！站在灯下，脸超柔和～',
+  LAMP_POST_2: '街灯暖暖的光超适合拍照，侧身站着超有感觉～',
+  NIGHT_WINDOW: '窗边夜色好美！让脸靠近窗户，光从背后透进来～',
+  NIGHT_WINDOW_2: '窗外的灯光映在脸上，夜晚氛围感绝了～',
+}
+
+// 光线检测语音提示
+const LIGHT_TIPS = {
+  FACE_TOO_DARK: '脸有点暗了！转过来面向光源试试～',
+  FACE_TOO_DARK_2: '光都在背后了！让人脸朝向光源，脸会更亮～',
+  FACE_TOO_DARK_3: '背光脸黑了！往前站一点或者让光源在前面～',
+  FACE_TOO_BRIGHT: '光太强了！眯眼睛了！稍微侧一下身～',
+  FACE_TOO_BRIGHT_2: '光线太刺眼了！找个阴凉处或者侧身站～',
+  FACE_TOO_BRIGHT_3: '脸上有强烈光斑！稍微转一下角度试试～',
+  PERFECT_LIGHT: '光线刚刚好！就是现在，按快门！',
+  PERFECT_LIGHT_2: '这光线绝了！脸上的光好柔和，快拍！',
+  PERFECT_LIGHT_3: '自然光好舒服！皮肤看起来超通透，拍起来！',
+  SOFT_LIGHT: '柔光好舒服！拍出来皮肤超好的～',
+  SOFT_LIGHT_2: '阴天光线超柔和，不用担心过曝，随便拍！',
+  HARD_SHADOW: '阴影太重了！找个柔和的地方会更好看～',
+  HARD_SHADOW_2: '脸上有硬阴影，侧一点站或者换个地方～',
+  SPOTLIGHT_HOT: '顶上有个大白灯！往下站一点，阴影会少很多～',
+  SPOTLIGHT_HOT_2: '头顶聚光灯太亮了！换个位置或者抬头找别的光～',
+  REFLECTOR_HACK: '找个白墙或白纸放在脸下方，可以补眼神光～',
+  REFLECTOR_HACK_2: '用白色东西在脸下补光，眼神会亮很多～',
+}
+
+// 构图专项语音提示
+const COMPOSITION_TIPS = {
+  RULE_OF_THIRDS: '试试把人脸放在九宫格的交叉点上～',
+  RULE_OF_THIRDS_2: '把眼睛放在画面上三分之一处，会更好看～',
+  RULE_OF_THIRDS_3: '人脸稍微靠左或靠右一点，打开九宫格试试～',
+  CENTER_COMPOSITION: '正中间构图也很美！人站中间超稳～',
+  CENTER_COMPOSITION_2: '中间构图超有气场！就是现在拍！',
+  LEADING_ROOM: '眼睛看的一方留多一点空间，看起来更舒服～',
+  LEADING_ROOM_2: '视线前方留白，构图更有呼吸感～',
+  FRAME_IN_FRAME: '找个窗户或门框当背景，画面更有层次～',
+  FRAME_IN_FRAME_2: '框架构图超有感觉！用前景把主体框起来～',
+  SYMMETRY: '左右对称超有感觉！站正了拍一张～',
+  SYMMETRY_2: '对称构图超稳！找个中线对齐一下～',
+  DIAGONAL_LEAD: '对角线构图超有动感！歪一点站试试～',
+  DIAGONAL_LEAD_2: '对角线构图好有活力！顺着线拍过去～',
+  FILL_FRAME: '再靠近一点！特写更有冲击力～',
+  FILL_FRAME_2: '怼脸拍更有感觉！把脸占满画面～',
+  NEGATIVE_SPACE: '背景很干净，多留点空间反而更高级～',
+  NEGATIVE_SPACE_2: '背景留白超有氛围感！不要把人拍满了～',
+  BACKGROUND_DEPTH: '找个远一点的背景，虚化效果会更好～',
+  BACKGROUND_DEPTH_2: '背景离远一点，背景虚化更明显～',
+  LEADING_LINES: '找条路或栏杆做引导线，构图更有张力～',
+  LEADING_LINES_2: '顺着线条拍过去，画面有纵深感～',
+}
+
 // 通用鼓励语
 const ENCOURAGEMENT = [
   '这张构图超棒！',
