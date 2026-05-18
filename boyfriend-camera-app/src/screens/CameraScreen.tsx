@@ -46,6 +46,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   '餐厅美食': '#FFB347',
   '特殊风格': '#A29BFE',
   '情侣合照': '#FD79A8',
+  '城市街拍': '#00BCD4',
 }
 
 const RECENT_KEY = 'recent_templates'
