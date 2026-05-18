@@ -78,6 +78,24 @@ const FACE_TIPS = {
   RELAX_FACE: '表情放松一点～别僵着，自然最美～',
   // 拍摄前最后确认
   ALMOST_THERE: '就差一点点了！位置很好，光线也棒，按！',
+  // 情侣合照专属提示
+  COUPLE_SQUEEZE: '两个人再靠近一点！贴贴更甜蜜～',
+  COUPLE_LOOK_EACH_OTHER: '对视一下！这样拍出来超有感觉～',
+  COUPLE_HUG_FROM_BEHIND: '男生从后面抱！经典的甜蜜姿势～',
+  COUPLE_HOLD_HANDS_BACK: '牵手背对镜头，超有氛围感！',
+  // 构图提醒
+  USE_GRID: '打开九宫格！构图会好很多～',
+  TRY_LOW_ANGLE: '蹲低一点！仰拍超级显腿长！',
+  TRY_HIGH_ANGLE: '稍微高一点拍！俯拍显脸小～',
+  // 防抖提醒
+  USE_BOTH_HANDS: '双手握稳手机！会更清晰～',
+  REST_ON_WALL: '靠在墙上拍！会更稳～',
+  HOLD_BREATH: '拍照时屏住呼吸！会更清晰～',
+  // 表情提示
+  TRY_WINK: '试试眨眼！活泼可爱～',
+  TRY_POUT: '嘟嘴卖萌！也很上镜～',
+  TRY_CONFIDENT: '试试酷酷的表情！超级有范儿～',
+  TRY_SURPRISED: '惊讶表情！眼睛睁大超可爱～',
   LAST_CHANCE: '这张一定会很好看！鼓起勇气按下去！',
 }
 
@@ -1155,6 +1173,37 @@ class VoiceCoach {
   async speakEncouragement(): Promise<void> {
     const tip = ENCOURAGEMENT[Math.floor(Math.random() * ENCOURAGEMENT.length)]
     await this.speak(tip, true)
+  }
+
+  /** 接近优秀（70-89分）时的语音提示 */
+  async speakAlmostGreat(score: number): Promise<void> {
+    const tips = [
+      `${score}分！差一点就完美了！男朋友继续加油！`,
+      `${score}分，已经很棒了！再拍一张挑战满分！`,
+      `就差一点到优秀！${score}分，距离大片只差一点点！`,
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 重新再拍的建议（低于50分） */
+  async speakTryAgainTip(suggestion: string): Promise<void> {
+    const tips = [
+      `试试${suggestion}，重新拍一张！`,
+      `根据建议${suggestion}，再拍一次一定更好！`,
+      `建议${suggestion}，男朋友再试一次吧！`,
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 情侣合照专属鼓励 */
+  async speakCoupleCheer(): Promise<void> {
+    const tips = [
+      '两个人靠近一点！甜蜜感拉满～',
+      '情侣照最重要的是互动！对视一下～',
+      '男生从后面环抱，超有感觉的！',
+      '背对镜头牵手，简约又甜蜜！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
   /** 新纪录达成提示 */
