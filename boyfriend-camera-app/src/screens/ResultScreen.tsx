@@ -522,6 +522,27 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
             <ActivityIndicator size="large" color={COLORS.primary} style={{ marginTop: 20 }} />
             <Text style={[styles.processingText, { color: COLORS.textPrimary }]}>{processStepText}</Text>
             <Text style={[styles.processingSubText, { color: COLORS.textMuted }]}>稍等一下，马上就好～</Text>
+            {/* 进度点指示器 */}
+            <View style={styles.progressDots}>
+              {[0, 1, 2].map(i => (
+                <View key={i} style={styles.progressDotWrapper}>
+                  <View
+                    style={[
+                      styles.progressDot,
+                      processStep > i + 1 ? styles.progressDotDone
+                        : processStep === i + 1 ? styles.progressDotActive
+                        : styles.progressDotPending,
+                    ]}
+                  />
+                  {i < 2 && (
+                    <View style={[
+                      styles.progressDotLine,
+                      processStep > i + 1 && styles.progressDotLineDone,
+                    ]} />
+                  )}
+                </View>
+              ))}
+            </View>
             <View style={styles.processingSteps}>
               <View style={[styles.processStep, processStep >= 1 ? styles.processStepActive : styles.processStepPending]}>
                 <Text style={styles.processStepDot}>1</Text>
@@ -536,11 +557,6 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               <View style={[styles.processStep, processStep >= 3 ? styles.processStepActive : styles.processStepPending]}>
                 <Text style={styles.processStepDot}>3</Text>
                 <Text style={styles.processStepLabel}>生成评分</Text>
-              </View>
-              <View style={styles.processStepLine} />
-              <View style={[styles.processStep, processStep >= 4 ? styles.processStepActive : styles.processStepPending]}>
-                <Text style={styles.processStepDot}>4</Text>
-                <Text style={styles.processStepLabel}>生成鼓励</Text>
               </View>
             </View>
           </View>
@@ -1111,4 +1127,13 @@ const styles = StyleSheet.create({
   noPhotoDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22 },
   noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: 14, paddingHorizontal: 28, paddingVertical: 12 },
   noPhotoBtnText: { color: COLORS.textOnPrimary, fontSize: 16, fontWeight: 'bold' },
+  // 进度点指示器样式
+  progressDots: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 8 },
+  progressDotWrapper: { flexDirection: 'row', alignItems: 'center' },
+  progressDot: { width: 10, height: 10, borderRadius: 5 },
+  progressDotActive: { backgroundColor: COLORS.primary, transform: [{ scale: 1.3 }] },
+  progressDotDone: { backgroundColor: COLORS.primary, opacity: 0.7 },
+  progressDotPending: { backgroundColor: '#E0E0E0' },
+  progressDotLine: { width: 32, height: 2, backgroundColor: '#E0E0E0', marginHorizontal: 4 },
+  progressDotLineDone: { backgroundColor: COLORS.primary, opacity: 0.7 },
 })

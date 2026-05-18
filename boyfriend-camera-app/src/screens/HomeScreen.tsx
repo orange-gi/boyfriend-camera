@@ -122,6 +122,7 @@ export default function HomeScreen() {
   const [displayAvgScore, setDisplayAvgScore] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
   const [poseTipIndex, setPoseTipIndex] = useState(0)
+  const [todayCount, setTodayCount] = useState(0)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
   // 动画 shared values
@@ -206,6 +207,10 @@ export default function HomeScreen() {
     try {
       const diary = await getDiary()
       setDiaryCount(diary.length)
+      // 计算今日拍摄数
+      const today = new Date().toDateString()
+      const todayCnt = diary.filter(r => new Date(r.date).toDateString() === today).length
+      setTodayCount(todayCnt)
       if (diary.length > 0) {
         const avg = Math.round(diary.reduce((s, r) => s + r.score, 0) / diary.length)
         setAvgScore(avg)
@@ -368,6 +373,20 @@ export default function HomeScreen() {
             <Text style={styles.cameraBtnSubText}>姿势模板加载中...</Text>
           )}
         </View>
+
+        {/* 今日已拍动态提示 */}
+        {todayCount > 0 && (
+          <View style={styles.todayCountBadge}>
+            <Text style={styles.todayCountIcon}>📸</Text>
+            <Text style={styles.todayCountText}>今日已拍 <Text style={styles.todayCountNum}>{todayCount}</Text> 张</Text>
+          </View>
+        )}
+        {todayCount === 0 && diaryCount > 0 && (
+          <View style={styles.todayCountBadge}>
+            <Text style={styles.todayCountIcon}>🌟</Text>
+            <Text style={styles.todayCountText}>今天还没拍！去拍一张吧～</Text>
+          </View>
+        )}
       </Animated.View>
 
       {/* 首次用户拍照姿势引导提示 */}
@@ -513,4 +532,17 @@ const styles = StyleSheet.create({
   onboardNextBtn: { flex: 2, paddingVertical: 14, borderRadius: 25, backgroundColor: COLORS.primary, alignItems: 'center' },
   onboardNextBtnFull: { flex: 1 },
   onboardNextBtnText: { fontSize: 15, fontWeight: 'bold' },
+  todayCountBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.primaryLight,
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    marginTop: 10,
+    gap: 6,
+  },
+  todayCountIcon: { fontSize: 16 },
+  todayCountText: { fontSize: 13, color: COLORS.textMuted },
+  todayCountNum: { color: COLORS.primary, fontWeight: 'bold', fontSize: 15 },
 })

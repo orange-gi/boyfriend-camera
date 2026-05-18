@@ -13,6 +13,7 @@ import {
   Alert,
   Animated,
   Easing,
+  Modal,
 } from 'react-native'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -37,6 +38,9 @@ export default function DiaryScreen() {
   const [refreshing, setRefreshing] = useState(false)
   const shimmerAnim = useRef(new Animated.Value(0)).current
   const [loading, setLoading] = useState(true)
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
+  const [clearAllVisible, setClearAllVisible] = useState(false)
+  const deleteSheetY = useRef(new Animated.Value(300)).current
 
   const loadDiaryData = useCallback(async () => {
     setLoading(true)
@@ -77,50 +81,47 @@ export default function DiaryScreen() {
     return () => shimmer.stop()
   }, [loading])
 
-  async function handleDeleteRecord(date: string) {
-    Alert.alert('删除记录', '确定要删除这条进步记录吗？', [
-      { text: '取消', style: 'cancel' },
-      {
-        text: '删除',
-        style: 'destructive',
-        onPress: async () => {
-          try {
-            const updated = records.filter((r) => r.date !== date)
-            await writeDiary(updated)
-            await recalcPeakScore(updated)
-            setRecords(updated)
-            setPeakScore(updated.length > 0 ? Math.max(...updated.map(r => r.score)) : 0)
-          } catch (e: unknown) {
-            Alert.alert('删除失败', '请稍后重试')
-          }
-        },
-      },
-    ])
+  function showDeleteSheet(date: string) {
+    setDeleteTarget(date)
+    Animated.spring(deleteSheetY, { toValue: 0, damping: 20, stiffness: 200, useNativeDriver: true }).start()
+  }
+
+  function hideDeleteSheet() {
+    Animated.timing(deleteSheetY, { toValue: 300, duration: 250, useNativeDriver: true }).start(() => setDeleteTarget(null))
+  }
+
+  async function handleDeleteRecord() {
+    const date = deleteTarget
+    if (!date) return
+    hideDeleteSheet()
+    try {
+      const updated = records.filter((r) => r.date !== date)
+      await writeDiary(updated)
+      await recalcPeakScore(updated)
+      setRecords(updated)
+      setPeakScore(updated.length > 0 ? Math.max(...updated.map(r => r.score)) : 0)
+    } catch (e: unknown) {
+      Alert.alert('删除失败', '请稍后重试')
+    }
+  }
+
+  function showClearAllSheet() {
+    setClearAllVisible(true)
   }
 
   async function handleClearAll() {
-    Alert.alert(
-      '清空全部记录',
-      '确定要清空所有进步记录吗？此操作不可恢复。',
-      [
-        { text: '取消', style: 'cancel' },
-        {
-          text: '清空全部',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await writeDiary([])
-              await recalcPeakScore([])
-              setRecords([])
-              setPeakScore(0)
-            } catch (e: unknown) {
-              Alert.alert('清空失败', '请稍后重试')
-            }
-          },
-        },
-      ]
-    )
+    setClearAllVisible(false)
+    try {
+      await writeDiary([])
+      await recalcPeakScore([])
+      setRecords([])
+      setPeakScore(0)
+    } catch (e: unknown) {
+      Alert.alert('清空失败', '请稍后重试')
+    }
   }
+
+
 
   async function handleRefresh() {
     setRefreshing(true)
@@ -270,7 +271,7 @@ export default function DiaryScreen() {
     return (
       <TouchableOpacity
         style={styles.recordCard}
-        onLongPress={() => handleDeleteRecord(item.date)}
+        onLongPress={() => showDeleteSheet(item.date)}
         delayLongPress={600}
         activeOpacity={0.72}
       >
@@ -435,7 +436,7 @@ export default function DiaryScreen() {
                 {totalCount > 0 && (
                   <TouchableOpacity
                     style={styles.clearAllBtn}
-                    onPress={handleClearAll}
+                    onPress={showClearAllSheet}
                     activeOpacity={0.72}
                   >
                     <Text style={styles.clearAllBtnText}>🗑️ 清空</Text>
@@ -680,6 +681,81 @@ export default function DiaryScreen() {
         ListFooterComponent={<View style={{ height: 40 }} />}
         showsVerticalScrollIndicator={false}
       />
+
+      {/* 删除确认底部弹窗 */}
+      <Modal visible={!!deleteTarget} transparent animationType="fade" onRequestClose={hideDeleteSheet}>
+        <TouchableOpacity
+          style={styles.sheetOverlay}
+          activeOpacity={1}
+          onPress={hideDeleteSheet}
+        >
+          <Animated.View
+            style={[
+              styles.sheetContainer,
+              { transform: [{ translateY: deleteSheetY }] },
+            ]}
+          >
+            {/* 拖动条 */}
+            <View style={styles.sheetHandle} />
+            {/* 标题 */}
+            <Text style={styles.sheetTitle}>🗑️ 删除记录</Text>
+            <Text style={styles.sheetSubtitle}>确定要删除这条进步记录吗？删除后不可恢复哦～</Text>
+            {/* 操作按钮 */}
+            <View style={styles.sheetActions}>
+              <TouchableOpacity
+                style={[styles.sheetBtn, styles.sheetCancelBtn]}
+                onPress={hideDeleteSheet}
+                activeOpacity={0.72}
+              >
+                <Text style={styles.sheetCancelBtnText}>取消</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.sheetBtn, styles.sheetDeleteBtn]}
+                onPress={handleDeleteRecord}
+                activeOpacity={0.72}
+              >
+                <Text style={styles.sheetDeleteBtnText}>删除</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        </TouchableOpacity>
+      </Modal>
+
+      {/* 清空全部确认底部弹窗 */}
+      <Modal visible={clearAllVisible} transparent animationType="fade" onRequestClose={() => setClearAllVisible(false)}>
+        <TouchableOpacity
+          style={styles.sheetOverlay}
+          activeOpacity={1}
+          onPress={() => setClearAllVisible(false)}
+        >
+          <View style={styles.sheetContainer}>
+            {/* 拖动条 */}
+            <View style={styles.sheetHandle} />
+            {/* 图标 */}
+            <Text style={styles.sheetDangerIcon}>⚠️</Text>
+            {/* 标题 */}
+            <Text style={styles.sheetTitle}>清空全部记录</Text>
+            <Text style={styles.sheetSubtitle}>确定要清空所有进步记录吗？此操作不可恢复哦～</Text>
+            {/* 操作按钮 */}
+            <View style={styles.sheetActions}>
+              <TouchableOpacity
+                style={[styles.sheetBtn, styles.sheetCancelBtn]}
+                onPress={() => setClearAllVisible(false)}
+                activeOpacity={0.72}
+              >
+                <Text style={styles.sheetCancelBtnText}>取消</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.sheetBtn, styles.sheetDeleteBtn]}
+                onPress={handleClearAll}
+                activeOpacity={0.72}
+              >
+                <Text style={styles.sheetDeleteBtnText}>清空全部</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </View>
   )
 }
@@ -1283,5 +1359,72 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLORS.textMuted,
     textAlign: 'center',
+  },
+  // 底部弹窗样式
+  sheetOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    justifyContent: 'flex-end',
+  },
+  sheetContainer: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 24,
+    paddingTop: 16,
+    paddingBottom: 40,
+    alignItems: 'center',
+  },
+  sheetHandle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#E0E0E0',
+    marginBottom: 16,
+  },
+  sheetDangerIcon: {
+    fontSize: 40,
+    marginBottom: 8,
+  },
+  sheetTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: COLORS.textPrimary,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  sheetSubtitle: {
+    fontSize: 14,
+    color: COLORS.textMuted,
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 24,
+  },
+  sheetActions: {
+    flexDirection: 'row',
+    gap: 12,
+    width: '100%',
+  },
+  sheetBtn: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 25,
+    alignItems: 'center',
+  },
+  sheetCancelBtn: {
+    backgroundColor: '#f0f0f0',
+  },
+  sheetCancelBtnText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: COLORS.textSecondary,
+  },
+  sheetDeleteBtn: {
+    backgroundColor: '#FF4757',
+  },
+  sheetDeleteBtnText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
   },
 })
