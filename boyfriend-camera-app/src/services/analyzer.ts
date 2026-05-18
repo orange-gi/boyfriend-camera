@@ -685,6 +685,19 @@ const PRAISE_POOL: Record<string, string[]> = {
     '这张有范儿！构图和光线配合得刚刚好～',
     '好家伙，这张离大片只差一点点距离了！',
   ],
+  // ========== Round 4 新增：75-79 分段专属文案 ==========
+  score_75_79: [
+    '这张超有感觉！75分以上了，男朋友水平稳步提升中～',
+    '这张很好看了！再注意一下光线就能冲80了！',
+    '男朋友这张拍得很用心！感觉快要爆发了，再来一张试试！',
+    '这张有被惊喜到！构图已经很棒，再精细一点就完美！',
+    '75分以上！男朋友审美在线，这张值得留念～',
+    '这张有氛围感了！再往高分冲一冲就是大片！',
+    '男朋友正在通往高分的路上，这张很有潜力！',
+    '不错不错！离80分只差一点点，继续保持这个状态！',
+    '这张很有感觉！男朋友加油，下次冲过80！',
+    '有被夸到！男朋友进步肉眼可见，这张很不错！',
+  ],
   score_60_79: [
     '这张还可以！男朋友有进步的空间，继续加油～',
     '比及格线好多了！男朋友正在进步中，再接再厉～',
@@ -1470,7 +1483,9 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.score_85_94))
   } else if (totalScore >= 80 && totalScore < 85) {
     praise.push(pickRandom(PRAISE_POOL.score_80_84))
-  } else if (totalScore >= 60 && totalScore < 80) {
+  } else if (totalScore >= 75 && totalScore < 80) {
+    praise.push(pickRandom(PRAISE_POOL.score_75_79))
+  } else if (totalScore >= 60 && totalScore < 75) {
     praise.push(pickRandom(PRAISE_POOL.score_60_79))
   } else if (totalScore >= 40 && totalScore < 60) {
     praise.push(pickRandom(PRAISE_POOL.score_40_59))
