@@ -683,3 +683,152 @@ export function getSafeScaleFactor(width: number, height: number): number {
   if (pixelCount > largePixels) return Math.sqrt(largePixels / pixelCount)
   return 1.0
 }
+
+/**
+ * 验证图片路径合法性
+ * @param path 图片路径
+ * @returns 是否合法
+ */
+export function isValidImagePath(path: string | null | undefined): boolean {
+  if (!path || typeof path !== 'string') return false
+  const cleanPath = path.replace(/^file:\/\//, '').trim()
+  // 允许绝对路径或已知的图片格式
+  const validExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif']
+  return validExtensions.some(ext => cleanPath.toLowerCase().endsWith(ext))
+}
+
+/**
+ * 获取图片元数据（宽高、文件大小）
+ * @param imagePath 图片路径
+ * @returns 元数据对象
+ */
+export async function getImageMetadata(imagePath: string): Promise<{
+  width: number
+  height: number
+  sizeBytes: number
+  sizeMB: number
+  aspectRatio: number
+  isSafe: boolean
+} | null> {
+  try {
+    const cleanPath = imagePath.replace(/^file:\/\//, '').trim()
+    if (!(await RNFS.exists(cleanPath))) return null
+    const stat = await RNFS.stat(cleanPath)
+    const sizeBytes = stat.size || 0
+    const sizeMB = sizeBytes / 1024 / 1024
+    // 图片尺寸无法通过 RNFS 获取，需要通过 native module 或图片加载库
+    // 暂时返回文件大小作为参考，尺寸信息由调用方提供
+    return {
+      width: 0, // 需要 native 获取
+      height: 0, // 需要 native 获取
+      sizeBytes,
+      sizeMB,
+      aspectRatio: 0,
+      isSafe: sizeMB < 20,
+    }
+  } catch {
+    return null
+  }
+}
+
+/**
+ * 批量处理多张图片
+ * 用于进步日记中批量处理历史照片
+ * @param paths 图片路径列表
+ * @param options 处理选项
+ * @param onProgress 每张处理完成后的回调
+ * @returns 处理后的路径列表（按原顺序）
+ */
+export async function batchProcess(
+  paths: string[],
+  options: ProcessOptions = {},
+  onProgress?: (index: number, total: number) => void
+): Promise<string[]> {
+  const results: string[] = []
+  for (let i = 0; i < paths.length; i++) {
+    try {
+      const processedPath = await processPhoto(paths[i], options)
+      results.push(processedPath)
+    } catch (e) {
+      console.warn(`[PhotoProcessor] batchProcess: 第${i + 1}张处理失败，保留原路径:`, e)
+      results.push(paths[i]) // 处理失败时保留原路径
+    }
+    onProgress?.(i + 1, paths.length)
+  }
+  return results
+}
+
+/**
+ * 预估处理时间
+ * @param fileSizeMB 文件大小（MB）
+ * @returns 预估处理时间（毫秒）
+ */
+export function estimateProcessingTime(fileSizeMB: number): number {
+  // 基础处理时间 + 文件大小加成
+  const baseMs = 500
+  const perMbMs = 200
+  return Math.round(baseMs + fileSizeMB * perMbMs)
+}
+
+/**
+ * 人脸感知裁剪：以人脸为中心计算最优裁剪区域
+ * 在 computeCropRegion 基础上加入安全边距，避免人脸被裁切
+ * @param imgWidth 图片宽度
+ * @param imgHeight 图片高度
+ * @param targetRatio 目标比例
+ * @param faceCenter 人脸中心（归一化 0-1）
+ * @param safeMargin 安全边距比例（默认 0.05，即 5%）
+ */
+export function computeFaceAwareCropRegion(
+  imgWidth: number,
+  imgHeight: number,
+  targetRatio: number,
+  faceCenter?: { x: number; y: number },
+  safeMargin: number = 0.05
+): CropRegion {
+  const region = computeCropRegion(imgWidth, imgHeight, targetRatio, faceCenter)
+  // 添加安全边距，防止人脸紧贴边框
+  const marginX = region.width * safeMargin
+  const marginY = region.height * safeMargin
+  return {
+    x: Math.max(0, region.x - marginX * 0.3),
+    y: Math.max(0, region.y - marginY * 0.3),
+    width: Math.min(imgWidth - region.x, region.width + marginX * 0.6),
+    height: Math.min(imgHeight - region.y, region.height + marginY * 0.6),
+  }
+}
+
+/**
+ * 格式化文件大小显示
+ * @param bytes 字节数
+ * @returns 人类可读的大小字符串
+ */
+export function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`
+  return `${(bytes / 1024 / 1024 / 1024).toFixed(2)} GB`
+}
+
+/**
+ * 获取最佳 JPEG 质量（基于图片尺寸和目标用途）
+ * @param width 图片宽度
+ * @param height 图片高度
+ * @param useCase 用途：'share'(分享) | 'archive'(存档) | 'thumbnail'(缩略图)
+ */
+export function getJpegQualityForUseCase(
+  width: number,
+  height: number,
+  useCase: 'share' | 'archive' | 'thumbnail' = 'share'
+): number {
+  const pixelCount = width * height
+  if (useCase === 'thumbnail') return 0.6
+  if (useCase === 'share') {
+    if (pixelCount > 3840 * 2160) return 0.7
+    if (pixelCount > 1920 * 1080) return 0.8
+    return 0.88
+  }
+  // archive: preserve quality
+  if (pixelCount > 4096 * 4096) return 0.92
+  return 0.95
+}
