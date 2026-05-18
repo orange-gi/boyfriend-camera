@@ -380,6 +380,40 @@ export default function DiaryScreen() {
               </Text>
             </View>
 
+            {/* 情感化引导语 */}
+            <View style={styles.emptyMotivationCard}>
+              <Text style={styles.emptyMotivationEmoji}>🌟</Text>
+              <Text style={styles.emptyMotivationTitle}>每一次拍照都是进步的开始</Text>
+              <Text style={styles.emptyMotivationText}>
+                不管第一张拍成什么样，记录本身就是一件超酷的事！
+                男友相机会在每张照片里找到亮点，然后一起慢慢变好 💕
+              </Text>
+            </View>
+
+            {/* 里程碑预览 */}
+            <View style={styles.emptyMilestoneCard}>
+              <Text style={styles.emptyMilestoneTitle}>🏆 里程碑预览</Text>
+              <View style={styles.emptyMilestoneList}>
+                <View style={styles.emptyMilestoneItem}>
+                  <Text style={styles.emptyMilestoneEmoji}>🥉</Text>
+                  <Text style={styles.emptyMilestoneLabel}>第一张记录</Text>
+                </View>
+                <View style={styles.emptyMilestoneItem}>
+                  <Text style={styles.emptyMilestoneEmoji}>🥈</Text>
+                  <Text style={styles.emptyMilestoneLabel}>首次突破80分</Text>
+                </View>
+                <View style={styles.emptyMilestoneItem}>
+                  <Text style={styles.emptyMilestoneEmoji}>🥇</Text>
+                  <Text style={styles.emptyMilestoneLabel}>首次满分100</Text>
+                </View>
+                <View style={styles.emptyMilestoneItem}>
+                  <Text style={styles.emptyMilestoneEmoji}>🏅</Text>
+                  <Text style={styles.emptyMilestoneLabel}>连续5次高分</Text>
+                </View>
+              </View>
+              <Text style={styles.emptyMilestoneSubtext}>拍得越多，解锁越多成就！✨</Text>
+            </View>
+
             <EmptyState
               icon="📈"
               title="还没有记录哦，快去拍一张吧！"
@@ -1178,5 +1212,69 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#6B5310',
     lineHeight: 20,
+  },
+  // 情感化引导卡片
+  emptyMotivationCard: {
+    backgroundColor: '#FFF0F5',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#FFD6E0',
+  },
+  emptyMotivationEmoji: {
+    fontSize: 36,
+    marginBottom: 8,
+  },
+  emptyMotivationTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#C0607A',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  emptyMotivationText: {
+    fontSize: 13,
+    color: '#C0607A',
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  // 里程碑预览卡片
+  emptyMilestoneCard: {
+    backgroundColor: COLORS.bgCard,
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#EDE9FE',
+  },
+  emptyMilestoneTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.textSecondary,
+    marginBottom: 12,
+  },
+  emptyMilestoneList: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 8,
+  },
+  emptyMilestoneItem: {
+    alignItems: 'center',
+    gap: 4,
+  },
+  emptyMilestoneEmoji: {
+    fontSize: 28,
+  },
+  emptyMilestoneLabel: {
+    fontSize: 11,
+    color: COLORS.textMuted,
+    textAlign: 'center',
+  },
+  emptyMilestoneSubtext: {
+    fontSize: 12,
+    color: COLORS.textMuted,
+    textAlign: 'center',
   },
 })
