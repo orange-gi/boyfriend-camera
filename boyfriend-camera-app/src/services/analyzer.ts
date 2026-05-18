@@ -1575,6 +1575,4 @@ export interface EmotionDetection {
   sharpness?: number
   /** 张嘴程度（0-1），检测惊讶表情 */
   mouthOpen?: number
-  /** 检测歪头（有意图的） */
-  isHeadTilt?: boolean
 }
