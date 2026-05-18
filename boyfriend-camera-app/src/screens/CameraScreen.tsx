@@ -139,7 +139,10 @@ export default function CameraScreen() {
       setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 2800)
     }
     setTimeout(() => setShowVoiceTip(false), 6000)
-  }, [])
+    // 自动推荐的模板也记录到历史
+    saveRecentTemplate(template.id)
+    markUsed(template.id)
+  }, [markUsed])
 
   const {
     recommended: autoRecommended,
