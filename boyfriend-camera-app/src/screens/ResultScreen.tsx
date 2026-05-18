@@ -649,6 +649,18 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           </Animated.View>
         )}
 
+        {/* 下次改进提示 */}
+        {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
+          <Animated.View style={[styles.suggestionBanner, { borderLeftColor: COLORS.primary }]}>
+            <Text style={styles.suggestionBannerTitle}>💡 下次可以这样拍</Text>
+            {scoreResult.suggestions.slice(0, 2).map((s: string, i: number) => (
+              <Text key={i} style={styles.suggestionBannerText}>
+                • {s}
+              </Text>
+            ))}
+          </Animated.View>
+        )}
+
         {/* 小红书分享引导卡片 */}
         {!processing && scoreResult && photoPath && (
           <TouchableOpacity
@@ -1020,6 +1032,32 @@ const styles = StyleSheet.create({
   },
   cursorBlink: {
     color: COLORS.primary,
+  },
+  // ========== Round 8 新增：下次改进提示 ==========
+  suggestionBanner: {
+    marginHorizontal: 20,
+    marginBottom: 14,
+    backgroundColor: '#F0F7FF',
+    borderRadius: 16,
+    padding: 14,
+    borderLeftWidth: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  suggestionBannerTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.primary,
+    marginBottom: 6,
+  },
+  suggestionBannerText: {
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    marginBottom: 3,
+    lineHeight: 20,
   },
   xiaohongshuCard: {
     flexDirection: 'row',
