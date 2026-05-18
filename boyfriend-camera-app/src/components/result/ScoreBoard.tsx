@@ -28,7 +28,7 @@ interface DimensionProps {
   delay: number
 }
 
-function AnimatedNumber({ value, style, color }: { value: number; style: any; color?: string }) {
+function AnimatedNumber({ value, style, color }: { value: number; style: import('react-native').StyleProp<import('react-native').TextStyle>; color?: string }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
   // 防御性检查，防止 NaN
