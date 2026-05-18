@@ -105,6 +105,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   useEffect(() => {
     mountedRef.current = true
     if (!photoPath) {
+      setError('没有找到图片，请重新拍照')
       setProcessing(false)
       return
     }
@@ -167,7 +168,21 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       })
       if (!mountedRef.current) return
       setProcessedPath(processed)
-
+    } catch (e: any) {
+      if (!mountedRef.current) return
+      console.error('[ResultScreen] processPhoto failed:', e)
+      const errMsg = String(e?.message || e || '')
+      if (errMsg.includes('INVALID_IMAGE_PATH') || errMsg.includes('IMAGE_NOT_FOUND')) {
+        setError('图片读取失败，请重新拍照')
+      } else if (errMsg.includes('CACHE_DIR') || errMsg.includes('space') || errMsg.includes('quota')) {
+        setError('存储空间不足，请清理手机空间后重试')
+      } else {
+        setError('图片处理出了点小问题，请重新拍照试试')
+      }
+      setProcessing(false)
+      return
+    }
+    try {
       const faceData = faces[0] || { x: 0.5, y: 0.35, area: 0.1 }
       const diary = await getDiary()
       const lastRecord = diary[diary.length - 1]
@@ -282,12 +297,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     } catch (e: any) {
       if (!mountedRef.current) return
       console.error('[ResultScreen] 处理失败:', e)
-      // 根据错误类型给出更友好的提示
       const errMsg = String(e?.message || e || '')
       let friendlyError: string
       if (errMsg.includes('INVALID_IMAGE_PATH') || errMsg.includes('IMAGE_NOT_FOUND')) {
         friendlyError = '图片读取失败，请重新拍照'
-      } else if (errMsg.includes('CACHE_DIR')) {
+      } else if (errMsg.includes('CACHE_DIR') || errMsg.includes('space') || errMsg.includes('quota')) {
         friendlyError = '存储空间不足，请清理手机空间后重试'
       } else if (errMsg.includes('permission') || errMsg.includes('PERMISSION')) {
         friendlyError = '缺少必要权限，请在设置中开启相册权限'
