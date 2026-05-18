@@ -1574,6 +1574,69 @@ class VoiceCoach {
     ]
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
+
+  // ========== Round 8 新增 TTS 场景 ==========
+  async speakPerfectMoment(): Promise<void> {
+    const tips = [
+      '这一刻光线绝了！表情也超棒！就是现在，按快门！',
+      '姿势完美表情到位，这光线太珍贵了，按下去！',
+      '天时地利人和！男朋友这张拍出来一定是神作！',
+      '这光线这角度这表情，绝了！赶紧按快门别浪费！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  async speakFaceTooSmall(): Promise<void> {
+    await this.speak('人太小了！往前走两步，让脸大一点点，画面会更饱满～', true)
+  }
+
+  async speakFaceTooLarge(): Promise<void> {
+    await this.speak('脸占画面太大了！稍微退后一点点，留点背景更好看～', true)
+  }
+
+  async speakWindBlowsHair(): Promise<void> {
+    const tips = [
+      '有风！头发飘起来了，等风再吹一次，赶紧抓拍！',
+      '这风吹得正好！让头发再飘一下，超有氛围！',
+      '风来了别动！就是现在，让头发飘起来抓拍！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  async speakGoodBackground(): Promise<void> {
+    await this.speak('这个背景超好看！光线也棒，别浪费了，赶紧拍！', true)
+  }
+
+  async speakSharePhoto(): Promise<void> {
+    const tips = [
+      '这张太美了！分享给闺蜜，让她们也羡慕羡慕～',
+      '这张可以直接发朋友圈！配文都不用想了，就这张！',
+      '男朋友这张绝了！必须分享一下，让大家都看看！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  async speakKeepPractice(): Promise<void> {
+    const tips = [
+      '多拍几张选最好的！第一张不一定最完美～',
+      '拍照就是熟能生巧！继续拍，你男友会越来越好的！',
+      '每拍一张都是进步！男朋友加油，继续练习！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  async speakMirrorShot(): Promise<void> {
+    await this.speak('用镜子拍可以消除男友手残视角！这个方法绝了～', true)
+  }
+
+  async speakTimerMode(): Promise<void> {
+    const tips = [
+      '试试定时拍摄！十秒足够摆好姿势，男朋友也可以入镜了～',
+      '打开定时器！摆好姿势再拍，男朋友也能一起合照了～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
