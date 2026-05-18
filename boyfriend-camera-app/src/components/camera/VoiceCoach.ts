@@ -33,6 +33,13 @@ const FACE_TIPS = {
   HIGH_ANGLE_FACE: '稍微低头一点点，眼睛更有神～',
   // 模板切换确认
   TEMPLATE_CHANGED: '已切换到新姿势！跟着指导摆好～',
+  // 边缘场景补充
+  FACE_EDGE_LEFT: '脸靠左边缘了，往右挪一点点～',
+  FACE_EDGE_RIGHT: '脸靠右边缘了，往左挪一点点～',
+  FACE_EDGE_TOP: '脸太靠上了，往下站一点～',
+  FACE_EDGE_BOTTOM: '脸太靠近底部了，头稍微抬高一点～',
+  // 拍摄成功
+  SHOOT_GOOD: '姿势很棒！就是现在，按快门！',
   // 拍摄失败
   CAPTURE_FAILED: '拍照失败了，再试一次吧～',
   // 相册保存
@@ -115,6 +122,14 @@ const EXPRESSION_TIPS = {
   COMBO_LEAN_FORWARD: '身体微微前倾，脸靠近镜头～',
   COMBO_ARM_CROSS: '双手抱臂，下巴收紧，精神点！',
   COMBO_CASUAL_HANDS_POCKET: '双手插兜，头微微歪，酷酷的～',
+  POSE_CHIN_REST: '下巴轻轻放在手背上，温柔又显脸小～',
+  POSE_LOOK_PHONE: '低头假装看手机，这个角度超自然！',
+  POSE_HAND_NECK: '一只手轻轻搭在脖子上，知性感拉满～',
+  POSE_POINT_CHIN: '手指轻轻点在下巴上，这个角度绝了！',
+  POSE_LEAN_WALL: '靠墙站好，肩颈放松，酷酷地看镜头～',
+  POSE_HAND_FACE: '一只手轻轻放在脸旁边，显脸小效果满分～',
+  POSE_FIGURE_8: '双手比个8放在下巴旁边，超显脸小！',
+  POSE_ARM_WAVE: '一只手臂举起来，活力感拉满！',
 }
 
 // 场景专项提示
@@ -205,6 +220,20 @@ const SCENE_TIPS = {
   AMUSEMENT_RIDE: '飞椅上的表情最自然！双手举起，笑得灿烂点～',
   // 海边礁石
   ROCKY_BEACH: '礁石上有浪花超浪漫！站稳了，侧身看向大海～',
+  // 演唱会场景
+  CONCERT_LIGHTS: '演唱会灯光超有氛围！让灯光打在侧脸上，超酷～',
+  // 樱花雨场景
+  CHERRY_BLOSSOM_RAIN: '樱花飘落的时候按下快门，绝美！',
+  // 灯笼夜景
+  LANTERN_NIGHT: '灯笼光暖暖的超有感觉！侧身站着，让光打在侧脸上～',
+  // 地铁站台
+  SUBWAY_PLATFORM: '地铁站台光线冷调超有都市感！随意站着，抓拍～',
+  // 便利店门口
+  CONVENIENCE_DOOR: '便利店门口光线均匀！拿个零食道具，俏皮地看镜头～',
+  // 海边灯塔
+  LIGHTHOUSE_SCENE: '灯塔背景超有画面感！侧身站着，让海风吹起头发～',
+  // 竹林小径
+  BAMBOO_PATH: '竹林小径光线斑驳！走着抓拍，自然又灵动～',
 }
 
 // 夜景专属语音提示
@@ -227,6 +256,10 @@ const NIGHT_TIPS = {
   LAMP_POST_2: '街灯暖暖的光超适合拍照，侧身站着超有感觉～',
   NIGHT_WINDOW: '窗边夜色好美！让脸靠近窗户，光从背后透进来～',
   NIGHT_WINDOW_2: '窗外的灯光映在脸上，夜晚氛围感绝了～',
+  CANDLE_AMB: '烛光晚餐超有氛围！让烛光打在脸上，温柔又浪漫～',
+  CAR_HEADLIGHTS: '车灯打在脸上超有氛围！侧身站着，表情到位～',
+  NEON_REFLECT: '霓虹灯反射在脸上超有感觉！',
+  CITY_GLOW: '城市微光超有氛围感！侧身站着，让光勾出轮廓～',
 }
 
 // 光线检测语音提示
@@ -248,6 +281,9 @@ const LIGHT_TIPS = {
   SPOTLIGHT_HOT_2: '头顶聚光灯太亮了！换个位置或者抬头找别的光～',
   REFLECTOR_HACK: '找个白墙或白纸放在脸下方，可以补眼神光～',
   REFLECTOR_HACK_2: '用白色东西在脸下补光，眼神会亮很多～',
+  GLOW_REFLECT: '找个发光的屏幕放在脸下方，补光又自然～',
+  CANDLE_LIGHT: '烛光氛围感绝了！脸靠近一点，光更柔和～',
+  SUNSET_SIDE: '夕阳侧光超有层次！让光打在侧脸上～',
 }
 
 // 构图专项语音提示
@@ -273,6 +309,12 @@ const COMPOSITION_TIPS = {
   BACKGROUND_DEPTH_2: '背景离远一点，背景虚化更明显～',
   LEADING_LINES: '找条路或栏杆做引导线，构图更有张力～',
   LEADING_LINES_2: '顺着线条拍过去，画面有纵深感～',
+  BOKEH_LAYER: '背景有光斑超有层次！开大光圈虚化更美～',
+  GOLDEN_RATIO: '试试黄金螺旋构图，画面更有张力～',
+  TRIANGLE_POSE: '身体形成三角形构图，超稳又有动感～',
+  SPiral_POSE: '试试螺旋构图，姿势有延伸感～',
+  SENTINEL_POSE: '侧身站着，肩膀和脚成三角形，超有气场～',
+  CENTER_DOT: '把人放在画面正中心，更有冲击力～',
 }
 
 // 通用鼓励语
@@ -310,6 +352,12 @@ const ENCOURAGEMENT = [
   '背景虚化得刚刚好！',
   '男友越来越会拍了！',
   '这pose好专业范儿～',
+  '这个侧颜绝了！',
+  '下颌线好清晰！',
+  '颈肩线条好漂亮！',
+  '这气质绝了！',
+  'pose摆得超自然！',
+  '男友终于开窍了！',
   '照片好有故事感！',
   '色调好治愈～',
   '这张太可了！',
