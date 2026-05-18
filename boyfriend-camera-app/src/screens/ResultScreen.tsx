@@ -49,21 +49,28 @@ export default function ResultScreen() {
   const [praiseList, setPraiseList] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [processing, setProcessing] = useState(true)
-  const [selectedFilter, setSelectedFilter] = useState<'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic'>('warm')
+  const [selectedFilter, setSelectedFilter] = useState<'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'>('warm')
 
-const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic'; label: string; emoji: string }> = [
+const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'; label: string; emoji: string }> = [
   { key: 'warm', label: '暖黄', emoji: '🌅' },
   { key: 'cool', label: '冷调', emoji: '❄️' },
   { key: 'vivid', label: '生动', emoji: '🎨' },
   { key: 'soft', label: '柔和', emoji: '🌸' },
   { key: 'bw', label: '黑白', emoji: '🖤' },
+  { key: 'portrait', label: '人像', emoji: '👩' },
+  { key: 'food', label: '美食', emoji: '🍔' },
+  { key: 'landscape', label: '风景', emoji: '🏞️' },
+  { key: 'night', label: '夜景', emoji: '🌃' },
+  { key: 'sunset', label: '日落', emoji: '🌇' },
+  { key: 'floral', label: '花季', emoji: '🌺' },
+  { key: 'snow', label: '雪景', emoji: '❄️' },
   { key: 'golden', label: '金棕', emoji: '✨' },
   { key: 'cinematic', label: '电影', emoji: '🎬' },
 ]
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
-  const [processStep, setProcessStep] = useState(1) // 1-3 动画步骤
+  const [processStep, setProcessStep] = useState(1) // 1-4 动画步骤
 
   // 处理步骤对应的文案
   const processStepText = useMemo(() => {
@@ -115,7 +122,8 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     setProcessStep(1)
     const t2 = setTimeout(() => { if (mountedRef.current) setProcessStep(2) }, 600)
     const t3 = setTimeout(() => { if (mountedRef.current) setProcessStep(3) }, 1200)
-    return () => { clearTimeout(t2); clearTimeout(t3) }
+    const t4 = setTimeout(() => { if (mountedRef.current) setProcessStep(4) }, 1600)
+    return () => { clearTimeout(t2); clearTimeout(t3); clearTimeout(t4) }
   }, [processing])
 
   function typeText(text: string) {
@@ -506,6 +514,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
                 <Text style={styles.processStepDot}>3</Text>
                 <Text style={styles.processStepLabel}>生成评分</Text>
               </View>
+              <View style={styles.processStepLine} />
+              <View style={[styles.processStep, processStep >= 4 ? styles.processStepActive : styles.processStepPending]}>
+                <Text style={styles.processStepDot}>4</Text>
+                <Text style={styles.processStepLabel}>生成鼓励</Text>
+              </View>
             </View>
           </View>
         )}
@@ -630,6 +643,17 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               <Text style={styles.actionBtnPrimaryText}>{saving ? '保存中...' : '💾 保存到相册'}</Text>
             </TouchableOpacity>
           </View>
+        )}
+
+        {/* 查看进步日记入口 */}
+        {!processing && (
+          <TouchableOpacity
+            style={styles.diaryEntryBtn}
+            onPress={() => navigation.navigate('Diary' as any)}
+            activeOpacity={0.72}
+          >
+            <Text style={styles.diaryEntryBtnText}>📖 查看进步日记</Text>
+          </TouchableOpacity>
         )}
 
         <View style={{ height: 40 }} />
@@ -967,6 +991,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: COLORS.textOnPrimary,
     fontWeight: 'bold',
+  },
+  diaryEntryBtn: {
+    alignItems: 'center',
+    paddingVertical: 12,
+    marginHorizontal: 20,
+    marginTop: 8,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: COLORS.primary,
+    backgroundColor: '#FFF0F5',
+  },
+  diaryEntryBtnText: {
+    fontSize: 14,
+    color: COLORS.primary,
+    fontWeight: '600',
   },
   errorContainer: {
     flex: 1,

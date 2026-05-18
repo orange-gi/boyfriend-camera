@@ -100,6 +100,11 @@ const EXPRESSION_TIPS = {
   // 组合动作提示
   MOVE_CLOSER: '靠近一点拍特写！',
   MOVE_BACK: '退后一点，让背景更完整～',
+  COMBO_LOOKAWAY_SMILE: '假装看旁边，再转头对我笑～',
+  COMBO_HAND_HEART: '双手比个爱心，下巴微微抬起～',
+  COMBO_LEAN_FORWARD: '身体微微前倾，脸靠近镜头～',
+  COMBO_ARM_CROSS: '双手抱臂，下巴收紧，精神点！',
+  COMBO_CASUAL_HANDS_POCKET: '双手插兜，头微微歪，酷酷的～',
 }
 
 // 场景专项提示
@@ -924,6 +929,22 @@ class VoiceCoach {
       neck_stretch: ['伸长脖子，下巴微微收紧，这样显脸小！', '下巴收紧一点，脖子拉长，视觉效果超显瘦～'],
     }
     const arr = tips[poseType] || []
+    if (arr.length > 0) {
+      const tip = arr[Math.floor(Math.random() * arr.length)]
+      await this.speak(tip, true)
+    }
+  }
+
+  /** 组合动作提示（引导组合多个动作） */
+  async speakComboTip(comboType: 'COMBO_LOOKAWAY_SMILE' | 'COMBO_HAND_HEART' | 'COMBO_LEAN_FORWARD' | 'COMBO_ARM_CROSS' | 'COMBO_CASUAL_HANDS_POCKET'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      COMBO_LOOKAWAY_SMILE: ['假装看旁边，再转头对我笑～', '先看旁边，然后转过头来笑，这个角度超自然！'],
+      COMBO_HAND_HEART: ['双手比个爱心，下巴微微抬起～', '双手比心pose，下巴抬起来，眼睛更有神！'],
+      COMBO_LEAN_FORWARD: ['身体微微前倾，脸靠近镜头～', '前倾一点拍特写！脸占满画面更有感觉～'],
+      COMBO_ARM_CROSS: ['双手抱臂，下巴收紧，精神点！', '抱臂站好，下巴收紧，气场全开！'],
+      COMBO_CASUAL_HANDS_POCKET: ['双手插兜，头微微歪，酷酷的～', '插兜歪头，酷酷的感觉一下！'],
+    }
+    const arr = tips[comboType] || []
     if (arr.length > 0) {
       const tip = arr[Math.floor(Math.random() * arr.length)]
       await this.speak(tip, true)

@@ -19,7 +19,7 @@ import { COLORS } from '../../theme/colors'
 interface Props {
   originalPath: string
   processedPath: string
-  filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'golden' | 'cinematic' | null
+  filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic' | null
   onFilterChange?: (f: string) => void
 }
 
