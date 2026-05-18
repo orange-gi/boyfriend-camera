@@ -424,6 +424,10 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     navigation.navigate({ name: 'Home' as const, params: undefined })
   }
 
+  function handleGoCamera() {
+    navigation.navigate({ name: 'Camera' as const, params: { templateId: undefined } })
+  }
+
   const cardStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: cardSlide.value }],
     opacity: interpolate(cardSlide.value, [0, 50], [1, 0]),
@@ -434,11 +438,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       <View style={styles.errorContainer}>
         <Text style={styles.errorEmoji}>🤔</Text>
         <Text style={[styles.errorText, { color: COLORS.textMuted }]}>没有找到图片</Text>
-        <TouchableOpacity style={styles.errorBtn} onPress={handleHome} activeOpacity={0.72}>
-          <Text style={styles.errorBtnText}>返回首页</Text>
+        <TouchableOpacity style={styles.errorBtn} onPress={handleGoCamera} activeOpacity={0.72}>
+          <Text style={styles.errorBtnText}>📷 去拍照</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.errorRetryBtn, { marginTop: 12 }]} onPress={() => navigation.goBack()} activeOpacity={0.72}>
-          <Text style={styles.errorRetryBtnText}>🔄 重新拍照</Text>
+        <TouchableOpacity style={[styles.errorBtn, { marginTop: 10 }]} onPress={handleHome} activeOpacity={0.72}>
+          <Text style={styles.errorBtnText}>🏠 返回首页</Text>
         </TouchableOpacity>
       </View>
     )
@@ -477,6 +481,13 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
                 activeOpacity={0.72}
               >
                 <Text style={styles.errorRetryBtnText}>🔄 重试</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.errorRetryBtn}
+                onPress={handleGoCamera}
+                activeOpacity={0.72}
+              >
+                <Text style={styles.errorRetryBtnText}>📷 再拍一张</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.errorRetryBtn, styles.errorSecondaryBtn]}
