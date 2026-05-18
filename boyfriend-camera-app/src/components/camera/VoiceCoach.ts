@@ -1456,6 +1456,62 @@ class VoiceCoach {
     ]
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
+
+  /** 好光线专项表扬 */
+  async speakGoodLighting(): Promise<void> {
+    const tips = [
+      '这个光线绝了！脸上的光好柔和，男朋友你是专业的吗！',
+      '好温柔的光！整个人都在发光，男朋友审美开挂了！',
+      '这光打得刚刚好！男朋友今天状态满分～',
+      '逆光也太有感觉了吧！这光线男朋友你怎么找到的！',
+      '脸上的光超均匀！男朋友终于学会找光了，感动！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 姿势完美达标表扬 */
+  async speakPosePerfect(): Promise<void> {
+    const tips = [
+      '姿势满分！男朋友完全照着模板来，超棒！',
+      '这个pose太到位了！男朋友你是有天赋的吗！',
+      '姿势完全复刻！男朋友认真起来真的好厉害～',
+      '男朋友完全学到了！这个姿势绝了！',
+      '照着模板摆的姿势超标准！男朋友悟性太高了！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 进步鼓励语（非分数驱动，通用进度鼓励） */
+  async speakProgressEncouragement(totalPhotos: number): Promise<void> {
+    if (totalPhotos === 0) {
+      await this.speak('开启你的拍照之旅吧！第一张永远是最好的开始～', true)
+      return
+    }
+    if (totalPhotos < 5) {
+      const tips = [
+        '才拍了几张就这么有感觉，男朋友潜力无限！',
+        '继续加油！每拍一张都在进步～',
+        '男朋友正在飞速成长，继续保持这个势头！',
+      ]
+      await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+      return
+    }
+    if (totalPhotos < 20) {
+      const tips = [
+        '男朋友已经是老手了！继续保持这个状态～',
+        '拍了这么多张，进步肉眼可见！',
+        '男朋友越来越会拍了，继续保持！',
+      ]
+      await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+      return
+    }
+    const tips = [
+      '男友摄影师认证！拍了这么多张，每张都越来越好了！',
+      '男朋友已经从新手进化成高手，继续探索更多姿势吧～',
+      '哇！已经拍了这么多！男朋友的拍照水平简直开挂了！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
