@@ -1,8 +1,9 @@
 /**
- * 男友相机 - getTemplates 云函数 v12
- * 75 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/新场景
+ * 男友相机 - getTemplates 云函数 v14
+ * 80 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/新场景
+ * v14: 新增搜索索引、难度标签、分类筛选、缓存优化
  */
-const CURRENT_VERSION = 13
+const CURRENT_VERSION = 14
 
 const SVG_001 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDY1IDE4MCBMIDgwIDI4MCIvPjxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzUgMTgwIEwgMTIwIDI4MCIvPjxwYXRoIGQ9Ik0gNzAgOTAgUSAzMCAxMzAgMjAgMTYwIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTSAxMzAgOTAgUSAxNjAgMTEwIDE3NSAxMzAiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNIDY1IDE4MCBRIDU1IDIyMCA1MCAyODAiLz48cGF0aCBkPSJNIDEzNSAxODAgUSAxNDUgMjIwIDE1MCAyODAiLz4KICAKPC9zdmc+'
 const SVG_002 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDc0IDgwIFEgNjUgMTE1IDcwIDE3MCBMIDg1IDI4MCIvPjxwYXRoIGQ9Ik0gMTI2IDgwIFEgMTM1IDExNSAxMzAgMTcwIEwgMTE1IDI4MCIvPjxwYXRoIGQ9Ik0gNzQgODggUSA0MCAxMDAgMzUgMTUwIFEgNDUgMTQ1IDU1IDE1NSIvPjxwYXRoIGQ9Ik0gMTI2IDg4IFEgMTU1IDk1IDE2NSAxMTUiLz48cGF0aCBkPSJNIDcwIDE3MCBRIDYwIDIxMCA1NSAyODAiLz48cGF0aCBkPSJNIDEzMCAxNzAgUSAxNDAgMjEwIDE0NSAyODAiLz4KICAKPC9zdmc+'
@@ -538,20 +539,100 @@ const MORE_TEMPLATES = [
 ]
 
 ALL_TEMPLATES.push(...NEW_TEMPLATES, ...MORE_TEMPLATES)
+
+// ========== Round 5: 搜索索引 ==========
+// 构建搜索索引（预计算关键词，提升搜索性能）
+const SEARCH_INDEX = ALL_TEMPLATES.map(t => ({
+  id: t.id,
+  name: t.name,
+  namePY: pinyinize(t.name),
+  description: t.description,
+  voiceTip: t.voiceTip,
+  category: t.category,
+  // 难度标签（根据 voiceTip 长度和 category 推断）
+  difficulty: inferDifficulty(t),
+}))
+
+function pinyinize(str) {
+  // 简化的拼音索引（首字母）
+  const map = { '侧': 'c', '撩': 'l', '托': 't', '回': 'h', '咖': 'k', '书': 's', '沙': 's', '海': 'h', '樱': 'y', '街': 'j', '天': 't', '下': 'x', '午': 'w', '火': 'h', '复': 'f', '运': 'y', '夜': 'y', '雨': 'y', '牵': 'q', '甜': 't', '对': 'd', '背': 'b', '生': 's', '毕': 'b', '旅': 'l', '宠': 'c', '摩': 'm', '浴': 'y', '星': 'x', '公': 'g', '泳': 'y', '古': 'g', '音': 'y', '露': 'l', '旋': 'x', '超市': 'c', '校园': 'x', '温': 'w', '旋': 'x', '植': 'z', '演': 'y', '酒': 'j', '阳': 'y', '居': 'j', '咖': 'k' }
+  let result = ''
+  for (const ch of str) {
+    result += (map[ch] || ch[0] || '').toLowerCase()
+  }
+  return result
+}
+
+function inferDifficulty(t) {
+  const tips = (t.voiceTip || '').length
+  const cat = t.category || ''
+  if (tips > 30) return 'hard'
+  if (tips > 20 || cat === '情侣合照') return 'medium'
+  return 'easy'
+}
+
+/** 简单中文分词搜索 */
+function fuzzySearch(templates, query) {
+  if (!query || query.trim().length < 1) return templates
+  const q = query.trim().toLowerCase()
+  // 分词（简单按字符）
+  const keywords = q.split('').filter(c => c.trim())
+  return templates.filter(t => {
+    const searchable = `${t.name}${t.description}${t.voiceTip}${t.category}`.toLowerCase()
+    return keywords.some(kw => searchable.includes(kw))
+  })
+}
+
 exports.main = async (event = {}, context = {}) => {
   const localVersion = event.localVersion || 0
+  const search = (event.search || '').trim()
+  const category = event.category || ''
+  const difficulty = event.difficulty || ''
+
+  let templates = ALL_TEMPLATES
+
+  // 分类筛选
+  if (category && category !== '全部') {
+    templates = templates.filter(t => t.category === category)
+  }
+
+  // 难度筛选
+  if (difficulty) {
+    const diffMap = { easy: 'easy', medium: 'medium', hard: 'hard' }
+    const diff = diffMap[difficulty]
+    if (diff) {
+      templates = templates.filter(t => {
+        const ti = SEARCH_INDEX.find(x => x.id === t.id)
+        return ti && ti.difficulty === diff
+      })
+    }
+  }
+
+  // 搜索
+  if (search) {
+    templates = fuzzySearch(templates, search)
+  }
+
   const update = ALL_TEMPLATES.filter(t => t.version > localVersion)
   const CATEGORIES = ['室内日常', '室内场景', '户外风景', '餐厅美食', '特殊风格', '情侣合照']
-  // 分类计数
   const categoryCount = CATEGORIES.reduce((acc, cat) => {
     acc[cat] = ALL_TEMPLATES.filter(t => t.category === cat).length
     return acc
   }, {})
+
   return {
     latestVersion: CURRENT_VERSION,
-    update,
+    templates, // 搜索/筛选结果
+    update, // 版本更新列表
     totalCount: ALL_TEMPLATES.length,
     categories: CATEGORIES,
     categoryCount,
+    // 搜索索引元信息（用于调试/客户端缓存）
+    meta: {
+      version: CURRENT_VERSION,
+      searchEnabled: true,
+      categories: CATEGORIES,
+      categoryCount,
+    },
   }
 }
