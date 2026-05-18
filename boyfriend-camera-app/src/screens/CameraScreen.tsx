@@ -3,6 +3,10 @@
  * 改进：顶部悬浮姿势引导卡、拍照闪白动画、模板选择弹窗优化
  */
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import type { RouteProp } from '@react-navigation/native'
+import type { RootStackParamList } from '../../App'
 import {
   View,
   Text,
@@ -83,7 +87,9 @@ async function toggleFavoriteTemplate(templateId: string): Promise<boolean> {
   }
 }
 
-export default function CameraScreen({ navigation }: any) {
+export default function CameraScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Camera'>>()
+  const route = useRoute<RouteProp<RootStackParamList, 'Camera'>>()
   const [mode, setMode] = useState<CompositionMode>('grid')
   const [activeTemplate, setActiveTemplate] = useState<PoseTemplate | null>(null)
   const [showTemplateModal, setShowTemplateModal] = useState(false)
@@ -196,7 +202,7 @@ export default function CameraScreen({ navigation }: any) {
     try {
       const photo = await cameraRef.current?.takePhoto(flashRef.current)
       if (photo) {
-        navigation.navigate('Result', {
+        navigation.navigate('Result' as any, {
           photoPath: photo.filePath,
           photoWidth: undefined,
           photoHeight: undefined,

@@ -12,7 +12,19 @@ import CameraScreen from './src/screens/CameraScreen'
 import ResultScreen from './src/screens/ResultScreen'
 import DiaryScreen from './src/screens/DiaryScreen'
 
-const Stack = createNativeStackNavigator()
+export type RootStackParamList = {
+  Home: undefined
+  Camera: { templateId?: string }
+  Result: {
+    photoPath: string
+    photoWidth?: number
+    photoHeight?: number
+    templateCategory?: string | null
+  }
+  Diary: undefined
+}
+
+const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export default function App() {
   const [ready, setReady] = useState(false)

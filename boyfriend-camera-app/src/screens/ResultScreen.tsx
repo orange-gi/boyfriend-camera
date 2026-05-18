@@ -3,6 +3,7 @@
  * 改进：数字逐位滚动动画、打字机夸奖效果、撒花粒子、小红书分享按钮
  */
 import React, { useEffect, useState, useRef, useMemo } from 'react'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   View,
   Text,
@@ -24,6 +25,9 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated'
 import ViewShot from 'react-native-view-shot'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import type { RouteProp } from '@react-navigation/native'
+import type { RootStackParamList } from '../../App'
 import ComparisonCard from '../components/result/ComparisonCard'
 import ScoreBoard from '../components/result/ScoreBoard'
 import type { ScoreResult } from '../components/result/ScoreBoard'
@@ -35,7 +39,9 @@ import voiceCoach from '../components/camera/VoiceCoach'
 
 const SCREEN_W = Dimensions.get('window').width
 
-export default function ResultScreen({ route, navigation }: any) {
+export default function ResultScreen() {
+  const route = useRoute<RouteProp<RootStackParamList, 'Result'>>()
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Result'>>()
   const { photoPath, templateCategory } = route.params || {}
 
   const [processedPath, setProcessedPath] = useState<string>('')
@@ -391,11 +397,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
   function handleRetry() {
     // 直接跳转相机重拍，体验更流畅
-    navigation.navigate('Camera')
+    navigation.navigate('Camera' as any)
   }
 
   function handleHome() {
-    navigation.navigate('Home')
+    navigation.navigate('Home' as any)
   }
 
   const cardStyle = useAnimatedStyle(() => ({

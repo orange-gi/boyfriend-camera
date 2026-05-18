@@ -12,6 +12,9 @@ import {
   ScrollView,
   Modal,
 } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import type { RootStackParamList } from '../../App'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -84,7 +87,8 @@ const ONBOARD_STEPS = [
   { icon: '💕', title: '一起变好吧！', desc: '记录每一次进步，看着分数一点点提高，男朋友摄影技术越来越好～' },
 ]
 
-export default function HomeScreen({ navigation }: any) {
+export default function HomeScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>()
   const [diaryCount, setDiaryCount] = useState(0)
   const [avgScore, setAvgScore] = useState(0)
   const [showOnboard, setShowOnboard] = useState(false)
@@ -295,7 +299,7 @@ export default function HomeScreen({ navigation }: any) {
         )}
         <TouchableOpacity
           style={[styles.cameraBtn, isNewUser && styles.cameraBtnNewUser]}
-          onPress={() => navigation.navigate('Camera')}
+          onPress={() => navigation.navigate('Camera' as any)}
           activeOpacity={0.72}
         >
           {/* 双重呼吸光晕 */}
@@ -341,8 +345,8 @@ export default function HomeScreen({ navigation }: any) {
               style={[styles.featureCard, { borderLeftColor: f.color }]}
               activeOpacity={0.72}
               onPress={() => {
-                if (f.title === '姿势模板') navigation.navigate('Camera')
-                if (f.title === '进步日记') navigation.navigate('Diary')
+                if (f.title === '姿势模板') navigation.navigate('Camera' as any)
+                if (f.title === '进步日记') navigation.navigate('Diary' as any)
               }}
             >
               <View style={[styles.featureIconWrap, { backgroundColor: f.color + '18' }]}>
@@ -359,11 +363,11 @@ export default function HomeScreen({ navigation }: any) {
 
       {/* 底部导航 */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate('Diary')} activeOpacity={0.72}>
+        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate('Diary' as any)} activeOpacity={0.72}>
           <Text style={styles.bottomNavIcon}>📊</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>进步日记</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate('Camera')} activeOpacity={0.72}>
+        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate('Camera' as any)} activeOpacity={0.72}>
           <Text style={styles.bottomNavIcon}>📸</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>拍照</Text>
         </TouchableOpacity>

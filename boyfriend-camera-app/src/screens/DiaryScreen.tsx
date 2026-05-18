@@ -14,7 +14,9 @@ import {
   Animated,
   Easing,
 } from 'react-native'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import type { RootStackParamList } from '../../App'
 import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
 import EmptyState from '../components/common/EmptyState'
@@ -28,7 +30,8 @@ const shimmerBg = (anim: Animated.Value) => ({
   }),
 })
 
-export default function DiaryScreen({ navigation }: any) {
+export default function DiaryScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Diary'>>()
   const [records, setRecords] = useState<DiaryRecord[]>([])
   const [peakScore, setPeakScore] = useState(0)
   const [refreshing, setRefreshing] = useState(false)
@@ -381,7 +384,7 @@ export default function DiaryScreen({ navigation }: any) {
               icon="📈"
               title="还没有记录哦，快去拍一张吧！"
               subtitle={`${scenarioTip} 第一次约会、周末出游、节日礼物…每拍一张都会悄悄记录成长哦～`}
-              action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera') }}
+              action={{ label: '📸 去拍照', onPress: () => navigation.navigate('Camera' as any) }}
             />
           </>
         )}
@@ -421,7 +424,7 @@ export default function DiaryScreen({ navigation }: any) {
                 )}
                 <TouchableOpacity
                   style={styles.cameraBtn}
-                  onPress={() => navigation.navigate('Camera')}
+                  onPress={() => navigation.navigate('Camera' as any)}
                   activeOpacity={0.72}
                 >
                   <Text style={styles.cameraBtnText}>📸 拍照</Text>
