@@ -1405,6 +1405,57 @@ class VoiceCoach {
     const msg = msgs[count] || `🎊 ${count}次拍摄达成！继续加油！`
     await this.speak(msg, true)
   }
+
+  /** 极低分鼓励（<50分），温柔安抚而不是打击） */
+  async speakLowScoreGentle(score: number): Promise<void> {
+    const tips = [
+      `${score}分，没关系！每张照片都是进步的开始～`,
+      `${score}分，别灰心！教他几个小技巧，下次一定更棒！`,
+      `才${score}分而已呀～告诉他哪里没做好，下次一定更好看！`,
+      `${score}分不是终点！把这张当参考，告诉男友下次怎么改进～`,
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 全能满分播报（四维全部高分时） */
+  async speakAllDimensionPerfect(): Promise<void> {
+    const tips = [
+      '四维全能！构图光线稳定构图全部完美！男朋友你是开挂了吗！',
+      '全能选手！构图光线稳定构图都是满分！摄影师认证！',
+      '太惊艳了！四个维度全部拿满，男朋友你简直是天生的摄影师！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 首次使用引导语（第一次拍照前播报） */
+  async speakFirstTimeUser(): Promise<void> {
+    const tips = [
+      '第一次用男友相机呀～让男朋友拿好手机，屏幕上的剪影就是站位参考！',
+      '拍照前先选个喜欢的姿势模板，让男朋友照着剪影站就好！',
+      '建议先选个简单的姿势～男朋友照着屏幕上的人形剪影站就 OK！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+  }
+
+  /** 夜间拍摄引导 */
+  async speakNightPhotography(): Promise<void> {
+    const tips = [
+      '夜景光线比较暗，找个光源在身后或侧面的位置～',
+      '晚上拍照，打开闪光灯或者找街灯当光源，脸不要背光！',
+      '夜晚光线复杂，让女朋友靠近光源或者打开手机闪光灯～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 连拍模式引导 */
+  async speakBurstMode(): Promise<void> {
+    const tips = [
+      '连拍模式开启！按着快门别松手，我来帮你选最好的那张～',
+      '连拍中！多拍几张选最自然的表情～',
+      '别客气，多拍几张！连拍模式帮你抓最自然的那一刻！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
