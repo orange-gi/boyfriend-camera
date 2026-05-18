@@ -44,17 +44,14 @@ export default function DiaryScreen() {
       const [diary, score] = await Promise.all([getDiary(), getPeakScore()])
       setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
       setPeakScore(score)
-    } catch {
-      setRecords([])
-      setPeakScore(0)
-    } finally {
+    } catch { /* ignore */ }
+    finally {
       setLoading(false)
     }
   }, [])
 
   useFocusEffect(useCallback(() => {
     loadDiaryData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []))
 
   // Shimmer 动画
@@ -93,7 +90,7 @@ export default function DiaryScreen() {
             await recalcPeakScore(updated)
             setRecords(updated)
             setPeakScore(updated.length > 0 ? Math.max(...updated.map(r => r.score)) : 0)
-          } catch (e) {
+          } catch (e: unknown) {
             Alert.alert('删除失败', '请稍后重试')
           }
         },
@@ -116,7 +113,7 @@ export default function DiaryScreen() {
               await recalcPeakScore([])
               setRecords([])
               setPeakScore(0)
-            } catch (e) {
+            } catch (e: unknown) {
               Alert.alert('清空失败', '请稍后重试')
             }
           },
@@ -131,9 +128,8 @@ export default function DiaryScreen() {
       const [diary, score] = await Promise.all([getDiary(), getPeakScore()])
       setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
       setPeakScore(score)
-    } catch {
-      /* silent fail on refresh */
-    } finally {
+    } catch { /* ignore */ }
+    finally {
       setRefreshing(false)
     }
   }
