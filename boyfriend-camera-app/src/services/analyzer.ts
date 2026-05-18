@@ -736,6 +736,78 @@ const PRAISE_POOL: Record<string, string[]> = {
     '这张是坚持的回报！男朋友你终于做到了！',
     '来之不易的佳作！这张值得炫耀一下～',
   ],
+  // ========== Round 6 新增夸奖池 ==========
+  // 表情自然夸奖
+  expression_good: [
+    '这表情好自然！笑得刚刚好，男朋友抓到了！',
+    '这表情绝了！灵动又有感染力，眼睛都在发光～',
+    '表情管理满分！自然又有灵气，男朋友很会抓拍～',
+    '这个瞬间好生动！比摆拍好看一百倍！',
+    '眼睛会说话！男朋友把最好的表情定格了～',
+    '笑起来好好看！这感染力太强了，男朋友拍得好！',
+    '表情自然又放松，这状态绝了！',
+    '俏皮又灵动，男朋友拍到了灵魂！',
+  ],
+  // 背景好看夸奖
+  background_good: [
+    '背景选得超棒！人景融合太美了～',
+    '这背景好有意境！男朋友眼光不错～',
+    '背景干净又好看，把人衬得超美！',
+    '环境利用得太好了，这场景绝了～',
+    '背景和人完美融合，这构图感太棒了！',
+    '背景斑驳的光影好美，男朋友这光用绝了！',
+    '这背景好有层次，男朋友好会找地方拍～',
+    '干净简洁的背景最显高级，男朋友审美在线！',
+  ],
+  // 色调/氛围夸奖
+  color_tone_good: [
+    '这色调好有感觉！暖洋洋的氛围感拉满～',
+    '色调好高级！男朋友对色彩有感觉了～',
+    '冷色调好酷！有点电影感的意思了～',
+    '这颜色好舒服！整体调性很统一～',
+    '色调和场景很搭，男朋友有审美了！',
+    '这光影色彩绝了，像油画一样美～',
+    '男朋友对色调的把控越来越好了！',
+    '整体调性好统一，看起来好舒服～',
+  ],
+  // 细节清晰夸奖
+  detail_good: [
+    '细节好清晰！发丝都在发光，男朋友这张绝了～',
+    '好清晰！男朋友手稳心细，这张细节满分！',
+    '纹理都看得清！对焦到位，男朋友你行啊！',
+    '清晰度绝了！每个细节都捕捉到了～',
+    '这张好锐！男朋友手一点都不抖，厉害！',
+    '细节分拉满！对焦准确，画面超干净～',
+    '清晰度超高！男朋友这稳定性可以出师了！',
+    '连睫毛都数得清，这细节捕捉能力太强了～',
+  ],
+  // 氛围感夸奖
+  mood_good: [
+    '这氛围感绝了！像电影截图一样～',
+    '好有感觉！男朋友这张拍出氛围了～',
+    '照片会讲故事！男朋友你懂这浪漫～',
+    '这意境好美，男朋友摄影悟到了！',
+    '氛围感拉满！这张好有故事感～',
+    '像杂志大片一样，男朋友审美开窍了！',
+    '好会营造氛围！这张照片好有情绪～',
+    '这组照好有feel，男朋友你真的进步了！',
+  ],
+  // 眼神光夸奖
+  eye_light_good: [
+    '眼睛里有光！男朋友把眼神光捕捉到了～',
+    '这眼神光绝了！整个人都在发光～',
+    '眼神光好灵动，男朋友观察得很仔细！',
+    '眼睛亮晶晶的！男朋友找光的能力提升了～',
+    '这双眼睛会说话！男朋友你懂光～',
+  ],
+  // 逆光剪影夸奖
+  silhouette_good: [
+    '剪影好有意境！男朋友玩转逆光了～',
+    '轮廓光绝了！整个人都在发光～',
+    '逆光剪影好有艺术感，男朋友你会玩！',
+    '这光影勾勒得好美，像艺术品一样～',
+    '轮廓光绝绝子！男朋友对光理解很深～',
+  ],
 }
 
 // 建议文案池
@@ -1366,6 +1438,36 @@ export async function analyzePhoto(
   // 男友成长夸奖（总分提升 10+）
   if (lastScore !== undefined && totalScore - lastScore >= 10 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.growth_praise))
+  }
+
+  // ========== Round 6 新增夸奖触发逻辑 ==========
+  // 表情自然夸奖（人脸存在+总分较高）
+  if (faceCount > 0 && totalScore >= 75 && praise.length >= 1) {
+    praise.push(pickRandom(PRAISE_POOL.expression_good))
+  }
+  // 背景好看夸奖（构图优秀+总分较高）
+  if (compositionScore >= 35 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.background_good))
+  }
+  // 色调氛围夸奖（曝光优秀+总分较高）
+  if (exposureScore >= 28 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.color_tone_good))
+  }
+  // 细节清晰夸奖（清晰度高+总分较高）
+  if (sharpness > 150 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.detail_good))
+  }
+  // 氛围感夸奖（多维度优秀+总分较高）
+  if (compositionScore >= 35 && exposureScore >= 28 && totalScore >= 80) {
+    praise.push(pickRandom(PRAISE_POOL.mood_good))
+  }
+  // 眼神光夸奖（人脸存在+亮度适中）
+  if (faceCount > 0 && brightness >= 80 && brightness <= 180 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.eye_light_good))
+  }
+  // 逆光剪影夸奖（高亮度+户外场景）
+  if (brightness > 200 && sceneType === 'outdoor' && totalScore >= 72) {
+    praise.push(pickRandom(PRAISE_POOL.silhouette_good))
   }
 
   // 书店/图书馆场景夸奖
