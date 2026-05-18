@@ -14,6 +14,7 @@ export type EmptyStateType =
   | 'noResult'   // 无推荐结果
   | 'template'   // 模板加载失败
   | 'diary'      // 进步日记为空（首次使用）
+  | 'camera'     // 相机权限未开启
 
 /** 各预设类型的默认内容 */
 const PRESETS: Record<EmptyStateType, { icon: string; title: string; subtitle?: string; actionLabel?: string }> = {
@@ -51,6 +52,12 @@ const PRESETS: Record<EmptyStateType, { icon: string; title: string; subtitle?: 
     title: '还没有进步记录',
     subtitle: '开始拍照吧！每张照片都会记录在这里，看着分数一点点提高超有成就感的～',
     actionLabel: '去拍照',
+  },
+  camera: {
+    icon: '📷',
+    title: '相机权限未开启',
+    subtitle: '需要相机权限才能拍照，请在设置中开启摄像头权限',
+    actionLabel: '去设置',
   },
 }
 
