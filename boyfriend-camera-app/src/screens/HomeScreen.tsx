@@ -328,7 +328,7 @@ export default function HomeScreen() {
         <View style={styles.featuresGrid}>
           {FEATURES.map((f, i) => (
             <TouchableOpacity key={i} style={styles.featureCard} activeOpacity={0.72}
-              onPress={() => { if (f.title === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} }); if (f.title === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined }) }}>
+              onPress={() => { if (f.title === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} }); else if (f.title === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined }) }}>
               <View style={[styles.featureAccentBar, { backgroundColor: f.accent }]} />
               <View style={styles.featureCardBody}>
                 <View style={[styles.featureIconWrap, { backgroundColor: f.bgAccent }]}><Text style={styles.featureIcon}>{f.icon}</Text></View>
@@ -344,13 +344,17 @@ export default function HomeScreen() {
 
       {/* 底部导航 */}
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
-        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
-          <Text style={styles.bottomNavIcon}>📊</Text>
-          <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>进步日记</Text>
+        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate({ name: 'Home' as const, params: undefined })} activeOpacity={0.72}>
+          <Text style={styles.bottomNavIcon}>🏠</Text>
+          <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>首页</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnPrimary]} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
+        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
+          <Text style={styles.bottomNavIcon}>📊</Text>
+          <Text style={[styles.bottomNavText, { color: COLORS.textMuted }]}>进步日记</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
           <Text style={styles.bottomNavIcon}>📸</Text>
-          <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>拍照</Text>
+          <Text style={[styles.bottomNavText, { color: COLORS.textMuted }]}>拍照</Text>
         </TouchableOpacity>
       </Animated.View>
 
@@ -463,7 +467,6 @@ const styles = StyleSheet.create({
   bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 6, gap: 6, ...shadows.inner },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
   bottomNavBtnActive: { backgroundColor: COLORS.primaryLight },
-  bottomNavBtnPrimary: { backgroundColor: COLORS.primaryLight },
   bottomNavIcon: { fontSize: 20 },
   bottomNavText: { fontSize: typography.fontSize.md },
 
