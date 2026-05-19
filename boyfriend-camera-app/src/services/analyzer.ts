@@ -1725,6 +1725,35 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '自然的表情比摆拍更动人，这张很有灵气～',
     '不用刻意笑！假装被逗笑或者看向远方，眼神更有故事感～',
   ],
+  // ========== Round 2 新增：情侣互动建议 ==========
+  couple_interaction_hint: [
+    '情侣照要多互动！让男朋友从背后抱、转圈圈或者牵手看镜头～',
+    '两人合照时可以凑近一点，贴贴更甜蜜～',
+    '试试牵手背对镜头，回头看镜头，超有氛围感～',
+    '情侣照最重要的是自然互动！让他做鬼脸逗你笑，然后抓拍～',
+    '试试从背后环抱！经典的甜蜜姿势，男朋友学起来～',
+    '两人站一起比心或牵手，低头或对视，甜度拉满～',
+    '让男朋友假装偷看你，被发现的那一刻表情最自然～',
+    '情侣互动时可以跳起来抓拍！活力感十足～',
+    '试试额头碰额头，嘟嘴亲亲，这姿势绝了～',
+    '让男朋友公主抱起来，这个瞬间超甜！抓拍～',
+    '两人一起看镜头笑一个，然后转头对视，再抓拍～',
+  ],
+  // ========== Round 2 新增：情绪引导建议 ==========
+  emotion_guidance_hint: [
+    '让女朋友想一件开心的事，发自内心的笑最好看～',
+    '试试看窗外！假装在看风景，眼神会更自然有故事感～',
+    '让她闭上眼睛深呼吸，再睁开眼看向镜头，这个瞬间最放松～',
+    '假装听到有趣的事笑出来，自然又生动～',
+    '让她假装被风吹到，眼睛稍微眯起来，这个表情很灵动～',
+    '试试微微仰头，让阳光洒在脸上，自然又温暖～',
+    '让她假装在等人，微微侧头看向旁边，眼神超有戏～',
+    '假装听到名字被叫到，转头看镜头，表情最自然～',
+    '让她深呼吸放松肩膀，表情一放松笑容就更自然～',
+    '试试假装惊讶，嘴巴微微张开，眼睛睁大，超可爱～',
+    '让她低头看书或看手机，然后抬起头看镜头，这个瞬间抓拍～',
+    '假装在看远处的什么东西出神，然后转头微笑，超有氛围～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -2378,6 +2407,14 @@ export async function analyzePhoto(
   // 露营篝火建议
   if (safeBrightness >= 40 && safeBrightness <= 100 && sceneType === 'outdoor' && totalScore < 70) {
     suggestions.push(pickRandom(SUGGESTION_POOL.camping_campfire_specific || SUGGESTION_POOL.composition))
+  }
+  // ========== Round 2 新增：情侣互动建议触发 ==========
+  if (isCouplePhoto && faceCount >= 2 && totalScore < 80 && !problems.includes('composition')) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.couple_interaction_hint))
+  }
+  // ========== Round 2 新增：情绪引导建议触发 ==========
+  if (faceCount > 0 && totalScore >= 50 && totalScore < 70 && !problems.includes('stability')) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.emotion_guidance_hint))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
