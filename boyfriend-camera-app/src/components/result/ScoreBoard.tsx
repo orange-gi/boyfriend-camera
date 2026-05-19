@@ -1,6 +1,6 @@
 /**
- * ScoreBoard - 评分板 v2
- * 改进：总分逐位滚动动画、各维度依次展开动画
+ * ScoreBoard - 评分板 v3
+ * 改进：总分逐位滚动动画、各维度依次展开动画、建议文案气泡
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { View, Text, StyleSheet, Animated } from 'react-native'
@@ -141,11 +141,17 @@ export default function ScoreBoard({ result }: Props) {
         ))}
       </View>
 
-      {/* 改进建议 */}
+      {/* 建议文案气泡 */}
       {suggestions.length > 0 && (
         <View style={styles.suggestCard}>
-          <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>💡 改进建议</Text>
-          {suggestions.map((s, i) => (
+          <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>💡 下次可以这样拍</Text>
+          {/* 首要建议：气泡样式 */}
+          <View style={styles.suggestBubble}>
+            <Text style={styles.suggestBubbleTail}>💬</Text>
+            <Text style={styles.suggestBubbleText}>{suggestions[0]}</Text>
+          </View>
+          {/* 其他建议 */}
+          {suggestions.slice(1).map((s, i) => (
             <View key={i} style={styles.suggestRow}>
               <Text style={styles.suggestBullet}>•</Text>
               <Text style={[styles.suggestText, { color: COLORS.textSecondary }]}>{s}</Text>
@@ -255,6 +261,36 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06,
     shadowRadius: 8,
     elevation: 2,
+  },
+  suggestBubble: {
+    backgroundColor: COLORS.primary + '12',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: COLORS.primary + '30',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    paddingRight: 20,
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  suggestBubbleTail: {
+    fontSize: 16,
+    marginTop: 2,
+    flexShrink: 0,
+  },
+  suggestBubbleText: {
+    flex: 1,
+    fontSize: 14,
+    color: COLORS.textPrimary,
+    lineHeight: 22,
+    fontWeight: '500',
   },
   suggestRow: {
     flexDirection: 'row',

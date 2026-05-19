@@ -532,6 +532,16 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     return '💪 继续加油！一定能越拍越好！'
   }
 
+  // 夸奖横幅背景/边框颜色（按分数段）
+  const getPraiseBannerColors = (): { bg: string; border: string; shadow: string; glow: string } => {
+    if (!scoreResult) return { bg: '#FFF8F0', border: COLORS.warning, shadow: COLORS.warning, glow: 'rgba(255,200,80,0.15)' }
+    if (scoreResult.totalScore >= 90) return { bg: '#FFF9E6', border: '#FFD700', shadow: '#FFD700', glow: 'rgba(255,215,0,0.2)' }
+    if (scoreResult.totalScore >= 80) return { bg: '#FFF0F5', border: COLORS.primary, shadow: COLORS.primary, glow: 'rgba(255,107,107,0.15)' }
+    if (scoreResult.totalScore >= 70) return { bg: '#F0FFF4', border: COLORS.success, shadow: COLORS.success, glow: 'rgba(78,205,196,0.12)' }
+    return { bg: '#F5F8FF', border: '#A0A0E0', shadow: '#A0A0E0', glow: 'rgba(100,100,200,0.1)' }
+  }
+  const praiseColors = getPraiseBannerColors()
+
   return (
     <View style={styles.container}>
       {/* 撒花粒子 */}
@@ -636,7 +646,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           </View>
         )}
 
-        {/* 夸奖横幅（打字机效果） */}
+        {/* 夸奖横幅（打字机效果 + 渐变色背景） */}
         {!processing && (
           <Animated.View
             style={[
@@ -644,10 +654,17 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               {
                 opacity: scoreAnimationDone ? 1 : 0,
                 transform: [{ translateY: scoreAnimationDone ? 0 : -10 }],
+                backgroundColor: praiseColors.bg,
+                borderLeftColor: praiseColors.border,
+                shadowColor: praiseColors.shadow,
               },
             ]}
           >
-            <Text style={styles.praiseBannerScore}>{getPraiseBannerText()}</Text>
+            {/* 渐变模拟叠加层 */}
+            <View style={[styles.praiseBannerGlow, { backgroundColor: praiseColors.glow }]} />
+            <Text style={[styles.praiseBannerScore, { color: praiseColors.border === '#FFD700' ? '#B8860B' : COLORS.textPrimary }]}>
+              {getPraiseBannerText()}
+            </Text>
             {typedPraise.length > 0 && (
               <Text style={styles.praiseBannerSub}>🌟 {typedPraise}<Text style={styles.cursorBlink}>|</Text></Text>
             )}
@@ -1014,15 +1031,18 @@ const styles = StyleSheet.create({
   praiseBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    backgroundColor: '#FFF8F0',
     borderRadius: 16,
     padding: 14,
     borderLeftWidth: 4,
-    borderLeftColor: COLORS.warning,
-    shadowColor: COLORS.warning,
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 2,
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 3,
+    overflow: 'hidden',
+  },
+  praiseBannerGlow: {
+    ...StyleSheet.absoluteFill,
+    opacity: 0.5,
+    borderRadius: 16,
   },
   praiseBannerScore: {
     fontSize: 16,
@@ -1122,10 +1142,11 @@ const styles = StyleSheet.create({
     borderColor: COLORS.divider,
     backgroundColor: '#fff',
     gap: 6,
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    elevation: 1,
+    shadowColor: '#888',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 2,
   },
   actionBtnSecondaryIcon: {
     fontSize: 16,
@@ -1147,9 +1168,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFBF5',
     gap: 6,
     shadowColor: COLORS.warning,
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.18,
+    shadowRadius: 6,
+    elevation: 2,
   },
   actionBtnShareIcon: {
     fontSize: 16,
