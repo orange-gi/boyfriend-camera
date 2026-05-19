@@ -1790,6 +1790,135 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '男朋友在认真拍呢，态度满分💪',
     '构图有点意思！继续优化一下光线会更棒～',
   ],
+  // ========== Round 迭代新增建议池 ==========
+  // 毕业照场景
+  graduation_specific: [
+    '毕业袍配上学士帽，背景选个校园地标超有纪念感！',
+    '抛帽的瞬间超有活力！连拍几张总有一张完美～',
+    '毕业照光线要均匀，找个树荫下的柔和光～',
+    '毕业袍站着坐着都好看，横着拍更有大片感～',
+  ],
+  // 樱花季专项
+  cherry_blossom_specific: [
+    '樱花树下光线斑驳！风吹过来的时候按下快门，绝美～',
+    '樱花季光线很柔，但背景可能过曝，稍微欠曝补偿～',
+    '蹲低一点拍，让樱花做背景，人更突出～',
+    '樱花雨飘落的时候抓拍，超有氛围感！',
+  ],
+  // 圣诞/节日专项
+  christmas_specific: [
+    '圣诞树灯光暖暖的超有氛围感！让光打在侧脸上～',
+    '节日灯光复杂，开闪光灯补面部光线～',
+    '圣诞装饰做背景超有节日感，构图留点空间给装饰～',
+  ],
+  // 健身房场景建议
+  gym_specific: [
+    '健身房镜子自拍要斜着拍，避免镜面反光～',
+    '运动后脸红润通透，这个状态超适合拍照！',
+    '健身房灯光冷白偏蓝，找窗边自然光更显好气色～',
+  ],
+  // 动物园场景建议
+  zoo_specific: [
+    '动物园背景可能有点杂乱，试试虚化背景让主体突出～',
+    '长颈鹿区找围栏边站好，和动物互动的瞬间抓拍～',
+    '水族馆光线偏暗偏蓝，打开闪光灯补光～',
+  ],
+  // 火车/铁轨场景建议
+  train_specific: [
+    '火车轨道延伸线超有电影感！人站在铁轨边构图更有张力～',
+    '铁轨引导线构图很有纵深感，让视线延伸到人物身上～',
+    '火车场景光线复杂，可以稍微欠曝保留细节～',
+  ],
+  // 古镇老街场景建议
+  ancient_town_specific: [
+    '古镇老墙做背景超有年代感！侧身站立更有氛围～',
+    '古镇巷子里光线斑驳，找个光斑打在脸上～',
+    '青石板路延伸线超有纵深感，让男朋友找好角度～',
+  ],
+  // 灯塔场景建议
+  lighthouse_specific: [
+    '灯塔背景超有画面感！侧身站着让光线打在侧脸上～',
+    '灯塔海边风大，头发飘起来超有动感！',
+    '灯塔和海做背景构图很有层次，男朋友这角度绝了～',
+  ],
+  // 地铁站台场景建议
+  subway_specific: [
+    '地铁站台冷调灯光超有都市感！随意站着抓拍～',
+    '地铁扶手电梯上光线冷调，靠着扶手随性自然～',
+    '站台等车瞬间抓拍，表情最自然！',
+  ],
+  // 超市货架场景建议
+  supermarket_specific: [
+    '超市货架前光线均匀！拿个零食饮料当道具，俏皮又自然～',
+    '货架做背景超有生活感，构图要有层次～',
+    '冰柜前光线冷白，拿瓶饮料举起来超可爱～',
+  ],
+  // 露台派对场景建议
+  rooftop_party_specific: [
+    '露台派对灯光璀璨！背景和人要均衡～',
+    '天台夜景璀璨，打开闪光灯照亮人脸～',
+    '派对灯光颜色丰富，不要让人脸过暗～',
+  ],
+  // 农场景建议
+  farm_specific: [
+    '农场田园好清新！站在田埂上或麦田里，笑一个～',
+    '田园风光背景干净，人物更突出～',
+    '草帽和田园背景超搭，男朋友这构图绝了～',
+  ],
+  // 涂鸦墙场景建议
+  graffiti_specific: [
+    '涂鸦墙背景超有潮流感！靠着墙站着，酷酷地看镜头～',
+    '颜色丰富的涂鸦墙做背景，衣服颜色要简洁～',
+    '涂鸦墙和潮服超配，男朋友这构图很有街头感～',
+  ],
+  // 水族馆场景建议
+  aquarium_specific: [
+    '水族馆光线超梦幻！站在大鱼缸前，笑一个～',
+    '水族馆里光线偏暗偏蓝，打开闪光灯补光～',
+    '大鱼缸玻璃会反光，稍微侧身躲开～',
+  ],
+  // 教堂婚礼场景建议
+  chapel_specific: [
+    '教堂背景超庄严！端正站着，笑得温柔点～',
+    '婚礼现场光线可能复杂，打开闪光灯或找窗边～',
+    '教堂窗户的光超有神圣感，侧身站着让光打在侧脸上～',
+  ],
+  // 集市摊位场景建议
+  market_stall_specific: [
+    '集市摊位好热闹！靠着摊位，随意自然地笑～',
+    '市集背景颜色丰富，衣服要选简洁的颜色～',
+    '集市光线可能杂乱，找个均匀的光源～',
+  ],
+  // 烘焙甜点场景建议
+  bakery_specific: [
+    '面包店香气仿佛都能闻到，这张照片太有感觉了！',
+    '暖黄色灯光下皮肤超通透，男朋友好会找角度！',
+    '捧着面包或端着咖啡，笑着看镜头～',
+  ],
+  // 旋转木马场景建议
+  carousel_specific: [
+    '旋转木马灯光超梦幻！抓着柱子笑一个～',
+    '旋转木马背景颜色丰富，构图要有层次～',
+    '木马慢慢转的时候抓拍，表情最自然！',
+  ],
+  // 玻璃花房场景建议
+  greenhouse_specific: [
+    '玻璃花房光线超通透！站在植物旁边，自然微笑看向镜头～',
+    '花房里的光线被玻璃柔化了，拍出来皮肤超好～',
+    '绿色植物背景超小清新，男朋友这构图绝了！',
+  ],
+  // 月食/特殊天象场景建议
+  eclipse_specific: [
+    '特殊天象做背景超有纪念感！曝光要稍微补偿～',
+    '天象背景亮人脸暗，打开闪光灯补面部光线～',
+    '这种场景超难得，男朋友这构图很有纪念意义！',
+  ],
+  // 露营帐篷场景建议
+  tent_camp_specific: [
+    '帐篷前拍照超有户外感，男朋友这构图绝了！',
+    '露营场景也拍得这么好看，男朋友你好会找角度！',
+    '帐篷背景超有感觉，男朋友你是有探险精神的摄影师！',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -1820,6 +1949,9 @@ export interface AnalyzeContext {
   isFirstPhoto?: boolean
   /** 场景类型（用于场景专属夸奖） */
   sceneType?: 'indoor' | 'outdoor' | 'other' | 'cafe' | 'rooftop_night' | 'camping_campfire' | 'snow' | 'ski_resort'
+    | 'cherry_blossom' | 'christmas' | 'gym' | 'zoo' | 'train' | 'ancient_town' | 'lighthouse'
+    | 'subway' | 'supermarket' | 'rooftop_party' | 'farm' | 'graffiti' | 'aquarium'
+    | 'chapel' | 'market_stall' | 'bakery' | 'carousel' | 'greenhouse' | 'tent_camp' | 'graduation'
   /** 上次构图分（构图改善检测） */
   lastCompositionScore?: number
   /** 上次表情分（表情改善检测） */
@@ -2478,6 +2610,84 @@ export async function analyzePhoto(
   // ========== Round 2 新增：中低分鼓励触发 ==========
   if (totalScore >= 40 && totalScore < 60) {
     suggestions.push(pickRandom(SUGGESTION_POOL.medium_low_encourage))
+  }
+
+  // ========== 本次新增：特殊场景建议触发 ==========
+  // 毕业照场景
+  if (sceneType === 'graduation') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.graduation_specific))
+  }
+  // 樱花季场景
+  if (sceneType === 'cherry_blossom') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.cherry_blossom_specific))
+  }
+  // 节日场景（圣诞/新年/节日）
+  if (sceneType === 'christmas') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.christmas_specific))
+  }
+  // 健身房场景
+  if (sceneType === 'gym') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.gym_specific))
+  }
+  // 动物园场景
+  if (sceneType === 'zoo') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.zoo_specific || SUGGESTION_POOL.aquarium_specific))
+  }
+  // 古镇老街场景
+  if (sceneType === 'ancient_town') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.ancient_town_specific))
+  }
+  // 灯塔海边场景
+  if (sceneType === 'lighthouse') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.lighthouse_specific))
+  }
+  // 地铁站台场景
+  if (sceneType === 'subway') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.subway_specific))
+  }
+  // 超市货架场景
+  if (sceneType === 'supermarket') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.supermarket_specific))
+  }
+  // 露台派对场景
+  if (sceneType === 'rooftop_party') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rooftop_party_specific))
+  }
+  // 农场田园场景
+  if (sceneType === 'farm') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.farm_specific))
+  }
+  // 涂鸦墙场景
+  if (sceneType === 'graffiti') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.graffiti_specific))
+  }
+  // 水族馆场景
+  if (sceneType === 'aquarium') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.aquarium_specific))
+  }
+  // 教堂婚礼场景
+  if (sceneType === 'chapel') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.chapel_specific))
+  }
+  // 集市摊位场景
+  if (sceneType === 'market_stall') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.market_stall_specific))
+  }
+  // 烘焙甜点场景
+  if (sceneType === 'bakery') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.bakery_specific))
+  }
+  // 旋转木马场景
+  if (sceneType === 'carousel') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.carousel_specific))
+  }
+  // 玻璃花房场景
+  if (sceneType === 'greenhouse') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.greenhouse_specific))
+  }
+  // 露营帐篷场景
+  if (sceneType === 'tent_camp') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.tent_camp_specific))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
