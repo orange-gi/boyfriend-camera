@@ -536,11 +536,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
   // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
   const getPraiseBannerColors = (): { bg: string; border: string; shadow: string; glow: string } => {
-    if (!scoreResult) return { bg: colors.warningLight, border: COLORS.warning, shadow: COLORS.warning, glow: 'rgba(255,200,80,0.15)' }
-    if (scoreResult.totalScore >= 90) return { bg: '#FFF9E6', border: colors.warning, shadow: colors.warning, glow: 'rgba(255,215,0,0.2)' }
-    if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: COLORS.primary, shadow: COLORS.primary, glow: 'rgba(255,107,107,0.15)' }
-    if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: COLORS.success, shadow: COLORS.success, glow: 'rgba(78,205,196,0.12)' }
-    return { bg: '#F5F8FF', border: '#A0A0E0', shadow: '#A0A0E0', glow: 'rgba(100,100,200,0.1)' }
+    if (!scoreResult) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning, glow: colors.scoreGreatGlow }
+    if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.warning, shadow: colors.warning, glow: colors.scoreGreatGlow }
+    if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: colors.primary, shadow: colors.primary, glow: colors.scoreLowGlow }
+    if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: colors.success, shadow: colors.success, glow: colors.scoreOkGlow }
+    return { bg: colors.scoreOkBg, border: colors.scoreOkBorder, shadow: colors.scoreOkBorder, glow: colors.scoreOkGlow }
   }
   const praiseColors = getPraiseBannerColors()
 
@@ -664,7 +664,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           >
             {/* 渐变模拟叠加层 */}
             <View style={[styles.praiseBannerGlow, { backgroundColor: praiseColors.glow }]} />
-            <Text style={[styles.praiseBannerScore, { color: praiseColors.border === '#FFD700' ? '#B8860B' : COLORS.textPrimary }]}>
+            <Text style={[styles.praiseBannerScore, { color: praiseColors.border === colors.warning ? colors.goldDark : COLORS.textPrimary }]}>
               {getPraiseBannerText()}
             </Text>
             {typedPraise.length > 0 && (
@@ -1131,7 +1131,7 @@ const styles = StyleSheet.create({
   xiaohongshuCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF0F5',
+    backgroundColor: colors.cardPink,
     borderRadius: 16,
     padding: 14,
     marginHorizontal: 20,
@@ -1208,10 +1208,10 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 24,
     borderWidth: 1.5,
-    borderColor: COLORS.warning,
-    backgroundColor: '#FFFBF5',
+    borderColor: colors.warning,
+    backgroundColor: colors.cardCream,
     gap: 6,
-    shadowColor: COLORS.warning,
+    shadowColor: colors.warning,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.18,
     shadowRadius: 6,
@@ -1255,8 +1255,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderRadius: 16,
     borderWidth: 1.5,
-    borderColor: COLORS.primary,
-    backgroundColor: '#FFF0F5',
+    borderColor: colors.primary,
+    backgroundColor: colors.cardPink,
   },
   diaryEntryBtnText: {
     fontSize: 14,
@@ -1289,7 +1289,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   errorBanner: {
-    backgroundColor: '#FFF3CD',
+    backgroundColor: colors.cardYellow,
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -1303,12 +1303,12 @@ const styles = StyleSheet.create({
   },
   errorBannerText: {
     fontSize: 13,
-    color: '#856404',
+    color: colors.cardBrown,
     textAlign: 'center',
     marginBottom: 8,
   },
   errorRetryBtn: {
-    backgroundColor: '#856404',
+    backgroundColor: colors.cardBrown,
     borderRadius: 16,
     paddingHorizontal: 20,
     paddingVertical: 7,
@@ -1325,7 +1325,7 @@ const styles = StyleSheet.create({
   },
   errorSecondaryBtnText: {
     fontSize: 13,
-    color: '#856404',
+    color: colors.cardBrown,
     fontWeight: '600',
   },
   // 撒花粒子

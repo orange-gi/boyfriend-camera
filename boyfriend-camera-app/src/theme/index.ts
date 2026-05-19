@@ -120,6 +120,28 @@ export const colors = {
   whiteAlpha80: 'rgba(255,255,255,0.8)',
   whiteAlpha90: 'rgba(255,255,255,0.9)',
   whiteAlpha95: 'rgba(255,255,255,0.95)',
+
+  // 评分横幅渐变背景（按分数段）
+  scoreGreatBg: '#FFF0E8',
+  scoreOkBg: '#F5F8FF',
+  scoreLowBg: '#FFF5F5',
+  // 评分横幅边框
+  scoreGreatBorder: '#FFB347',
+  scoreOkBorder: '#A0A0E0',
+  scoreLowBorder: '#FF6B6B',
+  // 评分横幅 glow
+  scoreGreatGlow: 'rgba(255,180,80,0.18)',
+  scoreOkGlow: 'rgba(160,160,224,0.15)',
+  scoreLowGlow: 'rgba(255,107,107,0.12)',
+
+  // 特殊卡片背景
+  cardPink: '#FFF0F5',
+  cardCream: '#FFFBF5',
+  cardYellow: '#FFF3CD',
+  cardBrown: '#856404',
+
+  // 评分金色
+  goldDark: '#B8860B',
 } as const
 
 // ─────────────────────────────────────────────
