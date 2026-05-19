@@ -2366,6 +2366,55 @@ class VoiceCoach {
   }
 
   /** 滤镜已应用提示 */
+  /** 滤镜移除提示 */
+  async speakFilterRemoved(): Promise<void> {
+    const tips = [
+      '滤镜已清除，恢复原图～',
+      '原图也很美！撤销滤镜看看～',
+      '滤镜去掉了，还是原图最真实～',
+      '恢复原始色调，这张本来就好看～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, false)
+  }
+
+  /** 模板已清除提示 */
+  async speakTemplateCleared(): Promise<void> {
+    const tips = [
+      '模板已关闭，自由发挥吧～',
+      '没有模板限制啦，自由拍摄更自然～',
+      '模板去除，跟着感觉拍就好～',
+      '关闭模板引导，随心所欲拍～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, false)
+  }
+
+  /** 分享成功提示 */
+  async speakShareSuccess(): Promise<void> {
+    const tips = [
+      '分享成功！这张绝对被夸爆～',
+      '发出去了！男朋友摄影师认证加一～',
+      '分享成功！等着被点赞吧～',
+      '发出去了！男朋友继续加油哦～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, false)
+  }
+
+  /** 里程碑庆祝提示 */
+  async speakCelebration(milestone: 'streak3' | 'streak7' | 'first10' | 'perfect'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      streak3: ['连续三天都在拍！男朋友好有毅力～', '三天坚持下来太棒了！男朋友已经爱上摄影了～', '三天连续打卡！男朋友这习惯养成得真好～'],
+      streak7: ['一周都在拍！男朋友摄影师天赋觉醒了！', '整整一周！男朋友你这摄影热情太牛了～', '七天连续！男朋友已经是拍照达人了！'],
+      first10: ['拍满十张了！男朋友进步速度惊人～', '十张照片！从新手到有点感觉了，继续加油！', '十张里程碑！男朋友的相册越来越丰富了～'],
+      perfect: ['满分作品诞生！男朋友你是怎么做到的！', '满分！男朋友这张直接封神了！', '完美！满分作品！男朋友已经超越全国99%的男生了！'],
+    }
+    const arr = tips[milestone] || tips.perfect
+    const tip = arr[Math.floor(Math.random() * arr.length)]
+    await this.speak(tip, true)
+  }
+
   async speakFilterApplied(filterName: string): Promise<void> {
     const filterLabels: Record<string, string> = {
       warm: '暖黄',

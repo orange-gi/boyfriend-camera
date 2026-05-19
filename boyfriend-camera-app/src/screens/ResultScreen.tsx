@@ -512,6 +512,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   }
 
   function handleGoCamera() {
+    voiceCoach.speakRetryTip(scoreResult?.totalScore ?? 0)
     navigation.navigate({ name: 'Camera' as const, params: { templateId: undefined } })
   }
 

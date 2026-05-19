@@ -312,6 +312,7 @@ export default function CameraScreen() {
   const clearTemplate = useCallback(() => {
     setActiveTemplate(null)
     VoiceCoach.stop()
+    VoiceCoach.speakTemplateCleared()
     resetAutoTemplate()
   }, [resetAutoTemplate])
 
