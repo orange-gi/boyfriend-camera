@@ -71,20 +71,20 @@ export default function ResultScreen() {
   )
 
 const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'; label: string; emoji: string; color: string }> = [
-  { key: 'warm', label: '暖黄', emoji: '🌅', color: '#FFA07A' },
-  { key: 'cool', label: '冷调', emoji: '❄️', color: '#87CEEB' },
-  { key: 'vivid', label: '生动', emoji: '🎨', color: '#FF69B4' },
-  { key: 'soft', label: '柔和', emoji: '🌸', color: '#FFD1DC' },
-  { key: 'bw', label: '黑白', emoji: '🖤', color: '#555555' },
-  { key: 'portrait', label: '人像', emoji: '👩', color: '#FFE4C4' },
-  { key: 'food', label: '美食', emoji: '🍔', color: '#FFB347' },
-  { key: 'landscape', label: '风景', emoji: '🏞️', color: '#87CEEB' },
-  { key: 'night', label: '夜景', emoji: '🌃', color: '#4B0082' },
-  { key: 'sunset', label: '日落', emoji: '🌇', color: '#FF6347' },
-  { key: 'floral', label: '花季', emoji: '🌺', color: '#FF69B4' },
-  { key: 'snow', label: '雪景', emoji: '❄️', color: '#E0FFFF' },
-  { key: 'golden', label: '金棕', emoji: '✨', color: '#DAA520' },
-  { key: 'cinematic', label: '电影', emoji: '🎬', color: '#2F4F4F' },
+  { key: 'warm', label: '暖黄', emoji: '🌅', color: colors.filterWarm },
+  { key: 'cool', label: '冷调', emoji: '❄️', color: colors.filterCool },
+  { key: 'vivid', label: '生动', emoji: '🎨', color: colors.filterVivid },
+  { key: 'soft', label: '柔和', emoji: '🌸', color: colors.filterSoft },
+  { key: 'bw', label: '黑白', emoji: '🖤', color: colors.filterBw },
+  { key: 'portrait', label: '人像', emoji: '👩', color: colors.filterPortrait },
+  { key: 'food', label: '美食', emoji: '🍔', color: colors.filterFood },
+  { key: 'landscape', label: '风景', emoji: '🏞️', color: colors.filterLandscape },
+  { key: 'night', label: '夜景', emoji: '🌃', color: colors.filterNight },
+  { key: 'sunset', label: '日落', emoji: '🌇', color: colors.filterSunset },
+  { key: 'floral', label: '花季', emoji: '🌺', color: colors.filterFloral },
+  { key: 'snow', label: '雪景', emoji: '❄️', color: colors.filterSnow },
+  { key: 'golden', label: '金棕', emoji: '✨', color: colors.filterGolden },
+  { key: 'cinematic', label: '电影', emoji: '🎬', color: colors.filterCinematic },
 ]
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
@@ -943,7 +943,7 @@ const styles = StyleSheet.create({
   filterPickerTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#666',
+    color: colors.textSecondary,
     marginBottom: 8,
   },
   filterPickerList: {
@@ -1044,7 +1044,7 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 12,
     backgroundColor: COLORS.primary,
-    color: '#fff',
+    color: colors.textOnPrimary,
     textAlign: 'center',
     lineHeight: 24,
     fontSize: 12,
@@ -1315,7 +1315,7 @@ const styles = StyleSheet.create({
   },
   errorRetryBtnText: {
     fontSize: 13,
-    color: '#fff',
+    color: colors.textOnPrimary,
     fontWeight: '600',
   },
   errorSecondaryBtn: {

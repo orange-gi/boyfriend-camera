@@ -28,16 +28,18 @@ export function scoreLabel(score: number): string {
   return '💪 加油'
 }
 
-/** 分类色板（统一使用此处定义，各页面不再重复定义） */
+/** 分类色板（统一使用此处定义，各页面不再重复定义）
+ * 所有颜色值来自 theme/index.ts 设计 tokens
+ */
 export const CATEGORY_COLORS: Record<string, string> = {
-  '室内日常': '#FF6B6B',
-  '室内场景': '#FF9F43',
-  '室内人像': '#FF9F43',
-  '户外风景': '#4CAF50',
-  '餐厅美食': '#FFB347',
-  '特殊风格': '#A29BFE',
-  '情侣合照': '#FD79A8',
-  '城市街拍': '#00BCD4',
-  '自拍技巧': '#FF6B9D',
-  '构图技巧': '#6C5CE7',
+  '室内日常': tokens.colors.categoryIndoor,
+  '室内场景': tokens.colors.categoryIndoor,
+  '室内人像': tokens.colors.categoryIndoor,
+  '户外风景': tokens.colors.categoryOutdoor,
+  '餐厅美食': tokens.colors.categoryFood,
+  '特殊风格': tokens.colors.categoryStyle,
+  '情侣合照': tokens.colors.categoryCouple,
+  '城市街拍': tokens.colors.categoryStreet,
+  '自拍技巧': tokens.colors.categoryPortrait,
+  '构图技巧': tokens.colors.categoryComposition,
 }
