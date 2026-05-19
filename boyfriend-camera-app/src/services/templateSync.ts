@@ -6,6 +6,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { callFunction } from './cloudbase'
 import { DEFAULT_TEMPLATES } from './defaultTemplates'
+import { logger } from '../utils/logger'
 import type { PoseTemplate } from '../components/camera/PoseTemplateOverlay'
 
 const TEMPLATE_CACHE_PREFIX = 'template_cache_v'
@@ -63,7 +64,7 @@ export async function syncTemplates(): Promise<PoseTemplate[]> {
     // 已更新到新版本，共 
     return templates
   } catch (e) {
-    console.warn('[TemplateSync] 云函数不可用，使用离线模板:', (e as Error).message)
+    logger.warn('TemplateSync', `云函数不可用，使用离线模板: ${(e as Error).message}`)
     // 无缓存且云函数不可用 → 返回内置默认模板
     const cached = await getCachedTemplates()
     if (cached.length > 0) return cached
@@ -85,4 +86,32 @@ export async function getCachedTemplates(): Promise<PoseTemplate[]> {
   }
   // 缓存为空，返回默认模板
   return DEFAULT_TEMPLATES
+}
+
+/**
+ * 获取所有模板分类（去重）
+ * 用于分类筛选 UI
+ */
+export function getTemplateCategories(templates: PoseTemplate[]): Array<{ key: string; label: string }> {
+  const seen = new Set<string>()
+  const categories: Array<{ key: string; label: string }> = []
+  for (const t of templates) {
+    const cat = t.category ?? '未分类'
+    if (!seen.has(cat)) {
+      seen.add(cat)
+      categories.push({ key: cat, label: cat })
+    }
+  }
+  return categories
+}
+
+/**
+ * 按分类筛选模板
+ */
+export function filterTemplatesByCategory(
+  templates: PoseTemplate[],
+  category: string | null
+): PoseTemplate[] {
+  if (!category || category === '全部') return templates
+  return templates.filter((t) => (t.category ?? '未分类') === category)
 }
