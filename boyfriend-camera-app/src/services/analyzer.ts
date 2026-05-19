@@ -3,6 +3,7 @@
  * 纯本地分析，无需 AI
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { logger } from '../utils/logger'
 
 const DIARY_KEY = 'progress_diary'
 
@@ -2079,7 +2080,7 @@ export async function getScoreHistory(limit: number = 30): Promise<{ date: strin
       .filter((r): r is DiaryRecord => r && typeof r.score === 'number' && typeof r.date === 'string')
       .slice(-limit)
   } catch (e) {
-    console.warn('[Diary] getScoreHistory failed:', e)
+    logger.warn('Diary', 'getScoreHistory failed:', e)
     return []
   }
 }
@@ -2119,11 +2120,11 @@ export async function saveToDiary(record: DiaryRecord): Promise<boolean> {
           return true
         }
       } catch {
-        console.error('[Analyzer] 存储空间不足，保存日记失败:', e)
+        logger.error('Analyzer', '存储空间不足，保存日记失败:', e)
         return false
       }
     }
-    console.error('[Analyzer] 保存日记失败:', e)
+    logger.error('Analyzer', '保存日记失败:', e)
     return false
   }
 }
@@ -2133,7 +2134,7 @@ export async function writeDiary(records: DiaryRecord[]): Promise<void> {
   try {
     await AsyncStorage.setItem(DIARY_KEY, JSON.stringify(records))
   } catch (e) {
-    console.error('[Analyzer] 写入日记失败:', e)
+    logger.error('Analyzer', '写入日记失败:', e)
   }
 }
 
@@ -2145,7 +2146,7 @@ export async function getDiary(): Promise<DiaryRecord[]> {
     // 过滤无效记录，防止损坏数据导致崩溃
     return Array.isArray(parsed) ? parsed.filter(r => r && typeof r.score === 'number' && r.date) : []
   } catch (e) {
-    console.warn('[Diary] getDiary failed:', e)
+    logger.warn('Diary', 'getDiary failed:', e)
     return []
   }
 }

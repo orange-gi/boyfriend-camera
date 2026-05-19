@@ -5,6 +5,7 @@
  */
 import Tts from 'react-native-tts'
 import { type EmotionDetection } from '../../services/analyzer'
+import { logger } from '../../utils/logger'
 
 // 提示文案
 const FACE_TIPS = {
@@ -629,7 +630,7 @@ class VoiceCoach {
       this.enabled = true
       this.initialized = true
     } catch (e) {
-      console.warn('[VoiceCoach] TTS init failed (voice tips disabled):', e)
+      logger.warn('VoiceCoach', 'TTS init failed (voice tips disabled):', e)
       // 不阻塞流程，语音提示静默降级
     }
   }
@@ -691,9 +692,9 @@ class VoiceCoach {
         errStr.includes('no language') ||
         errStr.includes('Engine error')
       ) {
-        console.warn('[VoiceCoach] TTS engine issue (non-critical):', e)
+        logger.warn('VoiceCoach', 'TTS engine issue (non-critical):', e)
       } else {
-        console.error('[VoiceCoach] speak failed:', e)
+        logger.error('VoiceCoach', 'speak failed:', e)
       }
     }
   }
