@@ -4,7 +4,7 @@
  * 云函数不可用时 fallback 到内置默认模板
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { callFunction } from './cloudbase'
+import { callFunction, isCloudEnabled } from './cloudbase'
 import { DEFAULT_TEMPLATES } from './defaultTemplates'
 import { logger } from '../utils/logger'
 import type { PoseTemplate } from '../components/camera/PoseTemplateOverlay'
@@ -35,8 +35,14 @@ export async function setLocalVersion(version: number): Promise<void> {
 export async function syncTemplates(): Promise<PoseTemplate[]> {
   const localVersion = await getLocalVersion()
 
+  // 未配置云端 API Key 时直接使用本地模板，无需登录
+  if (!isCloudEnabled()) {
+    const cached = await getCachedTemplates()
+    return cached.length > 0 ? cached : DEFAULT_TEMPLATES
+  }
+
   try {
-    // 调用云函数检查更新
+    // 调用云函数检查更新（需 ACCESS_KEY，非用户登录）
     const res = await callFunction('getTemplates', { localVersion })
     if (!res) throw new Error('云函数返回为空')
 
