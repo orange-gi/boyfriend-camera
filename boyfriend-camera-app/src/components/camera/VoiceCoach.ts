@@ -761,6 +761,11 @@ const EMOTION_TIPS = {
   COUNT_TO_THREE: '数三下！一、二、三，笑一个～',
   SING_A_SONG: '小声哼首歌，表情会自然放松～',
   CLOSE_EYES_SMILE: '闭上眼睛笑一笑，再睁开眼看镜头～',
+  TONGUE_OUT: '调皮地吐舌头，这个表情好可爱～',
+  FINGER_HEART: '比个心！手指比心，眼睛看镜头，笑一个～',
+  LOOK_DOWN: '稍微低头，眼睛往下看，害羞的感觉超可爱～',
+  YAWN_BIG: '假装打个哈欠，然后笑出来，这个表情好自然～',
+  WINK_CAMERA: '试试wink！一只眼睛眨一下，超俏皮～',
 }
 
 // ========== Round 3 新增：滤镜推荐语音提示 ==========
@@ -775,6 +780,34 @@ const FILTER_TIPS = {
   SOFT_FILTER: '柔化滤镜超适合这张！梦幻感满满～',
   BOKEH_FILTER: '开大光圈虚化背景！主体会更突出～',
   BW_FILTER: '试试黑白滤镜！光影感会更强～',
+  GOLDEN_FILTER: '金棕滤镜很适合这张！温暖又有质感～',
+  CINEMATIC_FILTER: '电影感滤镜让这张照片更有故事感～',
+  FLORAL_FILTER: '花季滤镜配这张超美！色彩更通透～',
+  SNOW_FILTER: '雪景滤镜提亮又柔和，画面更干净～',
+}
+
+// ========== Round 3 新增：姿势引导语音提示 ==========
+const POSE_TIPS = {
+  LEAN_WALL: '靠墙站好～肩膀放松，一只手稍微抬起～',
+  SIDE_POSE: '侧身站着～一只脚稍微往前伸，腿显更长～',
+  HAND_ON_FACE: '手轻轻托着下巴，假装在想事情～',
+  WALKING_CATCH: '往前走几步！让他从背后抓拍，自然又生动～',
+  SITTING_LEG: '坐在椅子上～一只脚往前伸，身体稍微侧过来～',
+  LOOK_BACK: '回头看镜头！一个肩膀留在画面里，超有氛围～',
+  ARM_ON_HEAD: '一只手轻轻放在头顶，微微歪头，超可爱～',
+  CROSS_ARMS: '交叉手臂站着，气场全开，超有态度～',
+  SHOULDER_SHOW: '露出肩膀！头发拨到一边，锁骨线条超美～',
+  LYING_DOWN: '躺下来仰拍！头发散开，超有感觉～',
+  HUNCH_SHOULDER: '稍微含一点肩，缩一下脖子，下巴更尖～',
+  JAW_TILT: '稍微抬一点下巴，下颌线会更清晰立体～',
+  COLLAR_TUG: '轻轻拉一下衣领，脖子线条更修长～',
+  HAIR_TUCK: '头发稍微理一下，风把它吹到一边，光影更通透～',
+  ARM_AWAY: '手臂稍微离开身体，显得更瘦～',
+  LEGS_CROSS: '双脚稍微错开，一只脚稍微踮起来～',
+  LOOK_ASIDE: '视线看向旁边，嘴角微微上扬，眼神更有戏～',
+  PROFILE: '试试侧脸！轮廓感超强，表情放松～',
+  HUG_SELF: '一只手环抱另一只手臂，曲线超美～',
+  FINGER_CHIN: '手指轻轻点在下巴上，脸型更显尖～',
 }
 
 type FaceTipKey = keyof typeof FACE_TIPS
