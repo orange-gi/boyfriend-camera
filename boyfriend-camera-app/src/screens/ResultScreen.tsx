@@ -406,6 +406,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   }
 
   async function handleShare() {
+    voiceCoach.speakShareTip()
     try {
       let pathToShare = comparisonUri || processedPath || photoPath
       if (!pathToShare) {
@@ -459,6 +460,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   }
 
   async function handleShareXiaohongshu() {
+    voiceCoach.speakShareTip()
     try {
       let pathToShare = comparisonUri || processedPath || photoPath
       if (!pathToShare) {
@@ -707,7 +709,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               {FILTER_OPTIONS.map((f) => (
                 <TouchableOpacity
                   key={f.key}
-                  onPress={() => setSelectedFilter(f.key)}
+                  onPress={() => { setSelectedFilter(f.key); voiceCoach.speakFilterApplied(f.key) }}
                   activeOpacity={0.75}
                   style={styles.filterItem}
                 >

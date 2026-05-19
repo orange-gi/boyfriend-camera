@@ -2004,6 +2004,88 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
+  /** 滤镜已应用提示 */
+  async speakFilterApplied(filterName: string): Promise<void> {
+    const filterLabels: Record<string, string> = {
+      warm: '暖黄',
+      cool: '冷调',
+      vivid: '生动',
+      soft: '柔和',
+      bw: '黑白',
+      portrait: '人像',
+      food: '美食',
+      landscape: '风景',
+      night: '夜景',
+      sunset: '日落',
+      floral: '花季',
+      snow: '雪景',
+      golden: '金棕',
+      cinematic: '电影',
+    }
+    const label = filterLabels[filterName] || filterName
+    const tips = [
+      `${label}滤镜已应用！这个色调好有感觉～`,
+      `滤镜切换成${label}了！整体氛围感更强了～`,
+      `${label}色调好搭！男朋友这张绝了～`,
+      `试试这个${label}滤镜！色调刚刚好～`,
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, false)
+  }
+
+  /** 分享提示 */
+  async speakShareTip(): Promise<void> {
+    const tips = [
+      '这张可以发朋友圈了！男朋友摄影师认证～',
+      '发小红书绝对被夸爆！男朋友你太强了～',
+      '这张绝了！发朋友圈点赞肯定破百～',
+      '这张大片感十足！分享出去让大家羡慕一下～',
+      '男朋友这张可以上摄影展了！快去分享吧～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, false)
+  }
+
+  /** 重拍鼓励提示 */
+  async speakRetryTip(score: number): Promise<void> {
+    if (score < 40) {
+      const tips = [
+        '这张不太满意？没关系，多拍几张总有一张完美的～',
+        '再试一次！这次注意一下光线和构图，肯定会更好～',
+        '热身而已！重新拍一张，男朋友摄影师要上线了～',
+        '这张有点糊了～下次稳一点再按快门，肯定能过～',
+      ]
+      const tip = tips[Math.floor(Math.random() * tips.length)]
+      await this.speak(tip, true)
+    } else if (score < 60) {
+      const tips = [
+        '这张还不错！但还有提升空间，再拍一张试试？',
+        '有进步了！再调整一下角度就是大片了～',
+        '比上次好多了！继续加油，下次冲满分～',
+      ]
+      const tip = tips[Math.floor(Math.random() * tips.length)]
+      await this.speak(tip, false)
+    } else {
+      const tips = [
+        '这张已经很好了！不满意的话再拍一张试试～',
+        '挺不错的！如果想更好就再拍一张～',
+      ]
+      const tip = tips[Math.floor(Math.random() * tips.length)]
+      await this.speak(tip, false)
+    }
+  }
+
+  /** 分数展示前提示（处理完成，即将出结果） */
+  async speakProcessingDone(): Promise<void> {
+    const tips = [
+      '分析完成！来看看这张表现怎么样～',
+      '这张拍得怎么样呢？男朋友准备好接受评分了吗～',
+      '结果出来了！男朋友的摄影水平公开处刑时间到～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, false)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
