@@ -2383,6 +2383,20 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '找一本喜欢的书拿着，假装在看书，自然又文艺～',
     '书店的阅读区光线最亮！坐在阅读区拍一张，文艺感满分～',
   ],
+  // ========== 本次新增：创意道具建议 ==========
+  prop_creative_tips: [
+    '拿个道具互动会更自然！气球、书本、咖啡杯都可以～',
+    '道具让表情更放松！手不知道放哪的时候拿个小东西～',
+    '和道具互动比摆拍自然多了，这姿势绝了～',
+    '道具可以转移注意力，表情自然的时候就是最佳拍摄时机～',
+  ],
+  // ========== 本次新增：表情夸张建议 ==========
+  expression_bold_tips: [
+    '表情再夸张一点！大笑比微笑更上镜～',
+    '试试嘟嘴或wink，俏皮的表情会增加灵气～',
+    '表情夸张一点更生动！活力感拉满～',
+    '嘟嘴卖萌也可以！活泼可爱的表情超加分～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -3261,6 +3275,16 @@ export async function analyzePhoto(
   // 怼脸特写（人脸面积占比大于 0.3）
   if (facePosition && facePosition.area > 0.3 && totalScore < 85 && faceCount === 1) {
     suggestions.push(pickRandom(SUGGESTION_POOL.extreme_closeup_hint))
+  }
+
+  // ========== 本次新增：道具互动建议触发 ==========
+  if (totalShoots >= 3 && Math.random() > 0.6) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.prop_creative_tips))
+  }
+
+  // ========== 本次新增：表情夸张建议触发 ==========
+  if (Math.random() > 0.6) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.expression_bold_tips))
   }
 
   const uniquePraise = [...new Set(praise)]
