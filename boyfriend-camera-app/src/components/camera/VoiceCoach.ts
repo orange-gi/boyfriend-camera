@@ -725,6 +725,58 @@ const ENCOURAGEMENT = [
   '男朋友审美大爆发，这张太可了！',
 ]
 
+// ========== Round 3 新增：情侣互动专属语音提示 ==========
+const COUPLE_TIPS = {
+  SQUEEZE_TOGETHER: '两个人再靠近一点！贴贴更甜蜜～',
+  FACE_EACH_OTHER: '对视一下！这样拍出来超有感觉～',
+  HUG_FROM_BEHIND: '男生从后面抱！经典的甜蜜姿势～',
+  HOLD_HANDS_LOOK: '牵手看镜头，甜蜜感要溢出来了！',
+  BACK_TO_CAMERA: '两人背对镜头牵手，超有氛围感！',
+  PLAYFUL_NUDGE: '轻轻推他一下！自然互动抓拍～',
+  FORHEAD_TOUCH: '额头碰额头，超甜的姿势～',
+  SHADOW_KISS: '假装亲一下！这个角度绝了～',
+  SPIN_TOGETHER: '转个圈圈！裙子飘起来抓拍～',
+  WHISPER: '假装在他耳边说悄悄话，这个瞬间绝了～',
+  PIGGYBACK: '让他背你！这个姿势超可爱～',
+  TICKLE_EACH_OTHER: '互相挠痒痒！笑得灿烂的时候抓拍～',
+  HAND_ON_CHEEK: '一只手轻轻放在他脸颊上，温柔感拉满～',
+  SHARE_FOOD: '一起吃一个冰淇淋！互动感十足～',
+  BLOW_BALLOON: '一起吹气球！这个互动超可爱～',
+}
+
+// ========== Round 3 新增：情绪引导专属语音提示 ==========
+const EMOTION_TIPS = {
+  THINK_OF_HAPPY: '想一件开心的事！发自内心的笑最好看～',
+  LOOK_OUTSIDE: '看向窗外！假装在看风景，眼神更自然～',
+  DEEP_BREATH: '深呼吸～放松肩膀，表情更自然～',
+  PRETEND_LAUGH: '假装被逗笑了，这个表情最生动～',
+  WIND_BLOW: '假装被风吹到了，眼睛稍微眯起来超灵动～',
+  LOOK_UP_SUN: '抬头让阳光洒在脸上，温暖又自然～',
+  WAITING_SOMEONE: '假装在等人，微微侧头看向旁边，眼神超有戏～',
+  HEAR_NAME: '假装听到名字被叫到，转头看镜头，表情最自然～',
+  RELAX_SHOULDERS: '放松肩膀～表情一放松笑容就更自然～',
+  PRETEND_SURPRISE: '假装惊讶，嘴巴微微张开，眼睛睁大超可爱～',
+  READ_BOOK_LOOK_UP: '低头看书或看手机，然后抬起头看镜头抓拍～',
+  STARE_AFAR: '假装在看远处出神，然后转头微笑，超有氛围～',
+  COUNT_TO_THREE: '数三下！一、二、三，笑一个～',
+  SING_A_SONG: '小声哼首歌，表情会自然放松～',
+  CLOSE_EYES_SMILE: '闭上眼睛笑一笑，再睁开眼看镜头～',
+}
+
+// ========== Round 3 新增：滤镜推荐语音提示 ==========
+const FILTER_TIPS = {
+  WARM_FILTER: '这张试试暖调滤镜！肤色看起来会更柔和～',
+  COOL_FILTER: '冷调滤镜很有质感！整体色调会更有氛围～',
+  PORTRAIT_FILTER: '人像滤镜最适合这张！皮肤通透又自然～',
+  FOOD_FILTER: '美食照用暖色调滤镜，看起来食欲感满满～',
+  SUNSET_FILTER: '夕阳配暖色调滤镜，光线会更浓郁～',
+  NIGHT_FILTER: '夜景用电影滤镜，灯光会更有层次感～',
+  VIVID_FILTER: '这张试试生动滤镜，颜色会更鲜活～',
+  SOFT_FILTER: '柔化滤镜超适合这张！梦幻感满满～',
+  BOKEH_FILTER: '开大光圈虚化背景！主体会更突出～',
+  BW_FILTER: '试试黑白滤镜！光影感会更强～',
+}
+
 type FaceTipKey = keyof typeof FACE_TIPS
 type StabilityTipKey = keyof typeof STABILITY_TIPS
 
