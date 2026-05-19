@@ -1061,7 +1061,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   filterCheckBadgeText: {
-    color: '#fff',
+    color: colors.textOnPrimary,
     fontSize: 10,
     fontWeight: 'bold',
     lineHeight: 12,
@@ -1273,7 +1273,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.divider,
     backgroundColor: colors.bgCard,
     gap: 6,
-    shadowColor: '#888',
+    shadowColor: colors.textMuted,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 6,

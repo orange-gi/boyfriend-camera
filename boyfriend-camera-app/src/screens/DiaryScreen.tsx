@@ -453,6 +453,8 @@ export default function DiaryScreen() {
                     style={styles.clearAllBtn}
                     onPress={showClearAllSheet}
                     activeOpacity={0.72}
+                    accessibilityRole="button"
+                    accessibilityLabel="清空所有日记记录"
                   >
                     <Text style={styles.clearAllBtnText}>🗑️ 清空</Text>
                   </TouchableOpacity>
@@ -461,6 +463,8 @@ export default function DiaryScreen() {
                   style={styles.cameraBtn}
                   onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
                   activeOpacity={0.72}
+                  accessibilityRole="button"
+                  accessibilityLabel="去拍照"
                 >
                   <Text style={styles.cameraBtnText}>📸 拍照</Text>
                 </TouchableOpacity>
