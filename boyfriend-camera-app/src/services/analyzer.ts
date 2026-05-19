@@ -1577,7 +1577,7 @@ export interface AnalyzeContext {
   /** 是否为首次拍摄 */
   isFirstPhoto?: boolean
   /** 场景类型（用于场景专属夸奖） */
-  sceneType?: 'indoor' | 'outdoor' | 'other'
+  sceneType?: 'indoor' | 'outdoor' | 'other' | 'cafe' | 'rooftop_night' | 'camping_campfire' | 'snow' | 'ski_resort'
   /** 上次构图分（构图改善检测） */
   lastCompositionScore?: number
   /** 上次表情分（表情改善检测） */
@@ -1603,6 +1603,9 @@ export async function analyzePhoto(
   context: AnalyzeContext = {}
 ): Promise<AnalysisResult> {
   const { facePosition, faceCount, brightness, sharpness, tiltAngle } = params
+  // 边界校验：防止异常输入导致评分越界
+  const safeBrightness = Math.max(0, Math.min(255, brightness))
+  const safeSharpness = Math.max(0, Math.min(255, sharpness))
   const { lastScore, recentAvg, streakCount = 0, totalShoots = 0, isFirstPhoto, sceneType, lastCompositionScore, lastExpressionScore, lastExposureScore, lastStabilityScore, isCouplePhoto, peakScore } = context
   const problems: string[] = []
   const suggestions: string[] = []
@@ -1649,13 +1652,13 @@ export async function analyzePhoto(
   }
 
   // 噪点检测（亮度尚可但清晰度低 = 暗光噪点）
-  if (brightness >= 60 && brightness <= 160 && sharpness < 80 && sharpness >= 50) {
+  if (safeBrightness >= 60 && safeBrightness <= 160 && safeSharpness < 80 && safeSharpness >= 50) {
     suggestions.push(pickRandom(SUGGESTION_POOL.noise_in_dark))
   }
 
   // 曝光分 0-30
   let exposureScore = 30
-  if (brightness < 40) {
+  if (safeBrightness < 40) {
     exposureScore -= 20
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
@@ -1665,21 +1668,25 @@ export async function analyzePhoto(
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
     suggestions.push(pickRandom(SUGGESTION_POOL.over_exposure))
-  } else if (brightness < 60 || brightness > 200) {
+  } else if (safeBrightness < 60 || safeBrightness > 200) {
     exposureScore -= 8
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
   }
   if (exposureScore >= 28) praise.push(pickRandom(PRAISE_POOL.exposure_great))
-  if (exposureScore >= 28 && (brightness >= 80 && brightness <= 180)) praise.push(pickRandom(PRAISE_POOL.brightness_perfect))
+  if (exposureScore >= 28 && (safeBrightness >= 80 && safeBrightness <= 180)) praise.push(pickRandom(PRAISE_POOL.brightness_perfect))
 
   // 稳定分 0-20
   let stabilityScore = 20
-  if (sharpness < 50) {
+  if (safeSharpness < 50) {
     stabilityScore -= 15
     problems.push('stability')
     suggestions.push(pickRandom(SUGGESTION_POOL.stability))
   } else if (sharpness < 100) {
+    stabilityScore -= 5
+    problems.push('stability')
+    suggestions.push(pickRandom(SUGGESTION_POOL.stability))
+  } else if (safeSharpness < 100) {
     stabilityScore -= 5
     problems.push('stability')
     suggestions.push(pickRandom(SUGGESTION_POOL.stability))
@@ -1748,6 +1755,40 @@ export async function analyzePhoto(
   // 稳定性一般（12-16分）但整体不错的鼓励
   if (stabilityScore >= 12 && stabilityScore < 17 && totalScore >= 70) {
     praise.push(pickRandom(PRAISE_POOL.stability_okay))
+  }
+
+  // 场景专属建议（部分 pool 键未定义时回退到通用建议）
+  if (sceneType === 'outdoor' && totalScore < 75) {
+    const outdoorPool = SUGGESTION_POOL.outdoor_specific || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(outdoorPool))
+  }
+  if (sceneType === 'indoor' && totalScore < 75) {
+    const indoorPool = SUGGESTION_POOL.indoor_specific || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(indoorPool))
+  }
+  if (sceneType === 'cafe' && totalScore < 75) {
+    const cafePool = SUGGESTION_POOL.cafe_specific || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(cafePool))
+  }
+  if (sceneType === 'rooftop_night' && totalScore < 75) {
+    const rooftopPool = SUGGESTION_POOL.rooftop_night_specific || SUGGESTION_POOL.night
+    suggestions.push(pickRandom(rooftopPool))
+  }
+  if (sceneType === 'camping_campfire' && totalScore < 75) {
+    const campPool = SUGGESTION_POOL.camping_campfire_specific || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(campPool))
+  }
+  if (sceneType === 'snow' && totalScore < 75) {
+    const snowPool = SUGGESTION_POOL.snow_specific || SUGGESTION_POOL.exposure
+    suggestions.push(pickRandom(snowPool))
+  }
+  if (sceneType === 'ski_resort' && totalScore < 75) {
+    const skiPool = SUGGESTION_POOL.ski_resort_specific || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(skiPool))
+  }
+  if (isCouplePhoto && totalScore < 75) {
+    const couplePool = SUGGESTION_POOL.couple_specific || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(couplePool))
   }
 
   // 基于亮度的场景推断夸奖

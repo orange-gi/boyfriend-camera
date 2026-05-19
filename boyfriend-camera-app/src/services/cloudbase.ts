@@ -16,10 +16,11 @@ const REGION = 'ap-shanghai'
 
 /**
  * Publishable API Key：应用级凭证，不是用户登录。
+ * 优先从 process.env.ACCESS_KEY 读取（由 metro.config.js 从 .env 文件加载）。
+ * .env 文件已加入 .gitignore，不会提交到 GitHub。
  * 留空则不会初始化 CloudBase 请求，模板走内置离线数据。
  */
-const ACCESS_KEY =
-  'eyJhbGciOiJSUzI1NiIsImtpZCI6IjlkMWRjMzFlLWI0ZDAtNDQ4Yi1hNzZmLWIwY2M2M2Q4MTQ5OCJ9.eyJpc3MiOiJodHRwczovL2ppdWxvdS00Z3U1bGprcGExMDgyYjNjLmFwLXNoYW5naGFpLnRjYi1hcGkudGVuY2VudGNsb3VkYXBpLmNvbSIsInN1YiI6ImFub24iLCJhdWQiOiJqaXVsb3UtNGd1NWxqa3BhMTA4MmIzYyIsImV4cCI6NDA3NDc0MDQ2NiwiaWF0IjoxNzcxMDU3MjY2LCJub25jZSI6Ii1kVUk2SXlmUzFDa3RqYmNhdFJreEEiLCJhdF9oYXNoIjoiLWRVSTZJeWZTMUNrdGpiY2F0Umt4QSIsIm5hbWUiOiJBbm9ueW1vdXMiLCJzY29wZSI6ImFub255bW91cyIsInByb2plY3RfaWQiOiJqaXVsb3UtNGd1NWxqa3BhMTA4MmIzYyIsIm1ldGEiOnsicGxhdGZvcm0iOiJQdWJsaXNoYWJsZUtleSJ9LCJ1c2VyX3R5cGUiOiIiLCJjbGllbnRfdHlwZSI6ImNsaWVudF91c2VyIiwiaXNfc3lzdGVtX2FkbWluIjpmYWxzZX0.VrM9iw5UknDhZPKlefu-80EbSdgtNS3Ko1LCbit4ZxnV9NKP2yDm_rhUdevRFc8-FLv7zSNyODHcPqwLrZ4FZpxxYnGq8ytXavOTPEGaRk5_-DWGsdErUFMhjGI_gKdBmIheAAzKt-QLebae4iFQZAbF9iNZq9xVrs7ip2nD9qIEaUvshtpU9NXWDy2KPLUM8ZnmxaHxNGwhS2Yy7wnP8F8-UGzCU0IbUIt_Q6IdxgLtp0q4OR4GT5OAYaMV6MAZGR3iQcwmNFBoKNqvkSvTheUPgrxzmGGJUezSRC2gs9T1x8V0EsPmUX8ju3Gq-LepwpKGDnKFNcu47dA5j7dW3Q'
+const ACCESS_KEY: string = process.env.ACCESS_KEY ?? ''
 
 /** 是否启用云端 API（需配置 ACCESS_KEY） */
 export const isCloudEnabled = (): boolean => ACCESS_KEY.length > 0
