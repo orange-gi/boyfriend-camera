@@ -120,6 +120,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   const scoreReveal = useSharedValue(0)
   const cardSlide = useSharedValue(50)
   const cursorOpacity = useSharedValue(1)
+  const praisePulse = useSharedValue(1)
 
   // 光标闪烁动画（打字效果配套）
   const cursorStyle = useAnimatedStyle(() => ({ opacity: cursorOpacity.value }))
@@ -355,6 +356,8 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       screenshotTimerRef.current = setTimeout(async () => {
         if (!mountedRef.current) return
         setScoreAnimationDone(true)
+        // 夸奖横幅脉冲动画：出现时放大后回弹
+        praisePulse.value = withSpring(1.05, { damping: 8, stiffness: 180, mass: 1 })
         if (viewShotRef.current) {
           try {
             const uri = await viewShotRef.current.capture()
@@ -689,7 +692,10 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               styles.praiseBanner,
               {
                 opacity: scoreAnimationDone ? 1 : 0,
-                transform: [{ translateY: scoreAnimationDone ? 0 : -10 }],
+                transform: [
+                  { translateY: scoreAnimationDone ? 0 : -10 },
+                  { scale: praisePulse.value },
+                ],
                 backgroundColor: praiseColors.bg,
                 borderLeftColor: praiseColors.border,
                 shadowColor: praiseColors.shadow,
@@ -1044,20 +1050,21 @@ const styles = StyleSheet.create({
   },
   filterItem: {
     alignItems: 'center',
-    marginHorizontal: 6,
-    width: 64,
+    marginHorizontal: 5,
+    width: 68,
+    // 最小触摸区域 48px，达标
   },
   filterCircleWrapper: {
-    width: 56,
-    height: 56,
+    width: 58,
+    height: 58,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 6,
+    marginBottom: 5,
   },
   filterCircle: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -1109,16 +1116,16 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   filterLabel: {
-    fontSize: 11,
+    fontSize: 12,
     color: COLORS.textMuted,
     textAlign: 'center',
     fontWeight: '500',
-    marginTop: 6,
+    marginTop: 5,
   },
   filterLabelActive: {
     color: colors.primary,
     fontWeight: '700',
-    fontSize: 12,
+    fontSize: 13,
   },
   processingOverlay: {
     alignItems: 'center',
