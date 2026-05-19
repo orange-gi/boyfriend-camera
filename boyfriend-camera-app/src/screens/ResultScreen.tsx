@@ -537,7 +537,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
   const getPraiseBannerColors = (): { bg: string; border: string; shadow: string; glow: string } => {
     if (!scoreResult) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning, glow: colors.scoreGreatGlow }
-    if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.warning, shadow: colors.warning, glow: colors.scoreGreatGlow }
+    if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.scoreGreat, shadow: colors.scoreGreat, glow: colors.scoreGreatGlow }
     if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: colors.primary, shadow: colors.primary, glow: colors.scoreLowGlow }
     if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: colors.success, shadow: colors.success, glow: colors.scoreOkGlow }
     return { bg: colors.scoreOkBg, border: colors.scoreOkBorder, shadow: colors.scoreOkBorder, glow: colors.scoreOkGlow }
