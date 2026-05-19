@@ -198,7 +198,7 @@ const PRAISE_POOL: Record<string, string[]> = {
     '男朋友把我拍出了高级感，距离90分只差一点点！',
     '这张好有氛围感！构图讲究再配合完美光线，男朋友太会了！',
   ],
-  // 新增：夜景专属夸奖
+  // ========== Round 29 新增夜景夸奖 ==========
   night_great: [
     '夜景灯光把人拍得超有氛围感！',
     '霓虹灯光下也能这么美，男朋友你开窍了！',
@@ -206,6 +206,12 @@ const PRAISE_POOL: Record<string, string[]> = {
     '夜色里的你格外美，男朋友这构图绝了！',
     '夜拍能拿高分，男朋友你是专业的吗！',
     '暗光环境下还能保持清晰，男朋友太靠谱了～',
+    '夜色里的灯光打在脸上好温柔，这张绝了！',
+    '夜景氛围感拉满！城市灯光成了最好的背景～',
+    '夜晚的照片也能这么通透，男朋友你懂光！',
+    '夜间拍摄清晰又好看，男朋友手很稳嘛～',
+    '霓虹灯配美人，男朋友你是偷偷练过吧！',
+    '夜色温柔，这张照片好有电影感！',
   ],
   // 新增：人像虚化专属夸奖（合并 bokeh_good 唯一条目）
   bokeh_good: [
@@ -1205,6 +1211,27 @@ const PRAISE_POOL: Record<string, string[]> = {
     '特写里睫毛都数得清，男朋友这手稳得离谱！',
     '怼脸拍也能这么好看，男朋友拍照技术在线！',
     '近景特写太有感觉了！皮肤质感满分～',
+  ],
+  // ========== Round 29 新增：姿势引导夸奖 ==========
+  pose_guide_praise: [
+    '男朋友引导得很自然！两个人互动感超棒～',
+    '这张姿势好自然，男朋友引导得不错！',
+    '男朋友的引导让表情超放松，这张绝了！',
+    '男朋友好会调动气氛，表情自然又有感染力～',
+  ],
+  // ========== Round 29 新增：黄金时段夸奖 ==========
+  golden_hour_praise: [
+    '黄金时段的光线绝了！男朋友你好会挑时间～',
+    '这种柔和光线太美了，男朋友你是专业的吗！',
+    '黄金时段拍出来的照片好温柔，男朋友懂光！',
+    '日出日落的光线超美，男朋友抓到了！',
+  ],
+  // ========== Round 29 新增：色彩和谐夸奖 ==========
+  color_harmony_praise: [
+    '这张配色好舒服！衣服和背景颜色超搭～',
+    '男朋友有在注意配色！整体感很棒～',
+    '颜色搭配得刚刚好，视觉上好和谐～',
+    '男朋友对色彩有感觉，这张整体感很好！',
   ],
 }
 
@@ -2499,6 +2526,51 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '电梯动的时候抓拍最自然！表情灵动～',
     '扶手电梯上找好角度，城市感十足～',
   ],
+  // ========== Round 29 新增：色彩和谐建议 ==========
+  color_tips: [
+    '衣服颜色和背景太接近了，下次穿个对比色的衣服～',
+    '背景颜色太花了，下次找个简洁一点的背景～',
+    '暖色衣服配暖色调背景很和谐，这张色彩感不错～',
+    '冷色调背景配暖色衣服有电影感，这张绝了～',
+    '下次试试同色系搭配，整体感会更好～',
+    '颜色太杂了，整体感不够，下次注意一下配色～',
+  ],
+  // ========== Round 29 新增：拍摄时机建议 ==========
+  timing_tips: [
+    '这个时间光线不够好！早上9点前或下午4点后光线更温柔～',
+    '正午阳光太硬了，试试找阴影处或等傍晚再拍～',
+    '黄金时段光线超美！日出后或日落前1小时是拍照黄金期～',
+    '等云飘走再拍，散射光比直射阳光更柔和～',
+    '阳光太强了脸上有硬阴影，找个阴凉处试试～',
+    '阴天光线最柔和，不用担心过曝，随便拍都好看～',
+  ],
+  // ========== Round 29 新增：取景视角建议 ==========
+  perspective_tips: [
+    '换个角度试试！稍微移动一下位置，画面会有大不同～',
+    '稍微蹲低或站高一点，视角变化会让照片更有层次～',
+    '试试从不同角度拍，找到最显瘦最好看的角度～',
+    '男朋友可以绕着走一圈，从不同角度试试哪个最好看～',
+    '稍微改变一下拍摄高度，照片会有完全不同的感觉～',
+    '平拍太普通了，试试仰拍或俯拍，会有惊喜～',
+  ],
+  // ========== Round 29 新增：相机设置建议 ==========
+  camera_settings_tips: [
+    '光线复杂时试试 HDR 模式，高光阴影都能保留～',
+    '晚上拍照记得开夜景模式或补光，不然容易糊～',
+    '人像模式最适合拍近景，背景会自动虚化～',
+    '拍特写时用微距模式，细节会更清晰～',
+    '光线充足时用低 ISO，画面会更干净～',
+    '拍运动物体时用连拍模式，多拍几张选最好的～',
+  ],
+  // ========== Round 29 新增：道具互动建议 ==========
+  prop_tips: [
+    '手里拿个道具会更自然！咖啡杯、书、花束都很好～',
+    '和周围环境互动！靠在墙上、坐在椅子上都更有感觉～',
+    '情侣照可以牵手、对视、靠在一起，互动感会更强～',
+    '让男朋友也入镜！情侣照里两个人的互动最有爱～',
+    '道具增加互动感！零食饮料帽子墨镜都是好选择～',
+    '肢体舒展一点！手臂不要贴着身体，显得更有活力～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -2775,6 +2847,27 @@ export async function analyzePhoto(
   // 背景太实建议（室内场景常见）
   if (sceneType === 'indoor' && safeSharpness > 120 && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.background_too_sharp))
+  }
+  // ========== Round 29 新增通用建议池调用 ==========
+  // 户外正午强光建议（亮度高且为户外）
+  if (sceneType === 'outdoor' && safeBrightness > 180 && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.timing_tips))
+  }
+  // 取景视角建议（构图一般但不是人太小/太多时）
+  if (compositionScore >= 20 && compositionScore < 30 && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.perspective_tips))
+  }
+  // 相机设置建议（稳定性差但不是极端糊的情况）
+  if (stabilityScore >= 10 && stabilityScore < 15 && totalScore < 70) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.camera_settings_tips))
+  }
+  // 道具互动建议（情侣照或闺蜜合照时）
+  if ((isCouplePhoto || faceCount >= 2) && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.prop_tips))
+  }
+  // 低分区通用鼓励（40分以下）
+  if (totalScore < 40 && suggestions.length > 0) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.perspective_tips))
   }
 
   // 基于亮度的场景推断夸奖
@@ -3104,6 +3197,15 @@ export async function analyzePhoto(
   // 金色时刻夸奖（黄昏阳光：亮度 150-210 且户外）
   if (safeBrightness >= 150 && safeBrightness <= 210 && sceneType === 'outdoor' && compositionScore >= 35) {
     praise.push(pickRandom(PRAISE_POOL.golden_hour_good))
+  }
+  // ========== Round 29 新增夸奖触发 ==========
+  // 姿势引导夸奖（情侣照+构图好+表情分高）
+  if (isCouplePhoto && compositionScore >= 35 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.pose_guide_praise))
+  }
+  // 色彩和谐夸奖（户外+亮度适中+构图好+总分高）
+  if (sceneType === 'outdoor' && safeBrightness >= 80 && safeBrightness <= 180 && compositionScore >= 32 && totalScore >= 75) {
+    praise.push(pickRandom(PRAISE_POOL.color_harmony_praise))
   }
   // 纪念日场景夸奖（室内+暖光+构图好+高分）
   if (safeBrightness >= 100 && safeBrightness <= 200 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 80) {
