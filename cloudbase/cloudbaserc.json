@@ -5,9 +5,9 @@
   "functions": [
     {
       "name": "getTemplates",
-      "timeout": 10,
+      "timeout": 30,
       "runtime": "Nodejs18.15",
-      "memorySize": 256,
+      "memorySize": 512,
       "handler": "index.main",
       "installDependency": true
     },
