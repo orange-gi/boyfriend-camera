@@ -119,6 +119,20 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
   const scoreReveal = useSharedValue(0)
   const cardSlide = useSharedValue(50)
+  const cursorOpacity = useSharedValue(1)
+
+  // 光标闪烁动画（打字效果配套）
+  const cursorStyle = useAnimatedStyle(() => ({ opacity: cursorOpacity.value }))
+
+  // 启动光标闪烁
+  useEffect(() => {
+    if (!scoreAnimationDone) return
+    cursorOpacity.value = 1
+    const interval = setInterval(() => {
+      cursorOpacity.value = cursorOpacity.value === 1 ? 0 : 1
+    }, 530)
+    return () => clearInterval(interval)
+  }, [scoreAnimationDone])
 
   // 初始化 VoiceCoach（TTS 引擎）
   useEffect(() => {
@@ -688,7 +702,10 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               {getPraiseBannerText()}
             </Text>
             {typedPraise.length > 0 && (
-              <Text style={styles.praiseBannerSub}>🌟 {typedPraise}<Text style={styles.cursorBlink}>|</Text></Text>
+              <View style={styles.praiseBannerSubRow}>
+                <Text style={styles.praiseBannerSub}>🌟 {typedPraise}</Text>
+                <Animated.Text style={[styles.cursorBlink, cursorStyle]}>|</Animated.Text>
+              </View>
             )}
           </Animated.View>
         )}
@@ -1237,9 +1254,12 @@ const styles = StyleSheet.create({
   praiseBannerScore: {
     fontSize: 18,
     fontWeight: '800',
-    color: COLORS.textPrimary,
     marginBottom: 4,
     letterSpacing: -0.3,
+  },
+  praiseBannerSubRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   praiseBannerSub: {
     fontSize: 13,
@@ -1248,6 +1268,8 @@ const styles = StyleSheet.create({
   },
   cursorBlink: {
     color: COLORS.primary,
+    fontSize: 13,
+    marginLeft: 1,
   },
   // ========== Round 8 新增：下次改进提示 ==========
   suggestionBanner: {
