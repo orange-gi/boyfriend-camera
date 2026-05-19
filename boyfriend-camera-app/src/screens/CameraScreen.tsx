@@ -465,7 +465,7 @@ export default function CameraScreen() {
       )}
 
       {/* 顶部控制栏 - 玻璃毛玻璃风格 */}
-      <View style={[styles.topBar, styles.topBarGlass]}>
+      <View style={styles.topBarGlass}>
         <TouchableOpacity
           style={styles.topBtn}
           onPress={cycleFlash}
@@ -869,18 +869,11 @@ const styles = StyleSheet.create({
     zIndex: 200,
     pointerEvents: 'none',
   },
-  topBar: {
+  topBarGlass: {
     position: 'absolute',
     top: 56,
     left: 16,
     right: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    zIndex: 20,
-  },
-  topBarGlass: {
-    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -901,9 +894,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 3,
-  },
-  topBtnActive: {
-    backgroundColor: 'rgba(255,107,107,0.6)',
   },
   topBtnText: {
     color: '#fff',
@@ -1010,25 +1000,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 12,
     elevation: 6,
-    gap: 10,
-  },
-  poseTipCard: {
-    position: 'absolute',
-    top: 116,
-    left: 16,
-    right: 80,
-    backgroundColor: 'rgba(255,255,255,0.95)',
-    borderRadius: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    flexDirection: 'row',
-    alignItems: 'center',
-    zIndex: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    elevation: 4,
     gap: 10,
   },
   poseTipIcon: {
