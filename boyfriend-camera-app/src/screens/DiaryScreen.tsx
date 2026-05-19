@@ -40,15 +40,19 @@ export default function DiaryScreen() {
   const [loading, setLoading] = useState(true)
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
   const [clearAllVisible, setClearAllVisible] = useState(false)
+  const [loadError, setLoadError] = useState(false)
   const deleteSheetY = useRef(new Animated.Value(300)).current
 
   const loadDiaryData = useCallback(async () => {
     setLoading(true)
+    setLoadError(false)
     try {
       const [diary, score] = await Promise.all([getDiary(), getPeakScore()])
       setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
       setPeakScore(score)
-    } catch { /* ignore */ }
+    } catch {
+      setLoadError(true)
+    }
     finally {
       setLoading(false)
     }
@@ -348,6 +352,17 @@ export default function DiaryScreen() {
             <Animated.View style={[styles.skeletonSubtitle, shimmerBg(shimmerAnim)]} />
             <Animated.View style={[styles.skeletonBtn, shimmerBg(shimmerAnim)]} />
           </View>
+        ) : loadError ? (
+          <>
+            <View style={styles.emptyErrorCard}>
+              <Text style={styles.emptyErrorEmoji}>😢</Text>
+              <Text style={styles.emptyErrorTitle}>加载失败了</Text>
+              <Text style={styles.emptyErrorSubtitle}>别担心，可能是网络小波动</Text>
+            </View>
+            <TouchableOpacity style={styles.retryBtn} onPress={loadDiaryData} activeOpacity={0.7}>
+              <Text style={styles.retryBtnText}>重新加载</Text>
+            </TouchableOpacity>
+          </>
         ) : (
           <>
             {/* 预览进度图表（给用户展示效果） */}
@@ -1241,6 +1256,42 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: COLORS.textMuted,
     marginTop: 2,
+  },
+  // 空状态错误卡片
+  emptyErrorCard: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 32,
+    marginBottom: 16,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  emptyErrorEmoji: { fontSize: 48, marginBottom: 12 },
+  emptyErrorTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.textPrimary,
+    marginBottom: 6,
+  },
+  emptyErrorSubtitle: {
+    fontSize: 14,
+    color: COLORS.textMuted,
+  },
+  retryBtn: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 20,
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    marginBottom: 16,
+  },
+  retryBtnText: {
+    color: COLORS.textOnPrimary,
+    fontSize: 15,
+    fontWeight: '600',
   },
   // 空状态预览卡片
   emptyPreviewCard: {
