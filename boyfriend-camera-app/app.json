@@ -1,4 +1,10 @@
 {
   "name": "BoyfriendCamera",
-  "displayName": "男友相机"
+  "displayName": "男友相机",
+  "ios": {
+    "bundleIdentifier": "com.orange.boyfriendcamera",
+    "appleId": "mwq5211314@163.com",
+    "ascAppId": "6770394542",
+    "appleTeamId": "U298GYL33F"
+  }
 }

@@ -40,9 +40,14 @@ pnpm ios:device
 ## 常见问题
 
 - **找不到设备**：`xcrun xctrace list devices` 查看是否识别 iPhone
-- **签名失败**：Xcode → 项目 → Signing & Capabilities → 选择你的 Team
+- **签名失败（requires a development team）**：项目已配置 `DEVELOPMENT_TEAM`（Team `U298GYL33F`，账号 `mwq5211314@163.com`，见 `app.json` → `ios`）。若仍失败：
+  1. 用 Xcode 打开 `ios/BoyfriendCamera.xcworkspace`
+  2. 选中 **BoyfriendCamera** target → **Signing & Capabilities** → 确认 **Automatically manage signing** 已勾选且 Team 正确
+  3. Bundle ID 为 `com.orange.boyfriendcamera`（与 App Store Connect 一致），首次真机构建需登录 Apple ID，Xcode 会自动生成描述文件
+  4. 再在终端执行 `pnpm ios:device`
 - **相机黑屏**：确认 Info.plist 已有相机权限（已配置）
 - **Reanimated 报错**：确认 `babel.config.js` 含 `react-native-reanimated/plugin` 且为 plugins 最后一项
+- **MMKV / TurboModules 报错**（`react-native-mmkv 3.x requires TurboModules`）：`@cloudbase/adapter-rn` 依赖 MMKV，pnpm 下需把 `react-native-mmkv` 写在 `package.json` 直接依赖里才能被原生自动链接。执行 `pnpm install && pnpm pod-install` 后，在 Xcode 中 **Product → Clean Build Folder**，再重新真机构建
 
 ## 智能模板推荐
 
