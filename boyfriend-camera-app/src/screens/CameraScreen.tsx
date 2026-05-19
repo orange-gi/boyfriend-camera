@@ -915,13 +915,6 @@ const styles = StyleSheet.create({
     borderRadius: 3.5,
     backgroundColor: 'rgba(255,255,255,0.25)',
   },
-  modeGroup: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    borderRadius: 24,
-    padding: 4,
-    gap: 4,
-  },
   modeGroupGlass: {
     flexDirection: 'row',
     backgroundColor: 'rgba(255,255,255,0.15)',
@@ -1063,17 +1056,6 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     fontWeight: '600',
   },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 36,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 40,
-    zIndex: 20,
-  },
   bottomBarGlass: {
     position: 'absolute',
     bottom: 20,
@@ -1095,14 +1077,6 @@ const styles = StyleSheet.create({
     height: 64,
     backgroundColor: 'rgba(0,0,0,0.4)',
     borderRadius: 32,
-  },
-  sideBtnGlass: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 56,
-    height: 56,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 28,
   },
   sideBtnIcon: {
     fontSize: 28,
