@@ -126,9 +126,7 @@ export const colors = {
   scoreOkBg: '#F5F8FF',
   scoreLowBg: '#FFF5F5',
   // 评分横幅边框
-  scoreGreatBorder: '#FFB347',
   scoreOkBorder: '#A0A0E0',
-  scoreLowBorder: '#FF6B6B',
   // 评分横幅 glow
   scoreGreatGlow: 'rgba(255,180,80,0.18)',
   scoreOkGlow: 'rgba(160,160,224,0.15)',
