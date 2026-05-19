@@ -1,10 +1,10 @@
 /**
- * 男友相机 - getTemplates 云函数 v22
- * 150 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/城市街拍等全场景
+ * 男友相机 - getTemplates 云函数 v23
+ * 170 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/城市街拍等全场景
  * 模板涵盖：日常自拍、约会合照、户外风景、美食餐厅、城市街拍、节日庆典等
  */
 
-const CURRENT_VERSION = 22
+const CURRENT_VERSION = 23
 
 // ===== SVG 资源定义（仅此一处，无重复） =====
 const SVG_001 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDY1IDE4MCBMIDgwIDI4MCIvPjxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzUgMTgwIEwgMTIwIDI4MCIvPjxwYXRoIGQ9Ik0gNzAgOTAgUSAzMCAxMzAgMjAgMTYwIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTSAxMzAgOTAgUSAxNjAgMTEwIDE3NSAxMzAiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNIDY1IDE4MCBRIDU1IDIyMCA1MCAyODAiLz48cGF0aCBkPSJNIDEzNSAxODAgUSAxNDUgMjIwIDE1MCAyODAiLz4KICAKPC9zdmc+'
@@ -164,6 +164,27 @@ const SVG_147 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vc
 const SVG_148 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz48cGF0aCBkPSJNIDc0IDgwIFEgNjUgMTE1IDY4IDE2MCBMIDgyIDI4MCIvPjxwYXRoIGQ9Ik0gMTI2IDgwIFEgMTM4IDExNSAxMzIgMTYwIEwgMTIwIDI4MCIvPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSIxMjUiIHJ4PSIyNSIgcnk9IjEwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMykiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+PHBhdGggZD0iTSAxMjAgMTAwIFEgMTI1IDg1IDEzMCA4NSIvPjxwYXRoIGQ9Ik0gNjggMTYwIFEgNTggMjAwIDU1IDI4MCIvPjxwYXRoIGQ9Ik0gMTMyIDE2MCBRIDE0MiAyMDAgMTQ1IDI4MCIvPjwvc3ZnPg=='
 const SVG_149 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz48cGF0aCBkPSJNIDc0IDgwIFEgNjUgMTE1IDY4IDE2MCBMIDgyIDI4MCIvPjxwYXRoIGQ9Ik0gMTI2IDgwIFEgMTM4IDExNSAxMzIgMTYwIEwgMTIwIDI4MCIvPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSIxMjUiIHJ4PSIyNSIgcnk9IjEwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMykiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+PHBhdGggZD0iTSAxMjAgMTAwIFEgMTI1IDg1IDEzMCA4NSIvPjxwYXRoIGQ9Ik0gNjggMTYwIFEgNTggMjAwIDU1IDI4MCIvPjxwYXRoIGQ9Ik0gMTMyIDE2MCBRIDE0MiAyMDAgMTQ1IDI4MCIvPjwvc3ZnPg=='
 const SVG_150 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz48cGF0aCBkPSJNIDc0IDgwIFEgNjUgMTE1IDY4IDE2MCBMIDgyIDI4MCIvPjxwYXRoIGQ9Ik0gMTI2IDgwIFEgMTM4IDExNSAxMzIgMTYwIEwgMTIwIDI4MCIvPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSIxMjUiIHJ4PSIyNSIgcnk9IjEwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMykiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+PHBhdGggZD0iTSAxMjAgMTAwIFEgMTI1IDg1IDEzMCA4NSIvPjxwYXRoIGQ9Ik0gNjggMTYwIFEgNTggMjAwIDU1IDI4MCIvPjxwYXRoIGQ9Ik0gMTMyIDE2MCBRIDE0MiAyMDAgMTQ1IDI4MCIvPjwvc3ZnPg=='
+const SVG_151 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA0MCAxMDAgNTAgMTMwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNjAgMTAwIDE1MCAxMzAiLz48ZWxsaXBzZSBjeD0iMTAwIiBjeT0iMTMwIiByeD0iMjUiIHJ5PSIxMCIvPgo8L3N2Zz4='
+const SVG_152 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSAzMCA1MCA0MCAzMCIvPjxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTcwIDEwMCAxNjAgMTQwIi8+Cjwvc3ZnPg=='
+const SVG_153 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA1MCAxMTAgNDUgMTYwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNTAgMTEwIDE1NSAxNjAiLz4KPC9zdmc+'
+const SVG_154 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA0MCA2MCA2MCAzMCIvPjxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTYwIDExMCAxNTUgMTYwIi8+Cjwvc3ZnPg=='
+const SVG_155 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODUgUSA1MCAxMzAgNTUgMTgwIFQgNjAgMjgwIi8+PHBhdGggZD0iTSAxMzAgODUgUSAxNTAgMTMwIDE0NSAxODAgVCAxNDAgMjgwIi8+PHBhdGggZD0iTSA3MCA4NSBRIDQwIDEyMCAzMCAxNjAiLz48cGF0aCBkPSJNIDEzMCA4NSBRIDE2MCAxMjAgMTcwIDE2MCIvPgo8L3N2Zz4='
+const SVG_156 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjAgODUgUSAzMCAxMzAgNTAgMTcwIFEgODAgMjAwIDEyMCAxODAiLz48cGF0aCBkPSJNIDE0MCA4NSBRIDE3MCAxMzAgMTUwIDE3MCBRIDEyMCAyMDAgODAgMTgwIi8+PHBhdGggZD0iTSA2MCA4NSBRIDIwIDEwMCAzMCAxMzAiLz48cGF0aCBkPSJNIDE0MCA4NSBRIDE4MCAxMDAgMTcwIDEzMCIvPgo8L3N2Zz4='
+const SVG_157 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA0NSAxMjAgNTAgMTgwIFQgNTUgMjgwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNTUgMTIwIDE1MCAxODAgVCAxNDUgMjgwIi8+PHBhdGggZD0iTSA3MCA4MiBRIDM1IDkwIDIwIDExMCIvPjxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTY1IDkwIDE4MCAxMTAiLz4KPC9zdmc+'
+const SVG_158 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgODIgUSAzNSAxMTAgNDUgMTUwIFQgNTAgMjIwIi8+PHBhdGggZD0iTSAxMzUgODIgUSAxNjUgMTEwIDE1NSAxNTAgVCAxNTAgMjIwIi8+PHBhdGggZD0iTSA2NSA4MiBRIDI1IDEwMCAyMCAxMzAiLz48cGF0aCBkPSJNIDEzNSA4MiBRIDE3NSAxMDAgMTgwIDEzMCIvPgo8L3N2Zz4='
+const SVG_159 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjAgODUgUSAzMCAxMzAgNDAgMTYwIFEgNTUgMTgwIDgwIDE1MCIvPjxwYXRoIGQ9Ik0gMTQwIDg1IFEgMTcwIDEzMCAxNjAgMTYwIFEgMTQ1IDE4MCAxMjAgMTUwIi8+PHBhdGggZD0iTSA2MCA4NSBRIDIwIDUwIDMwIDMwIi8+PHBhdGggZD0iTSAxNDAgODUgUSAxODAgNTAgMTcwIDMwIi8+Cjwvc3ZnPg=='
+const SVG_160 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNTUgMTUwIFEgMzAgMTYwIDIwIDE4MCBRIDE1IDIyMCAzMCAyNTAiLz48cGF0aCBkPSJNIDE0NSAxNTAgUSAxNzAgMTYwIDE4MCAxODAgUSAxODUgMjIwIDE3MCAyNTAiLz48cGF0aCBkPSJNIDU1IDE1MCBRIDMwIDEzMCAyMCAxMDAiLz48cGF0aCBkPSJNIDE0NSAxNTAgUSAxNzAgMTMwIDE4MCAxMDAiLz4KPC9zdmc+'
+const SVG_161 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA0MCAxMDAgNTAgMTMwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNjAgMTAwIDE1MCAxMzAiLz48cmVjdCB4PSI1NSIgeT0iMTE1IiB3aWR0aD0iOTAiIGhlaWdodD0iMjUiIHJ4PSIzIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC41KSIvPgo8L3N2Zz4='
+const SVG_162 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA0NSAxMjAgNTAgMTgwIFQgNTUgMjgwIi8+PHBhdGggZD0iTSAxMzUgODIgUSAxNjUgMTIwIDE2MCAxNjAiLz48cGF0aCBkPSJNIDcwIDgyIFEgMzAgMTEwIDM1IDE1MCIvPjxwYXRoIGQ9Ik0gMTM1IDgyIFEgMTc1IDExMCAxNzAgMTUwIi8+Cjwvc3ZnPg=='
+const SVG_163 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSAzNSAxMDAgMzAgMTMwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxODAgNjAgMTkwIDUwIi8+Cjwvc3ZnPg=='
+const SVG_164 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgODIgUSA0MCAxMjAgNDUgMTcwIEwgNDUgMjIwIi8+PHBhdGggZD0iTSAxMzUgODIgUSAxNjAgMTIwIDE1NSAxNzAgTCAxNTUgMjIwIi8+PHBhdGggZD0iTSA2NSA4MiBRIDMwIDEwMCAyNSAxMzAiLz48cGF0aCBkPSJNIDEzNSA4MiBRIDE3MCAxMDAgMTc1IDEzMCIvPjxyZWN0IHg9IjIwIiB5PSIyMDAiIHdpZHRoPSIxNjAiIGhlaWdodD0iOCIgcng9IjIiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIvPgo8L3N2Zz4='
+const SVG_165 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgODIgUSAzNSAxMjAgNDAgMTcwIFEgNTUgMjAwIDkwIDE4MCIvPjxwYXRoIGQ9Ik0gMTM1IDgyIFEgMTcwIDEyMCAxNjUgMTYwIFEgMTQ1IDE3NSAxMzAgMTcwIi8+PHBhdGggZD0iTSA2NSA4MiBRIDIwIDYwIDE1IDQwIi8+PHBhdGggZD0iTSAxMzUgODIgUSAxODUgMTAwIDE5MCAxMjAiLz4KPC9zdmc+'
+const SVG_166 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA0MCAxMTAgNTAgMTcwIFQgNTUgMjgwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNjAgMTEwIDE1MCAxNzAgVCAxNDUgMjgwIi8+PGVsbGlwc2UgY3g9IjEwMCIgY3k9IjM4IiByeD0iMjgiIHJ5PSIyOCIvPjxwYXRoIGQ9Ik0gNzAgODIgUSAzMCAxMDAgMjAgMTMwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNzAgMTAwIDE4MCAxMzAiLz4KPC9zdmc+'
+const SVG_167 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSAzNSAxMTAgNDAgMTYwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNjUgMTEwIDE2MCAxNjAiLz48bGluZSB4MT0iMTAwIiB5MT0iODIiIHgyPSIxMDAiIHkyPSIyMCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNikiIHN0cm9rZS13aWR0aD0iMiIvPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSIyMiIgcng9IjUwIiByeT0iOCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjEyKSIvPgo8L3N2Zz4='
+const SVG_168 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA0MCAxMjAgNDUgMTgwIFQgNTAgMjgwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNjAgMTIwIDE1NSAxODAgVCAxNTAgMjgwIi8+PHBhdGggZD0iTSA3MCA4MiBRIDI1IDEwMCAxNSAxMzAiLz48cGF0aCBkPSJNIDEzMCA4MiBRIDE3NSAxMDAgMTg1IDEzMCIvPgo8L3N2Zz4='
+const SVG_169 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNjUgODIgUSAzMCAxMzAgNTAgMTgwIFEgODAgMjAwIDEwMCAxODAgUSAxMjAgMjAwIDE1MCAxODAgUSAxNzAgMTMwIDEzNSA4MiIvPjxwYXRoIGQ9Ik0gNjUgODIgUSAyMCAxMDAgMTUgMTQwIi8+PHBhdGggZD0iTSAxMzUgODIgUSAxODAgMTAwIDE4NSAxNDAiLz4KPC9zdmc+'
+const SVG_170 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAwIiBmaWxsPSJyZ2JhKDI1NSwxMDcsMTA3LDAuMzUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1MCIgcng9IjI4IiByeT0iMzIiLz4KICA8cGF0aCBkPSJNIDcwIDgyIFEgNjAgMTIwIDcwIDE4MCBUIDY1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gMTMwIDgyIFEgMTQwIDEyMCAxMzAgMTgwIFQgMTM1IDI4MCIvPgogIDxwYXRoIGQ9Ik0gNzAgODIgUSA1MCAxMDAgNjAgMTIwIi8+PHBhdGggZD0iTSAxMzAgODIgUSAxNTAgMTAwIDE0MCAxMjAiLz48cGF0aCBkPSJNIDcwIDgyIFEgOTAgOTUgMTMwIDgyIi8+PHBhdGggZD0iTSA3MCAxMjAgUSA5MCAxMTAgMTMwIDEyMCIvPgo8L3N2Zz4='
+
 const ALL_TEMPLATES = [
   {
     id: "template_001",
@@ -1576,6 +1597,206 @@ const ALL_TEMPLATES = [
     thumbnail: SVG_150,
     voiceTip: "便利店熟食区光线均匀！拿着关东煮或饭团，俏皮地看镜头～",
     category: "室内场景",
+    version: 1,
+  },
+  {
+    id: "template_151",
+    name: "毕业照抛帽",
+    description: "毕业袍配学士帽，抛帽的瞬间超有活力！连拍几张总有一张完美～",
+    overlayUrl: SVG_151,
+    thumbnail: SVG_151,
+    voiceTip: "毕业袍配学士帽，抛帽的瞬间超有活力！连拍几张总有一张完美～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_152",
+    name: "樱花树下",
+    description: "樱花树下光线斑驳！风吹过来的时候按下快门，绝美～",
+    overlayUrl: SVG_152,
+    thumbnail: SVG_152,
+    voiceTip: "樱花树下光线斑驳！风吹过来的时候按下快门，绝美～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_153",
+    name: "健身房镜前",
+    description: "健身房镜子自拍光线均匀！侧身站着，笑着拍一张超有活力～",
+    overlayUrl: SVG_153,
+    thumbnail: SVG_153,
+    voiceTip: "健身房镜子自拍光线均匀！侧身站着，笑着拍一张超有活力～",
+    category: "室内人像",
+    version: 1,
+  },
+  {
+    id: "template_154",
+    name: "超市货架前",
+    description: "超市货架前光线均匀！拿个零食饮料当道具，俏皮又自然～",
+    overlayUrl: SVG_154,
+    thumbnail: SVG_154,
+    voiceTip: "超市货架前光线均匀！拿个零食饮料当道具，俏皮又自然～",
+    category: "室内场景",
+    version: 1,
+  },
+  {
+    id: "template_155",
+    name: "古镇老街",
+    description: "古镇老墙做背景超有年代感！侧身站立更有氛围～",
+    overlayUrl: SVG_155,
+    thumbnail: SVG_155,
+    voiceTip: "古镇老墙做背景超有年代感！侧身站立更有氛围～",
+    category: "城市街拍",
+    version: 1,
+  },
+  {
+    id: "template_156",
+    name: "灯塔海边",
+    description: "灯塔背景超有画面感！侧身站着让光线打在侧脸上～",
+    overlayUrl: SVG_156,
+    thumbnail: SVG_156,
+    voiceTip: "灯塔背景超有画面感！侧身站着让光线打在侧脸上～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_157",
+    name: "地铁站台",
+    description: "地铁站台冷调灯光超有都市感！随意站着抓拍～",
+    overlayUrl: SVG_157,
+    thumbnail: SVG_157,
+    voiceTip: "地铁站台冷调灯光超有都市感！随意站着抓拍～",
+    category: "城市街拍",
+    version: 1,
+  },
+  {
+    id: "template_158",
+    name: "农场田园",
+    description: "农场田园好清新！站在田埂上或麦田里，笑一个～",
+    overlayUrl: SVG_158,
+    thumbnail: SVG_158,
+    voiceTip: "农场田园好清新！站在田埂上或麦田里，笑一个～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_159",
+    name: "涂鸦墙前",
+    description: "涂鸦墙背景超有潮流感！靠着墙站着，酷酷地看镜头～",
+    overlayUrl: SVG_159,
+    thumbnail: SVG_159,
+    voiceTip: "涂鸦墙背景超有潮流感！靠着墙站着，酷酷地看镜头～",
+    category: "城市街拍",
+    version: 1,
+  },
+  {
+    id: "template_160",
+    name: "水族馆前",
+    description: "水族馆里光线超梦幻！站在大鱼缸前，笑一个～",
+    overlayUrl: SVG_160,
+    thumbnail: SVG_160,
+    voiceTip: "水族馆里光线超梦幻！站在大鱼缸前，笑一个～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_161",
+    name: "教堂背景",
+    description: "教堂背景超庄严！端正站着，笑得温柔点～",
+    overlayUrl: SVG_161,
+    thumbnail: SVG_161,
+    voiceTip: "教堂背景超庄严！端正站着，笑得温柔点～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_162",
+    name: "集市摊位",
+    description: "集市摊位好热闹！靠着摊位，随意自然地笑～",
+    overlayUrl: SVG_162,
+    thumbnail: SVG_162,
+    voiceTip: "集市摊位好热闹！靠着摊位，随意自然地笑～",
+    category: "室内场景",
+    version: 1,
+  },
+  {
+    id: "template_163",
+    name: "烘焙甜点",
+    description: "面包店香气仿佛都能闻到，这张照片太有感觉了！",
+    overlayUrl: SVG_163,
+    thumbnail: SVG_163,
+    voiceTip: "面包店香气仿佛都能闻到，这张照片太有感觉了！",
+    category: "餐厅美食",
+    version: 1,
+  },
+  {
+    id: "template_164",
+    name: "旋转木马",
+    description: "旋转木马灯光超梦幻！抓着柱子笑一个～",
+    overlayUrl: SVG_164,
+    thumbnail: SVG_164,
+    voiceTip: "旋转木马灯光超梦幻！抓着柱子笑一个～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_165",
+    name: "玻璃花房",
+    description: "玻璃花房光线超通透！站在植物旁边，自然微笑看向镜头～",
+    overlayUrl: SVG_165,
+    thumbnail: SVG_165,
+    voiceTip: "玻璃花房光线超通透！站在植物旁边，自然微笑看向镜头～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_166",
+    name: "露营帐篷",
+    description: "帐篷前拍照超有户外感，男朋友这构图绝了！",
+    overlayUrl: SVG_166,
+    thumbnail: SVG_166,
+    voiceTip: "帐篷前拍照超有户外感，男朋友这构图绝了！",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_167",
+    name: "节日装饰",
+    description: "节日装饰做背景超有氛围感，让她在灯光下站好～",
+    overlayUrl: SVG_167,
+    thumbnail: SVG_167,
+    voiceTip: "节日装饰做背景超有氛围感，让她在灯光下站好～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_168",
+    name: "圣诞树前",
+    description: "圣诞树灯光暖暖的超有氛围感！让光打在侧脸上～",
+    overlayUrl: SVG_168,
+    thumbnail: SVG_168,
+    voiceTip: "圣诞树灯光暖暖的超有氛围感！让光打在侧脸上～",
+    category: "特殊风格",
+    version: 1,
+  },
+  {
+    id: "template_169",
+    name: "雨天窗边",
+    description: "雨天窗边光线好柔和，在这拍超有感觉～",
+    overlayUrl: SVG_169,
+    thumbnail: SVG_169,
+    voiceTip: "雨天窗边光线好柔和，在这拍超有感觉～",
+    category: "室内场景",
+    version: 1,
+  },
+  {
+    id: "template_170",
+    name: "仰拍大长腿",
+    description: "仰拍超级显腿长！男朋友蹲低，你踮起脚尖～",
+    overlayUrl: SVG_170,
+    thumbnail: SVG_170,
+    voiceTip: "仰拍超级显腿长！男朋友蹲低，你踮起脚尖～",
+    category: "自拍技巧",
     version: 1,
   },
 ];
