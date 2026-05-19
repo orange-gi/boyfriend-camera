@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
-import { shadows, borderRadius, spacing, typography } from '../theme/index'
+import { shadows, borderRadius, spacing, typography, colors } from '../theme/index'
 import { logger } from '../utils/logger'
 
 const { width: SCREEN_W } = Dimensions.get('window')
@@ -396,14 +396,15 @@ const styles = StyleSheet.create({
   heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
 
   // 每日技巧
-  dailyTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientWarm, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], gap: spacing[3], borderWidth: 1, borderColor: 'rgba(255,159,67,0.2)', ...shadows.sm },
+  dailyTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientWarm, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], gap: spacing[3], borderWidth: 1, borderColor: colors.warningLight, ...shadows.sm },
+  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientPink, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], borderWidth: 1, borderColor: colors.primaryLight },
   dailyTipLeft: { flexShrink: 0 },
   dailyTipIcon: { fontSize: 28 },
   dailyTipContent: { flex: 1 },
-  dailyTipLabel: { fontSize: typography.fontSize.xs, color: '#8B6914', fontWeight: typography.fontWeight.semibold, marginBottom: 2, letterSpacing: 0.5 },
-  dailyTipText: { fontSize: typography.fontSize.md, color: '#8B6914', lineHeight: 22 },
-  dailyTipClose: { width: 28, height: 28, borderRadius: borderRadius.full, backgroundColor: 'rgba(139,105,20,0.1)', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  dailyTipCloseText: { color: '#8B6914', fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold },
+  dailyTipLabel: { fontSize: typography.fontSize.xs, color: colors.warning, fontWeight: typography.fontWeight.semibold, marginBottom: 2, letterSpacing: 0.5 },
+  dailyTipText: { fontSize: typography.fontSize.md, color: colors.warning, lineHeight: 22 },
+  dailyTipClose: { width: 28, height: 28, borderRadius: borderRadius.full, backgroundColor: colors.blackAlpha10, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  dailyTipCloseText: { color: colors.warning, fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold },
 
   // 统计卡片
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6], ...shadows.lg },
@@ -442,9 +443,8 @@ const styles = StyleSheet.create({
   todayCountNum: { color: COLORS.primary, fontWeight: typography.fontWeight.bold, fontSize: typography.fontSize.base },
 
   // 姿势提示卡
-  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientPink, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], borderWidth: 1, borderColor: '#FFD6E0' },
   poseTipIcon: { fontSize: 22, flexShrink: 0 },
-  poseTipText: { flex: 1, fontSize: typography.fontSize.md, color: '#C0607A', lineHeight: 22 },
+  poseTipText: { flex: 1, fontSize: typography.fontSize.md, color: colors.categoryCouple, lineHeight: 22 },
 
   // 功能特性
   featuresSection: { marginBottom: spacing[5] },
