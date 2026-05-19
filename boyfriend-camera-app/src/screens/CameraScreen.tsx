@@ -470,6 +470,9 @@ export default function CameraScreen() {
           style={styles.topBtn}
           onPress={cycleFlash}
           activeOpacity={0.72}
+          accessibilityRole="button"
+          accessibilityLabel={`闪光灯: ${flash === 'off' ? '关闭' : flash === 'on' ? '开启' : '自动'}`}
+          accessibilityHint="单击切换闪光灯模式"
         >
           <Text style={styles.topBtnText}>{FLASH_ICONS[flash]}</Text>
           <View style={flash === 'on' ? styles.flashDotOn : styles.flashDotOff} />
@@ -482,6 +485,8 @@ export default function CameraScreen() {
               style={[styles.modeBtn, mode === m && styles.modeBtnActiveGlass]}
               onPress={() => setMode(m)}
               activeOpacity={0.72}
+              accessibilityRole="button"
+              accessibilityLabel={`构图模式: ${m === 'grid' ? '九宫格' : m === 'golden' ? '黄金螺旋' : '三角构图'}${mode === m ? '，已选中' : ''}`}
             >
               <Text style={[styles.modeBtnText, mode === m && styles.modeBtnTextActive]}>
                 {m === 'grid' ? '▦' : m === 'golden' ? '◎' : '△'}
@@ -625,6 +630,8 @@ export default function CameraScreen() {
                         style={[styles.recentCard, { borderColor: color }]}
                         onPress={() => handleSelectTemplate(t)}
                         activeOpacity={0.72}
+                        accessibilityRole="button"
+                        accessibilityLabel={`最近使用: ${t.name}`}
                       >
                         <Image source={{ uri: t.thumbnail }} style={styles.recentThumb} resizeMode="contain" />
                         <Text style={styles.recentName} numberOfLines={1}>{t.name}</Text>
@@ -653,6 +660,8 @@ export default function CameraScreen() {
                     ]}
                     onPress={() => setSelectedCategory(cat)}
                     activeOpacity={0.72}
+                    accessibilityRole="button"
+                    accessibilityLabel={`分类: ${cat}${isSelected ? '，已选中' : ''}`}
                   >
                     <Text
                       style={[
@@ -729,6 +738,9 @@ export default function CameraScreen() {
                       onLongPress={() => setLongPressTemplate(item)}
                       delayLongPress={500}
                       activeOpacity={0.72}
+                      accessibilityRole="button"
+                      accessibilityLabel={`姿势模板: ${item.name}${isActive ? '，已选中' : ''}`}
+                      accessibilityHint="单击选择此姿势模板"
                     >
                       {/* 选中态角标 */}
                       {isActive && (
