@@ -66,6 +66,21 @@ const FACE_TIPS = {
   GOLDEN_HOUR: '这光线好温柔！现在是拍照的黄金时间～',
   // 尝试开闪光灯
   TRY_FLASH: '光线有点暗～打开闪光灯试试～',
+  // ========== Round 20 新增人脸提示 ==========
+  FACE_PARTIAL_SIDE: '脸稍微侧了一点，正对镜头会更好看～',
+  CLOSE_ONE_EYE: '试试闭一只眼！俏皮又可爱，活泼感拉满～',
+  HAIR_OVER_FACE: '头发挡住脸了～轻轻拨开，光会更通透～',
+  HAND_NEAR_FACE: '手靠近脸可以显脸小！试试托腮或撩头发～',
+  BLUSH_HINT: '侧过脸让光打在颧骨上，皮肤会看起来更通透～',
+  // ========== Round 20 新增拍摄提示 ==========
+  SHOOT_NOW_LIGHT: '光线刚刚好！就是现在，按快门！',
+  SHOOT_NOW_POSE: '姿势超棒！表情到位！按下去就是大片！',
+  SHOOT_NOW_PERFECT: '完美时刻！这光线这角度，按下去！',
+  // ========== Round 20 新增鼓励提示 ==========
+  KEEP_GOING: '继续拍！多拍几张选最好的～',
+  ONE_MORE_TRY: '再来一张！这张有进步空间，继续加油～',
+  GREAT_PROGRESS: '肉眼可见的进步！男朋友继续保持！',
+
   // 模板匹配度提示
   TEMPLATE_MATCH_GOOD: '姿势和模板超配！就是现在拍！',
   TEMPLATE_MATCH_OFF: '姿势有点跑偏～跟着模板摆正一点～',
