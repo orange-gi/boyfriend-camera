@@ -449,8 +449,8 @@ export default function CameraScreen() {
         </View>
       )}
 
-      {/* 顶部控制栏 */}
-      <View style={styles.topBar}>
+      {/* 顶部控制栏 - 玻璃毛玻璃风格 */}
+      <View style={[styles.topBar, styles.topBarGlass]}>
         <TouchableOpacity
           style={styles.topBtn}
           onPress={cycleFlash}
@@ -460,11 +460,11 @@ export default function CameraScreen() {
           <View style={flash === 'on' ? styles.flashDotOn : styles.flashDotOff} />
         </TouchableOpacity>
 
-        <View style={styles.modeGroup}>
+        <View style={styles.modeGroupGlass}>
           {(['grid', 'golden', 'triangle'] as CompositionMode[]).map((m) => (
             <TouchableOpacity
               key={m}
-              style={[styles.modeBtn, mode === m && styles.modeBtnActive]}
+              style={[styles.modeBtn, mode === m && styles.modeBtnActiveGlass]}
               onPress={() => setMode(m)}
               activeOpacity={0.72}
             >
@@ -495,8 +495,8 @@ export default function CameraScreen() {
         onUnstable={handleStabilityUnstable}
       />
 
-      {/* 底部控制栏 */}
-      <View style={styles.bottomBar}>
+      {/* 底部控制栏 - 玻璃毛玻璃风格 */}
+      <View style={styles.bottomBarGlass}>
         <TouchableOpacity
           style={styles.sideBtn}
           onPress={() => setShowTemplateModal(true)}
@@ -517,7 +517,9 @@ export default function CameraScreen() {
           disabled={isCapturing}
           activeOpacity={0.72}
         >
-          <View style={styles.shutterOuter}>
+          {/* 外圈发光效果 */}
+          {!isCapturing && <View style={styles.shutterGlowRing} />}
+          <View style={[styles.shutterOuter, isCapturing && styles.shutterOuterCapturing]}>
             <View style={[styles.shutterInner, isCapturing && styles.shutterInnerCapturing]}>
               {isCapturing && <View style={styles.shutterPulsing} />}
             </View>
@@ -844,6 +846,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     zIndex: 20,
   },
+  topBarGlass: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderRadius: 28,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+  },
   topBtn: {
     width: 48,
     height: 48,
@@ -889,6 +901,13 @@ const styles = StyleSheet.create({
     padding: 4,
     gap: 4,
   },
+  modeGroupGlass: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderRadius: 20,
+    padding: 3,
+    gap: 2,
+  },
   modeBtn: {
     width: 40,
     height: 40,
@@ -898,6 +917,9 @@ const styles = StyleSheet.create({
   },
   modeBtnActive: {
     backgroundColor: 'rgba(255,107,107,0.9)',
+  },
+  modeBtnActiveGlass: {
+    backgroundColor: COLORS.primary,
   },
   modeBtnText: {
     color: 'rgba(255,255,255,0.6)',
@@ -987,6 +1009,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     zIndex: 20,
   },
+  bottomBarGlass: {
+    position: 'absolute',
+    bottom: 20,
+    left: 16,
+    right: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderRadius: 40,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    zIndex: 20,
+  },
   sideBtn: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -994,6 +1030,14 @@ const styles = StyleSheet.create({
     height: 64,
     backgroundColor: 'rgba(0,0,0,0.4)',
     borderRadius: 32,
+  },
+  sideBtnGlass: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 56,
+    height: 56,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 28,
   },
   sideBtnIcon: {
     fontSize: 28,
@@ -1041,6 +1085,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 4,
+  },
+  shutterGlowRing: {
+    position: 'absolute',
+    top: -8,
+    left: -8,
+    right: -8,
+    bottom: -8,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: 'rgba(255,107,107,0.4)',
+    backgroundColor: 'rgba(255,107,107,0.08)',
+  },
+  shutterOuterCapturing: {
+    borderColor: COLORS.primary,
+    transform: [{ scale: 0.95 }],
   },
   shutterInner: {
     width: 64,
