@@ -2077,6 +2077,168 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
+  /** ========== 本次新增 TTS 场景 ========== */
+
+  /** 情侣甜蜜互动提示 */
+  async speakCoupleSweetTip(): Promise<void> {
+    const tips = [
+      '情侣照要甜蜜感！额头碰额头或者鼻子碰鼻子，超甜～',
+      '两个人靠在一起笑一个，甜蜜感要溢出屏幕了！',
+      '牵手、转圈、互相逗笑，情侣照最重要的是自然～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 逆光 HDR 提示 */
+  async speakBacklightHDRTip(): Promise<void> {
+    const tips = [
+      '逆光场景！打开 HDR 让脸和背景都清晰～',
+      '背景亮人脸暗！打开 HDR 或者转过来面对光源～',
+      '背光拍剪影也超美！转过身为背光试试～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 阴天拍照提示 */
+  async speakOvercastTip(): Promise<void> {
+    const tips = [
+      '阴天光线好柔和！不用担心过曝，随便拍都好看～',
+      '云层就是天然柔光箱，拍出来皮肤超好的～',
+      '阴天光线超均匀！找个漂亮的背景开始拍吧～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 连拍提示 */
+  async speakBurstModeTip(): Promise<void> {
+    const tips = [
+      '按住快门连拍！多拍几张总有一张完美～',
+      '连拍模式开起来！动起来抓拍的瞬间最自然～',
+      '连拍是抓拍神器！让女朋友做动作然后按下去～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 定时拍照提示 */
+  async speakTimerTip(): Promise<void> {
+    const tips = [
+      '用定时拍照！放在稳定的地方，自己也能入镜～',
+      '三二一！就是现在～',
+      '定时拍照可以摆好pose再拍，不用急～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 抓拍提示 */
+  async speakCandidTip(): Promise<void> {
+    const tips = [
+      '假装在看她！就是现在抓拍～',
+      '让她先动起来然后抓拍，这个瞬间最自然～',
+      '假装看旁边再转头笑，自然又灵动～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 夕阳拍照提示 */
+  async speakSunsetTip(): Promise<void> {
+    const tips = [
+      '夕阳余晖好浪漫！侧身站着让光打在侧脸上～',
+      '现在是黄金时段！赶紧拍，光线超美～',
+      '傍晚光线好温柔！这时间段拍照绝了～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 超市道具提示 */
+  async speakSupermarketPropTip(): Promise<void> {
+    const tips = [
+      '拿个零食饮料当道具！俏皮可爱，互动感十足～',
+      '超市里的小道具超适合拍照！拿个零食摆 pose～',
+      '拿着冰淇淋或咖啡，笑着看镜头，俏皮感拉满～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 俯拍全身提示 */
+  async speakTopDownFullTip(): Promise<void> {
+    const tips = [
+      '俯拍全身！男朋友站高一点，你躺下仰头看镜头～',
+      '从上往下拍超显脸小！男朋友把手机举高一点～',
+      '俯拍可以拍全身躺着的感觉，超有氛围感～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 仰拍大长腿提示 */
+  async speakLowAngleLegsTip(): Promise<void> {
+    const tips = [
+      '仰拍大长腿！男朋友蹲低，你踮起脚尖～',
+      '从下往上拍超级显腿长！男朋友快蹲下去～',
+      '低角度仰拍大长腿效果绝了！蹲低拍起来～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 表情夸张提示 */
+  async speakExpressionExaggerateTip(): Promise<void> {
+    const tips = [
+      '笑容再大一点！这样更上镜～',
+      '表情放松一点～别僵着，自然最美～',
+      '表情夸张一点！生动活泼更有感染力～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 夜拍模式提示 */
+  async speakNightModeTip(): Promise<void> {
+    const tips = [
+      '晚上拍照记得打开闪光灯或找光源～',
+      '夜景光线复杂，打开闪光灯照亮人脸～',
+      '暗光环境下手要更稳！双手拿手机，靠墙拍～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 室内反射提示 */
+  async speakIndoorReflectionTip(): Promise<void> {
+    const tips = [
+      '室内玻璃会反光！稍微侧身躲开反光～',
+      '玻璃橱窗会反射，让男朋友换个角度躲开～',
+      '反光太明显了，稍微转一下躲开玻璃反光～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 傍晚拍照提示 */
+  async speakEveningTip(): Promise<void> {
+    const tips = [
+      '傍晚光线好温柔！这时间段拍人像绝了～',
+      'Golden Hour 光线好美，男朋友抓到了！',
+      '夕阳余晖把人拍得好温柔！男朋友这光用绝了～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 运动抓拍提示 */
+  async speakMotionCaptureTip(): Promise<void> {
+    const tips = [
+      '动起来抓拍！跑跳的瞬间最有活力～',
+      '动感活力感满满！男朋友抓拍到你的快乐瞬间！',
+      '跑起来、跳起来！活力瞬间最生动～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 黄金时段提示 */
+  async speakGoldenHourTip(): Promise<void> {
+    const tips = [
+      '现在是黄金时段！赶紧拍，光线超美～',
+      'Golden Hour 光线最温柔！拍人像的黄金时间～',
+      '趁现在光线好！赶紧拍一张，光线不会再来～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
   /** 新手引导提示（第一次打开相机） */
   async speakFirstTimeTip(): Promise<void> {
     const tips = [
