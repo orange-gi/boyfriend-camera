@@ -9,7 +9,7 @@
  */
 import React, { forwardRef, useCallback, useImperativeHandle, useRef, useEffect, useState } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, Linking, Platform } from 'react-native'
-import { COLORS, colors } from '../../theme'
+import { colors } from '../../theme'
 import {
   Camera,
   useCameraDevice,
