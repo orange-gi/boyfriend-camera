@@ -2035,6 +2035,25 @@ export async function analyzePhoto(
     const couplePool = SUGGESTION_POOL.couple_specific || SUGGESTION_POOL.composition
     suggestions.push(pickRandom(couplePool))
   }
+  // 自拍专属建议（首次/自拍模式）
+  if (isFirstPhoto && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.selfie_tips))
+  }
+  // 构图方向建议（人太小 = 可能是要拍全身；人太多 = 换横图）
+  if (facePosition && facePosition.area < 0.08 && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.orientation_hint))
+  }
+  if (faceCount > 2 && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.orientation_hint))
+  }
+  // 室内背景太暗建议
+  if (safeBrightness < 60 && sceneType === 'indoor' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.background_too_dark))
+  }
+  // 背景太实建议（室内场景常见）
+  if (sceneType === 'indoor' && safeSharpness > 120 && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.background_too_sharp))
+  }
 
   // 基于亮度的场景推断夸奖
   // 明亮户外场景（户外阳光充足）
