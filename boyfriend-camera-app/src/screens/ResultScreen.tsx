@@ -929,7 +929,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.skeletonBase,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1000,7 +1000,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   skeletonCard: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: colors.skeletonHighlight,
     borderRadius: 16,
     overflow: 'hidden',
     width: '100%',
@@ -1012,7 +1012,7 @@ const styles = StyleSheet.create({
   },
   skeletonCardImage: {
     flex: 1,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: colors.skeletonBase,
   },
   skeletonCardRow: {
     flexDirection: 'row',
@@ -1023,7 +1023,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#d0d0d0',
+    backgroundColor: colors.border,
   },
   processingSteps: {
     flexDirection: 'row',
@@ -1054,7 +1054,7 @@ const styles = StyleSheet.create({
   processStepLine: {
     width: 24,
     height: 2,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: colors.skeletonBase,
     marginHorizontal: 4,
     marginBottom: 16,
   },
@@ -1106,7 +1106,7 @@ const styles = StyleSheet.create({
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    backgroundColor: '#F0F7FF',
+    backgroundColor: colors.infoLight,
     borderRadius: 16,
     padding: 14,
     borderLeftWidth: 4,
@@ -1138,7 +1138,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     gap: 12,
     borderWidth: 1.5,
-    borderColor: '#FF6B6B',
+    borderColor: colors.primary,
     shadowColor: COLORS.primary,
     shadowOpacity: 0.1,
     shadowRadius: 6,
@@ -1319,9 +1319,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   errorSecondaryBtn: {
-    backgroundColor: '#f0e6c8',
+    backgroundColor: colors.cardCream,
     borderWidth: 1,
-    borderColor: '#c9a84c',
+    borderColor: colors.warning,
   },
   errorSecondaryBtnText: {
     fontSize: 13,
@@ -1350,7 +1350,7 @@ const styles = StyleSheet.create({
   progressDot: { width: 10, height: 10, borderRadius: 5 },
   progressDotActive: { backgroundColor: COLORS.primary, transform: [{ scale: 1.3 }] },
   progressDotDone: { backgroundColor: COLORS.primary, opacity: 0.7 },
-  progressDotPending: { backgroundColor: '#E0E0E0' },
-  progressDotLine: { width: 32, height: 2, backgroundColor: '#E0E0E0', marginHorizontal: 4 },
+  progressDotPending: { backgroundColor: colors.skeletonBase },
+  progressDotLine: { width: 32, height: 2, backgroundColor: colors.skeletonBase, marginHorizontal: 4 },
   progressDotLineDone: { backgroundColor: COLORS.primary, opacity: 0.7 },
 })
