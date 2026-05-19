@@ -2157,6 +2157,70 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '窗边侧光最有立体感，让脸稍微侧向窗户～',
     '窗光太强的话可以退后两步，让光线更均匀～',
   ],
+  // 镜子自拍建议
+  mirror_selfie_tips: [
+    '对着镜子自拍时，手机稍微倾斜一点拍，角度更好看～',
+    '浴室镜自拍光线均匀超上镜，试试歪头笑一个～',
+    '镜子里的倒影也很美！试试拍镜子里的自己，更有氛围～',
+    '镜子自拍时开闪光灯或找光源，脸会更亮～',
+    '全身镜自拍显腿长！男朋友站在镜子前拍你，超有范儿～',
+  ],
+  // 天台夜景建议
+  rooftop_night_tips: [
+    '天台夜景好浪漫！打开闪光灯补补光，人脸更清晰～',
+    '城市夜景做背景超有氛围！让女朋友站在灯光前～',
+    '天台风大注意头发！稍微理一下再拍，光影更干净～',
+    '夜景拍摄要双手拿稳手机，或者靠在栏杆上更稳～',
+    '天台侧光拍侧脸超有层次感，试试看～',
+  ],
+  // 雪景拍照建议
+  snow_scene_tips: [
+    '雪地光线反射强！戴墨镜或找阴影，避免眯眼～',
+    '白茫茫的背景超浪漫！让脸稍微侧一点，阴影更立体～',
+    '雪天拍摄要稍微过曝一点，白雪才不会灰灰的～',
+    '围巾是天然的暖色反光板！把脸衬得红润通透～',
+    '雪景里的彩色配饰超好看！围巾、帽子都是加分项～',
+  ],
+  // 游乐场/嘉年华建议
+  carnival_tips: [
+    '游乐场的彩色灯光超有活力！让男朋友找好角度拍～',
+    '旋转木马前光线梦幻，试试侧身站着超有氛围～',
+    '摩天轮里光线柔和！俯拍城市全景超震撼～',
+    '过山车抓拍表情超刺激！让男朋友对准脸按快门～',
+    '游乐场夜景灯光璀璨！背对灯光拍剪影超浪漫～',
+  ],
+  // 毕业照建议
+  graduation_tips: [
+    '毕业照要让帽子稍微抬高一点，露出额头更有精神～',
+    '抛帽的瞬间最好抓拍！让男朋友对准脸多拍几张～',
+    '毕业袍纽扣解开一颗，脖子线条更修长～',
+    '毕业照背景有校门或教学楼最好，纪念感满满～',
+    '学士帽歪一点戴更活泼！别太端正了～',
+  ],
+  // 樱花季建议
+  cherry_blossom_tips: [
+    '樱花树下光线斑驳！风吹过来时按下快门，绝美～',
+    '樱花做前景虚化超浪漫！让男朋友稍微蹲低拍～',
+    '樱花季逆光拍发丝发光绝了！让阳光从背后打过来～',
+    '樱花雨飘落时抓拍超有意境，多拍几张选最好的～',
+    '樱花树下不要站太正，稍微歪一点构图更有灵气～',
+  ],
+  // 健身房/运动风建议
+  gym_fitness_tips: [
+    '健身房镜前光线均匀！侧身站着，笑着拍一张超有活力～',
+    '运动风来一张！动作舒展一点，笑得灿烂～',
+    '运动完脸微微泛红最有活力感，让男朋友抓拍～',
+    '健身房镜前开闪光灯补光，脸会更清晰～',
+    '运动装拍照活力满满！拉伸或举哑铃的姿势都好看～',
+  ],
+  // 海边/沙滩建议
+  beach_seaside_tips: [
+    '海边阳光强烈会让眯眼！找侧光或背光角度～',
+    '沙滩脚印做前景超有层次感！稍微低角度拍～',
+    '海边日落逆光超浪漫！侧身站着让阳光勾勒轮廓～',
+    '海风吹起头发超灵动！等风来时按下快门～',
+    '海边拍全身时让男朋友蹲低，超级显腿长～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -2182,6 +2246,7 @@ export interface AnalyzeContext {
     | 'subway' | 'supermarket' | 'rooftop_party' | 'farm' | 'graffiti' | 'aquarium'
     | 'chapel' | 'market_stall' | 'bakery' | 'carousel' | 'greenhouse' | 'tent_camp' | 'graduation'
     | 'festival_lights' | 'graduation_outdoor' | 'old_town' | 'beach_sunset' | 'rainy_street' | 'morning_run' | 'bookstore'
+    | 'mirror' | 'carnival' | 'beach'
   /** 上次构图分（构图改善检测） */
   lastCompositionScore?: number
   /** 上次表情分（表情改善检测） */
@@ -2951,6 +3016,38 @@ export async function analyzePhoto(
   // 多人合照建议（2人以上）
   if (faceCount >= 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_tips))
+  }
+  // 镜子自拍建议
+  if (sceneType === 'mirror') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.mirror_selfie_tips))
+  }
+  // 天台夜景建议
+  if (sceneType === 'rooftop_night') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rooftop_night_tips))
+  }
+  // 雪景建议
+  if (sceneType === 'snow') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.snow_scene_tips))
+  }
+  // 游乐场/嘉年华建议
+  if (sceneType === 'carnival') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.carnival_tips))
+  }
+  // 毕业照建议
+  if (sceneType === 'graduation') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.graduation_tips))
+  }
+  // 樱花季建议
+  if (sceneType === 'cherry_blossom') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.cherry_blossom_tips))
+  }
+  // 健身房/运动风建议
+  if (sceneType === 'gym') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.gym_fitness_tips))
+  }
+  // 海边/沙滩建议
+  if (sceneType === 'beach') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.beach_seaside_tips))
   }
 
   // 黄金时段户外场景（早晨或傍晚亮度区间：80-160）
