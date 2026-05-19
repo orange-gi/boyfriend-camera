@@ -4,6 +4,7 @@
  */
 import cloudbaseSDK from '@cloudbase/js-sdk'
 import adapter from '@cloudbase/adapter-rn'
+import { logger } from '../utils/logger'
 
 cloudbaseSDK.useAdapters(adapter)
 
@@ -29,13 +30,13 @@ export async function callFunction(name: string, data: object = {}): Promise<any
     // 细化错误类型，便于模板同步服务判断失败原因
     const msg = e instanceof Error ? e.message : String(e)
     if (msg.includes('401') || msg.includes('unauthorized') || msg.includes('token')) {
-      console.warn(`[CloudBase] callFunction(${name}) 认证失败，请检查 CloudBase 配置`)
+      logger.warn('CloudBase', `callFunction(${name}) 认证失败，请检查 CloudBase 配置`)
     } else if (msg.includes('timeout') || msg.includes('ETIMEDOUT') || msg.includes('network')) {
-      console.warn(`[CloudBase] callFunction(${name}) 网络超时，将使用离线模板`)
+      logger.warn('CloudBase', `callFunction(${name}) 网络超时，将使用离线模板`)
     } else if (msg.includes('function not found') || msg.includes('FunctionNotFound')) {
-      console.warn(`[CloudBase] callFunction(${name}) 云函数不存在`)
+      logger.warn('CloudBase', `callFunction(${name}) 云函数不存在`)
     } else {
-      console.warn(`[CloudBase] callFunction(${name}) 调用失败:`, msg)
+      logger.warn('CloudBase', `callFunction(${name}) 调用失败: ${msg}`)
     }
     return null
   }

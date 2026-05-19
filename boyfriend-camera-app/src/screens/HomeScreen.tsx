@@ -30,6 +30,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
+import { logger } from '../utils/logger'
 
 const { width: SCREEN_W } = Dimensions.get('window')
 
@@ -218,7 +219,7 @@ export default function HomeScreen() {
         setDisplayAvgScore(avg)
       }
     } catch (e: unknown) {
-      console.warn('[HomeScreen] 加载日记失败:', e)
+      logger.warn('HomeScreen', '加载日记失败', e)
     } finally {
       setStatsLoading(false)
     }

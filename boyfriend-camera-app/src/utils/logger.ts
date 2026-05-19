@@ -14,8 +14,9 @@ const isDebug = __DEV__
 type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
 function formatMessage(level: LogLevel, module: string, message: string, data?: unknown): string {
+  const safeData = data instanceof Error ? data.message : data
   const prefix = `[${level.toUpperCase()}] [${module}]`
-  const dataStr = data !== undefined ? ` ${JSON.stringify(data)}` : ''
+  const dataStr = safeData !== undefined ? ` ${safeData instanceof Object ? JSON.stringify(safeData) : String(safeData)}` : ''
   return `${prefix} ${message}${dataStr}`
 }
 

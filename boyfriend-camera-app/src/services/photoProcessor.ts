@@ -11,6 +11,7 @@
  * 5. 保存到临时文件
  */
 import { Platform } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import type { RefObject } from 'react'
 import { captureRef } from 'react-native-view-shot'
 import RNFS from 'react-native-fs'
@@ -895,8 +896,27 @@ export function generateWatermarkSVG(
  * 检查是否应自动添加水印
  * 用户可在设置中关闭此功能
  */
-export function shouldAddWatermark(): boolean {
-  // 默认开启，用户可在设置中关闭
-  // 此处读取用户偏好（需要 AsyncStorage 集成）
-  return true
+const WATERMARK_ENABLED_KEY = 'watermark_enabled'
+
+/**
+ * 检查是否应自动添加水印
+ * 用户可在设置中关闭此功能
+ */
+export async function shouldAddWatermark(): Promise<boolean> {
+  try {
+    const stored = await AsyncStorage.getItem(WATERMARK_ENABLED_KEY)
+    // 未设置时默认开启（true），已设置则读取用户偏好
+    if (stored === null) return true
+    return stored === 'true'
+  } catch {
+    // 读取失败，默认开启
+    return true
+  }
+}
+
+/**
+ * 设置水印开关状态
+ */
+export async function setWatermarkEnabled(enabled: boolean): Promise<void> {
+  await AsyncStorage.setItem(WATERMARK_ENABLED_KEY, String(enabled))
 }
