@@ -49,6 +49,7 @@ pnpm ios:device
 - **Reanimated 报错**：确认 `babel.config.js` 含 `react-native-reanimated/plugin` 且为 plugins 最后一项
 - **MMKV / TurboModules 报错**（`react-native-mmkv 3.x requires TurboModules`）：`@cloudbase/adapter-rn` 依赖 MMKV，pnpm 下需把 `react-native-mmkv` 写在 `package.json` 直接依赖里才能被原生自动链接。执行 `pnpm install && pnpm pod-install` 后，在 Xcode 中 **Product → Clean Build Folder**，再重新真机构建
 - **模板与 CloudBase**：默认使用 App 内置离线模板，**无需登录**。若要从云端同步 100+ 模板，在 `src/services/cloudbase.ts` 填入 Publishable API Key（控制台 → ApiKey 管理 → 创建 publishable key），不是用户账号登录
+- **误报「相机设备不可用」**：进入拍照页时若短暂出现该提示、实际能预览/拍照，属初始化误报，已改为相机就绪后自动清除；若持续出现再检查权限
 - **`Unimplemented component: RNSScreenStack`**：`@react-navigation/native-stack` 依赖 `react-native-screens`，pnpm 下需写在 `package.json` 直接依赖里。执行 `pnpm install && pnpm pod-install` 后 Clean Build 再运行
 
 ## 智能模板推荐

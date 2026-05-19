@@ -31,7 +31,8 @@ interface Props {
   torchMode?: 'off' | 'on'
   isActive?: boolean
   facing?: 'front' | 'back'
-  onError?: (error: string) => void
+  /** 传 null 表示相机已就绪，清除误报 */
+  onError?: (error: string | null) => void
 }
 
 const CameraView = forwardRef<CameraViewRef, Props>(({
@@ -43,6 +44,8 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
 }, ref) => {
   const internalRef = useRef<CameraRef>(null)
   const photoOutputRef = useRef<CameraPhotoOutput | null>(null)
+  const onErrorRef = useRef(onError)
+  onErrorRef.current = onError
 
   const { hasPermission, requestPermission } = useCameraPermission()
   const device = useCameraDevice(facing)
@@ -93,13 +96,27 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
     }
   }, [hasPermission, requestPermission])
 
+  // 仅在确认失败时上报；就绪时传 null 清除挂载/切换镜头时的误报
   useEffect(() => {
-    if (!hasPermission) {
-      onError?.('permission_denied')
-    } else if (!device) {
-      onError?.('no_device')
+    const report = onErrorRef.current
+    if (hasPermission && device) {
+      report?.(null)
+      return
     }
-  }, [hasPermission, device])
+
+    if (!hasPermission) {
+      if (requestedPermission) {
+        report?.('permission_denied')
+      }
+      return
+    }
+
+    const timer = setTimeout(() => {
+      report?.('no_device')
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [hasPermission, device, requestedPermission])
 
   const handleOpenSettings = () => {
     if (Platform.OS === 'ios') {

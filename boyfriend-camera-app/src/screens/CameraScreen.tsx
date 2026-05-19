@@ -221,6 +221,7 @@ export default function CameraScreen() {
     try {
       const photo = await cameraRef.current?.takePhoto(flashRef.current)
       if (photo) {
+        setCameraError(null)
         navigation.navigate({ name: 'Result' as const, params: {
           photoPath: photo.filePath,
           photoWidth: undefined,
