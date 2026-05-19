@@ -1316,7 +1316,7 @@ const styles = StyleSheet.create({
   },
   // 空状态错误卡片
   emptyErrorCard: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.bgCard,
     borderRadius: 16,
     padding: 32,
     marginBottom: 16,
@@ -1352,7 +1352,7 @@ const styles = StyleSheet.create({
   },
   // 空状态预览卡片
   emptyPreviewCard: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.bgCard,
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
@@ -1427,7 +1427,7 @@ const styles = StyleSheet.create({
   },
   emptyMotivationText: {
     fontSize: 13,
-    color: '#C0607A',
+    color: colors.danger,
     lineHeight: 20,
     textAlign: 'center',
   },
@@ -1475,7 +1475,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   sheetContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.bgCard,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 24,
@@ -1520,7 +1520,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sheetCancelBtn: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: colors.bg,
   },
   sheetCancelBtnText: {
     fontSize: 16,
@@ -1528,11 +1528,11 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
   },
   sheetDeleteBtn: {
-    backgroundColor: '#FF4757',
+    backgroundColor: colors.danger,
   },
   sheetDeleteBtnText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
+    color: colors.textOnPrimary,
   },
 })

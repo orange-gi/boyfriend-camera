@@ -877,7 +877,7 @@ function ConfettiParticle({ x, delay, emoji }: { x: number; delay: number; emoji
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.bg,
   },
   scrollContainer: {
     flex: 1,
@@ -1184,7 +1184,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1.5,
     borderColor: COLORS.divider,
-    backgroundColor: '#fff',
+    backgroundColor: colors.bgCard,
     gap: 6,
     shadowColor: '#888',
     shadowOffset: { width: 0, height: 2 },
@@ -1267,7 +1267,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.bgCard,
   },
   errorEmoji: {
     fontSize: 52,

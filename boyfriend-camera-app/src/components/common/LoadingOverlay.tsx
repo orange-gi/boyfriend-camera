@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bgCard,
     borderRadius: 16,
     paddingHorizontal: 32,
     paddingVertical: 28,

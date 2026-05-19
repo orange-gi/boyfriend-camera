@@ -599,7 +599,7 @@ export default function CameraScreen() {
               <TextInput
                 style={styles.searchInput}
                 placeholder="搜索姿势、场景..."
-                placeholderTextColor="#aaa"
+                placeholderTextColor={COLORS.textMuted}
                 value={templateSearch}
                 onChangeText={setTemplateSearch}
                 autoCapitalize="none"
@@ -1176,7 +1176,7 @@ const styles = StyleSheet.create({
   modalHandle: {
     width: 40,
     height: 4,
-    backgroundColor: '#ddd',
+    backgroundColor: COLORS.divider,
     borderRadius: 2,
     alignSelf: 'center',
     marginTop: 10,
@@ -1421,7 +1421,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   searchClear: {
-    color: '#aaa',
+    color: COLORS.textMuted,
     fontSize: 14,
     padding: 2,
   },
