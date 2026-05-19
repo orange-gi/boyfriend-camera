@@ -20,6 +20,7 @@ import {
   Photo,
   CameraRef,
 } from 'react-native-vision-camera'
+import { logger } from '../../utils/logger'
 
 export interface CameraViewRef {
   takePhoto: (flashMode?: 'off' | 'on' | 'auto') => Promise<PhotoFile | null>
@@ -77,7 +78,7 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
         return null
       }
     } catch (e) {
-      console.error('[CameraView] 拍照失败:', e)
+      logger.error('CameraView', '拍照失败', e)
       return null
     }
   }, [])
@@ -230,7 +231,7 @@ export async function takePhoto(
     if (!cam) return null
     return await cam.takePhoto(flashMode)
   } catch (e) {
-    console.error('[CameraView] takePhoto 失败:', e)
+    logger.error('CameraView', 'takePhoto 失败', e)
     return null
   }
 }
