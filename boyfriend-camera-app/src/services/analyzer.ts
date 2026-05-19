@@ -1840,12 +1840,19 @@ export async function analyzePhoto(
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
     suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
+  } else if (safeBrightness >= 40 && safeBrightness < 60) {
+    // 填充 40-60 低亮度灰色地带（之前漏掉）：轻度欠曝
+    exposureScore -= 8
+    problems.push('exposure')
+    suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
+    suggestions.push('脸稍微有点暗，打开闪光灯或靠近光源试试～')
   } else if (safeBrightness > 220) {
     exposureScore -= 15
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
     suggestions.push(pickRandom(SUGGESTION_POOL.over_exposure))
-  } else if (safeBrightness < 60 || safeBrightness > 200) {
+  } else if (safeBrightness > 200 || safeBrightness < 80) {
+    // 收紧边界：200-220 高光区、60-80 微暗区各扣 8 分
     exposureScore -= 8
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
