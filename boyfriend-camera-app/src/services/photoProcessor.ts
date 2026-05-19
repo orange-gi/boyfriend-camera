@@ -15,6 +15,7 @@ import type { RefObject } from 'react'
 import { captureRef } from 'react-native-view-shot'
 import RNFS from 'react-native-fs'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
+import { logger } from '../utils/logger'
 
 export interface ProcessOptions {
   /** 目标裁剪比例，如 3/4, 1/1 */
@@ -148,7 +149,7 @@ export async function processPhoto(
 
   // 路径合法性校验
   if (!imagePath || typeof imagePath !== 'string') {
-    console.warn('[PhotoProcessor] 非法图片路径:', imagePath)
+    logger.warn('PhotoProcessor', '非法图片路径:', imagePath)
     throw new Error('INVALID_IMAGE_PATH')
   }
 
@@ -158,7 +159,7 @@ export async function processPhoto(
     faceCenter,
   } = options
 
-  console.debug('[PhotoProcessor] 开始处理图片:', {
+  logger.debug('PhotoProcessor', '开始处理图片:', {
     path: imagePath,
     cropRatio,
     filterName,
@@ -177,7 +178,7 @@ export async function processPhoto(
       await RNFS.mkdir(cacheDir)
     }
   } catch (e) {
-    console.error('[PhotoProcessor] 创建缓存目录失败:', e)
+    logger.error('PhotoProcessor', '创建缓存目录失败:', e)
     throw new Error('CACHE_DIR_CREATE_FAILED')
   }
 
@@ -189,12 +190,12 @@ export async function processPhoto(
   try {
     sourceExists = await RNFS.exists(cleanPath)
   } catch (e) {
-    console.error('[PhotoProcessor] 检查图片存在性失败:', e)
+    logger.error('PhotoProcessor', '检查图片存在性失败:', e)
     throw new Error('IMAGE_READ_ERROR')
   }
 
   if (!sourceExists) {
-    console.error('[PhotoProcessor] 图片文件不存在:', cleanPath)
+    logger.error('PhotoProcessor', '图片文件不存在:', cleanPath)
     throw new Error('IMAGE_NOT_FOUND')
   }
 
@@ -203,10 +204,10 @@ export async function processPhoto(
     const stat = await RNFS.stat(cleanPath)
     const sizeMB = (stat.size || 0) / 1024 / 1024
     if (sizeMB > 20) {
-      console.warn('[PhotoProcessor] 图片过大(', sizeMB.toFixed(1), 'MB)，可能影响处理性能')
+      logger.warn('PhotoProcessor', `图片过大(${sizeMB.toFixed(1)}MB)，可能影响处理性能`)
     }
   } catch (e) {
-    console.warn('[PhotoProcessor] 无法获取文件大小:', e)
+    logger.warn('PhotoProcessor', '无法获取文件大小:', e)
   }
 
   // 复制原图到输出路径
@@ -216,7 +217,7 @@ export async function processPhoto(
   try {
     await RNFS.copyFile(cleanPath, outputPath)
   } catch (e) {
-    console.error('[PhotoProcessor] 图片复制失败:', e)
+    logger.error('PhotoProcessor', '图片复制失败:', e)
     throw new Error('IMAGE_COPY_FAILED')
   }
 
@@ -238,12 +239,12 @@ export async function processPhoto(
       'utf8'
     )
   } catch (e) {
-    console.warn('[PhotoProcessor] 写入元数据失败:', e)
+    logger.warn('PhotoProcessor', '写入元数据失败:', e)
   }
 
   // 返回处理后的路径（滤镜在 ComparisonCard Skia 层渲染）
   const duration = Date.now() - startTime
-  console.debug('[PhotoProcessor] 图片处理完成:', {
+  logger.debug('PhotoProcessor', '图片处理完成:', {
     outputPath,
     durationMs: duration,
     filterName,
@@ -505,7 +506,7 @@ export async function generateComparisonCard(
   quality: 'high' | 'medium' | 'low' = 'medium'
 ): Promise<string> {
   if (!viewShotRef.current) {
-    console.warn('[PhotoProcessor] viewShot ref not ready')
+    logger.warn('PhotoProcessor', 'viewShot ref not ready')
     return processedPath
   }
 
@@ -517,7 +518,7 @@ export async function generateComparisonCard(
   }
   const jpegQuality = qualityMap[quality] ?? 0.85
 
-  console.debug('[PhotoProcessor] 生成对比卡片:', {
+  logger.debug('PhotoProcessor', '生成对比卡片:', {
     originalPath,
     processedPath,
     quality,
@@ -530,10 +531,10 @@ export async function generateComparisonCard(
       format: 'jpg',
       quality: jpegQuality,
     })
-    console.debug('[PhotoProcessor] 对比卡片截图成功:', uri)
+    logger.debug('PhotoProcessor', '对比卡片截图成功:', uri)
     return uri
   } catch (e) {
-    console.error('[PhotoProcessor] 对比卡片截图失败:', e)
+    logger.error('PhotoProcessor', '对比卡片截图失败:', e)
     // 回退到返回原处理图
     return processedPath
   }
@@ -550,14 +551,14 @@ export async function generateComparisonCard(
  */
 export async function saveToAlbum(imagePath: string): Promise<boolean> {
   if (!imagePath || typeof imagePath !== 'string') {
-    console.warn('[PhotoProcessor] saveToAlbum: 非法路径参数')
+    logger.warn('PhotoProcessor', 'saveToAlbum: 非法路径参数')
     return false
   }
   try {
     const cleanPath = imagePath.replace(/^file:\/\//, '').trim()
     // 验证源文件存在
     if (!(await RNFS.exists(cleanPath))) {
-      console.warn('[PhotoProcessor] saveToAlbum: 源文件不存在:', cleanPath)
+      logger.warn('PhotoProcessor', 'saveToAlbum: 源文件不存在:', cleanPath)
       return false
     }
     const timestamp = Date.now()
@@ -585,9 +586,9 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
         type: 'photo',
         album: 'BoyfriendCamera',
       })
-      console.debug('[PhotoProcessor] 写入系统相册成功:', result)
+      logger.debug('PhotoProcessor', '写入系统相册成功:', result)
     } catch (crError) {
-      console.warn('[PhotoProcessor] CameraRoll 保存失败，文件已保存到缓存:', crError)
+      logger.warn('PhotoProcessor', 'CameraRoll 保存失败，文件已保存到缓存:', crError)
       // 文件已保存到缓存，用户可在文件管理器中查看
     }
 
@@ -603,7 +604,7 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
 
     return true
   } catch (e) {
-    console.error('[PhotoProcessor] 保存失败:', e)
+    logger.error('PhotoProcessor', '保存失败:', e)
     return false
   }
 }
@@ -636,7 +637,7 @@ export async function cleanupTempFiles(): Promise<void> {
       await Promise.all(toDelete.map(f => RNFS.unlink(f.path).catch(() => {})))
     }
   } catch (e) {
-    console.warn('[PhotoProcessor] 清理临时文件失败:', e)
+    logger.warn('PhotoProcessor', '清理临时文件失败:', e)
   }
 }
 
@@ -750,7 +751,7 @@ export async function batchProcess(
       const processedPath = await processPhoto(paths[i], options)
       results.push(processedPath)
     } catch (e) {
-      console.warn(`[PhotoProcessor] batchProcess: 第${i + 1}张处理失败，保留原路径:`, e)
+      logger.warn('PhotoProcessor', `第${i + 1}张处理失败，保留原路径`, e)
       results.push(paths[i]) // 处理失败时保留原路径
     }
     onProgress?.(i + 1, paths.length)
