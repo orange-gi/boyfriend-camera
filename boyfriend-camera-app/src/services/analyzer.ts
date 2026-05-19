@@ -1979,15 +1979,6 @@ function pickRandom(arr: string[] | undefined): string {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
-/** 从对象池中安全抽取，防止键名拼写错误或未定义导致崩溃 */
-function pickFromPool<T extends string[]>(
-  pool: Record<string, T>,
-  key: string,
-  fallback: string[] = []
-): string {
-  return pickRandom(pool[key] ?? fallback)
-}
-
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */
   lastScore?: number
