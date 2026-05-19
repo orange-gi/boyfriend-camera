@@ -3,7 +3,7 @@
  * 基于 ui-ux-pro-max 方法论，统一所有设计变量
  * 所有颜色、字体、间距、圆角、阴影均通过 tokens 引用，不再硬编码
  */
-import { Platform, TextStyle } from 'react-native'
+import { TextStyle } from 'react-native'
 
 // ─────────────────────────────────────────────
 // 1. 颜色 tokens
