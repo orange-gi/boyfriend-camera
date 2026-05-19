@@ -270,7 +270,7 @@ export default function HomeScreen() {
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{totalTemplates}</Text>
               <Text style={styles.statLabel}>姿势模板</Text>
-              <View style={[styles.statIndicator, { backgroundColor: '#4ECDC4' }]} />
+              <View style={[styles.statIndicator, { backgroundColor: colors.info }]} />
             </View>
           </View>
           {diaryCount >= 2 && avgScore > 0 && (() => {

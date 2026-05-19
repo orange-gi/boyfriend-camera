@@ -4,6 +4,7 @@
  * 使用 Image 加载 data URI，支持 PanResponder 拖动 + pinch 缩放
  */
 import React, { useRef, useState, useEffect } from 'react'
+import { COLORS, colors } from '../../theme'
 import {
   View,
   StyleSheet,
@@ -248,7 +249,7 @@ const styles = StyleSheet.create({
   },
   voiceTipBtn: {
     marginLeft: 8,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: colors.primary,
     borderRadius: 12,
     paddingHorizontal: 10,
     paddingVertical: 4,

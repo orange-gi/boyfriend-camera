@@ -3,6 +3,7 @@
  * 改进：分类标签、选中高亮、voiceTip预览
  */
 import React from 'react'
+import { colors } from '../../theme'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { COLORS, CATEGORY_COLORS } from '../../theme/colors'
 import type { PoseTemplate } from '../camera/PoseTemplateOverlay'
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 6,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: colors.bg,
     marginTop: 12,
   },
   name: {

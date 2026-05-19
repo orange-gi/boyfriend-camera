@@ -9,6 +9,7 @@
  */
 import React, { forwardRef, useCallback, useImperativeHandle, useRef, useEffect, useState } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, Linking, Platform } from 'react-native'
+import { COLORS, colors } from '../../theme'
 import {
   Camera,
   useCameraDevice,
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   permissionBtn: {
-    backgroundColor: '#FD79A8',
+    backgroundColor: colors.categoryCouple,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 24,

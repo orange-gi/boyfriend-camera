@@ -1438,7 +1438,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#EDE9FE',
+    borderColor: colors.purpleLight,
   },
   emptyMilestoneTitle: {
     fontSize: 14,
@@ -1487,7 +1487,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: colors.skeletonBase,
     marginBottom: 16,
   },
   sheetDangerIcon: {
