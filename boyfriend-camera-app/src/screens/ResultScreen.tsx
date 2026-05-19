@@ -534,11 +534,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   // 夸奖文案（分数段）
   const getPraiseBannerText = () => {
     if (!scoreResult) return ''
-    if (scoreResult.totalScore >= 90) return '💯 太厉害了！完美之作！'
-    if (scoreResult.totalScore >= 80) return '🌟 优秀！男朋友进步好大！'
-    if (scoreResult.totalScore >= 70) return '👍 不错不错，继续保持！'
-    if (scoreResult.totalScore >= 60) return '😊 及格啦，下次会更好！'
-    return '💪 继续加油！一定能越拍越好！'
+    if (scoreResult.totalScore >= 90) return `💯 ${scoreResult.totalScore}分！太厉害了！完美之作！`
+    if (scoreResult.totalScore >= 80) return `🌟 ${scoreResult.totalScore}分！优秀！男朋友进步好大！`
+    if (scoreResult.totalScore >= 70) return `👍 ${scoreResult.totalScore}分！不错不错，继续保持！`
+    if (scoreResult.totalScore >= 60) return `😊 ${scoreResult.totalScore}分！及格啦，下次会更好！`
+    return `💪 ${scoreResult.totalScore}分！继续加油！一定能越拍越好！`
   }
 
   // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
@@ -1190,10 +1190,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   praiseBannerScore: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '800',
     color: COLORS.textPrimary,
     marginBottom: 4,
+    letterSpacing: -0.3,
   },
   praiseBannerSub: {
     fontSize: 13,

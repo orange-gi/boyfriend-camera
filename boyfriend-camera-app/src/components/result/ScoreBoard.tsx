@@ -182,19 +182,22 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   totalBadge: {
-    borderRadius: 20,
-    padding: 16,
+    borderRadius: 24,
+    padding: 20,
     alignItems: 'center',
-    minWidth: 90,
+    minWidth: 100,
+    borderWidth: 2,
   },
   totalScore: {
-    fontSize: 42,
+    fontSize: 52,
     fontWeight: 'bold',
     textAlign: 'center',
+    letterSpacing: -1,
   },
   totalLabel: {
-    fontSize: 12,
-    marginTop: 2,
+    fontSize: 13,
+    marginTop: 4,
+    fontWeight: '600',
   },
   totalMeta: { flex: 1, marginLeft: 16 },
   totalGrade: {

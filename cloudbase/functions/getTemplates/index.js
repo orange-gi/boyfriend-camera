@@ -1,10 +1,10 @@
 /**
- * 男友相机 - getTemplates 云函数 v23
- * 170 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/城市街拍等全场景
+ * 男友相机 - getTemplates 云函数 v27
+ * 254 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/城市街拍等全场景
  * 模板涵盖：日常自拍、约会合照、户外风景、美食餐厅、城市街拍、节日庆典等
  */
 
-const CURRENT_VERSION = 26
+const CURRENT_VERSION = 27
 
 // ===== Deterministic SVG generator (replaces 170 static constants, reduces ~60KB) =====
 function genSVG(id) {
@@ -2442,6 +2442,43 @@ const ALL_TEMPLATES = [
     thumbnail: genSVG(25),
     voiceTip: "举着荧光棒跟着节拍摇摆！表情灿烂的时候按下快门！",
     category: "特殊风格",
+    version: 1,
+  },
+  // ========== Round 27 新增模板 251-254 ==========
+  {
+    id: "template_251",
+    description: "星空露营超浪漫！躺在帐篷里仰拍，星空做背景超梦幻～",
+    overlayUrl: genSVG(251),
+    thumbnail: genSVG(251),
+    voiceTip: "躺在帐篷里仰拍，星空做背景超梦幻～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_252",
+    description: "泳池日光超有夏威夷感！泳池边阳光充足，侧身站着笑一个～",
+    overlayUrl: genSVG(252),
+    thumbnail: genSVG(252),
+    voiceTip: "泳池边阳光充足，侧身站着笑一个～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_253",
+    description: "竹林禅意超有感觉！竹林小径光线斑驳，走着抓拍超有感觉～",
+    overlayUrl: genSVG(253),
+    thumbnail: genSVG(253),
+    voiceTip: "竹林小径光线斑驳，走着抓拍超有感觉～",
+    category: "户外风景",
+    version: 1,
+  },
+  {
+    id: "template_254",
+    description: "天台黄昏光线超美！侧身站着让光打在侧脸上，氛围感绝了～",
+    overlayUrl: genSVG(254),
+    thumbnail: genSVG(254),
+    voiceTip: "天台黄昏光线超美，侧身站着让光打在侧脸上～",
+    category: "城市街拍",
     version: 1,
   },
 ];
