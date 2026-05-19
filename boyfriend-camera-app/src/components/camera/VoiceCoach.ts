@@ -2017,16 +2017,6 @@ class VoiceCoach {
     await this.speak(pool[Math.floor(Math.random() * pool.length)], true)
   }
 
-  /** 镜子自拍提示 */
-  async speakMirrorSelfieTip(): Promise<void> {
-    const tips = [
-      '对着镜子拍可以消除男友手残视角！这个方法绝了～',
-      '用镜子自拍，让男朋友拿手机从背后拍，你看着镜子调整姿势～',
-      '浴室镜子光线超均匀！这个位置拍出来皮肤超好～',
-    ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
-  }
-
   /** 大风天提示 */
   async speakWindTip(): Promise<void> {
     const tips = [
@@ -2412,6 +2402,97 @@ class VoiceCoach {
       '别太紧绷啦～深呼吸，让表情自然流动～',
       '假装被什么逗乐了，眼睛也会亮起来～',
       '表情自然最重要，不用刻意摆拍，真实最美～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 镜子自拍提示 */
+  async speakMirrorSelfieTip(): Promise<void> {
+    const tips = [
+      '对着镜子自拍！手机稍微斜一点拍，角度更好看～',
+      '浴室镜自拍光线好均匀，试试歪头笑一个～',
+      '全身镜自拍显腿长！站在镜子前笑一个～',
+      '镜子里的倒影也很美！试试拍镜子里的自己～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 海边拍照提示 */
+  async speakBeachTip(): Promise<void> {
+    const tips = [
+      '海边阳光强烈容易眯眼！稍微侧身躲开强光～',
+      '海风吹起头发超灵动！等风来时按下快门～',
+      '让男朋友蹲低拍，超级显腿长！',
+      '侧身站着让阳光勾勒轮廓，逆光超浪漫～',
+      '沙滩脚印做前景超有层次感！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 雪景拍照提示 */
+  async speakSnowTip(): Promise<void> {
+    const tips = [
+      '雪地光线反射强！戴墨镜或找阴影，避免眯眼～',
+      '围巾是天然的暖色反光板，把脸衬得红润通透～',
+      '白茫茫的背景超浪漫！稍微过曝一点白雪才不灰～',
+      '雪景里的彩色围巾超好看，是加分项哦～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 游乐场/嘉年华提示 */
+  async speakCarnivalTip(): Promise<void> {
+    const tips = [
+      '游乐场彩色灯光超有活力！找好角度就拍～',
+      '旋转木马前光线梦幻，试试侧身站着超有氛围～',
+      '摩天轮里光线柔和！俯拍城市全景超震撼～',
+      '游乐场夜景灯光璀璨！背对灯光拍剪影超浪漫～',
+      '过山车抓拍表情超刺激！让男朋友对准脸按快门～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 毕业照提示 */
+  async speakGraduationTip(): Promise<void> {
+    const tips = [
+      '毕业照帽子稍微抬高一点，露出额头更有精神～',
+      '抛帽的瞬间最好抓拍！让男朋友对准脸多拍几张～',
+      '毕业袍纽扣解开一颗，脖子线条更修长～',
+      '学士帽歪一点戴更活泼！别太端正了～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 天台夜景提示 */
+  async speakRooftopNightTip(): Promise<void> {
+    const tips = [
+      '天台夜景好浪漫！打开闪光灯补补光，人脸更清晰～',
+      '城市夜景做背景超有氛围！让女朋友站在灯光前～',
+      '天台风大注意头发！稍微理一下再拍，光影更干净～',
+      '夜景拍摄要双手拿稳手机，或者靠在栏杆上更稳～',
+      '天台侧光拍侧脸超有层次感，试试看～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 健身房/运动风提示 */
+  async speakGymTip(): Promise<void> {
+    const tips = [
+      '健身房镜前光线均匀！侧身站着，笑着拍一张超有活力～',
+      '运动风来一张！动作舒展一点，笑得灿烂～',
+      '运动完脸微微泛红最有活力感，让男朋友抓拍～',
+      '健身房镜前开闪光灯补光，脸会更清晰～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 樱花季提示 */
+  async speakCherryBlossomTip(): Promise<void> {
+    const tips = [
+      '樱花树下光线斑驳！风吹过来时按下快门，绝美～',
+      '樱花做前景虚化超浪漫！让男朋友稍微蹲低拍～',
+      '樱花季逆光拍发丝发光绝了！让阳光从背后打过来～',
+      '樱花雨飘落时抓拍超有意境，多拍几张选最好的～',
     ]
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
