@@ -1754,6 +1754,42 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '让她低头看书或看手机，然后抬起头看镜头，这个瞬间抓拍～',
     '假装在看远处的什么东西出神，然后转头微笑，超有氛围～',
   ],
+  // ========== Round 2 新增 ==========
+  // 情侣姿势引导建议
+  couple_pose_hint: [
+    '试试让她靠在墙上，微微侧身，曲线更美～',
+    '让她坐在椅子上，一只脚往前伸，显得腿更长～',
+    '牵手往前走，让他从背后抓拍，氛围感拉满～',
+    '让她站着弯一只腿靠在另一条腿上，身材比例更好～',
+    '试试从高往低拍，让她仰头看镜头，脖子显得更长～',
+    '让她坐在地上，一只腿弯曲另一只伸直，构图更有趣～',
+  ],
+  // 拍摄角度建议
+  angle_hint: [
+    '试试从低往高拍，显瘦又显高～',
+    '换个角度试试，俯拍显脸小，仰拍显气质～',
+    '让她稍微侧身，45度角最显瘦～',
+    '镜头和腰部齐平，构图会更自然舒服～',
+    '换个视角试试，正面侧面各来一张～',
+    '稍微低一点拍，让她的眼睛直视镜头更有神～',
+  ],
+  // 背景与距离综合建议
+  background_distance_hint: [
+    '退后两步，背景干净了人更突出～',
+    '走近一点！人应该占画面的主角位置～',
+    '背景太满了，让她往前走两步再拍～',
+    '人和背景距离远一点，虚化效果会更明显～',
+    '试试把手机放低一点，和腰部齐平～',
+    '找个干净的背景，整体更显高级～',
+  ],
+  // 低分安慰（总分 40-60）
+  medium_low_encourage: [
+    '第一次拍成这样已经不错啦，多拍几张更好～',
+    '别急，摄影师都是练出来的！',
+    '这张有进步！上次和这次的差距就是成长～',
+    '男朋友在认真拍呢，态度满分💪',
+    '构图有点意思！继续优化一下光线会更棒～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -2415,6 +2451,14 @@ export async function analyzePhoto(
   // ========== Round 2 新增：情绪引导建议触发 ==========
   if (faceCount > 0 && totalScore >= 50 && totalScore < 70 && !problems.includes('stability')) {
     suggestions.push(pickRandom(SUGGESTION_POOL.emotion_guidance_hint))
+  }
+  // ========== Round 2 新增：情侣姿势引导触发 ==========
+  if (isCouplePhoto && faceCount >= 1 && totalScore < 78 && !problems.includes('composition')) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.couple_pose_hint))
+  }
+  // ========== Round 2 新增：中低分鼓励触发 ==========
+  if (totalScore >= 40 && totalScore < 60) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.medium_low_encourage))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
