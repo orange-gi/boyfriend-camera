@@ -9,7 +9,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withDelay, withSequence, withTiming, withRepeat, Easing } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { getDiary } from '../services/analyzer'
+import { getDiary, getScoreHistory } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
 import { shadows, borderRadius, spacing, typography, colors } from '../theme/index'
@@ -96,6 +96,8 @@ export default function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>()
   const [diaryCount, setDiaryCount] = useState(0)
   const [avgScore, setAvgScore] = useState(0)
+  // 趋势状态：'up' | 'down' | 'stable' | null
+  const [trend, setTrend] = useState<'up' | 'down' | 'stable' | null>(null)
   const [showOnboard, setShowOnboard] = useState(false)
   const [onboardStep, setOnboardStep] = useState(0)
   const [tipDismissed, setTipDismissed] = useState(false)
@@ -165,6 +167,27 @@ export default function HomeScreen() {
         setAvgScore(avg)
         setDisplayDiaryCount(diary.length)
         setDisplayAvgScore(avg)
+      }
+      // 计算真实趋势：比较最近 3 次 vs 更早的 3 次
+      if (diary.length >= 4) {
+        const sorted = [...diary]
+          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+          .map(r => r.score)
+        const recentCount = Math.min(3, Math.floor(sorted.length / 2))
+        const recentScores = sorted.slice(-recentCount)
+        const olderScores = sorted.slice(-recentCount * 2, -recentCount)
+        if (olderScores.length > 0) {
+          const recentAvg = recentScores.reduce((a, b) => a + b, 0) / recentScores.length
+          const olderAvg = olderScores.reduce((a, b) => a + b, 0) / olderScores.length
+          const diff = recentAvg - olderAvg
+          if (diff > 3) setTrend('up')
+          else if (diff < -3) setTrend('down')
+          else setTrend('stable')
+        } else {
+          setTrend(null)
+        }
+      } else {
+        setTrend(null)
       }
     } catch (e: unknown) { logger.warn('HomeScreen', '加载日记失败', e) }
     finally { setStatsLoading(false) }
@@ -274,15 +297,20 @@ export default function HomeScreen() {
             </View>
           </View>
           {diaryCount >= 2 && avgScore > 0 && (() => {
-            const tc = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
-            const tt = avgScore >= 80 ? '📸 进入高水平！' : avgScore >= 60 ? '📈 稳步提升中' : '💪 继续加油！'
+            // 趋势色彩和文案
+            const trendColor = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
+            const trendEmoji = trend === 'up' ? '📈' : trend === 'down' ? '📉' : '➡️'
+            const trendLabel = trend === 'up' ? '在进步！继续加油' : trend === 'down' ? '有点下滑，多拍几张找感觉' : '表现稳定'
+            const scoreColor = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
             return (
               <View style={styles.trendRow}>
-                <Text style={[styles.trendText, { color: tc }]}>{tt}</Text>
+                <Text style={[styles.trendText, { color: trendColor }]}>
+                  {trendEmoji} {trendLabel}
+                </Text>
                 <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
-                  <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: tc }]} />
+                  <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: scoreColor }]} />
                 </View>
-                <Text style={[styles.trendPercent, { color: tc }]}>{avgScore}分</Text>
+                <Text style={[styles.trendPercent, { color: scoreColor }]}>{avgScore}分</Text>
               </View>
             )
           })()}
