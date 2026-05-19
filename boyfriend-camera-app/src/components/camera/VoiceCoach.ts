@@ -2361,6 +2361,61 @@ class VoiceCoach {
     await this.speak(tip, false)
   }
 
+  /** 多人合照提示 */
+  async speakMultiPersonTip(): Promise<void> {
+    const tips = [
+      '人多站两边，中间留给人多的那侧～',
+      '多人合照别挤成一团，错开站位更自然～',
+      '后排的稍微露个额头出来，不然会被挡住～',
+      '连拍几张选最好的，每个人表情都在线～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 阴天摄影提示 */
+  async speakCloudyDayTip(): Promise<void> {
+    const tips = [
+      '阴天光线超柔和！不用担心脸上有硬阴影～',
+      '阴天拍出来皮肤超好，趁现在多拍几张～',
+      '没有强光直射，侧脸大胆拍，光比会很舒服～',
+      '虽然天阴，但阴天的漫反射光其实超适合拍人像～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 镜面倒影提示 */
+  async speakReflectionTip(): Promise<void> {
+    const tips = [
+      '找找地面水洼或玻璃的倒影，画面会更有趣～',
+      '对着镜子拍，光线和构图都完美～',
+      '有反光的地方稍微侧身，手机镜头和光源别在同一直线～',
+      '玻璃橱窗也能当镜子用，找好角度躲开反光～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 窗边光线提示 */
+  async speakWindowLightTip(): Promise<void> {
+    const tips = [
+      '窗边光线超棒！让脸朝向窗户，皮肤看起来超好～',
+      '早晨的窗边光线偏暖，拍元气少女感绝了～',
+      '窗光侧脸最有立体感，让脸稍微侧向窗户～',
+      '阴天的窗边光线是天然的柔光箱，拍出来皮肤超细腻～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 表情夸张提示（表情僵硬时） */
+  async speakRelaxExpressionTip(): Promise<void> {
+    const tips = [
+      '表情放松一点！笑一个，让气氛轻松自然～',
+      '别太紧绷啦～深呼吸，让表情自然流动～',
+      '假装被什么逗乐了，眼睛也会亮起来～',
+      '表情自然最重要，不用刻意摆拍，真实最美～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
