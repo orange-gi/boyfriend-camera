@@ -1,6 +1,7 @@
 /**
- * ResultScreen - 结果页 v5
- * 改进：FilterItem 弹跳动画 + 原图对比切换 + 滤镜对勾徽章 + ComparisonCard 重构
+ * ResultScreen - 结果页 v6
+ * 改进：处理进度动画精简（去重 progressDots + processingSteps）
+ *       + confetti 导航安全清理 + 处理步骤进度条更平滑
  */
 import React, { useEffect, useState, useRef, useMemo, memo } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -615,47 +616,47 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
             <ActivityIndicator size="large" color={COLORS.primary} style={{ marginTop: 20 }} />
             <Text style={[styles.processingText, { color: COLORS.textPrimary }]}>{processStepText}</Text>
             <Text style={[styles.processingSubText, { color: COLORS.textMuted }]}>稍等一下，马上就好～</Text>
-            {/* 进度点指示器 */}
-            <View style={styles.progressDots}>
-              {[0, 1, 2, 3].map(i => (
-                <View key={i} style={styles.progressDotWrapper}>
-                  <View
-                    style={[
-                      styles.progressDot,
-                      processStep > i + 1 ? styles.progressDotDone
-                        : processStep === i + 1 ? styles.progressDotActive
-                        : styles.progressDotPending,
-                    ]}
-                  />
-                  {i < 3 && (
-                    <View style={[
-                      styles.progressDotLine,
-                      processStep > i + 1 && styles.progressDotLineDone,
-                    ]} />
-                  )}
-                </View>
-              ))}
-            </View>
-            <View style={styles.processingSteps}>
-              <View style={[styles.processStep, processStep >= 1 ? styles.processStepActive : styles.processStepPending]}>
-                <Text style={styles.processStepDot}>1</Text>
-                <Text style={styles.processStepLabel}>构图分析</Text>
-              </View>
-              <View style={styles.processStepLine} />
-              <View style={[styles.processStep, processStep >= 2 ? styles.processStepActive : styles.processStepPending]}>
-                <Text style={styles.processStepDot}>2</Text>
-                <Text style={styles.processStepLabel}>光线检测</Text>
-              </View>
-              <View style={styles.processStepLine} />
-              <View style={[styles.processStep, processStep >= 3 ? styles.processStepActive : styles.processStepPending]}>
-                <Text style={styles.processStepDot}>3</Text>
-                <Text style={styles.processStepLabel}>生成评分</Text>
-              </View>
-              <View style={styles.processStepLine} />
-              <View style={[styles.processStep, processStep >= 4 ? styles.processStepActive : styles.processStepPending]}>
-                <Text style={styles.processStepDot}>4</Text>
-                <Text style={styles.processStepLabel}>综合评分</Text>
-              </View>
+            {/* 精简进度条：步骤 + 连接线（与上方骨架卡配合，简洁明了） */}
+            <View style={styles.processingStepsRow}>
+              {[
+                { n: 1, label: '构图分析' },
+                { n: 2, label: '光线检测' },
+                { n: 3, label: '生成评分' },
+                { n: 4, label: '综合评分' },
+              ].map(({ n, label }, idx) => {
+                const isActive = processStep === n
+                const isDone = processStep > n
+                return (
+                  <React.Fragment key={n}>
+                    <View style={styles.processStepItem}>
+                      <View style={[
+                        styles.processStepCircle,
+                        isActive && styles.processStepCircleActive,
+                        isDone && styles.processStepCircleDone,
+                      ]}>
+                        {isDone
+                          ? <Text style={styles.processStepCheck}>✓</Text>
+                          : <Text style={[
+                              styles.processStepNum,
+                              isActive && styles.processStepNumActive,
+                            ]}>{n}</Text>
+                        }
+                      </View>
+                      <Text style={[
+                        styles.processStepLabel,
+                        isActive && styles.processStepLabelActive,
+                        isDone && styles.processStepLabelDone,
+                      ]}>{label}</Text>
+                    </View>
+                    {idx < 3 && (
+                      <View style={[
+                        styles.processStepConnector,
+                        isDone && styles.processStepConnectorDone,
+                      ]} />
+                    )}
+                  </React.Fragment>
+                )
+              })}
             </View>
           </View>
         )}
@@ -1126,43 +1127,80 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: colors.border,
   },
-  processingSteps: {
+  // 精简后的处理进度行（Round 28 改进）
+  processingStepsRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 20,
+    paddingHorizontal: 8,
   },
-  processStep: {
+  processStepItem: {
     alignItems: 'center',
   },
-  processStepActive: {
-    opacity: 1,
-  },
-  processStepPending: {
-    opacity: 0.4,
-  },
-  processStepDot: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: COLORS.primary,
-    color: colors.textOnPrimary,
-    textAlign: 'center',
-    lineHeight: 24,
-    fontSize: 12,
-    fontWeight: 'bold',
-    overflow: 'hidden',
-  },
-  processStepLine: {
-    width: 24,
-    height: 2,
+  processStepCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     backgroundColor: colors.skeletonBase,
-    marginHorizontal: 4,
-    marginBottom: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 6,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  processStepCircleActive: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+    shadowColor: COLORS.primary,
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  processStepCircleDone: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+    opacity: 0.7,
+  },
+  processStepCheck: {
+    color: colors.textOnPrimary,
+    fontSize: 14,
+    fontWeight: 'bold',
+    lineHeight: 18,
+  },
+  processStepNum: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: COLORS.textMuted,
+    lineHeight: 18,
+  },
+  processStepNumActive: {
+    color: colors.textOnPrimary,
   },
   processStepLabel: {
     fontSize: 11,
     color: COLORS.textMuted,
-    marginTop: 4,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  processStepLabelActive: {
+    color: COLORS.primary,
+    fontWeight: '700',
+  },
+  processStepLabelDone: {
+    color: COLORS.primary,
+    opacity: 0.7,
+  },
+  processStepConnector: {
+    width: 28,
+    height: 2,
+    backgroundColor: colors.skeletonBase,
+    marginHorizontal: 4,
+    marginBottom: 20,
+  },
+  processStepConnectorDone: {
+    backgroundColor: COLORS.primary,
+    opacity: 0.5,
   },
   processingText: {
     marginTop: 12,
@@ -1446,13 +1484,4 @@ const styles = StyleSheet.create({
   noPhotoDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22 },
   noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: 14, paddingHorizontal: 28, paddingVertical: 12 },
   noPhotoBtnText: { color: COLORS.textOnPrimary, fontSize: 16, fontWeight: 'bold' },
-  // 进度点指示器样式
-  progressDots: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 8 },
-  progressDotWrapper: { flexDirection: 'row', alignItems: 'center' },
-  progressDot: { width: 10, height: 10, borderRadius: 5 },
-  progressDotActive: { backgroundColor: COLORS.primary, transform: [{ scale: 1.3 }] },
-  progressDotDone: { backgroundColor: COLORS.primary, opacity: 0.7 },
-  progressDotPending: { backgroundColor: colors.skeletonBase },
-  progressDotLine: { width: 32, height: 2, backgroundColor: colors.skeletonBase, marginHorizontal: 4 },
-  progressDotLineDone: { backgroundColor: COLORS.primary, opacity: 0.7 },
 })
