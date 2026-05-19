@@ -300,9 +300,6 @@ export default function DiaryScreen() {
                   <Text style={styles.newTagText}>NEW</Text>
                 </View>
               )}
-              {totalCount >= 3 && (
-                <Text style={styles.deleteHint}>长按删除</Text>
-              )}
             </View>
           </View>
 
@@ -1018,10 +1015,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  deleteHint: {
-    fontSize: 10,
-    color: COLORS.textMuted,
-  },
   weeklyRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1297,6 +1290,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 8,
     gap: 6,
+    paddingVertical: 4,
   },
   miniBarItem: {
     alignItems: 'center',
@@ -1304,19 +1298,20 @@ const styles = StyleSheet.create({
   },
   miniBarTrack: {
     width: '100%',
-    height: 4,
+    height: 6,
     backgroundColor: COLORS.divider,
-    borderRadius: 2,
+    borderRadius: 3,
     overflow: 'hidden',
   },
   miniBarFill: {
     height: '100%',
-    borderRadius: 2,
+    borderRadius: 3,
   },
   miniBarLabel: {
-    fontSize: 9,
+    fontSize: 10,
     color: COLORS.textMuted,
-    marginTop: 2,
+    marginTop: 3,
+    fontWeight: '500',
   },
   // 空状态错误卡片
   emptyErrorCard: {
