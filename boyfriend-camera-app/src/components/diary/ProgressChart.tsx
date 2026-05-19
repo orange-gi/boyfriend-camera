@@ -15,6 +15,7 @@ import {
   matchFont,
 } from '@shopify/react-native-skia'
 import { COLORS } from '../../theme/colors'
+import { colors } from '../../theme/index'
 import type { DiaryRecord } from '../../services/analyzer'
 
 interface Props {
@@ -127,7 +128,7 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
         {sorted.length >= 2 && (
           <Path
             path={areaPath}
-            color="rgba(255,107,107,0.08)"
+            color={colors.primaryLight}
           />
         )}
 
@@ -150,8 +151,8 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
           return (
             <React.Fragment key={i}>
               {/* 最高分特殊标记：金色光晕 */}
-              {isMax && <Circle cx={x} cy={y} r={9} color="rgba(255,215,0,0.3)" />}
-              <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? '#FFD700' : dotColor} />
+              {isMax && <Circle cx={x} cy={y} r={9} color={colors.warningLight} />}
+              <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? colors.warning : dotColor} />
               <Circle cx={x} cy={y} r={isMax ? 3 : 2} color="#fff" />
             </React.Fragment>
           )

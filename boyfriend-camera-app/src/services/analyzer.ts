@@ -1919,6 +1919,58 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '露营场景也拍得这么好看，男朋友你好会找角度！',
     '帐篷背景超有感觉，男朋友你是有探险精神的摄影师！',
   ],
+  // ========== Round 迭代新增：特殊场景建议池 ==========
+  // 节日灯展场景建议
+  festival_lights_specific: [
+    '节日彩灯做背景超有氛围！人脸要朝向光源才清晰～',
+    '灯展背景超梦幻！曝光补偿调低一点，高光不会过曝～',
+    '灯光斑斓的场景要让女朋友站在灯下，光会打在脸上～',
+    '灯展里侧光最有氛围，让脸稍微侧一点躲开正面的强光～',
+  ],
+  // 毕业典礼户外场景建议
+  graduation_outdoor_specific: [
+    '毕业典礼要拍全身！让男朋友蹲低一点仰拍，更显气质～',
+    '毕业帽穗要整理好，拨到一边更精神～',
+    '毕业照要在光线好的地方拍，找个窗户边站～',
+    '抛帽的瞬间超有活力！连拍几张选最清晰的那张～',
+    '毕业袍在阳光下偏白，曝光补偿+1会让脸更清晰～',
+  ],
+  // 古镇老街场景建议
+  old_town_specific: [
+    '古镇老街背景超有年代感！光线斑驳很适合拍人像～',
+    '古镇里找一面老墙做背景，文艺感拉满～',
+    '古镇光线偏暗，打开闪光灯补面部光线～',
+    '古镇石板路超有画面感！站在路中间拍一张～',
+  ],
+  // 海边日落场景建议
+  beach_sunset_specific: [
+    '海边日落光线超美！侧身站着让夕阳打在侧脸上～',
+    '海风会把头发吹乱，等风停的瞬间按下快门～',
+    '海浪拍岸的时候抓拍，浪花和人都入镜超有感觉～',
+    '日落逆光拍剪影超浪漫！转过身让阳光在身后～',
+    '海边日落曝光要稍微欠一点，高光才不会过曝～',
+  ],
+  // 雨天街景场景建议
+  rainy_street_specific: [
+    '雨天街景氛围感绝了！找有水坑的地方拍倒影～',
+    '雨伞是超棒的道具！透明伞最有意境～',
+    '雨天光线偏暗，打开闪光灯补面部光线～',
+    '雨水打在伞上的声音超治愈，抓拍这一刻～',
+  ],
+  // 清晨晨跑场景建议
+  morning_run_specific: [
+    '晨跑时光线超柔和！汗水和阳光让皮肤看起来超好～',
+    '早晨的光线拍人像绝了，皮肤通透感满分～',
+    '运动后的笑容最自然！趁着出汗前拍一张～',
+    '晨跑背景要干净，找个跑道或公园草坪～',
+  ],
+  // 书店阅读场景建议
+  bookstore_reading_specific: [
+    '书店里光线很柔和！靠在书架旁，低头看书或看镜头都好看～',
+    '书店里不要开闪光灯会影响别人，靠窗边站让脸亮起来～',
+    '捧着书侧身站，假装在认真阅读，文艺感拉满～',
+    '书架前侧光最有层次感，让脸稍微侧一点～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -1952,6 +2004,7 @@ export interface AnalyzeContext {
     | 'cherry_blossom' | 'christmas' | 'gym' | 'zoo' | 'train' | 'ancient_town' | 'lighthouse'
     | 'subway' | 'supermarket' | 'rooftop_party' | 'farm' | 'graffiti' | 'aquarium'
     | 'chapel' | 'market_stall' | 'bakery' | 'carousel' | 'greenhouse' | 'tent_camp' | 'graduation'
+    | 'festival_lights' | 'graduation_outdoor' | 'old_town' | 'beach_sunset' | 'rainy_street' | 'morning_run' | 'bookstore'
   /** 上次构图分（构图改善检测） */
   lastCompositionScore?: number
   /** 上次表情分（表情改善检测） */
@@ -2688,6 +2741,34 @@ export async function analyzePhoto(
   // 露营帐篷场景
   if (sceneType === 'tent_camp') {
     suggestions.push(pickRandom(SUGGESTION_POOL.tent_camp_specific))
+  }
+  // 节日灯展场景
+  if (sceneType === 'festival_lights') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.festival_lights_specific))
+  }
+  // 毕业户外场景
+  if (sceneType === 'graduation_outdoor') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.graduation_outdoor_specific))
+  }
+  // 古镇老街场景
+  if (sceneType === 'old_town') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.old_town_specific))
+  }
+  // 海边日落场景
+  if (sceneType === 'beach_sunset') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.beach_sunset_specific))
+  }
+  // 雨天街景场景
+  if (sceneType === 'rainy_street') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rainy_street_specific))
+  }
+  // 清晨晨跑场景
+  if (sceneType === 'morning_run') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.morning_run_specific))
+  }
+  // 书店阅读场景
+  if (sceneType === 'bookstore') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.bookstore_reading_specific))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
