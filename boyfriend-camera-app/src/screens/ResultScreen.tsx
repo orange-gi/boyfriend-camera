@@ -1,8 +1,8 @@
 /**
- * ResultScreen - 结果页 v4
- * 改进：数字逐位滚动动画、打字机夸奖效果、撒花粒子、小红书分享按钮
+ * ResultScreen - 结果页 v5
+ * 改进：FilterItem 弹跳动画 + 原图对比切换 + 滤镜对勾徽章 + ComparisonCard 重构
  */
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState, useRef, useMemo, memo } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   View,
@@ -704,44 +704,21 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         {/* 滤镜选择器 */}
         {!processing && (
           <View style={styles.filterPicker}>
-            <Text style={styles.filterPickerTitle}>🎨 滤镜</Text>
+            <View style={styles.filterPickerHeader}>
+              <Text style={styles.filterPickerTitle}>🎨 滤镜</Text>
+              <Text style={styles.filterPickerCount}>{FILTER_OPTIONS.length} 种滤镜</Text>
+            </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterPickerList}>
               {FILTER_OPTIONS.map((f) => (
-                <TouchableOpacity
+                <FilterItem
                   key={f.key}
-                  onPress={() => { setSelectedFilter(f.key); voiceCoach.speakFilterApplied(f.key) }}
-                  activeOpacity={0.75}
-                  style={styles.filterItem}
-                >
-                  <View style={[
-                    styles.filterCircleWrapper,
-                    selectedFilter === f.key && { transform: [{ scale: 1.1 }] }
-                  ]}>
-                    <View style={[
-                      styles.filterCircle,
-                      { backgroundColor: f.color }
-                    ]}>
-                      {f.key === 'bw' ? (
-                        <Text style={styles.filterCircleIcon}>🖤</Text>
-                      ) : f.key === 'night' ? (
-                        <Text style={styles.filterCircleIcon}>🌃</Text>
-                      ) : f.key === 'snow' ? (
-                        <Text style={styles.filterCircleIcon}>❄️</Text>
-                      ) : (
-                        <Text style={styles.filterCircleIcon}>{f.emoji}</Text>
-                      )}
-                    </View>
-                    {selectedFilter === f.key && (
-                      <View style={[styles.filterCircleSelectedRing, { borderColor: COLORS.primary }]} />
-                    )}
-                  </View>
-                  <Text style={[
-                    styles.filterLabel,
-                    selectedFilter === f.key && { color: COLORS.primary, fontWeight: '700' }
-                  ]}>
-                    {f.label}
-                  </Text>
-                </TouchableOpacity>
+                  filter={f}
+                  isActive={selectedFilter === f.key}
+                  onPress={() => {
+                    setSelectedFilter(f.key)
+                    voiceCoach.speakFilterApplied(f.key)
+                  }}
+                />
               ))}
             </ScrollView>
           </View>
@@ -874,6 +851,67 @@ function ConfettiParticle({ x, delay, emoji }: { x: number; delay: number; emoji
   )
 }
 
+/** FilterItem - 带动画反馈的滤镜选项组件 */
+const FilterItem = memo(function FilterItem({
+  filter,
+  isActive,
+  onPress,
+}: {
+  filter: { key: string; label: string; emoji: string; color: string }
+  isActive: boolean
+  onPress: () => void
+}) {
+  const scale = useSharedValue(1)
+
+  useEffect(() => {
+    if (isActive) {
+      scale.value = withSpring(1.12, { damping: 8, stiffness: 120 })
+      setTimeout(() => {
+        scale.value = withSpring(1.0, { damping: 10, stiffness: 100 })
+      }, 150)
+    }
+  }, [isActive])
+
+  const animatedStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }))
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.75}
+      style={styles.filterItem}
+    >
+      <Animated.View style={[styles.filterCircleWrapper, animatedStyle]}>
+        <View style={[
+          styles.filterCircle,
+          { backgroundColor: filter.color },
+          isActive && styles.filterCircleActive,
+        ]}>
+          {filter.key === 'bw' ? (
+            <Text style={styles.filterCircleIcon}>🖤</Text>
+          ) : (
+            <Text style={styles.filterCircleIcon}>{filter.emoji}</Text>
+          )}
+        </View>
+        {isActive && (
+          <View style={[styles.filterCircleSelectedRing, { borderColor: COLORS.primary }]} />
+        )}
+        {/* 选中态对勾 */}
+        {isActive && (
+          <View style={styles.filterCheckBadge}>
+            <Text style={styles.filterCheckBadgeText}>✓</Text>
+          </View>
+        )}
+      </Animated.View>
+      <Text style={[
+        styles.filterLabel,
+        isActive && styles.filterLabelActive,
+      ]}>
+        {filter.label}
+      </Text>
+    </TouchableOpacity>
+  )
+})
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -940,11 +978,26 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 12,
   },
+  filterPickerHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    paddingHorizontal: 2,
+  },
   filterPickerTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.textSecondary,
-    marginBottom: 8,
+    fontSize: 15,
+    fontWeight: '700',
+    color: colors.textPrimary,
+  },
+  filterPickerCount: {
+    fontSize: 12,
+    color: colors.textMuted,
+    backgroundColor: colors.divider,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   filterPickerList: {
     flexDirection: 'row',
@@ -976,14 +1029,42 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  filterCircleActive: {
+    borderColor: 'transparent',
+    shadowColor: colors.primary,
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
   filterCircleSelectedRing: {
     position: 'absolute',
-    top: -2,
-    left: -2,
-    right: -2,
-    bottom: -2,
+    top: -3,
+    left: -3,
+    right: -3,
+    bottom: -3,
     borderRadius: 29,
     borderWidth: 3,
+  },
+  filterCheckBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: colors.primary,
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  filterCheckBadgeText: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: 'bold',
+    lineHeight: 12,
   },
   filterCircleIcon: {
     fontSize: 22,
@@ -993,6 +1074,12 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     textAlign: 'center',
     fontWeight: '500',
+    marginTop: 6,
+  },
+  filterLabelActive: {
+    color: colors.primary,
+    fontWeight: '700',
+    fontSize: 12,
   },
   processingOverlay: {
     alignItems: 'center',

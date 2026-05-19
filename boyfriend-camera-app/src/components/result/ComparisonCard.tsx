@@ -20,7 +20,6 @@ interface Props {
   originalPath: string
   processedPath: string
   filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic' | null
-  onFilterChange?: (f: string) => void
 }
 
 const { width: SCREEN_W } = Dimensions.get('window')
@@ -28,22 +27,12 @@ const CARD_GAP = 8
 const CARD_WIDTH = (SCREEN_W - 32 - CARD_GAP) / 2
 const CARD_HEIGHT = Math.round(CARD_WIDTH * (4 / 3))
 
-const FILTERS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'; label: string; color: string }> = [
-  { key: 'warm', label: '暖色', color: COLORS.filterWarm },
-  { key: 'cool', label: '冷色', color: COLORS.filterCool },
-  { key: 'vivid', label: '鲜艳', color: COLORS.filterVivid },
-  { key: 'soft', label: '柔美', color: COLORS.filterSoft },
-  { key: 'bw', label: '黑白', color: COLORS.filterBw },
-  { key: 'portrait', label: '人像', color: COLORS.filterPortrait },
-  { key: 'food', label: '美食', color: COLORS.filterFood },
-  { key: 'landscape', label: '风景', color: COLORS.filterLandscape },
-  { key: 'night', label: '夜景', color: COLORS.filterNight },
-  { key: 'sunset', label: '日落', color: COLORS.filterSunset },
-  { key: 'floral', label: '花季', color: COLORS.filterFloral },
-  { key: 'snow', label: '雪景', color: COLORS.filterSnow },
-  { key: 'golden', label: '金棕', color: COLORS.filterGolden },
-  { key: 'cinematic', label: '电影', color: COLORS.filterCinematic },
-]
+const FILTER_LABELS: Record<string, string> = {
+  warm: '暖黄', cool: '冷调', vivid: '生动', soft: '柔和',
+  bw: '黑白', portrait: '人像', food: '美食', landscape: '风景',
+  night: '夜景', sunset: '日落', floral: '花季', snow: '雪景',
+  golden: '金棕', cinematic: '电影',
+}
 
 // 内嵌纯色 placeholder（无需网络）
 function PlaceholderImage({ label, color }: { label: string; color: string }) {
@@ -90,8 +79,8 @@ export default function ComparisonCard({
   originalPath,
   processedPath,
   filterName = 'warm',
-  onFilterChange,
 }: Props) {
+  const [showOriginal, setShowOriginal] = useState(false)
   const [activeFilter, setActiveFilter] = useState<string>(filterName ?? 'warm')
 
   // 同步外部 filterName 变化
@@ -128,46 +117,30 @@ export default function ComparisonCard({
           {effectivePath ? (
             <FilteredImage
               uri={effectivePath}
-              filter={activeFilter}
+              filter={showOriginal ? null : activeFilter}
               width={CARD_WIDTH}
               height={CARD_HEIGHT}
             />
           ) : (
             <PlaceholderImage label="✨ 优化图" color={COLORS.primary} />
           )}
-          <View style={[styles.cardLabel, styles.cardLabelRight]}>
-            <Text style={styles.cardLabelText}>✨ 优化图</Text>
-          </View>
+          <TouchableOpacity
+            style={[styles.cardLabel, styles.cardLabelRight, showOriginal && styles.cardLabelActive]}
+            onPress={() => setShowOriginal(v => !v)}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.cardLabelText}>
+              {showOriginal ? '👁 原图模式' : '✨ 滤镜：' + (FILTER_LABELS[activeFilter] || activeFilter)}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
 
-      {/* 滤镜选择器 */}
-      <View style={styles.filterRow}>
-        <Text style={styles.filterLabel}>滤镜：</Text>
-        <View style={styles.filterBtns}>
-          {FILTERS.map((f) => (
-            <TouchableOpacity
-              key={f.key}
-              style={[
-                styles.filterBtn,
-                activeFilter === f.key && { backgroundColor: f.color + '30', borderColor: f.color },
-              ]}
-              onPress={() => {
-                setActiveFilter(f.key)
-                onFilterChange?.(f.key)
-              }}
-              activeOpacity={0.7}
-            >
-              <View style={[styles.filterDot, { backgroundColor: f.color }]} />
-              <Text style={[
-                styles.filterBtnText,
-                activeFilter === f.key && { color: f.color, fontWeight: '600' },
-              ]}>
-                {f.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      {/* 原图切换提示 */}
+      <View style={styles.compareHint}>
+        <Text style={styles.compareHintText}>
+          💡 {showOriginal ? '点击「原图模式」可查看滤镜效果' : '点击右侧标签可对比原图'}
+        </Text>
       </View>
     </View>
   )
@@ -220,6 +193,9 @@ const styles = StyleSheet.create({
   cardLabelRight: {
     right: 8,
   },
+  cardLabelActive: {
+    backgroundColor: 'rgba(255,107,107,0.7)',
+  },
   cardLabelText: {
     color: '#fff',
     fontSize: 11,
@@ -231,6 +207,15 @@ const styles = StyleSheet.create({
     marginTop: 14,
     paddingHorizontal: 4,
     gap: 8,
+  },
+  compareHint: {
+    alignItems: 'center',
+    marginTop: 8,
+    paddingVertical: 6,
+  },
+  compareHintText: {
+    fontSize: 12,
+    color: COLORS.textMuted,
   },
   filterLabel: {
     fontSize: 13,
