@@ -610,7 +610,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
             <Text style={[styles.processingSubText, { color: COLORS.textMuted }]}>稍等一下，马上就好～</Text>
             {/* 进度点指示器 */}
             <View style={styles.progressDots}>
-              {[0, 1, 2].map(i => (
+              {[0, 1, 2, 3].map(i => (
                 <View key={i} style={styles.progressDotWrapper}>
                   <View
                     style={[
@@ -620,7 +620,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
                         : styles.progressDotPending,
                     ]}
                   />
-                  {i < 2 && (
+                  {i < 3 && (
                     <View style={[
                       styles.progressDotLine,
                       processStep > i + 1 && styles.progressDotLineDone,
@@ -643,6 +643,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               <View style={[styles.processStep, processStep >= 3 ? styles.processStepActive : styles.processStepPending]}>
                 <Text style={styles.processStepDot}>3</Text>
                 <Text style={styles.processStepLabel}>生成评分</Text>
+              </View>
+              <View style={styles.processStepLine} />
+              <View style={[styles.processStep, processStep >= 4 ? styles.processStepActive : styles.processStepPending]}>
+                <Text style={styles.processStepDot}>4</Text>
+                <Text style={styles.processStepLabel}>综合评分</Text>
               </View>
             </View>
           </View>
@@ -675,7 +680,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
         {/* 下次改进提示 */}
         {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
-          <Animated.View style={[styles.suggestionBanner, { borderLeftColor: COLORS.primary }]}>
+          <Animated.View entering={FadeInDown.duration(350).delay(200)} style={[styles.suggestionBanner, { borderLeftColor: COLORS.primary }]}>
             <Text style={styles.suggestionBannerTitle}>💡 下次可以这样拍</Text>
             {scoreResult.suggestions.slice(0, 2).map((s: string, i: number) => (
               <Text key={i} style={styles.suggestionBannerText}>
@@ -687,6 +692,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
         {/* 小红书分享引导卡片 */}
         {!processing && scoreResult && photoPath && (
+          <Animated.View entering={FadeInDown.duration(350).delay(300)}>
           <TouchableOpacity
             style={styles.xiaohongshuCard}
             onPress={handleShareXiaohongshu}
@@ -699,6 +705,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
             </View>
             <Text style={styles.xiaohongshuArrow}>→</Text>
           </TouchableOpacity>
+          </Animated.View>
         )}
 
         {/* 滤镜选择器 */}
