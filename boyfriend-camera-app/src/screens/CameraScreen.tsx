@@ -306,8 +306,16 @@ export default function CameraScreen() {
     setActiveTemplate(null)
     VoiceCoach.stop()
     resetAutoTemplate()
-    recommendNow()
-  }, [resetAutoTemplate, recommendNow])
+  }, [resetAutoTemplate])
+
+  const handleClose = useCallback(() => {
+    VoiceCoach.stop()
+    if (navigation.canGoBack()) {
+      navigation.goBack()
+    } else {
+      navigation.navigate({ name: 'Home' as const, params: undefined })
+    }
+  }, [navigation])
 
   const categories = useMemo(() => {
     const cats = new Set<string>(['全部'])
@@ -428,6 +436,15 @@ export default function CameraScreen() {
           >
             <Text style={styles.poseTipVoiceBtnText}>🔊</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.poseTipClearBtn}
+            onPress={clearTemplate}
+            activeOpacity={0.72}
+            accessibilityRole="button"
+            accessibilityLabel="清除姿势模板"
+          >
+            <Text style={styles.poseTipClearBtnText}>✕</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -458,9 +475,12 @@ export default function CameraScreen() {
         </View>
 
         <TouchableOpacity
-          style={[styles.topBtn, activeTemplate && styles.topBtnActive]}
-          onPress={clearTemplate}
+          style={styles.topBtn}
+          onPress={handleClose}
           activeOpacity={0.72}
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          accessibilityRole="button"
+          accessibilityLabel="关闭拍照"
         >
           <Text style={styles.topBtnText}>✕</Text>
         </TouchableOpacity>
@@ -940,6 +960,20 @@ const styles = StyleSheet.create({
   },
   poseTipVoiceBtnText: {
     fontSize: 16,
+  },
+  poseTipClearBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(0,0,0,0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  poseTipClearBtnText: {
+    fontSize: 14,
+    color: COLORS.textSecondary,
+    fontWeight: '600',
   },
   bottomBar: {
     position: 'absolute',
