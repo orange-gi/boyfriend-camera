@@ -1,48 +1,31 @@
 /**
- * HomeScreen - 首页 v3
- * 改进：每日提示关闭按钮（AsyncStorage）、双重呼吸动画、数字递增动画
+ * HomeScreen - 首页 v4 (Design Round 2)
+ * 改进：设计系统 Token 化、Hero 区重设计、统计数据条强化、拍照按钮质感升级、功能卡片网格化
  */
-import React, { useEffect, useState, useRef } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  ScrollView,
-  Modal,
-} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withDelay,
-  withSequence,
-  withTiming,
-  withRepeat,
-  Easing,
-  runOnJS,
-} from 'react-native-reanimated'
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, withDelay, withSequence, withTiming, withRepeat, Easing } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
+import { shadows, borderRadius, spacing, typography } from '../theme/index'
 import { logger } from '../utils/logger'
 
 const { width: SCREEN_W } = Dimensions.get('window')
 
 function getTimeGreeting(): string {
-  const hour = new Date().getHours()
-  if (hour < 6) return '夜深了还在拍照呀～'
-  if (hour < 9) return '早上好！今天也要美美的～'
-  if (hour < 12) return '上午好！光线正好～'
-  if (hour < 14) return '中午好！吃饱了来拍一张～'
-  if (hour < 17) return '下午好！阳光正好～'
-  if (hour < 19) return '傍晚好！夕阳超美的～'
-  if (hour < 22) return '晚上好！夜景模式开启～'
+  const h = new Date().getHours()
+  if (h < 6) return '夜深了还在拍照呀～'
+  if (h < 9) return '早上好！今天也要美美的～'
+  if (h < 12) return '上午好！光线正好～'
+  if (h < 14) return '中午好！吃饱了来拍一张～'
+  if (h < 17) return '下午好！阳光正好～'
+  if (h < 19) return '傍晚好！夕阳超美的～'
+  if (h < 22) return '晚上好！夜景模式开启～'
   return '夜深了还不睡？拍张照再睡～'
 }
 
@@ -53,7 +36,6 @@ const ONBOARD_STEPS = [
   { icon: '🤳', title: '一起变好吧！', desc: '每次拍照都是进步机会，看着分数一点点涨，男友从青铜变王者不是梦！快去拍一张吧～' },
 ]
 
-// 首次使用拍照姿势引导提示
 const FIRST_TIME_POSE_TIPS = [
   { icon: '👀', text: '先让他拍一张试试，不管好不好看都是进步的起点！' },
   { icon: '🧍‍♀️', text: '教他站到你的对面，保持一臂左右的距离～' },
@@ -96,21 +78,19 @@ const DAILY_TIPS = [
 ]
 
 function getDailyTip() {
-  const dayOfYear = Math.floor(
-    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
-  )
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
   return DAILY_TIPS[dayOfYear % DAILY_TIPS.length]
 }
 
-const ONBOARD_KEY = 'onboarded_v3'
-const TIP_DISMISS_KEY = 'tip_dismissed_today'
+const ONBOARD_KEY = 'onboarded_v4'
+const TIP_DISMISS_KEY = 'tip_dismissed_today_v4'
 
-const FEATURES: Array<{ icon: string; title: string; desc: string; color: string }> = [
-  { icon: '📐', title: '构图辅助', desc: '九宫格/黄金螺旋/三角构图线实时叠加', color: COLORS.primary },
-  { icon: '👗', title: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站', color: COLORS.warning },
-  { icon: '🤳', title: '一键修图', desc: '智能裁剪到三分点，自动美颜+滤镜', color: '#4ECDC4' },
-  { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好', color: '#9B8FE8' },
-]
+const FEATURES = [
+  { icon: '📐', title: '构图辅助', desc: '九宫格/黄金螺旋/三角构图线实时叠加', accent: COLORS.primary, bgAccent: COLORS.primaryLight },
+  { icon: '👗', title: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站', accent: '#FF9F43', bgAccent: 'rgba(255,159,67,0.15)' },
+  { icon: '🤳', title: '一键修图', desc: '智能裁剪到三分点，自动美颜+滤镜', accent: '#4ECDC4', bgAccent: 'rgba(78,205,196,0.15)' },
+  { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好', accent: '#A29BFE', bgAccent: 'rgba(162,155,254,0.15)' },
+] as const
 
 export default function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>()
@@ -126,66 +106,40 @@ export default function HomeScreen() {
   const [todayCount, setTodayCount] = useState(0)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
-  // 动画 shared values
-  const titleY = useSharedValue(30)
-  const titleOpacity = useSharedValue(0)
-  const cameraScale = useSharedValue(0.8)
+  const heroOpacity = useSharedValue(0)
+  const heroTranslateY = useSharedValue(20)
   const statsOpacity = useSharedValue(0)
-  const featuresY = useSharedValue(20)
-
-  // 呼吸光晕动画
+  const cameraScale = useSharedValue(0.7)
+  const cameraOpacity = useSharedValue(0)
+  const featuresOpacity = useSharedValue(0)
+  const featuresTranslateY = useSharedValue(30)
   const glowScale = useSharedValue(1)
   const glowOpacity = useSharedValue(0)
-
-  // 数字递增动画 shared values
-  const countAnim = useSharedValue(0)
-  const scoreAnim = useSharedValue(0)
+  const pulseScale = useSharedValue(1)
 
   useEffect(() => {
-    loadStats()
-    checkOnboard()
-    checkTipDismissed()
-
-    // 入场动画
-    titleY.value = withSpring(0, { damping: 16 })
-    titleOpacity.value = withTiming(1, { duration: 500 })
-    cameraScale.value = withDelay(600, withSpring(1, { damping: 10 }))
-    statsOpacity.value = withDelay(400, withTiming(1, { duration: 400 }))
-    featuresY.value = withDelay(700, withSpring(0, { damping: 14 }))
-
-    // 呼吸光晕动画（持续）
-    glowScale.value = withRepeat(
-      withSequence(
-        withTiming(1.18, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
-        withTiming(1, { duration: 1200, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1,
-      false
-    )
-    glowOpacity.value = withRepeat(
-      withSequence(
-        withTiming(0.5, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
-        withTiming(0.15, { duration: 1200, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1,
-      false
-    )
+    loadStats(); checkOnboard(); checkTipDismissed()
+    heroOpacity.value = withTiming(1, { duration: 500 })
+    heroTranslateY.value = withSpring(0, { damping: 16, stiffness: 100 })
+    statsOpacity.value = withDelay(200, withTiming(1, { duration: 400 }))
+    cameraOpacity.value = withDelay(400, withTiming(1, { duration: 300 }))
+    cameraScale.value = withDelay(400, withSpring(1, { damping: 10, stiffness: 90 }))
+    featuresOpacity.value = withDelay(600, withTiming(1, { duration: 400 }))
+    featuresTranslateY.value = withDelay(600, withSpring(0, { damping: 14 }))
+    glowScale.value = withRepeat(withSequence(withTiming(1.2, { duration: 1400, easing: Easing.inOut(Easing.ease) }), withTiming(1, { duration: 1400, easing: Easing.inOut(Easing.ease) })), -1, false)
+    glowOpacity.value = withRepeat(withSequence(withTiming(0.55, { duration: 1400, easing: Easing.inOut(Easing.ease) }), withTiming(0.15, { duration: 1400, easing: Easing.inOut(Easing.ease) })), -1, false)
+    pulseScale.value = withRepeat(withSequence(withTiming(1.06, { duration: 800, easing: Easing.inOut(Easing.ease) }), withTiming(1, { duration: 800, easing: Easing.inOut(Easing.ease) })), -1, false)
   }, [])
 
-  // 数字递增动画
   useEffect(() => {
     if (diaryCount > 0 || avgScore > 0) {
-      countAnim.value = withTiming(diaryCount, { duration: 1000, easing: Easing.out(Easing.ease) })
-      scoreAnim.value = withTiming(avgScore, { duration: 1000, easing: Easing.out(Easing.ease) })
-
-      // 用 interval 模拟数字滚动
       const startTime = Date.now()
       const interval = setInterval(() => {
         const elapsed = Date.now() - startTime
         const progress = Math.min(elapsed / 1000, 1)
-        const easeProgress = 1 - Math.pow(1 - progress, 3) // easeOut
-        setDisplayDiaryCount(Math.round(diaryCount * easeProgress))
-        setDisplayAvgScore(Math.round(avgScore * easeProgress))
+        const ep = 1 - Math.pow(1 - progress, 3)
+        setDisplayDiaryCount(Math.round(diaryCount * ep))
+        setDisplayAvgScore(Math.round(avgScore * ep))
         if (progress >= 1) clearInterval(interval)
       }, 16)
       return () => clearInterval(interval)
@@ -193,14 +147,10 @@ export default function HomeScreen() {
   }, [diaryCount, avgScore])
 
   const isNewUser = diaryCount === 0
-
-  // 首次用户：轮换拍照姿势小贴士
   useEffect(() => {
     if (!isNewUser) return
-    const interval = setInterval(() => {
-      setPoseTipIndex(i => (i + 1) % FIRST_TIME_POSE_TIPS.length)
-    }, 4000)
-    return () => clearInterval(interval)
+    const iv = setInterval(() => { setPoseTipIndex(i => (i + 1) % FIRST_TIME_POSE_TIPS.length) }, 4000)
+    return () => clearInterval(iv)
   }, [isNewUser])
 
   async function loadStats() {
@@ -208,86 +158,82 @@ export default function HomeScreen() {
     try {
       const diary = await getDiary()
       setDiaryCount(diary.length)
-      // 计算今日拍摄数
       const today = new Date().toDateString()
-      const todayCnt = diary.filter(r => new Date(r.date).toDateString() === today).length
-      setTodayCount(todayCnt)
+      setTodayCount(diary.filter(r => new Date(r.date).toDateString() === today).length)
       if (diary.length > 0) {
         const avg = Math.round(diary.reduce((s, r) => s + r.score, 0) / diary.length)
         setAvgScore(avg)
         setDisplayDiaryCount(diary.length)
         setDisplayAvgScore(avg)
       }
-    } catch (e: unknown) {
-      logger.warn('HomeScreen', '加载日记失败', e)
-    } finally {
-      setStatsLoading(false)
-    }
+    } catch (e: unknown) { logger.warn('HomeScreen', '加载日记失败', e) }
+    finally { setStatsLoading(false) }
   }
 
   async function checkOnboard() {
-    try {
-      const done = await AsyncStorage.getItem(ONBOARD_KEY)
-      if (!done) setShowOnboard(true)
-    } catch { setShowOnboard(true) /* ignore */ }
+    try { const d = await AsyncStorage.getItem(ONBOARD_KEY); if (!d) setShowOnboard(true) }
+    catch { setShowOnboard(true) }
   }
 
   async function checkTipDismissed() {
     try {
-      const dismissed = await AsyncStorage.getItem(TIP_DISMISS_KEY)
-      const today = new Date().toDateString()
-      if (dismissed === today) setTipDismissed(true)
-    } catch (_e) { /* ignore */ }
+      const d = await AsyncStorage.getItem(TIP_DISMISS_KEY)
+      if (d === new Date().toDateString()) setTipDismissed(true)
+    } catch { /* ignore */ }
   }
 
   async function dismissTip() {
-    const today = new Date().toDateString()
-    await AsyncStorage.setItem(TIP_DISMISS_KEY, today)
+    await AsyncStorage.setItem(TIP_DISMISS_KEY, new Date().toDateString())
     setTipDismissed(true)
   }
 
   async function finishOnboard() {
-    try { await AsyncStorage.setItem(ONBOARD_KEY, 'true') } catch (_e) { /* ignore */ }
+    try { await AsyncStorage.setItem(ONBOARD_KEY, 'true') } catch { /* ignore */ }
     setShowOnboard(false)
   }
 
   function nextOnboardStep() {
-    if (onboardStep < ONBOARD_STEPS.length - 1) {
-      setOnboardStep(onboardStep + 1)
-    } else {
-      finishOnboard()
-    }
+    if (onboardStep < ONBOARD_STEPS.length - 1) setOnboardStep(onboardStep + 1)
+    else finishOnboard()
   }
 
-  // 动画样式
-  const titleStyle = useAnimatedStyle(() => ({ transform: [{ translateY: titleY.value }], opacity: titleOpacity.value }))
-  const cameraStyle = useAnimatedStyle(() => ({ transform: [{ scale: cameraScale.value }] }))
+  const heroStyle = useAnimatedStyle(() => ({ opacity: heroOpacity.value, transform: [{ translateY: heroTranslateY.value }] }))
   const statsStyle = useAnimatedStyle(() => ({ opacity: statsOpacity.value }))
-  const featuresStyle = useAnimatedStyle(() => ({ transform: [{ translateY: featuresY.value }], opacity: statsOpacity.value }))
-  const tipStyle = useAnimatedStyle(() => ({ opacity: titleOpacity.value }))
+  const cameraStyle = useAnimatedStyle(() => ({ opacity: cameraOpacity.value, transform: [{ scale: cameraScale.value }] }))
+  const featuresStyle = useAnimatedStyle(() => ({ opacity: featuresOpacity.value, transform: [{ translateY: featuresTranslateY.value }] }))
+  const glowStyle = useAnimatedStyle(() => ({ transform: [{ scale: glowScale.value }], opacity: glowOpacity.value }))
+  const pulseStyle = useAnimatedStyle(() => ({ transform: [{ scale: pulseScale.value }] }))
 
   const totalTemplates = templates.length
+  const avgScoreColor = scoreColor(displayAvgScore || avgScore)
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-      {/* 顶部品牌区 */}
-      <Animated.View style={[styles.heroSection, titleStyle]}>
-        <Text style={[styles.timeGreeting, { color: COLORS.textMuted }]}>{getTimeGreeting()}</Text>
-        <Text style={styles.heroIcon}>📸</Text>
-        <Text style={[styles.heroTitle, { color: COLORS.textPrimary }]}>男友相机</Text>
-        <Text style={[styles.heroSubtitle, { color: COLORS.primary }]}>{'让男朋友越拍越好 ❤️'}</Text>
+      {/* Hero 区 */}
+      <Animated.View style={[styles.heroSection, heroStyle]}>
+        <Text style={styles.timeGreeting}>{getTimeGreeting()}</Text>
+        <View style={styles.heroTitleRow}>
+          <Text style={styles.heroIcon}>📸</Text>
+          <View style={styles.heroTextBlock}>
+            <Text style={styles.heroTitle}>男友相机</Text>
+            <View style={styles.heroSubtitleBadge}>
+              <Text style={styles.heroSubtitle}>让男朋友越拍越好 ❤️</Text>
+            </View>
+          </View>
+        </View>
       </Animated.View>
 
-      {/* 每日小技巧 - 带关闭按钮 */}
+      {/* 每日小技巧 */}
       {!tipDismissed && (() => {
         const tip = getDailyTip()
         return (
-          <Animated.View style={[styles.dailyTip, tipStyle]}>
+          <Animated.View style={[styles.dailyTipCard, heroStyle]}>
+            <View style={styles.dailyTipLeft}><Text style={styles.dailyTipIcon}>{tip.icon}</Text></View>
             <View style={styles.dailyTipContent}>
-              <Text style={styles.dailyTipIcon}>{tip.icon}</Text>
+              <Text style={styles.dailyTipLabel}>💡 今日拍照技巧</Text>
               <Text style={styles.dailyTipText}>{tip.text}</Text>
             </View>
-            <TouchableOpacity style={styles.dailyTipClose} onPress={dismissTip} activeOpacity={0.72}>
+            <TouchableOpacity style={styles.dailyTipClose} onPress={dismissTip} activeOpacity={0.72} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
               <Text style={styles.dailyTipCloseText}>✕</Text>
             </TouchableOpacity>
           </Animated.View>
@@ -296,128 +242,100 @@ export default function HomeScreen() {
 
       {/* 统计数据条 */}
       {statsLoading ? (
-        <View style={styles.statsBar}>
-          <View style={styles.statItem}>
-            <View style={styles.statNumberSkeleton} />
-            <View style={styles.statLabelSkeleton} />
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <View style={styles.statNumberSkeleton} />
-            <View style={styles.statLabelSkeleton} />
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <View style={styles.statNumberSkeleton} />
-            <View style={styles.statLabelSkeleton} />
+        <View style={styles.statsCard}>
+          <View style={styles.statsRow}>
+            {[0, 1, 2].map(i => (
+              <View key={i} style={styles.statItem}>
+                <View style={styles.statNumSkeleton} />
+                <View style={styles.statLabelSkeleton} />
+              </View>
+            ))}
           </View>
         </View>
-      ) : (diaryCount > 0 ? (
-        <Animated.View style={[styles.statsBar, statsStyle]}>
-          <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{displayDiaryCount}</Text>
-            <Text style={styles.statLabel}>已拍摄</Text>
+      ) : diaryCount > 0 ? (
+        <Animated.View style={[styles.statsCard, statsStyle]}>
+          <View style={styles.statsRow}>
+            <View style={styles.statItem}>
+              <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{displayDiaryCount}</Text>
+              <Text style={styles.statLabel}>已拍摄</Text>
+              <View style={[styles.statIndicator, { backgroundColor: COLORS.primary }]} />
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <Text style={[styles.statNumber, { color: avgScoreColor }]}>{displayAvgScore}</Text>
+              <Text style={styles.statLabel}>平均分</Text>
+              <View style={[styles.statIndicator, { backgroundColor: avgScoreColor }]} />
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{totalTemplates}</Text>
+              <Text style={styles.statLabel}>姿势模板</Text>
+              <View style={[styles.statIndicator, { backgroundColor: '#4ECDC4' }]} />
+            </View>
           </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: scoreColor(displayAvgScore) }]}>{displayAvgScore}</Text>
-            <Text style={styles.statLabel}>平均分</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{totalTemplates}</Text>
-            <Text style={styles.statLabel}>姿势模板</Text>
-          </View>
+          {diaryCount >= 2 && avgScore > 0 && (() => {
+            const tc = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
+            const tt = avgScore >= 80 ? '📸 进入高水平！' : avgScore >= 60 ? '📈 稳步提升中' : '💪 继续加油！'
+            return (
+              <View style={styles.trendRow}>
+                <Text style={[styles.trendText, { color: tc }]}>{tt}</Text>
+                <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
+                  <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: tc }]} />
+                </View>
+                <Text style={[styles.trendPercent, { color: tc }]}>{avgScore}分</Text>
+              </View>
+            )
+          })()}
         </Animated.View>
-      ) : null)}
+      ) : null}
 
       {/* 拍照主按钮 */}
       <Animated.View style={[styles.cameraBtnWrapper, cameraStyle]}>
-        {isNewUser && (
-          <View style={[styles.newBadge, { backgroundColor: COLORS.primary }]}>
-            <Text style={styles.newBadgeText}>新</Text>
-          </View>
-        )}
+        {isNewUser && <Animated.View style={[styles.glowRingOuter, glowStyle]} />}
         <TouchableOpacity
-          style={[styles.cameraBtn, isNewUser && styles.cameraBtnNewUser]}
+          style={[styles.cameraBtn, isNewUser ? styles.cameraBtnNewUser : styles.cameraBtnRegular]}
           onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
-          activeOpacity={0.72}
+          activeOpacity={0.85}
         >
-          {/* 双重呼吸光晕 */}
-          {isNewUser && (
-            <Animated.View
-              style={[
-                styles.cameraGlowRing,
-                {
-                  transform: [{ scale: glowScale }],
-                  opacity: glowOpacity,
-                },
-              ]}
-            />
-          )}
-          <View style={styles.cameraBtnInner}>
-            <Text style={styles.cameraBtnIcon}>📷</Text>
+          <Animated.View style={[styles.cameraBtnPulse, pulseStyle]} />
+          <View style={styles.cameraBtnInner}><Text style={styles.cameraBtnIcon}>📷</Text></View>
+          <View style={styles.cameraBtnTextRow}>
+            <Text style={[styles.cameraBtnText, { color: COLORS.textOnPrimary }]}>开始拍照</Text>
+            {isNewUser && <View style={styles.newBadge}><Text style={styles.newBadgeText}>新</Text></View>}
           </View>
-          <Text style={[styles.cameraBtnText, { color: COLORS.textOnPrimary }]}>开始拍照</Text>
         </TouchableOpacity>
-
         <View style={styles.cameraBtnSub}>
-          {templatesLoading ? (
-            <Text style={styles.cameraBtnSubText}>⏳ 正在加载姿势模板...</Text>
-          ) : templatesError ? (
-            <TouchableOpacity onPress={refresh} activeOpacity={0.72}>
-              <Text style={[styles.cameraBtnSubText, { color: COLORS.primary }]}>⚠️ 加载失败，点击重试</Text>
-            </TouchableOpacity>
-          ) : totalTemplates > 0 ? (
-            <Text style={styles.cameraBtnSubText}>已有 {totalTemplates} 个姿势模板可用</Text>
-          ) : (
-            <Text style={styles.cameraBtnSubText}>姿势模板加载中...</Text>
-          )}
+          {templatesLoading ? <Text style={styles.cameraBtnSubText}>⏳ 正在加载姿势模板...</Text>
+            : templatesError ? <TouchableOpacity onPress={refresh} activeOpacity={0.72}><Text style={[styles.cameraBtnSubText, { color: COLORS.primary }]}>⚠️ 加载失败，点击重试</Text></TouchableOpacity>
+            : totalTemplates > 0 ? <Text style={styles.cameraBtnSubText}>🌟 已有 <Text style={{ fontWeight: '700', color: COLORS.primary }}>{totalTemplates}</Text> 个姿势模板可用</Text>
+            : <Text style={styles.cameraBtnSubText}>姿势模板加载中...</Text>}
         </View>
-
-        {/* 今日已拍动态提示 */}
-        {todayCount > 0 && (
-          <View style={styles.todayCountBadge}>
-            <Text style={styles.todayCountIcon}>📸</Text>
-            <Text style={styles.todayCountText}>今日已拍 <Text style={styles.todayCountNum}>{todayCount}</Text> 张</Text>
-          </View>
-        )}
-        {todayCount === 0 && diaryCount > 0 && (
-          <View style={styles.todayCountBadge}>
-            <Text style={styles.todayCountIcon}>🌟</Text>
-            <Text style={styles.todayCountText}>今天还没拍！去拍一张吧～</Text>
-          </View>
-        )}
+        {todayCount > 0 && <View style={styles.todayCountBadge}><Text style={styles.todayCountIcon}>📸</Text><Text style={styles.todayCountText}>今日已拍 <Text style={styles.todayCountNum}>{todayCount}</Text> 张</Text></View>}
+        {todayCount === 0 && diaryCount > 0 && <View style={[styles.todayCountBadge, { backgroundColor: COLORS.warningLight }]}><Text style={styles.todayCountIcon}>🌟</Text><Text style={styles.todayCountText}>今天还没拍！去拍一张吧～</Text></View>}
       </Animated.View>
 
-      {/* 首次用户拍照姿势引导提示 */}
+      {/* 姿势提示卡 */}
       {isNewUser && (
-        <Animated.View style={styles.poseTipCard}>
+        <Animated.View style={[styles.poseTipCard, heroStyle]}>
           <Text style={styles.poseTipIcon}>{FIRST_TIME_POSE_TIPS[poseTipIndex].icon}</Text>
           <Text style={styles.poseTipText}>{FIRST_TIME_POSE_TIPS[poseTipIndex].text}</Text>
         </Animated.View>
       )}
 
-      {/* 功能特性 */}
+      {/* 功能特性区 */}
       <Animated.View style={[styles.featuresSection, featuresStyle]}>
-        <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>✨ 功能介绍</Text>
+        <Text style={styles.sectionTitle}>✨ 功能介绍</Text>
         <View style={styles.featuresGrid}>
           {FEATURES.map((f, i) => (
-            <TouchableOpacity
-              key={i}
-              style={[styles.featureCard, { borderLeftColor: f.color }]}
-              activeOpacity={0.72}
-              onPress={() => {
-                if (f.title === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} })
-                if (f.title === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined })
-              }}
-            >
-              <View style={[styles.featureIconWrap, { backgroundColor: f.color + '18' }]}>
-                <Text style={styles.featureIcon}>{f.icon}</Text>
-              </View>
-              <View style={styles.featureText}>
-                <Text style={[styles.featureTitle, { color: COLORS.textPrimary }]}>{f.title}</Text>
-                <Text style={[styles.featureDesc, { color: COLORS.textMuted }]}>{f.desc}</Text>
+            <TouchableOpacity key={i} style={styles.featureCard} activeOpacity={0.72}
+              onPress={() => { if (f.title === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} }); if (f.title === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined }) }}>
+              <View style={[styles.featureAccentBar, { backgroundColor: f.accent }]} />
+              <View style={styles.featureCardBody}>
+                <View style={[styles.featureIconWrap, { backgroundColor: f.bgAccent }]}><Text style={styles.featureIcon}>{f.icon}</Text></View>
+                <View style={styles.featureText}>
+                  <Text style={styles.featureTitle}>{f.title}</Text>
+                  <Text style={styles.featureDesc}>{f.desc}</Text>
+                </View>
               </View>
             </TouchableOpacity>
           ))}
@@ -425,20 +343,20 @@ export default function HomeScreen() {
       </Animated.View>
 
       {/* 底部导航 */}
-      <View style={styles.bottomNav}>
+      <Animated.View style={[styles.bottomNav, featuresStyle]}>
         <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
           <Text style={styles.bottomNavIcon}>📊</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>进步日记</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
+        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnPrimary]} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
           <Text style={styles.bottomNavIcon}>📸</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>拍照</Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
 
       <View style={{ height: 40 }} />
 
-      {/* 首次引导弹窗 */}
+      {/* 引导弹窗 */}
       <Modal visible={showOnboard} transparent animationType="fade">
         <View style={styles.onboardOverlay}>
           <View style={styles.onboardCard}>
@@ -448,18 +366,12 @@ export default function HomeScreen() {
               ))}
             </View>
             <Text style={styles.onboardIcon}>{ONBOARD_STEPS[onboardStep].icon}</Text>
-            <Text style={[styles.onboardTitle, { color: COLORS.textPrimary }]}>{ONBOARD_STEPS[onboardStep].title}</Text>
-            <Text style={[styles.onboardDesc, { color: COLORS.textSecondary }]}>{ONBOARD_STEPS[onboardStep].desc}</Text>
+            <Text style={styles.onboardTitle}>{ONBOARD_STEPS[onboardStep].title}</Text>
+            <Text style={styles.onboardDesc}>{ONBOARD_STEPS[onboardStep].desc}</Text>
             <View style={styles.onboardBtns}>
-              {onboardStep > 0 && (
-                <TouchableOpacity style={styles.onboardBackBtn} onPress={() => setOnboardStep(onboardStep - 1)} activeOpacity={0.72}>
-                  <Text style={[styles.onboardBackBtnText, { color: COLORS.primary }]}>‹ 上一步</Text>
-                </TouchableOpacity>
-              )}
+              {onboardStep > 0 && <TouchableOpacity style={styles.onboardBackBtn} onPress={() => setOnboardStep(onboardStep - 1)} activeOpacity={0.72}><Text style={styles.onboardBackBtnText}>‹ 上一步</Text></TouchableOpacity>}
               <TouchableOpacity style={[styles.onboardNextBtn, onboardStep === 0 && styles.onboardNextBtnFull]} onPress={nextOnboardStep} activeOpacity={0.72}>
-                <Text style={[styles.onboardNextBtnText, { color: COLORS.textOnPrimary }]}>
-                  {onboardStep < ONBOARD_STEPS.length - 1 ? '下一步 →' : '开始使用 🎉'}
-                </Text>
+                <Text style={styles.onboardNextBtnText}>{onboardStep < ONBOARD_STEPS.length - 1 ? '下一步 →' : '开始使用 🎉'}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -471,79 +383,104 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
-  content: { paddingTop: 60, paddingHorizontal: 20 },
-  heroSection: { alignItems: 'center', marginBottom: 28, paddingTop: 20 },
-  timeGreeting: { fontSize: 14, marginBottom: 4, letterSpacing: 0.5 },
-  heroIcon: { fontSize: 64, marginBottom: 12 },
-  heroTitle: { fontSize: 36, fontWeight: 'bold', marginBottom: 8, letterSpacing: 1 },
-  heroSubtitle: { fontSize: 17, fontWeight: '600', backgroundColor: COLORS.primaryLight, paddingHorizontal: 16, paddingVertical: 6, borderRadius: 16, overflow: 'hidden' },
-  dailyTip: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF8F0', borderRadius: 14, paddingLeft: 16, paddingRight: 8, paddingVertical: 10, marginBottom: 16, gap: 8, shadowColor: COLORS.warning, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 6, elevation: 2 },
-  dailyTipContent: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  dailyTipIcon: { fontSize: 20, flexShrink: 0 },
-  dailyTipText: { flex: 1, fontSize: 14, color: '#8B6914', lineHeight: 20 },
-  dailyTipClose: { width: 28, height: 28, borderRadius: 14, backgroundColor: 'rgba(139,105,20,0.1)', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  dailyTipCloseText: { color: '#8B6914', fontSize: 12, fontWeight: 'bold' },
-  statsBar: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: 18, padding: 20, marginBottom: 20, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.08, shadowRadius: 12, elevation: 3 },
-  statItem: { flex: 1, alignItems: 'center' },
-  statNumber: { fontSize: 26, fontWeight: 'bold' },
-  statNumberSkeleton: { width: 28, height: 28, borderRadius: 6, backgroundColor: '#e8e8e8', marginBottom: 4 },
-  statLabelSkeleton: { width: 36, height: 12, borderRadius: 6, backgroundColor: '#eeeeee' },
-  statLabel: { fontSize: 12, color: COLORS.textMuted, marginTop: 2 },
-  statDivider: { width: 1, height: 30, backgroundColor: COLORS.divider },
-  cameraBtnWrapper: { alignItems: 'center', marginBottom: 28 },
-  cameraBtn: { backgroundColor: COLORS.primary, borderRadius: 36, paddingVertical: 22, paddingHorizontal: 56, alignItems: 'center', shadowColor: COLORS.primary, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.4, shadowRadius: 16, elevation: 6, overflow: 'visible', position: 'relative' },
-  cameraBtnNewUser: { paddingVertical: 24, paddingHorizontal: 60 },
-  cameraGlowRing: { position: 'absolute', top: -10, left: -10, right: -10, bottom: -10, borderRadius: 46, borderWidth: 2, borderColor: 'rgba(255,107,107,0.35)', backgroundColor: 'rgba(255,107,107,0.08)' },
-  cameraBtnInner: { marginBottom: 6 },
-  cameraBtnIcon: { fontSize: 42 },
-  cameraBtnText: { fontSize: 18, fontWeight: 'bold' },
-  cameraBtnSub: { marginTop: 10 },
-  cameraBtnSubText: { fontSize: 13, color: COLORS.textMuted },
-  newBadge: { position: 'absolute', top: -4, right: -4, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 2, zIndex: 10 },
-  newBadgeText: { color: COLORS.textOnPrimary, fontSize: 11, fontWeight: 'bold' },
-  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF0F5', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 12, marginBottom: 20, gap: 10, borderWidth: 1, borderColor: '#FFD6E0' },
+  content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
+
+  // Hero
+  heroSection: { alignItems: 'center', marginBottom: spacing[6], paddingTop: spacing[3] },
+  timeGreeting: { fontSize: typography.fontSize.md, color: COLORS.textMuted, marginBottom: spacing[3], letterSpacing: typography.letterSpacing.wide },
+  heroTitleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing[3] },
+  heroIcon: { fontSize: 56 },
+  heroTextBlock: { alignItems: 'flex-start' },
+  heroTitle: { fontSize: typography.fontSize['7xl'], fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, letterSpacing: 0.5, marginBottom: spacing[2] },
+  heroSubtitleBadge: { backgroundColor: COLORS.primaryLight, paddingHorizontal: spacing[4], paddingVertical: spacing[2], borderRadius: borderRadius.full },
+  heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
+
+  // 每日技巧
+  dailyTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientWarm, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], gap: spacing[3], borderWidth: 1, borderColor: 'rgba(255,159,67,0.2)', ...shadows.sm },
+  dailyTipLeft: { flexShrink: 0 },
+  dailyTipIcon: { fontSize: 28 },
+  dailyTipContent: { flex: 1 },
+  dailyTipLabel: { fontSize: typography.fontSize.xs, color: '#8B6914', fontWeight: typography.fontWeight.semibold, marginBottom: 2, letterSpacing: 0.5 },
+  dailyTipText: { fontSize: typography.fontSize.md, color: '#8B6914', lineHeight: 22 },
+  dailyTipClose: { width: 28, height: 28, borderRadius: borderRadius.full, backgroundColor: 'rgba(139,105,20,0.1)', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  dailyTipCloseText: { color: '#8B6914', fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold },
+
+  // 统计卡片
+  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6], ...shadows.lg },
+  statsRow: { flexDirection: 'row', alignItems: 'center' },
+  statItem: { flex: 1, alignItems: 'center', position: 'relative', paddingBottom: spacing[2] },
+  statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 52 },
+  statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
+  statIndicator: { position: 'absolute', bottom: -spacing[2], left: '50%', marginLeft: -12, width: 24, height: 3, borderRadius: 2 },
+  statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
+  statNumSkeleton: { width: 36, height: 36, borderRadius: borderRadius.md, backgroundColor: COLORS.skeletonBase, alignSelf: 'center', marginBottom: 4 },
+  statLabelSkeleton: { width: 40, height: 12, borderRadius: borderRadius.sm, backgroundColor: COLORS.skeletonHighlight, alignSelf: 'center' },
+  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[4], paddingTop: spacing[4], borderTopWidth: 1, borderTopColor: COLORS.divider, gap: spacing[3] },
+  trendText: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, flexShrink: 0 },
+  trendBar: { flex: 1, height: 6, borderRadius: borderRadius.sm, overflow: 'hidden' },
+  trendBarFill: { height: '100%', borderRadius: borderRadius.sm },
+  trendPercent: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold, width: 36, textAlign: 'right', flexShrink: 0 },
+
+  // 拍照按钮
+  cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
+  glowRingOuter: { position: 'absolute', top: -16, left: -16, right: -16, bottom: -16, borderRadius: borderRadius.full, borderWidth: 2, borderColor: 'rgba(255,107,107,0.3)', backgroundColor: 'rgba(255,107,107,0.06)' },
+  cameraBtn: { position: 'relative', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, overflow: 'visible' },
+  cameraBtnNewUser: { backgroundColor: COLORS.primary, paddingVertical: 24, paddingHorizontal: 64, ...shadows.glow },
+  cameraBtnRegular: { backgroundColor: COLORS.primary, paddingVertical: 20, paddingHorizontal: 56, ...shadows.glowSoft },
+  cameraBtnPulse: { position: 'absolute', top: -6, left: -6, right: -6, bottom: -6, borderRadius: borderRadius.full, borderWidth: 2, borderColor: 'rgba(255,107,107,0.25)', backgroundColor: 'transparent' },
+  cameraBtnInner: { marginBottom: spacing[2] },
+  cameraBtnIcon: { fontSize: 40 },
+  cameraBtnTextRow: { flexDirection: 'row', alignItems: 'center', gap: spacing[2] },
+  cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5 },
+  newBadge: { backgroundColor: 'rgba(255,255,255,0.25)', borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2 },
+  newBadgeText: { color: COLORS.textOnPrimary, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold },
+  cameraBtnSub: { marginTop: spacing[3] },
+  cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
+  todayCountBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.primaryLight, borderRadius: borderRadius.full, paddingHorizontal: spacing[4], paddingVertical: spacing[2], marginTop: spacing[3], gap: spacing[2] },
+  todayCountIcon: { fontSize: 16 },
+  todayCountText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted },
+  todayCountNum: { color: COLORS.primary, fontWeight: typography.fontWeight.bold, fontSize: typography.fontSize.base },
+
+  // 姿势提示卡
+  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientPink, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], borderWidth: 1, borderColor: '#FFD6E0' },
   poseTipIcon: { fontSize: 22, flexShrink: 0 },
-  poseTipText: { flex: 1, fontSize: 14, color: '#C0607A', lineHeight: 20 },
-  featuresSection: { marginBottom: 20 },
-  sectionTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 12 },
-  featuresGrid: { gap: 12 },
-  featureCard: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: 16, padding: 16, alignItems: 'flex-start', borderLeftWidth: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, overflow: 'hidden' },
-  featureIcon: { fontSize: 28, marginRight: 14, marginTop: 2 },
-  featureIconWrap: { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginRight: 0 },
+  poseTipText: { flex: 1, fontSize: typography.fontSize.md, color: '#C0607A', lineHeight: 22 },
+
+  // 功能特性
+  featuresSection: { marginBottom: spacing[5] },
+  sectionTitle: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: spacing[4] },
+  featuresGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[3] },
+  featureCard: { width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2, backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, overflow: 'hidden', ...shadows.md },
+  featureAccentBar: { height: 4 },
+  featureCardBody: { padding: spacing[4], flexDirection: 'row', alignItems: 'flex-start', gap: spacing[3] },
+  featureIconWrap: { width: 44, height: 44, borderRadius: borderRadius.lg, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  featureIcon: { fontSize: 24 },
   featureText: { flex: 1 },
-  featureTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 4 },
-  featureDesc: { fontSize: 14, lineHeight: 20 },
-  bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: 20, padding: 6, gap: 6, shadowColor: '#000', shadowOffset: { width: 0, height: -2 }, shadowOpacity: 0.08, shadowRadius: 10, elevation: 4 },
-  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: 16, gap: 8 },
+  featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
+  featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
+
+  // 底部导航
+  bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 6, gap: 6, ...shadows.inner },
+  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
   bottomNavBtnActive: { backgroundColor: COLORS.primaryLight },
+  bottomNavBtnPrimary: { backgroundColor: COLORS.primaryLight },
   bottomNavIcon: { fontSize: 20 },
-  bottomNavText: { fontSize: 14, fontWeight: '600', color: COLORS.textMuted },
+  bottomNavText: { fontSize: typography.fontSize.md },
+
+  // 引导弹窗
   onboardOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', padding: 24 },
-  onboardCard: { backgroundColor: '#fff', borderRadius: 24, padding: 32, width: '100%', maxWidth: 340, alignItems: 'center' },
+  onboardCard: { backgroundColor: COLORS.bgCard },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },
   onboardDotDone: { backgroundColor: COLORS.warning },
   onboardIcon: { fontSize: 52, marginBottom: 16 },
-  onboardTitle: { fontSize: 22, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' },
-  onboardDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22, marginBottom: 28 },
+  onboardTitle: { fontSize: 22, fontWeight: '700', color: COLORS.textPrimary, marginBottom: 12, textAlign: 'center' },
+  onboardDesc: { fontSize: 15, color: COLORS.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 28 },
   onboardBtns: { flexDirection: 'row', gap: 12, width: '100%' },
   onboardBackBtn: { flex: 1, paddingVertical: 14, borderRadius: 25, borderWidth: 1.5, borderColor: COLORS.primary, alignItems: 'center', backgroundColor: 'transparent' },
   onboardBackBtnText: { fontSize: 15, color: COLORS.primary, fontWeight: '600' },
   onboardNextBtn: { flex: 2, paddingVertical: 14, borderRadius: 25, backgroundColor: COLORS.primary, alignItems: 'center' },
   onboardNextBtnFull: { flex: 1 },
-  onboardNextBtnText: { fontSize: 15, fontWeight: 'bold' },
-  todayCountBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: COLORS.primaryLight,
-    borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    marginTop: 10,
-    gap: 6,
-  },
-  todayCountIcon: { fontSize: 16 },
-  todayCountText: { fontSize: 13, color: COLORS.textMuted },
-  todayCountNum: { color: COLORS.primary, fontWeight: 'bold', fontSize: 15 },
+  onboardNextBtnText: { fontSize: 15, fontWeight: '700', color: COLORS.textOnPrimary },
 })
