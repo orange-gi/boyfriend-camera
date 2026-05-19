@@ -21,13 +21,13 @@ import type { RootStackParamList } from '../../App'
 import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS } from '../theme/colors'
+import { COLORS, colors } from '../theme'
 
-/** Shimmer 动画背景：灰色 → 浅灰 → 灰色 */
+/** Shimmer 动画背景：使用 design token 的 skeleton 色 */
 const shimmerBg = (anim: Animated.Value) => ({
   backgroundColor: anim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['#e8e8e8', '#f5f5f5'],
+    outputRange: [colors.skeletonBase, colors.skeletonHighlight],
   }),
 })
 
@@ -1386,33 +1386,33 @@ const styles = StyleSheet.create({
   },
   // 空状态小贴士
   emptyTipCard: {
-    backgroundColor: '#FFF8E1',
+    backgroundColor: colors.warningLight,
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
     borderLeftWidth: 4,
-    borderLeftColor: '#FFB347',
+    borderLeftColor: colors.warning,
   },
   emptyTipTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#8B6914',
+    color: colors.statAmber,
     marginBottom: 6,
   },
   emptyTipText: {
     fontSize: 13,
-    color: '#6B5310',
+    color: colors.statYellowText,
     lineHeight: 20,
   },
   // 情感化引导卡片
   emptyMotivationCard: {
-    backgroundColor: '#FFF0F5',
+    backgroundColor: colors.primaryLight,
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#FFD6E0',
+    borderColor: 'rgba(255,107,107,0.25)',
   },
   emptyMotivationEmoji: {
     fontSize: 36,
@@ -1421,7 +1421,7 @@ const styles = StyleSheet.create({
   emptyMotivationTitle: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#C0607A',
+    color: colors.danger,
     marginBottom: 8,
     textAlign: 'center',
   },

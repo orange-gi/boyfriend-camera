@@ -35,7 +35,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS } from '../theme/colors'
+import { COLORS, colors } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
@@ -532,12 +532,12 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     return '💪 继续加油！一定能越拍越好！'
   }
 
-  // 夸奖横幅背景/边框颜色（按分数段）
+  // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
   const getPraiseBannerColors = (): { bg: string; border: string; shadow: string; glow: string } => {
-    if (!scoreResult) return { bg: '#FFF8F0', border: COLORS.warning, shadow: COLORS.warning, glow: 'rgba(255,200,80,0.15)' }
-    if (scoreResult.totalScore >= 90) return { bg: '#FFF9E6', border: '#FFD700', shadow: '#FFD700', glow: 'rgba(255,215,0,0.2)' }
-    if (scoreResult.totalScore >= 80) return { bg: '#FFF0F5', border: COLORS.primary, shadow: COLORS.primary, glow: 'rgba(255,107,107,0.15)' }
-    if (scoreResult.totalScore >= 70) return { bg: '#F0FFF4', border: COLORS.success, shadow: COLORS.success, glow: 'rgba(78,205,196,0.12)' }
+    if (!scoreResult) return { bg: colors.warningLight, border: COLORS.warning, shadow: COLORS.warning, glow: 'rgba(255,200,80,0.15)' }
+    if (scoreResult.totalScore >= 90) return { bg: '#FFF9E6', border: colors.warning, shadow: colors.warning, glow: 'rgba(255,215,0,0.2)' }
+    if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: COLORS.primary, shadow: COLORS.primary, glow: 'rgba(255,107,107,0.15)' }
+    if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: COLORS.success, shadow: COLORS.success, glow: 'rgba(78,205,196,0.12)' }
     return { bg: '#F5F8FF', border: '#A0A0E0', shadow: '#A0A0E0', glow: 'rgba(100,100,200,0.1)' }
   }
   const praiseColors = getPraiseBannerColors()
@@ -890,12 +890,12 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     paddingVertical: 14,
     paddingHorizontal: 20,
-    backgroundColor: '#FFF8E1',
+    backgroundColor: colors.warningLight,
     borderRadius: 16,
     borderWidth: 2,
-    borderColor: '#FFD700',
+    borderColor: colors.warning,
     alignItems: 'center',
-    shadowColor: '#FFD700',
+    shadowColor: colors.warning,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
@@ -904,12 +904,12 @@ const styles = StyleSheet.create({
   newRecordBannerText: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#B8860B',
+    color: colors.statYellowText,
     marginBottom: 4,
   },
   newRecordBannerSub: {
     fontSize: 13,
-    color: '#8B6914',
+    color: colors.statAmber,
     textAlign: 'center',
   },
   titleRow: {
