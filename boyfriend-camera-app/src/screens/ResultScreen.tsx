@@ -70,21 +70,21 @@ export default function ResultScreen() {
     })()
   )
 
-const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'; label: string; emoji: string }> = [
-  { key: 'warm', label: '暖黄', emoji: '🌅' },
-  { key: 'cool', label: '冷调', emoji: '❄️' },
-  { key: 'vivid', label: '生动', emoji: '🎨' },
-  { key: 'soft', label: '柔和', emoji: '🌸' },
-  { key: 'bw', label: '黑白', emoji: '🖤' },
-  { key: 'portrait', label: '人像', emoji: '👩' },
-  { key: 'food', label: '美食', emoji: '🍔' },
-  { key: 'landscape', label: '风景', emoji: '🏞️' },
-  { key: 'night', label: '夜景', emoji: '🌃' },
-  { key: 'sunset', label: '日落', emoji: '🌇' },
-  { key: 'floral', label: '花季', emoji: '🌺' },
-  { key: 'snow', label: '雪景', emoji: '❄️' },
-  { key: 'golden', label: '金棕', emoji: '✨' },
-  { key: 'cinematic', label: '电影', emoji: '🎬' },
+const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'; label: string; emoji: string; color: string }> = [
+  { key: 'warm', label: '暖黄', emoji: '🌅', color: '#FFA07A' },
+  { key: 'cool', label: '冷调', emoji: '❄️', color: '#87CEEB' },
+  { key: 'vivid', label: '生动', emoji: '🎨', color: '#FF69B4' },
+  { key: 'soft', label: '柔和', emoji: '🌸', color: '#FFD1DC' },
+  { key: 'bw', label: '黑白', emoji: '🖤', color: '#555555' },
+  { key: 'portrait', label: '人像', emoji: '👩', color: '#FFE4C4' },
+  { key: 'food', label: '美食', emoji: '🍔', color: '#FFB347' },
+  { key: 'landscape', label: '风景', emoji: '🏞️', color: '#87CEEB' },
+  { key: 'night', label: '夜景', emoji: '🌃', color: '#4B0082' },
+  { key: 'sunset', label: '日落', emoji: '🌇', color: '#FF6347' },
+  { key: 'floral', label: '花季', emoji: '🌺', color: '#FF69B4' },
+  { key: 'snow', label: '雪景', emoji: '❄️', color: '#E0FFFF' },
+  { key: 'golden', label: '金棕', emoji: '✨', color: '#DAA520' },
+  { key: 'cinematic', label: '电影', emoji: '🎬', color: '#2F4F4F' },
 ]
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
@@ -708,11 +708,35 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
                 <TouchableOpacity
                   key={f.key}
                   onPress={() => setSelectedFilter(f.key)}
-                  style={[styles.filterChip, selectedFilter === f.key && styles.filterChipActive]}
-                  activeOpacity={0.7}
+                  activeOpacity={0.75}
+                  style={styles.filterItem}
                 >
-                  <Text style={styles.filterChipEmoji}>{f.emoji}</Text>
-                  <Text style={[styles.filterChipLabel, selectedFilter === f.key && styles.filterChipLabelActive]}>
+                  <View style={[
+                    styles.filterCircleWrapper,
+                    selectedFilter === f.key && { transform: [{ scale: 1.1 }] }
+                  ]}>
+                    <View style={[
+                      styles.filterCircle,
+                      { backgroundColor: f.color }
+                    ]}>
+                      {f.key === 'bw' ? (
+                        <Text style={styles.filterCircleIcon}>🖤</Text>
+                      ) : f.key === 'night' ? (
+                        <Text style={styles.filterCircleIcon}>🌃</Text>
+                      ) : f.key === 'snow' ? (
+                        <Text style={styles.filterCircleIcon}>❄️</Text>
+                      ) : (
+                        <Text style={styles.filterCircleIcon}>{f.emoji}</Text>
+                      )}
+                    </View>
+                    {selectedFilter === f.key && (
+                      <View style={[styles.filterCircleSelectedRing, { borderColor: COLORS.primary }]} />
+                    )}
+                  </View>
+                  <Text style={[
+                    styles.filterLabel,
+                    selectedFilter === f.key && { color: COLORS.primary, fontWeight: '700' }
+                  ]}>
                     {f.label}
                   </Text>
                 </TouchableOpacity>
@@ -922,33 +946,51 @@ const styles = StyleSheet.create({
   },
   filterPickerList: {
     flexDirection: 'row',
-    gap: 8,
     paddingRight: 16,
   },
-  filterChip: {
+  filterItem: {
     alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 16,
-    backgroundColor: '#f5f5f5',
-    minWidth: 56,
+    marginHorizontal: 6,
+    width: 64,
   },
-  filterChipActive: {
-    backgroundColor: '#FFE4EC',
-    borderWidth: 1.5,
-    borderColor: '#FD79A8',
+  filterCircleWrapper: {
+    width: 56,
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 6,
   },
-  filterChipEmoji: {
-    fontSize: 18,
-    marginBottom: 2,
+  filterCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(0,0,0,0.08)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  filterChipLabel: {
+  filterCircleSelectedRing: {
+    position: 'absolute',
+    top: -2,
+    left: -2,
+    right: -2,
+    bottom: -2,
+    borderRadius: 29,
+    borderWidth: 3,
+  },
+  filterCircleIcon: {
+    fontSize: 22,
+  },
+  filterLabel: {
     fontSize: 11,
-    color: '#999',
-  },
-  filterChipLabelActive: {
-    color: '#FD79A8',
-    fontWeight: '600',
+    color: COLORS.textMuted,
+    textAlign: 'center',
+    fontWeight: '500',
   },
   processingOverlay: {
     alignItems: 'center',
