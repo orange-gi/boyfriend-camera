@@ -115,8 +115,8 @@ export default function ScoreBoard({ result }: Props) {
   const dimensions = [
     { label: '构图', icon: '🎯', score: compositionScore, maxScore: 40, color: COLORS.primary },
     { label: '曝光', icon: '💡', score: exposureScore, maxScore: 30, color: COLORS.warning },
-    { label: '稳定', icon: '🤚', score: stabilityScore, maxScore: 20, color: '#4ECDC4' },
-    { label: '水平', icon: '📏', score: levelScore, maxScore: 10, color: '#9B8FE8' },
+    { label: '稳定', icon: '🤚', score: stabilityScore, maxScore: 20, color: COLORS.info },
+    { label: '水平', icon: '📏', score: levelScore, maxScore: 10, color: COLORS.purple },
   ]
 
   return (

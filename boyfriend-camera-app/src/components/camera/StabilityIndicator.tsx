@@ -5,6 +5,7 @@
  */
 import React, { useEffect, useRef } from 'react'
 import { View, Text, StyleSheet, Animated } from 'react-native'
+import { COLORS } from '../../theme/colors'
 
 interface Props {
   tiltX: number  // -90 to 90 degrees, 手机左右倾斜
@@ -108,10 +109,10 @@ export default function StabilityIndicator({
 
   const isStable = Math.abs(tiltX) < STABLE_THRESHOLD && Math.abs(tiltY) < STABLE_THRESHOLD
   const bubbleColor = isStable && shakeLevel < SHAKE_WARNING
-    ? '#4CAF50'  // 绿色 - 稳定
+    ? COLORS.success  // 绿色 - 稳定
     : shakeLevel > SHAKE_WARNING
-    ? '#FF5722'  // 红色 - 抖动
-    : '#FFD700'  // 黄色 - 倾斜
+    ? COLORS.danger  // 红色 - 抖动
+    : COLORS.warning  // 黄色 - 倾斜
 
   return (
     <View style={styles.container}>
