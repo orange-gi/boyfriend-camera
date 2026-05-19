@@ -2252,6 +2252,7 @@ export interface DiaryRecord {
   exposureScore?: number
   stabilityScore?: number
   levelScore?: number
+  expressionScore?: number
 }
 
 export async function saveToDiary(record: DiaryRecord): Promise<boolean> {

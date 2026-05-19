@@ -279,6 +279,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           isFirstPhoto: diary.length === 0,
           sceneType,
           lastCompositionScore: lastRecord?.compositionScore,
+          lastExpressionScore: lastRecord?.expressionScore,
           lastExposureScore: lastRecord?.exposureScore,
           lastStabilityScore: lastRecord?.stabilityScore,
           isCouplePhoto: faces.length >= 2,
