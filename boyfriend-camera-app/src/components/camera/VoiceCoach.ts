@@ -2577,6 +2577,78 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
+  /** ========== Round 28 新增：舞蹈/表演场景 TTS ========== */
+  async speakDancePerformanceTip(): Promise<void> {
+    const tips = [
+      '舞台灯光变化快，连拍几张选最清晰的那张～',
+      '表演中表情夸张一点更有感染力！活力感拉满～',
+      '舞台逆光超有感觉！转过身让轮廓发光，绝了～',
+      '表演现场光线复杂，开闪光灯补光效果更好～',
+      '跟着节奏动起来的时候抓拍，表情最生动～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** ========== Round 28 新增：红叶特写场景 TTS ========== */
+  async speakRedAutumnTip(): Promise<void> {
+    const tips = [
+      '红叶背景下光线斑驳！风吹过来的时候按下快门，绝美～',
+      '枫叶近景特写超有秋日感，背景虚化主体突出～',
+      '落叶季光线好温柔！侧身站着让光线打在侧脸上～',
+      '红叶背景颜色很鲜艳，衣服选浅色更突出主体～',
+      '蹲低仰拍让叶子落在头顶上方，超有氛围感～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** ========== Round 28 新增：节日灯展场景 TTS ========== */
+  async speakFestivalLightsTip(): Promise<void> {
+    const tips = [
+      '灯展场景色彩斑斓！侧身站着让灯光打侧脸上，超有氛围～',
+      '灯展人多背景杂，找个空隙蹲低仰拍，背景更干净～',
+      '灯展光线复杂，打开手机闪光灯补补光～',
+      '灯展逆光超浪漫！转过来让脸朝向光源试试～',
+      '灯展背景五彩缤纷，衣服选纯色更突出主体～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** ========== Round 28 新增：游乐园/嘉年华场景 TTS ========== */
+  async speakAmusementTip(): Promise<void> {
+    const tips = [
+      '游乐园灯光超梦幻！找个项目做背景，笑着拍一张～',
+      '旋转木马前超浪漫！侧身站着，光线超温柔～',
+      '游乐园大摆臂超有活力！动起来抓拍最自然～',
+      '摩天轮里光线柔和，这个角度超浪漫～',
+      '过山车尖叫瞬间超生动！抓拍表情最自然～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** ========== Round 28 新增：天台日间场景 TTS ========== */
+  async speakRooftopDaytimeTip(): Promise<void> {
+    const tips = [
+      '天台白天光线充足！找个有阴影的角落，别让太阳直射～',
+      '天台背景是城市天际线，侧身站着超有范儿！',
+      '天台有风时拍动态抓拍，头发飘起来超灵动～',
+      '天台俯拍全身照超显气场！男朋友站高一点～',
+      '正午天台光线太硬，找个下午时段光线更柔和～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** ========== Round 28 新增：草原/牧场场景 TTS ========== */
+  async speakMeadowRanchTip(): Promise<void> {
+    const tips = [
+      '草原上光线超通透！站在草丛中，笑着看镜头～',
+      '草原逆光拍剪影超浪漫！转过身让阳光勾勒轮廓～',
+      '草原风大头发容易乱，男朋友找个避风的角度拍～',
+      '草原背景干净开阔，人站中间或偏左构图都很好看～',
+      '牧场木栅栏做前景虚化，超有田园感～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
