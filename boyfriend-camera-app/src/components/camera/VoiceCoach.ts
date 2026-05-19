@@ -1696,8 +1696,24 @@ class VoiceCoach {
   }
 
   stop(): void {
-    if (this.initialized) {
+    this.speaking = false
+    this.enabled = false
+    try {
       Tts.stop()
+    } catch {
+      // 静默处理 stop 失败
+    }
+  }
+
+  /** 重置 TTS 状态（在页面跳转时安全清理） */
+  reset(): void {
+    this.speaking = false
+    this.recentTips = []
+    this.lastSpokeAt = 0
+    try {
+      Tts.stop()
+    } catch {
+      // 静默处理
     }
   }
 

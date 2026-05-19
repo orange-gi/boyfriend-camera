@@ -123,6 +123,9 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   // 初始化 VoiceCoach（TTS 引擎）
   useEffect(() => {
     voiceCoach.initialize().catch(() => { /* ignore init errors */ })
+    return () => {
+      voiceCoach.reset()
+    }
   }, [])
 
   useEffect(() => {
@@ -548,7 +551,10 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.scoreGreat, shadow: colors.scoreGreat, glow: colors.scoreGreatGlow }
     if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: colors.primary, shadow: colors.primary, glow: colors.scoreLowGlow }
     if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: colors.success, shadow: colors.success, glow: colors.scoreOkGlow }
-    return { bg: colors.scoreOkBg, border: colors.scoreOkBorder, shadow: colors.scoreOkBorder, glow: colors.scoreOkGlow }
+    // 60-69: 及格 - warning 色系
+    if (scoreResult.totalScore >= 60) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning, glow: colors.scoreGreatGlow }
+    // 60 分以下: 加油 - danger 色系
+    return { bg: colors.dangerLight, border: colors.danger, shadow: colors.danger, glow: colors.scoreLowGlow }
   }
   const praiseColors = getPraiseBannerColors()
 
@@ -677,7 +683,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           >
             {/* 渐变模拟叠加层 */}
             <View style={[styles.praiseBannerGlow, { backgroundColor: praiseColors.glow }]} />
-            <Text style={[styles.praiseBannerScore, { color: praiseColors.border === colors.warning ? colors.goldDark : COLORS.textPrimary }]}>
+            <Text style={[styles.praiseBannerScore, { color: praiseColors.border }]}>
               {getPraiseBannerText()}
             </Text>
             {typedPraise.length > 0 && (
