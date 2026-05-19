@@ -700,12 +700,12 @@ export default function CameraScreen() {
                 {selectedCategory === '收藏' ? (
                   <>
                     <Text style={styles.loadingText}>💛 还没有收藏任何模板</Text>
-                    <Text style={[styles.loadingText, { fontSize: 12, marginTop: 6, color: '#888' }]}>长按模板可收藏，下次快速找到～</Text>
+                    <Text style={[styles.loadingText, { fontSize: 12, marginTop: 6, color: COLORS.textMuted }]}>长按模板可收藏，下次快速找到～</Text>
                   </>
                 ) : templateSearch ? (
                   <>
                     <Text style={styles.loadingText}>没有找到「{templateSearch}」相关模板</Text>
-                    <Text style={[styles.loadingText, { fontSize: 12, marginTop: 6, color: '#888' }]}>试试其他关键词或切换分类～</Text>
+                    <Text style={[styles.loadingText, { fontSize: 12, marginTop: 6, color: COLORS.textMuted }]}>试试其他关键词或切换分类～</Text>
                   </>
                 ) : (
                   <Text style={styles.loadingText}>该分类暂无模板～</Text>
@@ -714,7 +714,7 @@ export default function CameraScreen() {
             ) : (
               <>
                 {(templateSearch || selectedCategory !== '全部') && filteredTemplates.length > 0 && (
-                  <Text style={{ paddingHorizontal: 16, paddingVertical: 6, fontSize: 12, color: '#888' }}>
+                  <Text style={{ paddingHorizontal: 16, paddingVertical: 6, fontSize: 12, color: COLORS.textMuted }}>
                     {templateSearch
                       ? `🔍 找到 ${filteredTemplates.length} 个「${templateSearch}」相关模板`
                       : `📋 ${selectedCategory} 共 ${filteredTemplates.length} 个模板`}
