@@ -213,13 +213,13 @@ export default function DiaryScreen() {
 
   // 进步趋势文案
   const trendInfo = useMemo(() => {
-    if (totalCount < 3) return { text: '继续加油！', color: COLORS.textMuted, gradient: ['#f0f0f0', '#e8e8e8'] }
+    if (totalCount < 3) return { text: '继续加油！', color: COLORS.textMuted, gradient: [COLORS.skeletonHighlight, COLORS.skeletonBase] }
     const recent5 = records.slice(0, Math.min(5, totalCount))
     const avg = recent5.reduce((s, r) => s + r.score, 0) / recent5.length
-    if (avg >= 80) return { text: '📸 男友进化中！', color: COLORS.success, gradient: ['#E8F5E9', '#C8E6C9'] }
-    if (avg >= 65) return { text: '📈 稳步提升中', color: COLORS.success, gradient: ['#E3F2FD', '#BBDEFB'] }
-    if (avg >= 50) return { text: '💪 还需要多练习', color: COLORS.warning, gradient: ['#FFF8E1', '#FFECB3'] }
-    return { text: '😅 革命尚未成功', color: COLORS.primary, gradient: ['#FFF3F3', '#FFE0E0'] }
+    if (avg >= 80) return { text: '📸 男友进化中！', color: COLORS.success, gradient: [COLORS.successLight, '#C8E6C9'] }
+    if (avg >= 65) return { text: '📈 稳步提升中', color: COLORS.success, gradient: [COLORS.gradientBlue, '#BBDEFB'] }
+    if (avg >= 50) return { text: '💪 还需要多练习', color: COLORS.warning, gradient: [COLORS.warningLight, '#FFECB3'] }
+    return { text: '😅 革命尚未成功', color: COLORS.primary, gradient: [COLORS.dangerLight, '#FFE0E0'] }
   }, [totalCount, records])
 
   // 进度动画 ref
@@ -238,7 +238,7 @@ export default function DiaryScreen() {
   }))
 
   // 迷你进度条颜色
-  const miniBarColors = ['#FF6B6B', '#FFB347', '#4ECDC4', '#A29BFE']
+  const miniBarColors = [COLORS.primary, COLORS.warning, COLORS.info, COLORS.categoryStyle]
   const miniBarMaxScores = [40, 30, 20, 10]
 
   const renderRecord = ({ item, index }: { item: DiaryRecord; index: number }) => {
@@ -510,7 +510,7 @@ export default function DiaryScreen() {
                   </View>
 
                   {/* 本周拍摄次数 */}
-                  <View style={[styles.weeklyCard, { backgroundColor: '#FFF8E1' }]}>
+                  <View style={[styles.weeklyCard, { backgroundColor: COLORS.warningLight }]}>
                     <Text style={styles.weeklyCardIcon}>📸</Text>
                     <Text style={[styles.weeklyCardNum, { color: COLORS.warning }]}>
                       {weeklyStats.weekCount}
@@ -522,7 +522,7 @@ export default function DiaryScreen() {
                   <View style={[
                     styles.weeklyCard,
                     weeklyStats.streak >= 7
-                      ? { backgroundColor: '#FFF8E1', borderWidth: 2, borderColor: '#FFD700' }
+                      ? { backgroundColor: COLORS.warningLight, borderWidth: 2, borderColor: COLORS.warning }
                       : { backgroundColor: COLORS.primaryLight },
                   ]}>
                     <Text style={styles.weeklyCardIcon}>{weeklyStats.streak >= 7 ? '🔥' : '📅'}</Text>
@@ -584,13 +584,13 @@ export default function DiaryScreen() {
                   </View>
                 )}
                 {avgScore >= 70 && avgScore < 80 && (
-                  <View style={[styles.badge, { backgroundColor: '#4ECDC4' + '20', borderColor: '#4ECDC4' }]}>
-                    <Text style={[styles.badgeText, { color: '#4ECDC4' }]}>📸 进阶摄影师</Text>
+                  <View style={[styles.badge, { backgroundColor: COLORS.info + '30', borderColor: COLORS.info }]}>
+                    <Text style={[styles.badgeText, { color: COLORS.info }]}>📸 进阶摄影师</Text>
                   </View>
                 )}
                 {avgScore >= 60 && avgScore < 70 && (
-                  <View style={[styles.badge, { backgroundColor: '#FFB347' + '20', borderColor: '#FFB347' }]}>
-                    <Text style={[styles.badgeText, { color: '#FFB347' }]}>📷 成长中摄影师</Text>
+                  <View style={[styles.badge, { backgroundColor: COLORS.warning + '30', borderColor: COLORS.warning }]}>
+                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>📷 成长中摄影师</Text>
                   </View>
                 )}
                 {avgScore < 60 && avgScore > 0 && (
@@ -610,13 +610,13 @@ export default function DiaryScreen() {
                   </View>
                 )}
                 {totalCount >= 30 && totalCount < 50 && (
-                  <View style={[styles.badge, { backgroundColor: '#A29BFE' + '20', borderColor: '#A29BFE' }]}>
-                    <Text style={[styles.badgeText, { color: '#A29BFE' }]}>🔥 三十次快门</Text>
+                  <View style={[styles.badge, { backgroundColor: COLORS.categoryStyle + '30', borderColor: COLORS.categoryStyle }]}>
+                    <Text style={[styles.badgeText, { color: COLORS.categoryStyle }]}>🔥 三十次快门</Text>
                   </View>
                 )}
                 {totalCount >= 20 && totalCount < 30 && (
-                  <View style={[styles.badge, { backgroundColor: '#A29BFE' + '20', borderColor: '#A29BFE' }]}>
-                    <Text style={[styles.badgeText, { color: '#A29BFE' }]}>🌟 二十次快门</Text>
+                  <View style={[styles.badge, { backgroundColor: COLORS.categoryStyle + '30', borderColor: COLORS.categoryStyle }]}>
+                    <Text style={[styles.badgeText, { color: COLORS.categoryStyle }]}>🌟 二十次快门</Text>
                   </View>
                 )}
                 {totalCount >= 10 && totalCount < 20 && (
@@ -663,8 +663,8 @@ export default function DiaryScreen() {
                   const recent3 = records.slice(0, 3)
                   const improved = recent3.length >= 2 && recent3[0].score > recent3[1].score
                   return improved ? (
-                    <View style={[styles.badge, { backgroundColor: '#FF6B9D' + '20', borderColor: '#FF6B9D' }]}>
-                      <Text style={[styles.badgeText, { color: '#FF6B9D' }]}>📸 进步之星</Text>
+                    <View style={[styles.badge, { backgroundColor: COLORS.primary + '30', borderColor: COLORS.primary }]}>
+                      <Text style={[styles.badgeText, { color: COLORS.primary }]}>📸 进步之星</Text>
                     </View>
                   ) : null
                 })()}
@@ -1127,28 +1127,28 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: COLORS.skeletonBase,
     marginBottom: 16,
   },
   skeletonTitle: {
     width: 160,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: COLORS.skeletonBase,
     marginBottom: 8,
   },
   skeletonSubtitle: {
     width: 240,
     height: 16,
     borderRadius: 8,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: COLORS.skeletonBase,
     marginBottom: 24,
   },
   skeletonBtn: {
     width: 140,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: COLORS.skeletonBase,
   },
   badgeRow: {
     flexDirection: 'row',
@@ -1164,16 +1164,16 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   badgeBronze: {
-    backgroundColor: '#FFF3E0',
-    borderColor: '#FFB347',
+    backgroundColor: COLORS.gradientWarm,
+    borderColor: COLORS.warning,
   },
   badgeGold: {
-    backgroundColor: '#FFF8E1',
-    borderColor: '#FFD700',
+    backgroundColor: COLORS.warningLight,
+    borderColor: COLORS.warning,
   },
   badgeGreen: {
-    backgroundColor: '#E8F5E9',
-    borderColor: '#4CAF50',
+    backgroundColor: COLORS.successLight,
+    borderColor: COLORS.success,
   },
   badgeText: {
     fontSize: 12,
