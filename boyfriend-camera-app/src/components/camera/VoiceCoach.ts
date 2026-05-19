@@ -179,6 +179,17 @@ const FACE_TIPS = {
   TRY_CONFIDENT: '试试酷酷的表情！超级有范儿～',
   TRY_SURPRISED: '惊讶表情！眼睛睁大超可爱～',
   LAST_CHANCE: '这张一定会很好看！鼓起勇气按下去！',
+  // ========== Round 3 新增 TTS 场景 ==========
+  CHECK_MIRROR: '检查一下镜子里有没有乱！头发衣服都要整理好～',
+  GRAB_ATTENTION: '吸引她的注意力！逗她笑一下再按快门～',
+  TELL_JOKE: '给她讲个笑话！表情自然的时候抓拍～',
+  SQUEEZE_CHEEKS: '轻轻捏一下脸！自然的笑容马上出来～',
+  PLAY_MUSIC: '放一首她喜欢的歌！跟着节奏自然摇摆～',
+  DIRTY_LENS_HINT: '镜头好像有点脏！擦一下会更清晰～',
+  CHECK_FACE_IN_FRAME: '确认一下脸在屏幕里！别被切掉了～',
+  POSE_ADJUSTMENT: '稍微调整一下姿势！这个角度可以更好看～',
+  EXPRESSION_REFRESH: '表情换一换！试试酷酷的、甜甜的、酷甜的三种～',
+  LIGHT_CHECK: '确认一下光线方向！脸要朝向光源才好看～',
 }
 
 const STABILITY_TIPS = {
