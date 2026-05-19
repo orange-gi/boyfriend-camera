@@ -813,6 +813,12 @@ const POSE_TIPS = {
 type FaceTipKey = keyof typeof FACE_TIPS
 type StabilityTipKey = keyof typeof STABILITY_TIPS
 
+/** 通用随机抽取（带防御性空值检查） */
+function pickRandomFrom(arr: string[]): string {
+  if (!arr || arr.length === 0) return ''
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
 /** 从稳定性提示池中随机选取同类提示 */
 function pickStabilityTip(category: 'STABLE' | 'SHAKY' | 'EXTREME_SHAKE' | 'TILTED'): string {
   const variants: Record<string, string[]> = {
@@ -1013,11 +1019,118 @@ class VoiceCoach {
     await this.speak(tip, true) // 强制朗读
   }
 
-  /** 多脸检测提示 */
+  /** 最佳拍摄时机提示（光线+位置都到位） */
+  async speakPerfectTiming(): Promise<void> {
+    const tips = [
+      FACE_TIPS.SHOOT_NOW_PERFECT,
+      FACE_TIPS.SHOOT_NOW_LIGHT,
+      FACE_TIPS.SHOOT_NOW_POSE,
+      FACE_TIPS.ALMOST_PERFECT,
+      FACE_TIPS.SHOOT_GOOD,
+      FACE_TIPS.CLICK_SNAP,
+    ]
+    await this.speak(pickRandomFrom(tips), true)
+  }
+
+  /** 表情动作提示（随机抽取） */
+  /** 随机姿势提示（不指定类型，随机引导） */
+  async speakRandomPoseTip(): Promise<void> {
+    const tips = [
+      FACE_TIPS.BIGGER_SMILE,
+      FACE_TIPS.RELAX_FACE,
+      FACE_TIPS.TRY_WINK,
+      FACE_TIPS.TRY_POUT,
+      FACE_TIPS.TRY_CONFIDENT,
+      FACE_TIPS.TRY_SURPRISED,
+      FACE_TIPS.TRY_SIDE_FACE,
+      FACE_TIPS.TRY_BACK_VIEW,
+      FACE_TIPS.TRY_LOW_ANGLE,
+      FACE_TIPS.TRY_HIGH_ANGLE,
+    ]
+    await this.speak(pickRandomFrom(tips), true)
+  }
+
+  /** 相机设置提示 */
+  async speakCameraSetupTip(): Promise<void> {
+    const tips = [
+      FACE_TIPS.USE_GRID,
+      FACE_TIPS.USE_BOTH_HANDS,
+      FACE_TIPS.REST_ON_WALL,
+      FACE_TIPS.HOLD_BREATH,
+      FACE_TIPS.CHECK_LIGHTING,
+      FACE_TIPS.FIND_WINDOW,
+    ]
+    await this.speak(pickRandomFrom(tips), true)
+  }
+
+  /** 多脸检测提示（根据人数不同提示不同） */
   async speakMultiFaceTip(faceCount: number): Promise<void> {
-    if (faceCount > 1) {
+    if (faceCount === 2) {
+      await this.speak(FACE_TIPS.MULTI_FACE_TWO)
+    } else if (faceCount === 3) {
+      await this.speak(FACE_TIPS.MULTI_FACE_THREE)
+    } else if (faceCount > 3) {
+      await this.speak(FACE_TIPS.MULTI_FACE_SQUEEZE)
+    } else {
       await this.speak(FACE_TIPS.MULTI_FACE)
     }
+  }
+
+  /** 拍摄模式提示（人像/HDR/全景/专业/连拍） */
+  async speakModeTip(mode: 'portrait' | 'hdr' | 'panorama' | 'pro' | 'burst' | 'timer'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      portrait: [FACE_TIPS.PORTRAIT_MODE, FACE_TIPS.PORTRAIT_MODE_2],
+      hdr: [FACE_TIPS.HDR_HINT, FACE_TIPS.HDR_HINT_2, FACE_TIPS.BACKLIGHT_HDR],
+      panorama: [FACE_TIPS.PANORAMA_HINT],
+      pro: [FACE_TIPS.PRO_MODE_HINT, FACE_TIPS.PRO_MODE_HINT_2],
+      burst: [FACE_TIPS.BURST_MODE, FACE_TIPS.BURST_MODE_2],
+      timer: [FACE_TIPS.TIMER_HINT],
+    }
+    const pool = tips[mode]
+    if (pool && pool[0]) {
+      await this.speak(pickRandomFrom(pool), true)
+    }
+  }
+
+  /** 推荐拍照模式（根据场景自动推荐最佳模式） */
+  async speakRecommendMode(brightness: number, sceneType?: string): Promise<void> {
+    // 暗光场景推荐闪光灯或专业模式
+    if (brightness < 50) {
+      await this.speak(FACE_TIPS.TOO_DARK, true)
+      return
+    }
+    // 逆光场景推荐 HDR
+    if (brightness > 200) {
+      await this.speak(FACE_TIPS.HDR_HINT, true)
+      return
+    }
+    // 傍晚推荐黄金时段
+    if (sceneType === 'sunset' || sceneType === 'rooftop_night') {
+      await this.speak(FACE_TIPS.GOLDEN_HOUR_NOW, true)
+      return
+    }
+    // 阴天推荐
+    if (sceneType === 'overcast') {
+      await this.speak(FACE_TIPS.OVERCAST_PERFECT_TIME, true)
+      return
+    }
+    // 默认推荐人像模式
+    await this.speak(FACE_TIPS.PORTRAIT_MODE, true)
+  }
+
+  /** 快速姿势提示（从常用姿势中随机抽取） */
+  async speakQuickPoseTip(): Promise<void> {
+    const pool = [
+      FACE_TIPS.TRY_SIDE_FACE,
+      FACE_TIPS.TRY_BACK_VIEW,
+      FACE_TIPS.TRY_HALF_BODY,
+      FACE_TIPS.TRY_FULL_BODY,
+      FACE_TIPS.TRY_CLOSE_UP,
+      FACE_TIPS.TRY_WIDER,
+      FACE_TIPS.LOW_ANGLE_FACE,
+      FACE_TIPS.HIGH_ANGLE_FACE,
+    ]
+    await this.speak(pickRandomFrom(pool), true)
   }
 
   /** 场景光线提示 */
