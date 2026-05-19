@@ -599,6 +599,23 @@ const ENCOURAGEMENT = [
   '男朋友审美在线，这张好高级！',
   '前景背景层次分明，画面好丰富！',
   '男友进步速度惊人，这张要收藏！',
+  // ========== Round 17 新增鼓励语 ==========
+  '背景虚化超有层次！主体和背景分离得刚刚好～',
+  '这张色调好治愈，有被暖到！',
+  '光影搭配得刚刚好，这张绝了！',
+  '男朋友构图越来越讲究了，有被惊艳到！',
+  '姿势和光线都是满分，这张太可了！',
+  '色彩和背景好搭，男朋友审美大爆发！',
+  '男朋友把女朋友拍出了高级感！',
+  '表情和光线都好自然，这张有被治愈到！',
+  '男朋友你行啊！这构图有被惊艳到！',
+  '光线刚刚好，皮肤通透感绝了！',
+  '姿势好自然不做作，男朋友开窍了！',
+  '这张可以上男友相机名人堂了！',
+  '男朋友的手越来越稳了，这张清晰度满分！',
+  '背景和衣服颜色好搭！男朋友有在认真选景～',
+  '构图有想法，这张照片有故事感！',
+  '男朋友越拍越有感觉了，继续保持！',
 ]
 
 type FaceTipKey = keyof typeof FACE_TIPS
@@ -1670,6 +1687,127 @@ class VoiceCoach {
     const tips = [
       '试试定时拍摄！十秒足够摆好姿势，男朋友也可以入镜了～',
       '打开定时器！摆好姿势再拍，男朋友也能一起合照了～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 侧颜/角度提示 */
+  async speakAngleTip(): Promise<void> {
+    const tips = [
+      '侧脸超有感觉！让女朋友稍微侧一点试试～',
+      '换个角度拍！侧面比正脸更有故事感～',
+      '侧身回眸是最经典的姿势之一，试试看～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 多人合照提示 */
+  async speakGroupPhotoTip(count: number): Promise<void> {
+    const tips: Record<number, string[]> = {
+      2: ['两个人靠近一点！贴贴更上镜～', '情侣合照靠近一点，甜蜜感拉满～'],
+      3: ['三个人站整齐一点！大家往中间靠～', '三人合照别挤在两边，中间位置更上镜～'],
+      4: ['四个人站好！稍微错开一点位置～', '人多往后退一步！让大家都能入镜～'],
+    }
+    const pool = tips[count] || tips[2]
+    await this.speak(pool[Math.floor(Math.random() * pool.length)], true)
+  }
+
+  /** 镜子自拍提示 */
+  async speakMirrorSelfieTip(): Promise<void> {
+    const tips = [
+      '对着镜子拍可以消除男友手残视角！这个方法绝了～',
+      '用镜子自拍，让男朋友拿手机从背后拍，你看着镜子调整姿势～',
+      '浴室镜子光线超均匀！这个位置拍出来皮肤超好～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 大风天提示 */
+  async speakWindTip(): Promise<void> {
+    const tips = [
+      '有风！头发飘起来的时候按下快门，超有氛围～',
+      '风来了别动！让头发自然飘一下，这个瞬间抓拍绝了～',
+      '有风吹的时候最适合拍动态感，等风再吹一次赶紧拍～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 阴天提示 */
+  async speakCloudyTip(): Promise<void> {
+    const tips = [
+      '阴天光线超柔和，是拍照的好时候！皮肤看起来会超好～',
+      '云层就是天然柔光箱！阴天拍出来皮肤超细腻～',
+      '阴天拍照不用担心过曝，光线均匀柔和，随便拍都好看～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+  }
+
+  /** 雨天提示 */
+  async speakRainyTip(): Promise<void> {
+    const tips = [
+      '雨天的光线超柔和！找个窗户边，光影绝绝子～',
+      '雨天窗边拍照最有氛围感！水珠做前景超有感觉～',
+      '雨后的地面有倒影，找个水洼试试俯拍，超有意境～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+  }
+
+  /** 逆光拍摄提示 */
+  async speakBacklightTip(): Promise<void> {
+    const tips = [
+      '逆光超有感觉！转过身让光打在侧脸上，绝绝子～',
+      '背光拍摄剪影超浪漫！整个人都在发光的感觉～',
+      '逆光的时候让女朋友稍微侧身，光线勾勒轮廓超美～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 侧光拍摄提示 */
+  async speakSideLightTip(): Promise<void> {
+    const tips = [
+      '侧光超有立体感！脸稍微转一点让光打在侧脸上～',
+      '这种光线下侧颜最有感觉！让女朋友稍微转头～',
+      '侧光最能勾勒轮廓，试试让光打在脸的侧面～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 新手引导提示（第一次打开相机） */
+  async speakFirstTimeTip(): Promise<void> {
+    const tips = [
+      '第一次拍照呀～让男朋友打开相机，选个喜欢的姿势模板照着站～',
+      '先用姿势模板练习！屏幕上会出现半透明剪影，照着站就 OK～',
+      '拍照前先选个喜欢的姿势，让男朋友照着屏幕上的轮廓站～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 提醒男朋友对焦 */
+  async speakFocusTip(): Promise<void> {
+    const tips = [
+      '让男朋友点一下屏幕上你的脸，对焦会更准～',
+      '先点一下屏幕对焦在人脸上，出来的照片会更清晰～',
+      '点击屏幕上人脸的位置对焦，这样主体会更清晰～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 引导缩小背景 */
+  async speakTighterFrameTip(): Promise<void> {
+    const tips = [
+      '稍微拉近一点！背景太杂了，主体会更突出～',
+      '镜头再近一点点！主体大一点更上镜～',
+      '放大一点拍！特写比远景更有冲击力～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 引导拉开距离 */
+  async speakWiderFrameTip(): Promise<void> {
+    const tips = [
+      '稍微退后一点！让更多背景入镜，画面会更丰富～',
+      '拉远一点！这样背景和人物关系更好看～',
+      '退后一步！让更多环境入镜，构图更有层次～',
     ]
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
