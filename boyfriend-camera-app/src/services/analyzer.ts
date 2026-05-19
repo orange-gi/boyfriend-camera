@@ -1138,6 +1138,35 @@ const PRAISE_POOL: Record<string, string[]> = {
     '自然光用得刚刚好，这张色调好舒服～',
     '光和影的关系处理得超棒，男朋友有审美！',
   ],
+  // ========== Round 1 新增夸奖池 ==========
+  // 俯拍夸奖
+  high_angle_praise: [
+    '俯拍角度选得刚刚好！脸型显得超精致～',
+    '俯拍显瘦的秘密被男朋友发现了！',
+    '从上往下拍这角度绝了！下巴尖尖的超上镜～',
+    '俯拍把脸拍得小小的，男朋友你有研究过角度嘛～',
+  ],
+  // 仰拍夸奖
+  low_angle_praise: [
+    '仰拍大长腿效果出来了！男朋友蹲得好低好专业～',
+    '这个仰角绝了！腿看起来超长，男朋友你行啊！',
+    '仰拍让身材比例看起来超好，男朋友这机位选对了！',
+    '大长腿仰拍太绝了！男朋友你是偷偷练过吧～',
+  ],
+  // 多人合照夸奖
+  group_photo_praise: [
+    '闺蜜照拍得超有默契！大家的互动感绝了～',
+    '多人合照构图也很棒，有层次感！',
+    '合照里每个人都很好看，男朋友你真会拍！',
+    '闺蜜合影两张都超上镜，男朋友摄影在线！',
+  ],
+  // 怼脸特写夸奖
+  extreme_closeup_praise: [
+    '怼脸拍皮肤质感也太好了吧！这清晰度绝了～',
+    '特写里睫毛都数得清，男朋友这手稳得离谱！',
+    '怼脸拍也能这么好看，男朋友拍照技术在线！',
+    '近景特写太有感觉了！皮肤质感满分～',
+  ],
 }
 
 // 建议文案池
@@ -2221,6 +2250,39 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '海风吹起头发超灵动！等风来时按下快门～',
     '海边拍全身时让男朋友蹲低，超级显腿长～',
   ],
+  // ========== Round 1 新增：俯拍建议 ==========
+  high_angle_hint: [
+    '俯拍显脸小！但别拍成大饼脸，让男朋友稍微高一点俯拍就好～',
+    '俯拍角度选得好，尖下巴小脸马上出来！',
+    '俯拍的时候眼睛要往下看一点，不要翻白眼哦～',
+    '俯拍显脸小的秘密：男朋友站高一点，你稍微抬头看镜头～',
+    '从上往下拍超显瘦！男朋友稍微举高手机就好～',
+  ],
+  // ========== Round 1 新增：仰拍建议 ==========
+  low_angle_hint: [
+    '仰拍显腿长！让男朋友蹲低仰拍，大长腿马上出来～',
+    '仰拍的时候要抬头看镜头，下巴会更尖哦～',
+    '仰角选得好，腿长一米八不是梦！',
+    '仰拍的时候脖子会显得更长，肩膀放松更优雅～',
+    '男朋友蹲低一点仰拍！下巴尖腿长，一箭双雕～',
+  ],
+  // ========== Round 1 新增：多人合照建议 ==========
+  group_photo_hint: [
+    '多人合照要让大家都入镜，往后退一步大家都能拍到～',
+    '合照时站在中间的人最显脸小，两边的人往后站一点～',
+    '多人拍照要选好站位，别让一个人被挤到边角～',
+    '闺蜜照最重要的是互动！靠近一点，做同样的表情更可爱～',
+    '合照时视线方向要留白，别把画面撑太满～',
+    '多人拍照找个稳定光源，大家的脸都要亮起来～',
+  ],
+  // ========== Round 1 新增：怼脸特写建议 ==========
+  extreme_closeup_hint: [
+    '怼脸拍时表情要自然！稍微放松，眉毛舒展开更好看～',
+    '怼脸特写眼睛要有神！稍微眨眼让眼睛湿润有光～',
+    '近拍时脸上有任何小细节都会被放大，先检查一下有没有眼屎或头发乱～',
+    '怼脸自拍光线要均匀！找正面柔和的光源最安全～',
+    '特写的时候可以微微嘟嘴，下巴会显得更尖更上镜～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -2384,6 +2446,12 @@ export async function analyzePhoto(
   // clamp 到 0-100 范围，防止边界情况下越界
   const rawTotal = compositionScore + exposureScore + stabilityScore + levelScore
   const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal)))
+
+  // ========== Round 1 新增角度专属夸奖触发 ==========
+  if (facePosition && facePosition.y < 0.35 && compositionScore >= 32 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.high_angle_praise))
+  if (facePosition && facePosition.y > 0.65 && compositionScore >= 32 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.low_angle_praise))
+  if (faceCount >= 3 && compositionScore >= 30 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.group_photo_praise))
+  if (facePosition && facePosition.area > 0.3 && compositionScore >= 32 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.extreme_closeup_praise))
 
   // 总分优秀时追加额外夸奖
   if (totalScore >= 90) praise.push(pickRandom(PRAISE_POOL.total_great))
@@ -3067,6 +3135,24 @@ export async function analyzePhoto(
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
   const uniqueSuggestions = [...new Set(suggestions)]
+  // ========== Round 1 新增：角度专属建议触发 ==========
+  // 俯拍（人脸在画面上半部分）
+  if (facePosition && facePosition.y < 0.35 && totalScore < 85 && faceCount === 1) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.high_angle_hint))
+  }
+  // 仰拍（人脸在画面下半部分）
+  if (facePosition && facePosition.y > 0.65 && totalScore < 85 && faceCount === 1) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.low_angle_hint))
+  }
+  // 多人合照（3人以上）
+  if (faceCount >= 3 && totalScore < 80) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_hint))
+  }
+  // 怼脸特写（人脸面积占比大于 0.3）
+  if (facePosition && facePosition.area > 0.3 && totalScore < 85 && faceCount === 1) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.extreme_closeup_hint))
+  }
+
   const uniquePraise = [...new Set(praise)]
 
   return {
