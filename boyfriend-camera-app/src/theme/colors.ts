@@ -28,12 +28,12 @@ export function scoreLabel(score: number): string {
   return '💪 加油'
 }
 
-/** 分类色板 */
+/** 分类色板（统一使用此处定义，各页面不再重复定义） */
 export const CATEGORY_COLORS: Record<string, string> = {
-  '室内日常': '#FF9F43',
+  '室内日常': '#FF6B6B',
   '室内场景': '#FF9F43',
   '室内人像': '#FF9F43',
-  '户外风景': '#4ECDC4',
+  '户外风景': '#4CAF50',
   '餐厅美食': '#FFB347',
   '特殊风格': '#A29BFE',
   '情侣合照': '#FD79A8',

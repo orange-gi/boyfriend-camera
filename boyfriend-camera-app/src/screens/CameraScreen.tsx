@@ -31,26 +31,13 @@ import { useTemplates } from '../hooks/useTemplates'
 import { useStability } from '../hooks/useStability'
 import { useSceneRecommendation } from '../hooks/useSceneRecommendation'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
-import { COLORS } from '../theme/colors'
+import { COLORS, CATEGORY_COLORS } from '../theme/colors'
 
 type CompositionMode = 'grid' | 'golden' | 'triangle'
 
 const { width: SCREEN_W } = Dimensions.get('window')
 const FLASH_MODES: Array<'off' | 'on' | 'auto'> = ['off', 'on', 'auto']
 const FLASH_ICONS: Record<string, string> = { off: '📷', on: '⚡', auto: '🔄' }
-
-const CATEGORY_COLORS: Record<string, string> = {
-  '室内日常': '#FF6B6B',
-  '室内场景': '#FF9F43',
-  '室内人像': '#FF9F43',
-  '户外风景': '#4ECDC4',
-  '餐厅美食': '#FFB347',
-  '特殊风格': '#A29BFE',
-  '情侣合照': '#FD79A8',
-  '城市街拍': '#00BCD4',
-  '自拍技巧': '#FF6B9D',
-  '构图技巧': '#6C5CE7',
-}
 
 const RECENT_KEY = 'recent_templates'
 const FAVORITE_KEY = 'favorite_templates'

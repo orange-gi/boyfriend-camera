@@ -4,7 +4,7 @@
  */
 import React from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
-import { COLORS } from '../../theme/colors'
+import { COLORS, CATEGORY_COLORS } from '../../theme/colors'
 import type { PoseTemplate } from '../camera/PoseTemplateOverlay'
 
 interface Props {
@@ -18,16 +18,6 @@ const CARD_W_SM = 100
 const CARD_H_SM = 135
 const CARD_W_MD = 112
 const CARD_H_MD = 155
-
-/** 分类标签颜色映射 */
-const CATEGORY_COLORS: Record<string, string> = {
-  '室内日常': '#FF8C69',
-  '户外风景': '#4CAF50',
-  '餐厅美食': '#FF7043',
-  '特殊风格': '#9C27B0',
-  '情侣合照': '#E91E63',
-  '室内场景': '#FF8C69',
-}
 
 export default function TemplateCard({ template, onPress, size = 'md', selected = false }: Props) {
   const w = size === 'sm' ? CARD_W_SM : CARD_W_MD
