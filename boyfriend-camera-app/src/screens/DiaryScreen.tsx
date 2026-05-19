@@ -216,10 +216,10 @@ export default function DiaryScreen() {
     if (totalCount < 3) return { text: '继续加油！', color: COLORS.textMuted, gradient: [COLORS.skeletonHighlight, COLORS.skeletonBase] }
     const recent5 = records.slice(0, Math.min(5, totalCount))
     const avg = recent5.reduce((s, r) => s + r.score, 0) / recent5.length
-    if (avg >= 80) return { text: '📸 男友进化中！', color: COLORS.success, gradient: [COLORS.successLight, '#C8E6C9'] }
-    if (avg >= 65) return { text: '📈 稳步提升中', color: COLORS.success, gradient: [COLORS.gradientBlue, '#BBDEFB'] }
-    if (avg >= 50) return { text: '💪 还需要多练习', color: COLORS.warning, gradient: [COLORS.warningLight, '#FFECB3'] }
-    return { text: '😅 革命尚未成功', color: COLORS.primary, gradient: [COLORS.dangerLight, '#FFE0E0'] }
+    if (avg >= 80) return { text: '📸 男友进化中！', color: COLORS.success, gradient: [COLORS.successLight, COLORS.trendSuccessLight] }
+    if (avg >= 65) return { text: '📈 稳步提升中', color: COLORS.success, gradient: [COLORS.gradientBlue, COLORS.trendInfoLight] }
+    if (avg >= 50) return { text: '💪 还需要多练习', color: COLORS.warning, gradient: [COLORS.warningLight, COLORS.trendWarningLight] }
+    return { text: '😅 革命尚未成功', color: COLORS.primary, gradient: [COLORS.dangerLight, COLORS.trendDangerLight] }
   }, [totalCount, records])
 
   // 进度动画 ref
@@ -488,9 +488,9 @@ export default function DiaryScreen() {
                   <AnimatedProgressNum value={totalProgress} style={[styles.statCardNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.primary }]} />
                   <Text style={styles.statCardLabel}>总进步</Text>
                 </View>
-                <View style={[styles.statCard, { backgroundColor: '#FFE06620' }]}>
+                <View style={[styles.statCard, { backgroundColor: COLORS.statYellow + '20' }]}>
                   <Text style={styles.statCardEmoji}>🏆</Text>
-                  <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: '#D4A200' }]} suffix="分" />
+                  <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: COLORS.statYellowText }]} suffix="分" />
                   <Text style={styles.statCardLabel}>最高分</Text>
                 </View>
               </View>
@@ -526,7 +526,7 @@ export default function DiaryScreen() {
                       : { backgroundColor: COLORS.primaryLight },
                   ]}>
                     <Text style={styles.weeklyCardIcon}>{weeklyStats.streak >= 7 ? '🔥' : '📅'}</Text>
-                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.streak >= 7 ? '#E6A800' : COLORS.primary }]}>
+                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.streak >= 7 ? COLORS.statAmber : COLORS.primary }]}>
                       {weeklyStats.streak}
                     </Text>
                     <Text style={styles.weeklyCardLabel}>连续天数</Text>

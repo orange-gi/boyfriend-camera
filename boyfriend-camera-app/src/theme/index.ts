@@ -54,6 +54,17 @@ export const colors = {
   skeletonBase: '#EBEBEB',
   skeletonHighlight: '#F5F5F5',
 
+  // 趋势卡片渐变色（扩展）
+  trendSuccessLight: '#C8E6C9',
+  trendInfoLight: '#BBDEFB',
+  trendWarningLight: '#FFECB3',
+  trendDangerLight: '#FFE0E0',
+
+  // 统计卡专用色
+  statYellow: '#FFE066',
+  statYellowText: '#D4A200',
+  statAmber: '#E6A800',
+
   // 滤镜色（14种）
   filterWarm: '#FF8C00',
   filterCool: '#4A90D9',
