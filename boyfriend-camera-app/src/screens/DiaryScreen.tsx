@@ -469,31 +469,37 @@ export default function DiaryScreen() {
 
             {/* 统计卡片 */}
             <View style={styles.statsCard}>
-              <View style={styles.statsRow}>
-                <View style={styles.statItem}>
-                  <AnimatedCountUp value={totalCount} style={styles.statNum} color={COLORS.textPrimary} />
-                  <Text style={styles.statLabel}>拍照次数</Text>
+              {/* 顶部标题 */}
+              <Text style={styles.statsCardTitle}>📊 综合数据</Text>
+              {/* 4 格统计卡片网格 */}
+              <View style={styles.statsGrid}>
+                <View style={[styles.statCard, { backgroundColor: COLORS.primary + '10' }]}>
+                  <Text style={styles.statCardEmoji}>📸</Text>
+                  <AnimatedCountUp value={totalCount} style={[styles.statCardNum, { color: COLORS.primary }]} />
+                  <Text style={styles.statCardLabel}>拍照次数</Text>
                 </View>
-                <View style={styles.statDivider} />
-                <View style={styles.statItem}>
-                  <AnimatedCountUp value={avgScore} style={styles.statNum} color={COLORS.textPrimary} suffix="分" />
-                  <Text style={styles.statLabel}>平均分</Text>
+                <View style={[styles.statCard, { backgroundColor: COLORS.warning + '12' }]}>
+                  <Text style={styles.statCardEmoji}>⭐</Text>
+                  <AnimatedCountUp value={avgScore} style={[styles.statCardNum, { color: COLORS.warning }]} suffix="分" />
+                  <Text style={styles.statCardLabel}>平均分</Text>
                 </View>
-                <View style={styles.statDivider} />
-                <View style={styles.statItem}>
-                  <AnimatedProgressNum value={totalProgress} style={styles.statNum} />
-                  <Text style={styles.statLabel}>总进步</Text>
+                <View style={[styles.statCard, { backgroundColor: totalProgress >= 0 ? COLORS.success + '10' : COLORS.primary + '10' }]}>
+                  <Text style={styles.statCardEmoji}>{totalProgress >= 0 ? '📈' : '📉'}</Text>
+                  <AnimatedProgressNum value={totalProgress} style={[styles.statCardNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.primary }]} />
+                  <Text style={styles.statCardLabel}>总进步</Text>
                 </View>
-                <View style={styles.statDivider} />
-                <View style={styles.statItem}>
-                  <AnimatedCountUp value={maxScore} style={styles.statNum} color={COLORS.warning} suffix="分" />
-                  <Text style={styles.statLabel}>最高分</Text>
+                <View style={[styles.statCard, { backgroundColor: '#FFE06620' }]}>
+                  <Text style={styles.statCardEmoji}>🏆</Text>
+                  <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: '#D4A200' }]} suffix="分" />
+                  <Text style={styles.statCardLabel}>最高分</Text>
                 </View>
               </View>
 
               {/* 周统计卡片网格 */}
               {totalCount > 0 && (
-                <View style={styles.weeklyGrid}>
+                <>
+                  <Text style={styles.statsCardTitle}>📅 本周数据</Text>
+                  <View style={styles.weeklyGrid}>
                   {/* 本周平均分 */}
                   <View style={[styles.weeklyCard, { backgroundColor: COLORS.primary + '12' }]}>
                     <Text style={styles.weeklyCardIcon}>📊</Text>
@@ -535,14 +541,22 @@ export default function DiaryScreen() {
                     <Text style={styles.weeklyCardLabel}>最近得分</Text>
                   </View>
                 </View>
+                </>
               )}
 
-              {/* 渐变色趋势横幅 */}
+              {/* 渐变色趋势横幅 — 动态文案 */}
               <View style={[styles.trendBanner, { backgroundColor: trendInfo.gradient[0] }]}>
                 <View style={[styles.trendBannerInner, { backgroundColor: trendInfo.gradient[1] }]}>
-                  <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
-                    {trendInfo.text}
-                  </Text>
+                  {/* 左侧：图标 + 文案 */}
+                  <View style={styles.trendBannerLeft}>
+                    <Text style={styles.trendBannerIcon}>
+                      {avgScore >= 80 ? '🚀' : avgScore >= 65 ? '📈' : avgScore >= 50 ? '💪' : '🌱'}
+                    </Text>
+                    <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
+                      {trendInfo.text}
+                    </Text>
+                  </View>
+                  {/* 右侧：分数变化 */}
                   {totalProgress !== 0 && (
                     <View style={styles.trendBannerRight}>
                       <Text style={[styles.trendBannerNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.primary }]}>
@@ -777,7 +791,7 @@ export default function DiaryScreen() {
 
 /** 数字递增动画组件 */
 function AnimatedCountUp({ value, style, color, suffix = '' }: {
-  value: number; style: import('react-native').TextStyle; color?: string; suffix?: string
+  value: number; style: import('react-native').StyleProp<import('react-native').TextStyle>; color?: string; suffix?: string
 }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
@@ -801,7 +815,7 @@ function AnimatedCountUp({ value, style, color, suffix = '' }: {
 }
 
 /** 进步数字动画（带箭头+颜色） */
-function AnimatedProgressNum({ value, style }: { value: number; style: import('react-native').TextStyle }) {
+function AnimatedProgressNum({ value, style }: { value: number; style: import('react-native').StyleProp<import('react-native').TextStyle> }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
 
@@ -890,6 +904,40 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     overflow: 'hidden',
+  },
+  statsCardTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: COLORS.textSecondary,
+    marginBottom: 14,
+  },
+  // 4 格统计卡片网格
+  statsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  statCard: {
+    flex: 1,
+    minWidth: '45%',
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  statCardEmoji: {
+    fontSize: 18,
+    marginBottom: 4,
+  },
+  statCardNum: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  statCardLabel: {
+    fontSize: 11,
+    color: COLORS.textMuted,
+    marginTop: 2,
   },
   statsRow: {
     flexDirection: 'row',
@@ -1213,6 +1261,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     paddingHorizontal: 16,
+  },
+  trendBannerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flex: 1,
+  },
+  trendBannerIcon: {
+    fontSize: 20,
   },
   trendBannerText: {
     fontSize: 15,
