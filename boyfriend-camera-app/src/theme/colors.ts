@@ -1,61 +1,22 @@
 /**
  * 主题色 - 统一管理全 app 颜色
+ * @deprecated 请使用 src/theme/index.ts 中的设计系统 tokens
+ * 新代码请从 'src/theme' 导入 colors/typography/spacing/shadows 等
  */
-export const COLORS = {
-  // 主色
-  primary: '#FF6B6B',
-  primaryLight: 'rgba(255,107,107,0.15)',
-  primaryDark: '#E85555',
+import * as tokens from './index'
 
-  // 背景
-  bg: '#FAFAFA',
-  bgCard: '#FFFFFF',
-  bgMask: 'rgba(0,0,0,0.5)',
-
-  // 文字
-  textPrimary: '#333333',
-  textSecondary: '#666666',
-  textMuted: '#999999',
-  textOnPrimary: '#FFFFFF',
-
-  // 状态
-  success: '#4CAF50',
-  warning: '#FFB347',
-  danger: '#FF6B6B',
-
-  // 评分色
-  scoreGreat: '#4CAF50',   // >= 80
-  scoreOk: '#FFB347',      // 60-79
-  scoreBad: '#FF6B6B',     // < 60
-
-  // 分割
-  divider: '#EEEEEE',
-  // Skeleton 骨架屏
-  skeletonBase: '#EBEBEB',
-  skeletonHighlight: '#F5F5F5',
-
-  // 滤镜
-  filterWarm: '#FF8C00',
-  filterCool: '#4A90D9',
-  filterVivid: '#FF6B6B',
-  filterSoft: '#FFB6C1',
-  filterBw: '#888888',
-  filterGolden: '#E8A838',
-  filterCinematic: '#5B7FA6',
-  filterPortrait: '#E8B4C8',
-  filterFood: '#FF9A3C',
-  filterLandscape: '#5BBF8A',
-  filterNight: '#7B68EE',
-  filterSunset: '#FF6B6B',
-  filterFloral: '#FF69B4',
-  filterSnow: '#B0E0FF',
-} as const
+export const COLORS = tokens.colors
+export const typography = tokens.typography
+export const spacing = tokens.spacing
+export const borderRadius = tokens.borderRadius
+export const shadows = tokens.shadows
+export const componentTokens = tokens.componentTokens
 
 /** 根据分数返回对应颜色 */
 export function scoreColor(score: number): string {
-  if (score >= 80) return COLORS.scoreGreat
-  if (score >= 60) return COLORS.scoreOk
-  return COLORS.scoreBad
+  if (score >= 80) return tokens.colors.scoreGreat
+  if (score >= 60) return tokens.colors.scoreOk
+  return tokens.colors.scoreBad
 }
 
 /** 根据分数返回等级文案 */
@@ -65,4 +26,18 @@ export function scoreLabel(score: number): string {
   if (score >= 70) return '👍 良好'
   if (score >= 60) return '😊 及格'
   return '💪 加油'
+}
+
+/** 分类色板 */
+export const CATEGORY_COLORS: Record<string, string> = {
+  '室内日常': '#FF9F43',
+  '室内场景': '#FF9F43',
+  '室内人像': '#FF9F43',
+  '户外风景': '#4ECDC4',
+  '餐厅美食': '#FFB347',
+  '特殊风格': '#A29BFE',
+  '情侣合照': '#FD79A8',
+  '城市街拍': '#00BCD4',
+  '自拍技巧': '#FF6B9D',
+  '构图技巧': '#6C5CE7',
 }
