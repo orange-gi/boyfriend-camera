@@ -346,6 +346,13 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
           }
         }
       }, 1200)
+
+      // 处理完成 TTS 提示
+      setTimeout(async () => {
+        try {
+          await voiceCoach.speakProcessingDone()
+        } catch { /* ignore TTS errors */ }
+      }, 1800)
     } catch (e: unknown) {
       if (!mountedRef.current) return
       if (__DEV__) logger.debug('ResultScreen', '处理失败（用户友好提示已展示）:', e)
