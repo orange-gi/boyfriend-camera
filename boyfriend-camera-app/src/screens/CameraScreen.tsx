@@ -125,6 +125,25 @@ export default function CameraScreen() {
   const focusAnim = useRef(new Animated.Value(0)).current
   // 姿势引导条滚动
   const marqueeScrollX = useRef(new Animated.Value(0)).current
+  // 取景框提示文字淡入
+  const hintOpacity = useRef(new Animated.Value(0)).current
+
+  // 取景框提示文字自动淡入
+  useEffect(() => {
+    Animated.sequence([
+      Animated.timing(hintOpacity, { toValue: 1, duration: 800, delay: 1200, useNativeDriver: true }),
+      Animated.timing(hintOpacity, { toValue: 0, duration: 600, delay: 3500, useNativeDriver: true }),
+    ]).start(({ finished }) => {
+      if (finished) {
+        // 循环
+        hintOpacity.setValue(0)
+        Animated.sequence([
+          Animated.timing(hintOpacity, { toValue: 1, duration: 800, delay: 1200, useNativeDriver: true }),
+          Animated.timing(hintOpacity, { toValue: 0, duration: 600, delay: 3500, useNativeDriver: true }),
+        ]).start()
+      }
+    })
+  }, [])
 
   // captureRetryRef 指向重试函数；doCapture 读取这些 ref 拿到最新状态
   const flashRef = useRef(flash)
@@ -420,11 +439,20 @@ export default function CameraScreen() {
         onTipPress={handleVoiceTipConfirm}
       />
 
-      {/* 顶部悬浮姿势引导卡 */}
+      {/* 取景框提示文字 */}
+      {!activeTemplate && (
+        <Animated.View style={[styles.viewfinderHint, { opacity: hintOpacity }]}>
+          <Text style={styles.viewfinderHintText}>💡 试试点击下方「姿势」选一个模板</Text>
+        </Animated.View>
+      )}
+
+      {/* 顶部悬浮姿势引导卡 — 毛玻璃风格 */}
       {activeTemplate && (
-        <View style={styles.poseTipCard}>
+        <View style={styles.poseTipCardFrosted}>
           {isAutoRecommended && autoRecommended?.id === activeTemplate.id && (
-            <Text style={styles.autoRecommendBadge}>✨ 智能推荐</Text>
+            <View style={styles.autoRecommendBadgeRow}>
+              <Text style={styles.autoRecommendBadge}>✨ 智能推荐</Text>
+            </View>
           )}
           <Text style={styles.poseTipIcon}>💡</Text>
           <Text style={styles.poseTipText} numberOfLines={1}>
@@ -715,6 +743,12 @@ export default function CameraScreen() {
                       delayLongPress={500}
                       activeOpacity={0.72}
                     >
+                      {/* 选中态角标 */}
+                      {isActive && (
+                        <View style={styles.templateSelectedBadge}>
+                          <Text style={styles.templateSelectedBadgeText}>✓</Text>
+                        </View>
+                      )}
                       <Image
                         source={{ uri: item.thumbnail }}
                         style={styles.templateThumb}
@@ -929,10 +963,26 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   // 顶部悬浮姿势引导卡
-  autoRecommendBadge: {
+  viewfinderHint: {
     position: 'absolute',
-    top: -10,
-    left: 12,
+    bottom: 130,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    zIndex: 15,
+  },
+  viewfinderHintText: {
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '500',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    overflow: 'hidden',
+    textAlign: 'center',
+  },
+  autoRecommendBadge: {
     backgroundColor: COLORS.primary,
     color: '#fff',
     fontSize: 10,
@@ -941,6 +991,34 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 8,
     overflow: 'hidden',
+  },
+  autoRecommendBadgeRow: {
+    position: 'absolute',
+    top: -10,
+    left: 12,
+    zIndex: 1,
+  },
+  poseTipCardFrosted: {
+    position: 'absolute',
+    top: 108,
+    left: 16,
+    right: 80,
+    backgroundColor: 'rgba(255,255,255,0.72)',
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 20,
+    // 毛玻璃 + 边框光晕
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.6)',
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 12,
+    elevation: 6,
+    gap: 10,
   },
   poseTipCard: {
     position: 'absolute',
@@ -1239,6 +1317,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 3,
+  },
+  templateSelectedBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+    shadowColor: COLORS.primary,
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  templateSelectedBadgeText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    lineHeight: 16,
   },
   templateThumb: {
     width: SCREEN_W / 2 - 58,
