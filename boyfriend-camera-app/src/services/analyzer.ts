@@ -1663,7 +1663,7 @@ export async function analyzePhoto(
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
     suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
-  } else if (brightness > 220) {
+  } else if (safeBrightness > 220) {
     exposureScore -= 15
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
@@ -1680,10 +1680,6 @@ export async function analyzePhoto(
   let stabilityScore = 20
   if (safeSharpness < 50) {
     stabilityScore -= 15
-    problems.push('stability')
-    suggestions.push(pickRandom(SUGGESTION_POOL.stability))
-  } else if (sharpness < 100) {
-    stabilityScore -= 5
     problems.push('stability')
     suggestions.push(pickRandom(SUGGESTION_POOL.stability))
   } else if (safeSharpness < 100) {
@@ -1793,15 +1789,15 @@ export async function analyzePhoto(
 
   // 基于亮度的场景推断夸奖
   // 明亮户外场景（户外阳光充足）
-  if (brightness > 180 && facePosition && compositionScore >= 35 && totalScore >= 75) {
+  if (safeBrightness > 180 && facePosition && compositionScore >= 35 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.outdoor_good))
   }
   // 室内柔和光场景（亮度适中，非直射阳光）
-  if (brightness >= 80 && brightness <= 160 && exposureScore >= 25 && totalScore >= 78) {
+  if (safeBrightness >= 80 && safeBrightness <= 160 && exposureScore >= 25 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.indoor_good))
   }
   // 逆光/戏剧光场景（高对比度，背景亮主体暗或有轮廓光）
-  if (brightness > 200 && facePosition && compositionScore >= 35 && totalScore >= 78) {
+  if (safeBrightness > 200 && facePosition && compositionScore >= 35 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.dramatic_light))
   }
 
@@ -1814,27 +1810,27 @@ export async function analyzePhoto(
   }
 
   // 夜景专属夸奖
-  if (brightness < 80 && brightness >= 30 && totalScore >= 78) praise.push(pickRandom(PRAISE_POOL.night_great))
+  if (safeBrightness < 80 && safeBrightness >= 30 && totalScore >= 78) praise.push(pickRandom(PRAISE_POOL.night_great))
 
   // 人像虚化夸奖
   if (totalScore >= 80 && facePosition && (facePosition.area ?? 0) > 0.15 && (facePosition.area ?? 0) < 0.35) praise.push(pickRandom(PRAISE_POOL.bokeh_good))
 
   // 滑雪场景夸奖（高亮度户外 + 高对比 = 雪景）
-  if (brightness > 200 && sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.ski_resort_good))
-  // 海边栈道夸奖（高亮度户外 + 高sharpness = 清晰海景）
-  if (brightness > 160 && sceneType === 'outdoor' && sharpness > 140 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.boardwalk_good))
-  // 家居绿植夸奖（柔和亮度室内 + 中等sharpness）
-  if (brightness >= 100 && brightness <= 180 && sceneType === 'indoor' && sharpness > 100 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.home_plants_good))
+  if (safeBrightness > 200 && sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.ski_resort_good))
+  // 海边栈道夸奖（高亮度户外 + 高safeSharpness = 清晰海景）
+  if (safeBrightness > 160 && sceneType === 'outdoor' && safeSharpness > 140 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.boardwalk_good))
+  // 家居绿植夸奖（柔和亮度室内 + 中等safeSharpness）
+  if (safeBrightness >= 100 && safeBrightness <= 180 && sceneType === 'indoor' && safeSharpness > 100 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.home_plants_good))
   // 游乐园飞椅夸奖（户外 + 动感 = 活力场景）
-  if (sceneType === 'outdoor' && sharpness > 120 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.amusement_ride_good))
+  if (sceneType === 'outdoor' && safeSharpness > 120 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.amusement_ride_good))
   // 礁石海浪夸奖（高亮度户外 + 特殊环境 = 礁石海岸）
-  if (brightness > 150 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.rocky_beach_good))
+  if (safeBrightness > 150 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.rocky_beach_good))
 
   // 细节处理夸奖（清晰度极高）
-  if (sharpness > 150 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.detail_great))
+  if (safeSharpness > 150 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.detail_great))
 
-  // 超清晰夸奖（sharpness > 200）
-  if (sharpness > 200 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.ultra_sharp))
+  // 超清晰夸奖（safeSharpness > 200）
+  if (safeSharpness > 200 && totalScore >= 70) praise.push(pickRandom(PRAISE_POOL.ultra_sharp))
 
   // 进步突破时专属夸奖
   if (lastScore !== undefined && totalScore - lastScore >= 20) praise.push(pickRandom(PRAISE_POOL.breakthrough))
@@ -1843,18 +1839,18 @@ export async function analyzePhoto(
   if (isFirstPhoto && totalScore >= 80) praise.push(pickRandom(PRAISE_POOL.first_good))
 
   // 低光环境表现好（亮度偏低但总分不差）
-  if (brightness < 80 && brightness >= 40 && totalScore >= 75) {
+  if (safeBrightness < 80 && safeBrightness >= 40 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.low_light_good))
   }
 
   // 极暗但稳定 = 星空夜景或天台夜景
-  if (brightness < 40 && stabilityScore >= 18 && totalScore >= 78) {
+  if (safeBrightness < 40 && stabilityScore >= 18 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.starry_night_good))
     praise.push(pickRandom(PRAISE_POOL.night_great))
   }
 
   // 高亮度户外 + 构图优秀 = 泳池/天台等明亮场景
-  if (brightness > 180 && compositionScore >= 35 && facePosition && totalScore >= 78) {
+  if (safeBrightness > 180 && compositionScore >= 35 && facePosition && totalScore >= 78) {
     // 仅在户外场景标记
     if (sceneType === 'outdoor') {
       praise.push(pickRandom(PRAISE_POOL.pool_side_good))
@@ -1957,7 +1953,7 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.expression_composition_master))
   }
   // 夜景+稳定双优
-  if (brightness < 80 && stabilityScore >= 18 && totalScore >= 78) {
+  if (safeBrightness < 80 && stabilityScore >= 18 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.night_stability_master))
   }
   // 人像+虚化双优
@@ -1975,12 +1971,12 @@ export async function analyzePhoto(
   }
 
   // 抓拍夸奖（动态场景+人脸存在）
-  if (faceCount > 0 && (brightness > 180 || brightness < 80) && totalScore >= 72) {
+  if (faceCount > 0 && (safeBrightness > 180 || safeBrightness < 80) && totalScore >= 72) {
     praise.push(pickRandom(PRAISE_POOL.candid_great))
   }
 
   // 氛围感夸奖（总分高+曝光适中）
-  if (totalScore >= 80 && brightness >= 60 && brightness <= 200 && praise.length >= 1) {
+  if (totalScore >= 80 && safeBrightness >= 60 && safeBrightness <= 200 && praise.length >= 1) {
     praise.push(pickRandom(PRAISE_POOL.vibe_perfect))
   }
 
@@ -2003,7 +1999,7 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.color_tone_good))
   }
   // 细节清晰夸奖（清晰度高+总分较高）
-  if (sharpness > 150 && totalScore >= 75) {
+  if (safeSharpness > 150 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.detail_good))
   }
   // 氛围感夸奖（多维度优秀+总分较高）
@@ -2011,11 +2007,11 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.mood_good))
   }
   // 眼神光夸奖（人脸存在+亮度适中）
-  if (faceCount > 0 && brightness >= 80 && brightness <= 180 && totalScore >= 75) {
+  if (faceCount > 0 && safeBrightness >= 80 && safeBrightness <= 180 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.eye_light_good))
   }
   // 逆光剪影夸奖（高亮度+户外场景）
-  if (brightness > 200 && sceneType === 'outdoor' && totalScore >= 72) {
+  if (safeBrightness > 200 && sceneType === 'outdoor' && totalScore >= 72) {
     praise.push(pickRandom(PRAISE_POOL.silhouette_good))
   }
 
@@ -2025,17 +2021,17 @@ export async function analyzePhoto(
   }
 
   // 商场橱窗场景夸奖
-  if (totalScore >= 75 && sceneType === 'indoor' && brightness >= 120 && brightness <= 220) {
+  if (totalScore >= 75 && sceneType === 'indoor' && safeBrightness >= 120 && safeBrightness <= 220) {
     praise.push(pickRandom(PRAISE_POOL.mall_display_good))
   }
 
   // 场景专属建议（从未触发的建议池类别）
   // 雨天场景：亮度偏低且室内 → 提醒雨天光线柔和
-  if (brightness < 100 && sceneType === 'indoor' && totalScore >= 60) {
+  if (safeBrightness < 100 && sceneType === 'indoor' && totalScore >= 60) {
     suggestions.push(pickRandom(SUGGESTION_POOL.rainy))
   }
   // 运动/抓拍场景：清晰度偏低且人脸面积适中 → 建议连拍
-  if (sharpness < 100 && sharpness >= 50 && facePosition && facePosition.area >= 0.1 && facePosition.area <= 0.3) {
+  if (safeSharpness < 100 && safeSharpness >= 50 && facePosition && facePosition.area >= 0.1 && facePosition.area <= 0.3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.motion))
   }
   // 人像虚化场景：户外且背景实（构图分数中等）→ 建议人像模式
@@ -2044,12 +2040,12 @@ export async function analyzePhoto(
   }
 
   // 表情僵硬建议
-  if (brightness >= 80 && brightness <= 180 && faceCount > 0 && stabilityScore >= 15 && compositionScore >= 30 && totalScore >= 60 && totalScore < 75) {
+  if (safeBrightness >= 80 && safeBrightness <= 180 && faceCount > 0 && stabilityScore >= 15 && compositionScore >= 30 && totalScore >= 60 && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.stiff_expression))
   }
 
   // 火锅/美食场景夸奖（亮度高+室内+构图好）
-  if (brightness >= 140 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 75) {
+  if (safeBrightness >= 140 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.hotpot_good))
   }
 
@@ -2064,38 +2060,38 @@ export async function analyzePhoto(
   }
 
   // 户外高光环境夸奖（户外+高亮度+构图好）
-  if (sceneType === 'outdoor' && brightness >= 160 && compositionScore >= 35 && totalScore >= 75) {
+  if (sceneType === 'outdoor' && safeBrightness >= 160 && compositionScore >= 35 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.outdoor_good))
   }
 
 
   // 晨光夸奖（亮度适中偏高+户外+构图好）
-  if (brightness >= 140 && brightness <= 220 && compositionScore >= 35 && totalScore >= 75) {
+  if (safeBrightness >= 140 && safeBrightness <= 220 && compositionScore >= 35 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.morning_light_good))
   }
 
   // 雪景夸奖（户外+高亮度+构图好+总分高）
-  if (brightness >= 180 && compositionScore >= 35 && totalScore >= 78) {
+  if (safeBrightness >= 180 && compositionScore >= 35 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.snow_scene_good))
   }
 
   // 咖啡馆场景夸奖（室内+暖光+构图好）
-  if (brightness >= 100 && brightness <= 180 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 75) {
+  if (safeBrightness >= 100 && safeBrightness <= 180 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.cafe_scene_good || PRAISE_POOL.indoor_good))
   }
 
   // 烘焙坊/面包店场景夸奖（室内+暖黄光+总分高）
-  if (brightness >= 120 && brightness <= 200 && sceneType === 'indoor' && totalScore >= 72) {
+  if (safeBrightness >= 120 && safeBrightness <= 200 && sceneType === 'indoor' && totalScore >= 72) {
     praise.push(pickRandom(PRAISE_POOL.bakery_good || PRAISE_POOL.indoor_good))
   }
 
   // 夜市/小吃街场景夸奖（低亮度+高饱和）
-  if (brightness >= 40 && brightness < 100 && totalScore >= 70 && sceneType === 'outdoor') {
+  if (safeBrightness >= 40 && safeBrightness < 100 && totalScore >= 70 && sceneType === 'outdoor') {
     praise.push(pickRandom(PRAISE_POOL.night_market_good || PRAISE_POOL.city_night_good))
   }
 
   // 都市夜景夸奖（低亮度+构图优秀）
-  if (brightness >= 30 && brightness < 100 && compositionScore >= 35 && totalScore >= 78) {
+  if (safeBrightness >= 30 && safeBrightness < 100 && compositionScore >= 35 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.city_night_good))
   }
 
@@ -2116,11 +2112,11 @@ export async function analyzePhoto(
     suggestions.push('打开相机网格线，稳住手，多拍几张～')
   }
   // 金色时刻夸奖（黄昏阳光：亮度 150-210 且户外）
-  if (brightness >= 150 && brightness <= 210 && sceneType === 'outdoor' && compositionScore >= 35) {
+  if (safeBrightness >= 150 && safeBrightness <= 210 && sceneType === 'outdoor' && compositionScore >= 35) {
     praise.push(pickRandom(PRAISE_POOL.golden_hour_good))
   }
   // 纪念日场景夸奖（室内+暖光+构图好+高分）
-  if (brightness >= 100 && brightness <= 200 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 80) {
+  if (safeBrightness >= 100 && safeBrightness <= 200 && sceneType === 'indoor' && compositionScore >= 35 && totalScore >= 80) {
     praise.push(pickRandom(PRAISE_POOL.celebration_day_good))
   }
   // 周末约会夸奖（户外+构图好+稳定+高分）
@@ -2137,19 +2133,19 @@ export async function analyzePhoto(
   }
   // ========== Round 5 新增场景专属夸奖 ==========
   // 演唱会场景夸奖（低亮度+户外+总分高）
-  if (brightness < 80 && sceneType === 'outdoor' && sharpness > 120 && totalScore >= 78) {
+  if (safeBrightness < 80 && sceneType === 'outdoor' && safeSharpness > 120 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.concert_good))
   }
   // 温泉场景夸奖（室内+低亮度+暖光）
-  if (brightness >= 40 && brightness <= 120 && sceneType === 'indoor' && totalScore >= 75) {
+  if (safeBrightness >= 40 && safeBrightness <= 120 && sceneType === 'indoor' && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.hotspring_good))
   }
   // 天台夜景夸奖（低亮度户外+总分高）
-  if (brightness < 60 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 78) {
+  if (safeBrightness < 60 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.rooftop_night_good))
   }
   // 露营篝火夸奖（户外+中等亮度+总分高）
-  if (brightness >= 30 && brightness <= 100 && sceneType === 'outdoor' && totalScore >= 72) {
+  if (safeBrightness >= 30 && safeBrightness <= 100 && sceneType === 'outdoor' && totalScore >= 72) {
     praise.push(pickRandom(PRAISE_POOL.camping_campfire_good))
   }
   // 闺蜜逛街夸奖（多人+户外）
@@ -2168,36 +2164,36 @@ export async function analyzePhoto(
     }
   }
 
-  // 场景专属建议（基于 sceneType 上下文补充）
+  // 场景专属建议（基于 sceneType 上下文补充，使用安全访问防止未定义池崩溃）
   if (sceneType === 'outdoor' && totalScore < 80) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.outdoor_specific))
+    suggestions.push(pickRandom(SUGGESTION_POOL.outdoor_specific || SUGGESTION_POOL.composition))
   }
-  if (brightness < 50 && totalScore < 80) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.night_specific))
+  if (safeBrightness < 50 && totalScore < 80) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.night_specific || SUGGESTION_POOL.exposure))
   }
   if (isCouplePhoto && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.couple_specific))
+    suggestions.push(pickRandom(SUGGESTION_POOL.couple_specific || SUGGESTION_POOL.composition))
   }
   if (sceneType === 'indoor' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.indoor_specific))
+    suggestions.push(pickRandom(SUGGESTION_POOL.indoor_specific || SUGGESTION_POOL.composition))
   }
   // ========== Round 5 新增场景专属建议 ==========
   // 咖啡馆场景建议
-  if (brightness >= 80 && brightness <= 180 && sceneType === 'indoor' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.cafe_specific))
+  if (safeBrightness >= 80 && safeBrightness <= 180 && sceneType === 'indoor' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.cafe_specific || SUGGESTION_POOL.composition))
   }
   // 雪景/滑雪场景建议
-  if (brightness >= 160 && sceneType === 'outdoor' && totalScore < 78) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.snow_specific))
-    suggestions.push(pickRandom(SUGGESTION_POOL.ski_resort_specific))
+  if (safeBrightness >= 160 && sceneType === 'outdoor' && totalScore < 78) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.snow_specific || SUGGESTION_POOL.exposure))
+    suggestions.push(pickRandom(SUGGESTION_POOL.ski_resort_specific || SUGGESTION_POOL.composition))
   }
   // 天台夜景建议
-  if (brightness < 80 && sceneType === 'outdoor' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.rooftop_night_specific))
+  if (safeBrightness < 80 && sceneType === 'outdoor' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rooftop_night_specific || SUGGESTION_POOL.exposure))
   }
   // 露营篝火建议
-  if (brightness >= 40 && brightness <= 100 && sceneType === 'outdoor' && totalScore < 70) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.camping_campfire_specific))
+  if (safeBrightness >= 40 && safeBrightness <= 100 && sceneType === 'outdoor' && totalScore < 70) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.camping_campfire_specific || SUGGESTION_POOL.composition))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
