@@ -2397,6 +2397,69 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '表情夸张一点更生动！活力感拉满～',
     '嘟嘴卖萌也可以！活泼可爱的表情超加分～',
   ],
+  // ========== Round 28 新增：舞蹈/表演场景建议 ==========
+  dance_performance_tips: [
+    '舞台灯光变化快，连拍几张选最清晰的那张～',
+    '表演中表情夸张一点更有感染力！活力感拉满～',
+    '舞台逆光超有感觉！转过身让轮廓发光，绝了～',
+    '表演现场光线复杂，开闪光灯补光效果更好～',
+    '跟着节奏动起来的时候抓拍，表情最生动～',
+  ],
+  // ========== Round 28 新增：红叶特写场景建议 ==========
+  red_autumn_detail_tips: [
+    '红叶背景下光线斑驳！风吹过来的时候按下快门，绝美～',
+    '枫叶近景特写超有秋日感，背景虚化主体突出～',
+    '落叶季光线好温柔！侧身站着让光线打在侧脸上～',
+    '红叶背景颜色很鲜艳，衣服选浅色更突出主体～',
+    '蹲低仰拍让叶子落在头顶上方，超有氛围感～',
+  ],
+  // ========== Round 28 新增：天台日间专属建议 ==========
+  rooftop_daytime_tips: [
+    '天台白天光线充足！找个有阴影的角落，别让太阳直射～',
+    '天台背景是城市天际线，侧身站着超有范儿！',
+    '天台有风时拍动态抓拍，头发飘起来超灵动～',
+    '天台俯拍全身照超显气场！男朋友站高一点～',
+    '正午天台光线太硬，找个下午时段光线更柔和～',
+  ],
+  // ========== Round 28 新增：节日灯展场景建议 ==========
+  festival_lights_tips: [
+    '灯展场景色彩斑斓！侧身站着让灯打侧脸上，超有氛围～',
+    '灯展人多背景杂，找个空隙蹲低仰拍，背景更干净～',
+    '灯展光线复杂，打开手机闪光灯补补光～',
+    '灯展逆光超浪漫！转过来让脸朝向光源试试～',
+    '灯展背景五彩缤纷，衣服选纯色更突出主体～',
+  ],
+  // ========== Round 28 新增：游乐园/嘉年华场景建议 ==========
+  amusement_carnival_tips: [
+    '游乐园灯光超梦幻！找个项目做背景，笑着拍一张～',
+    '旋转木马前超浪漫！侧身站着，光线超温柔～',
+    '游乐园大摆臂超有活力！动起来抓拍最自然～',
+    '摩天轮里光线柔和，这个角度超浪漫～',
+    '过山车尖叫瞬间超生动！抓拍表情最自然～',
+  ],
+  // ========== Round 28 新增：机场/火车站场景建议 ==========
+  airport_station_tips: [
+    '机场候机厅光线均匀！靠墙站着，笑着看镜头～',
+    '火车站台光线偏暗，开闪光灯补补光～',
+    '站台等车日常感满满！看向远方，文艺又自然～',
+    '火车站台找块干净的墙做背景，超有都市感～',
+    '候机厅落地窗光线超通透！靠着窗边拍一张～',
+  ],
+  // ========== Round 28 新增：草原/牧场场景建议 ==========
+  meadow_ranch_tips: [
+    '草原上光线超通透！站在草丛中，笑着看镜头～',
+    '草原逆光拍剪影超浪漫！转过身让阳光勾勒轮廓～',
+    '草原风大头发容易乱，男朋友找个避风的角度拍～',
+    '草原背景干净开阔，人站中间或偏左构图都很好看～',
+    '牧场木栅栏做前景虚化，超有田园感～',
+  ],
+  // ========== Round 28 新增：地铁扶手电梯场景建议 ==========
+  subway_escalator_tips: [
+    '扶手电梯上光线冷调！靠着扶手，随意自然地看镜头～',
+    '地铁扶手电梯背景有层次感！侧身站着超有都市感～',
+    '电梯动的时候抓拍最自然！表情灵动～',
+    '扶手电梯上找好角度，城市感十足～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -2423,6 +2486,8 @@ export interface AnalyzeContext {
     | 'chapel' | 'market_stall' | 'bakery' | 'carousel' | 'greenhouse' | 'tent_camp' | 'graduation'
     | 'festival_lights' | 'graduation_outdoor' | 'old_town' | 'beach_sunset' | 'rainy_street' | 'morning_run' | 'bookstore'
     | 'mirror' | 'carnival' | 'beach'
+    | 'dance_performance' | 'red_autumn_detail' | 'rooftop_daytime' | 'amusement_carnival'
+    | 'airport_station' | 'meadow_ranch' | 'subway_escalator'
   /** 上次构图分（构图改善检测） */
   lastCompositionScore?: number
   /** 上次表情分（表情改善检测） */
@@ -3230,6 +3295,39 @@ export async function analyzePhoto(
   // 海边/沙滩建议
   if (sceneType === 'beach') {
     suggestions.push(pickRandom(SUGGESTION_POOL.beach_seaside_tips))
+  }
+  // ========== Round 28 新增场景建议触发 ==========
+  // 舞蹈/表演场景
+  if (sceneType === 'dance_performance') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.dance_performance_tips))
+  }
+  // 红叶特写场景
+  if (sceneType === 'red_autumn_detail') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.red_autumn_detail_tips))
+  }
+  // 天台日间场景
+  if (sceneType === 'rooftop_daytime') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rooftop_daytime_tips))
+  }
+  // 节日灯展场景
+  if (sceneType === 'festival_lights') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.festival_lights_tips))
+  }
+  // 游乐园/嘉年华场景
+  if (sceneType === 'amusement_carnival') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.amusement_carnival_tips))
+  }
+  // 机场/火车站场景
+  if (sceneType === 'airport_station') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.airport_station_tips))
+  }
+  // 草原/牧场场景
+  if (sceneType === 'meadow_ranch') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.meadow_ranch_tips))
+  }
+  // 地铁扶手电梯场景
+  if (sceneType === 'subway_escalator') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.subway_escalator_tips))
   }
 
   // 黄金时段户外场景（早晨或傍晚亮度区间：80-160）
