@@ -39,12 +39,18 @@ const app = isCloudEnabled()
  * @param data 请求参数
  * @returns 云函数返回值，未启用云端或失败时返回 null
  */
-export async function callFunction(name: string, data: object = {}): Promise<any> {
+/** CloudBase 云函数响应包装 */
+interface CloudBaseResponse<R> {
+  result?: R
+  requestId?: string
+}
+
+export async function callFunction<R = unknown>(name: string, data: object = {}): Promise<R | null> {
   if (!app) return null
 
   try {
-    const res = await app.callFunction({ name, data })
-    return res.result ?? res
+    const res = await app.callFunction({ name, data }) as CloudBaseResponse<R>
+    return res.result ?? null
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e)
     if (msg.includes('401') || msg.includes('unauthorized') || msg.includes('token')) {

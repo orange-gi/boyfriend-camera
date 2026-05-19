@@ -43,11 +43,10 @@ export async function syncTemplates(): Promise<PoseTemplate[]> {
 
   try {
     // 调用云函数检查更新（需 ACCESS_KEY，非用户登录）
-    const res = await callFunction('getTemplates', { localVersion })
+    const res = await callFunction<TemplateUpdate>('getTemplates', { localVersion })
     if (!res) throw new Error('云函数返回为空')
 
-    // CloudBase 云函数结果可能在 res 或 res.result 中
-    const data: TemplateUpdate = res.result ?? res
+    const data: TemplateUpdate = res
 
     // 如果没有有效数据
     if (!data || !Array.isArray(data.update)) {
