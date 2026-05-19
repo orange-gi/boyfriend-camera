@@ -39,6 +39,9 @@ export const colors = {
   danger: '#FF6B6B',
   dangerLight: '#FFF3F3',
   info: '#4ECDC4',
+  infoLight: 'rgba(78,205,196,0.15)',
+  purple: '#A29BFE',
+  purpleLight: 'rgba(162,155,254,0.15)',
 
   // 评分色
   scoreGreat: '#4CAF50',

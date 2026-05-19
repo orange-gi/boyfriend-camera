@@ -87,9 +87,9 @@ const TIP_DISMISS_KEY = 'tip_dismissed_today_v4'
 
 const FEATURES = [
   { icon: '📐', title: '构图辅助', desc: '九宫格/黄金螺旋/三角构图线实时叠加', accent: COLORS.primary, bgAccent: COLORS.primaryLight },
-  { icon: '👗', title: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站', accent: '#FF9F43', bgAccent: 'rgba(255,159,67,0.15)' },
-  { icon: '🤳', title: '一键修图', desc: '智能裁剪到三分点，自动美颜+滤镜', accent: '#4ECDC4', bgAccent: 'rgba(78,205,196,0.15)' },
-  { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好', accent: '#A29BFE', bgAccent: 'rgba(162,155,254,0.15)' },
+  { icon: '👗', title: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站', accent: COLORS.warning, bgAccent: COLORS.warningLight },
+  { icon: '🤳', title: '一键修图', desc: '智能裁剪到三分点，自动美颜+滤镜', accent: COLORS.info, bgAccent: COLORS.infoLight },
+  { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好', accent: COLORS.purple, bgAccent: COLORS.purpleLight },
 ] as const
 
 export default function HomeScreen() {
