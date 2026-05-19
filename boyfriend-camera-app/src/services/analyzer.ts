@@ -2283,6 +2283,36 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '怼脸自拍光线要均匀！找正面柔和的光源最安全～',
     '特写的时候可以微微嘟嘴，下巴会显得更尖更上镜～',
   ],
+  // ========== 本次新增：雾霾天气建议 ==========
+  foggy_weather_tips: [
+    '雾霾天的光线超柔和！不用担心过曝，随便拍都好看～',
+    '雾蒙蒙的天气光线像加了滤镜，色调会超柔和～',
+    '雾天的散射光拍人像超合适，皮肤会显得超细腻～',
+    '雾气会让背景变得朦胧，主体更突出，虚化效果自然出来～',
+  ],
+  // ========== 本次新增：秋叶场景建议 ==========
+  autumn_leaves_tips: [
+    '秋天落叶背景超有氛围！站在落叶中，笑着拍一张～',
+    '金黄色背景配暖色调滤镜，秋日感拉满～',
+    '落叶堆前光线斑驳，蹲下来仰拍超有意境～',
+    '秋日逆光拍剪影，落叶在光线中飞舞，超浪漫～',
+    '银杏叶或枫叶做前景，虚化后超有层次感～',
+  ],
+  // ========== 本次新增：楼梯场景建议 ==========
+  stairwell_tips: [
+    '楼梯上光线从上往下打，侧身站着超有气场～',
+    '台阶上有自然的光影线条，构图会超有层次感～',
+    '楼梯俯拍显脸小，男朋友站高一点你站低一点～',
+    '坐在楼梯上拍照，超有生活感！',
+    '楼梯转角的窗户光是最佳补光来源，让人靠近窗户～',
+  ],
+  // ========== 本次新增：天台白天建议 ==========
+  rooftop_day_tips: [
+    '天台白天光线充足！找个有遮挡的地方，别让太阳直射～',
+    '天台背景是城市天际线，侧身站着超有范儿～',
+    '天台有风时拍动态抓拍，头发飘起来超灵动～',
+    '天台白天的顶光有点硬，找个有阴影的角落更好看～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -3131,6 +3161,16 @@ export async function analyzePhoto(
   // 室内窗边场景
   if (sceneType === 'indoor' && safeBrightness >= 100 && safeBrightness <= 220) {
     suggestions.push(pickRandom(SUGGESTION_POOL.window_light_tips))
+  }
+
+  // 雾霾天气场景（户外亮度 120-200，sharpness 偏低）
+  if (sceneType === 'outdoor' && safeBrightness >= 100 && safeBrightness <= 200 && sharpness < 120) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.foggy_weather_tips))
+  }
+
+  // 秋叶/金秋场景（秋日户外黄金色调，brightness 100-180）
+  if (sceneType === 'outdoor' && safeBrightness >= 100 && safeBrightness <= 180) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.autumn_leaves_tips))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
