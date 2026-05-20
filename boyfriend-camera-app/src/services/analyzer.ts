@@ -1709,12 +1709,11 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '头发乱的时候让风帮忙制造凌乱美，或者扎起来～',
   ],
   // ========== Round 迭代新增 ==========
-  // 表情僵硬建议
+  // 表情僵硬建议（stiff_expression 已覆盖，此处仅补充差异化的场景提示）
   expression_hint: [
-    '表情有点僵，放松一点笑会更自然～',
-    '太紧绷了！深呼吸，让表情自然流动～',
-    '笑得更自然一点，自然的笑容最好看～',
     '假装被什么东西逗笑了，这个瞬间最自然～',
+    '数到三突然看向镜头，表情会很灵动～',
+    '试试歪一下头，可爱感立刻提升～',
   ],
   // 背景过曝建议
   background_overexposed: [
@@ -4094,25 +4093,6 @@ export async function recalcPeakScore(diary: DiaryRecord[]): Promise<void> {
     await AsyncStorage.setItem(PEAK_KEY, String(max))
   } catch {
     /* ignore */
-  }
-}
-
-/** 获取进步曲线数据（用于 ProgressChart）
- * @param limit 返回最近 N 条记录，默认 30
- */
-export async function getScoreHistory(limit: number = 30): Promise<{ date: string; score: number }[]> {
-  try {
-    const raw = await AsyncStorage.getItem(DIARY_KEY)
-    if (!raw) return []
-    const parsed = JSON.parse(raw)
-    if (!Array.isArray(parsed)) return []
-    // 只返回有效的分数记录
-    return parsed
-      .filter((r): r is DiaryRecord => r && typeof r.score === 'number' && typeof r.date === 'string')
-      .slice(-limit)
-  } catch (e) {
-    logger.warn('Diary', 'getScoreHistory failed:', e)
-    return []
   }
 }
 
