@@ -23,7 +23,6 @@ import Animated, {
   withDelay,
   withTiming,
   interpolate,
-  Easing,
   FadeInDown,
 } from 'react-native-reanimated'
 import ViewShot, { ViewShotRef } from 'react-native-view-shot'
@@ -109,31 +108,12 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   const mountedRef = useRef(true)
   const screenshotTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // 撒花粒子动画
-  const [confettiParticles, setConfettiParticles] = useState<Array<{ id: number; x: number; delay: number; emoji: string }>>([])
-  const confettiClearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
   // 打字机效果
   const [typedPraise, setTypedPraise] = useState('')
   const typeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const scoreReveal = useSharedValue(0)
   const cardSlide = useSharedValue(50)
-  const cursorOpacity = useSharedValue(1)
-  const praisePulse = useSharedValue(1)
-
-  // 光标闪烁动画（打字效果配套）
-  const cursorStyle = useAnimatedStyle(() => ({ opacity: cursorOpacity.value }))
-
-  // 启动光标闪烁
-  useEffect(() => {
-    if (!scoreAnimationDone) return
-    cursorOpacity.value = 1
-    const interval = setInterval(() => {
-      cursorOpacity.value = cursorOpacity.value === 1 ? 0 : 1
-    }, 530)
-    return () => clearInterval(interval)
-  }, [scoreAnimationDone])
 
   // 初始化 VoiceCoach（TTS 引擎）
   useEffect(() => {
@@ -155,7 +135,6 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       mountedRef.current = false
       if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
       if (typeTimerRef.current) clearTimeout(typeTimerRef.current)
-      if (confettiClearTimerRef.current) clearTimeout(confettiClearTimerRef.current)
     }
   }, [photoPath])
 
@@ -186,32 +165,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
     typeNext()
   }
 
-  function spawnConfetti() {
-    if (confettiClearTimerRef.current) clearTimeout(confettiClearTimerRef.current)
-    const emojis = ['🎉', '✨', '🌟', '🎊', '💖', '🏆', '👏', '💯']
-    const particles = Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      x: Math.random() * SCREEN_W,
-      delay: i * 60,
-      emoji: emojis[Math.floor(Math.random() * emojis.length)],
-    }))
-    setConfettiParticles(particles)
-    confettiClearTimerRef.current = setTimeout(() => setConfettiParticles([]), 3000)
-  }
-
-  /** 新纪录特浓撒花（粒子更多、emoji 更喜庆） */
-  function spawnNewRecordConfetti() {
-    if (confettiClearTimerRef.current) clearTimeout(confettiClearTimerRef.current)
-    const newRecordEmojis = ['🏆', '🎉', '💯', '🌟', '✨', '🎊', '👑', '💖', '👏', '🏅']
-    const particles = Array.from({ length: 40 }, (_, i) => ({
-      id: 100 + i,
-      x: Math.random() * SCREEN_W,
-      delay: i * 40,
-      emoji: newRecordEmojis[Math.floor(Math.random() * newRecordEmojis.length)],
-    }))
-    setConfettiParticles(particles)
-    confettiClearTimerRef.current = setTimeout(() => setConfettiParticles([]), 5000)
-  }
+  // Confetti removed: replaced by score reveal spring animation for cleaner UI.
 
   async function runAnalysis() {
     if (!mountedRef.current) return
@@ -333,18 +287,14 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       cardSlide.value = withTiming(0, { duration: 400 })
       scoreReveal.value = withDelay(300, withSpring(1, { damping: 14, stiffness: 90 }))
 
-      // 新纪录特浓撒花 + TTS 播报
+      // 新纪录 + TTS 播报（撒花移除，用分数揭示动画替代庆祝反馈）
       if (isNewRecord) {
         setNewRecordBanner(true)
-        setTimeout(() => spawnNewRecordConfetti(), 500)
         setTimeout(async () => {
           try {
             await voiceCoach.speakNewRecord(0, analysis.totalScore)
           } catch { /* ignore TTS errors */ }
-        }, 600)
-      } else if (analysis.totalScore >= 90) {
-        // 普通高分撒花
-        setTimeout(() => spawnConfetti(), 800)
+        }, 500)
       }
 
       // 打字机效果
@@ -366,8 +316,6 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       screenshotTimerRef.current = setTimeout(async () => {
         if (!mountedRef.current) return
         setScoreAnimationDone(true)
-        // 夸奖横幅脉冲动画：出现时放大后回弹
-        praisePulse.value = withSpring(1.05, { damping: 8, stiffness: 180, mass: 1 })
         if (viewShotRef.current) {
           try {
             const uri = await viewShotRef.current.capture()
@@ -588,11 +536,6 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
 
   return (
     <View style={styles.container}>
-      {/* 撒花粒子 */}
-      {confettiParticles.map(p => (
-        <ConfettiParticle key={p.id} x={p.x} delay={p.delay} emoji={p.emoji} />
-      ))}
-
       <ScrollView
         style={styles.scrollContainer}
         contentContainerStyle={styles.content}
@@ -709,7 +652,6 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
                 opacity: scoreAnimationDone ? 1 : 0,
                 transform: [
                   { translateY: scoreAnimationDone ? 0 : -10 },
-                  { scale: praisePulse.value },
                 ],
                 backgroundColor: praiseColors.bg,
                 borderLeftColor: praiseColors.border,
@@ -722,10 +664,7 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
               {getPraiseBannerText()}
             </Text>
             {typedPraise.length > 0 && (
-              <View style={styles.praiseBannerSubRow}>
-                <Text style={styles.praiseBannerSub}>🌟 {typedPraise}</Text>
-                <Animated.Text style={[styles.cursorBlink, cursorStyle]}>|</Animated.Text>
-              </View>
+              <Text style={styles.praiseBannerSub}>🌟 {typedPraise}</Text>
             )}
           </Animated.View>
         )}
@@ -874,39 +813,6 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         <View style={{ height: 40 }} />
       </ScrollView>
     </View>
-  )
-}
-
-/** 撒花粒子组件 */
-function ConfettiParticle({ x, delay, emoji }: { x: number; delay: number; emoji: string }) {
-  const translateY = useSharedValue(-20)
-  const opacity = useSharedValue(0)
-  const rotate = useSharedValue(0)
-
-  useEffect(() => {
-    translateY.value = withDelay(
-      delay,
-      withTiming(700, { duration: 2500, easing: Easing.bezier(0.25, 0.1, 0.25, 1) })
-    )
-    opacity.value = withDelay(delay, withTiming(1, { duration: 200 }))
-    setTimeout(() => {
-      opacity.value = withTiming(0, { duration: 300 })
-    }, delay + 2200)
-    rotate.value = withDelay(delay, withTiming(360, { duration: 800 }))
-  }, [])
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateY: translateY.value },
-      { rotate: `${rotate.value}deg` },
-    ],
-    opacity: opacity.value,
-  }))
-
-  return (
-    <Animated.View style={[styles.confettiParticle, { left: x }, animatedStyle]}>
-      <Text style={styles.confettiEmoji}>{emoji}</Text>
-    </Animated.View>
   )
 }
 
