@@ -396,6 +396,25 @@ const FACE_TIPS = {
   TEETH_SHOW_SMILE: '露出上排牙齿笑！会更自信有感染力～',
   POSE_READY_HINT: '姿势摆好了！就是现在，按下去！',
   LIGHT_PERFECT_NOW: '光线完美！这个时刻拍出来一定超好看！',
+  // ========== Round 42 新增天气场景 ==========
+  RAINY_STREET_LAMP: '雨夜路灯下超有氛围！让雨滴打在伞上拍一张～',
+  RAIN_PUDDLE_REFLECTION: '地上有水洼！蹲低拍倒影，角度绝了～',
+  SNOW_CATCH_LIGHT: '雪地里光线反射强！戴墨镜或者眯眼笑～',
+  WIND_STRONG_STABILIZE: '风太大了！双手握稳手机，头发乱的时候别按～',
+  FOGGY_MYSTERY: '雾蒙蒙的超有氛围感！这个天气拍出来好有意境～',
+  MORNING_DEW: '早晨光线超通透！趁露水还在多拍几张～',
+  // ========== Round 42 新增构图进阶提示 ==========
+  LEADING_LINE_HINT: '找一条引导线！道路围栏都能引导视线到人身上～',
+  SYMMETRY_BUILDING: '正面站直对称构图！这个角度气场全开～',
+  FRAME_BOUNDARY: '用门框窗户当框架！画面更有层次感～',
+  DEPTH_OF_FIELD_HINT: '走近主体！背景自然虚化，主体更突出～',
+  NEGATIVE_SPACE: '留白多一点！画面更透气，更有呼吸感～',
+  // ========== Round 42 新增表情微调 ==========
+  EYEBROW_RAISE: '眉毛稍微抬起来一点！眼睛会显得更大～',
+  JAWLINE_TIGHTEN: '舌尖顶住上颚！下颌线立刻变清晰～',
+  NECK_EXTEND: '脖子伸长一点！天鹅颈上线，气质立刻提升～',
+  SMILE_TENSION: '嘴角向耳朵方向拉！笑容会更开更灿烂～',
+  EYE_SQUINT_HINT: '笑的时候眼睛眯小一点！这个表情好甜～',
 }
 
 const STABILITY_TIPS = {
