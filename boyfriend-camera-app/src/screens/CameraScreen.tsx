@@ -262,12 +262,14 @@ export default function CameraScreen() {
         }}),
         VoiceCoach.speakCaptureSuccess()
       } else {
+        VoiceCoach.speakCaptureFailed()
         Alert.alert('📷 拍照遇到点小状况', '可以换个角度重试一下～', [
           { text: '算了', style: 'cancel' },
           { text: '重试', onPress: () => captureRetryRef.current() },
         ])
       }
     } catch (e: unknown) {
+      VoiceCoach.speakCaptureFailed()
       const errMsg = e instanceof Error ? e.message : String(e)
       Alert.alert('📷 拍照失败', errMsg || '请检查相机是否可用', [
         { text: '算了', style: 'cancel' },
