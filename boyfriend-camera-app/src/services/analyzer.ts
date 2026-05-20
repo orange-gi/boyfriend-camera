@@ -3182,6 +3182,18 @@ export async function analyzePhoto(
   if (totalScore >= 70 && totalScore < 85 && compositionScore >= 30 && suggestions.length < 2) {
     suggestions.push(pickRandom(SUGGESTION_POOL.advanced_composition))
   }
+  // ========== Round 36 激活：姿态/体型建议（歪头/驼背/站姿可调整时） ==========
+  if (absTilt > 3 && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.posture_body))
+  }
+  // ========== Round 36 激活：皮肤/细节建议（极端亮度影响皮肤质感时） ==========
+  if ((safeBrightness < 60 || safeBrightness > 210) && exposureScore < 20 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.skin_detail))
+  }
+  // ========== Round 36 激活：拍摄时机建议（户外光线变化快/表情可抓拍时） ==========
+  if (sceneType === 'outdoor' && safeBrightness >= 100 && safeBrightness <= 200 && compositionScore < 38 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.timing_moment))
+  }
 
   // ========== Round 1 新增角度专属夸奖触发 ==========
   if (facePosition && facePosition.y < 0.35 && compositionScore >= 32 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.high_angle_praise))
