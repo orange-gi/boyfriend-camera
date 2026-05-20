@@ -236,19 +236,3 @@ exports.main = async function (event, context) {
     };
   }
 };
-          dailyTip: tipMatch ? tipMatch[1].trim() : '',
-        };
-      }
-    } catch (_e) {
-      // 解析失败，返回原始文本
-    }
-
-    return {
-      code: 0,
-      data: parsed,
-    };
-  } catch (error) {
-    console.error("[analyze-photo] 异常:", error);
-    return { error: "分析失败，请重试", code: 500 };
-  }
-};
