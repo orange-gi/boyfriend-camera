@@ -480,11 +480,9 @@ const styles = StyleSheet.create({
 
   // 拍照按钮
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
-  glowRingOuter: {},
   cameraBtn: { position: 'relative', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, overflow: 'visible' },
   cameraBtnNewUser: { backgroundColor: COLORS.primary, paddingVertical: 24, paddingHorizontal: 64, ...shadows.glow },
   cameraBtnRegular: { backgroundColor: COLORS.primary, paddingVertical: 20, paddingHorizontal: 56, ...shadows.glowSoft },
-  cameraBtnPulse: {},
   cameraBtnInner: { marginBottom: spacing[2] },
   cameraBtnIcon: { fontSize: 40 },
   cameraBtnTextRow: { flexDirection: 'row', alignItems: 'center', gap: spacing[2] },
