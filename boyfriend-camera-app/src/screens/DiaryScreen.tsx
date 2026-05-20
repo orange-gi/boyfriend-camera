@@ -536,28 +536,26 @@ export default function DiaryScreen() {
                 </>
               )}
 
-              {/* 渐变色趋势横幅 — 动态文案 */}
+              {/* 趋势横幅 — 动态文案 */}
               <View style={[styles.trendBanner, { backgroundColor: trendInfo.gradient[0] }]}>
-                <View style={[styles.trendBannerInner, { backgroundColor: trendInfo.gradient[1] }]}>
-                  {/* 左侧：图标 + 文案 */}
-                  <View style={styles.trendBannerLeft}>
-                    <Text style={styles.trendBannerIcon}>
-                      {avgScore >= 80 ? '🚀' : avgScore >= 65 ? '📈' : avgScore >= 50 ? '💪' : '🌱'}
-                    </Text>
-                    <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
-                      {trendInfo.text}
-                    </Text>
-                  </View>
-                  {/* 右侧：分数变化 */}
-                  {totalProgress !== 0 && (
-                    <View style={styles.trendBannerRight}>
-                      <Text style={[styles.trendBannerNum, { color: totalProgress >= 0 ? colors.success : colors.primary }]}>
-                        {totalProgress >= 0 ? `+${totalProgress}` : totalProgress}
-                      </Text>
-                      <Text style={styles.trendBannerNumLabel}>分</Text>
-                    </View>
-                  )}
+                {/* 左侧：图标 + 文案 */}
+                <View style={styles.trendBannerLeft}>
+                  <Text style={styles.trendBannerIcon}>
+                    {avgScore >= 80 ? '🚀' : avgScore >= 65 ? '📈' : avgScore >= 50 ? '💪' : '🌱'}
+                  </Text>
+                  <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
+                    {trendInfo.text}
+                  </Text>
                 </View>
+                {/* 右侧：分数变化 */}
+                {totalProgress !== 0 && (
+                  <View style={styles.trendBannerRight}>
+                    <Text style={[styles.trendBannerNum, { color: totalProgress >= 0 ? colors.success : colors.primary }]}>
+                      {totalProgress >= 0 ? `+${totalProgress}` : totalProgress}
+                    </Text>
+                    <Text style={styles.trendBannerNumLabel}>分</Text>
+                  </View>
+                )}
               </View>
             </View>
 
@@ -1336,13 +1334,11 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     marginTop: 2,
   },
-  // 渐变趋势横幅
+  // 趋势横幅
   trendBanner: {
     marginTop: 12,
     borderRadius: 14,
     overflow: 'hidden',
-  },
-  trendBannerInner: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
