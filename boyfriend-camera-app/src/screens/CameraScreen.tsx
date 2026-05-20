@@ -576,12 +576,8 @@ export default function CameraScreen() {
           disabled={isCapturing}
           activeOpacity={0.72}
         >
-          {/* 外圈发光效果 */}
-    
           <View style={[styles.shutterOuter, isCapturing && styles.shutterOuterCapturing]}>
-            <View style={[styles.shutterInner, isCapturing && styles.shutterInnerCapturing]}>
-              {isCapturing && <View style={styles.shutterPulsing} />}
-            </View>
+            <View style={[styles.shutterInner, isCapturing && styles.shutterInnerCapturing]} />
           </View>
         </TouchableOpacity>
 
@@ -1150,12 +1146,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     transform: [{ scale: 0.95 }],
   },
-  shutterPulsing: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: 'rgba(255,255,255,0.5)',
-  },
   modalBackdrop: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.8)',
@@ -1233,10 +1223,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: COLORS.divider,
     marginHorizontal: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.03,
-    shadowRadius: 2,
-    elevation: 1,
   },
   categoryTabText: {
     fontSize: 14,
@@ -1262,11 +1248,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 2.5,
     borderColor: 'transparent',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    elevation: 1,
     overflow: 'hidden',
   },
   templateCardActive: {
