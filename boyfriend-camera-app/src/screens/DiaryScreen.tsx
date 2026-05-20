@@ -612,6 +612,42 @@ export default function DiaryScreen() {
                     <Text style={styles.badgeText}>🌱 摄影新手</Text>
                   </View>
                 )}
+                {/* ========== Round 33 新增：男友等级进度条 ========== */}
+                {avgScore > 0 && avgScore < 100 && (() => {
+                  const levels = [
+                    { min: 0, max: 60, label: '摄影新手', next: 60, nextLabel: '成长中', color: '#CD7F32' },
+                    { min: 60, max: 70, label: '成长中摄影师', next: 70, nextLabel: '进阶', color: '#F59E0B' },
+                    { min: 70, max: 80, label: '进阶摄影师', next: 80, nextLabel: '专业', color: '#3B82F6' },
+                    { min: 80, max: 90, label: '专业摄影师', next: 90, nextLabel: '大师', color: '#8B5CF6' },
+                    { min: 90, max: 100, label: '大师级摄影师', next: 100, nextLabel: '满分', color: '#F59E0B' },
+                  ]
+                  const level = levels.find(l => avgScore >= l.min && avgScore < l.max)
+                  if (!level) return null
+                  const pct = Math.min(100, ((avgScore - level.min) / (level.next - level.min)) * 100)
+                  return (
+                    <View style={styles.levelProgressCard}>
+                      <View style={styles.levelProgressHeader}>
+                        <Text style={styles.levelProgressLabel}>
+                          {avgScore >= 90 ? '👑 距离大师' : avgScore >= 80 ? '⭐ 距离大师' : avgScore >= 70 ? '📸 距离专业' : avgScore >= 60 ? '📷 距离进阶' : '🌱 距离成长'}下一级
+                        </Text>
+                        <Text style={[styles.levelProgressPct, { color: level.color }]}>
+                          {Math.round(pct)}%
+                        </Text>
+                      </View>
+                      <View style={styles.levelProgressTrack}>
+                        <View
+                          style={[
+                            styles.levelProgressFill,
+                            { width: `${pct}%`, backgroundColor: level.color },
+                          ]}
+                        />
+                      </View>
+                      <Text style={styles.levelProgressHint}>
+                        再拍几张，平均分到 {level.next} 分就能解锁「{level.nextLabel}」啦 💪
+                      </Text>
+                    </View>
+                  )
+                })()}
                 {/* 拍摄次数里程碑 */}
                 {totalCount >= 100 && (
                   <View style={[styles.badge, styles.badgeGold]}>
@@ -1188,6 +1224,46 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 8,
     marginTop: 10,
+  },
+  // ========== Round 33 新增：男友等级进度条 ==========
+  levelProgressCard: {
+    width: '100%',
+    backgroundColor: COLORS.bg,
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    marginTop: 10,
+  },
+  levelProgressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  levelProgressLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: COLORS.textSecondary,
+  },
+  levelProgressPct: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  levelProgressTrack: {
+    height: 8,
+    backgroundColor: COLORS.divider,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  levelProgressFill: {
+    height: '100%',
+    borderRadius: 4,
+  },
+  levelProgressHint: {
+    fontSize: 11,
+    color: COLORS.textMuted,
+    marginTop: 6,
+    textAlign: 'center',
   },
   badge: {
     paddingHorizontal: 12,
