@@ -3266,6 +3266,30 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '往前看的时候，前方多留一点空间会更舒服～',
     '人像照头顶留三分之一就够了，留太多会显得人小～',
   ],
+  // ========== Round 44 新增：美食场景专属建议 ==========
+  food_scene_specific: [
+    '美食照光线要均匀！让男朋友从侧面打光，食物更有立体感～',
+    '俯拍美食时让盘子放正，背景留白多一点更显高级～',
+    '热气腾腾的食物最诱人，趁热拍！稍微吹一下再按快门～',
+    '美食和人都入镜时，先保证美食好看，人再来配合角度～',
+    '餐厅暖光让食物看起来更诱人，找个光线好的位置～',
+  ],
+  // ========== Round 44 新增：特写人像专属建议 ==========
+  closeup_portrait_specific: [
+    '怼脸特写时让男朋友稳一点，手抖会放大十倍～',
+    '特写时表情最重要！嘴角微微上扬，眼睛更有神～',
+    '近拍时脸上的小细节都看得见，笑得自然一点会更好看～',
+    '特写镜头容易凸显皮肤纹理，光线柔和一点会加分～',
+    '近距离拍摄时让男朋友离远一点用长焦，变形会更少～',
+  ],
+  // ========== Round 44 新增：城市街拍专属建议 ==========
+  urban_street_specific: [
+    '街拍背景要干净！等人走开再拍，或者开人像模式虚化路人～',
+    '城市建筑做背景时让人站在引导线交点，构图立刻变专业～',
+    '街头霓虹灯光很有氛围，让光打在侧脸上会更立体～',
+    '街拍要有故事感！让人假装走路或看远方，抓拍比摆拍更自然～',
+    '城市背景杂乱时找个简洁的角度，或者仰拍避开人群～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3712,6 +3736,18 @@ export async function analyzePhoto(
   // 户外正午强光建议（亮度高且为户外）
   if (sceneType === 'outdoor' && safeBrightness > 180 && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.timing_tips))
+  }
+  // ========== Round 44 新增：美食场景专属建议 ==========
+  if (sceneType === 'cafe' && totalScore < 75 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.food_scene_specific))
+  }
+  // ========== Round 44 新增：城市街拍专属建议 ==========
+  if (sceneType === 'outdoor' && totalScore < 75 && suggestions.length < 4 && compositionScore < 35) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.urban_street_specific))
+  }
+  // ========== Round 44 新增：特写人像专属建议 ==========
+  if (facePosition && facePosition.area > 0.15 && totalScore < 75 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.closeup_portrait_specific))
   }
   // 取景视角建议（构图一般但不是人太小/太多时）
   if (compositionScore >= 20 && compositionScore < 30 && totalScore < 75) {
