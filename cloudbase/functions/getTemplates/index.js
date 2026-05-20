@@ -4,7 +4,7 @@
  * 模板涵盖：日常自拍、约会合照、户外风景、美食餐厅、城市街拍、节日庆典等
  */
 
-const CURRENT_VERSION = 28
+const CURRENT_VERSION = 29
 
 // ===== Deterministic SVG generator (replaces 170 static constants, reduces ~60KB) =====
 function genSVG(id) {
@@ -2027,8 +2027,8 @@ const ALL_TEMPLATES = [
     id: "template_209",
     name: "滑雪场酷照",
     description: "滑雪场运动感十足！站在雪道旁，墨镜酷酷的～",
-    overlayUrl: genSVG(9),
-    thumbnail: genSVG(9),
+    overlayUrl: genSVG(209),
+    thumbnail: genSVG(209),
     voiceTip: "滑雪场运动感十足！站在雪道旁，墨镜酷酷的～",
     category: "户外风景",
     version: 1,
@@ -2187,8 +2187,8 @@ const ALL_TEMPLATES = [
     id: "template_225",
     name: "天台白天",
     description: "天台背景是城市天际线超有范儿！找个阴凉处侧身站着～",
-    overlayUrl: genSVG(25),
-    thumbnail: genSVG(25),
+    overlayUrl: genSVG(225),
+    thumbnail: genSVG(225),
     voiceTip: "天台背景是城市天际线超有范儿！找个阴凉处侧身站着～",
     category: "城市街拍",
     version: 1,
@@ -2288,8 +2288,8 @@ const ALL_TEMPLATES = [
     id: "template_235",
     name: "音乐节舞台侧",
     description: "音乐节跟着节奏摇摆，表情夸张灿烂的时候抓拍！",
-    overlayUrl: genSVG(25),
-    thumbnail: genSVG(25),
+    overlayUrl: genSVG(235),
+    thumbnail: genSVG(235),
     voiceTip: "跟着节拍摇摆！表情夸张灿烂的时候按下快门，活力十足！",
     category: "特殊风格",
     version: 1,
@@ -2398,8 +2398,8 @@ const ALL_TEMPLATES = [
     id: "template_246",
     name: "游乐园旋转木马",
     description: "旋转木马超有童话感！坐着或靠着木马，活泼可爱～",
-    overlayUrl: genSVG(25),
-    thumbnail: genSVG(25),
+    overlayUrl: genSVG(246),
+    thumbnail: genSVG(246),
     voiceTip: "靠在旋转木马上！活泼可爱，笑着看镜头抓拍～",
     category: "户外风景",
     version: 1,
@@ -2428,8 +2428,8 @@ const ALL_TEMPLATES = [
     id: "template_249",
     name: "花卉拱门下",
     description: "花卉拱门下站立，超浪漫的户外拍照背景！",
-    overlayUrl: genSVG(9),
-    thumbnail: genSVG(9),
+    overlayUrl: genSVG(249),
+    thumbnail: genSVG(249),
     voiceTip: "站在花卉拱门下！侧身微笑，背景超浪漫～",
     category: "户外风景",
     version: 1,
@@ -2438,8 +2438,8 @@ const ALL_TEMPLATES = [
     id: "template_250",
     name: "演唱会荧光棒",
     description: "演唱会现场拿着荧光棒，跟着节拍摇摆，氛围感爆棚！",
-    overlayUrl: genSVG(25),
-    thumbnail: genSVG(25),
+    overlayUrl: genSVG(250),
+    thumbnail: genSVG(250),
     voiceTip: "举着荧光棒跟着节拍摇摆！表情灿烂的时候按下快门！",
     category: "特殊风格",
     version: 1,
