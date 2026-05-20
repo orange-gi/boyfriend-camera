@@ -183,6 +183,9 @@ export default function CameraScreen() {
           if (stored !== today) {
             await AsyncStorage.setItem('last_open_date', today)
             VoiceCoach.speakDailyWelcome(true)
+          } else {
+            // 非首次打开也给一个相机设置提示
+            VoiceCoach.speakCameraSetupTip()
           }
         } catch { /* ignore */ }
       })()
