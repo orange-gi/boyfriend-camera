@@ -218,8 +218,6 @@ export default function HomeScreen() {
   const statsStyle = useAnimatedStyle(() => ({ opacity: statsOpacity.value }))
   const cameraStyle = useAnimatedStyle(() => ({ opacity: cameraOpacity.value, transform: [{ scale: cameraScale.value }] }))
   const featuresStyle = useAnimatedStyle(() => ({ opacity: featuresOpacity.value, transform: [{ translateY: featuresTranslateY.value }] }))
-  const glowStyle = useAnimatedStyle(() => ({}))
-  const pulseStyle = useAnimatedStyle(() => ({}))
 
   const totalTemplates = templates.length
   const avgScoreColor = scoreColor(displayAvgScore || avgScore)
@@ -443,7 +441,6 @@ const styles = StyleSheet.create({
   heroIcon: { fontSize: 56 },
   heroTextBlock: { alignItems: 'flex-start' },
   heroTitle: { fontSize: typography.fontSize['7xl'], fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, letterSpacing: 0.5, marginBottom: spacing[2] },
-  heroSubtitleBadge: {},
   heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
 
   // 每日技巧
