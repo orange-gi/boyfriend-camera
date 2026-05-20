@@ -150,13 +150,6 @@ export function useFaceDetection() {
   }, [])
 
   /**
-   * 手动设置人脸信息（用于测试或手动标注场景）
-   */
-  const setManualFaces = useCallback((faceList: FaceInfo[]) => {
-    setFaces(faceList)
-  }, [])
-
-  /**
    * 清除检测结果
    */
   const clearFaces = useCallback(() => {
@@ -176,7 +169,6 @@ export function useFaceDetection() {
   return {
     faces,
     processFrame,
-    setManualFaces,
     clearFaces,
   }
 }
