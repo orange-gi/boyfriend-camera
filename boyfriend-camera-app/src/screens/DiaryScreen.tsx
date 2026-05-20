@@ -362,40 +362,6 @@ export default function DiaryScreen() {
               </Text>
             </View>
 
-            {/* 情感化引导语 */}
-            <View style={styles.emptyMotivationCard}>
-              <Text style={styles.emptyMotivationEmoji}>🌟</Text>
-              <Text style={styles.emptyMotivationTitle}>每一次拍照都是进步的开始</Text>
-              <Text style={styles.emptyMotivationText}>
-                不管第一张拍成什么样，记录本身就是一件超酷的事！
-                男友相机会在每张照片里找到亮点，然后一起慢慢变好 💕
-              </Text>
-            </View>
-
-            {/* 里程碑预览 */}
-            <View style={styles.emptyMilestoneCard}>
-              <Text style={styles.emptyMilestoneTitle}>🏆 里程碑预览</Text>
-              <View style={styles.emptyMilestoneList}>
-                <View style={styles.emptyMilestoneItem}>
-                  <Text style={styles.emptyMilestoneEmoji}>🥉</Text>
-                  <Text style={styles.emptyMilestoneLabel}>第一张记录</Text>
-                </View>
-                <View style={styles.emptyMilestoneItem}>
-                  <Text style={styles.emptyMilestoneEmoji}>🥈</Text>
-                  <Text style={styles.emptyMilestoneLabel}>首次突破80分</Text>
-                </View>
-                <View style={styles.emptyMilestoneItem}>
-                  <Text style={styles.emptyMilestoneEmoji}>🥇</Text>
-                  <Text style={styles.emptyMilestoneLabel}>首次满分100</Text>
-                </View>
-                <View style={styles.emptyMilestoneItem}>
-                  <Text style={styles.emptyMilestoneEmoji}>🏅</Text>
-                  <Text style={styles.emptyMilestoneLabel}>连续5次高分</Text>
-                </View>
-              </View>
-              <Text style={styles.emptyMilestoneSubtext}>拍得越多，解锁越多成就！✨</Text>
-            </View>
-
             <EmptyState
               type="diary"
               onAction={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
@@ -542,132 +508,42 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            {/* 打卡徽章栏 */}
+            {/* 精选成就徽章（精选展示，不堆砌） */}
             {totalCount > 0 && (
               <View style={styles.badgeRow}>
-                {/* 男朋友等级徽章 */}
-                {avgScore >= 90 && (
+                {avgScore >= 80 && (
                   <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>大师级摄影师</Text>
+                    <Text style={styles.badgeText}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
                   </View>
                 )}
-                {avgScore >= 80 && avgScore < 90 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>专业摄影师</Text>
+                {avgScore >= 60 && avgScore < 80 && (
+                  <View style={[styles.badge, { backgroundColor: COLORS.info + '28', borderColor: COLORS.info }]}>
+                    <Text style={[styles.badgeText, { color: COLORS.info }]}>{avgScore >= 70 ? '进阶中' : '成长中'}</Text>
                   </View>
                 )}
-                {avgScore >= 70 && avgScore < 80 && (
-                  <View style={[styles.badge, { backgroundColor: COLORS.info + '30', borderColor: COLORS.info }]}>
-                    <Text style={[styles.badgeText, { color: COLORS.info }]}>进阶摄影师</Text>
+                {avgScore > 0 && avgScore < 60 && (
+                  <View style={[styles.badge, { backgroundColor: COLORS.warning + '28', borderColor: COLORS.warning }]}>
+                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>新手期</Text>
                   </View>
                 )}
-                {avgScore >= 60 && avgScore < 70 && (
-                  <View style={[styles.badge, { backgroundColor: COLORS.warning + '30', borderColor: COLORS.warning }]}>
-                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>成长中摄影师</Text>
-                  </View>
-                )}
-                {avgScore < 60 && avgScore > 0 && (
-                  <View style={[styles.badgeBronze]}>
-                    <Text style={styles.badgeText}>摄影新手</Text>
-                  </View>
-                )}
-                {/* ========== Round 33 新增：男友等级进度条（简化版） ========== */}
-                {avgScore > 0 && avgScore < 100 && (() => {
-                  const levels = [
-                    { min: 0, max: 60, next: 60, nextLabel: '成长中', color: '#CD7F32' },
-                    { min: 60, max: 70, next: 70, nextLabel: '进阶', color: '#F59E0B' },
-                    { min: 70, max: 80, next: 80, nextLabel: '专业', color: '#3B82F6' },
-                    { min: 80, max: 90, next: 90, nextLabel: '大师', color: '#8B5CF6' },
-                    { min: 90, max: 100, next: 100, nextLabel: '满分', color: '#F59E0B' },
-                  ]
-                  const level = levels.find(l => avgScore >= l.min && avgScore < l.max)
-                  if (!level) return null
-                  const pct = Math.min(100, ((avgScore - level.min) / (level.next - level.min)) * 100)
-                  return (
-                    <View style={styles.levelProgressTrack}>
-                      <View
-                        style={[
-                          styles.levelProgressFill,
-                          { width: `${pct}%`, backgroundColor: level.color },
-                        ]}
-                      />
-                    </View>
-                  )
-                })()}
-                {/* 拍摄次数里程碑 */}
-                {totalCount >= 100 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>百次快门</Text>
-                  </View>
-                )}
-                {totalCount >= 50 && totalCount < 100 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>五十次快门</Text>
-                  </View>
-                )}
-                {totalCount >= 30 && totalCount < 50 && (
-                  <View style={[styles.badge, { backgroundColor: COLORS.categoryStyle + '30', borderColor: COLORS.categoryStyle }]}>
-                    <Text style={[styles.badgeText, { color: COLORS.categoryStyle }]}>三十次快门</Text>
-                  </View>
-                )}
-                {totalCount >= 20 && totalCount < 30 && (
-                  <View style={[styles.badge, { backgroundColor: COLORS.categoryStyle + '30', borderColor: COLORS.categoryStyle }]}>
-                    <Text style={[styles.badgeText, { color: COLORS.categoryStyle }]}>二十次快门</Text>
-                  </View>
-                )}
-                {totalCount >= 10 && totalCount < 20 && (
+                {totalCount >= 10 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>十次快门</Text>
+                    <Text style={styles.badgeText}>拍摄{totalCount}次</Text>
                   </View>
                 )}
-                {/* 连续打卡 */}
                 {weeklyStats.streak >= 3 && (
-                  <View style={[styles.badgeBronze]}>
-                    <Text style={styles.badgeText}>连续{weeklyStats.streak}天</Text>
-                  </View>
-                )}
-                {weeklyStats.streak >= 7 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>连续打卡一周</Text>
-                  </View>
-                )}
-                {/* 月度成就 */}
-                {monthlyStats.monthBest >= 90 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>月度最佳{monthlyStats.monthBest}分</Text>
-                  </View>
-                )}
-                {monthlyStats.monthDiff > 5 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>比上月+{monthlyStats.monthDiff}分</Text>
+                    <Text style={styles.badgeText}>🔥 连续{weeklyStats.streak}天</Text>
                   </View>
                 )}
-                {/* 首次突破90分 */}
-                {maxScore >= 90 && totalCount >= 3 && avgScore >= 75 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>突破90分</Text>
-                  </View>
-                )}
-                {/* 满分达成 */}
                 {maxScore === 100 && (
                   <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>满分达成</Text>
+                    <Text style={styles.badgeText}>🏆 满分</Text>
                   </View>
                 )}
-                {/* 进步之星：连续3次比上次分数高 */}
-                {totalCount >= 3 && (() => {
-                  const recent3 = records.slice(0, 3)
-                  const improved = recent3.length >= 2 && recent3[0].score > recent3[1].score
-                  return improved ? (
-                    <View style={[styles.badge, { backgroundColor: COLORS.primary + '30', borderColor: COLORS.primary }]}>
-                      <Text style={[styles.badgeText, { color: COLORS.primary }]}>进步之星</Text>
-                    </View>
-                  ) : null
-                })()}
-                {/* 首次拍照鼓励 */}
                 {totalCount === 1 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>第一次，继续加油</Text>
+                    <Text style={styles.badgeText}>首次记录 ✨</Text>
                   </View>
                 )}
               </View>
@@ -1100,17 +976,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 10,
   },
-  levelProgressTrack: {
-    height: 8,
-    backgroundColor: COLORS.divider,
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginTop: 4,
-  },
-  levelProgressFill: {
-    height: '100%',
-    borderRadius: 4,
-  },
   badge: {
     paddingHorizontal: 10,
     paddingVertical: 4,
@@ -1119,9 +984,7 @@ const styles = StyleSheet.create({
   badgeGold: {
     backgroundColor: COLORS.warning + '20',
   },
-  badgeBronze: {
-    backgroundColor: COLORS.textMuted + '20',
-  },
+
   badgeGreen: {
     backgroundColor: COLORS.success + '20',
   },
@@ -1297,68 +1160,7 @@ const styles = StyleSheet.create({
     color: colors.statYellowText,
     lineHeight: 20,
   },
-  emptyMotivationCard: {
-    backgroundColor: colors.primaryLight,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(255,107,107,0.25)',
-  },
-  emptyMotivationEmoji: {
-    fontSize: 36,
-    marginBottom: 8,
-  },
-  emptyMotivationTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: colors.danger,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  emptyMotivationText: {
-    fontSize: 13,
-    color: colors.danger,
-    lineHeight: 20,
-    textAlign: 'center',
-  },
-  emptyMilestoneCard: {
-    backgroundColor: COLORS.bgCard,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: colors.purpleLight,
-  },
-  emptyMilestoneTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: COLORS.textSecondary,
-    marginBottom: 12,
-  },
-  emptyMilestoneList: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 8,
-  },
-  emptyMilestoneItem: {
-    alignItems: 'center',
-    gap: 4,
-  },
-  emptyMilestoneEmoji: {
-    fontSize: 28,
-  },
-  emptyMilestoneLabel: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    textAlign: 'center',
-  },
-  emptyMilestoneSubtext: {
-    fontSize: 12,
-    color: COLORS.textMuted,
-    textAlign: 'center',
-  },
+
   sheetOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.45)',
