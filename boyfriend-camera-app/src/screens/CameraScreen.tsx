@@ -200,8 +200,16 @@ export default function CameraScreen() {
     if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
     idleTimerRef.current = setTimeout(() => {
       VoiceCoach.speakIdleTooLong()
+      // 30秒后再给一个随机姿势提示
+      setTimeout(() => {
+        if (!activeTemplate) {
+          VoiceCoach.speakRandomPoseTip()
+        } else {
+          VoiceCoach.speakQuickPoseTip()
+        }
+      }, 30000)
     }, 45000) // 45秒无操作则提醒
-  }, [])
+  }, [activeTemplate])
 
   useEffect(() => {
     resetIdleTimer()
