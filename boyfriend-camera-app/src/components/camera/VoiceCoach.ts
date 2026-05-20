@@ -501,6 +501,12 @@ const STABILITY_TIPS = {
   RELAX_GRIP: '手机别握太紧！放松一点，手会更稳～',
   GROUND_STANCE: '双脚与肩同宽站好，稳稳的～',
   LOCK_ARMS: '手臂伸直锁住！比弯曲更稳～',
+  // ========== Round 3 新增拍摄场景提示 ==========
+  SUN_GLARE_SQUINT: '阳光太刺眼了！稍微侧身躲开强光，眼睛会更舒服～',
+  GLASS_FACE_REFLECTION: '玻璃有反光！稍微侧身躲开脸上的反光～',
+  MIRROR_CHECK_OUTFIT: '拍之前先检查一下镜子里！衣服领口都要整理好～',
+  POSE_CONFIRM_OK: '姿势到位了！表情准备好了吗？笑一个～',
+  POSE_MICRO_ADJUST: '就差一点点了！手的位置再微调一下～',
 }
 
 // 表情检测提示
