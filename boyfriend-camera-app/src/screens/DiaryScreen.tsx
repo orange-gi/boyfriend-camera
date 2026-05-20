@@ -20,7 +20,7 @@ import type { RootStackParamList } from '../../App'
 import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, colors } from '../theme'
+import { COLORS, colors, shadows } from '../theme'
 
 
 
@@ -861,11 +861,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 18,
     paddingVertical: 10,
-    shadowColor: COLORS.primary,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 3,
+    ...shadows.glow,
   },
   cameraBtnText: {
     color: COLORS.textOnPrimary,
@@ -895,11 +891,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOpacity: 0.07,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 12,
+    ...shadows.lg,
     overflow: 'hidden',
   },
   statsCardTitle: {
@@ -948,11 +940,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
+    ...shadows.sm,
     overflow: 'hidden',
     gap: 14,
   },
@@ -1238,11 +1226,7 @@ const styles = StyleSheet.create({
     padding: 32,
     marginBottom: 16,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    ...shadows.md,
   },
   emptyErrorEmoji: { fontSize: 48, marginBottom: 12 },
   emptyErrorTitle: {
@@ -1273,11 +1257,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 16,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    ...shadows.md,
   },
   emptyPreviewTitle: {
     fontSize: 15,
