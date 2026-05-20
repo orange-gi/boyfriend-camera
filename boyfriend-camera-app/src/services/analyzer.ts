@@ -3162,6 +3162,20 @@ export async function analyzePhoto(
   const rawTotal = compositionScore + exposureScore + stabilityScore + levelScore
   const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal)))
 
+  // ========== Round 38 新增：表情僵硬/引导建议激活 ==========
+  // 表情僵硬建议（低分区+人脸存在时触发）
+  if (faceCount > 0 && totalScore < 60 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.stiff_expression))
+  }
+  // 表情引导建议（中分区有提升空间时）
+  if (faceCount > 0 && totalScore >= 60 && totalScore < 80 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.expression_hint))
+  }
+  // 多人合照构图建议（合照但构图不佳时）
+  if (faceCount > 1 && compositionScore < 30) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.ugly_background))
+  }
+
   // ========== Round 34 新增：高级构图建议触发（构图一般但非极差） ==========
   if (compositionScore >= 25 && compositionScore < 35 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.creative_composition))
