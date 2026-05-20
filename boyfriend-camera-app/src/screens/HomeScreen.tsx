@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
-import { shadows, borderRadius, spacing, typography, colors } from '../theme/index'
+import { shadows, borderRadius, spacing, typography } from '../theme/index'
 import { logger } from '../utils/logger'
 
 const { width: SCREEN_W } = Dimensions.get('window')
