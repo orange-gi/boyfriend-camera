@@ -415,6 +415,21 @@ const FACE_TIPS = {
   NECK_EXTEND: '脖子伸长一点！天鹅颈上线，气质立刻提升～',
   SMILE_TENSION: '嘴角向耳朵方向拉！笑容会更开更灿烂～',
   EYE_SQUINT_HINT: '笑的时候眼睛眯小一点！这个表情好甜～',
+  // ========== Round 43 新增人脸提示 ==========
+  HAIR_MESSY_NATURAL: '头发有点乱但很有氛围感！自然的才是最美的～',
+  HAIR_WIND_BLOW: '风把头发吹起来好美！就是现在抓拍～',
+  GLASSES_CLEAN: '眼镜有点反光，侧一下脸躲开光源～',
+  FACE_TOO_CLOSE_CAMERA: '手机离脸太近了，稍微拿远一点点～',
+  FACE_FAR_AWAY: '离镜头再近一点点，脸会更清晰～',
+  NECK_LINE_TIP: '下巴稍微抬一点点，脖子线条会更修长～',
+  COLLAR_STRAIGHTEN: '领口歪了，轻轻整理一下会更好看～',
+  SHOULDER_RELAX: '肩膀放松往下沉，别端着，气质立刻提升～',
+  ARM_AWAY_BODY: '手臂稍微离开身体，侧面会更显瘦～',
+  SIT_STRAIGHT: '坐直了！弯腰驼背会显得没精神～',
+  WAIST_HINT: '身体稍微前倾一点点，这样比例更好看～',
+  HAND_HIP_TIP: '双手叉腰！这个姿势显瘦又有气场～',
+  FINGER_TIPS: '手指轻轻合拢，比张开更优雅～',
+  STAND_ONE_LEG: '站立时重心放一只脚，腿看起来更直更长～',
 }
 
 const STABILITY_TIPS = {
@@ -1633,6 +1648,20 @@ const POSE_TIPS = {
   MUSIC_FEST_TIP: '跟着音乐摇摆！表情夸张灿烂的时候抓拍，活力十足～',
   BAR_TIP: '靠吧台站着！鸡尾酒杯是天然道具，氛围感拉满～',
   BOOKSTORE_TIP: '靠在书架旁低头看书！文艺感十足，安静的美～',
+  // ========== Round 43 新增姿势提示 ==========
+  BALCONY_SUNSET_POSE: '夕阳西下时靠在阳台！逆光剪影超浪漫～',
+  GARDEN_SWING_POSE: '在花园秋千上轻轻晃动！裙子飘起来的时候抓拍～',
+  TERRACE_NIGHT_POSE: '在天台露台上！背景是星空或城市灯光，超有氛围～',
+  KITCHEN_CHEF_POSE: '在厨房灶台前！侧身靠着台面，笑着看向镜头～',
+  BALCONY_COFFEE_POSE: '捧着咖啡杯靠在阳台！早晨的光线超柔和～',
+  BIKE_CAFE_POSE: '在咖啡馆门口骑自行车！活力感和日常感兼具～',
+  ROOFTOP_PICNIC_POSE: '在天台野餐垫上！坐着歪头笑，背景是城市天际线～',
+  TRAIN_WINDOW_POSE: '在火车窗边靠着！窗外风景做背景，超有旅途感～',
+  FERRY_DECK_POSE: '在渡轮甲板上！背景是大海和蓝天，超开阔～',
+  CAR_SELFIE_WINDOW_POSE: '在车里靠着车窗！窗外街景做背景，氛围感满满～',
+  LAKE_SIDE_POSE: '在湖边站着！水面反光打在脸上超通透～',
+  MEADOW_FLOWER_POSE: '在花田中蹲下来！花花草草做前景，超有层次感～',
+  BALLOON_STRING_POSE: '拿着气球线轻轻晃动！抓拍动态瞬间，超有活力～',
 }
 
 type FaceTipKey = keyof typeof FACE_TIPS
