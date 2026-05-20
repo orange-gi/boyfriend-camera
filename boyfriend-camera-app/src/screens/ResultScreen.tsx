@@ -639,6 +639,11 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         {/* 处理中 */}
         {processing && (
           <View style={styles.processingOverlay}>
+            {/* 新增：拍照成功确认 */}
+            <View style={styles.photoSuccessBadge}>
+              <Text style={styles.photoSuccessIcon}>✓</Text>
+              <Text style={styles.photoSuccessText}>照片已拍到，正在分析...</Text>
+            </View>
             <View style={styles.skeletonCard}>
               <View style={styles.skeletonCardImage} />
               <View style={styles.skeletonCardRow}>
@@ -1139,6 +1144,26 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontWeight: '700',
     fontSize: 13,
+  },
+  photoSuccessBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.successLight,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginBottom: 16,
+    alignSelf: 'center',
+    gap: 8,
+  },
+  photoSuccessIcon: {
+    fontSize: 16,
+    color: colors.success,
+  },
+  photoSuccessText: {
+    fontSize: 13,
+    color: colors.success,
+    fontWeight: '600',
   },
   processingOverlay: {
     alignItems: 'center',
