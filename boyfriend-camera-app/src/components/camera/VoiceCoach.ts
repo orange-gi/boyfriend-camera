@@ -3633,6 +3633,37 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
+  // ========== 本次新增 TTS 方法 ==========
+  /** 偏色警告（室内灯光导致色调异常） */
+  async speakColorCastWarning(): Promise<void> {
+    const tips = [
+      '这个光线有点偏色～换个地方或靠窗站，颜色会更自然～',
+      '室内灯光让照片有点黄／绿，靠近窗户用自然光试试～',
+      '白平衡有点跑偏！找个自然光充足的地方拍，颜色会更正～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 逆光警告（背景亮脸太暗） */
+  async speakBacklightWarning(): Promise<void> {
+    const tips = [
+      '背光太强了！脸有点黑，打开闪光灯补补光～',
+      '逆光场景！转过来让脸朝向光源，或者打开闪光灯～',
+      '背景太亮脸太暗！打开闪光灯，或者走到阴影处拍～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 清晰度不足警告（照片可能糊了） */
+  async speakBlurWarning(): Promise<void> {
+    const tips = [
+      '手稍微稳一点！对焦可能没对准，拍照前先点一下屏幕～',
+      '有点糊了！双手握稳手机，深呼吸憋住气再按快门～',
+      '这张不够清晰！让男朋友靠墙或找支撑点再拍～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
