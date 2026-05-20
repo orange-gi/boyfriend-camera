@@ -30,6 +30,7 @@ import StabilityIndicator from '../components/camera/StabilityIndicator'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { useTemplates } from '../hooks/useTemplates'
 import { useStability } from '../hooks/useStability'
+import { useFaceDetection } from '../hooks/useFaceDetection'
 import { useSceneRecommendation } from '../hooks/useSceneRecommendation'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
 import { COLORS, CATEGORY_COLORS } from '../theme/colors'
@@ -141,6 +142,9 @@ export default function CameraScreen() {
   const cameraRef = useRef<CameraViewRef>(null)
   const { templates, loading: templatesLoading, error: templatesError, refresh, markUsed } = useTemplates()
   const stability = useStability()
+  const { faces, processFrame } = useFaceDetection()
+  // 节流自拍距离 TTS（避免频繁播报）
+  const lastSelfieWarningRef = useRef<number>(0)
   // VoiceCoach 是默认导出的实例，直接引用即可
   const handleAutoRecommended = useCallback((template: PoseTemplate) => {
     setActiveTemplate(template)
@@ -194,6 +198,25 @@ export default function CameraScreen() {
   useEffect(() => {
     VoiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
   }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
+
+  // 自拍距离 TTS 检查（前置摄像头下，Face 面积 > 0.22 时提示退远）
+  useEffect(() => {
+    if (cameraFacing !== 'front') return
+    const now = Date.now()
+    if (now - lastSelfieWarningRef.current < 4000) return // 4s 节流
+    if (faces.length > 0 && faces[0].area > 0.22) {
+      lastSelfieWarningRef.current = now
+      VoiceCoach.speak('手机拿远一点！自拍离太近会变形～', false)
+    }
+  }, [faces, cameraFacing])
+
+  // 定期触发 mock 人脸检测（让自拍距离 TTS 有数据可用）
+  useEffect(() => {
+    const id = setInterval(() => {
+      processFrame({ width: 1080, height: 1920 }, cameraFacing).catch(() => {})
+    }, 300)
+    return () => clearInterval(id)
+  }, [cameraFacing, processFrame])
 
   useEffect(() => {
     getRecentTemplateIds().then(setRecentIds)

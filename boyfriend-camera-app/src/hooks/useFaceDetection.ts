@@ -100,7 +100,6 @@ function mockBackCameraFace(): FaceInfo {
 
 export function useFaceDetection() {
   const [faces, setFaces] = useState<FaceInfo[]>([])
-  const [isDetecting, setIsDetecting] = useState(false)
   const frameCountRef = useRef(0)
   // 保存最新人脸结果（避免闭包陈旧）
   const latestFacesRef = useRef<FaceInfo[]>([])
@@ -115,44 +114,39 @@ export function useFaceDetection() {
     frame: { width: number; height: number },
     cameraFacing: 'front' | 'back' = 'front'
   ): Promise<FaceInfo[]> => {
-    setIsDetecting(true)
-    try {
-      // === MLKit 集成说明（接入时取消注释以下代码）===
-      // 安装: npm install @react-native-ml-kit/face-detection
-      // import FaceDetection from '@react-native-ml-kit/face-detection'
-      //
-      // const result = await FaceDetection.processImage(frame as android.graphics.Bitmap)
-      // const detected: FaceInfo[] = (Array.isArray(result) ? result : [result]).map(f => ({
-      //   x: f.frame?.x ? f.frame.x / frame.width : 0.5,
-      //   y: f.frame?.y ? f.frame.y / frame.height : 0.4,
-      //   width: f.frame?.width ? f.frame.width / frame.width : 0.3,
-      //   height: f.frame?.height ? f.frame.height / frame.height : 0.4,
-      //   area: f.frame
-      //     ? (f.frame.width * f.frame.height) / (frame.width * frame.height)
-      //     : 0.12,
-      //   yawAngle: f.yawAngle ?? 0,
-      //   rollAngle: f.rollAngle ?? 0,
-      //   leftEyeOpen: (f.leftEyeOpenProbability ?? 0) > 0.5,
-      //   rightEyeOpen: (f.rightEyeOpenProbability ?? 0) > 0.5,
-      //   smiling: (f.smilingProbability ?? 0) > 0.6,
-      //   confidence: f.probability ?? 0.85,
-      // }))
-      // setFaces(detected)
-      // return detected
+    // === MLKit 集成说明（接入时取消注释以下代码）===
+    // 安装: npm install @react-native-ml-kit/face-detection
+    // import FaceDetection from '@react-native-ml-kit/face-detection'
+    //
+    // const result = await FaceDetection.processImage(frame as android.graphics.Bitmap)
+    // const detected: FaceInfo[] = (Array.isArray(result) ? result : [result]).map(f => ({
+    //   x: f.frame?.x ? f.frame.x / frame.width : 0.5,
+    //   y: f.frame?.y ? f.frame.y / frame.height : 0.4,
+    //   width: f.frame?.width ? f.frame.width / frame.width : 0.3,
+    //   height: f.frame?.height ? f.frame.height / frame.height : 0.4,
+    //   area: f.frame
+    //     ? (f.frame.width * f.frame.height) / (frame.width * frame.height)
+    //     : 0.12,
+    //   yawAngle: f.yawAngle ?? 0,
+    //   rollAngle: f.rollAngle ?? 0,
+    //   leftEyeOpen: (f.leftEyeOpenProbability ?? 0) > 0.5,
+    //   rightEyeOpen: (f.rightEyeOpenProbability ?? 0) > 0.5,
+    //   smiling: (f.smilingProbability ?? 0) > 0.6,
+    //   confidence: f.probability ?? 0.85,
+    // }))
+    // setFaces(detected)
+    // return detected
 
-      // Mock 模式：每 3 帧生成一次模拟人脸（避免 VoiceCoach 频繁误报）
-      frameCountRef.current += 1
-      if (frameCountRef.current % 3 === 0) {
-        const mockFace = cameraFacing === 'front' ? mockFrontCameraFace() : mockBackCameraFace()
-        setFaces([mockFace])
-        latestFacesRef.current = [mockFace]
-        return [mockFace]
-      }
-      // 返回最新结果而非闭包中的 faces
-      return latestFacesRef.current
-    } finally {
-      setIsDetecting(false)
+    // Mock 模式：每 3 帧生成一次模拟人脸（避免 VoiceCoach 频繁误报）
+    frameCountRef.current += 1
+    if (frameCountRef.current % 3 === 0) {
+      const mockFace = cameraFacing === 'front' ? mockFrontCameraFace() : mockBackCameraFace()
+      setFaces([mockFace])
+      latestFacesRef.current = [mockFace]
+      return [mockFace]
     }
+    // 返回最新结果而非闭包中的 faces
+    return latestFacesRef.current
   }, [])
 
   /**
@@ -181,7 +175,6 @@ export function useFaceDetection() {
 
   return {
     faces,
-    isDetecting,
     processFrame,
     setManualFaces,
     clearFaces,
