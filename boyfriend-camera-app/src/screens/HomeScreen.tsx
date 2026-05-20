@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
   heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
 
   // 每日技巧
-  dailyTipCard: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], borderWidth: 1, borderColor: COLORS.divider, ...shadows.sm },
+  dailyTipCard: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], ...shadows.sm },
   dailyTipTouchable: { flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: spacing[3] },
   dailyTipHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 },
   dailyTipExpandIcon: { fontSize: 10, color: COLORS.textMuted, opacity: 0.7 },
@@ -452,7 +452,7 @@ const styles = StyleSheet.create({
   dailyTipMoreIcon: { fontSize: 20, flexShrink: 0, marginTop: 1 },
   dailyTipMoreText: { flex: 1, fontSize: typography.fontSize.sm, color: COLORS.textSecondary, lineHeight: 20 },
   dailyTipMoreHint: { fontSize: 10, color: COLORS.textMuted, opacity: 0.6, marginTop: 6, textAlign: 'right' },
-  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], borderWidth: 1, borderColor: COLORS.divider, ...shadows.sm },
+  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], ...shadows.sm },
   dailyTipLeft: { flexShrink: 0 },
   dailyTipIcon: { fontSize: 28 },
   dailyTipContent: { flex: 1 },
