@@ -52,26 +52,28 @@ export default function ResultScreen() {
   const [praiseList, setPraiseList] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [processing, setProcessing] = useState(true)
-  const [selectedFilter, setSelectedFilter] = useState<'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'>(
-    (() => {
-      // 根据模板分类智能推荐滤镜
-      const catFilterMap: Record<string, 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'> = {
-        '餐厅美食': 'food',
-        '户外风景': 'golden',
-        '城市街拍': 'cinematic',
-        '室内场景': 'warm',
-        '室内人像': 'portrait',
-        '特殊风格': 'vivid',
-        '情侣合照': 'portrait',
-        '室内日常': 'soft',
-        '自拍技巧': 'soft',
-        '构图技巧': 'cinematic',
-      }
-      return templateCategory ? (catFilterMap[templateCategory] ?? 'warm') : 'warm'
-    })()
-  )
+  // 8 个核心滤镜：warm(通用) cool(蓝调) vivid(生动) soft(柔和) bw(黑白) portrait(人像) food(美食) cinematic(电影)
+// 删除：landscape/night/sunset/floral/snow/golden — 场景太少/与核心滤镜重叠，14 个选项增加决策负担
+type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
+const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
+  (() => {
+    const catFilterMap: Record<string, CoreFilter> = {
+      '餐厅美食': 'food',
+      '户外风景': 'warm',
+      '城市街拍': 'cinematic',
+      '室内场景': 'warm',
+      '室内人像': 'portrait',
+      '特殊风格': 'vivid',
+      '情侣合照': 'portrait',
+      '室内日常': 'soft',
+      '自拍技巧': 'soft',
+      '构图技巧': 'cinematic',
+    }
+    return (templateCategory ? (catFilterMap[templateCategory] ?? 'warm') : 'warm') as CoreFilter
+  })()
+)
 
-const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'; label: string; emoji: string; color: string }> = [
+const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; color: string }> = [
   { key: 'warm', label: '暖黄', emoji: '🌅', color: colors.filterWarm },
   { key: 'cool', label: '冷调', emoji: '❄️', color: colors.filterCool },
   { key: 'vivid', label: '生动', emoji: '🎨', color: colors.filterVivid },
@@ -79,12 +81,6 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
   { key: 'bw', label: '黑白', emoji: '🖤', color: colors.filterBw },
   { key: 'portrait', label: '人像', emoji: '👩', color: colors.filterPortrait },
   { key: 'food', label: '美食', emoji: '🍔', color: colors.filterFood },
-  { key: 'landscape', label: '风景', emoji: '🏞️', color: colors.filterLandscape },
-  { key: 'night', label: '夜景', emoji: '🌃', color: colors.filterNight },
-  { key: 'sunset', label: '日落', emoji: '🌇', color: colors.filterSunset },
-  { key: 'floral', label: '花季', emoji: '🌺', color: colors.filterFloral },
-  { key: 'snow', label: '雪景', emoji: '❄️', color: colors.filterSnow },
-  { key: 'golden', label: '金棕', emoji: '✨', color: colors.filterGolden },
   { key: 'cinematic', label: '电影', emoji: '🎬', color: colors.filterCinematic },
 ]
   const [comparisonUri, setComparisonUri] = useState<string>('')
