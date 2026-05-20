@@ -3230,6 +3230,22 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '这张皮肤已经很亮了！自然光最会说话～',
     '光线打在脸上刚刚好，质感很通透～',
   ],
+  // ========== 本次新增：脸太靠边专属建议 ==========
+  face_too_edge: [
+    '脸太靠边了！稍微往中间站一点点会更舒服～',
+    '人有点被挤到边框了，往中间移一步，构图更舒服～',
+    '脸靠边缘太近了，稍微往中间站，画面会更平衡～',
+    '构图稍微偏了一点，让人往画面中间靠一靠～',
+    '脸贴边了！稍微退一步让脸在画面中央～',
+  ],
+  // ========== 本次新增：景大人小专属建议 ==========
+  subject_too_small_generic: [
+    '人太小了！让男朋友走近一点拍，大一点更好看～',
+    '背景太大人物太小了，往前走几步让人大一点～',
+    '人太小显得景大人小，靠近一点拍主体会更突出～',
+    '这张构图有点空，让人站近一点，画面会更饱满～',
+    '主体太小了，稍微走近几步让人占画面比例更大～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -3317,6 +3333,12 @@ export async function analyzePhoto(
       compositionScore -= 5
       suggestions.push('脸太大了！稍微退后一步，别贴那么近～')
     }
+    // 景大人小（面积小于0.08但不为0，说明人太小了）
+    if (facePosition.area > 0 && facePosition.area < 0.08 && compositionScore < 30) {
+      if (suggestions.length < 4) {
+        suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_small_generic))
+      }
+    }
   }
   if (compositionScore >= 35) praise.push(pickRandom(PRAISE_POOL.composition_great))
   if (compositionScore >= 35 && faceCount > 0) praise.push(pickRandom(PRAISE_POOL.face_great))
@@ -3328,6 +3350,12 @@ export async function analyzePhoto(
       facePosition.y < 0.12 || facePosition.y > 0.88
     if (tooCloseToEdge) {
       suggestions.push(pickRandom(SUGGESTION_POOL.face_cut_off))
+    }
+    // 人脸太靠边（比 off-center 更严重）
+    if (facePosition.x < 0.12 || facePosition.x > 0.88 || facePosition.y < 0.18 || facePosition.y > 0.82) {
+      if (suggestions.length < 4) {
+        suggestions.push(pickRandom(SUGGESTION_POOL.face_too_edge))
+      }
     }
   }
 
