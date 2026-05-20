@@ -755,6 +755,16 @@ export default function CameraScreen() {
                 numColumns={2}
                 columnWrapperStyle={styles.templateRow}
                 contentContainerStyle={styles.templateList}
+                // ========== Round 36 UI/UX 优化：FlatList 性能优化 ==========
+                getItemLayout={(_, index) => ({
+                  length: 205,
+                  offset: 205 * Math.floor(index / 2),
+                  index,
+                })}
+                removeClippedSubviews={true}
+                maxToRenderPerBatch={10}
+                windowSize={5}
+                initialNumToRender={8}
                 renderItem={({ item }) => {
                   const catColor = CATEGORY_COLORS[item.category || ''] || COLORS.primary
                   const isActive = activeTemplate?.id === item.id
