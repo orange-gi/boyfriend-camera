@@ -6,6 +6,7 @@
 import Tts from 'react-native-tts'
 import { type EmotionDetection } from '../../services/analyzer'
 import { logger } from '../../utils/logger'
+import { pickRandom } from '../../utils/scoring'
 
 // 提示文案
 const FACE_TIPS = {
@@ -1695,10 +1696,7 @@ type FaceTipKey = keyof typeof FACE_TIPS
 type StabilityTipKey = keyof typeof STABILITY_TIPS
 
 /** 通用随机抽取（带防御性空值检查） */
-function pickRandomFrom(arr: string[]): string {
-  if (!arr || arr.length === 0) return ''
-  return arr[Math.floor(Math.random() * arr.length)]
-}
+// pickRandomFrom 已迁移到 ../../utils/scoring.ts 为 pickRandom
 
 /** 从稳定性提示池中随机选取同类提示 */
 function pickStabilityTip(category: 'STABLE' | 'SHAKY' | 'EXTREME_SHAKE' | 'TILTED'): string {
@@ -1910,7 +1908,7 @@ class VoiceCoach {
       FACE_TIPS.SHOOT_GOOD,
       FACE_TIPS.CLICK_SNAP,
     ]
-    await this.speak(pickRandomFrom(tips), true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 表情动作提示（随机抽取） */
@@ -1928,7 +1926,7 @@ class VoiceCoach {
       FACE_TIPS.TRY_LOW_ANGLE,
       FACE_TIPS.TRY_HIGH_ANGLE,
     ]
-    await this.speak(pickRandomFrom(tips), true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 相机设置提示 */
@@ -1941,7 +1939,7 @@ class VoiceCoach {
       FACE_TIPS.CHECK_LIGHTING,
       FACE_TIPS.FIND_WINDOW,
     ]
-    await this.speak(pickRandomFrom(tips), true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 多脸检测提示（根据人数不同提示不同） */
@@ -1969,7 +1967,7 @@ class VoiceCoach {
     }
     const pool = tips[mode]
     if (pool && pool[0]) {
-      await this.speak(pickRandomFrom(pool), true)
+      await this.speak(pickRandom(pool), true)
     }
   }
 
@@ -2011,7 +2009,7 @@ class VoiceCoach {
       FACE_TIPS.LOW_ANGLE_FACE,
       FACE_TIPS.HIGH_ANGLE_FACE,
     ]
-    await this.speak(pickRandomFrom(pool), true)
+    await this.speak(pickRandom(pool), true)
   }
 
   /** 场景光线提示 */
@@ -2944,7 +2942,7 @@ class VoiceCoach {
       '积水倒影超美！蹲下来拍一张，别有洞天～',
       '打开闪光灯补补光，雨天脸容易暗～',
     ]
-    await this.speak(pickRandomFrom(tips), false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 逆光拍摄提示 */
@@ -2956,7 +2954,7 @@ class VoiceCoach {
       '逆光太强了！打开闪光灯补光，不然脸会黑黑的～',
       '换个角度！让光源打在脸的侧面或后方，轮廓会更清晰～',
     ]
-    await this.speak(pickRandomFrom(tips), true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 侧光拍摄提示 */

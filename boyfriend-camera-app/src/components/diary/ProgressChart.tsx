@@ -143,20 +143,23 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
         />
 
         {/* 数据点 */}
-        {sorted.map((e, i) => {
-          const x = toX(i)
-          const y = toY(e.score)
-          const dotColor = e.score >= 80 ? COLORS.scoreGreat : e.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
-          const isMax = sorted.length > 0 && e.score === Math.max(...sorted.map(s => s.score))
-          return (
-            <React.Fragment key={i}>
-              {/* 最高分特殊标记：金色光晕 */}
-              {isMax && <Circle cx={x} cy={y} r={9} color={colors.warningLight} />}
-              <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? colors.warning : dotColor} />
-              <Circle cx={x} cy={y} r={isMax ? 3 : 2} color="#fff" />
-            </React.Fragment>
-          )
-        })}
+        {(() => {
+          const maxScore = sorted.length > 0 ? sorted.reduce((m, e) => (e.score > m ? e.score : m), 0) : 0
+          return sorted.map((e, i) => {
+            const x = toX(i)
+            const y = toY(e.score)
+            const dotColor = e.score >= 80 ? COLORS.scoreGreat : e.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
+            const isMax = e.score === maxScore
+            return (
+              <React.Fragment key={i}>
+                {/* 最高分特殊标记：金色光晕 */}
+                {isMax && <Circle cx={x} cy={y} r={9} color={colors.warningLight} />}
+                <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? colors.warning : dotColor} />
+                <Circle cx={x} cy={y} r={isMax ? 3 : 2} color="#fff" />
+              </React.Fragment>
+            )
+          })
+        })()}
 
         {/* X 轴日期标签（稀疏显示） */}
         {sorted.map((e, i) => {

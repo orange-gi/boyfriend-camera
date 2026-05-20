@@ -10,6 +10,7 @@ import type { RootStackParamList } from '../../App'
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withDelay, withTiming } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
+import { avgScore as calcAvgScore } from '../utils/scoring'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
 import { shadows, borderRadius, spacing, typography } from '../theme/index'
@@ -157,7 +158,7 @@ export default function HomeScreen() {
       const today = new Date().toDateString()
       setTodayCount(diary.filter(r => new Date(r.date).toDateString() === today).length)
       if (diary.length > 0) {
-        const avg = Math.round(diary.reduce((s, r) => s + r.score, 0) / diary.length)
+        const avg = calcAvgScore(diary)
         setAvgScore(avg)
         setDisplayDiaryCount(diary.length)
         setDisplayAvgScore(avg)

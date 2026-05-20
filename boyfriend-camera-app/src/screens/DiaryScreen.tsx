@@ -19,6 +19,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
 import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
+import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
 import { COLORS, colors, shadows } from '../theme'
 
@@ -112,9 +113,7 @@ export default function DiaryScreen() {
 
   // 统计数据
   const totalCount = records.length
-  const avgScore = totalCount > 0
-    ? Math.round(records.reduce((sum, r) => sum + r.score, 0) / totalCount)
-    : 0
+  const avgScore = calcAvgScore(records)
 
   // 总进步（第一条=最旧 - 最后一条=最新）：进步为正说明越拍越好
   const totalProgress = totalCount >= 2
@@ -122,7 +121,7 @@ export default function DiaryScreen() {
     : 0
 
   // 最高分：优先使用存储的巅峰分，兼顾日记内最高
-  const maxScore = peakScore > 0 ? peakScore : (totalCount > 0 ? Math.max(...records.map((r) => r.score)) : 0)
+  const maxScore = peakScore > 0 ? peakScore : (totalCount > 0 ? records.reduce((max, r) => (r.score > max ? r.score : max), 0) : 0)
   const recentScore = totalCount > 0 ? records[0].score : 0
 
   // 周统计数据
@@ -167,7 +166,7 @@ export default function DiaryScreen() {
       : 0
     const monthCount = monthRecords.length
     const monthBest = monthRecords.length > 0
-      ? Math.max(...monthRecords.map((r) => r.score))
+      ? monthRecords.reduce((max, r) => (r.score > max ? r.score : max), 0)
       : 0
     const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
@@ -186,7 +185,7 @@ export default function DiaryScreen() {
   const trendInfo = useMemo(() => {
     if (totalCount < 3) return { text: '继续加油！', color: colors.textMuted, gradient: [colors.skeletonHighlight, colors.skeletonBase] }
     const recent5 = records.slice(0, Math.min(5, totalCount))
-    const avg = recent5.reduce((s, r) => s + r.score, 0) / recent5.length
+    const avg = calcAvgScore(recent5)
     if (avg >= 80) return { text: '📸 男友进化中！', color: colors.success, gradient: [colors.successLight, colors.trendSuccessLight] }
     if (avg >= 65) return { text: '📈 稳步提升中', color: colors.success, gradient: [colors.gradientBlue, colors.trendInfoLight] }
     if (avg >= 50) return { text: '💪 还需要多练习', color: colors.warning, gradient: [colors.warningLight, colors.trendWarningLight] }

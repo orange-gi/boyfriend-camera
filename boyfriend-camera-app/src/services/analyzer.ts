@@ -4,6 +4,7 @@
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { logger } from '../utils/logger'
+import { pickRandom, safeBrightness as clampBrightness, safeSharpness as clampSharpness } from '../utils/scoring'
 
 const DIARY_KEY = 'progress_diary'
 
@@ -3248,11 +3249,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
   ],
 }
 
-/** 通用随机抽取（带防御性空值检查） */
-function pickRandom(arr: string[] | undefined): string {
-  if (!arr || arr.length === 0) return ''
-  return arr[Math.floor(Math.random() * arr.length)]
-}
+// pickRandom 已迁移到 ../utils/scoring.ts
 
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */
@@ -3300,8 +3297,8 @@ export async function analyzePhoto(
 ): Promise<AnalysisResult> {
   const { facePosition, faceCount, brightness, sharpness, tiltAngle } = params
   // 边界校验：防止异常输入导致评分越界
-  const safeBrightness = Math.max(0, Math.min(255, brightness))
-  const safeSharpness = Math.max(0, Math.min(255, sharpness))
+  const safeBrightness = clampBrightness(brightness)
+  const safeSharpness = clampSharpness(sharpness)
   const { lastScore, recentAvg, streakCount = 0, totalShoots = 0, isFirstPhoto, sceneType, lastCompositionScore, lastExpressionScore, lastExposureScore, lastStabilityScore, isCouplePhoto, peakScore } = context
   const problems: string[] = []
   const suggestions: string[] = []
