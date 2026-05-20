@@ -368,6 +368,19 @@ const FACE_TIPS = {
   FACE_LOCKED: '找到你了！就是现在，笑一个～',
   CAMERA_TOO_CLOSE: '手机离脸太近了！稍微拿远一点点～',
   LOW_BATTERY_HINT: '手机快没电了！抓紧时间多拍几张～',
+  // ========== Round 3 新增 TTS 场景 ==========
+  CAMERA_SWITCHED_FRONT: '切换到前置摄像头啦～找好角度，笑一个～',
+  CAMERA_SWITCHED_FRONT_2: '自拍模式开启！侧脸也超好看，试试看～',
+  CAMERA_SWITCHED_FRONT_3: '前置镜头就位！对着镜子找找最好的角度～',
+  CAMERA_SWITCHED_BACK: '切换到后置摄像头！画质更清晰，让男朋友拿稳手机～',
+  CAMERA_SWITCHED_BACK_2: '后置镜头更专业！男朋友准备好了吗～',
+  CAMERA_SWITCHED_BACK_3: '后置镜头画质更好！站好位置，准备开拍～',
+  BURST_CAPTURE_DONE: '连拍完成！拍了X张，挑一张最好的吧～',
+  BURST_CAPTURE_DONE_2: '拍了好多张！选一张最喜欢的吧～',
+  BURST_CAPTURE_DONE_3: '连拍结束！动起来的瞬间最自然，选最自然的那张～',
+  IDLE_TOO_LONG: '等了好一会儿了～动起来！换个姿势试试～',
+  IDLE_TOO_LONG_2: '站太久了！换个角度或者走几步，照片会更有活力～',
+  IDLE_TOO_LONG_3: '好安静呀～笑一个，逗逗她，让男朋友抓拍～',
   // ========== Round 41 新增人脸提示 ==========
   GLASSES_REFLECTION: '眼镜反光太亮了！稍微侧一下脸躲开光源～',
   GLASSES_TILT: '镜片反光挡住眼睛了，抬头或低头一点点～',
@@ -3589,6 +3602,34 @@ class VoiceCoach {
       '连拍模式开起来！动起来的瞬间最自然～',
       '多拍几张总有一张完美！别只拍一张就收工～',
     ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  // ========== Round 3 新增 TTS 方法 ==========
+  /** 切换到前置摄像头 */
+  async speakCameraSwitchedFront(): Promise<void> {
+    const tips = [FACE_TIPS.CAMERA_SWITCHED_FRONT, FACE_TIPS.CAMERA_SWITCHED_FRONT_2, FACE_TIPS.CAMERA_SWITCHED_FRONT_3]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 切换到后置摄像头 */
+  async speakCameraSwitchedBack(): Promise<void> {
+    const tips = [FACE_TIPS.CAMERA_SWITCHED_BACK, FACE_TIPS.CAMERA_SWITCHED_BACK_2, FACE_TIPS.CAMERA_SWITCHED_BACK_3]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 连拍完成汇总 */
+  async speakBurstCaptureDone(count: number): Promise<void> {
+    const pools = [FACE_TIPS.BURST_CAPTURE_DONE, FACE_TIPS.BURST_CAPTURE_DONE_2, FACE_TIPS.BURST_CAPTURE_DONE_3]
+    let text = pools[Math.floor(Math.random() * pools.length)]
+    // 替换占位符 X
+    text = text.replace('X', String(count))
+    await this.speak(text, true)
+  }
+
+  /** 停留过久的鼓励语 */
+  async speakIdleTooLong(): Promise<void> {
+    const tips = [FACE_TIPS.IDLE_TOO_LONG, FACE_TIPS.IDLE_TOO_LONG_2, FACE_TIPS.IDLE_TOO_LONG_3]
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 

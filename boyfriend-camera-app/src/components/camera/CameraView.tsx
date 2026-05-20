@@ -25,6 +25,8 @@ import { logger } from '../../utils/logger'
 
 export interface CameraViewRef {
   takePhoto: (flashMode?: 'off' | 'on' | 'auto') => Promise<PhotoFile | null>
+  /** 连拍（返回最后一张照片） */
+  takeBurstPhoto: (count: number, flashMode?: 'off' | 'on' | 'auto') => Promise<PhotoFile | null>
 }
 
 interface Props {
@@ -34,6 +36,8 @@ interface Props {
   facing?: 'front' | 'back'
   /** 传 null 表示相机已就绪，清除误报 */
   onError?: (error: string | null) => void
+  /** 连拍完成时回调（传入拍摄数量） */
+  onBurstDone?: (count: number) => void
 }
 
 const CameraView = forwardRef<CameraViewRef, Props>(({
@@ -42,6 +46,7 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
   isActive = true,
   facing = 'back',
   onError,
+  onBurstDone,
 }, ref) => {
   const internalRef = useRef<CameraRef>(null)
   const photoOutputRef = useRef<CameraPhotoOutput | null>(null)
@@ -87,9 +92,40 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
     }
   }, [])
 
+  // 连拍方法 - 快速连拍多张，返回最后一张
+  const takeBurstPhoto = useCallback(async (
+    count: number,
+    flashMode: 'off' | 'on' | 'auto' = 'off'
+  ): Promise<PhotoFile | null> => {
+    const output = photoOutputRef.current
+    if (!output) return null
+    let lastPhoto: PhotoFile | null = null
+    for (let i = 0; i < count; i++) {
+      try {
+        const photo: Photo = await output.capturePhoto(
+          { flashMode: flashMode === 'auto' ? 'auto' : flashMode },
+          {}
+        )
+        try {
+          const filePath = await photo.saveToTemporaryFileAsync()
+          lastPhoto = { filePath }
+        } catch (_e) {
+          // 忽略保存错误，继续拍下一张
+        }
+        photo.dispose()
+      } catch (_e) {
+        // 单张失败，继续下一张
+      }
+    }
+    // 连拍完成后通知
+    onBurstDone?.(count)
+    return lastPhoto
+  }, [onBurstDone])
+
   useImperativeHandle(ref, () => ({
     takePhoto,
-  }), [takePhoto])
+    takeBurstPhoto,
+  }), [takePhoto, takeBurstPhoto])
 
   useEffect(() => {
     if (!hasPermission) {

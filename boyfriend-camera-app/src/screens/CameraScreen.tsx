@@ -31,6 +31,7 @@ import { useTemplates } from '../hooks/useTemplates'
 import { useStability } from '../hooks/useStability'
 import { useFaceDetection } from '../hooks/useFaceDetection'
 import { useSceneRecommendation } from '../hooks/useSceneRecommendation'
+import { useBatteryMonitor } from '../hooks/useBatteryMonitor'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
 import { COLORS, CATEGORY_COLORS } from '../theme/colors'
 import { shadows } from '../theme/index'
@@ -194,6 +195,25 @@ export default function CameraScreen() {
     return () => VoiceCoach.stop()
   }, [])
 
+  // ========== Round 3 新增：闲置计时器（45秒无操作则提醒） ==========
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const resetIdleTimer = useCallback(() => {
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
+    idleTimerRef.current = setTimeout(() => {
+      VoiceCoach.speakIdleTooLong()
+    }, 45000) // 45秒无操作则提醒
+  }, [])
+
+  useEffect(() => {
+    resetIdleTimer()
+    return () => {
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
+    }
+  }, [resetIdleTimer])
+
+  // ========== Round 3 新增：电量监控（低于 20% 时 TTS 提醒） ==========
+  useBatteryMonitor(() => VoiceCoach.speak('手机快没电了！抓紧时间多拍几张～', true))
+
   useEffect(() => {
     VoiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
   }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
@@ -281,14 +301,17 @@ export default function CameraScreen() {
     setIsCapturing(true)
     // 拍照时轻震反馈（50ms 短震，给用户确认感）
     Vibration.vibrate(50)
+    // 重置闲置计时器
+    resetIdleTimer()
     try {
       await doCapture()
     } finally {
       setIsCapturing(false)
     }
-  }, [isCapturing])
+  }, [isCapturing, resetIdleTimer])
 
   const handleSelectTemplate = useCallback(async (template: PoseTemplate) => {
+    resetIdleTimer()
     markManualTemplate()
     setActiveTemplate(template)
     setShowTemplateModal(false)
@@ -308,7 +331,7 @@ export default function CameraScreen() {
     await saveRecentTemplate(template.id)
     setRecentIds(await getRecentTemplateIds())
     await markUsed(template.id)
-  }, [markUsed, markManualTemplate])
+  }, [markUsed, markManualTemplate, resetIdleTimer])
 
   const handleVoiceTipConfirm = useCallback(() => {
     if (activeTemplate?.voiceTip) {
@@ -329,12 +352,17 @@ export default function CameraScreen() {
   }, [])
 
   const flipCamera = useCallback(() => {
+    resetIdleTimer()
     setCameraFacing((prev) => {
       const next = prev === 'back' ? 'front' : 'back'
-      VoiceCoach.speak(next === 'front' ? '切换前置摄像头，自拍模式～' : '切换后置摄像头', false)
+      if (next === 'front') {
+        VoiceCoach.speakCameraSwitchedFront()
+      } else {
+        VoiceCoach.speakCameraSwitchedBack()
+      }
       return next
     })
-  }, [])
+  }, [resetIdleTimer])
 
   const clearTemplate = useCallback(() => {
     setActiveTemplate(null)
@@ -407,6 +435,10 @@ export default function CameraScreen() {
           isActive={isActive}
           torchMode={flash === 'on' ? 'on' : 'off'}
           onError={(err) => setCameraError(err)}
+          onBurstDone={(count) => {
+            VoiceCoach.speakBurstCaptureDone(count)
+            resetIdleTimer()
+          }}
         />
         {cameraError && (
           <View style={styles.cameraErrorBanner}>
