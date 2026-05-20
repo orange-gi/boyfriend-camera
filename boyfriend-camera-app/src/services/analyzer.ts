@@ -752,6 +752,19 @@ const PRAISE_POOL: Record<string, string[]> = {
     '这张有进步空间！下次注意一下脸部光线就能上70～',
     '男朋友的审美在快速提升，这张很有味道～',
   ],
+  // ========== 70-74 分专属文案 Round 43 ==========
+  score_70_74: [
+    '70分以上了！男朋友感觉越来越好，这张有被夸到～',
+    '这张很接近高分了！构图或光线再讲究一点就是80+～',
+    '男朋友这张进步明显！再精细一点点就是大片了～',
+    '这张有感觉了！光线和构图都在线，继续保持！',
+    '70分以上稳了！男朋友审美持续在线，这张值得收藏～',
+    '这张好棒！离80分只差一点点，下次光线再好点就能冲！',
+    '男朋友感觉越来越专业了，这张可以上相册精选！',
+    '这张有氛围感了！构图讲究了，继续保持这个状态～',
+    '70分以上！男朋友越拍越好，这张有被惊喜到～',
+    '不错不错！构图和光线都在进步，继续加油！',
+  ],
   // ========== 55-59 分专属文案 ==========
   score_55_59: [
     '这张离及格只差一点点！男朋友继续加油～',
@@ -3181,6 +3194,28 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '刘海挡住眼睛了，轻轻拨开，眼神会更清晰～',
     '头发蓬松一点更上镜，稍微整理一下再做造型～',
   ],
+  // ========== Round 43: 多人合照专属建议 ==========
+  multiple_face_hint: [
+    '多人合照大家要靠近一点！贴贴更甜蜜，每个人都能入镜～',
+    '合照时稍微错开站，前后排不要重叠，每个人都要露出来～',
+    '多人拍摄对焦在中间的人身上最合适～',
+    '人多的时候往后退一步！大家都入镜才好看～',
+    '合照时让大家看向同一个方向，画面会更整洁～',
+  ],
+  // ========== Round 43: 背景过亮专属建议 ==========
+  background_too_bright: [
+    '背景有点过亮了！让人稍微侧身躲开高光～',
+    '背景高光太强了，找个阴影处或者调整角度～',
+    '背景太亮人脸有点暗淡，打开闪光灯补补光～',
+    '背景过曝成白色了，侧身站或调整角度躲开强光～',
+  ],
+  // ========== Round 43: 皮肤质感专属建议 ==========
+  skin_glossy_hint: [
+    '光线打在皮肤上质感已经很好了！稍微侧一点会更通透～',
+    '皮肤状态不错！换个角度光线会更均匀，质感更好～',
+    '这张皮肤已经很亮了！自然光最会说话～',
+    '光线打在脸上刚刚好，质感很通透～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -3423,7 +3458,9 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.score_80_84))
   } else if (totalScore >= 75 && totalScore < 80) {
     praise.push(pickRandom(PRAISE_POOL.score_75_79))
-  } else if (totalScore >= 60 && totalScore < 75) {
+  } else if (totalScore >= 70 && totalScore < 75) {
+    praise.push(pickRandom(PRAISE_POOL.score_70_74))
+  } else if (totalScore >= 60 && totalScore < 70) {
     if (totalScore >= 65) {
       praise.push(pickRandom(PRAISE_POOL.score_65_69))
     } else {
@@ -3463,6 +3500,21 @@ export async function analyzePhoto(
   // 稳定性一般（12-16分）但整体不错的鼓励
   if (stabilityScore >= 12 && stabilityScore < 17 && totalScore >= 70) {
     praise.push(pickRandom(PRAISE_POOL.stability_okay))
+  }
+
+  // ========== Round 43 新增：多人合照专属建议 ==========
+  if (faceCount > 1 && compositionScore < 30 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.multiple_face_hint))
+  }
+
+  // ========== Round 43 新增：背景过亮专属建议 ==========
+  if (safeBrightness > 220 && exposureScore < 20 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.background_too_bright))
+  }
+
+  // ========== Round 43 新增：皮肤质感专属建议 ==========
+  if (safeBrightness >= 100 && safeBrightness <= 200 && totalScore >= 70 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.skin_glossy_hint))
   }
 
   // ========== Round 33 新增：总分分段专属建议（配合新增的 score_*_suggest 池） ==========
