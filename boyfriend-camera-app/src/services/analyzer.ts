@@ -2892,6 +2892,71 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '眨眼然后睁大，这个小动作会让眼神更灵动～',
     '眼睛不要直视太死板，微微看向旁边更有灵气～',
   ],
+  // ========== Round 34 新增：创意构图建议 ==========
+  creative_composition: [
+    '试试用引导线构图！栏杆、道路、墙壁都能引导视线到主体～',
+    '找个前景框架（门框、窗户、树枝）把主体框住，画面更有层次～',
+    '对称构图超有气场！找水面或玻璃拍倒影，镜像效果绝了～',
+    '找点、线、面等规律图案当背景，画面更有节奏感～',
+    '用颜色对比突出主体！红配绿、蓝配橙，撞色超有视觉冲击力～',
+    '负空间留白也能很美！主体小一点，留大面积空白更有意境～',
+    '对角线构图超有动感！让人斜着站或斜着拍～',
+    '三角形构图最稳定！三个人排成三角形超有团队感～',
+    '试试框架嵌套！门里有窗，窗里有你，层层递进超有深度～',
+    '前景虚化能增加层次感！让镜头前的东西稍微模糊～',
+  ],
+  // ========== Round 34 新增：白平衡/色调建议 ==========
+  white_balance: [
+    '室内暖光下皮肤偏黄，适当增加曝光或后期调白平衡～',
+    '窗边自然光最柔和！让人脸朝向窗户，光线最均匀～',
+    '混光环境（自然光+灯光）容易偏色，让女朋友只朝向一种光源～',
+    '阴天户外光线偏冷蓝，后期可以加一点暖色让肤色更健康～',
+    '夕阳逆光金色最出片！侧身站着让阳光勾勒轮廓超美～',
+    '白炽灯下皮肤偏暖黄，开窗用自然光最安全～',
+    '荧光灯下皮肤会发绿，靠近窗户躲开荧光灯～',
+    '正午阳光太硬容易过曝，找树荫或阴影处光线更柔～',
+    '日出黄金时段光线最柔！这个时间拍人像绝绝子～',
+    '阴天光线像巨大柔光箱，不用担心过曝随便拍都好看～',
+  ],
+  // ========== Round 34 新增：角度掌控建议 ==========
+  angle_master: [
+    '俯拍显脸小！男朋友站高一点，你稍微低头看镜头～',
+    '仰拍大长腿！男朋友蹲低，手机向上仰着拍～',
+    '平拍最自然舒服，适合日常记录和情侣互动～',
+    '侧脸杀！侧身站让男朋友从侧面拍，轮廓感超强～',
+    '斜上方45度是最经典人像角度，试了这个再也不换～',
+    '从下往上拍能拍出大长腿，但下巴肉会显多，慎用～',
+    '俯拍适合拍躺姿或坐姿，男朋友站高你躺下仰头～',
+    '男友视角的仰拍超有冲击力，大长腿既视感～',
+    '试试稍微侧一点的平拍，既有互动感又显瘦～',
+    '不同角度多试几张，找到最适合她的角度～',
+  ],
+  // ========== Round 34 新增：互动引导建议 ==========
+  interaction_guide: [
+    '让她跟环境互动！摸树叶、靠栏杆、靠墙，自然又灵动～',
+    '给个小道具！咖啡杯、花束、书本，互动感瞬间拉满～',
+    '让她走几步路，男朋友边走边抓拍，自然感绝了～',
+    '讲个笑话逗她笑！自然笑容比摆拍好看一万倍～',
+    '让她假装在看远处，然后转头看镜头抓拍～',
+    '给个小任务！比如让她整理头发或看手表，自然动作超好看～',
+    '让她跟男朋友牵手、靠肩、拥抱，情侣互动感满分～',
+    '用音乐调动情绪！放她喜欢的歌，表情自然就来了～',
+    '假装有人在叫她名字，回头瞬间抓拍最生动～',
+    '让她先做各种表情，然后突然说「就是现在」，抓拍惊喜表情～',
+  ],
+  // ========== Round 34 新增：进阶构图建议 ==========
+  advanced_composition: [
+    '视觉重量平衡！大主体放一边，小光斑放另一边，画面更和谐～',
+    '让主体视线方向留白，画面更有呼吸感和延续感～',
+    '前景背景层次分明！近景虚化、中景清晰、远景朦胧，超有深度～',
+    '色彩块面分割画面！不同颜色区域占比影响整体美感～',
+    '用光影做引导！阴影和亮部形成天然引导线～',
+    '极简主义！画面越简洁越有力，背景杂乱就靠近主体～',
+    '纹理细节放大！皮肤质感、布料纹理特写也很有氛围～',
+    '动静对比！静止的主体+动态的背景（如飘动的裙摆）更有张力～',
+    '重复元素创造节奏！一排灯、一列树、一串气球，画面超丰富～',
+    '画幅比例也讲究！竖图显瘦，横图有风景感，方图很文艺～',
+  ],
 }
 
 /** 通用随机抽取（带防御性空值检查） */
@@ -3057,6 +3122,27 @@ export async function analyzePhoto(
   // clamp 到 0-100 范围，防止边界情况下越界
   const rawTotal = compositionScore + exposureScore + stabilityScore + levelScore
   const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal)))
+
+  // ========== Round 34 新增：高级构图建议触发（构图一般但非极差） ==========
+  if (compositionScore >= 25 && compositionScore < 35 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.creative_composition))
+  }
+  // 白平衡/色调建议（室内暖光或户外冷光场景）
+  if (sceneType === 'indoor' && exposureScore >= 15 && exposureScore < 25 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.white_balance))
+  }
+  // 角度掌控建议（人脸位置极端但不是构图大问题）
+  if (facePosition && compositionScore >= 30 && compositionScore < 38 && totalScore < 80 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.angle_master))
+  }
+  // 互动引导建议（低分区且非极端技术问题）
+  if (totalScore >= 40 && totalScore < 65 && suggestions.length < 2) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.interaction_guide))
+  }
+  // 进阶构图建议（高分段但有提升空间）
+  if (totalScore >= 70 && totalScore < 85 && compositionScore >= 30 && suggestions.length < 2) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.advanced_composition))
+  }
 
   // ========== Round 1 新增角度专属夸奖触发 ==========
   if (facePosition && facePosition.y < 0.35 && compositionScore >= 32 && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.high_angle_praise))
