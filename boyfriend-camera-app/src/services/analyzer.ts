@@ -1394,6 +1394,19 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '雨天光线偏冷白，后期可以加一点暖色调更温暖～',
     '雨伞不仅遮雨还是道具！撑伞站着超有感觉～',
   ],
+  // ========== Round 44 新增：逆光/侧光建议 ==========
+  backlight: [
+    '逆光拍剪影超浪漫！转过身来让光打在脸上试试～',
+    '背对光源脸太黑了，打开闪光灯补光试试～',
+    '侧光勾勒出脸部轮廓，很有立体感！就是脸上阴影有点重～',
+    '逆光下发丝光超美！但脸太暗了，稍微转过来一点～',
+    '侧光让五官更有立体感，但阴影不要太重才好～',
+    '让女朋友转过来正对光源，脸上的光会更均匀～',
+    '背景太亮人脸太暗，开闪光灯正面补光可以解决～',
+    '逆光拍剪影有意境！想让脸也清晰就打开闪光灯～',
+    '侧光拍照时让女朋友微微侧头，阴影会柔和很多～',
+    '让光源在身后45度位置，这个角度光影最立体～',
+  ],
   // 新增：运动/抓拍建议
   motion: [
     '要抓拍动态瞬间？提前对焦在主体位置～',
@@ -3348,6 +3361,12 @@ export async function analyzePhoto(
   }
   if (exposureScore >= 28) praise.push(pickRandom(PRAISE_POOL.exposure_great))
   if (exposureScore >= 28 && (safeBrightness >= 80 && safeBrightness <= 180)) praise.push(pickRandom(PRAISE_POOL.brightness_perfect))
+
+  // 逆光检测：背景亮但整体亮度偏低 → 逆光场景
+  if (safeBrightness > 180 && exposureScore < 18 && faceCount > 0) {
+    problems.push('backlight')
+    suggestions.push(pickRandom(SUGGESTION_POOL.backlight))
+  }
 
   // 稳定分 0-20
   let stabilityScore = 20
