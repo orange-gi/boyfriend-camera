@@ -565,27 +565,27 @@ export default function DiaryScreen() {
                 {/* 男朋友等级徽章 */}
                 {avgScore >= 90 && (
                   <View style={[styles.badge, styles.badgeGold]}>
-                    <Text style={styles.badgeText}>👑 大师级摄影师</Text>
+                    <Text style={styles.badgeText}>大师级摄影师</Text>
                   </View>
                 )}
                 {avgScore >= 80 && avgScore < 90 && (
                   <View style={[styles.badge, styles.badgeGold]}>
-                    <Text style={styles.badgeText}>⭐ 专业摄影师</Text>
+                    <Text style={styles.badgeText}>专业摄影师</Text>
                   </View>
                 )}
                 {avgScore >= 70 && avgScore < 80 && (
                   <View style={[styles.badge, { backgroundColor: COLORS.info + '30', borderColor: COLORS.info }]}>
-                    <Text style={[styles.badgeText, { color: COLORS.info }]}>📸 进阶摄影师</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.info }]}>进阶摄影师</Text>
                   </View>
                 )}
                 {avgScore >= 60 && avgScore < 70 && (
                   <View style={[styles.badge, { backgroundColor: COLORS.warning + '30', borderColor: COLORS.warning }]}>
-                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>📷 成长中摄影师</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>成长中摄影师</Text>
                   </View>
                 )}
                 {avgScore < 60 && avgScore > 0 && (
                   <View style={[styles.badge, styles.badgeBronze]}>
-                    <Text style={styles.badgeText}>🌱 摄影新手</Text>
+                    <Text style={styles.badgeText}>摄影新手</Text>
                   </View>
                 )}
                 {/* ========== Round 33 新增：男友等级进度条（简化版） ========== */}
@@ -614,61 +614,61 @@ export default function DiaryScreen() {
                 {/* 拍摄次数里程碑 */}
                 {totalCount >= 100 && (
                   <View style={[styles.badge, styles.badgeGold]}>
-                    <Text style={styles.badgeText}>💎 百次快门</Text>
+                    <Text style={styles.badgeText}>百次快门</Text>
                   </View>
                 )}
                 {totalCount >= 50 && totalCount < 100 && (
                   <View style={[styles.badge, styles.badgeGold]}>
-                    <Text style={styles.badgeText}>👑 五十次快门</Text>
+                    <Text style={styles.badgeText}>五十次快门</Text>
                   </View>
                 )}
                 {totalCount >= 30 && totalCount < 50 && (
                   <View style={[styles.badge, { backgroundColor: COLORS.categoryStyle + '30', borderColor: COLORS.categoryStyle }]}>
-                    <Text style={[styles.badgeText, { color: COLORS.categoryStyle }]}>🔥 三十次快门</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.categoryStyle }]}>三十次快门</Text>
                   </View>
                 )}
                 {totalCount >= 20 && totalCount < 30 && (
                   <View style={[styles.badge, { backgroundColor: COLORS.categoryStyle + '30', borderColor: COLORS.categoryStyle }]}>
-                    <Text style={[styles.badgeText, { color: COLORS.categoryStyle }]}>🌟 二十次快门</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.categoryStyle }]}>二十次快门</Text>
                   </View>
                 )}
                 {totalCount >= 10 && totalCount < 20 && (
                   <View style={[styles.badge, styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>🌟 十次快门</Text>
+                    <Text style={styles.badgeText}>十次快门</Text>
                   </View>
                 )}
                 {/* 连续打卡 */}
                 {weeklyStats.streak >= 3 && (
                   <View style={[styles.badge, styles.badgeBronze]}>
-                    <Text style={styles.badgeText}>🔥 连续{weeklyStats.streak}天</Text>
+                    <Text style={styles.badgeText}>连续{weeklyStats.streak}天</Text>
                   </View>
                 )}
                 {weeklyStats.streak >= 7 && (
                   <View style={[styles.badge, styles.badgeGold]}>
-                    <Text style={styles.badgeText}>🏆 连续打卡一周</Text>
+                    <Text style={styles.badgeText}>连续打卡一周</Text>
                   </View>
                 )}
                 {/* 月度成就 */}
                 {monthlyStats.monthBest >= 90 && (
                   <View style={[styles.badge, styles.badgeGold]}>
-                    <Text style={styles.badgeText}>🌟 月度最佳{monthlyStats.monthBest}分</Text>
+                    <Text style={styles.badgeText}>月度最佳{monthlyStats.monthBest}分</Text>
                   </View>
                 )}
                 {monthlyStats.monthDiff > 5 && (
                   <View style={[styles.badge, styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>📈 比上月+{monthlyStats.monthDiff}分</Text>
+                    <Text style={styles.badgeText}>比上月+{monthlyStats.monthDiff}分</Text>
                   </View>
                 )}
                 {/* 首次突破90分 */}
                 {maxScore >= 90 && totalCount >= 3 && avgScore >= 75 && (
                   <View style={[styles.badge, styles.badgeGold]}>
-                    <Text style={styles.badgeText}>🎯 突破90分</Text>
+                    <Text style={styles.badgeText}>突破90分</Text>
                   </View>
                 )}
                 {/* 满分达成 */}
                 {maxScore === 100 && (
                   <View style={[styles.badge, styles.badgeGold]}>
-                    <Text style={styles.badgeText}>💯 满分达成</Text>
+                    <Text style={styles.badgeText}>满分达成</Text>
                   </View>
                 )}
                 {/* 进步之星：连续3次比上次分数高 */}
@@ -677,14 +677,14 @@ export default function DiaryScreen() {
                   const improved = recent3.length >= 2 && recent3[0].score > recent3[1].score
                   return improved ? (
                     <View style={[styles.badge, { backgroundColor: COLORS.primary + '30', borderColor: COLORS.primary }]}>
-                      <Text style={[styles.badgeText, { color: COLORS.primary }]}>📸 进步之星</Text>
+                      <Text style={[styles.badgeText, { color: COLORS.primary }]}>进步之星</Text>
                     </View>
                   ) : null
                 })()}
                 {/* 首次拍照鼓励 */}
                 {totalCount === 1 && (
                   <View style={[styles.badge, styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>🌱 第一次！继续加油</Text>
+                    <Text style={styles.badgeText}>第一次，继续加油</Text>
                   </View>
                 )}
               </View>
