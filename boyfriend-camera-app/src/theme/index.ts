@@ -64,7 +64,6 @@ export const colors = {
   trendDangerLight: '#FFE0E0',
 
   // 统计卡专用色
-  statYellow: '#FFE066',
   statYellowText: '#D4A200',
   statAmber: '#E6A800',
 
@@ -84,12 +83,8 @@ export const colors = {
   filterFloral: '#FF69B4',
   filterSnow: '#B0E0FF',
 
-  // 主题渐变色
-  gradientWarm: '#FFF8F0',
-  gradientPink: '#FFF0F5',
-  gradientGold: '#FFF8E1',
+  // 主题渐变色（仅 gradientBlue 在 DiaryScreen 中实际使用）
   gradientBlue: '#E3F2FD',
-  gradientGreen: '#E8F5E9',
 
   // 分类标签色
   categoryIndoor: '#FF9F43',
