@@ -578,7 +578,7 @@ export default function CameraScreen() {
           activeOpacity={0.72}
         >
           {/* 外圈发光效果 */}
-          {!isCapturing && <View style={styles.shutterGlowRing} />}
+    
           <View style={[styles.shutterOuter, isCapturing && styles.shutterOuterCapturing]}>
             <View style={[styles.shutterInner, isCapturing && styles.shutterInnerCapturing]}>
               {isCapturing && <View style={styles.shutterPulsing} />}
@@ -1142,22 +1142,6 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.8)',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#fff',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  shutterGlowRing: {
-    position: 'absolute',
-    top: -8,
-    left: -8,
-    right: -8,
-    bottom: -8,
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: 'rgba(255,107,107,0.4)',
-    backgroundColor: 'rgba(255,107,107,0.08)',
   },
   shutterOuterCapturing: {
     borderColor: COLORS.primary,
@@ -1297,10 +1281,6 @@ const styles = StyleSheet.create({
   templateCardActive: {
     borderColor: COLORS.primary,
     backgroundColor: COLORS.cardPink,
-    shadowColor: COLORS.primary,
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 3,
   },
   templateSelectedBadge: {
     position: 'absolute',
@@ -1313,10 +1293,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 2,
-    shadowColor: COLORS.primary,
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 3,
   },
   templateSelectedBadgeText: {
     color: '#fff',
