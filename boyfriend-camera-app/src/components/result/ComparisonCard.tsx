@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Canvas, Image as SkiaImage, ColorMatrix, useImage } from '@shopify/react-native-skia'
-import { getColorMatrix } from '../../services/photoProcessor'
+import { getColorMatrix, type FilterKey } from '../../services/photoProcessor'
 import { COLORS } from '../../theme/colors'
 
 interface Props {
@@ -47,7 +47,7 @@ function PlaceholderImage({ label, color }: { label: string; color: string }) {
  * 使用 Skia Canvas + ColorMatrix 实现真正的滤镜效果
  * ColorMatrix child 对 SkiaImage 应用 brightness/contrast/saturation 调整
  */
-function FilteredImage({ uri, filter, width, height }: { uri: string; filter: string | null; width: number; height: number }) {
+function FilteredImage({ uri, filter, width, height }: { uri: string; filter: FilterKey | null; width: number; height: number }) {
   const image = useImage(uri)
   const matrix = getColorMatrix(filter)
 
@@ -81,7 +81,7 @@ export default function ComparisonCard({
   filterName = 'warm',
 }: Props) {
   const [showOriginal, setShowOriginal] = useState(false)
-  const [activeFilter, setActiveFilter] = useState<string>(filterName ?? 'warm')
+  const [activeFilter, setActiveFilter] = useState<FilterKey>((filterName ?? 'warm') as FilterKey)
 
   // 同步外部 filterName 变化
   useEffect(() => {

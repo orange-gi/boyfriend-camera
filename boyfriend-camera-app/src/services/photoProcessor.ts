@@ -23,8 +23,9 @@ export interface ProcessOptions {
   faceCenter?: { x: number; y: number }
 }
 
-// 滤镜参数配置
-const FILTER_PARAMS: Record<string, { brightness: number; contrast: number; saturation: number }> = {
+// 滤镜参数配置（类型安全：联合类型确保每个 filter key 都被覆盖）
+export type FilterKey = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'
+const FILTER_PARAMS: Record<FilterKey, { brightness: number; contrast: number; saturation: number }> = {
   warm: { brightness: 1.05, contrast: 1.1, saturation: 1.15 },
   cool: { brightness: 0.98, contrast: 1.05, saturation: 1.1 },
   vivid: { brightness: 1.08, contrast: 1.2, saturation: 1.3 },
@@ -42,7 +43,7 @@ const FILTER_PARAMS: Record<string, { brightness: number; contrast: number; satu
 }
 
 // 预设滤镜颜色叠加（RGBA 透明色，模拟色调）
-const FILTER_OVERLAY: Record<string, string> = {
+const FILTER_OVERLAY: Record<FilterKey, string> = {
   warm: 'rgba(255, 200, 100, 0.12)',
   cool: 'rgba(100, 150, 255, 0.12)',
   vivid: 'rgba(255, 100, 150, 0.08)',
@@ -265,10 +266,10 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
  * 格式: [r, g, b, a, t] 每通道乘数 + 偏移
  * 组合: 饱和度 → 对比度 → 亮度
  */
-export function getColorMatrix(filterName: string | null): number[] {
+export function getColorMatrix(filterName: FilterKey | null): number[] {
   const identity = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
 
-  if (!filterName || !FILTER_PARAMS[filterName]) return identity
+  if (!filterName) return identity
 
   const p = FILTER_PARAMS[filterName]
   const { brightness, contrast, saturation } = p
