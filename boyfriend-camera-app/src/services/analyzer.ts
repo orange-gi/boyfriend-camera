@@ -3502,6 +3502,49 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.stability_okay))
   }
 
+  // ========== Round 5 (hourly iter) 新增：主体过大/过小建议 ==========
+  if (facePosition && facePosition.area > 0.45 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_large))
+  }
+  if (facePosition && facePosition.area < 0.06 && faceCount > 0 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_small))
+  }
+
+  // ========== Round 5 (hourly iter) 新增：背景过曝建议（面部的亮度和背景差距大时） ==========
+  if (safeBrightness > 230 && faceCount > 0 && totalScore < 70 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.background_overexposed))
+  }
+
+  // ========== Round 5 (hourly iter) 新增：前景杂乱建议（清晰度低且构图一般时） ==========
+  if (safeSharpness < 70 && compositionScore < 32 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.foreground_clutter))
+  }
+
+  // ========== Round 5 (hourly iter) 新增：姿势/仪态建议（倾斜角度较大时） ==========
+  if (Math.abs(tiltAngle) > 8 && Math.abs(tiltAngle) < 25 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.posture_hint))
+  }
+
+  // ========== Round 5 (hourly iter) 新增：自拍角度建议 ==========
+  if (facePosition && facePosition.area > 0.15 && facePosition.area < 0.35 && compositionScore < 35 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.selfie_angle))
+  }
+
+  // ========== Round 5 (hourly iter) 新增：发型建议（脸较小且构图一般时提醒整理头发） ==========
+  if (facePosition && facePosition.area < 0.12 && compositionScore < 30 && safeBrightness > 60 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.hair_style_hint))
+  }
+
+  // ========== Round 5 (hourly iter) 新增：手部遮挡建议（脸在画面下半部分且构图一般时） ==========
+  if (facePosition && facePosition.y > 0.5 && compositionScore < 32 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.hand_in_frame))
+  }
+
+  // ========== Round 5 (hourly iter) 新增：前景/手部占框建议 ==========
+  if (facePosition && facePosition.area > 0.2 && facePosition.area < 0.4 && compositionScore < 30 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.outfit_hint))
+  }
+
   // ========== Round 43 新增：多人合照专属建议 ==========
   if (faceCount > 1 && compositionScore < 30 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.multiple_face_hint))
