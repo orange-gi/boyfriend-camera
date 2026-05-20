@@ -894,7 +894,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     zIndex: 100,
-    ...shadows.lg,
   },
   cameraErrorText: {
     color: '#fff',
@@ -935,7 +934,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.55)',
     alignItems: 'center',
     justifyContent: 'center',
-    ...shadows.md,
   },
   topBtnText: {
     color: '#fff',
@@ -1031,14 +1029,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 20,
-    // 毛玻璃 + 边框光晕
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.6)',
-    shadowColor: COLORS.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.18,
-    shadowRadius: 12,
-    elevation: 6,
     gap: 10,
   },
   poseTipIcon: {
