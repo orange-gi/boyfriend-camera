@@ -465,24 +465,24 @@ export default function DiaryScreen() {
               <Text style={styles.statsCardTitle}>📊 综合数据</Text>
               {/* 4 格统计卡片网格 */}
               <View style={styles.statsGrid}>
-                <View style={[styles.statCard, { backgroundColor: colors.primaryLight }]}>
+                <View style={styles.statCard}>
                   <Text style={styles.statCardEmoji}>📸</Text>
-                  <AnimatedCountUp value={totalCount} style={[styles.statCardNum, { color: colors.primary }]} />
+                  <AnimatedCountUp value={totalCount} style={[styles.statCardNum, { color: COLORS.textPrimary }]} />
                   <Text style={styles.statCardLabel}>拍照次数</Text>
                 </View>
-                <View style={[styles.statCard, { backgroundColor: colors.warningLight }]}>
+                <View style={styles.statCard}>
                   <Text style={styles.statCardEmoji}>⭐</Text>
-                  <AnimatedCountUp value={avgScore} style={[styles.statCardNum, { color: colors.warning }]} suffix="分" />
+                  <AnimatedCountUp value={avgScore} style={[styles.statCardNum, { color: COLORS.primary }]} suffix="分" />
                   <Text style={styles.statCardLabel}>平均分</Text>
                 </View>
-                <View style={[styles.statCard, { backgroundColor: totalProgress >= 0 ? colors.successLight : colors.primaryLight }]}>
+                <View style={styles.statCard}>
                   <Text style={styles.statCardEmoji}>{totalProgress >= 0 ? '📈' : '📉'}</Text>
-                  <AnimatedProgressNum value={totalProgress} style={[styles.statCardNum, { color: totalProgress >= 0 ? colors.success : colors.primary }]} />
+                  <AnimatedProgressNum value={totalProgress} style={[styles.statCardNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.textMuted }]} />
                   <Text style={styles.statCardLabel}>总进步</Text>
                 </View>
-                <View style={[styles.statCard, { backgroundColor: colors.trendWarningLight }]}>
+                <View style={styles.statCard}>
                   <Text style={styles.statCardEmoji}>🏆</Text>
-                  <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: colors.goldDark }]} suffix="分" />
+                  <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: COLORS.warning }]} suffix="分" />
                   <Text style={styles.statCardLabel}>最高分</Text>
                 </View>
               </View>
@@ -493,41 +493,36 @@ export default function DiaryScreen() {
                   <Text style={styles.statsCardTitle}>📅 本周数据</Text>
                   <View style={styles.weeklyGrid}>
                   {/* 本周平均分 */}
-                  <View style={[styles.weeklyCard, { backgroundColor: colors.primaryLight }]}>
+                  <View style={styles.weeklyCard}>
                     <Text style={styles.weeklyCardIcon}>📊</Text>
-                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.weekAvg >= 80 ? colors.success : weeklyStats.weekAvg >= 60 ? colors.warning : colors.primary }]}>
+                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.weekAvg >= 80 ? COLORS.success : weeklyStats.weekAvg >= 60 ? COLORS.warning : COLORS.textMuted }]}>
                       {weeklyStats.weekAvg > 0 ? weeklyStats.weekAvg : '-'}
                     </Text>
                     <Text style={styles.weeklyCardLabel}>本周均分</Text>
                   </View>
 
                   {/* 本周拍摄次数 */}
-                  <View style={[styles.weeklyCard, { backgroundColor: colors.warningLight }]}>
+                  <View style={styles.weeklyCard}>
                     <Text style={styles.weeklyCardIcon}>📸</Text>
-                    <Text style={[styles.weeklyCardNum, { color: colors.warning }]}>
+                    <Text style={[styles.weeklyCardNum, { color: COLORS.textPrimary }]}>
                       {weeklyStats.weekCount}
                     </Text>
                     <Text style={styles.weeklyCardLabel}>本周拍摄</Text>
                   </View>
 
                   {/* 连续天数 */}
-                  <View style={[
-                    styles.weeklyCard,
-                    weeklyStats.streak >= 7
-                      ? { backgroundColor: colors.warningLight, borderWidth: 2, borderColor: colors.warning }
-                      : { backgroundColor: colors.primaryLight },
-                  ]}>
+                  <View style={styles.weeklyCard}>
                     <Text style={styles.weeklyCardIcon}>{weeklyStats.streak >= 7 ? '🔥' : '📅'}</Text>
-                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.streak >= 7 ? colors.statAmber : colors.primary }]}>
+                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.streak >= 7 ? COLORS.warning : COLORS.textMuted }]}>
                       {weeklyStats.streak}
                     </Text>
                     <Text style={styles.weeklyCardLabel}>连续天数</Text>
                   </View>
 
                   {/* 最近一次 */}
-                  <View style={[styles.weeklyCard, { backgroundColor: colors.successLight }]}>
+                  <View style={styles.weeklyCard}>
                     <Text style={styles.weeklyCardIcon}>🏆</Text>
-                    <Text style={[styles.weeklyCardNum, { color: colors.success }]}>
+                    <Text style={[styles.weeklyCardNum, { color: recentScore > 0 ? (recentScore >= 80 ? COLORS.success : COLORS.warning) : COLORS.textMuted }]}>
                       {recentScore > 0 ? recentScore : '-'}
                     </Text>
                     <Text style={styles.weeklyCardLabel}>最近得分</Text>
@@ -536,25 +531,18 @@ export default function DiaryScreen() {
                 </>
               )}
 
-              {/* 趋势横幅 — 动态文案 */}
-              <View style={[styles.trendBanner, { backgroundColor: trendInfo.gradient[0] }]}>
-                {/* 左侧：图标 + 文案 */}
-                <View style={styles.trendBannerLeft}>
-                  <Text style={styles.trendBannerIcon}>
-                    {avgScore >= 80 ? '🚀' : avgScore >= 65 ? '📈' : avgScore >= 50 ? '💪' : '🌱'}
-                  </Text>
-                  <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
-                    {trendInfo.text}
-                  </Text>
-                </View>
-                {/* 右侧：分数变化 */}
+              {/* 趋势横幅 — 简洁设计 */}
+              <View style={[styles.trendBanner, { backgroundColor: trendInfo.color + '15' }]}>
+                <Text style={styles.trendBannerIcon}>
+                  {avgScore >= 80 ? '🚀' : avgScore >= 65 ? '📈' : avgScore >= 50 ? '💪' : '🌱'}
+                </Text>
+                <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
+                  {trendInfo.text}
+                </Text>
                 {totalProgress !== 0 && (
-                  <View style={styles.trendBannerRight}>
-                    <Text style={[styles.trendBannerNum, { color: totalProgress >= 0 ? colors.success : colors.primary }]}>
-                      {totalProgress >= 0 ? `+${totalProgress}` : totalProgress}
-                    </Text>
-                    <Text style={styles.trendBannerNumLabel}>分</Text>
-                  </View>
+                  <Text style={[styles.trendBannerNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.textMuted }]}>
+                    {totalProgress >= 0 ? `+${totalProgress}` : totalProgress}分
+                  </Text>
                 )}
               </View>
             </View>
@@ -564,12 +552,12 @@ export default function DiaryScreen() {
               <View style={styles.badgeRow}>
                 {/* 男朋友等级徽章 */}
                 {avgScore >= 90 && (
-                  <View style={[styles.badge, styles.badgeGold]}>
+                  <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>大师级摄影师</Text>
                   </View>
                 )}
                 {avgScore >= 80 && avgScore < 90 && (
-                  <View style={[styles.badge, styles.badgeGold]}>
+                  <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>专业摄影师</Text>
                   </View>
                 )}
@@ -584,7 +572,7 @@ export default function DiaryScreen() {
                   </View>
                 )}
                 {avgScore < 60 && avgScore > 0 && (
-                  <View style={[styles.badge, styles.badgeBronze]}>
+                  <View style={[styles.badgeBronze]}>
                     <Text style={styles.badgeText}>摄影新手</Text>
                   </View>
                 )}
@@ -613,12 +601,12 @@ export default function DiaryScreen() {
                 })()}
                 {/* 拍摄次数里程碑 */}
                 {totalCount >= 100 && (
-                  <View style={[styles.badge, styles.badgeGold]}>
+                  <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>百次快门</Text>
                   </View>
                 )}
                 {totalCount >= 50 && totalCount < 100 && (
-                  <View style={[styles.badge, styles.badgeGold]}>
+                  <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>五十次快门</Text>
                   </View>
                 )}
@@ -633,41 +621,41 @@ export default function DiaryScreen() {
                   </View>
                 )}
                 {totalCount >= 10 && totalCount < 20 && (
-                  <View style={[styles.badge, styles.badgeGreen]}>
+                  <View style={[styles.badgeGreen]}>
                     <Text style={styles.badgeText}>十次快门</Text>
                   </View>
                 )}
                 {/* 连续打卡 */}
                 {weeklyStats.streak >= 3 && (
-                  <View style={[styles.badge, styles.badgeBronze]}>
+                  <View style={[styles.badgeBronze]}>
                     <Text style={styles.badgeText}>连续{weeklyStats.streak}天</Text>
                   </View>
                 )}
                 {weeklyStats.streak >= 7 && (
-                  <View style={[styles.badge, styles.badgeGold]}>
+                  <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>连续打卡一周</Text>
                   </View>
                 )}
                 {/* 月度成就 */}
                 {monthlyStats.monthBest >= 90 && (
-                  <View style={[styles.badge, styles.badgeGold]}>
+                  <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>月度最佳{monthlyStats.monthBest}分</Text>
                   </View>
                 )}
                 {monthlyStats.monthDiff > 5 && (
-                  <View style={[styles.badge, styles.badgeGreen]}>
+                  <View style={[styles.badgeGreen]}>
                     <Text style={styles.badgeText}>比上月+{monthlyStats.monthDiff}分</Text>
                   </View>
                 )}
                 {/* 首次突破90分 */}
                 {maxScore >= 90 && totalCount >= 3 && avgScore >= 75 && (
-                  <View style={[styles.badge, styles.badgeGold]}>
+                  <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>突破90分</Text>
                   </View>
                 )}
                 {/* 满分达成 */}
                 {maxScore === 100 && (
-                  <View style={[styles.badge, styles.badgeGold]}>
+                  <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>满分达成</Text>
                   </View>
                 )}
@@ -683,7 +671,7 @@ export default function DiaryScreen() {
                 })()}
                 {/* 首次拍照鼓励 */}
                 {totalCount === 1 && (
-                  <View style={[styles.badge, styles.badgeGreen]}>
+                  <View style={[styles.badgeGreen]}>
                     <Text style={styles.badgeText}>第一次，继续加油</Text>
                   </View>
                 )}
@@ -933,11 +921,11 @@ const styles = StyleSheet.create({
   statCard: {
     flex: 1,
     minWidth: '45%',
-    borderRadius: 14,
-    paddingVertical: 14,
+    borderRadius: 12,
+    paddingVertical: 12,
     paddingHorizontal: 10,
     alignItems: 'center',
-    overflow: 'hidden',
+    backgroundColor: COLORS.bg,
   },
   statCardEmoji: {
     fontSize: 18,
@@ -1205,23 +1193,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   badge: {
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: 'transparent',
-  },
-  badgeBronze: {
-    backgroundColor: COLORS.gradientWarm,
-    borderColor: COLORS.warning,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   badgeGold: {
-    backgroundColor: COLORS.warningLight,
-    borderColor: COLORS.warning,
+    backgroundColor: COLORS.warning + '20',
+  },
+  badgeBronze: {
+    backgroundColor: COLORS.textMuted + '20',
   },
   badgeGreen: {
-    backgroundColor: COLORS.successLight,
-    borderColor: COLORS.success,
+    backgroundColor: COLORS.success + '20',
   },
   badgeText: {
     fontSize: 12,
@@ -1278,11 +1261,11 @@ const styles = StyleSheet.create({
   weeklyCard: {
     flex: 1,
     minWidth: '45%',
-    borderRadius: 14,
-    paddingVertical: 14,
+    borderRadius: 12,
+    paddingVertical: 12,
     paddingHorizontal: 10,
     alignItems: 'center',
-    overflow: 'hidden',
+    backgroundColor: COLORS.bg,
   },
   weeklyCardIcon: {
     fontSize: 20,
@@ -1300,39 +1283,25 @@ const styles = StyleSheet.create({
   // 趋势横幅
   trendBanner: {
     marginTop: 12,
-    borderRadius: 14,
+    borderRadius: 12,
     overflow: 'hidden',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
-  trendBannerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
   },
   trendBannerIcon: {
-    fontSize: 20,
+    fontSize: 18,
   },
   trendBannerText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  trendBannerRight: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 2,
+    fontSize: 14,
+    fontWeight: '600',
+    flex: 1,
   },
   trendBannerNum: {
-    fontSize: 22,
+    fontSize: 14,
     fontWeight: 'bold',
-  },
-  trendBannerNumLabel: {
-    fontSize: 12,
-    color: COLORS.textMuted,
   },
   // 迷你进度条
   miniBarRow: {
