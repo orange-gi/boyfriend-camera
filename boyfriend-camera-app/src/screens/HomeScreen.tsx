@@ -300,19 +300,16 @@ export default function HomeScreen() {
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{displayDiaryCount}</Text>
               <Text style={styles.statLabel}>已拍摄</Text>
-              <View style={[styles.statIndicator, { backgroundColor: COLORS.primary }]} />
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: avgScoreColor }]}>{displayAvgScore}</Text>
               <Text style={styles.statLabel}>平均分</Text>
-              <View style={[styles.statIndicator, { backgroundColor: avgScoreColor }]} />
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{totalTemplates}</Text>
               <Text style={styles.statLabel}>姿势模板</Text>
-              <View style={[styles.statIndicator, { backgroundColor: colors.info }]} />
             </View>
           </View>
           {diaryCount >= 2 && avgScore > 0 && (() => {
@@ -466,10 +463,9 @@ const styles = StyleSheet.create({
   // 统计卡片
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6], ...shadows.lg },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
-  statItem: { flex: 1, alignItems: 'center', position: 'relative', paddingBottom: spacing[2] },
+  statItem: { flex: 1, alignItems: 'center' },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 52 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
-  statIndicator: { position: 'absolute', bottom: -spacing[2], left: '50%', marginLeft: -12, width: 24, height: 3, borderRadius: 2 },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
   statsLoadingText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 4, alignSelf: 'center' },
   trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[4], paddingTop: spacing[4], borderTopWidth: 1, borderTopColor: COLORS.divider, gap: spacing[3] },
