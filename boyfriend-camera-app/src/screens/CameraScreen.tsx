@@ -971,9 +971,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  modeBtnActive: {
-    backgroundColor: 'rgba(255,107,107,0.9)',
-  },
   modeBtnActiveGlass: {
     backgroundColor: COLORS.primary,
   },
