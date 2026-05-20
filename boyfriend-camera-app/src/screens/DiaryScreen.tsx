@@ -313,6 +313,19 @@ export default function DiaryScreen() {
             <Text style={styles.faceCount}>👤 {item.faceCount}人</Text>
           )}
 
+          {/* 分数进度条 - 一眼扫过分数字 - Round 32 */}
+          <View style={styles.scoreBarRow}>
+            <View style={[styles.scoreBarTrack, { backgroundColor: sc + '18' }]}>
+              <View
+                style={[
+                  styles.scoreBarFill,
+                  { width: `${item.score}%`, backgroundColor: sc },
+                ]}
+              />
+            </View>
+            <Text style={[styles.scoreBarNum, { color: sc }]}>{item.score}分</Text>
+          </View>
+
           {/* 紧凑迷你进度条 - 横向一行 */}
           {hasBreakdown && (
             <View style={styles.miniBarRow}>
@@ -1000,6 +1013,29 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: 'bold',
     marginTop: -2,
+  },
+  // 分数进度条 - Round 32
+  scoreBarRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+    gap: 8,
+  },
+  scoreBarTrack: {
+    flex: 1,
+    height: 5,
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  scoreBarFill: {
+    height: '100%',
+    borderRadius: 3,
+  },
+  scoreBarNum: {
+    fontSize: 12,
+    fontWeight: '600',
+    minWidth: 34,
+    textAlign: 'right',
   },
   recordContent: {
     flex: 1,
