@@ -522,7 +522,7 @@ const styles = StyleSheet.create({
 
   // 引导弹窗
   onboardOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', padding: 24 },
-  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.2, shadowRadius: 16, elevation: 8 },
+  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center', ...shadows.lg },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },
