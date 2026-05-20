@@ -12,7 +12,6 @@ import {
   RefreshControl,
   Alert,
   Animated,
-  Easing,
   Modal,
 } from 'react-native'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
@@ -193,9 +192,6 @@ export default function DiaryScreen() {
     if (avg >= 50) return { text: '💪 还需要多练习', color: colors.warning, gradient: [colors.warningLight, colors.trendWarningLight] }
     return { text: '😅 革命尚未成功', color: colors.primary, gradient: [colors.dangerLight, colors.trendDangerLight] }
   }, [totalCount, records])
-
-  // 进度动画 ref
-  const progressAnimRef = useRef(new Animated.Value(0)).current
 
   // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
   const entries: DiaryRecord[] = records.map((r) => ({

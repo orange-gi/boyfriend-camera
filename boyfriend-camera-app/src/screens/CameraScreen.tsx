@@ -113,8 +113,6 @@ export default function CameraScreen() {
   // 拍照闪白动画
   const flashAnim = useRef(new Animated.Value(0)).current
   const focusAnim = useRef(new Animated.Value(0)).current
-  // 姿势引导条滚动
-  const marqueeScrollX = useRef(new Animated.Value(0)).current
   // 取景框提示文字淡入
   const hintOpacity = useRef(new Animated.Value(0)).current
 
