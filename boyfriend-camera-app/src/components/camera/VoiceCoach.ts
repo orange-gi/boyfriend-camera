@@ -430,6 +430,27 @@ const FACE_TIPS = {
   HAND_HIP_TIP: '双手叉腰！这个姿势显瘦又有气场～',
   FINGER_TIPS: '手指轻轻合拢，比张开更优雅～',
   STAND_ONE_LEG: '站立时重心放一只脚，腿看起来更直更长～',
+  // ========== 本次新增 TTS 场景 ==========
+  MIRROR_ANGLE_HINT: '镜子稍微斜一点拍！角度不要正对镜子，会有反光～',
+  INDOOR_GLASS_REFLECT: '玻璃有反光！稍微侧身躲开反光～',
+  SCREEN_FILL_LIGHT: '用手机屏幕补光！白色背景对着脸，手机屏幕就是简易补光灯～',
+  WINDOW_SIDE_POSITION: '脸朝向窗户！光源要在脸的正面或侧面～',
+  STABILIZE_KNEE: '稍微弯一点膝盖，重心放低会更稳～',
+  SUNGLASSES_REMOVE: '墨镜挡住了眼神！摘下来拍照，眼睛会更有神～',
+  HAIR_TUCK_BEHIND: '头发挡脸了！轻轻拨到耳后，轮廓会更清晰～',
+  COLLAR_ADJUST_TIP: '领口稍微整理一下！露出一边锁骨会更好看～',
+  FACE_PARALLEL_WALL: '脸和墙壁平行！这样光线会更均匀～',
+  NIGHT_FACE_TOO_DARK: '夜景脸太暗了！靠近光源或打开闪光灯补光～',
+  STREET_NEON_FACE: '霓虹灯下超酷！让光打在侧脸上，表情放松一点～',
+  RAINY_WINDOW_MIST: '雨天雾气蒙蒙的，窗户上有一层水汽超有氛围感～',
+  TRAIN_WINDOW_LIGHT_TIP: '火车窗边光线均匀！靠窗坐，让光线打在脸上～',
+  CINEMA_GLOW_HINT: '电影院里屏幕光打在脸上超有感觉！侧脸对着屏幕～',
+  CROWD_AVOID_TIP: '旁边人多！等一下或者换个角度躲开路人～',
+  PET_JUMP_HINT: '和宠物互动！蹲下来和它平视，自然的笑容最可爱～',
+  BALLOON_PROP_TIP: '拿个气球当道具！活泼可爱，互动感十足～',
+  BICYCLE_PROP_TIP: '靠在自行车旁边！活力十足，姿势也更丰富～',
+  FLOWER_PROP_TIP: '拿束花当道具！捧着花或闻花香，自然又好看～',
+  BOOK_PROP_TIP: '拿本书当道具！假装在看书，文艺感拉满～',
 }
 
 const STABILITY_TIPS = {
