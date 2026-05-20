@@ -34,7 +34,6 @@ import { useSceneRecommendation } from '../hooks/useSceneRecommendation'
 import { useBatteryMonitor } from '../hooks/useBatteryMonitor'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
 import { COLORS, CATEGORY_COLORS } from '../theme/colors'
-import { shadows } from '../theme/index'
 
 type CompositionMode = 'grid' | 'golden' | 'triangle'
 
