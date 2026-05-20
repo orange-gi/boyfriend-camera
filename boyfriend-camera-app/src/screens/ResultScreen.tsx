@@ -1192,10 +1192,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     letterSpacing: -0.3,
   },
-  praiseBannerSubRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   praiseBannerSub: {
     fontSize: 13,
     color: COLORS.textSecondary,

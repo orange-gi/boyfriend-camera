@@ -1114,10 +1114,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 10,
   },
-  levelProgressCard: {
-    width: '100%',
-    marginTop: 10,
-  },
   levelProgressTrack: {
     height: 8,
     backgroundColor: COLORS.divider,
