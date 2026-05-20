@@ -34,6 +34,7 @@ import { useFaceDetection } from '../hooks/useFaceDetection'
 import { useSceneRecommendation } from '../hooks/useSceneRecommendation'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
 import { COLORS, CATEGORY_COLORS } from '../theme/colors'
+import { shadows } from '../theme/index'
 
 type CompositionMode = 'grid' | 'golden' | 'triangle'
 
@@ -885,10 +886,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     zIndex: 100,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
+    ...shadows.lg,
   },
   cameraErrorText: {
     color: '#fff',
@@ -929,11 +927,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.55)',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
+    ...shadows.md,
   },
   topBtnText: {
     color: '#fff',
