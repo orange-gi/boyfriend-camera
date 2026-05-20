@@ -20,6 +20,7 @@ import {
   ScrollView,
   TextInput,
   Animated,
+  Vibration,
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
@@ -254,6 +255,8 @@ export default function CameraScreen() {
   const handleTakePhoto = useCallback(async () => {
     if (isCapturing) return
     setIsCapturing(true)
+    // 拍照时轻震反馈（50ms 短震，给用户确认感）
+    Vibration.vibrate(50)
     try {
       await doCapture()
     } finally {

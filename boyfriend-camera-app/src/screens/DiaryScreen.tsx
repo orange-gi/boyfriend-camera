@@ -441,8 +441,12 @@ export default function DiaryScreen() {
     <View style={styles.container}>
       <FlatList
         data={records.slice(0, 20)}
-        keyExtractor={(item, index) => `${item.date}-${index}`}
+        keyExtractor={(item) => item.date}
         renderItem={renderRecord}
+        initialNumToRender={8}
+        maxToRenderPerBatch={6}
+        windowSize={5}
+        removeClippedSubviews={true}
         contentContainerStyle={styles.listContent}
         refreshControl={
           <RefreshControl
