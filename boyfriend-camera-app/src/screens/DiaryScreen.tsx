@@ -940,29 +940,6 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     marginTop: 2,
   },
-  statsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statDivider: {
-    width: 1,
-    height: 40,
-    backgroundColor: COLORS.divider,
-  },
-  statNum: {
-    fontSize: 26,
-    fontWeight: 'bold',
-  },
-  statLabel: {
-    fontSize: 12,
-    color: COLORS.textMuted,
-    marginTop: 4,
-  },
   sectionTitle: {
     fontSize: 17,
     fontWeight: 'bold',
@@ -1038,33 +1015,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  weeklyRow: {
+  weeklyGrid: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 16,
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.divider,
-  },
-  weeklyItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  weeklyDivider: {
-    width: 1,
-    height: 40,
-    backgroundColor: COLORS.divider,
-  },
-  weeklyLabel: {
-    fontSize: 11,
-    color: COLORS.textMuted,
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 8,
     marginBottom: 4,
   },
-  weeklyNum: {
-    fontSize: 17,
+  weeklyCard: {
+    flex: 1,
+    minWidth: '45%',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    backgroundColor: COLORS.bg,
+  },
+  weeklyCardIcon: {
+    fontSize: 20,
+    marginBottom: 4,
+  },
+  weeklyCardNum: {
+    fontSize: 22,
     fontWeight: 'bold',
   },
-  weeklySub: {
+  weeklyCardLabel: {
     fontSize: 11,
     color: COLORS.textMuted,
     marginTop: 2,
@@ -1099,39 +1074,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '600',
     marginTop: 2,
-  },
-  breakdownRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 8,
-    gap: 6,
-  },
-  breakdownItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  breakdownLabel: {
-    fontSize: 10,
-    color: COLORS.textMuted,
-    width: 26,
-  },
-  breakdownBar: {
-    width: 40,
-    height: 4,
-    backgroundColor: COLORS.divider,
-    borderRadius: 2,
-    overflow: 'hidden',
-  },
-  breakdownFill: {
-    height: '100%',
-    borderRadius: 2,
-  },
-  breakdownScore: {
-    fontSize: 10,
-    color: COLORS.textSecondary,
-    width: 16,
-    textAlign: 'right',
   },
   emptyContainer: {
     flex: 1,
@@ -1176,7 +1118,6 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 10,
   },
-  // ========== Round 33 新增：男友等级进度条 ==========
   levelProgressCard: {
     width: '100%',
     marginTop: 10,
@@ -1250,37 +1191,6 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     marginTop: 2,
   },
-  // 周统计卡片网格
-  weeklyGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginTop: 8,
-    marginBottom: 4,
-  },
-  weeklyCard: {
-    flex: 1,
-    minWidth: '45%',
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    alignItems: 'center',
-    backgroundColor: COLORS.bg,
-  },
-  weeklyCardIcon: {
-    fontSize: 20,
-    marginBottom: 4,
-  },
-  weeklyCardNum: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  weeklyCardLabel: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    marginTop: 2,
-  },
-  // 趋势横幅
   trendBanner: {
     marginTop: 12,
     borderRadius: 12,
@@ -1303,7 +1213,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
-  // 迷你进度条
   miniBarRow: {
     flexDirection: 'row',
     marginTop: 8,
@@ -1331,7 +1240,6 @@ const styles = StyleSheet.create({
     marginTop: 3,
     fontWeight: '500',
   },
-  // 空状态错误卡片
   emptyErrorCard: {
     backgroundColor: colors.bgCard,
     borderRadius: 16,
@@ -1367,7 +1275,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
-  // 空状态预览卡片
   emptyPreviewCard: {
     backgroundColor: colors.bgCard,
     borderRadius: 16,
@@ -1401,7 +1308,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 18,
   },
-  // 空状态小贴士
   emptyTipCard: {
     backgroundColor: colors.warningLight,
     borderRadius: 16,
@@ -1421,7 +1327,6 @@ const styles = StyleSheet.create({
     color: colors.statYellowText,
     lineHeight: 20,
   },
-  // 情感化引导卡片
   emptyMotivationCard: {
     backgroundColor: colors.primaryLight,
     borderRadius: 16,
@@ -1448,7 +1353,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     textAlign: 'center',
   },
-  // 里程碑预览卡片
   emptyMilestoneCard: {
     backgroundColor: COLORS.bgCard,
     borderRadius: 16,
@@ -1485,7 +1389,6 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     textAlign: 'center',
   },
-  // 底部弹窗样式
   sheetOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.45)',
@@ -1552,4 +1455,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.textOnPrimary,
   },
-} as any)
+})
