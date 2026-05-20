@@ -23,20 +23,14 @@ import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord }
 import EmptyState from '../components/common/EmptyState'
 import { COLORS, colors } from '../theme'
 
-/** Shimmer 动画背景：使用 design token 的 skeleton 色 */
-const shimmerBg = (anim: Animated.Value) => ({
-  backgroundColor: anim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [colors.skeletonBase, colors.skeletonHighlight],
-  }),
-})
+
 
 export default function DiaryScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Diary'>>()
   const [records, setRecords] = useState<DiaryRecord[]>([])
   const [peakScore, setPeakScore] = useState(0)
   const [refreshing, setRefreshing] = useState(false)
-  const shimmerAnim = useRef(new Animated.Value(0)).current
+
   const [loading, setLoading] = useState(true)
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
   const [clearAllVisible, setClearAllVisible] = useState(false)
@@ -62,28 +56,6 @@ export default function DiaryScreen() {
     loadDiaryData()
   }, []))
 
-  // Shimmer 动画
-  useEffect(() => {
-    if (!loading) return
-    const shimmer = Animated.loop(
-      Animated.sequence([
-        Animated.timing(shimmerAnim, {
-          toValue: 1,
-          duration: 900,
-          easing: Easing.ease,
-          useNativeDriver: true,
-        }),
-        Animated.timing(shimmerAnim, {
-          toValue: 0,
-          duration: 900,
-          easing: Easing.ease,
-          useNativeDriver: true,
-        }),
-      ])
-    )
-    shimmer.start()
-    return () => shimmer.stop()
-  }, [loading])
 
   const showDeleteSheet = useCallback((date: string) => {
     setDeleteTarget(date)
@@ -359,10 +331,10 @@ export default function DiaryScreen() {
       <View style={styles.emptyContainer}>
         {loading ? (
           <View style={styles.skeletonWrapper}>
-            <Animated.View style={[styles.skeletonEmoji, shimmerBg(shimmerAnim)]} />
-            <Animated.View style={[styles.skeletonTitle, shimmerBg(shimmerAnim)]} />
-            <Animated.View style={[styles.skeletonSubtitle, shimmerBg(shimmerAnim)]} />
-            <Animated.View style={[styles.skeletonBtn, shimmerBg(shimmerAnim)]} />
+            <View style={[styles.skeletonEmoji, { backgroundColor: colors.skeletonBase }]} />
+            <View style={[styles.skeletonTitle, { backgroundColor: colors.skeletonBase }]} />
+            <View style={[styles.skeletonSubtitle, { backgroundColor: colors.skeletonBase }]} />
+            <View style={[styles.skeletonBtn, { backgroundColor: colors.skeletonBase }]} />
           </View>
         ) : loadError ? (
           <>
