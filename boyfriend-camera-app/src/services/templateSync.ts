@@ -17,7 +17,7 @@ export interface TemplateUpdate {
   update: PoseTemplate[]
 }
 
-export async function getLocalVersion(): Promise<number> {
+async function getLocalVersion(): Promise<number> {
   try {
     const v = await AsyncStorage.getItem(LOCAL_VERSION_KEY)
     if (!v) return 0
@@ -28,7 +28,7 @@ export async function getLocalVersion(): Promise<number> {
   }
 }
 
-export async function setLocalVersion(version: number): Promise<void> {
+async function setLocalVersion(version: number): Promise<void> {
   await AsyncStorage.setItem(LOCAL_VERSION_KEY, String(version))
 }
 
@@ -93,30 +93,4 @@ export async function getCachedTemplates(): Promise<PoseTemplate[]> {
   return DEFAULT_TEMPLATES
 }
 
-/**
- * 获取所有模板分类（去重）
- * 用于分类筛选 UI
- */
-export function getTemplateCategories(templates: PoseTemplate[]): Array<{ key: string; label: string }> {
-  const seen = new Set<string>()
-  const categories: Array<{ key: string; label: string }> = []
-  for (const t of templates) {
-    const cat = t.category ?? '未分类'
-    if (!seen.has(cat)) {
-      seen.add(cat)
-      categories.push({ key: cat, label: cat })
-    }
-  }
-  return categories
-}
 
-/**
- * 按分类筛选模板
- */
-export function filterTemplatesByCategory(
-  templates: PoseTemplate[],
-  category: string | null
-): PoseTemplate[] {
-  if (!category || category === '全部') return templates
-  return templates.filter((t) => (t.category ?? '未分类') === category)
-}

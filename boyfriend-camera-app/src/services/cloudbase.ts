@@ -66,9 +66,4 @@ export async function callFunction<R = unknown>(name: string, data: object = {})
   }
 }
 
-/**
- * 打开云控制台（调试用）
- */
-export function openCloudConsole(): void {
-  // React Native Linking 在浏览器环境不可用，生产环境可通过 scheme 跳转
-}
+
