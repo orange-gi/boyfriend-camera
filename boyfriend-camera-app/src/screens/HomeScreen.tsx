@@ -3,11 +3,11 @@
  * 改进：设计系统 Token 化、Hero 区重设计、统计数据条强化、拍照按钮质感升级、功能卡片网格化
  */
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal, ActivityIndicator } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, withDelay, withSequence, withTiming, withRepeat, Easing } from 'react-native-reanimated'
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, withDelay, withTiming } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { useTemplates } from '../hooks/useTemplates'
@@ -116,22 +116,15 @@ export default function HomeScreen() {
   const cameraOpacity = useSharedValue(0)
   const featuresOpacity = useSharedValue(0)
   const featuresTranslateY = useSharedValue(30)
-  const glowScale = useSharedValue(1)
-  const glowOpacity = useSharedValue(0)
-  const pulseScale = useSharedValue(1)
-
   useEffect(() => {
     loadStats(); checkOnboard(); checkTipDismissed()
-    heroOpacity.value = withTiming(1, { duration: 500 })
+    heroOpacity.value = withTiming(1, { duration: 400 })
     heroTranslateY.value = withSpring(0, { damping: 16, stiffness: 100 })
-    statsOpacity.value = withDelay(200, withTiming(1, { duration: 400 }))
-    cameraOpacity.value = withDelay(400, withTiming(1, { duration: 300 }))
-    cameraScale.value = withDelay(400, withSpring(1, { damping: 10, stiffness: 90 }))
-    featuresOpacity.value = withDelay(600, withTiming(1, { duration: 400 }))
-    featuresTranslateY.value = withDelay(600, withSpring(0, { damping: 14 }))
-    glowScale.value = withRepeat(withSequence(withTiming(1.2, { duration: 1400, easing: Easing.inOut(Easing.ease) }), withTiming(1, { duration: 1400, easing: Easing.inOut(Easing.ease) })), -1, false)
-    glowOpacity.value = withRepeat(withSequence(withTiming(0.55, { duration: 1400, easing: Easing.inOut(Easing.ease) }), withTiming(0.15, { duration: 1400, easing: Easing.inOut(Easing.ease) })), -1, false)
-    pulseScale.value = withRepeat(withSequence(withTiming(1.06, { duration: 800, easing: Easing.inOut(Easing.ease) }), withTiming(1, { duration: 800, easing: Easing.inOut(Easing.ease) })), -1, false)
+    statsOpacity.value = withDelay(150, withTiming(1, { duration: 300 }))
+    cameraOpacity.value = withDelay(300, withTiming(1, { duration: 250 }))
+    cameraScale.value = withDelay(300, withSpring(1, { damping: 12, stiffness: 100 }))
+    featuresOpacity.value = withDelay(450, withTiming(1, { duration: 300 }))
+    featuresTranslateY.value = withDelay(450, withSpring(0, { damping: 14 }))
   }, [])
 
   useEffect(() => {
@@ -225,8 +218,8 @@ export default function HomeScreen() {
   const statsStyle = useAnimatedStyle(() => ({ opacity: statsOpacity.value }))
   const cameraStyle = useAnimatedStyle(() => ({ opacity: cameraOpacity.value, transform: [{ scale: cameraScale.value }] }))
   const featuresStyle = useAnimatedStyle(() => ({ opacity: featuresOpacity.value, transform: [{ translateY: featuresTranslateY.value }] }))
-  const glowStyle = useAnimatedStyle(() => ({ transform: [{ scale: glowScale.value }], opacity: glowOpacity.value }))
-  const pulseStyle = useAnimatedStyle(() => ({ transform: [{ scale: pulseScale.value }] }))
+  const glowStyle = useAnimatedStyle(() => ({}))
+  const pulseStyle = useAnimatedStyle(() => ({}))
 
   const totalTemplates = templates.length
   const avgScoreColor = scoreColor(displayAvgScore || avgScore)
@@ -240,9 +233,7 @@ export default function HomeScreen() {
           <Text style={styles.heroIcon}>📸</Text>
           <View style={styles.heroTextBlock}>
             <Text style={styles.heroTitle}>男友相机</Text>
-            <View style={styles.heroSubtitleBadge}>
-              <Text style={styles.heroSubtitle}>让男朋友越拍越好 ❤️</Text>
-            </View>
+            <Text style={styles.heroSubtitle}>让男朋友越拍越好</Text>
           </View>
         </View>
       </Animated.View>
@@ -289,12 +280,20 @@ export default function HomeScreen() {
       {statsLoading ? (
         <View style={styles.statsCard}>
           <View style={styles.statsRow}>
-            {[0, 1, 2].map(i => (
-              <View key={i} style={styles.statItem}>
-                <View style={styles.statNumSkeleton} />
-                <View style={styles.statLabelSkeleton} />
-              </View>
-            ))}
+            <View style={styles.statItem}>
+              <ActivityIndicator size="small" color={COLORS.textMuted} />
+              <Text style={styles.statsLoadingText}>已拍摄</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <ActivityIndicator size="small" color={COLORS.textMuted} />
+              <Text style={styles.statsLoadingText}>平均分</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <ActivityIndicator size="small" color={COLORS.textMuted} />
+              <Text style={styles.statsLoadingText}>模板</Text>
+            </View>
           </View>
         </View>
       ) : diaryCount > 0 ? (
@@ -341,13 +340,11 @@ export default function HomeScreen() {
 
       {/* 拍照主按钮 */}
       <Animated.View style={[styles.cameraBtnWrapper, cameraStyle]}>
-        {isNewUser && <Animated.View style={[styles.glowRingOuter, glowStyle]} />}
         <TouchableOpacity
           style={[styles.cameraBtn, isNewUser ? styles.cameraBtnNewUser : styles.cameraBtnRegular]}
           onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
           activeOpacity={0.85}
         >
-          <Animated.View style={[styles.cameraBtnPulse, pulseStyle]} />
           <View style={styles.cameraBtnInner}><Text style={styles.cameraBtnIcon}>📷</Text></View>
           <View style={styles.cameraBtnTextRow}>
             <Text style={[styles.cameraBtnText, { color: COLORS.textOnPrimary }]}>开始拍照</Text>
@@ -446,28 +443,28 @@ const styles = StyleSheet.create({
   heroIcon: { fontSize: 56 },
   heroTextBlock: { alignItems: 'flex-start' },
   heroTitle: { fontSize: typography.fontSize['7xl'], fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, letterSpacing: 0.5, marginBottom: spacing[2] },
-  heroSubtitleBadge: { backgroundColor: COLORS.primaryLight, paddingHorizontal: spacing[4], paddingVertical: spacing[2], borderRadius: borderRadius.full },
+  heroSubtitleBadge: {},
   heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
 
   // 每日技巧
-  dailyTipCard: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: COLORS.gradientWarm, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], borderWidth: 1, borderColor: colors.warningLight, ...shadows.sm },
+  dailyTipCard: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], borderWidth: 1, borderColor: COLORS.divider, ...shadows.sm },
   dailyTipTouchable: { flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: spacing[3] },
   dailyTipHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 },
-  dailyTipExpandIcon: { fontSize: 10, color: colors.warning, opacity: 0.7 },
+  dailyTipExpandIcon: { fontSize: 10, color: COLORS.textMuted, opacity: 0.7 },
   dailyTipExpandedContent: { marginTop: 10 },
-  dailyTipDivider: { height: 1, backgroundColor: 'rgba(200,140,60,0.25)', marginBottom: 8 },
+  dailyTipDivider: { height: 1, backgroundColor: COLORS.divider, marginBottom: 8 },
   dailyTipMoreRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
   dailyTipMoreIcon: { fontSize: 20, flexShrink: 0, marginTop: 1 },
-  dailyTipMoreText: { flex: 1, fontSize: typography.fontSize.sm, color: colors.warning, lineHeight: 20 },
-  dailyTipMoreHint: { fontSize: 10, color: colors.warning, opacity: 0.6, marginTop: 6, textAlign: 'right' },
-  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientPink, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], borderWidth: 1, borderColor: colors.primaryLight },
+  dailyTipMoreText: { flex: 1, fontSize: typography.fontSize.sm, color: COLORS.textSecondary, lineHeight: 20 },
+  dailyTipMoreHint: { fontSize: 10, color: COLORS.textMuted, opacity: 0.6, marginTop: 6, textAlign: 'right' },
+  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], borderWidth: 1, borderColor: COLORS.divider, ...shadows.sm },
   dailyTipLeft: { flexShrink: 0 },
   dailyTipIcon: { fontSize: 28 },
   dailyTipContent: { flex: 1 },
-  dailyTipLabel: { fontSize: typography.fontSize.xs, color: colors.warning, fontWeight: typography.fontWeight.semibold, marginBottom: 2, letterSpacing: 0.5 },
-  dailyTipText: { fontSize: typography.fontSize.md, color: colors.warning, lineHeight: 22 },
-  dailyTipClose: { width: 28, height: 28, borderRadius: borderRadius.full, backgroundColor: colors.blackAlpha10, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  dailyTipCloseText: { color: colors.warning, fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold },
+  dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textSecondary, fontWeight: typography.fontWeight.semibold, marginBottom: 2, letterSpacing: 0.5 },
+  dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
+  dailyTipClose: { width: 28, height: 28, borderRadius: borderRadius.full, backgroundColor: COLORS.divider, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  dailyTipCloseText: { color: COLORS.textMuted, fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold },
 
   // 统计卡片
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6], ...shadows.lg },
@@ -477,8 +474,7 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statIndicator: { position: 'absolute', bottom: -spacing[2], left: '50%', marginLeft: -12, width: 24, height: 3, borderRadius: 2 },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
-  statNumSkeleton: { width: 36, height: 36, borderRadius: borderRadius.md, backgroundColor: COLORS.skeletonBase, alignSelf: 'center', marginBottom: 4 },
-  statLabelSkeleton: { width: 40, height: 12, borderRadius: borderRadius.sm, backgroundColor: COLORS.skeletonHighlight, alignSelf: 'center' },
+  statsLoadingText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 4, alignSelf: 'center' },
   trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[4], paddingTop: spacing[4], borderTopWidth: 1, borderTopColor: COLORS.divider, gap: spacing[3] },
   trendText: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, flexShrink: 0 },
   trendBar: { flex: 1, height: 6, borderRadius: borderRadius.sm, overflow: 'hidden' },
@@ -487,11 +483,11 @@ const styles = StyleSheet.create({
 
   // 拍照按钮
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
-  glowRingOuter: { position: 'absolute', top: -16, left: -16, right: -16, bottom: -16, borderRadius: borderRadius.full, borderWidth: 2, borderColor: 'rgba(255,107,107,0.3)', backgroundColor: 'rgba(255,107,107,0.06)' },
+  glowRingOuter: {},
   cameraBtn: { position: 'relative', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, overflow: 'visible' },
   cameraBtnNewUser: { backgroundColor: COLORS.primary, paddingVertical: 24, paddingHorizontal: 64, ...shadows.glow },
   cameraBtnRegular: { backgroundColor: COLORS.primary, paddingVertical: 20, paddingHorizontal: 56, ...shadows.glowSoft },
-  cameraBtnPulse: { position: 'absolute', top: -6, left: -6, right: -6, bottom: -6, borderRadius: borderRadius.full, borderWidth: 2, borderColor: 'rgba(255,107,107,0.25)', backgroundColor: 'transparent' },
+  cameraBtnPulse: {},
   cameraBtnInner: { marginBottom: spacing[2] },
   cameraBtnIcon: { fontSize: 40 },
   cameraBtnTextRow: { flexDirection: 'row', alignItems: 'center', gap: spacing[2] },
@@ -507,7 +503,7 @@ const styles = StyleSheet.create({
 
   // 姿势提示卡
   poseTipIcon: { fontSize: 22, flexShrink: 0 },
-  poseTipText: { flex: 1, fontSize: typography.fontSize.md, color: colors.categoryCouple, lineHeight: 22 },
+  poseTipText: { flex: 1, fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
 
   // 功能特性
   featuresSection: { marginBottom: spacing[5] },
@@ -523,7 +519,7 @@ const styles = StyleSheet.create({
   featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
 
   // 底部导航
-  bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 6, gap: 6, ...shadows.inner },
+  bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 6, gap: 6, ...shadows.sm },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
   bottomNavBtnActive: { backgroundColor: COLORS.primaryLight },
   bottomNavIcon: { fontSize: 20 },
