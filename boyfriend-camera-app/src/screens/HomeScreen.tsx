@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
   dailyTipCloseText: { color: COLORS.textMuted, fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold },
 
   // 统计卡片
-  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6], ...shadows.lg },
+  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6], ...shadows.md },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 52 },
@@ -478,8 +478,8 @@ const styles = StyleSheet.create({
   // 拍照按钮
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
   cameraBtn: { position: 'relative', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, overflow: 'visible' },
-  cameraBtnNewUser: { backgroundColor: COLORS.primary, paddingVertical: 24, paddingHorizontal: 64, ...shadows.glow },
-  cameraBtnRegular: { backgroundColor: COLORS.primary, paddingVertical: 20, paddingHorizontal: 56, ...shadows.glowSoft },
+  cameraBtnNewUser: { backgroundColor: COLORS.primary, paddingVertical: 24, paddingHorizontal: 64 },
+  cameraBtnRegular: { backgroundColor: COLORS.primary, paddingVertical: 20, paddingHorizontal: 56 },
   cameraBtnInner: { marginBottom: spacing[2] },
   cameraBtnIcon: { fontSize: 40 },
   cameraBtnTextRow: { flexDirection: 'row', alignItems: 'center', gap: spacing[2] },
@@ -519,7 +519,7 @@ const styles = StyleSheet.create({
 
   // 引导弹窗
   onboardOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', padding: 24 },
-  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center', ...shadows.lg },
+  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center', ...shadows.md },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },

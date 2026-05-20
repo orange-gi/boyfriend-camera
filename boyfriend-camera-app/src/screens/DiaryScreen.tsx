@@ -860,7 +860,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 18,
     paddingVertical: 10,
-    ...shadows.glow,
   },
   cameraBtnText: {
     color: COLORS.textOnPrimary,
@@ -890,7 +889,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,
-    ...shadows.lg,
+    ...shadows.md,
     overflow: 'hidden',
   },
   statsCardTitle: {
