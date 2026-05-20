@@ -534,7 +534,6 @@ export default function CameraScreen() {
           accessibilityHint="单击切换闪光灯模式"
         >
           <Text style={styles.topBtnText}>{FLASH_ICONS[flash]}</Text>
-          <View style={flash === 'on' ? styles.flashDotOn : styles.flashDotOff} />
         </TouchableOpacity>
 
         <View style={styles.modeGroupGlass}>
@@ -966,24 +965,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 22,
   },
-  flashDotOn: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: COLORS.warning,
-  },
-  flashDotOff: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'rgba(255,255,255,0.25)',
-  },
   modeGroupGlass: {
     flexDirection: 'row',
     backgroundColor: 'rgba(255,255,255,0.15)',
@@ -1049,15 +1030,13 @@ const styles = StyleSheet.create({
     top: 108,
     left: 16,
     right: 80,
-    backgroundColor: 'rgba(255,255,255,0.72)',
+    backgroundColor: 'rgba(20,20,20,0.78)',
     borderRadius: 16,
     paddingVertical: 12,
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.6)',
     gap: 10,
   },
   poseTipIcon: {
@@ -1067,7 +1046,7 @@ const styles = StyleSheet.create({
   poseTipText: {
     flex: 1,
     fontSize: 14,
-    color: COLORS.textPrimary,
+    color: '#fff',
     fontWeight: '600',
     lineHeight: 20,
   },
