@@ -352,6 +352,16 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
         setTimeout(() => typeText(analysis.praise[0]), 600)
       }
 
+      // TTS 朗读夸奖文案（分数 ≥ 90 时，截取前 50 字朗读）
+      const praiseToSpeak = analysis.praise?.[0]?.slice(0, 50) || ''
+      if (praiseToSpeak) {
+        setTimeout(async () => {
+          try {
+            await voiceCoach.speak(praiseToSpeak, false)
+          } catch { /* ignore TTS errors */ }
+        }, 1500)
+      }
+
       if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
       screenshotTimerRef.current = setTimeout(async () => {
         if (!mountedRef.current) return
