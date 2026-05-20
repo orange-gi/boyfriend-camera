@@ -742,13 +742,8 @@ export default function CameraScreen() {
             </ScrollView>
 
             {templatesLoading ? (
-              <View style={styles.templateSkeletonGrid}>
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <View key={i} style={styles.templateSkeletonCard}>
-                    <View style={styles.templateSkeletonIcon} />
-                    <View style={styles.templateSkeletonLabel} />
-                  </View>
-                ))}
+              <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>正在加载姿势模板...</Text>
               </View>
             ) : templatesError ? (
               <View style={styles.loadingContainer}>
@@ -1316,34 +1311,6 @@ const styles = StyleSheet.create({
     padding: 40,
     alignItems: 'center',
   },
-  templateSkeletonGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 12,
-    paddingTop: 8,
-  },
-  templateSkeletonCard: {
-    width: '23%',
-    margin: '1%',
-    aspectRatio: 0.75,
-    backgroundColor: COLORS.skeletonBase,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  templateSkeletonIcon: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: COLORS.skeletonHighlight,
-    marginBottom: 6,
-  },
-  templateSkeletonLabel: {
-    width: 40,
-    height: 10,
-    borderRadius: 4,
-    backgroundColor: COLORS.skeletonHighlight,
-  },
   loadingText: {
     color: COLORS.textMuted,
     fontSize: 14,
@@ -1449,10 +1416,6 @@ const styles = StyleSheet.create({
     width: '88%',
     maxWidth: 320,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 16,
-    elevation: 8,
   },
   previewImage: {
     width: 160,

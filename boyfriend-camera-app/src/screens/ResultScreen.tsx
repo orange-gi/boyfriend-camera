@@ -864,12 +864,6 @@ const FilterItem = memo(function FilterItem({
         {isActive && (
           <View style={[styles.filterCircleSelectedRing, { borderColor: COLORS.primary }]} />
         )}
-        {/* 选中态对勾 */}
-        {isActive && (
-          <View style={styles.filterCheckBadge}>
-            <Text style={styles.filterCheckBadgeText}>✓</Text>
-          </View>
-        )}
       </Animated.View>
       <Text style={[
         styles.filterLabel,
@@ -1006,24 +1000,6 @@ const styles = StyleSheet.create({
     bottom: -3,
     borderRadius: 29,
     borderWidth: 3,
-  },
-  filterCheckBadge: {
-    position: 'absolute',
-    top: -4,
-    right: -4,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 2,
-  },
-  filterCheckBadgeText: {
-    color: colors.textOnPrimary,
-    fontSize: 10,
-    fontWeight: 'bold',
-    lineHeight: 12,
   },
   filterCircleIcon: {
     fontSize: 26,
