@@ -1,7 +1,8 @@
 /**
- * ResultScreen - 结果页 v6
- * 改进：处理进度动画精简（去重 progressDots + processingSteps）
- *       + confetti 导航安全清理 + 处理步骤进度条更平滑
+ * ResultScreen - 结果页 v7
+ * 改进：移除 confetti 撒花 + cursor 光标装饰
+ *       保留核心：打字机效果、进度条、分数动画、滤镜选择
+ *       设计语言：简洁优雅极致——去掉装饰性粒子，保留功能性反馈
  */
 import React, { useEffect, useState, useRef, useMemo, memo } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -1200,11 +1201,6 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     lineHeight: 20,
   },
-  cursorBlink: {
-    color: COLORS.primary,
-    fontSize: 13,
-    marginLeft: 1,
-  },
   // ========== Round 8 新增：下次改进提示 ==========
   suggestionBanner: {
     marginHorizontal: 20,
@@ -1430,15 +1426,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: colors.cardBrown,
     fontWeight: '600',
-  },
-  // 撒花粒子
-  confettiParticle: {
-    position: 'absolute',
-    top: 0,
-    zIndex: 999,
-  },
-  confettiEmoji: {
-    fontSize: 24,
   },
   // 无图片时的友好提示
   noPhotoContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, gap: 12 },
