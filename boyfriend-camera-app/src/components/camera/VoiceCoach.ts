@@ -367,6 +367,18 @@ const FACE_TIPS = {
   FACE_LOCKED: '找到你了！就是现在，笑一个～',
   CAMERA_TOO_CLOSE: '手机离脸太近了！稍微拿远一点点～',
   LOW_BATTERY_HINT: '手机快没电了！抓紧时间多拍几张～',
+  // ========== Round 41 新增人脸提示 ==========
+  GLASSES_REFLECTION: '眼镜反光太亮了！稍微侧一下脸躲开光源～',
+  GLASSES_TILT: '镜片反光挡住眼睛了，抬头或低头一点点～',
+  EYE_CONTACT_HINT: '看镜头！眼神定住更有神～',
+  EYE_LOOK_AWAY_NATURAL: '假装看旁边的风景！比看镜头自然一百倍～',
+  GROUP_FACE_TOO_MANY: '找到好多人脸！对焦在最前面的人身上哦～',
+  GROUP_STAND_CLOSER: '大家再靠近一点！贴贴更入镜～',
+  GROUP_STAND_STAGGERED: '后排稍微错开站，这样每个人都能露出来～',
+  OUTFIT_BLEND_BACKGROUND: '衣服和背景颜色太像了！稍微换个角度躲开～',
+  HAIR_WIND_MESSY: '风把头发吹乱了！先理一下再拍，或者让风吹着也很有氛围～',
+  EXPRESSION_THINK_OF_SONG: '想想你最喜欢的歌！这个表情最自然～',
+  EXPRESSION_NATURAL_BREATH: '深呼吸放松！表情会更自然～',
 }
 
 const STABILITY_TIPS = {
