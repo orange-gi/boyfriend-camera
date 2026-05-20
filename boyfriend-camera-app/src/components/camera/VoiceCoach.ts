@@ -362,6 +362,11 @@ const FACE_TIPS = {
   CAT_LOOK_AWAY: '猫咪在看别处！等它转过来或者假装喂它～',
   CROWD_BACKGROUND: '背景人好多！稍微等人走开再拍，或者开人像模式虚化～',
   CAMERA_DIRTY_LENS: '镜头好像脏了！先擦一下，拍出来会更清晰～',
+  // ========== Round 40 新增场景提示 ==========
+  CAMERA_UPSIDE_DOWN: '手机好像拿反了！把摄像头朝上拿好～',
+  FACE_LOCKED: '找到你了！就是现在，笑一个～',
+  CAMERA_TOO_CLOSE: '手机离脸太近了！稍微拿远一点点～',
+  LOW_BATTERY_HINT: '手机快没电了！抓紧时间多拍几张～',
 }
 
 const STABILITY_TIPS = {
@@ -1163,6 +1168,11 @@ const CAMERA_USAGE_TIPS = {
   FRONT_CAMERA_QUALITY: '后置摄像头像素更高，让男朋友拿手机拍更清晰～',
   BACKLIGHT_TIP: '有点逆光，试试换个角度或者靠近一点光源～',
   BACKLIGHT_TIP_2: '逆光时脸会变黑，侧身站或者换个方向避开直射光～',
+  // ========== Round 40 新增场景提示 ==========
+  ROOFTOP_PARK: '天台花园超有情调！站在花草中间，笑一个～',
+  UNDERGROUND_PARKING: '地下车库光线冷调超有都市感！靠着柱子，看向远方～',
+  CARGO_SHIP: '港口货轮超有工业感！站在集装箱旁，酷酷地看镜头～',
+  SKYSCRAPER_LOBBY: '摩天大楼大堂超有都市感！靠着玻璃墙，看向远方～',
 }
 
 // 光线检测语音提示
