@@ -1311,6 +1311,22 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '眼睛闭着拍出来了，提醒她睁大眼睛再来～',
     '表情太僵了！笑一个，让气氛轻松自然点～',
   ],
+  // ========== Round 39 新增：不笑相关建议 ==========
+  no_smile: [
+    '表情有点严肃哦，让她笑一个会更上镜～',
+    '这表情有点冷，让男朋友讲个笑话逗她笑～',
+    '试着笑一笑！自然的笑容最好看～',
+    '表情放松一点，嘴角微微上扬就很好看了～',
+    '告诉她别紧张，笑一个试试～',
+  ],
+  // ========== Round 39 新增：模糊检测专属建议 ==========
+  blurry: [
+    '这张有点糊了，让男朋友手稳住再按快门～',
+    '糊了！可能对焦没对上，拍照前先点一下屏幕对焦～',
+    '光线太暗容易糊，打开闪光灯试试～',
+    '让男朋友双手握手机，靠墙或找个支撑点～',
+    '快门太慢会糊，深呼吸憋住气再按快门～',
+  ],
   // 新增：夜景相关建议
   night: [
     '夜景光线复杂，试试打开闪光灯补补光～',
@@ -3166,6 +3182,10 @@ export async function analyzePhoto(
   if (faceCount > 0 && totalScore < 60 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.stiff_expression))
   }
+  // ========== Round 39 新增：不笑相关建议（人脸存在但表情偏严肃时） ==========
+  if (faceCount > 0 && !problems.includes('face') && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.no_smile))
+  }
   // 表情引导建议（中分区有提升空间时）
   if (faceCount > 0 && totalScore >= 60 && totalScore < 80 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.expression_hint))
@@ -3173,6 +3193,10 @@ export async function analyzePhoto(
   // 多人合照构图建议（合照但构图不佳时）
   if (faceCount > 1 && compositionScore < 30) {
     suggestions.push(pickRandom(SUGGESTION_POOL.ugly_background))
+  }
+  // ========== Round 39 新增：模糊检测专属建议（清晰度明显不足时） ==========
+  if (safeSharpness < 80 && !problems.includes('stability') && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.blurry))
   }
 
   // ========== Round 34 新增：高级构图建议触发（构图一般但非极差） ==========
