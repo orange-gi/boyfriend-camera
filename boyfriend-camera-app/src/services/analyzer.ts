@@ -1843,6 +1843,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
   background_overexposed: [
     '背景高光过曝了，变成一片白了，下次找光更均匀的地方～',
     '天空过曝了，试试稍微调低曝光补偿～',
+    '背景太亮了，女朋友变成了剪影，侧身躲开强光试试～',
   ],
   // 人太小建议
   subject_too_small: [
