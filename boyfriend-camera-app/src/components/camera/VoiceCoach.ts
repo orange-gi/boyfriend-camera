@@ -560,6 +560,12 @@ const EXPRESSION_TIPS = {
   POSE_BATHROBE: '穿浴袍靠在窗边，慵懒又高级～',
   POSE_UMBRELLA: '撑把透明伞，雨天氛围感绝了！',
   POSE_BIKE: '骑着自行车或靠在一旁，活力满满！',
+  // ========== Round 5 (hourly iter) 新增表情提示 ==========
+  COLD_EXPRESSION: '表情稍微冷一点！嘴角不要上扬，眼神放空，超有气场～',
+  TEASING_LOOK: '调皮地歪头，嘴角微微上扬，这个表情绝了！',
+  LOOK_UP_GAZE: '抬头向上看，眼神更有灵气，这个角度超美～',
+  LIP_BITE: '轻轻咬一下下唇，这个表情好撩人！',
+  EYEBROW_RAISE: '轻轻抬一下眉毛，俏皮感立刻上来～',
 }
 
 // 场景专项提示
@@ -2913,8 +2919,11 @@ class VoiceCoach {
       '雨天的光线超柔和！找个窗户边，光影绝绝子～',
       '雨天窗边拍照最有氛围感！水珠做前景超有感觉～',
       '雨后的地面有倒影，找个水洼试试俯拍，超有意境～',
+      '撑把透明伞！雨丝落下来的时候抓拍，超有意境～',
+      '积水倒影超美！蹲下来拍一张，别有洞天～',
+      '打开闪光灯补补光，雨天脸容易暗～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+    await this.speak(pickRandomFrom(tips), false)
   }
 
   /** 逆光拍摄提示 */
@@ -2923,8 +2932,10 @@ class VoiceCoach {
       '逆光超有感觉！转过身让光打在侧脸上，绝绝子～',
       '背光拍摄剪影超浪漫！整个人都在发光的感觉～',
       '逆光的时候让女朋友稍微侧身，光线勾勒轮廓超美～',
+      '逆光太强了！打开闪光灯补光，不然脸会黑黑的～',
+      '换个角度！让光源打在脸的侧面或后方，轮廓会更清晰～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandomFrom(tips), true)
   }
 
   /** 侧光拍摄提示 */
