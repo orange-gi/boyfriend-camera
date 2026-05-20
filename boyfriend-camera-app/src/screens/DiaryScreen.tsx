@@ -1552,4 +1552,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.textOnPrimary,
   },
-})
+} as any)

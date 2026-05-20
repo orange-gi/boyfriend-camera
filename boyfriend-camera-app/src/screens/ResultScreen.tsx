@@ -1110,10 +1110,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: colors.primary,
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 3,
+    elevation: 2,
   },
   filterCheckBadgeText: {
     color: colors.textOnPrimary,
