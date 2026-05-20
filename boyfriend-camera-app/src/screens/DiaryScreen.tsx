@@ -278,6 +278,8 @@ export default function DiaryScreen() {
         onLongPress={() => showDeleteSheet(item.date)}
         delayLongPress={600}
         activeOpacity={0.72}
+        accessibilityRole="button"
+        accessibilityLabel={`${dateStr} 得分 ${item.score} 分${index === 0 ? '，最新' : ''}。长按删除`}
       >
         {/* 左侧分数 */}
         <View style={[styles.scoreBadge, { backgroundColor: sc + '18' }]}>

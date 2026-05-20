@@ -924,6 +924,9 @@ const FilterItem = memo(function FilterItem({
       onPress={onPress}
       activeOpacity={0.75}
       style={styles.filterItem}
+      accessibilityRole="button"
+      accessibilityLabel={`滤镜: ${filter.label}${isActive ? '，已选中' : ''}`}
+      accessibilityHint="单击切换滤镜"
     >
       <Animated.View style={[styles.filterCircleWrapper, animatedStyle]}>
         <View style={[
@@ -1113,7 +1116,7 @@ const styles = StyleSheet.create({
     lineHeight: 12,
   },
   filterCircleIcon: {
-    fontSize: 22,
+    fontSize: 26,
   },
   filterLabel: {
     fontSize: 12,
