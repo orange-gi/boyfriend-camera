@@ -101,6 +101,7 @@ export default function HomeScreen() {
   const [showOnboard, setShowOnboard] = useState(false)
   const [onboardStep, setOnboardStep] = useState(0)
   const [tipDismissed, setTipDismissed] = useState(false)
+  const [expandedTip, setExpandedTip] = useState(false)
   const [displayDiaryCount, setDisplayDiaryCount] = useState(0)
   const [displayAvgScore, setDisplayAvgScore] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
@@ -249,13 +250,34 @@ export default function HomeScreen() {
       {/* 每日小技巧 */}
       {!tipDismissed && (() => {
         const tip = getDailyTip()
+        // 展开时显示多一条提示
+        const moreTip = DAILY_TIPS[(Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000) + 1) % DAILY_TIPS.length]
         return (
           <Animated.View style={[styles.dailyTipCard, heroStyle]}>
-            <View style={styles.dailyTipLeft}><Text style={styles.dailyTipIcon}>{tip.icon}</Text></View>
-            <View style={styles.dailyTipContent}>
-              <Text style={styles.dailyTipLabel}>💡 今日拍照技巧</Text>
-              <Text style={styles.dailyTipText}>{tip.text}</Text>
-            </View>
+            <TouchableOpacity
+              style={styles.dailyTipTouchable}
+              onPress={() => setExpandedTip(v => !v)}
+              activeOpacity={0.85}
+            >
+              <View style={styles.dailyTipLeft}><Text style={styles.dailyTipIcon}>{tip.icon}</Text></View>
+              <View style={styles.dailyTipContent}>
+                <View style={styles.dailyTipHeaderRow}>
+                  <Text style={styles.dailyTipLabel}>💡 今日拍照技巧</Text>
+                  <Text style={styles.dailyTipExpandIcon}>{expandedTip ? '▲' : '▼'}</Text>
+                </View>
+                <Text style={styles.dailyTipText}>{tip.text}</Text>
+                {expandedTip && (
+                  <View style={styles.dailyTipExpandedContent}>
+                    <View style={styles.dailyTipDivider} />
+                    <View style={styles.dailyTipMoreRow}>
+                      <Text style={styles.dailyTipMoreIcon}>{moreTip.icon}</Text>
+                      <Text style={styles.dailyTipMoreText}>{moreTip.text}</Text>
+                    </View>
+                    <Text style={styles.dailyTipMoreHint}>点击收起</Text>
+                  </View>
+                )}
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.dailyTipClose} onPress={dismissTip} activeOpacity={0.72} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
               <Text style={styles.dailyTipCloseText}>✕</Text>
             </TouchableOpacity>
@@ -428,7 +450,16 @@ const styles = StyleSheet.create({
   heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
 
   // 每日技巧
-  dailyTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientWarm, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], gap: spacing[3], borderWidth: 1, borderColor: colors.warningLight, ...shadows.sm },
+  dailyTipCard: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: COLORS.gradientWarm, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], borderWidth: 1, borderColor: colors.warningLight, ...shadows.sm },
+  dailyTipTouchable: { flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: spacing[3] },
+  dailyTipHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 },
+  dailyTipExpandIcon: { fontSize: 10, color: colors.warning, opacity: 0.7 },
+  dailyTipExpandedContent: { marginTop: 10 },
+  dailyTipDivider: { height: 1, backgroundColor: 'rgba(200,140,60,0.25)', marginBottom: 8 },
+  dailyTipMoreRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
+  dailyTipMoreIcon: { fontSize: 20, flexShrink: 0, marginTop: 1 },
+  dailyTipMoreText: { flex: 1, fontSize: typography.fontSize.sm, color: colors.warning, lineHeight: 20 },
+  dailyTipMoreHint: { fontSize: 10, color: colors.warning, opacity: 0.6, marginTop: 6, textAlign: 'right' },
   poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.gradientPink, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], borderWidth: 1, borderColor: colors.primaryLight },
   dailyTipLeft: { flexShrink: 0 },
   dailyTipIcon: { fontSize: 28 },
