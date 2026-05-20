@@ -3359,6 +3359,80 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
+  // ========== Round 35 新增 TTS 场景 ==========
+  // 拍摄前引导
+  async speakPreShootTip(): Promise<void> {
+    const tips = [
+      '先确认一下光线方向！脸要朝向光源才好看～',
+      '检查一下镜头有没有指纹！擦干净再拍会更清晰～',
+      '先让男朋友拿稳手机，憋住呼吸再按快门～',
+      '先打开九宫格辅助线！构图会专业很多～',
+      '先问一句这样可以吗！十张里能挑出一两张特别好的！',
+      '先确认一下背景干净不干净，杂乱的背景会抢戏～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+  }
+
+  // 拍摄中实时指导
+  async speakMidShootTip(): Promise<void> {
+    const tips = [
+      '就差一点点！稳住，按下去就是大片！',
+      '姿势超棒！表情到位！按下去就是大片！',
+      '完美时刻！这光线这角度，按下去！',
+      '手稳住！就是现在，深呼吸，咔嚓！',
+      '位置刚刚好！就是现在，按快门！',
+      '表情超自然！别动，就是现在拍！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  // 拍完后自动播报
+  async speakPostShootResult(score: number): Promise<void> {
+    if (score >= 90) {
+      await this.speak(`完美！给你打${score}分！这张要永久收藏！`, false)
+    } else if (score >= 80) {
+      await this.speak(`这张${score}分！男朋友进步好大，继续保持！`, false)
+    } else if (score >= 70) {
+      await this.speak(`${score}分！不错不错，继续加油！`, false)
+    } else {
+      await this.speak('这张有进步空间，再来一张试试～', false)
+    }
+  }
+
+  // 场景切换提醒
+  async speakSceneChangeTip(sceneType: string): Promise<void> {
+    const sceneTips: Record<string, string[]> = {
+      beach: ['海边阳光强！找个阴凉处或戴墨镜～', '海风吹头发超美，等风来再拍～'],
+      cafe: ['咖啡馆光线暖暖的！靠近窗户位置最佳～', '捧着咖啡侧头看窗外，文艺感绝了～'],
+      night: ['夜景光线复杂，打开闪光灯补补光～', '晚上拍要手更稳，深呼吸再按快门～'],
+      indoor: ['室内最重要的是光线！靠近窗户站～', '家里找窗边或白墙做背景，简单干净～'],
+    }
+    const tips = sceneTips[sceneType] || ['换个角度试试！光影会更丰富～']
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  // 情侣互动特别提示
+  async speakCoupleInteractionTip(): Promise<void> {
+    const tips = [
+      '两个人靠近一点！贴贴更甜蜜～',
+      '对视一下！这个瞬间按下去，超有感觉～',
+      '从背后抱！经典的甜蜜姿势学起来～',
+      '牵手往前走，边走边抓拍，自然又好看～',
+      '额头碰额头！嘟嘴亲亲，超甜～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  // 连拍建议
+  async speakBurstTip(): Promise<void> {
+    const tips = [
+      '按住快门连拍！多拍几张选最好的～',
+      '连拍模式开起来！动起来的瞬间最自然～',
+      '多拍几张总有一张完美！别只拍一张就收工～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
