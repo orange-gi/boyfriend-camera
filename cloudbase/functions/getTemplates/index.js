@@ -1,10 +1,10 @@
 /**
- * 男友相机 - getTemplates 云函数 v32
- * 340+ 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/城市街拍等全场景
+ * 男友相机 - getTemplates 云函数 v34
+ * 360 个姿势模板，覆盖室内/户外/餐厅/特殊风格/情侣合照/城市街拍等全场景
  * 模板涵盖：日常自拍、约会合照、户外风景、美食餐厅、城市街拍、节日庆典等
  */
 
-const CURRENT_VERSION = 32
+const CURRENT_VERSION = 34
 
 // ===== Deterministic SVG generator (replaces 170 static constants, reduces ~60KB) =====
 function genSVG(id) {
