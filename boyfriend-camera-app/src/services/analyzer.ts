@@ -3260,6 +3260,7 @@ export async function analyzePhoto(
       praise.push(pickRandom(PRAISE_POOL.score_60_79))
     }
   } else if (totalScore >= 40 && totalScore < 60) {
+    praise.push(pickRandom(PRAISE_POOL.score_40_59)) // 40-59 通用鼓励池
     if (totalScore >= 55) {
       praise.push(pickRandom(PRAISE_POOL.score_55_59))
     } else if (totalScore >= 50) {
