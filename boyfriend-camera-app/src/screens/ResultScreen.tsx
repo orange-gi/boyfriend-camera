@@ -230,10 +230,14 @@ const FILTER_OPTIONS: Array<{ key: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | '
       const sceneTypeMap: Record<string, 'indoor' | 'outdoor' | 'other'> = {
         '室内日常': 'indoor',
         '室内场景': 'indoor',
+        '室内人像': 'indoor',
         '餐厅美食': 'indoor',
         '户外风景': 'outdoor',
+        '城市街拍': 'outdoor',
         '特殊风格': 'other',
         '情侣合照': 'other',
+        '自拍技巧': 'other',
+        '构图技巧': 'other',
       }
       const sceneType = templateCategory ? (sceneTypeMap[templateCategory] ?? 'other') : 'other'
 
