@@ -379,6 +379,23 @@ const FACE_TIPS = {
   HAIR_WIND_MESSY: '风把头发吹乱了！先理一下再拍，或者让风吹着也很有氛围～',
   EXPRESSION_THINK_OF_SONG: '想想你最喜欢的歌！这个表情最自然～',
   EXPRESSION_NATURAL_BREATH: '深呼吸放松！表情会更自然～',
+  // ========== 本次新增人脸/光线/姿势提示 ==========
+  DRESS_COLOR_HINT: '衣服颜色和背景太接近了！换个角度或者背景躲开～',
+  HAIR_TUCK_EAR: '头发挡住耳朵了！轻轻拨到耳后，轮廓会更清晰～',
+  COLLAR_PULL: '领口歪了！轻轻整理一下，露出一边锁骨更好看～',
+  CHIN_UP_SLIGHT: '下巴稍微抬一点点！下颌线会更清晰立体～',
+  CHIN_DOWN_SLIGHT: '稍微收一下下巴！脖子显得更长，仪态更好～',
+  SHOULDER_DOWN: '肩膀放松往下沉！别端着，自然最美～',
+  ARM_NATURAL: '手臂自然垂下就好！别紧贴身体，显瘦～',
+  HAND_PLACE_HIP: '双手叉腰！这个姿势显瘦又有气场～',
+  HAND_TOUCH_NECK: '轻轻搭在脖子上！这个姿势知性又优雅～',
+  BODY_TURN_SLIGHT: '身体稍微侧一点！比正对镜头更显瘦～',
+  FACE_TURN_MICRO: '脸稍微转一点点！完全正脸会显胖，侧一点更立体～',
+  LIGHT_BALANCE_HINT: '脸上阴影太多了！稍微换个角度让光更均匀～',
+  EYES_FOCUS_DISTANCE: '眼神聚焦到镜头方向！别放空～',
+  TEETH_SHOW_SMILE: '露出上排牙齿笑！会更自信有感染力～',
+  POSE_READY_HINT: '姿势摆好了！就是现在，按下去！',
+  LIGHT_PERFECT_NOW: '光线完美！这个时刻拍出来一定超好看！',
 }
 
 const STABILITY_TIPS = {
