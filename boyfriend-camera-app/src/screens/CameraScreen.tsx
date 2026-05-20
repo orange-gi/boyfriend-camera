@@ -512,7 +512,15 @@ export default function CameraScreen() {
             <TouchableOpacity
               key={m}
               style={[styles.modeBtn, mode === m && styles.modeBtnActiveGlass]}
-              onPress={() => setMode(m)}
+              onPress={() => {
+                const labels: Record<CompositionMode, string> = {
+                  grid: '九宫格',
+                  golden: '黄金螺旋',
+                  triangle: '三角构图',
+                }
+                VoiceCoach.speak(`已切换到${labels[m]}模式`, false)
+                setMode(m)
+              }}
               activeOpacity={0.72}
               accessibilityRole="button"
               accessibilityLabel={`构图模式: ${m === 'grid' ? '九宫格' : m === 'golden' ? '黄金螺旋' : '三角构图'}${mode === m ? '，已选中' : ''}`}
@@ -548,7 +556,10 @@ export default function CameraScreen() {
       <View style={styles.bottomBarGlass}>
         <TouchableOpacity
           style={styles.sideBtn}
-          onPress={() => setShowTemplateModal(true)}
+          onPress={() => {
+            VoiceCoach.speak('打开姿势模板', false)
+            setShowTemplateModal(true)
+          }}
           activeOpacity={0.72}
         >
           <Text style={styles.sideBtnIcon}>📐</Text>
