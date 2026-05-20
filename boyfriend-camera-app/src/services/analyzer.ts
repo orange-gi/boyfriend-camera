@@ -3247,6 +3247,25 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '这张构图有点空，让人站近一点，画面会更饱满～',
     '主体太小了，稍微走近几步让人占画面比例更大～',
   ],
+  // ========== 本次新增：偏色建议 ==========
+  color_cast: [
+    '这张色调有点奇怪，室内灯光可能造成偏色～试试靠近窗户用自然光～',
+    '脸有点发绿或发红，可能是灯光色温的问题，换个光源试试～',
+    '白平衡有点跑偏，室内暖光让脸显得太黄了～靠窗拍或开闪光灯试试～',
+  ],
+  // ========== 本次新增：闪光灯使用建议 ==========
+  flash_usage: [
+    '逆光场景脸太黑了，打开闪光灯正面补光试试～',
+    '闪光灯可以消除脸上的阴影，让皮肤看起来更通透～',
+    '暗光环境开闪光灯可以提亮人脸，但别正对白色墙壁拍，会反光～',
+  ],
+  // ========== 本次新增：人像构图建议 ==========
+  portrait_framing: [
+    '头顶留白太多了，稍微把镜头下移一点，让头顶留一点点空间就好～',
+    '眼睛是视觉焦点，最好放在画面上半部分的九宫格交叉线上～',
+    '往前看的时候，前方多留一点空间会更舒服～',
+    '人像照头顶留三分之一就够了，留太多会显得人小～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3336,6 +3355,10 @@ export async function analyzePhoto(
         suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_small_generic))
       }
     }
+    // 人像构图留白建议
+    if (faceCount > 0 && compositionScore >= 30 && suggestions.length < 4) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.portrait_framing))
+    }
   }
   if (compositionScore >= 35) praise.push(pickRandom(PRAISE_POOL.composition_great))
   if (compositionScore >= 35 && faceCount > 0) praise.push(pickRandom(PRAISE_POOL.face_great))
@@ -3392,6 +3415,7 @@ export async function analyzePhoto(
   if (safeBrightness > 180 && exposureScore < 18 && faceCount > 0) {
     problems.push('backlight')
     suggestions.push(pickRandom(SUGGESTION_POOL.backlight))
+    suggestions.push(pickRandom(SUGGESTION_POOL.flash_usage))
   }
 
   // 稳定分 0-20
@@ -3456,6 +3480,7 @@ export async function analyzePhoto(
   // 白平衡/色调建议（室内暖光或户外冷光场景）
   if (sceneType === 'indoor' && exposureScore >= 15 && exposureScore < 25 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.white_balance))
+    suggestions.push(pickRandom(SUGGESTION_POOL.color_cast))
   }
   // 角度掌控建议（人脸位置极端但不是构图大问题）
   if (facePosition && compositionScore >= 30 && compositionScore < 38 && totalScore < 80 && suggestions.length < 3) {
