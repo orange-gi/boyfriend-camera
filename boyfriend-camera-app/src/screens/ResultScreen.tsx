@@ -77,15 +77,15 @@ const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
   })()
 )
 
-const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; color: string }> = [
-  { key: 'warm', label: '暖黄', emoji: '🌅', color: colors.filterWarm },
-  { key: 'cool', label: '冷调', emoji: '❄️', color: colors.filterCool },
-  { key: 'vivid', label: '生动', emoji: '🎨', color: colors.filterVivid },
-  { key: 'soft', label: '柔和', emoji: '🌸', color: colors.filterSoft },
-  { key: 'bw', label: '黑白', emoji: '🖤', color: colors.filterBw },
-  { key: 'portrait', label: '人像', emoji: '👩', color: colors.filterPortrait },
-  { key: 'food', label: '美食', emoji: '🍔', color: colors.filterFood },
-  { key: 'cinematic', label: '电影', emoji: '🎬', color: colors.filterCinematic },
+const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> = [
+  { key: 'warm', label: '暖黄', color: colors.filterWarm },
+  { key: 'cool', label: '冷调', color: colors.filterCool },
+  { key: 'vivid', label: '生动', color: colors.filterVivid },
+  { key: 'soft', label: '柔和', color: colors.filterSoft },
+  { key: 'bw', label: '黑白', color: colors.filterBw },
+  { key: 'portrait', label: '人像', color: colors.filterPortrait },
+  { key: 'food', label: '美食', color: colors.filterFood },
+  { key: 'cinematic', label: '电影', color: colors.filterCinematic },
 ]
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
@@ -846,7 +846,7 @@ const FilterItem = memo(function FilterItem({
   isActive,
   onPress,
 }: {
-  filter: { key: string; label: string; emoji: string; color: string }
+  filter: { key: string; label: string; color: string }
   isActive: boolean
   onPress: () => void
 }) {
@@ -878,11 +878,7 @@ const FilterItem = memo(function FilterItem({
           { backgroundColor: filter.color },
           isActive && styles.filterCircleActive,
         ]}>
-          {filter.key === 'bw' ? (
-            <Text style={styles.filterCircleIcon}>🖤</Text>
-          ) : (
-            <Text style={styles.filterCircleIcon}>{filter.emoji}</Text>
-          )}
+
         </View>
         {isActive && (
           <View style={[styles.filterCircleSelectedRing, { borderColor: COLORS.primary }]} />
@@ -1004,7 +1000,6 @@ const styles = StyleSheet.create({
     borderRadius: 27,
     alignItems: 'center',
     justifyContent: 'center',
-    ...shadows.sm,
   },
   filterCircleActive: {
     borderColor: 'transparent',
