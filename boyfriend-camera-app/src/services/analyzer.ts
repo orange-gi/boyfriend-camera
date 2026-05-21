@@ -2637,6 +2637,31 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '城市背景杂乱时找个简洁的角度，或者仰拍避开人群～',
   ],
   // ========== Round 2 新增：通用多维度建议 ==========
+  // ========== 本次新增：情侣照专属建议 ==========
+  couple_photo_hint: [
+    '两个人靠近一点！贴贴更上镜～',
+    '情侣照要有眼神互动！对视一下比看镜头更自然～',
+    '男生从后面环抱，经典的甜蜜姿势～',
+    '牵手背影照超有氛围，让男朋友从后面拍～',
+    '两个人站在一起让光打在侧脸上，立体感更强～',
+    '拍情侣照时让一方稍微前倾，制造层次感～',
+    '两个人靠近中心点贴贴，构图会更稳～',
+    '合照时让一方稍侧身，制造自然的深度感～',
+  ],
+  // ========== 本次新增：早晨光线建议 ==========
+  morning_light_hint: [
+    '早晨的光线超通透！趁阳光正好多拍几张～',
+    '早起的阳光最柔和，这个时间拍照绝了～',
+    '清晨光线有点逆光，让女朋友侧身站躲开直射～',
+    '早晨阳光有点刺眼，找个阴影处或者侧身站～',
+  ],
+  // ========== 本次新增：室内人造光建议 ==========
+  indoor_artificial_light: [
+    '室内灯光偏暖白，让女朋友脸稍微正对光源～',
+    '天花板灯光会在脸上留下阴影，往边上站躲开顶光～',
+    '台灯或落地灯可以做主光源，让女朋友面向它～',
+    '室内卤素灯偏黄，后期可以稍微调一下白平衡～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -2941,6 +2966,19 @@ export async function analyzePhoto(
   // ========== Round 41 激活：室内色温建议 ==========
   if (sceneType === 'indoor' && safeBrightness >= 60 && safeBrightness <= 150 && exposureScore < 25 && totalScore >= 40 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.indoor_color_temp))
+  }
+  // ========== 本次新增：情侣照专属建议（2人合照+构图一般） ==========
+  if (faceCount >= 2 && compositionScore < 35 && totalScore >= 40 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.couple_photo_hint))
+  }
+  // ========== 本次新增：早晨光线专属建议 ==========
+  const nowHour = new Date().getHours()
+  if (nowHour >= 6 && nowHour <= 9 && sceneType === 'outdoor' && safeBrightness >= 120 && totalScore >= 40 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.morning_light_hint))
+  }
+  // ========== 本次新增：室内人造光专属建议 ==========
+  if (sceneType === 'indoor' && safeBrightness >= 60 && safeBrightness <= 140 && exposureScore < 22 && totalScore >= 40 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.indoor_artificial_light))
   }
 
   // ========== Round 1 新增角度专属夸奖触发 ==========
