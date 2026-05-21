@@ -627,7 +627,6 @@ export default function CameraScreen() {
           }}
           activeOpacity={0.72}
         >
-          <Text style={styles.sideBtnIcon}>📐</Text>
           <Text style={styles.sideBtnText}>姿势</Text>
           {templates.length > 0 && (
             <View style={styles.templateBadge}>
@@ -674,7 +673,7 @@ export default function CameraScreen() {
             <View style={styles.modalHandle} />
 
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>📐 姿势模板</Text>
+              <Text style={styles.modalTitle}>姿势模板</Text>
               <View style={styles.modalHeaderActions}>
                 <TouchableOpacity
                   style={styles.randomBtn}
@@ -701,7 +700,6 @@ export default function CameraScreen() {
 
             {/* 搜索框 */}
             <View style={styles.searchBar}>
-              <Text style={styles.searchIcon}>🔍</Text>
               <TextInput
                 style={styles.searchInput}
                 placeholder="搜索姿势、场景..."
@@ -721,7 +719,7 @@ export default function CameraScreen() {
             {/* 最近使用 */}
             {!templateSearch && recentTemplates.length > 0 && (
               <View style={styles.recentSection}>
-                <Text style={styles.recentTitle}>⏱ 最近使用</Text>
+                <Text style={styles.recentTitle}>最近使用</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
                   {recentTemplates.map((t) => {
                     const color = CATEGORY_COLORS[t.category || ''] || COLORS.primary
@@ -816,8 +814,8 @@ export default function CameraScreen() {
                 {(templateSearch || selectedCategory !== '全部') && filteredTemplates.length > 0 && (
                   <Text style={{ paddingHorizontal: 16, paddingVertical: 6, fontSize: 12, color: COLORS.textMuted }}>
                     {templateSearch
-                      ? `🔍 找到 ${filteredTemplates.length} 个「${templateSearch}」相关模板`
-                      : `📋 ${selectedCategory} 共 ${filteredTemplates.length} 个模板`}
+                      ? `找到 ${filteredTemplates.length} 个「${templateSearch}」相关模板`
+                      : `${selectedCategory} 共 ${filteredTemplates.length} 个模板`}
                   </Text>
                 )}
                 <FlatList
@@ -911,15 +909,15 @@ export default function CameraScreen() {
                 const nowFav = await toggleFavoriteTemplate(longPressTemplate.id)
                 setIsFavorite(nowFav)
                 if (nowFav) {
-                  Alert.alert('❤️ 收藏成功', `"${longPressTemplate.name}" 已添加到收藏～`)
+                  Alert.alert('收藏成功', `"${longPressTemplate.name}" 已添加到收藏～`)
                 } else {
-                  Alert.alert('💔 取消收藏', `"${longPressTemplate.name}" 已从收藏移除`)
+                  Alert.alert('取消收藏', `"${longPressTemplate.name}" 已从收藏移除`)
                 }
               }}
               activeOpacity={0.72}
             >
               <Text style={[styles.favoriteBtnText, isFavorite && styles.favoriteBtnTextActive]}>
-                {isFavorite ? '❤️ 已收藏' : '🤍 收藏姿势'}
+                {isFavorite ? '已收藏' : '收藏姿势'}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1393,10 +1391,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 10,
     height: 38,
-    gap: 8,
-  },
-  searchIcon: {
-    fontSize: 14,
   },
   searchInput: {
     flex: 1,
