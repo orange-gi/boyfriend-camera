@@ -518,6 +518,12 @@ const FACE_TIPS = {
   // 笑脸被检测到时的即时确认
   SMILE_DETECTED: '看到你在笑！就是这个表情，别动，按下去！',
   NATURAL_SMILE_DETECTED: '自然的笑容！好生动，按下去！',
+  // ========== Round 6 新增：拍照引导提示 ==========
+  SAY_CHEESE: '笑一个～茄子！',
+  READY_POSE: '准备好了吗？三、二、一！',
+  HOLD_STEADY_CAPTURE: '稳住！就是现在！',
+  GROUP_FOTO_GUIDE: '大家靠近一点！看镜头，笑一个～',
+  KEEP_STEADY_SHAKE: '手别抖！稳住～',
 }
 
 const STABILITY_TIPS = {
