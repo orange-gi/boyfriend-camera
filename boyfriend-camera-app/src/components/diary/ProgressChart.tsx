@@ -78,18 +78,6 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
   // Y 轴刻度
   const yTicks = [0, 25, 50, 75, 100]
 
-  // 渐变色区域 path
-  const areaPath = useMemo(() => {
-    const path = Skia.Path.Make()
-    const firstX = toX(0)
-    const lastX = toX(sorted.length - 1)
-    path.moveTo(firstX, PADDING.T + chartH)
-    sorted.forEach((e, i) => path.lineTo(toX(i), toY(e.score)))
-    path.lineTo(lastX, PADDING.T + chartH)
-    path.close()
-    return path
-  }, [sorted])
-
   // 折线 path
   const linePath = useMemo(() => {
     const path = Skia.Path.Make()
@@ -119,18 +107,12 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
             key={t}
             p1={vec(PADDING.L, toY(t))}
             p2={vec(width - PADDING.R, toY(t))}
-            color={t === 0 || t === 100 ? COLORS.divider : 'rgba(0,0,0,0.06)'}
-            strokeWidth={t === 0 || t === 100 ? 1 : 0.5}
+            color={COLORS.divider}
+            strokeWidth={1}
           />
         ))}
 
-        {/* 渐变区域填充 */}
-        {sorted.length >= 2 && (
-          <Path
-            path={areaPath}
-            color={colors.primaryLight}
-          />
-        )}
+
 
         {/* 折线 */}
         <Path
@@ -152,8 +134,6 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
             const isMax = e.score === maxScore
             return (
               <React.Fragment key={i}>
-                {/* 最高分特殊标记：金色光晕 */}
-                {isMax && <Circle cx={x} cy={y} r={9} color={colors.warningLight} />}
                 <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? colors.warning : dotColor} />
                 <Circle cx={x} cy={y} r={isMax ? 3 : 2} color="#fff" />
               </React.Fragment>
