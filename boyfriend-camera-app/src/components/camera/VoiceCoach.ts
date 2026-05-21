@@ -498,6 +498,18 @@ const FACE_TIPS = {
   BICYCLE_PROP_TIP: '靠在自行车旁边！活力十足，姿势也更丰富～',
   FLOWER_PROP_TIP: '拿束花当道具！捧着花或闻花香，自然又好看～',
   BOOK_PROP_TIP: '拿本书当道具！假装在看书，文艺感拉满～',
+  // ========== 本次新增边缘场景提示 ==========
+  FACE_LOOKING_DOWN_TOO_LONG: '抬起头看镜头！低头太久脖子会累，表情也看不见了～',
+  FACE_SQUINTING_HARD: '眼睛眯太紧了！稍微放松一点，眯眼会显得没精神～',
+  HAIR_EXTREMELY_MESSY: '头发太乱了！先理一下再拍，不然会抢戏～',
+  SHOULDER_UNEVEN: '肩膀歪了！站直了双肩对齐，仪态更好看～',
+  POSE_ARMS_WEIRD: '手臂姿势有点奇怪！自然垂下或叉腰就好，别僵着～',
+  LEGS_CROOKED: '腿稍微站直一点，歪着显得没精神～',
+  CHIN_TOO_UP: '下巴抬太高了！稍微收一点，下巴更尖～',
+  CHIN_TOO_DOWN: '下巴收太多了！抬起来一点点，眼睛更有神～',
+  EXPRESSION_FORCED: '表情别太夸张！自然一点最美～',
+  GOOD_COMPOSITION_DETECTED: '构图很棒！就是这个位置，按下去！',
+  PERFECT_MOMENT_NOW: '就是现在！这光这角度，绝了！',
 }
 
 const STABILITY_TIPS = {
@@ -3910,6 +3922,54 @@ class VoiceCoach {
       '自拍杆举高一点！高机位拍出来更好看～',
     ]
     await this.speak(pickRandom(tips), true)
+  }
+
+  /** 照片预览模糊警告 */
+  async speakBlurWarning(): Promise<void> {
+    const tips = [
+      '这张看起来有点糊！手拿稳了再按快门～',
+      '预览有点模糊，深呼吸，稳住手再拍一张～',
+      '这张糊了！双手握手机，憋住气再拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 照片已保存提示 */
+  async speakPhotoSaved(): Promise<void> {
+    const tips = [
+      '已保存到相册！可以去相册里查看～',
+      '这张已存好了！拍得很棒～',
+      '保存成功！去相册里看看效果吧～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 模板分类切换提示 */
+  async speakTemplateCategorySwitched(category: string): Promise<void> {
+    const catLabels: Record<string, string> = {
+      '室内日常': '室内日常',
+      '室内场景': '室内场景',
+      '室内人像': '室内人像',
+      '户外风景': '户外风景',
+      '餐厅美食': '餐厅美食',
+      '特殊风格': '特殊风格',
+      '情侣合照': '情侣合照',
+      '城市街拍': '城市街拍',
+      '自拍技巧': '自拍技巧',
+      '构图技巧': '构图技巧',
+    }
+    const label = catLabels[category] || category
+    await this.speak(`已切换到${label}模板，找个好位置开始拍吧～`, false)
+  }
+
+  /** 连续拍摄过多提醒（防止电量过快消耗） */
+  async speakBurstExcessive(count: number): Promise<void> {
+    const tips = [
+      `已经拍了${count}张啦！先看看效果，选一张最好的保存吧～`,
+      `${count}张了！够啦够啦，去看看哪张最好看～`,
+      `拍了${count}张啦！多拍不一定好，选一张保存吧～`,
+    ]
+    await this.speak(pickRandom(tips), false)
   }
 }
 
