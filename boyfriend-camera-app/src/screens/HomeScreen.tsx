@@ -1,6 +1,5 @@
 /**
- * HomeScreen - 首页 v4 (Design Round 2)
- * 改进：设计系统 Token 化、Hero 区重设计、统计数据条强化、拍照按钮质感升级、功能卡片网格化
+ * HomeScreen - 首页
  */
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal } from 'react-native'
@@ -13,23 +12,11 @@ import { getDiary } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
-import { shadows, borderRadius, spacing, typography } from '../theme/index'
+import { borderRadius, spacing, typography } from '../theme/index'
 import { logger } from '../utils/logger'
 import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/homeData'
 
 const { width: SCREEN_W } = Dimensions.get('window')
-
-function getTimeGreeting(): string {
-  const h = new Date().getHours()
-  if (h < 6) return '夜深了还在拍照呀～'
-  if (h < 9) return '早上好！今天也要美美的～'
-  if (h < 12) return '上午好！光线正好～'
-  if (h < 14) return '中午好！吃饱了来拍一张～'
-  if (h < 17) return '下午好！阳光正好～'
-  if (h < 19) return '傍晚好！夕阳超美的～'
-  if (h < 22) return '晚上好！夜景模式开启～'
-  return '夜深了还不睡？拍张照再睡～'
-}
 
 
 function getDailyTip() {
@@ -159,47 +146,21 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-      {/* Hero 区 */}
-      <Animated.View style={[styles.heroSection, heroStyle]}>
-        <Text style={styles.timeGreeting}>{getTimeGreeting()}</Text>
-        <View style={styles.heroTextBlock}>
-          <Text style={styles.heroTitle}>男友相机</Text>
-          <Text style={styles.heroSubtitle}>让男朋友越拍越好</Text>
-        </View>
-      </Animated.View>
-
       {/* 每日小技巧 */}
       {!tipDismissed && (() => {
         const tip = getDailyTip()
-        const moreTip = DAILY_TIPS[(Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000) + 1) % DAILY_TIPS.length]
         return (
           <Animated.View style={[styles.dailyTipCard, heroStyle]}>
             <TouchableOpacity
               style={styles.dailyTipTouchable}
-              onPress={() => setExpandedTip(v => !v)}
+              onPress={dismissTip}
               activeOpacity={0.85}
             >
-              <View style={styles.dailyTipLeft}><Text style={styles.dailyTipIcon}>{tip.icon}</Text></View>
               <View style={styles.dailyTipContent}>
-                <View style={styles.dailyTipHeaderRow}>
-                  <Text style={styles.dailyTipLabel}>今日拍照技巧</Text>
-                  <Text style={styles.dailyTipExpandIcon}>{expandedTip ? '▲' : '▼'}</Text>
-                </View>
+                <Text style={styles.dailyTipLabel}>今日技巧</Text>
                 <Text style={styles.dailyTipText}>{tip.text}</Text>
-                {expandedTip && (
-                  <View style={styles.dailyTipExpandedContent}>
-                    <View style={styles.dailyTipDivider} />
-                    <View style={styles.dailyTipMoreRow}>
-                      <Text style={styles.dailyTipMoreIcon}>{moreTip.icon}</Text>
-                      <Text style={styles.dailyTipMoreText}>{moreTip.text}</Text>
-                    </View>
-                    <Text style={styles.dailyTipMoreHint}>点击收起</Text>
-                  </View>
-                )}
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.dailyTipClose} onPress={dismissTip} activeOpacity={0.72} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-              <Text style={styles.dailyTipCloseText}>✕</Text>
+              <Text style={styles.dailyTipCloseIcon}>×</Text>
             </TouchableOpacity>
           </Animated.View>
         )
@@ -288,7 +249,6 @@ export default function HomeScreen() {
       {/* 姿势提示卡 */}
       {isNewUser && (
         <Animated.View style={[styles.poseTipCard, heroStyle]}>
-          <Text style={styles.poseTipIcon}>{FIRST_TIME_POSE_TIPS[poseTipIndex].icon}</Text>
           <Text style={styles.poseTipText}>{FIRST_TIME_POSE_TIPS[poseTipIndex].text}</Text>
         </Animated.View>
       )}
@@ -333,7 +293,7 @@ export default function HomeScreen() {
                 <View key={i} style={[styles.onboardDot, i === onboardStep && styles.onboardDotActive, i < onboardStep && styles.onboardDotDone]} />
               ))}
             </View>
-            <Text style={styles.onboardIcon}>{ONBOARD_STEPS[onboardStep].icon}</Text>
+            <Text style={styles.onboardStepLabel}>{onboardStep + 1} / {ONBOARD_STEPS.length}</Text>
             <Text style={styles.onboardTitle}>{ONBOARD_STEPS[onboardStep].title}</Text>
             <Text style={styles.onboardDesc}>{ONBOARD_STEPS[onboardStep].desc}</Text>
             <View style={styles.onboardBtns}>
@@ -354,34 +314,19 @@ const styles = StyleSheet.create({
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
 
   // Hero
-  heroSection: { alignItems: 'flex-start', marginBottom: spacing[6], paddingTop: spacing[3] },
-  timeGreeting: { fontSize: typography.fontSize.md, color: COLORS.textMuted, marginBottom: spacing[3] },
-  heroTextBlock: { alignItems: 'flex-start' },
-  heroTitle: { fontSize: typography.fontSize['7xl'], fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, letterSpacing: 0.5, marginBottom: spacing[2] },
-  heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
 
   // 每日技巧
-  dailyTipCard: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], ...shadows.sm },
-  dailyTipTouchable: { flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: spacing[3] },
-  dailyTipHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 },
-  dailyTipExpandIcon: { fontSize: 10, color: COLORS.textMuted, opacity: 0.7 },
-  dailyTipExpandedContent: { marginTop: 10 },
-  dailyTipDivider: { height: 1, backgroundColor: COLORS.divider, marginBottom: 8 },
-  dailyTipMoreRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
-  dailyTipMoreIcon: { fontSize: 20, flexShrink: 0, marginTop: 1 },
-  dailyTipMoreText: { flex: 1, fontSize: typography.fontSize.sm, color: COLORS.textSecondary, lineHeight: 20 },
-  dailyTipMoreHint: { fontSize: 10, color: COLORS.textMuted, opacity: 0.6, marginTop: 6, textAlign: 'right' },
-  poseTipCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], gap: spacing[3], ...shadows.sm },
-  dailyTipLeft: { flexShrink: 0 },
-  dailyTipIcon: { fontSize: 28 },
+  dailyTipCard: { backgroundColor: COLORS.primaryLight, borderRadius: borderRadius.lg, padding: spacing[4], marginBottom: spacing[4] },
+  dailyTipTouchable: { flexDirection: 'row', alignItems: 'center' },
   dailyTipContent: { flex: 1 },
-  dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textSecondary, fontWeight: typography.fontWeight.semibold, marginBottom: 2, letterSpacing: 0.5 },
+  dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.primary, fontWeight: typography.fontWeight.semibold, marginBottom: 4, letterSpacing: 0.5 },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  dailyTipClose: { width: 28, height: 28, borderRadius: borderRadius.full, backgroundColor: COLORS.divider, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  dailyTipCloseText: { color: COLORS.textMuted, fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold },
+  dailyTipCloseIcon: { fontSize: 22, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 22 },
+  // 姿势提示卡
+  poseTipCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5] },
 
   // 统计卡片
-  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6], ...shadows.md },
+  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   statItemSkeleton: { alignItems: 'center' },
@@ -414,8 +359,7 @@ const styles = StyleSheet.create({
   todayCountNum: { color: COLORS.primary, fontWeight: typography.fontWeight.bold, fontSize: typography.fontSize.base },
 
   // 姿势提示卡
-  poseTipIcon: { fontSize: 22, flexShrink: 0 },
-  poseTipText: { flex: 1, fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
+  poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
 
   // 功能特性
   featuresSection: { marginBottom: spacing[5] },
@@ -424,28 +368,27 @@ const styles = StyleSheet.create({
   featureCard: {
     width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2,
     backgroundColor: COLORS.bgCard,
-    borderRadius: borderRadius.xl,
+    borderRadius: borderRadius.lg,
     padding: spacing[4],
-    ...shadows.sm,
   },
   featureText: { flex: 1 },
   featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
   featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
 
   // 底部导航
-  bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 6, gap: 6, ...shadows.sm },
+  bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 6, gap: 6 },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
   bottomNavBtnActive: { backgroundColor: COLORS.primaryLight },
   bottomNavText: { fontSize: typography.fontSize.md },
 
   // 引导弹窗
   onboardOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', padding: 24 },
-  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center', ...shadows.md },
+  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },
   onboardDotDone: { backgroundColor: COLORS.warning },
-  onboardIcon: { fontSize: 52, marginBottom: 16 },
+  onboardStepLabel: { fontSize: 13, color: COLORS.textMuted, marginBottom: 16, fontWeight: '600', letterSpacing: 1 },
   onboardTitle: { fontSize: 22, fontWeight: '700', color: COLORS.textPrimary, marginBottom: 12, textAlign: 'center' },
   onboardDesc: { fontSize: 15, color: COLORS.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 28 },
   onboardBtns: { flexDirection: 'row', gap: 12, width: '100%' },
