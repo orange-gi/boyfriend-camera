@@ -2728,17 +2728,23 @@ export async function analyzePhoto(
   let expressionScore = 20
   if (expression) {
     const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle } = expression
-    // 闭眼检测
-    const eyesClosed = (leftEyeOpen === false || leftEyeOpen === undefined) &&
-      (rightEyeOpen === false || rightEyeOpen === undefined)
+    // MLKit 返回 0-1 概率值，非布尔值
+    // 闭眼检测：任一眼睛 open prob < 0.5 视为闭合
+    const leftEyeLikelihood = typeof leftEyeOpen === 'number' ? leftEyeOpen : (leftEyeOpen ? 1 : 0)
+    const rightEyeLikelihood = typeof rightEyeOpen === 'number' ? rightEyeOpen : (rightEyeOpen ? 1 : 0)
+    const eyesClosed = leftEyeLikelihood < 0.5 || rightEyeLikelihood < 0.5
     if (eyesClosed) {
       expressionScore -= 10
       if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.closed_eyes))
     }
-    // 严肃无表情（无笑容）
-    if (smiling === false) {
+    // 笑容检测：MLKit smiling 是 0-1 概率，< 0.4 视为无表情/严肃
+    const smileProb = typeof smiling === 'number' ? smiling : (smiling ? 1 : 0)
+    if (smileProb < 0.4) {
       expressionScore -= 6
       if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.no_smile))
+    } else if (smileProb >= 0.7) {
+      // 笑容明显时给表情加分（MLKit 返回高概率）
+      expressionScore = Math.min(20, expressionScore + 3)
     }
     // 头部过于偏转（影响表情可见性）
     if (yawAngle !== undefined && Math.abs(yawAngle) > 30) {
