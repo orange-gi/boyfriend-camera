@@ -565,6 +565,22 @@ const FACE_TIPS = {
   // ========== 本次新增：模板场景提示 ==========
   TEMPLATE_MATCH_PERFECT_NOW: '姿势超准！这个光线这角度，按下去就是大片！',
   TEMPLATE_FACE_MOVE: '跟着模板稍微调整一下！就是现在，拍～',
+  // ========== Round 46 新增：构图确认 TTS ==========
+  COMPOSITION_OKAY_NOW: '构图差不多了！这个光线，按下去！',
+  COMPOSITION_ALMOST: '就差一点点！稍微调整一下站位～',
+  RULE_OF_THIRDS_ON: '打开九宫格！构图会好很多～',
+  // ========== Round 46 新增：表情鼓励 TTS ==========
+  SMILE_CUTE_NOW: '这个表情好可爱！就是现在，按下去！',
+  EXPRESSION_READY: '表情准备好了！笑一个，按快门！',
+  POSE_PERFECT_TRY: '姿势超棒！就是现在，按下去就是大片！',
+  // ========== Round 46 新增：光线确认 TTS ==========
+  LIGHT_NICE_NOW: '光线刚刚好！就是现在，拍～',
+  LIGHT_SOFT_INDOOR: '室内柔光超适合拍照！随便拍都好看～',
+  LIGHT_HARD_AVOID: '光线有点硬！找个柔和的地方试试～',
+  // ========== Round 46 新增：拍摄时机 TTS ==========
+  NOW_PERFECT: '现在光线完美！姿势也对！就是现在拍～',
+  KEEP_TRYING: '继续拍！多拍几张选最好的～',
+  GOOD_TAKING: '这张拍得好！继续保持这个感觉～',
 }
 
 const STABILITY_TIPS = {
