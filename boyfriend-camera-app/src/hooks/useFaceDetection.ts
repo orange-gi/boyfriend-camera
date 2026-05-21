@@ -29,9 +29,9 @@ export interface FaceInfo {
   area: number // 面积占比（width * height）
   yawAngle?: number // 头部左右旋转角度（-90~90），正值=面向右侧
   rollAngle?: number // 头部倾斜角度（-45~45）
-  leftEyeOpen?: boolean
-  rightEyeOpen?: boolean
-  smiling?: boolean
+  leftEyeOpen?: number // 0-1 概率，MLKit 返回
+  rightEyeOpen?: number // 0-1 概率，MLKit 返回
+  smiling?: number // 0-1 概率，MLKit 返回
   /** 检测置信度（MLKit 返回，Mock 模式固定 0.85） */
   confidence?: number
 }
@@ -62,9 +62,9 @@ function mockFrontCameraFace(): FaceInfo {
     area,
     yawAngle: (Math.random() - 0.5) * 20,
     rollAngle: (Math.random() - 0.5) * 10,
-    leftEyeOpen: Math.random() > 0.08,
-    rightEyeOpen: Math.random() > 0.08,
-    smiling: _mockSmiling,
+    leftEyeOpen: Math.random() * 0.25 + 0.7, // 眼睛睁开概率 0.70-0.95
+    rightEyeOpen: Math.random() * 0.25 + 0.7, // 眼睛睁开概率 0.70-0.95
+    smiling: _mockSmiling ? 0.78 : 0.22, // 笑=0.78，不笑=0.22
     confidence: 0.88,
   }
 }
@@ -91,9 +91,9 @@ function mockBackCameraFace(): FaceInfo {
     area,
     yawAngle: (Math.random() - 0.5) * 15,
     rollAngle: (Math.random() - 0.5) * 8,
-    leftEyeOpen: true,
-    rightEyeOpen: true,
-    smiling: Math.random() > 0.5,
+    leftEyeOpen: 0.95, // 后置镜头人脸较大，眼睛通常可见
+    rightEyeOpen: 0.95, // 后置镜头人脸较大，眼睛通常可见
+    smiling: Math.random() * 0.45 + 0.30, //笑容概率 0.30-0.75
     confidence: 0.82,
   }
 }

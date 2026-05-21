@@ -2582,9 +2582,9 @@ export async function analyzePhoto(
     tiltAngle: number // 倾斜角度度数
     /** 表情数据（MLKit 人脸检测提供） */
     expression?: {
-      smiling?: boolean
-      leftEyeOpen?: boolean
-      rightEyeOpen?: boolean
+      smiling?: number // 0-1 概率
+      leftEyeOpen?: number // 0-1 概率
+      rightEyeOpen?: number // 0-1 概率
       yawAngle?: number // 头部左右旋转（-90~90）
       rollAngle?: number // 头部倾斜（-45~45）
     }
@@ -3872,9 +3872,9 @@ export async function getDiary(): Promise<DiaryRecord[]> {
 
 /** 表情检测数据结构（用于 VoiceCoach 提示） */
 export interface EmotionDetection {
-  smiling?: boolean
-  leftEyeOpen?: boolean
-  rightEyeOpen?: boolean
+  smiling?: number // 0-1 概率
+  leftEyeOpen?: number // 0-1 概率
+  rightEyeOpen?: number // 0-1 概率
   yawAngle?: number
   rollAngle?: number
   sharpness?: number

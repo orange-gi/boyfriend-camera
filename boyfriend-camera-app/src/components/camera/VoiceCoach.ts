@@ -2231,20 +2231,25 @@ class VoiceCoach {
       return
     }
 
+    // MLKit 返回 0-1 概率值
+    const smileProb = typeof smiling === 'number' ? smiling : (smiling ? 1 : 0)
+    const leftEyeProb = typeof leftEyeOpen === 'number' ? leftEyeOpen : (leftEyeOpen ? 1 : 0)
+    const rightEyeProb = typeof rightEyeOpen === 'number' ? rightEyeOpen : (rightEyeOpen ? 1 : 0)
+
     // 惊讶表情（张嘴）
-    if (mouthOpen !== undefined && mouthOpen > 0.4 && smiling !== true) {
+    if (mouthOpen !== undefined && mouthOpen > 0.4 && smileProb < 0.4) {
       await this.speak(EXPRESSION_TIPS.SURPRISED_FACE)
       return
     }
 
-    // 两只眼睛都闭了
-    if (leftEyeOpen === false && rightEyeOpen === false) {
+    // 两只眼睛都闭了（概率 < 0.5 视为闭合）
+    if (leftEyeProb < 0.5 && rightEyeProb < 0.5) {
       await this.speak(EXPRESSION_TIPS.BOTH_EYES_CLOSED)
       return
     }
 
     // 闭眼检测（单眼闭）
-    if ((leftEyeOpen === false || rightEyeOpen === false) && smiling !== true) {
+    if ((leftEyeProb < 0.5 || rightEyeProb < 0.5) && smileProb < 0.4) {
       await this.speak(EXPRESSION_TIPS.CLOSED_EYES)
       return
     }
@@ -2271,20 +2276,20 @@ class VoiceCoach {
       return
     }
 
-    // 笑容检测
-    if (smiling === true) {
+    // 笑容检测（概率 >= 0.5 视为有笑容）
+    if (smileProb >= 0.5) {
       await this.speak(EXPRESSION_TIPS.SMILING_GOOD)
       return
     }
 
-    // 无笑容且无表情
-    if (smiling === false) {
+    // 无笑容且无表情（概率 < 0.4）
+    if (smileProb < 0.4) {
       await this.speak(EXPRESSION_TIPS.SERIOUS_FACE)
       return
     }
 
     // 眼睛状态好
-    if (leftEyeOpen && rightEyeOpen && smiling === undefined) {
+    if (leftEyeProb >= 0.5 && rightEyeProb >= 0.5 && smileProb < 0.4) {
       await this.speak(EXPRESSION_TIPS.EYES_OPEN_GOOD)
     }
   }
