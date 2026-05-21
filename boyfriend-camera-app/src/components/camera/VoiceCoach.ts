@@ -2470,10 +2470,13 @@ class VoiceCoach {
         '构图要有留白！头顶留白三分之一，画面更舒适～',
       ],
     }
-    const arr = tips[category] || []
-    if (arr.length > 0) {
+    const arr = tips[category]
+    if (arr && arr.length > 0) {
       const tip = arr[Math.floor(Math.random() * arr.length)]
       await this.speak(tip, true)
+    } else {
+      // 通用场景提示（未知分类兜底）
+      await this.speak('这个场景光线要注意！找好角度，自然光最美丽～', true)
     }
   }
 
