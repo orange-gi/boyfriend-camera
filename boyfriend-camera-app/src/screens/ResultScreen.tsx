@@ -721,7 +721,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         {!processing && (
           <View style={styles.filterPicker}>
             <View style={styles.filterPickerHeader}>
-              <Text style={styles.filterPickerTitle}>🎨 滤镜</Text>
+              <Text style={styles.filterPickerTitle}>滤镜</Text>
               <Text style={styles.filterPickerCount}>{FILTER_OPTIONS.length} 种滤镜</Text>
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterPickerList}>

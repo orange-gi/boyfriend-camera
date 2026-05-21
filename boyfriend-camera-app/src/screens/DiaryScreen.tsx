@@ -781,13 +781,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   statCardNum: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: 'bold',
   },
   statCardLabel: {
     fontSize: 11,
     color: COLORS.textMuted,
-    marginTop: 2,
+    marginTop: 4,
   },
   sectionTitle: {
     fontSize: 17,
@@ -877,13 +877,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   weeklyCardNum: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: 'bold',
   },
   weeklyCardLabel: {
     fontSize: 11,
     color: COLORS.textMuted,
-    marginTop: 2,
+    marginTop: 4,
   },
   recordDate: {
     fontSize: 14,
