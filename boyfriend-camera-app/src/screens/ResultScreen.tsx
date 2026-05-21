@@ -462,38 +462,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
     }
   }
 
-  async function handleShareXiaohongshu() {
-    voiceCoach.speakShareTip()
-    try {
-      let pathToShare = comparisonUri || processedPath || photoPath
-      if (!pathToShare) {
-        Alert.alert('分享失败', '照片还没处理好，稍后再试～')
-        return
-      }
-      if (!pathToShare.startsWith('file://') && !pathToShare.startsWith('http')) {
-        pathToShare = `file://${pathToShare}`
-      }
-      const scoreText = scoreResult?.totalScore != null ? `${scoreResult.totalScore}分` : '还不错'
-      const shareMessage = `用「男友相机」给女朋友拍的照片，得分 ${scoreText}！${scoreResult && scoreResult.totalScore >= 80 ? '男朋友太会拍了！' : scoreResult && scoreResult.totalScore >= 60 ? '越拍越好了呢～' : '继续加油！'}\n\n建议配文：男朋友用「男友相机」给我拍照，越拍越好了！\n#拍照教程 #情侣日常 #手机摄影`
-
-      const shareOptions = {
-        title: '分享到小红书',
-        message: shareMessage,
-        url: pathToShare,
-      } as const
-      await Share.share(shareOptions)
-    } catch (e: unknown) {
-      const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : ''
-      if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
-      // fallback: 仅发文字
-      const scoreText = scoreResult?.totalScore != null ? `${scoreResult.totalScore}分` : '还不错'
-      const fallbackMsg = `用「男友相机」给女朋友拍照，得分 ${scoreText}！越拍越好了～ #拍照教程 #情侣日常`
-      try {
-        await Share.share({ message: fallbackMsg })
-      } catch { /* ignore */ }
-    }
-  }
-
   function handleRetry() {
     // 直接跳转相机重拍，体验更流畅
     navigation.navigate({ name: 'Camera' as const, params: {} })
@@ -591,30 +559,16 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
         {/* 标题栏 */}
         <View style={styles.titleRow}>
           <Text style={[styles.title, { color: COLORS.textPrimary }]}>拍照分析</Text>
-          <TouchableOpacity onPress={handleHome} style={styles.homeTinyBtn} activeOpacity={0.72}>
-            <Text style={styles.homeTinyBtnText}>← 首页</Text>
+          <TouchableOpacity onPress={handleHome} activeOpacity={0.72}>
+            <Text style={styles.homeTextLink}>返回</Text>
           </TouchableOpacity>
         </View>
 
         {/* 处理中 */}
         {processing && (
           <View style={styles.processingOverlay}>
-            {/* 新增：拍照成功确认 */}
-            <View style={styles.photoSuccessBadge}>
-              <Text style={styles.photoSuccessIcon}>✓</Text>
-              <Text style={styles.photoSuccessText}>照片已拍到，正在分析...</Text>
-            </View>
-            <View style={styles.skeletonCard}>
-              <View style={styles.skeletonCardImage} />
-              <View style={styles.skeletonCardRow}>
-                <View style={styles.skeletonBadge} />
-                <View style={styles.skeletonBadge} />
-                <View style={styles.skeletonBadge} />
-              </View>
-            </View>
-            <ActivityIndicator size="large" color={COLORS.primary} style={{ marginTop: 20 }} />
-            <Text style={[styles.processingText, { color: COLORS.textPrimary }]}>{processStepText}</Text>
-            <Text style={[styles.processingSubText, { color: COLORS.textMuted }]}>稍等一下，马上就好～</Text>
+            <Text style={styles.processingLabel}>正在分析...</Text>
+            <ActivityIndicator size="large" color={COLORS.primary} style={{ marginTop: 16 }} />
             {/* 精简进度条：步骤 + 连接线（与上方骨架卡配合，简洁明了） */}
             <View style={styles.processingStepsRow}>
               {[
@@ -697,29 +651,11 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
           </Animated.View>
         )}
 
-        {/* 小红书分享引导卡片 */}
-        {!processing && scoreResult && photoPath && (
-          <Animated.View entering={FadeInDown.duration(350).delay(300)}>
-          <TouchableOpacity
-            style={styles.xiaohongshuCard}
-            onPress={handleShareXiaohongshu}
-            activeOpacity={0.72}
-          >
-            <Text style={styles.xiaohongshuIcon}>📕</Text>
-            <View style={styles.xiaohongshuText}>
-              <Text style={styles.xiaohongshuTitle}>分享到小红书</Text>
-              <Text style={styles.xiaohongshuDesc}>让闺蜜们羡慕你们的进步～</Text>
-            </View>
-          </TouchableOpacity>
-          </Animated.View>
-        )}
-
         {/* 滤镜选择器 */}
         {!processing && (
           <View style={styles.filterPicker}>
             <View style={styles.filterPickerHeader}>
               <Text style={styles.filterPickerTitle}>滤镜</Text>
-              <Text style={styles.filterPickerCount}>{FILTER_OPTIONS.length} 种滤镜</Text>
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterPickerList}>
               {FILTER_OPTIONS.map((f) => (
@@ -930,16 +866,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
-  homeTinyBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: COLORS.bgCard,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  homeTinyBtnText: {
-    fontSize: 18,
+  homeTextLink: {
+    fontSize: 15,
+    color: COLORS.primary,
+    fontWeight: '600',
   },
   filterPicker: {
     marginHorizontal: 16,
@@ -956,15 +886,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: colors.textPrimary,
-  },
-  filterPickerCount: {
-    fontSize: 12,
-    color: colors.textMuted,
-    backgroundColor: colors.divider,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 10,
-    overflow: 'hidden',
   },
   filterPickerList: {
     flexDirection: 'row',
@@ -1021,56 +942,16 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 13,
   },
-  photoSuccessBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.successLight,
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginBottom: 16,
-    alignSelf: 'center',
-    gap: 8,
-  },
-  photoSuccessIcon: {
-    fontSize: 16,
-    color: colors.success,
-  },
-  photoSuccessText: {
-    fontSize: 13,
-    color: colors.success,
-    fontWeight: '600',
+  processingLabel: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    marginTop: 8,
+    marginBottom: 12,
   },
   processingOverlay: {
     alignItems: 'center',
-    paddingVertical: 32,
+    paddingVertical: 24,
     paddingHorizontal: 20,
-  },
-  skeletonCard: {
-    backgroundColor: colors.skeletonHighlight,
-    borderRadius: 16,
-    overflow: 'hidden',
-    width: '100%',
-    height: 260,
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  skeletonCardImage: {
-    flex: 1,
-    backgroundColor: colors.skeletonBase,
-  },
-  skeletonCardRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 12,
-  },
-  skeletonBadge: {
-    width: 60,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: colors.border,
   },
   processingStepsRow: {
     flexDirection: 'row',
@@ -1142,15 +1023,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     opacity: 0.5,
   },
-  processingText: {
-    marginTop: 12,
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  processingSubText: {
-    marginTop: 4,
-    fontSize: 13,
-  },
   praiseBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
@@ -1189,32 +1061,6 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     marginBottom: 3,
     lineHeight: 20,
-  },
-  xiaohongshuCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.cardPink,
-    borderRadius: 16,
-    padding: 16,
-    marginHorizontal: 20,
-    marginBottom: 14,
-    gap: 12,
-  },
-  xiaohongshuIcon: {
-    fontSize: 22,
-  },
-  xiaohongshuText: {
-    flex: 1,
-  },
-  xiaohongshuTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: COLORS.primary,
-    marginBottom: 2,
-  },
-  xiaohongshuDesc: {
-    fontSize: 13,
-    color: COLORS.textMuted,
   },
   viewShot: {
     alignItems: 'center',
