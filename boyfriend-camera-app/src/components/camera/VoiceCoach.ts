@@ -3879,11 +3879,35 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  /** 新手引导提示（首次使用姿势模板） */
-  async speakFirstTemplateGuide(): Promise<void> {
-    await this.speak('选择一个喜欢的姿势！屏幕上会出现半透明剪影，跟着站就行～', true)
+  /** 早晨光线提示 */
+  async speakMorningLightTip(): Promise<void> {
+    const tips = [
+      '早晨的光线好柔和！趁现在多拍几张～',
+      '早安光线最适合拍照了，整个人都在发光～',
+      '这个时间段光线最温柔，拍出来皮肤超好！',
+    ]
+    await this.speak(pickRandom(tips), true)
   }
 
+  /** 人多场所拍摄提示 */
+  async speakCrowdedPlaceTip(): Promise<void> {
+    const tips = [
+      '人太多了！稍微等一下，等人群散开再拍～',
+      '找个没人的角落！背景干净主体才突出～',
+      '趁人走过去赶紧拍！动作要快～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 自拍杆提示 */
+  async speakSelfieStickTip(): Promise<void> {
+    const tips = [
+      '有自拍杆！稍微举高一点，从上往下拍超显脸小～',
+      '举高自拍杆！俯拍角度绝了，大长腿既视感～',
+      '自拍杆举高一点！高机位拍出来更好看～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
