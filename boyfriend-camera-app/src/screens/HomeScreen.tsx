@@ -3,7 +3,7 @@
  * 改进：设计系统 Token 化、Hero 区重设计、统计数据条强化、拍照按钮质感升级、功能卡片网格化
  */
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
@@ -41,10 +41,10 @@ const ONBOARD_KEY = 'onboarded_v4'
 const TIP_DISMISS_KEY = 'tip_dismissed_today_v4'
 
 const FEATURES = [
-  { icon: '📐', title: '构图辅助', desc: '九宫格/黄金螺旋/三角构图线实时叠加' },
-  { icon: '👗', title: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站' },
-  { icon: '🤳', title: '一键修图', desc: '智能裁剪到三分点，自动美颜+滤镜' },
-  { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好' },
+  { label: '构图辅助', desc: '九宫格 / 黄金螺旋 / 三角构图线实时叠加' },
+  { label: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站' },
+  { label: '智能修图', desc: '智能裁剪到三分点，自动滤镜美化' },
+  { label: '进步日记', desc: '记录每次评分和进步曲线，越拍越好' },
 ] as const
 
 export default function HomeScreen() {
@@ -212,18 +212,18 @@ export default function HomeScreen() {
       {statsLoading ? (
         <View style={styles.statsCard}>
           <View style={styles.statsRow}>
-            <View style={styles.statItem}>
-              <ActivityIndicator size="small" color={COLORS.textMuted} />
+            <View style={[styles.statItem, styles.statItemSkeleton]}>
+              <View style={styles.skeletonNum} />
               <Text style={styles.statsLoadingText}>已拍摄</Text>
             </View>
             <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <ActivityIndicator size="small" color={COLORS.textMuted} />
+            <View style={[styles.statItem, styles.statItemSkeleton]}>
+              <View style={styles.skeletonNum} />
               <Text style={styles.statsLoadingText}>平均分</Text>
             </View>
             <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <ActivityIndicator size="small" color={COLORS.textMuted} />
+            <View style={[styles.statItem, styles.statItemSkeleton]}>
+              <View style={styles.skeletonNum} />
               <Text style={styles.statsLoadingText}>模板</Text>
             </View>
           </View>
@@ -303,10 +303,9 @@ export default function HomeScreen() {
         <View style={styles.featuresGrid}>
           {FEATURES.map((f, i) => (
             <TouchableOpacity key={i} style={styles.featureCard} activeOpacity={0.72}
-              onPress={() => { if (f.title === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} }); else if (f.title === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined }) }}>
-              <Text style={styles.featureIcon}>{f.icon}</Text>
+              onPress={() => { if (f.label === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} }); else if (f.label === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined }) }}>
               <View style={styles.featureText}>
-                <Text style={styles.featureTitle}>{f.title}</Text>
+                <Text style={styles.featureTitle}>{f.label}</Text>
                 <Text style={styles.featureDesc}>{f.desc}</Text>
               </View>
             </TouchableOpacity>
@@ -395,6 +394,8 @@ const styles = StyleSheet.create({
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6], ...shadows.md },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
+  statItemSkeleton: { alignItems: 'center' },
+  skeletonNum: { width: 48, height: 44, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 52 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
@@ -436,13 +437,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
     padding: spacing[4],
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: spacing[3],
     // 简洁优雅极致：featureCard 与 dailyTipCard、poseTipCard 同级，降低阴影权重
     ...shadows.sm,
   },
-  featureIcon: { fontSize: 28, flexShrink: 0, marginTop: 2 },
   featureText: { flex: 1 },
   featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
   featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
