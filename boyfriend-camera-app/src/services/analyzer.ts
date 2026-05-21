@@ -2721,6 +2721,33 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '拍侧背影时让男朋友站在斜后方，光影更丰富～',
     '侧脸照可以露出耳朵轮廓，耳饰或发型会更加分～',
   ],
+  // ========== Round 46 新增：多人合照专属建议 ==========
+  multiple_people_tips: [
+    '多人合照要让每个人都露出来，站位时注意不要挡住后面的人～',
+    '合照时尽量让高低错落有致，这样每个人都能被看到～',
+    '多人拍摄时让男朋友蹲低一点，低角度合照大家都能入镜～',
+    '闺蜜合照可以叠罗汉式站位，最后一排踮脚，超有感觉～',
+    '情侣和朋友一起拍时，让情侣站中间，朋友们护在两侧～',
+    '合照时大家尽量靠近一点，贴贴更显亲密～',
+    '多人拍摄时找均匀光源，避免一半人亮一半人暗～',
+  ],
+  // ========== Round 46 新增：姿势引导专属建议 ==========
+  posture_tips: [
+    '站姿时稍微收腹挺胸，仪态会好很多～',
+    '双手自然垂下比僵硬地贴着身体更显瘦～',
+    '坐着拍照时背挺直，比驼背更有气质～',
+    '站姿时重心放一只脚，腿会显得更直更长～',
+    '双肩放松下沉，别端着会更自然～',
+    '脖子伸长一点点，天鹅颈上线，气质立刻提升～',
+  ],
+  // ========== Round 46 新增：色彩平衡建议 ==========
+  color_balance: [
+    '衣服颜色和背景太接近了，换个角度或背景让主体更突出～',
+    '衣服和背景撞色会很醒目，但也要注意不要太过杂乱～',
+    '全身照时浅色衣服配深色背景会很有层次感～',
+    '背景颜色太杂会分散注意力，找简洁的背景更好看～',
+    '同色系穿搭在照片里会更协调高级～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -2981,6 +3008,18 @@ export async function analyzePhoto(
   // 多人合照构图建议（合照但构图不佳时）
   if (faceCount > 1 && compositionScore < 30) {
     suggestions.push(pickRandom(SUGGESTION_POOL.ugly_background))
+  }
+  // ========== Round 46 新增：多人合照专属建议（合照时补充） ==========
+  if (faceCount > 1 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.multiple_people_tips))
+  }
+  // ========== Round 46 新增：姿势引导建议（总分偏低时补充） ==========
+  if (totalScore < 70 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.posture_tips))
+  }
+  // ========== Round 46 新增：色彩平衡建议（室内暖光或色彩冲突时） ==========
+  if (sceneType === 'indoor' && exposureScore >= 20 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.color_balance))
   }
   // ========== Round 39 新增：模糊检测专属建议（清晰度明显不足时） ==========
   if (safeSharpness < 80 && !problems.includes('stability') && suggestions.length < 4) {
