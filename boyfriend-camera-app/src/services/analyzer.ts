@@ -1,6 +1,7 @@
 /**
- * analyzer.ts - 规则引擎评分与分析 v2
+ * analyzer.ts - 规则引擎评分与分析 v3
  * 纯本地分析，无需 AI
+ * v3: 新增 expressionScore 表情分（0-20）
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { logger } from '../utils/logger'
@@ -14,6 +15,7 @@ export interface AnalysisResult {
   exposureScore: number // 0-30
   stabilityScore: number // 0-20
   levelScore: number // 0-10
+  expressionScore: number // 0-20 (表情分)
   suggestions: string[]
   problems: string[]
   praise: string[] // 夸奖文案
@@ -868,6 +870,12 @@ const PRAISE_POOL: Record<string, string[]> = {
   // 连续尝试终于成功的夸奖（多次低于60后首次超过80）
   // ========== Round 6 新增夸奖池 ==========
   // 表情自然夸奖
+  expression_great: [
+    '这表情太灵动！笑得灿烂又自然，男朋友抓到了最完美的一刻！',
+    '眼睛里有光！表情满分，男朋友简直是天生的摄影师！',
+    '这笑容绝了！生动有感染力，男朋友按快门的时机刚刚好！',
+    '表情满分！眼神灵动笑容灿烂，这张可以直接上杂志封面！',
+  ],
   expression_good: [
     '这表情好自然！笑得刚刚好，男朋友抓到了！',
     '这表情绝了！灵动又有感染力，眼睛都在发光～',
@@ -1323,6 +1331,12 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '让她先放松一下，深呼吸再拍，表情会更自然～',
     '表情别那么严肃，自然微笑或者俏皮一点都更好看～',
     '告诉她别看镜头，想象旁边有只猫在逗她笑～',
+  ],
+  closed_eyes: [
+    '有人闭眼了！提醒她睁开大眼睛～',
+    '两只眼睛都闭了，睁开再拍～',
+    '闭眼啦！睁大眼睛，就是现在～',
+    '眼睛闭着了，睁开眼看镜头！',
   ],
   // 新增：背景遮挡建议
   // 新增：前景过多建议
@@ -2566,10 +2580,18 @@ export async function analyzePhoto(
     brightness: number // 0-255
     sharpness: number // 拉普拉斯方差，>100 为清晰
     tiltAngle: number // 倾斜角度度数
+    /** 表情数据（MLKit 人脸检测提供） */
+    expression?: {
+      smiling?: boolean
+      leftEyeOpen?: boolean
+      rightEyeOpen?: boolean
+      yawAngle?: number // 头部左右旋转（-90~90）
+      rollAngle?: number // 头部倾斜（-45~45）
+    }
   },
   context: AnalyzeContext = {}
 ): Promise<AnalysisResult> {
-  const { facePosition, faceCount, brightness, sharpness, tiltAngle } = params
+  const { facePosition, faceCount, brightness, sharpness, tiltAngle, expression } = params
   // 边界校验：防止异常输入导致评分越界
   const safeBrightness = clampBrightness(brightness)
   const safeSharpness = clampSharpness(sharpness)
@@ -2702,8 +2724,41 @@ export async function analyzePhoto(
   }
   if (levelScore >= 9) praise.push(pickRandom(PRAISE_POOL.level_great))
 
+  // 表情分 0-20（MLKit 人脸检测提供 expression 数据时计算）
+  let expressionScore = 20
+  if (expression) {
+    const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle } = expression
+    // 闭眼检测
+    const eyesClosed = (leftEyeOpen === false || leftEyeOpen === undefined) &&
+      (rightEyeOpen === false || rightEyeOpen === undefined)
+    if (eyesClosed) {
+      expressionScore -= 10
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.closed_eyes))
+    }
+    // 严肃无表情（无笑容）
+    if (smiling === false) {
+      expressionScore -= 6
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.no_smile))
+    }
+    // 头部过于偏转（影响表情可见性）
+    if (yawAngle !== undefined && Math.abs(yawAngle) > 30) {
+      expressionScore -= 4
+    }
+    // 头部过度倾斜（影响表情自然度）
+    if (rollAngle !== undefined && Math.abs(rollAngle) > 20) {
+      expressionScore -= 2
+    }
+    expressionScore = Math.max(0, expressionScore)
+    // 表情优秀（>= 18）
+    if (expressionScore >= 18) {
+      praise.push(pickRandom(PRAISE_POOL.expression_great))
+    } else if (expressionScore >= 15) {
+      praise.push(pickRandom(PRAISE_POOL.expression_good))
+    }
+  }
+
   // clamp 到 0-100 范围，防止边界情况下越界
-  const rawTotal = compositionScore + exposureScore + stabilityScore + levelScore
+  const rawTotal = compositionScore + exposureScore + stabilityScore + levelScore + expressionScore
   const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal)))
 
   // ========== Round 38 新增：表情僵硬/引导建议激活 ==========
@@ -3688,6 +3743,7 @@ export async function analyzePhoto(
     exposureScore,
     stabilityScore,
     levelScore,
+    expressionScore,
     suggestions: uniqueSuggestions,
     problems,
     praise: uniquePraise,

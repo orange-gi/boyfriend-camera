@@ -252,6 +252,13 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
           brightness,
           sharpness,
           tiltAngle,
+          expression: faces[0] ? {
+            smiling: faces[0].smiling,
+            leftEyeOpen: faces[0].leftEyeOpen,
+            rightEyeOpen: faces[0].rightEyeOpen,
+            yawAngle: faces[0].yawAngle,
+            rollAngle: faces[0].rollAngle,
+          } : undefined,
         },
         {
           lastScore: lastRecord?.score,
@@ -277,6 +284,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         exposureScore: analysis.exposureScore,
         stabilityScore: analysis.stabilityScore,
         levelScore: analysis.levelScore,
+        expressionScore: analysis.expressionScore,
         suggestions: analysis.suggestions,
       })
 
@@ -289,6 +297,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         exposureScore: analysis.exposureScore,
         stabilityScore: analysis.stabilityScore,
         levelScore: analysis.levelScore,
+        expressionScore: analysis.expressionScore,
       })
       const isNewRecord = await updatePeakScore(analysis.totalScore)
 
@@ -362,6 +371,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         exposureScore: 22,
         stabilityScore: 10,
         levelScore: 5,
+        expressionScore: 15,
         suggestions: ['构图不错，可以试试三分法把人脸放在交点上～'],
       })
       cardSlide.value = 0

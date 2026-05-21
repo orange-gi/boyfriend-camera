@@ -12,6 +12,7 @@ export interface ScoreResult {
   exposureScore: number
   stabilityScore: number
   levelScore: number
+  expressionScore: number
   suggestions: string[]
 }
 
