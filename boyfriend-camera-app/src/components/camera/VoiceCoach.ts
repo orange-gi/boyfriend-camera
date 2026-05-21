@@ -4054,6 +4054,66 @@ class VoiceCoach {
       await this.speak(FACE_TIPS.TEMPLATE_MATCH_OFF, false)
     }
   }
+
+  /** 笑脸检测到时的即时确认 */
+  async speakSmileDetected(): Promise<void> {
+    const tips = [
+      FACE_TIPS.SMILE_DETECTED,
+      FACE_TIPS.NATURAL_SMILE_DETECTED,
+      '看到笑容了！这个表情好生动，就是现在！',
+      '她在笑！就是这张，按下去！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 构图完美时的提示 */
+  async speakCompositionPerfect(): Promise<void> {
+    const tips = [
+      '构图完美！这个角度绝了，按下去就是大片！',
+      '位置刚刚好！就是现在，拍！',
+      '黄金构图！男朋友你开窍了，按下去！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 光线完美时的提示 */
+  async speakLightPerfect(): Promise<void> {
+    const tips = [
+      '光线完美！这个时刻拍出来一定超好看！',
+      '光线刚刚好！就是现在，按快门！',
+      '光影好美！就是这张，按下去！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 背景检查提醒 */
+  async speakCheckBackground(): Promise<void> {
+    const tips = [
+      FACE_TIPS.CHECK_BACKGROUND,
+      '背景检查一下！太乱会抢戏～',
+      '看一下背景有没有杂物？干净背景更好看～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 表情自然时的鼓励 */
+  async speakExpressionNatural(): Promise<void> {
+    const tips = [
+      '表情好自然！这个瞬间绝了，按下去！',
+      '表情放松了！就是现在拍～',
+      '这个表情好生动！就是这张！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 连拍完成提示 */
+  async speakBurstComplete(total: number): Promise<void> {
+    const tips = [
+      `连拍完成！拍了${total}张，选一张最喜欢的吧～`,
+      `${total}张连拍完成！动起来的瞬间最自然，选最自然的那张～`,
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
