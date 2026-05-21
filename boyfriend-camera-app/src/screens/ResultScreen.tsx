@@ -68,6 +68,10 @@ const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
       '室内日常': 'soft',
       '自拍技巧': 'soft',
       '构图技巧': 'cinematic',
+      '人文风景': 'vivid',
+      '夜景': 'cinematic',
+      '节日限定': 'vivid',
+      '运动健身': 'vivid',
     }
     return (templateCategory ? (catFilterMap[templateCategory] ?? 'warm') : 'warm') as CoreFilter
   })()
@@ -230,10 +234,14 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         '餐厅美食': 'indoor',
         '户外风景': 'outdoor',
         '城市街拍': 'outdoor',
+        '人文风景': 'outdoor',
         '特殊风格': 'other',
         '情侣合照': 'other',
         '自拍技巧': 'other',
         '构图技巧': 'other',
+        '运动健身': 'other',
+        '节日限定': 'other',
+        '夜景': 'other',
       }
       const sceneType = templateCategory ? (sceneTypeMap[templateCategory] ?? 'other') : 'other'
 
