@@ -151,6 +151,8 @@ const FACE_TIPS = {
   PORTRAIT_MODE_2: '人像模式最适合拍近景！打开它，背景会变柔和～',
   // 全景模式提示
   PANORAMA_HINT: '试试全景模式！左右扫一下，大场景都能收进来～',
+  PANORAMA_HINT_2: '全景模式要慢速移动！手稳一点，照片才不会糊～',
+  PANORAMA_HINT_3: '拍全景时让女朋友站在中间，这样不会被切掉～',
   // 专业模式提示
   PRO_MODE_HINT: '专业模式下 ISO 调低一点，画面会更干净～',
   PRO_MODE_HINT_2: '专业模式拍夜景！快门调慢，手要拿稳哦～',
@@ -159,7 +161,11 @@ const FACE_TIPS = {
   BURST_MODE_2: '连拍模式开起来！多拍几张总有一张完美的～',
   // 定时拍照提示
   TIMER_HINT: '用定时拍照！放在稳定的地方，自己也能入镜～',
+  TIMER_HINT_2: '定时拍照设置三秒就够！给自己留出摆pose的时间～',
+  TIMER_HINT_3: '定时拍照放在桌面或书架上！自己和男朋友都能入镜～',
   TIMER_COUNTDOWN: '三二一！就是现在～',
+  TIMER_COUNTDOWN_2: '321！就是现在～',
+  TIMER_COUNTDOWN_3: '倒计时结束！按快门～',
   // 抓拍提示
   CANDID_CAPTURE: '假装在看她/他！就是现在抓拍～',
   CANDID_CAPTURE_2: '让她先动起来，然后抓拍！这个瞬间最自然～',
@@ -2182,10 +2188,10 @@ class VoiceCoach {
     const tips: Record<string, string[]> = {
       portrait: [FACE_TIPS.PORTRAIT_MODE, FACE_TIPS.PORTRAIT_MODE_2],
       hdr: [FACE_TIPS.HDR_HINT, FACE_TIPS.HDR_HINT_2, FACE_TIPS.BACKLIGHT_HDR],
-      panorama: [FACE_TIPS.PANORAMA_HINT],
+      panorama: [FACE_TIPS.PANORAMA_HINT, FACE_TIPS.PANORAMA_HINT_2, FACE_TIPS.PANORAMA_HINT_3],
       pro: [FACE_TIPS.PRO_MODE_HINT, FACE_TIPS.PRO_MODE_HINT_2],
       burst: [FACE_TIPS.BURST_MODE, FACE_TIPS.BURST_MODE_2],
-      timer: [FACE_TIPS.TIMER_HINT],
+      timer: [FACE_TIPS.TIMER_HINT, FACE_TIPS.TIMER_HINT_2, FACE_TIPS.TIMER_HINT_3],
     }
     const pool = tips[mode]
     if (pool && pool[0]) {
@@ -2747,13 +2753,29 @@ class VoiceCoach {
   /** 进步日记里程碑提示 */
   async speakDiaryMilestone(type: 'first' | 'streak3' | 'streak7' | 'week10'): Promise<void> {
     const tips: Record<string, string[]> = {
-      first: ['第一次记日记！这是成长的开始，继续加油～'],
-      streak3: ['连续拍了三天！男朋友越来越有摄影师的感觉了～'],
-      streak7: ['一周连续拍照！坚持就是胜利，进步肉眼可见！'],
-      week10: ['十周啦！男朋友已经成了半个摄影师！'],
+      first: [
+        '第一次记日记！这是成长的开始，继续加油～',
+        '第一张照片入库啦！男朋友正式开启摄影之旅～',
+        '记录从第一张开始！每张照片都是进步的证明～',
+      ],
+      streak3: [
+        '连续拍了三天！男朋友越来越有摄影师的感觉了～',
+        '三天连续打卡！男朋友的拍照热情在燃烧～',
+        '坚持三天了！男朋友已经开始有拍照习惯了～',
+      ],
+      streak7: [
+        '一周连续拍照！坚持就是胜利，进步肉眼可见！',
+        '一周啦！男朋友已经养成了拍照习惯，超棒！',
+        '连续七天！这毅力太强了，进步肯定不少～',
+      ],
+      week10: [
+        '十周啦！男朋友已经成了半个摄影师！',
+        '十周里程碑！男朋友的摄影水平突飞猛进了！',
+        '拍了十周！男朋友已经掌握了拍照的精髓～',
+      ],
     }
     const arr = tips[type] || []
-    if (arr.length > 0) await this.speak(arr[0], true)
+    if (arr.length > 0) await this.speak(arr[Math.floor(Math.random() * arr.length)], true)
   }
 
   /** 比拼模式提示（对比两张照片时） */
