@@ -709,7 +709,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
               <Text style={styles.xiaohongshuTitle}>分享到小红书</Text>
               <Text style={styles.xiaohongshuDesc}>让闺蜜们羡慕你们的进步～</Text>
             </View>
-            <Text style={styles.xiaohongshuArrow}>→</Text>
           </TouchableOpacity>
           </Animated.View>
         )}
@@ -799,7 +798,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
               onPress={handleShare}
               activeOpacity={0.72}
             >
-              <Text style={styles.actionBtnShareIcon}>📤</Text>
               <Text style={styles.actionBtnShareText}>分享</Text>
             </TouchableOpacity>
 
@@ -809,7 +807,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
               disabled={saving}
               activeOpacity={0.72}
             >
-              <Text style={styles.actionBtnPrimaryText}>{saving ? '保存中...' : '💾 保存到相册'}</Text>
+              <Text style={styles.actionBtnPrimaryText}>{saving ? '保存中...' : '保存到相册'}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -994,9 +992,9 @@ const styles = StyleSheet.create({
   filterCircleActive: {
     borderColor: 'transparent',
     shadowColor: colors.primary,
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
   },
   filterCircleSelectedRing: {
     position: 'absolute',
@@ -1196,32 +1194,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.cardPink,
     borderRadius: 16,
-    padding: 14,
+    padding: 16,
     marginHorizontal: 20,
     marginBottom: 14,
     gap: 12,
-    // — 简洁设计不需要边框+阴影双重装饰，cardPink 背景已足够辨识
   },
   xiaohongshuIcon: {
-    fontSize: 28,
+    fontSize: 22,
   },
   xiaohongshuText: {
     flex: 1,
   },
   xiaohongshuTitle: {
     fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: '700',
     color: COLORS.primary,
     marginBottom: 2,
   },
   xiaohongshuDesc: {
     fontSize: 13,
     color: COLORS.textMuted,
-  },
-  xiaohongshuArrow: {
-    fontSize: 18,
-    color: COLORS.primary,
-    fontWeight: 'bold',
   },
   viewShot: {
     alignItems: 'center',
@@ -1263,10 +1255,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.warning,
     backgroundColor: colors.cardCream,
-    gap: 6,
-  },
-  actionBtnShareIcon: {
-    fontSize: 16,
   },
   actionBtnShareText: {
     fontSize: 14,
