@@ -89,6 +89,27 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
     return path
   }, [sorted])
 
+  // 数据点（提取为 useMemo 避免 Canvas 内 IIFE 每次 render 重算）
+  const maxScore = useMemo(() =>
+    sorted.length > 0 ? sorted.reduce((m, e) => (e.score > m ? e.score : m), 0) : 0,
+    [sorted]
+  )
+  const dataPoints = useMemo(() =>
+    sorted.map((e, i) => {
+      const x = toX(i)
+      const y = toY(e.score)
+      const dotColor = e.score >= 80 ? COLORS.scoreGreat : e.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
+      const isMax = e.score === maxScore
+      return (
+        <React.Fragment key={i}>
+          <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? colors.warning : dotColor} />
+          <Circle cx={x} cy={y} r={isMax ? 3 : 2} color="#fff" />
+        </React.Fragment>
+      )
+    }),
+    [sorted, maxScore]
+  )
+
   return (
     <View style={[styles.container, { height }]}>
       {/* Y 轴刻度标签 */}
@@ -125,21 +146,7 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
         />
 
         {/* 数据点 */}
-        {(() => {
-          const maxScore = sorted.length > 0 ? sorted.reduce((m, e) => (e.score > m ? e.score : m), 0) : 0
-          return sorted.map((e, i) => {
-            const x = toX(i)
-            const y = toY(e.score)
-            const dotColor = e.score >= 80 ? COLORS.scoreGreat : e.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
-            const isMax = e.score === maxScore
-            return (
-              <React.Fragment key={i}>
-                <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? colors.warning : dotColor} />
-                <Circle cx={x} cy={y} r={isMax ? 3 : 2} color="#fff" />
-              </React.Fragment>
-            )
-          })
-        })()}
+        {dataPoints}
 
         {/* X 轴日期标签（稀疏显示） */}
         {sorted.map((e, i) => {

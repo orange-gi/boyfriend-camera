@@ -664,7 +664,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
               {getPraiseBannerText()}
             </Text>
             {typedPraise.length > 0 && (
-              <Text style={styles.praiseBannerSub}>🌟 {typedPraise}</Text>
+              <Text style={styles.praiseBannerSub}>{typedPraise}</Text>
             )}
           </Animated.View>
         )}
