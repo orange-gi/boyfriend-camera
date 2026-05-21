@@ -745,7 +745,12 @@ export default function CameraScreen() {
                       styles.categoryTab,
                       isSelected && { backgroundColor: color },
                     ]}
-                    onPress={() => setSelectedCategory(cat)}
+                    onPress={() => {
+                      if (selectedCategory !== cat) {
+                        VoiceCoach.speakTemplateCategorySwitched(cat)
+                      }
+                      setSelectedCategory(cat)
+                    }}
                     activeOpacity={0.72}
                     accessibilityRole="button"
                     accessibilityLabel={`分类: ${cat}${isSelected ? '，已选中' : ''}`}
