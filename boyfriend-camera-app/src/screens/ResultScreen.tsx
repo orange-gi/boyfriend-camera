@@ -399,7 +399,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
       const ok = await saveToAlbum(pathToSave)
       if (ok) {
         try { await voiceCoach.speakSavedToAlbum() } catch { /* ignore TTS errors */ }
-        Alert.alert('✅ 保存成功', '照片已保存到相册，快去发朋友圈吧～')
+        Alert.alert('保存成功', '照片已保存到相册，快去发朋友圈吧～')
       } else {
         Alert.alert('保存失败', '请检查相册权限')
       }
@@ -484,7 +484,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
   if (!photoPath) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorEmoji}>🤔</Text>
+        <Text style={styles.errorEmoji}>？</Text>
         <Text style={[styles.errorText, { color: COLORS.textMuted }]}>没有找到图片</Text>
         <TouchableOpacity style={styles.errorBtn} onPress={handleGoCamera} activeOpacity={0.72}>
           <Text style={styles.errorBtnText}>去拍照</Text>
@@ -529,14 +529,14 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
         {/* 错误提示 + 重试 */}
         {error && !processing && (
           <View style={styles.errorBanner}>
-            <Text style={styles.errorBannerText}>⚠️ {error}</Text>
+            <Text style={styles.errorBannerText}>{error}</Text>
             <View style={styles.errorBannerBtns}>
               <TouchableOpacity
                 style={styles.errorRetryBtn}
                 onPress={runAnalysis}
                 activeOpacity={0.72}
               >
-                <Text style={styles.errorRetryBtnText}>🔄 重试</Text>
+                <Text style={styles.errorRetryBtnText}>重试</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.errorRetryBtn}
@@ -726,7 +726,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
               onPress={handleRetry}
               activeOpacity={0.72}
             >
-              <Text style={styles.actionBtnSecondaryIcon}>🔄</Text>
+              <Text style={styles.actionBtnSecondaryIcon}>↻</Text>
               <Text style={styles.actionBtnSecondaryText}>重拍</Text>
             </TouchableOpacity>
 

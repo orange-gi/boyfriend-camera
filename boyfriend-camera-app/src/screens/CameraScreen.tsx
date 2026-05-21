@@ -303,7 +303,7 @@ export default function CameraScreen() {
         VoiceCoach.speakCaptureSuccess()
       } else {
         VoiceCoach.speakCaptureFailed()
-        Alert.alert('📷 拍照遇到点小状况', '可以换个角度重试一下～', [
+        Alert.alert('拍照遇到点小状况', '可以换个角度重试一下～', [
           { text: '算了', style: 'cancel' },
           { text: '重试', onPress: () => captureRetryRef.current() },
         ])
@@ -311,7 +311,7 @@ export default function CameraScreen() {
     } catch (e: unknown) {
       VoiceCoach.speakCaptureFailed()
       const errMsg = e instanceof Error ? e.message : String(e)
-      Alert.alert('📷 拍照失败', errMsg || '请检查相机是否可用', [
+      Alert.alert('拍照失败', errMsg || '请检查相机是否可用', [
         { text: '算了', style: 'cancel' },
         { text: '重试', onPress: () => captureRetryRef.current() },
       ])
@@ -467,7 +467,7 @@ export default function CameraScreen() {
         {cameraError && (
           <View style={styles.cameraErrorBanner}>
             <Text style={styles.cameraErrorText}>
-              {cameraError === 'permission_denied' ? '📷 相机权限未授权，请去设置中开启' : '📷 相机设备不可用'}
+              {cameraError === 'permission_denied' ? '相机权限未授权，请去设置中开启' : '相机设备不可用'}
             </Text>
             <TouchableOpacity onPress={() => setCameraError(null)} activeOpacity={0.72}>
               <Text style={styles.cameraErrorClose}>✕</Text>
@@ -638,7 +638,7 @@ export default function CameraScreen() {
           onPress={flipCamera}
           activeOpacity={0.72}
         >
-          <Text style={styles.sideBtnIcon}>🔄</Text>
+          <Text style={styles.sideBtnIcon}>↻</Text>
           <Text style={styles.sideBtnText}>翻转</Text>
         </TouchableOpacity>
       </View>
@@ -778,7 +778,7 @@ export default function CameraScreen() {
                 <Text style={styles.emptyStateTitle}>网络不给力～</Text>
                 <Text style={styles.loadingText}>{templatesError}</Text>
                 <TouchableOpacity style={styles.retryBtn} onPress={refresh} activeOpacity={0.72}>
-                  <Text style={styles.retryBtnText}>🔄 重新加载模板</Text>
+                  <Text style={styles.retryBtnText}>重新加载模板</Text>
                 </TouchableOpacity>
               </View>
             ) : filteredTemplates.length === 0 ? (

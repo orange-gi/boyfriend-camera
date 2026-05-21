@@ -238,7 +238,7 @@ export default function HomeScreen() {
         </TouchableOpacity>
         <View style={styles.cameraBtnSub}>
           {templatesLoading ? <Text style={styles.cameraBtnSubText}>⏳ 正在加载姿势模板...</Text>
-            : templatesError ? <TouchableOpacity onPress={refresh} activeOpacity={0.72}><Text style={[styles.cameraBtnSubText, { color: COLORS.primary }]}>⚠️ 加载失败，点击重试</Text></TouchableOpacity>
+            : templatesError ? <TouchableOpacity onPress={refresh} activeOpacity={0.72}><Text style={[styles.cameraBtnSubText, { color: COLORS.primary }]}>！加载失败，点击重试</Text></TouchableOpacity>
             : totalTemplates > 0 ? <Text style={styles.cameraBtnSubText}>已有 <Text style={{ fontWeight: '700', color: COLORS.primary }}>{totalTemplates}</Text> 个姿势模板可用</Text>
             : <Text style={styles.cameraBtnSubText}>姿势模板加载中...</Text>}
         </View>
@@ -299,7 +299,7 @@ export default function HomeScreen() {
             <View style={styles.onboardBtns}>
               {onboardStep > 0 && <TouchableOpacity style={styles.onboardBackBtn} onPress={() => setOnboardStep(onboardStep - 1)} activeOpacity={0.72}><Text style={styles.onboardBackBtnText}>‹ 上一步</Text></TouchableOpacity>}
               <TouchableOpacity style={[styles.onboardNextBtn, onboardStep === 0 && styles.onboardNextBtnFull]} onPress={nextOnboardStep} activeOpacity={0.72}>
-                <Text style={styles.onboardNextBtnText}>{onboardStep < ONBOARD_STEPS.length - 1 ? '下一步 →' : '开始使用 🎉'}</Text>
+                <Text style={styles.onboardNextBtnText}>{onboardStep < ONBOARD_STEPS.length - 1 ? '下一步 →' : '开始使用'}</Text>
               </TouchableOpacity>
             </View>
           </View>
