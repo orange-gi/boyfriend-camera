@@ -68,6 +68,32 @@ const FACE_TIPS = {
   SAVED_TO_ALBUM: '已保存到相册！可以去相册里找找看～',
   // 拍照成功
   CLICK_SNAP: '咔嚓！拍好了～来看看效果吧！',
+  // ========== Round 5 新增 TTS 场景 ==========
+  // 闭眼检测
+  BLINK_DETECTED: '看到有人闭眼了！提醒她睁开大眼睛～',
+  BLINK_DETECTED_2: '闭眼了！睁大眼睛再拍～',
+  BOTH_EYES_CLOSED_TIP: '两只眼睛都闭了！睁开眼睛，就是现在～',
+  // 人脸过远
+  FACE_TOO_FAR: '人离镜头太远了，往前走两步会更清晰～',
+  FACE_TOO_FAR_2: '再靠近一点点！脸大一点更好看～',
+  FACE_TOO_NEAR: '太近了！稍微退后一点，不然脸会变形哦～',
+  FACE_TOO_NEAR_2: '手机拿远一点点，脸才不会挤在一起～',
+  // 逆光场景
+  BACKLIGHT_DETECTED: '逆光！脸有点黑，侧身转过来让光打在脸上～',
+  BACKLIGHT_DETECTED_2: '背光场景！打开闪光灯补光，或者转过来面对光源～',
+  BACKLIGHT_HDR_HINT: '逆光场景明暗对比大！打开 HDR 模式，高光阴影都能保留～',
+  // 成功抓拍倒计时
+  COUNTDOWN_3: '三～',
+  COUNTDOWN_2: '二～',
+  COUNTDOWN_1: '一～',
+  COUNTDOWN_GO: '拍！',
+  CAPTURE_SUCCESS: '太棒了！拍到了！这张绝了～',
+  CAPTURE_SUCCESS_2: '抓到了！这个表情太生动了～',
+  CAPTURE_SUCCESS_3: '完美！就是这张！',
+  // 表情僵硬
+  EXPRESSION_STIFF: '表情放松一点～嘴角微微上扬，自然最美～',
+  EXPRESSION_STIFF_2: '别僵着！想想开心的事，笑一个试试～',
+  EXPRESSION_STIFF_3: '表情有点紧，肩膀放松，深呼吸～',
   // 前置摄像头提示
   SELFIE_MODE: '自拍模式！找好角度，笑一个～',
   SELFIE_TOO_CLOSE: '手机拿远一点！自拍离太近会变形～',
@@ -2462,6 +2488,58 @@ class VoiceCoach {
   /** 拍照失败提示 */
   async speakCaptureFailed(): Promise<void> {
     await this.speak(FACE_TIPS.CAPTURE_FAILED, true)
+  }
+
+  // ========== Round 5 新增 TTS 方法 ==========
+  /** 闭眼检测提示（MLKit 返回闭眼时调用） */
+  async speakBlinkTip(): Promise<void> {
+    const tips = [
+      FACE_TIPS.BLINK_DETECTED,
+      FACE_TIPS.BLINK_DETECTED_2,
+      FACE_TIPS.BOTH_EYES_CLOSED_TIP,
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 人脸距离提示（faceArea 超出范围时调用） */
+  async speakFaceDistanceTip(tooFar: boolean): Promise<void> {
+    if (tooFar) {
+      const tips = [FACE_TIPS.FACE_TOO_FAR, FACE_TIPS.FACE_TOO_FAR_2]
+      await this.speak(pickRandom(tips))
+    } else {
+      const tips = [FACE_TIPS.FACE_TOO_NEAR, FACE_TIPS.FACE_TOO_NEAR_2]
+      await this.speak(pickRandom(tips))
+    }
+  }
+
+  /** 逆光场景提示（检测到强背光时调用） */
+  async speakBacklightTip2(): Promise<void> {
+    const tips = [
+      FACE_TIPS.BACKLIGHT_DETECTED,
+      FACE_TIPS.BACKLIGHT_DETECTED_2,
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 成功抓拍倒计时（3-2-1-拍！） */
+  async speakCaptureCountdown(): Promise<void> {
+    await this.speak(FACE_TIPS.COUNTDOWN_3, true)
+    await new Promise<void>(r => setTimeout(r, 800))
+    await this.speak(FACE_TIPS.COUNTDOWN_2, true)
+    await new Promise<void>(r => setTimeout(r, 800))
+    await this.speak(FACE_TIPS.COUNTDOWN_1, true)
+    await new Promise<void>(r => setTimeout(r, 800))
+    await this.speak(FACE_TIPS.COUNTDOWN_GO, true)
+  }
+
+  /** 表情僵硬提示 */
+  async speakStiffExpressionTip(): Promise<void> {
+    const tips = [
+      FACE_TIPS.EXPRESSION_STIFF,
+      FACE_TIPS.EXPRESSION_STIFF_2,
+      FACE_TIPS.EXPRESSION_STIFF_3,
+    ]
+    await this.speak(pickRandom(tips))
   }
 
   /** 相册保存成功提示 */
