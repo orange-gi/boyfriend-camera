@@ -41,10 +41,10 @@ const ONBOARD_KEY = 'onboarded_v4'
 const TIP_DISMISS_KEY = 'tip_dismissed_today_v4'
 
 const FEATURES = [
-  { icon: '📐', title: '构图辅助', desc: '九宫格/黄金螺旋/三角构图线实时叠加', accent: COLORS.primary, bgAccent: COLORS.primaryLight },
-  { icon: '👗', title: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站', accent: COLORS.warning, bgAccent: COLORS.warningLight },
-  { icon: '🤳', title: '一键修图', desc: '智能裁剪到三分点，自动美颜+滤镜', accent: COLORS.info, bgAccent: COLORS.infoLight },
-  { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好', accent: COLORS.purple, bgAccent: COLORS.purpleLight },
+  { icon: '📐', title: '构图辅助', desc: '九宫格/黄金螺旋/三角构图线实时叠加' },
+  { icon: '👗', title: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站' },
+  { icon: '🤳', title: '一键修图', desc: '智能裁剪到三分点，自动美颜+滤镜' },
+  { icon: '📈', title: '进步日记', desc: '记录每次评分和进步曲线，越拍越好' },
 ] as const
 
 export default function HomeScreen() {
@@ -321,18 +321,15 @@ export default function HomeScreen() {
 
       {/* 功能特性区 */}
       <Animated.View style={[styles.featuresSection, featuresStyle]}>
-        <Text style={styles.sectionTitle}>✨ 功能介绍</Text>
+        <Text style={styles.sectionTitle}>功能介绍</Text>
         <View style={styles.featuresGrid}>
           {FEATURES.map((f, i) => (
             <TouchableOpacity key={i} style={styles.featureCard} activeOpacity={0.72}
               onPress={() => { if (f.title === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} }); else if (f.title === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined }) }}>
-              <View style={[styles.featureAccentBar, { backgroundColor: f.accent }]} />
-              <View style={styles.featureCardBody}>
-                <View style={[styles.featureIconWrap, { backgroundColor: f.bgAccent }]}><Text style={styles.featureIcon}>{f.icon}</Text></View>
-                <View style={styles.featureText}>
-                  <Text style={styles.featureTitle}>{f.title}</Text>
-                  <Text style={styles.featureDesc}>{f.desc}</Text>
-                </View>
+              <Text style={styles.featureIcon}>{f.icon}</Text>
+              <View style={styles.featureText}>
+                <Text style={styles.featureTitle}>{f.title}</Text>
+                <Text style={styles.featureDesc}>{f.desc}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -455,11 +452,17 @@ const styles = StyleSheet.create({
   featuresSection: { marginBottom: spacing[5] },
   sectionTitle: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: spacing[4] },
   featuresGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[3] },
-  featureCard: { width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2, backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, overflow: 'hidden', ...shadows.md },
-  featureAccentBar: { height: 4 },
-  featureCardBody: { padding: spacing[4], flexDirection: 'row', alignItems: 'flex-start', gap: spacing[3] },
-  featureIconWrap: { width: 44, height: 44, borderRadius: borderRadius.lg, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  featureIcon: { fontSize: 24 },
+  featureCard: {
+    width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2,
+    backgroundColor: COLORS.bgCard,
+    borderRadius: borderRadius.xl,
+    padding: spacing[4],
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing[3],
+    ...shadows.md,
+  },
+  featureIcon: { fontSize: 28, flexShrink: 0, marginTop: 2 },
   featureText: { flex: 1 },
   featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
   featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },

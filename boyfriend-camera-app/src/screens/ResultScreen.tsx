@@ -523,15 +523,15 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
   }
 
   // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
-  const getPraiseBannerColors = (): { bg: string; border: string; shadow: string; glow: string } => {
-    if (!scoreResult) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning, glow: colors.scoreGreatGlow }
-    if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.scoreGreat, shadow: colors.scoreGreat, glow: colors.scoreGreatGlow }
-    if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: colors.primary, shadow: colors.primary, glow: colors.scoreLowGlow }
-    if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: colors.success, shadow: colors.success, glow: colors.scoreOkGlow }
+  const getPraiseBannerColors = (): { bg: string; border: string; shadow: string } => {
+    if (!scoreResult) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning }
+    if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.scoreGreat, shadow: colors.scoreGreat }
+    if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: colors.primary, shadow: colors.primary }
+    if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: colors.success, shadow: colors.success }
     // 60-69: 及格 - warning 色系
-    if (scoreResult.totalScore >= 60) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning, glow: colors.scoreGreatGlow }
+    if (scoreResult.totalScore >= 60) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning }
     // 60 分以下: 加油 - danger 色系
-    return { bg: colors.dangerLight, border: colors.danger, shadow: colors.danger, glow: colors.scoreLowGlow }
+    return { bg: colors.dangerLight, border: colors.danger, shadow: colors.danger }
   }
   const praiseColors = getPraiseBannerColors()
 
@@ -656,7 +656,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
                 ],
                 backgroundColor: praiseColors.bg,
                 borderLeftColor: praiseColors.border,
-                shadowColor: praiseColors.shadow,
               },
             ]}
           >
