@@ -1,7 +1,4 @@
-/**
- * DiaryScreen - 进步日记 v4
- * 改进：简洁优雅极致 — 去装饰化、层级分明、颜色克制
- */
+/** DiaryScreen - 进步日记 */
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import {
   View,
@@ -295,27 +292,6 @@ export default function DiaryScreen() {
             <Text style={[styles.scoreBarNum, { color: sc }]}>{item.score}分</Text>
           </View>
 
-          {/* 紧凑迷你进度条 - 横向一行 */}
-          {hasBreakdown && (
-            <View style={styles.miniBarRow}>
-              {dims.map((d, i) => {
-                const pct = Math.min(100, (d.score / d.max) * 100)
-                return (
-                  <View key={d.label} style={styles.miniBarItem}>
-                    <View style={styles.miniBarTrack}>
-                      <View
-                        style={[
-                          styles.miniBarFill,
-                          { width: `${pct}%`, backgroundColor: miniBarColors[i] },
-                        ]}
-                      />
-                    </View>
-                    <Text style={styles.miniBarLabel}>{d.label}</Text>
-                  </View>
-                )
-              })}
-            </View>
-          )}
         </View>
       </TouchableOpacity>
     )
@@ -464,31 +440,13 @@ export default function DiaryScreen() {
                     </Text>
                     <Text style={styles.weeklyCardLabel}>本周拍摄</Text>
                   </View>
-
-                  {/* 连续天数 */}
-                  <View style={styles.weeklyCard}>
-                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.streak >= 7 ? COLORS.warning : COLORS.textMuted }]}>
-                      {weeklyStats.streak}
-                    </Text>
-                    <Text style={styles.weeklyCardLabel}>连续天数</Text>
-                  </View>
-
-                  {/* 最近一次 */}
-                  <View style={styles.weeklyCard}>
-                    <Text style={[styles.weeklyCardNum, { color: recentScore > 0 ? (recentScore >= 80 ? COLORS.success : COLORS.warning) : COLORS.textMuted }]}>
-                      {recentScore > 0 ? recentScore : '-'}
-                    </Text>
-                    <Text style={styles.weeklyCardLabel}>最近得分</Text>
-                  </View>
                 </View>
                 </>
               )}
 
               {/* 趋势横幅 — 简洁设计 */}
               <View style={[styles.trendBanner, { backgroundColor: trendInfo.color + '15' }]}>
-                <Text style={styles.trendBannerIcon}>
-                  {avgScore >= 80 ? '↑' : avgScore >= 65 ? '↑' : avgScore >= 50 ? '·' : '·'}
-                </Text>
+  
                 <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
                   {trendInfo.text}
                 </Text>
@@ -500,9 +458,10 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            {/* 精选成就徽章（精选展示，不堆砌） */}
+            {/* 成就徽章 — 最多 2 个，避免视觉过载 */}
             {totalCount > 0 && (
               <View style={styles.badgeRow}>
+                {/* 等级徽章 */}
                 {avgScore >= 80 && (
                   <View style={[styles.badgeGold]}>
                     <Text style={styles.badgeText}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
@@ -518,19 +477,20 @@ export default function DiaryScreen() {
                     <Text style={[styles.badgeText, { color: COLORS.warning }]}>新手期</Text>
                   </View>
                 )}
-                {totalCount >= 10 && (
+                {/* 里程碑徽章（不与等级重叠时显示） */}
+                {maxScore === 100 && avgScore < 80 && (
+                  <View style={[styles.badgeGold]}>
+                    <Text style={styles.badgeText}>满分达成</Text>
+                  </View>
+                )}
+                {maxScore !== 100 && avgScore < 80 && totalCount >= 10 && (
                   <View style={[styles.badgeGreen]}>
                     <Text style={styles.badgeText}>拍摄{totalCount}次</Text>
                   </View>
                 )}
-                {weeklyStats.streak >= 3 && (
+                {maxScore !== 100 && avgScore < 80 && totalCount < 10 && weeklyStats.streak >= 3 && (
                   <View style={[styles.badgeGreen]}>
                     <Text style={styles.badgeText}>连续{weeklyStats.streak}天</Text>
-                  </View>
-                )}
-                {maxScore === 100 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>满分</Text>
                   </View>
                 )}
                 {totalCount === 1 && (
@@ -1021,9 +981,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 10,
     paddingHorizontal: 14,
-  },
-  trendBannerIcon: {
-    fontSize: 18,
   },
   trendBannerText: {
     fontSize: 14,
