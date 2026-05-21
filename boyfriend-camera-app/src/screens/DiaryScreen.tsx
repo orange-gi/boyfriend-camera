@@ -444,9 +444,8 @@ export default function DiaryScreen() {
                 </>
               )}
 
-              {/* 趋势横幅 — 简洁设计 */}
+              {/* 趋势横幅 */}
               <View style={[styles.trendBanner, { backgroundColor: trendInfo.color + '15' }]}>
-  
                 <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
                   {trendInfo.text}
                 </Text>
@@ -758,7 +757,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
-    ...shadows.sm,
     gap: 14,
   },
   scoreBadge: {
@@ -1023,7 +1021,6 @@ const styles = StyleSheet.create({
     padding: 32,
     marginBottom: 16,
     alignItems: 'center',
-    ...shadows.md,
   },
   emptyErrorEmoji: { fontSize: 32, color: COLORS.textMuted, marginBottom: 12 },
   emptyErrorTitle: {
@@ -1054,7 +1051,6 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 16,
     alignItems: 'center',
-    ...shadows.md,
   },
   emptyPreviewTitle: {
     fontSize: 15,

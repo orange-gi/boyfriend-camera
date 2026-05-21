@@ -686,7 +686,7 @@ export default function CameraScreen() {
                   }}
                   activeOpacity={0.72}
                 >
-                  <Text style={styles.randomBtnText}>🎲 随机</Text>
+                  <Text style={styles.randomBtnText}>随机</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.modalCloseBtn}
