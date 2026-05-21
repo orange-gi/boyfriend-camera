@@ -519,12 +519,10 @@ export default function CameraScreen() {
       {/* 顶部悬浮姿势引导卡 — 毛玻璃风格 */}
       {activeTemplate && (
         <View style={styles.poseTipCardFrosted}>
-          <View style={styles.poseTipCardHeader}>
-            {isAutoRecommended && autoRecommended?.id === activeTemplate.id && (
-              <Text style={styles.autoRecommendBadge}>✨ 智能推荐</Text>
-            )}
-            <Text style={styles.poseTipIcon}>💡</Text>
-          </View>
+          {(isAutoRecommended && autoRecommended?.id === activeTemplate.id) && (
+            <Text style={styles.autoRecommendBadge}>✨ 智能推荐</Text>
+          )}
+          <Text style={styles.poseTipIcon}>💡</Text>
           <Text style={styles.poseTipText} numberOfLines={1}>
             {activeTemplate.voiceTip || activeTemplate.name}
           </Text>
@@ -1054,13 +1052,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 20,
-  },
-  poseTipCardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
     gap: 6,
-    marginBottom: 6,
+    zIndex: 20,
   },
   poseTipIcon: {
     fontSize: 20,
