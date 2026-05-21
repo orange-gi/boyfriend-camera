@@ -877,7 +877,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: colors.textPrimary,
     marginBottom: 10,
-    paddingHorizontal: 2,
   },
   filterPickerList: {
     flexDirection: 'row',
@@ -906,9 +905,9 @@ const styles = StyleSheet.create({
   filterCircleActive: {
     borderColor: 'transparent',
     shadowColor: colors.primary,
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 3,
   },
   filterCircleSelectedRing: {
     position: 'absolute',
@@ -1107,12 +1106,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: COLORS.primary,
     gap: 8,
-    // 保留了 shadowColor（elevation）——主按钮有微弱阴影有助于层次感，但降低了强度
-    shadowColor: COLORS.primary,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 2,
   },
   actionBtnDisabled: {
     opacity: 0.6,
