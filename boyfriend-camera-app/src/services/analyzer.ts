@@ -1781,8 +1781,10 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '主体太小了！走近一点让人占画面60%以上会更好～',
     '人太小显得画面太空旷，让男朋友走近两步～',
     '人太小了！走近一点让主体更突出～',
+    // ========== Round 44 补充：极端距离建议 ==========
+    '离镜头远了些，显得脸有点小～',
+    '脸太小了，稍微靠近镜头，构图会更饱满～',
   ],
-  // 人太大建议
   subject_too_large: [
     '脸都顶到边框了，稍微退后一点点，画面留点边～',
     '人太大显得拥挤，退后一点让背景多一点更舒服～',
@@ -1791,6 +1793,9 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '这张脸都切到边框了！稍微退后一步，画面会更完整～',
     '人太大会给压迫感，退后一点让画面透透气～',
     '边缘裁切到身体了！退后一步让整体完整入镜～',
+    // ========== Round 44 补充：极端距离建议 ==========
+    '脸太大了！稍微退后一步，别贴那么近～',
+    '人顶到边框了！退后两三步，画面留点空间更舒服～',
   ],
   // ========== Round 5 新增建议池 ==========
   // 咖啡馆场景建议
@@ -2901,10 +2906,10 @@ export async function analyzePhoto(
     // 人脸面积占比
     if (facePosition.area < 0.05) {
       compositionScore -= 5
-      suggestions.push('离镜头远了些，显得脸有点小～')
+      suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_small))
     } else if (facePosition.area > 0.5) {
       compositionScore -= 5
-      suggestions.push('脸太大了！稍微退后一步，别贴那么近～')
+      suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_large))
     }
     // 景大人小（面积小于0.08但不为0，说明人太小了）
     if (facePosition.area > 0 && facePosition.area < 0.08 && compositionScore < 30) {
@@ -2953,7 +2958,7 @@ export async function analyzePhoto(
     exposureScore -= 8
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
-    suggestions.push('脸稍微有点暗，打开闪光灯或靠近光源试试～')
+    suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
   } else if (safeBrightness > 220) {
     exposureScore -= 15
     problems.push('exposure')
