@@ -2039,6 +2039,17 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '窗边侧光最有立体感，让脸稍微侧向窗户～',
     '窗光太强的话可以退后两步，让光线更均匀～',
   ],
+  // ========== 本次新增：柔光/自然光建议（通用柔和光线场景） ==========
+  natural_light: [
+    '这个光好柔和！脸上的光很均匀，拍出来皮肤超好～',
+    '自然散射光最温柔！不用担心脸上有硬阴影，皮肤通透～',
+    '阴天或树荫下的漫反射光超适合拍人像，皮肤状态满分～',
+    '柔和的光线最适合拍近景特写，表情会显得更细腻～',
+    '没有强光直射时皮肤质感最好！这个光线绝了，抓紧拍～',
+    '柔光环境里阴影会很淡，肤色看起来均匀又通透～',
+    '找一个不直射也不逆光的位置，脸上的光最均匀～',
+    '背阴处或阴天的光线是天然的柔光箱，拍人像最合适～',
+  ],
   // 镜子自拍建议
   mirror_selfie_tips: [
     '对着镜子自拍时，手机稍微倾斜一点拍，角度更好看～',
@@ -3306,6 +3317,11 @@ export async function analyzePhoto(
   // 户外正午强光建议（亮度高且为户外）
   if (sceneType === 'outdoor' && safeBrightness > 180 && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.timing_tips))
+  }
+  // ========== 本次新增：柔光环境建议（亮度适中，无强光直射） ==========
+  // 柔和漫射光环境：亮度 80-160，适合人像
+  if (safeBrightness >= 80 && safeBrightness <= 160 && totalScore < 75 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.natural_light))
   }
   // ========== Round 44 新增：美食场景专属建议 ==========
   if (sceneType === 'cafe' && totalScore < 75 && suggestions.length < 4) {
