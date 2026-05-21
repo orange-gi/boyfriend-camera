@@ -4,7 +4,7 @@
  * 模板涵盖：日常自拍、约会合照、户外风景、美食餐厅、城市街拍、节日庆典等
  */
 
-const CURRENT_VERSION = 35
+const CURRENT_VERSION = 36
 
 // ===== Deterministic SVG generator (replaces 170 static constants, reduces ~60KB) =====
 function genSVG(id) {
