@@ -170,20 +170,15 @@ export default function HomeScreen() {
       {statsLoading ? (
         <View style={styles.statsCard}>
           <View style={styles.statsRow}>
-            <View style={[styles.statItem, styles.statItemSkeleton]}>
-              <View style={styles.skeletonNum} />
-              <Text style={styles.statsLoadingText}>已拍摄</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={[styles.statItem, styles.statItemSkeleton]}>
-              <View style={styles.skeletonNum} />
-              <Text style={styles.statsLoadingText}>平均分</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={[styles.statItem, styles.statItemSkeleton]}>
-              <View style={styles.skeletonNum} />
-              <Text style={styles.statsLoadingText}>模板</Text>
-            </View>
+            {[0,1,2].map(i => (
+              <React.Fragment key={i}>
+                {i > 0 && <View style={styles.statDivider} />}
+                <View style={[styles.statItem, styles.statItemSkeleton]}>
+                  <View style={styles.skeletonNum} />
+                  <Text style={styles.statsLoadingText}>{i === 0 ? '已拍摄' : i === 1 ? '平均分' : '姿势模板'}</Text>
+                </View>
+              </React.Fragment>
+            ))}
           </View>
         </View>
       ) : diaryCount > 0 ? (
@@ -237,13 +232,17 @@ export default function HomeScreen() {
           </View>
         </TouchableOpacity>
         <View style={styles.cameraBtnSub}>
-          {templatesLoading ? <Text style={styles.cameraBtnSubText}>⏳ 正在加载姿势模板...</Text>
-            : templatesError ? <TouchableOpacity onPress={refresh} activeOpacity={0.72}><Text style={[styles.cameraBtnSubText, { color: COLORS.primary }]}>！加载失败，点击重试</Text></TouchableOpacity>
-            : totalTemplates > 0 ? <Text style={styles.cameraBtnSubText}>已有 <Text style={{ fontWeight: '700', color: COLORS.primary }}>{totalTemplates}</Text> 个姿势模板可用</Text>
+          {templatesLoading ? <Text style={styles.cameraBtnSubText}>正在加载姿势模板...</Text>
+            : templatesError ? <TouchableOpacity onPress={refresh} activeOpacity={0.72}><Text style={[styles.cameraBtnSubText, { color: COLORS.primary }]}>加载失败，点击重试</Text></TouchableOpacity>
+            : totalTemplates > 0 ? <Text style={styles.cameraBtnSubText}>{totalTemplates} 个姿势模板可用</Text>
             : <Text style={styles.cameraBtnSubText}>姿势模板加载中...</Text>}
         </View>
-        {todayCount > 0 && <View style={styles.todayCountBadge}><Text style={styles.todayCountText}>今日已拍<Text style={styles.todayCountNum}> {todayCount}</Text> 张</Text></View>}
-        {todayCount === 0 && diaryCount > 0 && <View style={[styles.todayCountBadge, { backgroundColor: COLORS.warningLight }]}><Text style={styles.todayCountText}>今天还没拍，去拍一张吧</Text></View>}
+        {todayCount > 0 && (
+          <Text style={styles.todayCountBadge}>{todayCount} 张 / 今日</Text>
+        )}
+        {todayCount === 0 && diaryCount > 0 && (
+          <Text style={[styles.todayCountBadge, { color: COLORS.textMuted }]}>今日还未拍摄</Text>
+        )}
       </Animated.View>
 
       {/* 姿势提示卡 */}
@@ -316,21 +315,21 @@ const styles = StyleSheet.create({
   // Hero
 
   // 每日技巧
-  dailyTipCard: { backgroundColor: COLORS.primaryLight, borderRadius: borderRadius.lg, padding: spacing[4], marginBottom: spacing[4] },
+  dailyTipCard: { borderRadius: borderRadius.lg, padding: spacing[4], marginBottom: spacing[4], borderWidth: 1, borderColor: COLORS.divider },
   dailyTipTouchable: { flexDirection: 'row', alignItems: 'center' },
   dailyTipContent: { flex: 1 },
-  dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.primary, fontWeight: typography.fontWeight.semibold, marginBottom: 4, letterSpacing: 0.5 },
+  dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4, letterSpacing: 0.5, textTransform: 'uppercase' },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  dailyTipCloseIcon: { fontSize: 22, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 22 },
+  dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
   // 姿势提示卡
-  poseTipCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5] },
+  poseTipCard: { borderRadius: borderRadius.lg, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], borderWidth: 1, borderColor: COLORS.divider },
 
   // 统计卡片
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   statItemSkeleton: { alignItems: 'center' },
-  skeletonNum: { width: 48, height: 44, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
+  skeletonNum: { width: 36, height: 36, borderRadius: 4, backgroundColor: COLORS.divider, marginBottom: 4 },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 52 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
@@ -354,9 +353,7 @@ const styles = StyleSheet.create({
   newBadgeText: { color: COLORS.textOnPrimary, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold },
   cameraBtnSub: { marginTop: spacing[3] },
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
-  todayCountBadge: { alignItems: 'center', backgroundColor: COLORS.primaryLight, borderRadius: borderRadius.full, paddingHorizontal: spacing[4], paddingVertical: spacing[2], marginTop: spacing[3] },
-  todayCountText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted },
-  todayCountNum: { color: COLORS.primary, fontWeight: typography.fontWeight.bold, fontSize: typography.fontSize.base },
+  todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
 
   // 姿势提示卡
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
