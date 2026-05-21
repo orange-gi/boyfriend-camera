@@ -307,6 +307,12 @@ const FACE_TIPS = {
   KITCHEN_COOKING: '系上围裙做饭！生活感十足～',
   BALCONY_SUNSET: '阳台看夕阳！逆光侧脸超浪漫～',
   TERRACE_STARS: '天台看星星！仰头让星星落在眼睛里～',
+  // ========== Round 45 新增高频场景 TTS ==========
+  SPRING_RAIN: '春雨绵绵的窗边超有氛围感！让窗户的光打在侧脸上～',
+  FOGGY_MORNING: '雾蒙蒙的早晨超有诗意！这个光线超柔和，拍～',
+  SUNSET_WINDOW_INDOOR: '傍晚斜阳从窗户洒进来，光影绝了！就在这拍～',
+  BACKLIGHT_SILHOUETTE: '逆光剪影超有感觉！转过身来，让光线打在侧脸上～',
+  WINDOW_LIGHT_NEAR: '脸稍微靠近窗户！自然光直接打在脸上～',
   // ========== Round 30 新增姿势切换提示 ==========
   POSE_READY_NOW: '姿势摆好了！就是现在，按下去！',
   POSE_ALMOST_THERE: '就差一点点！手的位置再调整一下～',
@@ -4113,6 +4119,50 @@ class VoiceCoach {
       `${total}张连拍完成！动起来的瞬间最自然，选最自然的那张～`,
     ]
     await this.speak(pickRandom(tips), false)
+  }
+
+  /** 情绪引导提示（根据检测到的情绪给出具体引导） */
+  async speakMoodGuidance(mood: 'happy' | 'cool' | 'cute' | 'elegant' | 'energetic'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      happy: [
+        '笑起来眼睛弯弯的最好看了！就是现在，按快门！',
+        '这笑容好甜！自然流露的快乐最动人～',
+        '笑一个！发自内心的笑容最上镜～',
+      ],
+      cool: [
+        '表情放松，微微侧头，这个角度超有气场～',
+        '眼神放空看向远方，酷酷的最有范儿！',
+        '冷艳感拉满！这个表情绝了，按下去～',
+      ],
+      cute: [
+        '嘟嘴或歪头，可爱感拉满！',
+        '调皮地笑一个！比正襟危坐好看多了～',
+        '可爱的小表情最加分了！就是这个瞬间～',
+      ],
+      elegant: [
+        '肩膀放松，脖子伸长一点，气质立刻提升～',
+        '下巴微微收紧，下颌线更清晰，优雅感拉满～',
+        '姿态舒展，这个角度超有气质！',
+      ],
+      energetic: [
+        '动起来！跑跳的瞬间最有活力～',
+        '活力感十足！这个表情好有感染力！',
+        '动感抓拍最自然，跟着节奏动起来！',
+      ],
+    }
+    const pool = tips[mood] || tips.happy
+    await this.speak(pickRandom(pool), true)
+  }
+
+  /** 姿势确认提示（模板匹配度高时播报） */
+  async speakPostureConfirmed(): Promise<void> {
+    const tips = [
+      '姿势到位了！就是现在，按快门！',
+      '这个姿势绝了！稳住，按下去就是大片！',
+      '姿势完美！表情也准备好了吗？笑一个～',
+      '姿势和光线都完美！就是现在，按下去！',
+    ]
+    await this.speak(pickRandom(tips), true)
   }
 }
 
