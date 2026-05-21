@@ -1,9 +1,4 @@
-/**
- * ResultScreen - 结果页 v7
- * 改进：移除 confetti 撒花 + cursor 光标装饰
- *       保留核心：打字机效果、进度条、分数动画、滤镜选择
- *       设计语言：简洁优雅极致——去掉装饰性粒子，保留功能性反馈
- */
+/** ResultScreen - 拍照结果页 */
 import React, { useEffect, useState, useRef, useMemo, memo } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
@@ -52,9 +47,7 @@ export default function ResultScreen() {
   const [praiseList, setPraiseList] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [processing, setProcessing] = useState(true)
-  // 8 个核心滤镜：warm(通用) cool(蓝调) vivid(生动) soft(柔和) bw(黑白) portrait(人像) food(美食) cinematic(电影)
-// 删除：landscape/night/sunset/floral/snow/golden — 场景太少/与核心滤镜重叠，14 个选项增加决策负担
-type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
+  type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
 const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
   (() => {
     const catFilterMap: Record<string, CoreFilter> = {
@@ -172,7 +165,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
     typeNext()
   }
 
-  // Confetti removed: replaced by score reveal spring animation for cleaner UI.
 
   async function runAnalysis() {
     if (!mountedRef.current) return
@@ -916,7 +908,6 @@ const styles = StyleSheet.create({
     borderLeftWidth: 4,
     borderLeftColor: colors.warning,
     alignItems: 'center',
-    // 删除了 shadows.md — 简洁设计不需要额外阴影
   },
   newRecordBannerText: {
     fontSize: 18,
@@ -1082,7 +1073,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: colors.border,
   },
-  // 精简后的处理进度行（Round 28 改进）
   processingStepsRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1107,7 +1097,6 @@ const styles = StyleSheet.create({
   processStepCircleActive: {
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
-    // 删除了 shadow/elevation — 简洁设计：圆形步骤点用颜色区分即可，不需要阴影装饰
   },
   processStepCircleDone: {
     backgroundColor: COLORS.primary,
@@ -1169,7 +1158,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 14,
     borderLeftWidth: 4,
-    // 删除了 shadowOpacity/shadowRadius/elevation/overflow — 简洁设计不需要阴影
   },
   praiseBannerScore: {
     fontSize: 18,
@@ -1182,7 +1170,6 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     lineHeight: 20,
   },
-  // ========== Round 8 新增：下次改进提示 ==========
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
@@ -1191,7 +1178,6 @@ const styles = StyleSheet.create({
     padding: 14,
     borderLeftWidth: 4,
     borderLeftColor: COLORS.primary,
-    // 删除了 shadowColor/shadowOpacity/shadowOffset/shadowRadius/elevation — 简洁设计不需要阴影
   },
   suggestionBannerTitle: {
     fontSize: 14,
@@ -1214,7 +1200,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 14,
     gap: 12,
-    // 删除了 borderWidth/borderColor/shadowColor/shadowOpacity/shadowRadius/elevation
     // — 简洁设计不需要边框+阴影双重装饰，cardPink 背景已足够辨识
   },
   xiaohongshuIcon: {
@@ -1259,7 +1244,6 @@ const styles = StyleSheet.create({
     borderColor: COLORS.divider,
     backgroundColor: colors.bgCard,
     gap: 6,
-    // 删除了 shadow — 次要按钮不需要阴影，背景色区分已足够
   },
   actionBtnSecondaryIcon: {
     fontSize: 16,
@@ -1280,7 +1264,6 @@ const styles = StyleSheet.create({
     borderColor: colors.warning,
     backgroundColor: colors.cardCream,
     gap: 6,
-    // 删除了 shadow — 分享按钮有边框+背景色区分，不需要阴影装饰
   },
   actionBtnShareIcon: {
     fontSize: 16,
@@ -1320,7 +1303,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 8,
     borderRadius: 16,
-    // 删除了 borderWidth/borderColor — 背景色 cardPink 已足够区分，不需要边框+背景双重装饰
     backgroundColor: colors.cardPink,
   },
   diaryEntryBtnText: {

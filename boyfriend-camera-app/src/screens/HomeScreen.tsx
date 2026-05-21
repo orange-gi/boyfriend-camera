@@ -361,7 +361,6 @@ const styles = StyleSheet.create({
   heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
 
   // 每日技巧
-  // 简洁优雅极致：移除 dailyTipCard 的 overflow:hidden——次要提示卡片无子元素溢出
   dailyTipCard: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[4], marginBottom: spacing[4], ...shadows.sm },
   dailyTipTouchable: { flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: spacing[3] },
   dailyTipHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 },
@@ -427,7 +426,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
     padding: spacing[4],
-    // 简洁优雅极致：featureCard 与 dailyTipCard、poseTipCard 同级，降低阴影权重
     ...shadows.sm,
   },
   featureText: { flex: 1 },

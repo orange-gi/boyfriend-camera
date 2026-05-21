@@ -739,7 +739,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  // 简洁优雅极致：移除 clearAllBtn 的阴影——次要操作按钮不需要浮起效果
   clearAllBtn: {
     backgroundColor: COLORS.bgCard,
     borderRadius: 16,
@@ -751,7 +750,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
   },
-  // 简洁优雅极致：移除 statsCard 的 overflow:hidden——无子元素溢出，无需裁剪
   statsCard: {
     backgroundColor: COLORS.bgCard,
     borderRadius: 20,
@@ -795,7 +793,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     marginTop: 8,
   },
-  // 简洁优雅极致：移除 recordCard 的 overflow:hidden——无子元素溢出
   recordCard: {
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
