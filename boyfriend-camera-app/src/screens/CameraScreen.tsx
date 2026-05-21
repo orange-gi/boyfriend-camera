@@ -321,6 +321,7 @@ export default function CameraScreen() {
   // 拍照
   const handleTakePhoto = useCallback(async () => {
     if (isCapturing) return
+    VoiceCoach.speakPerfectTiming()
     setIsCapturing(true)
     // 拍照时轻震反馈（50ms 短震，给用户确认感）
     Vibration.vibrate(50)

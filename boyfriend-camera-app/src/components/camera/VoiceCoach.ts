@@ -3461,6 +3461,17 @@ class VoiceCoach {
     await this.speak(tip, true)
   }
 
+  /** 滤镜滑动提示（ResultScreen 滤镜区出现时播报） */
+  async speakFilterSwipeHint(): Promise<void> {
+    const tips = [
+      '滤镜可以左右滑动切换，找到最喜欢的那一款～',
+      '试试不同的滤镜，每种风格都不一样哦～',
+      '向左滑动查看更多滤镜，找到最适合这张照片的风格～',
+    ]
+    const tip = tips[Math.floor(Math.random() * tips.length)]
+    await this.speak(tip, false)
+  }
+
   async speakFilterApplied(filterName: string): Promise<void> {
     const filterLabels: Record<string, string> = {
       warm: '暖黄',
