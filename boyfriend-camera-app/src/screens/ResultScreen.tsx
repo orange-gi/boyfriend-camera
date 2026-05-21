@@ -453,7 +453,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
       try {
         const fallbackMessages = [
           `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`,
-          `📸 男友相机新照片 ${scoreResult?.totalScore ?? '--'} 分！男朋友在进步中～`,
+          `男友相机新照片 ${scoreResult?.totalScore ?? '--'} 分！男朋友在进步中～`,
         ]
         const fallbackMessage = fallbackMessages[Math.floor(Math.random() * fallbackMessages.length)]
         await Share.share({ message: fallbackMessage })
@@ -473,7 +473,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
         pathToShare = `file://${pathToShare}`
       }
       const scoreText = scoreResult?.totalScore != null ? `${scoreResult.totalScore}分` : '还不错'
-      const shareMessage = `📸 用「男友相机」给女朋友拍的照片，得分 ${scoreText}！${scoreResult && scoreResult.totalScore >= 80 ? '男朋友太会拍了！' : scoreResult && scoreResult.totalScore >= 60 ? '越拍越好了呢～' : '继续加油！'}\n\n💡 建议配文：男朋友用「男友相机」给我拍照，越拍越好了！❤️\n#拍照教程 #情侣日常 #手机摄影`
+      const shareMessage = `用「男友相机」给女朋友拍的照片，得分 ${scoreText}！${scoreResult && scoreResult.totalScore >= 80 ? '男朋友太会拍了！' : scoreResult && scoreResult.totalScore >= 60 ? '越拍越好了呢～' : '继续加油！'}\n\n建议配文：男朋友用「男友相机」给我拍照，越拍越好了！\n#拍照教程 #情侣日常 #手机摄影`
 
       const shareOptions = {
         title: '分享到小红书',
@@ -486,7 +486,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
       if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
       // fallback: 仅发文字
       const scoreText = scoreResult?.totalScore != null ? `${scoreResult.totalScore}分` : '还不错'
-      const fallbackMsg = `📸 用「男友相机」给女朋友拍照，得分 ${scoreText}！越拍越好了～❤️ #拍照教程 #情侣日常`
+      const fallbackMsg = `用「男友相机」给女朋友拍照，得分 ${scoreText}！越拍越好了～ #拍照教程 #情侣日常`
       try {
         await Share.share({ message: fallbackMsg })
       } catch { /* ignore */ }
