@@ -2837,6 +2837,17 @@ export async function analyzePhoto(
   if (safeBrightness >= 60 && safeBrightness <= 160 && safeSharpness < 80 && safeSharpness >= 50) {
     suggestions.push(pickRandom(SUGGESTION_POOL.noise_in_dark))
   }
+  // ========== Round 1 新增：严重颗粒感检测（极低清晰度时） ==========
+  if (safeSharpness < 50 && safeSharpness >= 30 && faceCount > 0 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.grainy_photo))
+  }
+  // ========== Round 1 新增：构图过于居中检测（人脸在画面正中时） ==========
+  if (facePosition && compositionScore >= 28 && compositionScore < 36 && suggestions.length < 4) {
+    const cx = facePosition.x, cy = facePosition.y
+    if (cx >= 0.35 && cx <= 0.65 && cy >= 0.35 && cy <= 0.65) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.centered_composition))
+    }
+  }
 
   // 曝光分 0-30
   let exposureScore = 30
