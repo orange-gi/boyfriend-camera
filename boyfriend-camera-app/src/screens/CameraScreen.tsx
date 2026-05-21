@@ -143,19 +143,35 @@ export default function CameraScreen() {
   // 节流自拍距离 TTS（避免频繁播报）
   const lastSelfieWarningRef = useRef<number>(0)
   // VoiceCoach 是默认导出的实例，直接引用即可
+  // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
+  const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
+
   const handleAutoRecommended = useCallback((template: PoseTemplate) => {
+    // 先清除之前的 timeout
+    autoRecTimeoutRef.current.forEach(clearTimeout)
+    autoRecTimeoutRef.current = []
     setActiveTemplate(template)
     setShowVoiceTip(true)
     VoiceCoach.speakTemplateSelected(template.name)
     VoiceCoach.speak(`跟着半透明剪影站位～`, true)
     if (template.voiceTip) {
-      setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 2800)
+      const t1 = setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 2800)
+      autoRecTimeoutRef.current.push(t1)
     }
-    setTimeout(() => setShowVoiceTip(false), 6000)
+    const t2 = setTimeout(() => setShowVoiceTip(false), 6000)
+    autoRecTimeoutRef.current.push(t2)
     // 自动推荐的模板也记录到历史
     saveRecentTemplate(template.id)
     markUsed(template.id)
   }, [markUsed])
+
+  // 组件卸载时清理所有 timeout
+  useEffect(() => {
+    return () => {
+      autoRecTimeoutRef.current.forEach(clearTimeout)
+      autoRecTimeoutRef.current = []
+    }
+  }, [])
 
   const {
     recommended: autoRecommended,

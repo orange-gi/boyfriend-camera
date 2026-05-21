@@ -3702,6 +3702,85 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
+  /** 模板匹配度提升提示 */
+  async speakTemplateProgress(matchPercent: number): Promise<void> {
+    if (matchPercent >= 90) {
+      await this.speak('姿势超准！就是现在拍，这张一定是大片！', true)
+    } else if (matchPercent >= 70) {
+      await this.speak('姿势越来越对了！再调整一点点就完美！', false)
+    } else {
+      await this.speak('跟着剪影慢慢调整，加油！', false)
+    }
+  }
+
+  /** 亮度突变提示（走出阴影/进入阴影） */
+  async speakBrightnessChanged(warmer: boolean): Promise<void> {
+    if (warmer) {
+      await this.speak('走出阴影了！光线变亮了，这个角度超好看～', false)
+    } else {
+      await this.speak('走进阴影了！脸上光变柔和了，好舒服～', false)
+    }
+  }
+
+  /** 连续高分连续达成提示 */
+  async speakContinuousHighScore(count: number): Promise<void> {
+    if (count === 3) {
+      await this.speak('三连高分！男朋友你是开挂了吗，继续保持！', true)
+    } else if (count === 5) {
+      await this.speak('五连高分！男朋友摄影师天赋满点！太厉害了！', true)
+    } else if (count >= 7) {
+      await this.speak(`${count}连高分！男朋友简直是摄影大师！继续保持！`, true)
+    } else {
+      await this.speak(`连续${count}次高分！这稳定输出太厉害了！`, true)
+    }
+  }
+
+  /** 模板超时提醒（用户一直在看模板但没拍） */
+  async speakTemplateTimeout(): Promise<void> {
+    const tips = [
+      '姿势摆好了吗？差不多就拍一张吧～',
+      '跟着剪影站好了就按快门！差不多就行～',
+      '不用完美！先拍一张看看效果～',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+  }
+
+  /** 构图线模式切换成功提示 */
+  async speakGridModeChanged(mode: 'grid' | 'golden' | 'triangle'): Promise<void> {
+    const labels: Record<string, string> = {
+      grid: '九宫格',
+      golden: '黄金螺旋',
+      triangle: '三角构图',
+    }
+    await this.speak(`已切换到${labels[mode] || mode}模式`, false)
+  }
+
+  /** 闪光灯切换成功提示 */
+  async speakFlashChanged(mode: 'off' | 'on' | 'auto'): Promise<void> {
+    const labels: Record<string, string> = {
+      off: '闪光灯关闭',
+      on: '闪光灯打开',
+      auto: '闪光灯自动模式',
+    }
+    await this.speak(labels[mode] || mode, false)
+  }
+
+  /** 情侣合照专属提示 */
+  async speakCouplePhotoTip(): Promise<void> {
+    const tips = [
+      '情侣照！靠近一点贴贴，表情自然一点～',
+      '两个人对视一下！这个瞬间抓拍超甜～',
+      '男生从后面抱！经典的甜蜜姿势～',
+      '牵手背对镜头，超有氛围感！',
+    ]
+    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+  }
+
+  /** 新手引导提示（首次使用姿势模板） */
+  async speakFirstTemplateGuide(): Promise<void> {
+    await this.speak('选择一个喜欢的姿势！屏幕上会出现半透明剪影，跟着站就行～', true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
