@@ -541,6 +541,24 @@ const FACE_TIPS = {
   HOLD_STEADY_CAPTURE: '稳住！就是现在！',
   GROUP_FOTO_GUIDE: '大家靠近一点！看镜头，笑一个～',
   KEEP_STEADY_SHAKE: '手别抖！稳住～',
+  // ========== 本次新增：夜景氛围提示 ==========
+  NIGHT_WARM_LIGHT: '夜色里暖暖的灯光打在脸上好温柔！就是现在拍～',
+  CITY_NIGHT_FACE: '城市夜景璀璨！让灯光打在脸上，超有氛围～',
+  BALCONY_NIGHT_TIP: '阳台夜景好浪漫！打开闪光灯补补光，脸会更亮～',
+  NEON_REFLECTION: '霓虹灯光斑驳打在脸上超美！侧身躲开直射光～',
+  // ========== 本次新增：情绪互动提示 ==========
+  THINK_OF_BEST_MOMENT: '想一件最开心的事！这个表情好生动～',
+  LOOK_INTO_EYES: '看着我！眼神更有神～',
+  LAUGH_LOUDLY: '大笑一个！夸张一点更好看～',
+  COUNT_TO_THREE: '一、二、三，笑！',
+  // ========== 本次新增：构图最后确认 ==========
+  RULE_OF_THIRDS_REMIND: '参考九宫格！把脸放到交叉点上～',
+  LEADING_ROOM_CHECK: '眼睛看的方向留点空间，画面会更舒服～',
+  FACE_CENTER_REMIND: '脸放中间！构图会更稳～',
+  COMPOSITION_FINAL: '构图完美！就是现在，按下去！',
+  // ========== 本次新增：模板场景提示 ==========
+  TEMPLATE_MATCH_PERFECT_NOW: '姿势超准！这个光线这角度，按下去就是大片！',
+  TEMPLATE_FACE_MOVE: '跟着模板稍微调整一下！就是现在，拍～',
 }
 
 const STABILITY_TIPS = {
@@ -591,6 +609,12 @@ const STABILITY_TIPS = {
   STABLE_READY: '稳稳的！可以按快门了～',
   STEADY_AND_GOOD: '手稳了！光线也棒，现在拍正好～',
   HOLD_FOR_MOMENT: '稳住！就这个瞬间，按下去！',
+  // ========== 本次新增稳定性提示 ==========
+  TRIPOD_HINT: '找个稳定的支撑点放手机！靠在墙边更稳～',
+  SELFIE_STICK: '用自拍杆可以拉远距离，手更稳构图更好～',
+  BREATHE_IN_OUT_DEEP: '深吸一口气，憋住，轻轻按快门～',
+  BODY_WEIGHT_CENTER: '重心放低，双脚站稳，比什么都稳～',
+  ARM_TUCK_IN: '手臂贴近身体更稳！试试看～',
 }
 
 // 表情检测提示
@@ -703,6 +727,11 @@ const EXPRESSION_TIPS = {
   TEASING_SMILE: '调皮地笑一个！比正襟危坐好看多了～',
   CONFIDENT_SMILE: '自信的笑容最上镜！就是现在拍～',
   RELAXED_SMILE: '放松的笑好美！自然流露的表情最动人～',
+  // ========== 本次新增表情提示 ==========
+  SOFT_GAZE: '眼神温柔一点！这个表情好有感觉～',
+  PROUD_LOOK: '自信地抬起头！这个表情好有气场～',
+  POUT_EXPRESSION: '微微嘟嘴！可爱俏皮满分～',
+  RELAXED_EYES: '眼睛放松，不要瞪！柔和的眼神更好看～',
 }
 
 // 场景专项提示
