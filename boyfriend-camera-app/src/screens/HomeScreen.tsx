@@ -162,12 +162,9 @@ export default function HomeScreen() {
       {/* Hero 区 */}
       <Animated.View style={[styles.heroSection, heroStyle]}>
         <Text style={styles.timeGreeting}>{getTimeGreeting()}</Text>
-        <View style={styles.heroTitleRow}>
-          <Text style={styles.heroIcon}>📸</Text>
-          <View style={styles.heroTextBlock}>
-            <Text style={styles.heroTitle}>男友相机</Text>
-            <Text style={styles.heroSubtitle}>让男朋友越拍越好</Text>
-          </View>
+        <View style={styles.heroTextBlock}>
+          <Text style={styles.heroTitle}>男友相机</Text>
+          <Text style={styles.heroSubtitle}>让男朋友越拍越好</Text>
         </View>
       </Animated.View>
 
@@ -285,8 +282,8 @@ export default function HomeScreen() {
             : totalTemplates > 0 ? <Text style={styles.cameraBtnSubText}>🌟 已有 <Text style={{ fontWeight: '700', color: COLORS.primary }}>{totalTemplates}</Text> 个姿势模板可用</Text>
             : <Text style={styles.cameraBtnSubText}>姿势模板加载中...</Text>}
         </View>
-        {todayCount > 0 && <View style={styles.todayCountBadge}><Text style={styles.todayCountIcon}>📸</Text><Text style={styles.todayCountText}>今日已拍 <Text style={styles.todayCountNum}>{todayCount}</Text> 张</Text></View>}
-        {todayCount === 0 && diaryCount > 0 && <View style={[styles.todayCountBadge, { backgroundColor: COLORS.warningLight }]}><Text style={styles.todayCountIcon}>🌟</Text><Text style={styles.todayCountText}>今天还没拍！去拍一张吧～</Text></View>}
+        {todayCount > 0 && <View style={styles.todayCountBadge}><Text style={styles.todayCountText}>今日已拍<Text style={styles.todayCountNum}> {todayCount}</Text> 张</Text></View>}
+        {todayCount === 0 && diaryCount > 0 && <View style={[styles.todayCountBadge, { backgroundColor: COLORS.warningLight }]}><Text style={styles.todayCountText}>今天还没拍，去拍一张吧</Text></View>}
       </Animated.View>
 
       {/* 姿势提示卡 */}
@@ -316,15 +313,12 @@ export default function HomeScreen() {
       {/* 底部导航 */}
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
         <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate({ name: 'Home' as const, params: undefined })} activeOpacity={0.72}>
-          <Text style={styles.bottomNavIcon}>🏠</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>首页</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
-          <Text style={styles.bottomNavIcon}>📊</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.textMuted }]}>进步日记</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
-          <Text style={styles.bottomNavIcon}>📸</Text>
           <Text style={[styles.bottomNavText, { color: COLORS.textMuted }]}>拍照</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -361,10 +355,8 @@ const styles = StyleSheet.create({
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
 
   // Hero
-  heroSection: { alignItems: 'center', marginBottom: spacing[6], paddingTop: spacing[3] },
-  timeGreeting: { fontSize: typography.fontSize.md, color: COLORS.textMuted, marginBottom: spacing[3], letterSpacing: typography.letterSpacing.wide },
-  heroTitleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing[3] },
-  heroIcon: { fontSize: 56 },
+  heroSection: { alignItems: 'flex-start', marginBottom: spacing[6], paddingTop: spacing[3] },
+  timeGreeting: { fontSize: typography.fontSize.md, color: COLORS.textMuted, marginBottom: spacing[3] },
   heroTextBlock: { alignItems: 'flex-start' },
   heroTitle: { fontSize: typography.fontSize['7xl'], fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, letterSpacing: 0.5, marginBottom: spacing[2] },
   heroSubtitle: { fontSize: typography.fontSize.md, fontWeight: typography.fontWeight.semibold, color: COLORS.primary },
@@ -419,8 +411,7 @@ const styles = StyleSheet.create({
   newBadgeText: { color: COLORS.textOnPrimary, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold },
   cameraBtnSub: { marginTop: spacing[3] },
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
-  todayCountBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.primaryLight, borderRadius: borderRadius.full, paddingHorizontal: spacing[4], paddingVertical: spacing[2], marginTop: spacing[3], gap: spacing[2] },
-  todayCountIcon: { fontSize: 16 },
+  todayCountBadge: { alignItems: 'center', backgroundColor: COLORS.primaryLight, borderRadius: borderRadius.full, paddingHorizontal: spacing[4], paddingVertical: spacing[2], marginTop: spacing[3] },
   todayCountText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted },
   todayCountNum: { color: COLORS.primary, fontWeight: typography.fontWeight.bold, fontSize: typography.fontSize.base },
 
@@ -448,7 +439,6 @@ const styles = StyleSheet.create({
   bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 6, gap: 6, ...shadows.sm },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
   bottomNavBtnActive: { backgroundColor: COLORS.primaryLight },
-  bottomNavIcon: { fontSize: 20 },
   bottomNavText: { fontSize: typography.fontSize.md },
 
   // 引导弹窗
