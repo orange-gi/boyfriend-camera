@@ -519,12 +519,12 @@ export default function CameraScreen() {
       {/* 顶部悬浮姿势引导卡 — 毛玻璃风格 */}
       {activeTemplate && (
         <View style={styles.poseTipCardFrosted}>
-          {isAutoRecommended && autoRecommended?.id === activeTemplate.id && (
-            <View style={styles.autoRecommendBadgeRow}>
+          <View style={styles.poseTipCardHeader}>
+            {isAutoRecommended && autoRecommended?.id === activeTemplate.id && (
               <Text style={styles.autoRecommendBadge}>✨ 智能推荐</Text>
-            </View>
-          )}
-          <Text style={styles.poseTipIcon}>💡</Text>
+            )}
+            <Text style={styles.poseTipIcon}>💡</Text>
+          </View>
           <Text style={styles.poseTipText} numberOfLines={1}>
             {activeTemplate.voiceTip || activeTemplate.name}
           </Text>
@@ -1037,12 +1037,11 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 8,
     overflow: 'hidden',
+    marginRight: 2,
   },
   autoRecommendBadgeRow: {
-    position: 'absolute',
-    top: -10,
-    left: 12,
-    zIndex: 1,
+    alignSelf: 'flex-start',
+    marginBottom: 4,
   },
   poseTipCardFrosted: {
     position: 'absolute',
@@ -1051,12 +1050,17 @@ const styles = StyleSheet.create({
     right: 80,
     backgroundColor: 'rgba(20,20,20,0.78)',
     borderRadius: 16,
-    paddingVertical: 12,
+    paddingVertical: 10,
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 20,
-    gap: 10,
+  },
+  poseTipCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 6,
   },
   poseTipIcon: {
     fontSize: 20,
@@ -1112,10 +1116,10 @@ const styles = StyleSheet.create({
   sideBtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 64,
-    height: 64,
+    width: 52,
+    height: 52,
     backgroundColor: 'rgba(0,0,0,0.4)',
-    borderRadius: 32,
+    borderRadius: 26,
   },
   sideBtnIcon: {
     fontSize: 28,
