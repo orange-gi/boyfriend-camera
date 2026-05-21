@@ -2926,6 +2926,7 @@ export async function analyzePhoto(
     // 头部过于偏转（影响表情可见性）
     if (yawAngle !== undefined && Math.abs(yawAngle) > 30) {
       expressionScore -= 4
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.side_profile_hint))
     }
     // 头部过度倾斜（影响表情自然度）
     if (rollAngle !== undefined && Math.abs(rollAngle) > 20) {
@@ -3117,6 +3118,10 @@ export async function analyzePhoto(
   // ========== Round 5 (hourly iter) 新增：姿势/仪态建议（倾斜角度较大时） ==========
   if (Math.abs(tiltAngle) > 8 && Math.abs(tiltAngle) < 25 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.posture_hint))
+  }
+  // 透视畸变建议（倾斜严重时）
+  if (Math.abs(tiltAngle) > 15 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.perspective_distortion))
   }
 
   // ========== Round 5 (hourly iter) 新增：自拍角度建议 ==========
