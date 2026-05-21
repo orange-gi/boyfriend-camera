@@ -1128,11 +1128,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 8,
     borderRadius: 16,
-    backgroundColor: colors.cardPink,
+    borderWidth: 1,
+    borderColor: COLORS.divider,
+    backgroundColor: colors.bgCard,
   },
   diaryEntryBtnText: {
     fontSize: 14,
-    color: COLORS.primary,
+    color: COLORS.textSecondary,
     fontWeight: '600',
   },
   errorContainer: {
