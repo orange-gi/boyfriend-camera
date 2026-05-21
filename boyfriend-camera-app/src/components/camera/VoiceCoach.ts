@@ -1874,9 +1874,6 @@ const POSE_TIPS = {
 type FaceTipKey = keyof typeof FACE_TIPS
 type StabilityTipKey = keyof typeof STABILITY_TIPS
 
-/** 通用随机抽取（带防御性空值检查） */
-// pickRandomFrom 已迁移到 ../../utils/scoring.ts 为 pickRandom
-
 /** 从稳定性提示池中随机选取同类提示 */
 function pickStabilityTip(category: 'STABLE' | 'SHAKY' | 'EXTREME_SHAKE' | 'TILTED'): string {
   const variants: Record<string, string[]> = {
