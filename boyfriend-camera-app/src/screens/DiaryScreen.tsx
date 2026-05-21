@@ -1,6 +1,6 @@
 /**
- * DiaryScreen - 进步日记 v3
- * 改进：卡片网格统计、渐变趋势横幅、紧凑迷你进度条、动画数字
+ * DiaryScreen - 进步日记 v4
+ * 改进：简洁优雅极致 — 去装饰化、层级分明、颜色克制
  */
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import {
@@ -186,8 +186,8 @@ export default function DiaryScreen() {
     if (totalCount < 3) return { text: '继续加油！', color: colors.textMuted, gradient: [colors.skeletonHighlight, colors.skeletonBase] }
     const recent5 = records.slice(0, Math.min(5, totalCount))
     const avg = calcAvgScore(recent5)
-    if (avg >= 80) return { text: '📸 男友进化中！', color: colors.success, gradient: [colors.successLight, colors.trendSuccessLight] }
-    if (avg >= 65) return { text: '📈 稳步提升中', color: colors.success, gradient: [colors.gradientBlue, colors.trendInfoLight] }
+    if (avg >= 80) return { text: '男友进化中！', color: colors.success, gradient: [colors.successLight, colors.trendSuccessLight] }
+    if (avg >= 65) return { text: '稳步提升中', color: colors.success, gradient: [colors.gradientBlue, colors.trendInfoLight] }
     if (avg >= 50) return { text: '💪 还需要多练习', color: colors.warning, gradient: [colors.warningLight, colors.trendWarningLight] }
     return { text: '😅 革命尚未成功', color: colors.primary, gradient: [colors.dangerLight, colors.trendDangerLight] }
   }, [totalCount, records])
@@ -346,9 +346,9 @@ export default function DiaryScreen() {
           <>
             {/* 预览进度图表（给用户展示效果） */}
             <View style={styles.emptyPreviewCard}>
-              <Text style={styles.emptyPreviewTitle}>📊 你的进步轨迹</Text>
+              <Text style={styles.emptyPreviewTitle}>你的进步轨迹</Text>
               <View style={styles.emptyChartPlaceholder}>
-                <Text style={styles.emptyChartPlaceholderText}>📈</Text>
+                <Text style={styles.emptyChartPlaceholderText}>↑</Text>
                 <Text style={styles.emptyChartPlaceholderSubtext}>开始拍照后，这里会显示你的进步曲线</Text>
               </View>
             </View>
@@ -395,7 +395,7 @@ export default function DiaryScreen() {
           <>
             {/* 标题栏 */}
             <View style={styles.header}>
-              <Text style={[styles.title, { color: COLORS.textPrimary }]}>📈 进步日记</Text>
+              <Text style={[styles.title, { color: COLORS.textPrimary }]}>进步日记</Text>
               <View style={styles.headerActions}>
                 {totalCount > 0 && (
                   <TouchableOpacity
@@ -423,7 +423,7 @@ export default function DiaryScreen() {
             {/* 统计卡片 */}
             <View style={styles.statsCard}>
               {/* 顶部标题 */}
-              <Text style={styles.statsCardTitle}>📊 综合数据</Text>
+              <Text style={styles.statsCardTitle}>综合数据</Text>
               {/* 4 格统计卡片网格 */}
               <View style={styles.statsGrid}>
                 <View style={styles.statCard}>
@@ -437,7 +437,7 @@ export default function DiaryScreen() {
                   <Text style={styles.statCardLabel}>平均分</Text>
                 </View>
                 <View style={styles.statCard}>
-                  <Text style={styles.statCardEmoji}>{totalProgress >= 0 ? '📈' : '📉'}</Text>
+                  <Text style={styles.statCardEmoji}>{totalProgress >= 0 ? '↑' : '↓'}</Text>
                   <AnimatedProgressNum value={totalProgress} style={[styles.statCardNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.textMuted }]} />
                   <Text style={styles.statCardLabel}>总进步</Text>
                 </View>
@@ -451,7 +451,7 @@ export default function DiaryScreen() {
               {/* 周统计卡片网格 */}
               {totalCount > 0 && (
                 <>
-                  <Text style={styles.statsCardTitle}>📅 本周数据</Text>
+                  <Text style={styles.statsCardTitle}>本周数据</Text>
                   <View style={styles.weeklyGrid}>
                   {/* 本周平均分 */}
                   <View style={styles.weeklyCard}>
@@ -473,7 +473,7 @@ export default function DiaryScreen() {
 
                   {/* 连续天数 */}
                   <View style={styles.weeklyCard}>
-                    <Text style={styles.weeklyCardIcon}>{weeklyStats.streak >= 7 ? '🔥' : '📅'}</Text>
+                    <Text style={styles.weeklyCardIcon}>{weeklyStats.streak >= 7 ? '↑' : '·'}</Text>
                     <Text style={[styles.weeklyCardNum, { color: weeklyStats.streak >= 7 ? COLORS.warning : COLORS.textMuted }]}>
                       {weeklyStats.streak}
                     </Text>
@@ -495,7 +495,7 @@ export default function DiaryScreen() {
               {/* 趋势横幅 — 简洁设计 */}
               <View style={[styles.trendBanner, { backgroundColor: trendInfo.color + '15' }]}>
                 <Text style={styles.trendBannerIcon}>
-                  {avgScore >= 80 ? '🚀' : avgScore >= 65 ? '📈' : avgScore >= 50 ? '💪' : '🌱'}
+                  {avgScore >= 80 ? '↑' : avgScore >= 65 ? '↑' : avgScore >= 50 ? '·' : '·'}
                 </Text>
                 <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
                   {trendInfo.text}
@@ -533,7 +533,7 @@ export default function DiaryScreen() {
                 )}
                 {weeklyStats.streak >= 3 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>🔥 连续{weeklyStats.streak}天</Text>
+                    <Text style={styles.badgeText}>连续{weeklyStats.streak}天</Text>
                   </View>
                 )}
                 {maxScore === 100 && (
@@ -572,11 +572,11 @@ export default function DiaryScreen() {
             )}
 
             {/* 进步曲线 */}
-            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>📊 进步曲线</Text>
+            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>进步曲线</Text>
             <ProgressChart entries={entries} height={200} />
 
             {/* 历史记录标题 */}
-            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>📋 历史记录</Text>
+            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>历史记录</Text>
           </>
         }
         ListFooterComponent={<View style={{ height: 40 }} />}
@@ -703,7 +703,7 @@ function AnimatedProgressNum({ value, style }: { value: number; style: import('r
   }, [value])
 
   const color = value >= 0 ? COLORS.success : COLORS.primary
-  const arrow = value >= 0 ? '📈' : '📉'
+  const arrow = value >= 0 ? '↑' : '↓'
 
   return (
     <Animated.Text style={[style, { color }]}>
