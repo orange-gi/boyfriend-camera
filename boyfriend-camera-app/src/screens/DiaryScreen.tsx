@@ -752,8 +752,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingHorizontal: 12,
     paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: COLORS.divider,
+    ...shadows.sm,
   },
   clearAllBtnText: {
     color: COLORS.textMuted,
