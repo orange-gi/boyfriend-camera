@@ -592,7 +592,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
 
         {/* 标题栏 */}
         <View style={styles.titleRow}>
-          <Text style={[styles.title, { color: COLORS.textPrimary }]}>📸 拍照分析</Text>
+          <Text style={[styles.title, { color: COLORS.textPrimary }]}>拍照分析</Text>
           <TouchableOpacity onPress={handleHome} style={styles.homeTinyBtn} activeOpacity={0.72}>
             <Text style={styles.homeTinyBtnText}>🏠</Text>
           </TouchableOpacity>
@@ -824,7 +824,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
             onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })}
             activeOpacity={0.72}
           >
-            <Text style={styles.diaryEntryBtnText}>📖 查看进步日记</Text>
+            <Text style={styles.diaryEntryBtnText}>查看进步日记</Text>
           </TouchableOpacity>
         )}
 
@@ -1107,10 +1107,7 @@ const styles = StyleSheet.create({
   processStepCircleActive: {
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
-    shadowColor: COLORS.primary,
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 3,
+    // 删除了 shadow/elevation — 简洁设计：圆形步骤点用颜色区分即可，不需要阴影装饰
   },
   processStepCircleDone: {
     backgroundColor: COLORS.primary,
@@ -1262,11 +1259,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.divider,
     backgroundColor: colors.bgCard,
     gap: 6,
-    shadowColor: colors.textMuted,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
+    // 删除了 shadow — 次要按钮不需要阴影，背景色区分已足够
   },
   actionBtnSecondaryIcon: {
     fontSize: 16,
@@ -1287,11 +1280,7 @@ const styles = StyleSheet.create({
     borderColor: colors.warning,
     backgroundColor: colors.cardCream,
     gap: 6,
-    shadowColor: colors.warning,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.18,
-    shadowRadius: 6,
-    elevation: 2,
+    // 删除了 shadow — 分享按钮有边框+背景色区分，不需要阴影装饰
   },
   actionBtnShareIcon: {
     fontSize: 16,
@@ -1310,11 +1299,12 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: COLORS.primary,
     gap: 8,
+    // 保留了 shadowColor（elevation）——主按钮有微弱阴影有助于层次感，但降低了强度
     shadowColor: COLORS.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 2,
   },
   actionBtnDisabled: {
     opacity: 0.6,
@@ -1330,8 +1320,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 8,
     borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: colors.primary,
+    // 删除了 borderWidth/borderColor — 背景色 cardPink 已足够区分，不需要边框+背景双重装饰
     backgroundColor: colors.cardPink,
   },
   diaryEntryBtnText: {
