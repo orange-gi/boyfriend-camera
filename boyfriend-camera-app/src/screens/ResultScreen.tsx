@@ -804,11 +804,10 @@ const FilterItem = memo(function FilterItem({
           { backgroundColor: filter.color },
           isActive && styles.filterCircleActive,
         ]}>
-
+          {isActive && (
+            <View style={[styles.filterCircleSelectedRing, { borderColor: COLORS.primary }]} />
+          )}
         </View>
-        {isActive && (
-          <View style={[styles.filterCircleSelectedRing, { borderColor: COLORS.primary }]} />
-        )}
       </Animated.View>
       <Text style={[
         styles.filterLabel,
