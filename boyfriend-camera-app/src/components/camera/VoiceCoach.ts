@@ -510,6 +510,14 @@ const FACE_TIPS = {
   EXPRESSION_FORCED: '表情别太夸张！自然一点最美～',
   GOOD_COMPOSITION_DETECTED: '构图很棒！就是这个位置，按下去！',
   PERFECT_MOMENT_NOW: '就是现在！这光这角度，绝了！',
+  // ========== Round 5 新增：完美组合场景 ==========
+  PERFECT_FACE_AND_LIGHT: '位置完美！光线也完美！就是现在，按下去就是大片！',
+  PERFECT_ALL_IN_ONE: '构图完美！光线完美！姿势完美！三连击，按下去！',
+  READY_TO_CAPTURE: '一切就绪！这个瞬间绝美，按快门！',
+  CLICK_MOMENT: '现在光线好美！位置也对！赶紧按下去！',
+  // 笑脸被检测到时的即时确认
+  SMILE_DETECTED: '看到你在笑！就是这个表情，别动，按下去！',
+  NATURAL_SMILE_DETECTED: '自然的笑容！好生动，按下去！',
 }
 
 const STABILITY_TIPS = {
@@ -556,6 +564,10 @@ const STABILITY_TIPS = {
   MIRROR_CHECK_OUTFIT: '拍之前先检查一下镜子里！衣服领口都要整理好～',
   POSE_CONFIRM_OK: '姿势到位了！表情准备好了吗？笑一个～',
   POSE_MICRO_ADJUST: '就差一点点了！手的位置再微调一下～',
+  // ========== Round 5 新增稳定性提示 ==========
+  STABLE_READY: '稳稳的！可以按快门了～',
+  STEADY_AND_GOOD: '手稳了！光线也棒，现在拍正好～',
+  HOLD_FOR_MOMENT: '稳住！就这个瞬间，按下去！',
 }
 
 // 表情检测提示
@@ -663,6 +675,11 @@ const EXPRESSION_TIPS = {
   LOOK_UP_GAZE: '抬头向上看，眼神更有灵气，这个角度超美～',
   LIP_BITE: '轻轻咬一下下唇，这个表情好撩人！',
   EYEBROW_RAISE: '轻轻抬一下眉毛，俏皮感立刻上来～',
+  // ========== Round 5 新增表情提示 ==========
+  GENUINE_SMILE: '这笑容好自然！比摆拍好看一百倍～',
+  TEASING_SMILE: '调皮地笑一个！比正襟危坐好看多了～',
+  CONFIDENT_SMILE: '自信的笑容最上镜！就是现在拍～',
+  RELAXED_SMILE: '放松的笑好美！自然流露的表情最动人～',
 }
 
 // 场景专项提示
@@ -1354,6 +1371,17 @@ const SCENE_TIPS = {
   // 露营场景
   CAMPFIRE_NIGHT_VOICE: '篝火火光打在脸上好温暖！连拍几张选最好的～',
   TENT_OUTSIDE: '帐篷外星空璀璨超浪漫！仰头看星空，笑一个～',
+  // ========== Round 5 新增场景提示 ==========
+  WEDDING_CHOIR: '婚礼现场光线超美！站在蜡烛或灯光旁，超有氛围感～',
+  WEDDING_CAKE: '蛋糕前光线暖暖的！转过来面向光源，笑一个～',
+  PROM_NIGHT: '毕业舞会灯光超梦幻！站在灯下超有感觉～',
+  BALLROOM_DANCE: '舞会厅灯光斑驳！身体舒展，笑着拍一张～',
+  BEACH_SUNRISE: '海边日出光线最柔和！迎着朝霞，整个人都在发光～',
+  PARK_FOUNTAIN: '喷泉旁光线超通透！水雾打在脸上好梦幻～',
+  KITE_FESTIVAL: '风筝节草地超开阔！风吹着头发，跑动抓拍超有活力～',
+  ART_MUSEUM: '艺术馆灯光超有氛围！站在画作前，文艺感拉满～',
+  NIGHT_CANDLE_DINNER: '烛光晚餐超浪漫！让烛光打在侧脸上，氛围感绝了～',
+  TRAIN_WINDOW_VOICE: '火车旅途超有故事感！靠在窗边，让窗光打在脸上～',
 }
 
 // 夜景专属语音提示
@@ -1846,7 +1874,7 @@ type StabilityTipKey = keyof typeof STABILITY_TIPS
 /** 从稳定性提示池中随机选取同类提示 */
 function pickStabilityTip(category: 'STABLE' | 'SHAKY' | 'EXTREME_SHAKE' | 'TILTED'): string {
   const variants: Record<string, string[]> = {
-    STABLE: [STABILITY_TIPS.STABLE, STABILITY_TIPS.STABLE_2, STABILITY_TIPS.STABLE_3, STABILITY_TIPS.STABLE_4, STABILITY_TIPS.STABLE_5, STABILITY_TIPS.STABLE_SUPER, STABILITY_TIPS.STABLE_CAMERA, STABILITY_TIPS.BREATHE_STEADY, STABILITY_TIPS.WALL_SUPPORT, STABILITY_TIPS.WIDE_STANCE],
+    STABLE: [STABILITY_TIPS.STABLE, STABILITY_TIPS.STABLE_2, STABILITY_TIPS.STABLE_3, STABILITY_TIPS.STABLE_4, STABILITY_TIPS.STABLE_5, STABILITY_TIPS.STABLE_SUPER, STABILITY_TIPS.STABLE_CAMERA, STABILITY_TIPS.BREATHE_STEADY, STABILITY_TIPS.WALL_SUPPORT, STABILITY_TIPS.WIDE_STANCE, STABILITY_TIPS.STABLE_READY, STABILITY_TIPS.STEADY_AND_GOOD, STABILITY_TIPS.HOLD_FOR_MOMENT],
     SHAKY: [STABILITY_TIPS.SHAKY, STABILITY_TIPS.SHAKY_2, STABILITY_TIPS.SHAKY_3, STABILITY_TIPS.SHAKY_4, STABILITY_TIPS.SHAKY_5],
     EXTREME_SHAKE: [STABILITY_TIPS.EXTREME_SHAKE, STABILITY_TIPS.EXTREME_SHAKE_2, STABILITY_TIPS.EXTREME_SHAKE_3, STABILITY_TIPS.EXTREME_SHAKE_4],
     TILTED: [STABILITY_TIPS.TILTED, STABILITY_TIPS.TILTED_2, STABILITY_TIPS.TILTED_3, STABILITY_TIPS.TILTED_4, STABILITY_TIPS.TILTED_5, STABILITY_TIPS.TILTED_6],
