@@ -7,7 +7,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
