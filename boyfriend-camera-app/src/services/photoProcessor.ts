@@ -12,19 +12,21 @@ import RNFS from 'react-native-fs'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 import { logger } from '../utils/logger'
 
+// 核心滤镜（与 ResultScreen CoreFilter 保持一致）
+export type FilterKey = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
+
 export interface ProcessOptions {
   /** 目标裁剪比例，如 3/4, 1/1 */
   cropRatio?: number
   /** 滤镜名称 */
-  filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic' | null
+  filterName?: FilterKey | null
   /** 是否启用轻度美颜 */
   autoRetouch?: boolean
   /** 人脸中心位置（归一化 0-1），用于裁剪定位 */
   faceCenter?: { x: number; y: number }
 }
 
-// 滤镜参数配置（类型安全：联合类型确保每个 filter key 都被覆盖）
-export type FilterKey = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic'
+// 滤镜参数配置
 const FILTER_PARAMS: Record<FilterKey, { brightness: number; contrast: number; saturation: number }> = {
   warm: { brightness: 1.05, contrast: 1.1, saturation: 1.15 },
   cool: { brightness: 0.98, contrast: 1.05, saturation: 1.1 },
@@ -33,12 +35,6 @@ const FILTER_PARAMS: Record<FilterKey, { brightness: number; contrast: number; s
   bw: { brightness: 1.02, contrast: 1.15, saturation: 0 },
   portrait: { brightness: 1.06, contrast: 1.12, saturation: 1.05 },
   food: { brightness: 1.1, contrast: 1.15, saturation: 1.3 },
-  landscape: { brightness: 1.05, contrast: 1.18, saturation: 1.25 },
-  night: { brightness: 0.95, contrast: 1.2, saturation: 0.9 },
-  sunset: { brightness: 1.08, contrast: 1.15, saturation: 1.2 },
-  floral: { brightness: 1.07, contrast: 1.08, saturation: 1.1 },
-  snow: { brightness: 1.15, contrast: 1.05, saturation: 0.95 },
-  golden: { brightness: 1.1, contrast: 1.08, saturation: 1.2 },
   cinematic: { brightness: 0.95, contrast: 1.12, saturation: 0.85 },
 }
 
@@ -49,15 +45,9 @@ const FILTER_OVERLAY: Record<FilterKey, string> = {
   vivid: 'rgba(255, 100, 150, 0.08)',
   soft: 'rgba(255, 220, 200, 0.1)',
   bw: 'rgba(180, 160, 140, 0.08)',
-  golden: 'rgba(255, 180, 80, 0.15)',
   cinematic: 'rgba(80, 100, 160, 0.1)',
   portrait: 'rgba(255, 220, 200, 0.06)',
   food: 'rgba(255, 180, 120, 0.1)',
-  landscape: 'rgba(120, 180, 220, 0.08)',
-  night: 'rgba(80, 100, 140, 0.12)',
-  sunset: 'rgba(255, 150, 80, 0.15)',
-  floral: 'rgba(255, 180, 200, 0.1)',
-  snow: 'rgba(200, 220, 255, 0.08)',
 }
 
 interface CropRegion {

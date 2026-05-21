@@ -19,7 +19,7 @@ import { COLORS } from '../../theme/colors'
 interface Props {
   originalPath: string
   processedPath: string
-  filterName?: 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'landscape' | 'night' | 'sunset' | 'floral' | 'snow' | 'golden' | 'cinematic' | null
+  filterName?: FilterKey | null
 }
 
 const { width: SCREEN_W } = Dimensions.get('window')
@@ -29,9 +29,7 @@ const CARD_HEIGHT = Math.round(CARD_WIDTH * (4 / 3))
 
 const FILTER_LABELS: Record<string, string> = {
   warm: '暖黄', cool: '冷调', vivid: '生动', soft: '柔和',
-  bw: '黑白', portrait: '人像', food: '美食', landscape: '风景',
-  night: '夜景', sunset: '日落', floral: '花季', snow: '雪景',
-  golden: '金棕', cinematic: '电影',
+  bw: '黑白', portrait: '人像', food: '美食', cinematic: '电影',
 }
 
 // 内嵌纯色 placeholder（无需网络）
