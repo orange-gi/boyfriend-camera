@@ -2333,7 +2333,8 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '构图和光线都在线！再稳一点按快门就是满分了～',
   ],
   // 优秀分区（80-94分）— 高度肯定+精细建议
-  score_80_94_suggest: [
+  // 80-84 分建议池
+  score_80_84_suggest: [
     '超棒了！这张构图和光线都拿捏得死死的～',
     '男朋友审美开窍了！就差一点点细节处理就是满分～',
     '这张可以直接发朋友圈了！男朋友你学得真快～',
@@ -2342,6 +2343,23 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '男朋友你是有天赋的！这张很有质感～',
     '这张超有感觉！稍微注意一下表情管理就更完美了～',
     '男朋友越来越专业了！这张可以当模板用～',
+  ],
+  // 85-94 分建议池（更精细化）
+  score_85_94_suggest: [
+    '太惊艳了！这张构图精准+光线完美+表情到位，是大片了～',
+    '男朋友的审美已经 next level！细节再讲究一点点就是满分～',
+    '这张绝了！构图/光线/姿势三元素全部在线，值得永久保存！',
+    '男朋友审美爆表！稍微注意一下背景简洁度就完美了～',
+    '这张有专业摄影师的水准了！表情再自然一点就更绝了～',
+    '男朋友摄影天赋满点！再精细一个维度就是满分之作！',
+  ],
+  // 95-100 分建议池（满分鼓励+展望未来）
+  score_95_100_suggest: [
+    '满分之作！这张照片值得裱起来，男朋友你是天才摄影师！',
+    '男朋友的摄影水平已经达到专业级！这表现太惊艳了！',
+    '满分满分！男朋友把这张照片拍成了杂志封面，太绝了！',
+    '男朋友从摄影师毕业了！这张满分神作要永久珍藏！',
+    '满分💯！这张构图精准得像是开了透视挂，男朋友太强了！',
   ],
   // ========== Round 33 新增：细分光质场景专属建议池 ==========
   // 早晨光线场景
@@ -3114,8 +3132,14 @@ export async function analyzePhoto(
   if (totalScore >= 60 && totalScore < 80 && suggestions.length < 2) {
     suggestions.push(pickRandom(SUGGESTION_POOL.score_60_79_suggest))
   }
-  if (totalScore >= 80 && totalScore < 95 && suggestions.length < 2) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.score_80_94_suggest))
+  if (totalScore >= 80 && totalScore < 85 && suggestions.length < 2) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.score_80_84_suggest))
+  }
+  if (totalScore >= 85 && totalScore < 95 && suggestions.length < 2) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.score_85_94_suggest))
+  }
+  if (totalScore >= 95 && suggestions.length < 2) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.score_95_100_suggest))
   }
 
   // ========== Round 33 新增：光质场景专属建议（基于时间段自动触发） ==========
