@@ -521,10 +521,10 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         <Text style={styles.errorEmoji}>🤔</Text>
         <Text style={[styles.errorText, { color: COLORS.textMuted }]}>没有找到图片</Text>
         <TouchableOpacity style={styles.errorBtn} onPress={handleGoCamera} activeOpacity={0.72}>
-          <Text style={styles.errorBtnText}>📷 去拍照</Text>
+          <Text style={styles.errorBtnText}>去拍照</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.errorBtn, { marginTop: 10 }]} onPress={handleHome} activeOpacity={0.72}>
-          <Text style={styles.errorBtnText}>🏠 返回首页</Text>
+          <Text style={styles.errorBtnText}>返回首页</Text>
         </TouchableOpacity>
       </View>
     )
@@ -577,14 +577,14 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
                 onPress={handleGoCamera}
                 activeOpacity={0.72}
               >
-                <Text style={styles.errorRetryBtnText}>📷 再拍一张</Text>
+                <Text style={styles.errorRetryBtnText}>再拍一张</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.errorRetryBtn, styles.errorSecondaryBtn]}
                 onPress={handleHome}
                 activeOpacity={0.72}
               >
-                <Text style={styles.errorSecondaryBtnText}>🏠 首页</Text>
+                <Text style={styles.errorSecondaryBtnText}>返回首页</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -594,7 +594,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         <View style={styles.titleRow}>
           <Text style={[styles.title, { color: COLORS.textPrimary }]}>拍照分析</Text>
           <TouchableOpacity onPress={handleHome} style={styles.homeTinyBtn} activeOpacity={0.72}>
-            <Text style={styles.homeTinyBtnText}>🏠</Text>
+            <Text style={styles.homeTinyBtnText}>← 首页</Text>
           </TouchableOpacity>
         </View>
 
@@ -690,7 +690,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         {/* 下次改进提示 */}
         {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
           <Animated.View entering={FadeInDown.duration(350).delay(200)} style={[styles.suggestionBanner, { borderLeftColor: COLORS.primary }]}>
-            <Text style={styles.suggestionBannerTitle}>💡 下次可以这样拍</Text>
+            <Text style={styles.suggestionBannerTitle}>下次可以这样拍</Text>
             {scoreResult.suggestions.slice(0, 2).map((s: string, i: number) => (
               <Text key={i} style={styles.suggestionBannerText}>
                 • {s}
@@ -763,7 +763,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
             entering={FadeInDown.duration(400)}
             style={styles.newRecordBanner}
           >
-            <Text style={styles.newRecordBannerText}>🏆 破纪录了！历史最高分！</Text>
+            <Text style={styles.newRecordBannerText}>破纪录了！历史最高分！</Text>
             <Text style={styles.newRecordBannerSub}>男朋友太强了，继续保持这个状态！</Text>
           </Animated.View>
         )}
@@ -776,11 +776,11 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; emoji: string; col
         {/* 无图片时的友好提示 */}
         {!processing && !photoPath && !scoreResult && (
           <View style={styles.noPhotoContainer}>
-            <Text style={styles.noPhotoEmoji}>📷</Text>
+            <Text style={styles.noPhotoEmoji}>暂无照片</Text>
             <Text style={[styles.noPhotoTitle, { color: COLORS.textPrimary }]}>没有找到照片</Text>
             <Text style={[styles.noPhotoDesc, { color: COLORS.textMuted }]}>好像出了点小问题，试试重新拍一张吧～</Text>
             <TouchableOpacity style={styles.noPhotoBtn} onPress={() => navigation.goBack()} activeOpacity={0.72}>
-              <Text style={styles.noPhotoBtnText}>🔄 重新拍照</Text>
+              <Text style={styles.noPhotoBtnText}>重新拍照</Text>
             </TouchableOpacity>
           </View>
         )}

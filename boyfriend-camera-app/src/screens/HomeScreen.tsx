@@ -182,7 +182,7 @@ export default function HomeScreen() {
               <View style={styles.dailyTipLeft}><Text style={styles.dailyTipIcon}>{tip.icon}</Text></View>
               <View style={styles.dailyTipContent}>
                 <View style={styles.dailyTipHeaderRow}>
-                  <Text style={styles.dailyTipLabel}>💡 今日拍照技巧</Text>
+                  <Text style={styles.dailyTipLabel}>今日拍照技巧</Text>
                   <Text style={styles.dailyTipExpandIcon}>{expandedTip ? '▲' : '▼'}</Text>
                 </View>
                 <Text style={styles.dailyTipText}>{tip.text}</Text>
@@ -270,7 +270,7 @@ export default function HomeScreen() {
           onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
           activeOpacity={0.85}
         >
-          <View style={styles.cameraBtnInner}><Text style={styles.cameraBtnIcon}>📷</Text></View>
+          <View style={styles.cameraBtnInner}><Text style={styles.cameraBtnIcon}>+</Text></View>
           <View style={styles.cameraBtnTextRow}>
             <Text style={[styles.cameraBtnText, { color: COLORS.textOnPrimary }]}>开始拍照</Text>
             {isNewUser && <View style={styles.newBadge}><Text style={styles.newBadgeText}>新</Text></View>}
@@ -279,7 +279,7 @@ export default function HomeScreen() {
         <View style={styles.cameraBtnSub}>
           {templatesLoading ? <Text style={styles.cameraBtnSubText}>⏳ 正在加载姿势模板...</Text>
             : templatesError ? <TouchableOpacity onPress={refresh} activeOpacity={0.72}><Text style={[styles.cameraBtnSubText, { color: COLORS.primary }]}>⚠️ 加载失败，点击重试</Text></TouchableOpacity>
-            : totalTemplates > 0 ? <Text style={styles.cameraBtnSubText}>🌟 已有 <Text style={{ fontWeight: '700', color: COLORS.primary }}>{totalTemplates}</Text> 个姿势模板可用</Text>
+            : totalTemplates > 0 ? <Text style={styles.cameraBtnSubText}>已有 <Text style={{ fontWeight: '700', color: COLORS.primary }}>{totalTemplates}</Text> 个姿势模板可用</Text>
             : <Text style={styles.cameraBtnSubText}>姿势模板加载中...</Text>}
         </View>
         {todayCount > 0 && <View style={styles.todayCountBadge}><Text style={styles.todayCountText}>今日已拍<Text style={styles.todayCountNum}> {todayCount}</Text> 张</Text></View>}

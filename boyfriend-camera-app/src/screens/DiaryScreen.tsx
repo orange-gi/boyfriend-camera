@@ -274,12 +274,12 @@ export default function DiaryScreen() {
 
           {item.suggestions.length > 0 && (
             <Text style={styles.recordTip} numberOfLines={2}>
-              💡 {item.suggestions[0]}
+              {item.suggestions[0]}
             </Text>
           )}
 
           {item.faceCount > 0 && (
-            <Text style={styles.faceCount}>👤 {item.faceCount}人</Text>
+            <Text style={styles.faceCount}>{item.faceCount}人</Text>
           )}
 
           {/* 分数进度条 - 一眼扫过分数字 - Round 32 */}
@@ -355,7 +355,7 @@ export default function DiaryScreen() {
 
             {/* 拍照小贴士 */}
             <View style={styles.emptyTipCard}>
-              <Text style={styles.emptyTipTitle}>💡 拍照小贴士</Text>
+              <Text style={styles.emptyTipTitle}>拍照小贴士</Text>
               <Text style={styles.emptyTipText}>
                 第一张照片不要有压力！男朋友可以先从「侧身回眸」这种简单的姿势开始，
                 三分法构图 + 光线均匀，基本就能拿到 75 分以上～
@@ -415,7 +415,7 @@ export default function DiaryScreen() {
                   accessibilityRole="button"
                   accessibilityLabel="去拍照"
                 >
-                  <Text style={styles.cameraBtnText}>📸 拍照</Text>
+                  <Text style={styles.cameraBtnText}>拍照</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -427,22 +427,18 @@ export default function DiaryScreen() {
               {/* 4 格统计卡片网格 */}
               <View style={styles.statsGrid}>
                 <View style={styles.statCard}>
-                  <Text style={styles.statCardEmoji}>📸</Text>
                   <AnimatedCountUp value={totalCount} style={[styles.statCardNum, { color: COLORS.textPrimary }]} />
                   <Text style={styles.statCardLabel}>拍照次数</Text>
                 </View>
                 <View style={styles.statCard}>
-                  <Text style={styles.statCardEmoji}>⭐</Text>
                   <AnimatedCountUp value={avgScore} style={[styles.statCardNum, { color: COLORS.primary }]} suffix="分" />
                   <Text style={styles.statCardLabel}>平均分</Text>
                 </View>
                 <View style={styles.statCard}>
-                  <Text style={styles.statCardEmoji}>{totalProgress >= 0 ? '↑' : '↓'}</Text>
                   <AnimatedProgressNum value={totalProgress} style={[styles.statCardNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.textMuted }]} />
                   <Text style={styles.statCardLabel}>总进步</Text>
                 </View>
                 <View style={styles.statCard}>
-                  <Text style={styles.statCardEmoji}>🏆</Text>
                   <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: COLORS.warning }]} suffix="分" />
                   <Text style={styles.statCardLabel}>最高分</Text>
                 </View>
@@ -455,7 +451,6 @@ export default function DiaryScreen() {
                   <View style={styles.weeklyGrid}>
                   {/* 本周平均分 */}
                   <View style={styles.weeklyCard}>
-                    <Text style={styles.weeklyCardIcon}>📊</Text>
                     <Text style={[styles.weeklyCardNum, { color: weeklyStats.weekAvg >= 80 ? COLORS.success : weeklyStats.weekAvg >= 60 ? COLORS.warning : COLORS.textMuted }]}>
                       {weeklyStats.weekAvg > 0 ? weeklyStats.weekAvg : '-'}
                     </Text>
@@ -464,7 +459,6 @@ export default function DiaryScreen() {
 
                   {/* 本周拍摄次数 */}
                   <View style={styles.weeklyCard}>
-                    <Text style={styles.weeklyCardIcon}>📸</Text>
                     <Text style={[styles.weeklyCardNum, { color: COLORS.textPrimary }]}>
                       {weeklyStats.weekCount}
                     </Text>
@@ -473,7 +467,6 @@ export default function DiaryScreen() {
 
                   {/* 连续天数 */}
                   <View style={styles.weeklyCard}>
-                    <Text style={styles.weeklyCardIcon}>{weeklyStats.streak >= 7 ? '↑' : '·'}</Text>
                     <Text style={[styles.weeklyCardNum, { color: weeklyStats.streak >= 7 ? COLORS.warning : COLORS.textMuted }]}>
                       {weeklyStats.streak}
                     </Text>
@@ -482,7 +475,6 @@ export default function DiaryScreen() {
 
                   {/* 最近一次 */}
                   <View style={styles.weeklyCard}>
-                    <Text style={styles.weeklyCardIcon}>🏆</Text>
                     <Text style={[styles.weeklyCardNum, { color: recentScore > 0 ? (recentScore >= 80 ? COLORS.success : COLORS.warning) : COLORS.textMuted }]}>
                       {recentScore > 0 ? recentScore : '-'}
                     </Text>
@@ -538,12 +530,12 @@ export default function DiaryScreen() {
                 )}
                 {maxScore === 100 && (
                   <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>🏆 满分</Text>
+                    <Text style={styles.badgeText}>满分</Text>
                   </View>
                 )}
                 {totalCount === 1 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>首次记录 ✨</Text>
+                    <Text style={styles.badgeText}>首次记录</Text>
                   </View>
                 )}
               </View>
@@ -788,10 +780,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: COLORS.bg,
   },
-  statCardEmoji: {
-    fontSize: 18,
-    marginBottom: 4,
-  },
   statCardNum: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -887,10 +875,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     alignItems: 'center',
     backgroundColor: COLORS.bg,
-  },
-  weeklyCardIcon: {
-    fontSize: 20,
-    marginBottom: 4,
   },
   weeklyCardNum: {
     fontSize: 22,

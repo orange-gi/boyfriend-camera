@@ -512,7 +512,7 @@ export default function CameraScreen() {
       {/* 取景框提示文字 */}
       {!activeTemplate && (
         <Animated.View style={[styles.viewfinderHint, { opacity: hintOpacity }]}>
-          <Text style={styles.viewfinderHintText}>💡 试试点击下方「姿势」选一个模板</Text>
+          <Text style={styles.viewfinderHintText}>试试点击下方「姿势」选一个模板</Text>
         </Animated.View>
       )}
 
@@ -520,9 +520,8 @@ export default function CameraScreen() {
       {activeTemplate && (
         <View style={styles.poseTipCardFrosted}>
           {(isAutoRecommended && autoRecommended?.id === activeTemplate.id) && (
-            <Text style={styles.autoRecommendBadge}>✨ 智能推荐</Text>
+            <Text style={styles.autoRecommendBadge}>智能推荐</Text>
           )}
-          <Text style={styles.poseTipIcon}>💡</Text>
           <Text style={styles.poseTipText} numberOfLines={1}>
             {activeTemplate.voiceTip || activeTemplate.name}
           </Text>
@@ -1059,10 +1058,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     zIndex: 20,
-  },
-  poseTipIcon: {
-    fontSize: 20,
-    flexShrink: 0,
   },
   poseTipText: {
     flex: 1,
