@@ -245,13 +245,12 @@ export default function HomeScreen() {
           </View>
           {diaryCount >= 2 && avgScore > 0 && (() => {
             const trendColor = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
-            const trendEmoji = trend === 'up' ? '📈' : trend === 'down' ? '📉' : '➡️'
-            const trendLabel = trend === 'up' ? '在进步！继续加油' : trend === 'down' ? '有点下滑，多拍几张找感觉' : '表现稳定'
+            const trendLabel = trend === 'up' ? '在进步，继续加油' : trend === 'down' ? '有点下滑，多拍几张' : '表现稳定'
             const scoreColor = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
             return (
               <View style={styles.trendRow}>
                 <Text style={[styles.trendText, { color: trendColor }]}>
-                  {trendEmoji} {trendLabel}
+                  {trendLabel}
                 </Text>
                 <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
                   <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: scoreColor }]} />
