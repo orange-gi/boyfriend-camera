@@ -895,8 +895,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: colors.warningLight,
     borderRadius: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.warning,
     alignItems: 'center',
-    ...shadows.md,
+    // 删除了 shadows.md — 简洁设计不需要额外阴影
   },
   newRecordBannerText: {
     fontSize: 18,
@@ -1153,10 +1155,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 14,
     borderLeftWidth: 4,
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
-    overflow: 'hidden',
+    // 删除了 shadowOpacity/shadowRadius/elevation/overflow — 简洁设计不需要阴影
   },
   praiseBannerScore: {
     fontSize: 18,
@@ -1177,11 +1176,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 14,
     borderLeftWidth: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 2,
+    borderLeftColor: COLORS.primary,
+    // 删除了 shadowColor/shadowOpacity/shadowOffset/shadowRadius/elevation — 简洁设计不需要阴影
   },
   suggestionBannerTitle: {
     fontSize: 14,
@@ -1204,12 +1200,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 14,
     gap: 12,
-    borderWidth: 1.5,
-    borderColor: colors.primary,
-    shadowColor: COLORS.primary,
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 2,
+    // 删除了 borderWidth/borderColor/shadowColor/shadowOpacity/shadowRadius/elevation
+    // — 简洁设计不需要边框+阴影双重装饰，cardPink 背景已足够辨识
   },
   xiaohongshuIcon: {
     fontSize: 28,
