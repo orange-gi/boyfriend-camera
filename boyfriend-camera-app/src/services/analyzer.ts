@@ -2571,10 +2571,43 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '光线柔和皮肤就显好，正午硬光容易暴露皮肤问题～',
   ],
   // ========== Round 41 新增：眼镜反光建议 ==========
+  glasses_reflection: [
+    '眼镜片反光了！稍微抬一下头或者换个角度，反光就没了～',
+    '镜片反光好明显！让男朋友换个角度或稍微抬头，反光就消失了～',
+    '眼镜反光盖住眼睛了！换个站位角度，或者把镜片稍微向下倾斜一点～',
+    '反光好严重！试试把眼镜稍微往下压一点，让镜片不直接对着光源～',
+  ],
   // ========== Round 41 新增：多人合照站位建议 ==========
+  group_photo_position: [
+    '多人合照中间的人往前站一步，整体会更立体～',
+    '高个子站两边，矮的站中间，拍出来更有层次～',
+    '合照时让每人间隔半步，肩膀稍微错开，画面更自然～',
+    '多人站成一排时，让中间的人稍微前倾，两边的人往后仰，看起来更紧凑～',
+    '合照别站太整齐，稍微错落有致会更有活力感～',
+  ],
   // ========== Round 41 新增：服装与背景对比建议 ==========
+  outfit_contrast: [
+    '衣服颜色和背景太接近了，换个位置或者让衣服颜色跳出来～',
+    '深色衣服配亮背景、浅色衣服配暗背景，对比感会更突出～',
+    '衣服和背景撞色了！找对比色背景，人物会更突出～',
+    '服装和背景色系统一时，让光线打在人物上形成亮度差～',
+  ],
   // ========== Round 41 新增：眼神交流建议 ==========
+  eye_contact_hint: [
+    '眼神稍微往镜头方向瞟一下，和观众有交流感～',
+    '眼神别飘太远！稍微看向镜头，画面更有互动感～',
+    '眼睛是灵魂窗户！眼神到位了整张照片都有灵气～',
+    '眼神别太空洞！稍微聚焦在镜头上方一点的位置，看起来更有神～',
+    '低头时眼神往下看会显得无神，稍微抬眼会更灵动～',
+  ],
   // ========== Round 41 新增：室内色温建议 ==========
+  indoor_color_temp: [
+    '室内灯光偏暖/偏黄，显得肤色不够通透～',
+    '暖色调灯光很温馨，但会改变肤色，靠近窗户用自然光更好～',
+    '室内白炽灯偏蓝偏冷，拍人像不太友好～',
+    '找到室内的「白墙」作为背景，色温会干净很多～',
+    '黄光环境下让脸稍微偏向窗户的自然光方向～',
+  ],
   // ========== Round 35 新增：拍摄时机与moment建议 ==========
   timing_moment: [
     '光线正在变！趁现在多拍几张，日落前光线变化很快～',
@@ -3029,6 +3062,24 @@ export async function analyzePhoto(
   // ========== Round 36 激活：拍摄时机建议（户外光线变化快/表情可抓拍时） ==========
   if (sceneType === 'outdoor' && safeBrightness >= 100 && safeBrightness <= 200 && compositionScore < 38 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.timing_moment))
+  }
+  // ========== Round 41 激活：眼镜反光建议 ==========
+  // 模拟检测：极亮环境下+脸部面积大，推测可能有眼镜反光
+  if (safeBrightness > 190 && facePosition && facePosition.area > 0.2 && totalScore >= 40 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.glasses_reflection))
+  }
+  // ========== Round 41 激活：多人合照站位建议 ==========
+  if (faceCount >= 2 && compositionScore < 35 && totalScore >= 40 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_position))
+  }
+  // ========== Round 41 激活：眼神交流建议 ==========
+  const exprOk = (lastExpressionScore !== undefined ? lastExpressionScore >= 25 : true)
+  if (exprOk && stabilityScore >= 12 && totalScore >= 55 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.eye_contact_hint))
+  }
+  // ========== Round 41 激活：室内色温建议 ==========
+  if (sceneType === 'indoor' && safeBrightness >= 60 && safeBrightness <= 150 && exposureScore < 25 && totalScore >= 40 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.indoor_color_temp))
   }
 
   // ========== Round 1 新增角度专属夸奖触发 ==========
