@@ -31,11 +31,13 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, colors, shadows } from '../theme'
+import { COLORS, colors } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
 const SCREEN_W = Dimensions.get('window').width
+
+type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
 
 export default function ResultScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'Result'>>()
@@ -47,7 +49,6 @@ export default function ResultScreen() {
   const [praiseList, setPraiseList] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [processing, setProcessing] = useState(true)
-  type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
 const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
   (() => {
     const catFilterMap: Record<string, CoreFilter> = {
