@@ -310,7 +310,7 @@ export default function DiaryScreen() {
         ) : loadError ? (
           <>
             <View style={styles.emptyErrorCard}>
-              <Text style={styles.emptyErrorEmoji}>😢</Text>
+              <Text style={styles.emptyErrorEmoji}>—</Text>
               <Text style={styles.emptyErrorTitle}>加载失败了</Text>
               <Text style={styles.emptyErrorSubtitle}>别担心，可能是网络小波动</Text>
             </View>
@@ -715,7 +715,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,
-    ...shadows.md,
   },
   statsCardTitle: {
     fontSize: 14,
@@ -1026,7 +1025,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...shadows.md,
   },
-  emptyErrorEmoji: { fontSize: 48, marginBottom: 12 },
+  emptyErrorEmoji: { fontSize: 32, color: COLORS.textMuted, marginBottom: 12 },
   emptyErrorTitle: {
     fontSize: 18,
     fontWeight: '600',
@@ -1069,7 +1068,8 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   emptyChartPlaceholderText: {
-    fontSize: 40,
+    fontSize: 28,
+    color: COLORS.textMuted,
     marginBottom: 8,
   },
   emptyChartPlaceholderSubtext: {
