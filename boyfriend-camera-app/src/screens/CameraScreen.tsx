@@ -372,8 +372,15 @@ export default function CameraScreen() {
   }, [flash])
 
   const handleStabilityUnstable = useCallback(() => {
-    VoiceCoach.speak('手稳住！', true)
-  }, [])
+    const tiltMag = Math.sqrt(stability.tiltX ** 2 + stability.tiltY ** 2)
+    if (stability.shakeLevel > 0.65) {
+      VoiceCoach.speak('手稳住！', true)
+    } else if (tiltMag > 10) {
+      VoiceCoach.speak('手机歪了，扶正再拍～', true)
+    } else {
+      VoiceCoach.speak('稳住！别动！', true)
+    }
+  }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
 
   const flipCamera = useCallback(() => {
     resetIdleTimer()
@@ -458,7 +465,14 @@ export default function CameraScreen() {
           flash={flash}
           isActive={isActive}
           torchMode={flash === 'on' ? 'on' : 'off'}
-          onError={(err) => setCameraError(err)}
+          onError={(err) => {
+            setCameraError(err)
+            if (err === 'permission_denied') {
+              VoiceCoach.speak('相机权限未授权，请在手机设置中开启相机权限', true)
+            } else {
+              VoiceCoach.speak('相机设备不可用，请检查摄像头是否正常', true)
+            }
+          }}
           onBurstDone={(count) => {
             VoiceCoach.speakBurstCaptureDone(count)
             resetIdleTimer()
