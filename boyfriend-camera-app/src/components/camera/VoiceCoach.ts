@@ -414,6 +414,17 @@ const FACE_TIPS = {
   IDLE_TOO_LONG: '等了好一会儿了～动起来！换个姿势试试～',
   IDLE_TOO_LONG_2: '站太久了！换个角度或者走几步，照片会更有活力～',
   IDLE_TOO_LONG_3: '好安静呀～笑一个，逗逗她，让男朋友抓拍～',
+  // ========== 本次新增拍摄状态 TTS ==========
+  FACE_FINDING_IN_PROGRESS: '正在识别人脸～等一下哦～',
+  FACE_FOUND_CONFIRM: '找到脸了！就是现在，笑一个～',
+  STORAGE_NEAR_FULL: '手机存储快满了！先清理一下再继续拍吧～',
+  LOW_BATTERY_WARNING: '手机电量低了！抓紧时间拍几张～',
+  TEMPLATE_MATCH_PERFECT: '姿势超准！这个角度绝了，按下去就是大片！',
+  TEMPLATE_MATCH_OFF_REFINE: '姿势稍微跑偏了～跟着剪影调整一下会更好～',
+  SELFIE_PANORAMA_HINT: '试试侧身站！45度侧脸最上镜，试试看～',
+  CROWD_AVOID_HINT: '旁边人多，稍微等一下或者换个角度躲开～',
+  SHADOW_ON_FACE_HINT: '脸上有阴影！稍微侧身躲开阴影，光会更干净～',
+  HANDLE_WITH_CARE: '手机拿稳！等她准备好再按快门～',
   // ========== Round 41 新增人脸提示 ==========
   GLASSES_REFLECTION: '眼镜反光太亮了！稍微侧一下脸躲开光源～',
   GLASSES_TILT: '镜片反光挡住眼睛了，抬头或低头一点点～',
@@ -4023,6 +4034,25 @@ class VoiceCoach {
       `拍了${count}张啦！多拍不一定好，选一张保存吧～`,
     ]
     await this.speak(pickRandom(tips), false)
+  }
+
+  /** 存储空间不足提醒 */
+  async speakStorageWarning(): Promise<void> {
+    await this.speak(FACE_TIPS.STORAGE_NEAR_FULL, false)
+  }
+
+  /** 电量低提醒 */
+  async speakLowBattery(): Promise<void> {
+    await this.speak(FACE_TIPS.LOW_BATTERY_WARNING, false)
+  }
+
+  /** 模板匹配度反馈 */
+  async speakTemplateMatch(quality: 'perfect' | 'good' | 'off'): Promise<void> {
+    if (quality === 'perfect') {
+      await this.speak(FACE_TIPS.TEMPLATE_MATCH_PERFECT, false)
+    } else if (quality === 'off') {
+      await this.speak(FACE_TIPS.TEMPLATE_MATCH_OFF, false)
+    }
   }
 }
 
