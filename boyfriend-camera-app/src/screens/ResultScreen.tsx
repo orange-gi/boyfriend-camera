@@ -427,24 +427,23 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
       if (!pathToShare.startsWith('file://') && !pathToShare.startsWith('http')) {
         pathToShare = `file://${pathToShare}`
       }
-      const scoreEmoji = scoreResult && scoreResult.totalScore >= 80 ? '🌟' : scoreResult && scoreResult.totalScore >= 60 ? '✨' : '💪'
       const shareMessages = scoreResult && scoreResult.totalScore >= 80
         ? [
-            `🌟 用「男友相机」拍了一张 ${scoreResult.totalScore} 分的照片！男朋友太会拍了！`,
-            `🏆 ${scoreResult.totalScore}分神作！男朋友摄影师天赋满点！`,
-            `💯 满分之作！这张 ${scoreResult.totalScore} 分的照片要永久保存！`,
-            `✨ ${scoreResult.totalScore}分的男朋友视角！闺蜜看了都羡慕！`,
-            `📸 ${scoreResult.totalScore}分的约会照！男朋友开窍了！`,
+            `用「男友相机」拍了一张 ${scoreResult.totalScore} 分的照片，男朋友太会拍了！`,
+            `${scoreResult.totalScore}分神作！男朋友摄影师天赋满点！`,
+            `满分之作！这张 ${scoreResult.totalScore} 分的照片要永久保存！`,
+            `${scoreResult.totalScore}分的男朋友视角，闺蜜看了都羡慕！`,
+            `${scoreResult.totalScore}分的约会照，男朋友开窍了！`,
           ]
         : scoreResult && scoreResult.totalScore >= 60
         ? [
-            `✨ 用「男友相机」拍了一张 ${scoreResult.totalScore} 分的照片！越拍越好了呢～`,
-            `👍 ${scoreResult.totalScore}分！男朋友进步肉眼可见！`,
-            `🌱 ${scoreResult.totalScore}分！继续加油，下次冲满分！`,
+            `用「男友相机」拍了一张 ${scoreResult.totalScore} 分的照片，越拍越好了呢～`,
+            `${scoreResult.totalScore}分！男朋友进步肉眼可见！`,
+            `${scoreResult.totalScore}分，继续加油，下次冲满分！`,
           ]
         : [
-            `💪 用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！继续加油！`,
-            `🌱 ${scoreResult?.totalScore ?? '--'}分起步！每拍一张都在进步～`,
+            `用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片，继续加油！`,
+            `${scoreResult?.totalScore ?? '--'}分起步，每拍一张都在进步～`,
           ]
       const baseMessage = shareMessages[Math.floor(Math.random() * shareMessages.length)]
       const shareMessage = praiseList[0]
@@ -539,11 +538,11 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
   // 夸奖文案（分数段）
   const getPraiseBannerText = () => {
     if (!scoreResult) return ''
-    if (scoreResult.totalScore >= 90) return `💯 ${scoreResult.totalScore}分！太厉害了！完美之作！`
-    if (scoreResult.totalScore >= 80) return `🌟 ${scoreResult.totalScore}分！优秀！男朋友进步好大！`
-    if (scoreResult.totalScore >= 70) return `👍 ${scoreResult.totalScore}分！不错不错，继续保持！`
-    if (scoreResult.totalScore >= 60) return `😊 ${scoreResult.totalScore}分！及格啦，下次会更好！`
-    return `💪 ${scoreResult.totalScore}分！继续加油！一定能越拍越好！`
+    if (scoreResult.totalScore >= 90) return `${scoreResult.totalScore}分，太厉害了，完美之作！`
+    if (scoreResult.totalScore >= 80) return `${scoreResult.totalScore}分，优秀，男朋友进步好大！`
+    if (scoreResult.totalScore >= 70) return `${scoreResult.totalScore}分，不错不错，继续保持！`
+    if (scoreResult.totalScore >= 60) return `${scoreResult.totalScore}分，及格啦，下次会更好！`
+    return `${scoreResult.totalScore}分，继续加油，一定能越拍越好！`
   }
 
   // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
