@@ -979,8 +979,6 @@ const styles = StyleSheet.create({
     borderRadius: 27,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: 'rgba(0,0,0,0.08)',
     ...shadows.sm,
   },
   filterCircleActive: {
@@ -1132,7 +1130,7 @@ const styles = StyleSheet.create({
   processStepConnector: {
     width: 28,
     height: 2,
-    backgroundColor: colors.skeletonBase,
+    backgroundColor: COLORS.divider,
     marginHorizontal: 4,
     marginBottom: 20,
   },
