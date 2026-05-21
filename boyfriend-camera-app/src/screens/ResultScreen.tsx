@@ -654,9 +654,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
         {/* 滤镜选择器 */}
         {!processing && (
           <View style={styles.filterPicker}>
-            <View style={styles.filterPickerHeader}>
-              <Text style={styles.filterPickerTitle}>滤镜</Text>
-            </View>
+            <Text style={styles.filterPickerTitle}>滤镜</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterPickerList}>
               {FILTER_OPTIONS.map((f) => (
                 <FilterItem
@@ -874,17 +872,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 12,
   },
-  filterPickerHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    paddingHorizontal: 2,
-  },
   filterPickerTitle: {
     fontSize: 15,
     fontWeight: '700',
     color: colors.textPrimary,
+    marginBottom: 10,
+    paddingHorizontal: 2,
   },
   filterPickerList: {
     flexDirection: 'row',
@@ -970,8 +963,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 6,
-    borderWidth: 2,
-    borderColor: 'transparent',
   },
   processStepCircleActive: {
     backgroundColor: COLORS.primary,
