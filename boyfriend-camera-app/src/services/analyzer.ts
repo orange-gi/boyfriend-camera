@@ -1060,6 +1060,20 @@ const PRAISE_POOL: Record<string, string[]> = {
     '颜色搭配得刚刚好，视觉上好和谐～',
     '男朋友对色彩有感觉，这张整体感很好！',
   ],
+  // ========== 本次新增：抓拍瞬间夸奖 ==========
+  candid_capture_praise: [
+    '抓拍的瞬间好生动！这种自然的表情比摆拍好看一万倍～',
+    '这张是抓拍的吧？表情自然得像没在拍一样！',
+    '动起来的瞬间最有感染力！男朋友反应真快～',
+    '这种不经意的感觉最有灵气！男朋友捕捉到了！',
+  ],
+  // ========== 本次新增：进步型夸奖 ==========
+  progress_praise: [
+    '比上次好多了！男朋友学得真快～',
+    '这张明显比之前有进步，继续保持！',
+    '男朋友越拍越有感觉了！这张很不错～',
+    '进步肉眼可见！男朋友你是有在认真学的～',
+  ],
 }
 
 // 建议文案池
@@ -2622,14 +2636,6 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '街拍要有故事感！让人假装走路或看远方，抓拍比摆拍更自然～',
     '城市背景杂乱时找个简洁的角度，或者仰拍避开人群～',
   ],
-  // ========== 本次新增：镜子自拍专属建议 ==========
-  // ========== 本次新增：演唱会/舞蹈表演专属建议 ==========
-  // ========== 本次新增：游乐园/嘉年华专属建议 ==========
-  // ========== 本次新增：高铁站/机场/地铁站专属建议 ==========
-  // ========== 本次新增：天台白天专属建议 ==========
-  // ========== 本次新增：草原/牧场专属建议 ==========
-  // ========== 本次新增：商场自动扶梯专属建议 ==========
-  // ========== 本次新增：健身房专属建议 ==========
   // ========== Round 2 新增：通用多维度建议 ==========
 }
 
@@ -3545,6 +3551,16 @@ export async function analyzePhoto(
   // 闺蜜逛街夸奖（多人+户外）
   if (faceCount > 1 && sceneType === 'outdoor' && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.bestie_street_good))
+
+  // 进步型夸奖（对比上次有提升时触发）
+  if (lastScore !== undefined && totalScore > lastScore && totalScore >= 60) {
+    praise.push(pickRandom(PRAISE_POOL.progress_praise))
+  }
+
+  // 抓拍夸奖（expression.smilng < 0.3 但其他维度好 = 自然抓拍）
+  if (expression?.smiling !== undefined && expression.smiling < 0.3 && totalScore >= 75 && faceCount === 1) {
+    praise.push(pickRandom(PRAISE_POOL.candid_capture_praise))
+  }
   }
 
   // 确保至少有夸奖
