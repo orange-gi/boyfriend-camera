@@ -185,8 +185,8 @@ export default function DiaryScreen() {
     const avg = calcAvgScore(recent5)
     if (avg >= 80) return { text: '男友进化中！', color: colors.success, gradient: [colors.successLight, colors.trendSuccessLight] }
     if (avg >= 65) return { text: '稳步提升中', color: colors.success, gradient: [colors.gradientBlue, colors.trendInfoLight] }
-    if (avg >= 50) return { text: '💪 还需要多练习', color: colors.warning, gradient: [colors.warningLight, colors.trendWarningLight] }
-    return { text: '😅 革命尚未成功', color: colors.primary, gradient: [colors.dangerLight, colors.trendDangerLight] }
+    if (avg >= 50) return { text: '还需要多练习', color: colors.warning, gradient: [colors.warningLight, colors.trendWarningLight] }
+    return { text: '革命尚未成功', color: colors.primary, gradient: [colors.dangerLight, colors.trendDangerLight] }
   }, [totalCount, records])
 
   // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
@@ -381,7 +381,7 @@ export default function DiaryScreen() {
                     accessibilityRole="button"
                     accessibilityLabel="清空所有日记记录"
                   >
-                    <Text style={styles.clearAllBtnText}>🗑️ 清空</Text>
+                    <Text style={styles.clearAllBtnText}>清空</Text>
                   </TouchableOpacity>
                 )}
                 <TouchableOpacity
