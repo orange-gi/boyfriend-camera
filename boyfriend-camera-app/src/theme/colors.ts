@@ -1,22 +1,25 @@
 /**
- * 主题色 - 统一管理全 app 颜色
- * @deprecated 请使用 src/theme/index.ts 中的设计系统 tokens
- * 新代码请从 'src/theme' 导入 colors/typography/spacing/shadows 等
+ * 主题色 - 向后兼容导出层
+ * 新代码请直接从 'src/theme/index.ts' 导入
+ *   import { colors, typography, spacing, borderRadius, shadows } from '../theme'
  */
-import * as tokens from './index'
+import {
+  colors,
+  typography,
+  spacing,
+  borderRadius,
+  shadows,
+  componentTokens,
+} from './index'
 
-export const COLORS = tokens.colors
-export const typography = tokens.typography
-export const spacing = tokens.spacing
-export const borderRadius = tokens.borderRadius
-export const shadows = tokens.shadows
-export const componentTokens = tokens.componentTokens
+// 向后兼容别名
+export const COLORS = colors
 
 /** 根据分数返回对应颜色 */
 export function scoreColor(score: number): string {
-  if (score >= 80) return tokens.colors.scoreGreat
-  if (score >= 60) return tokens.colors.scoreOk
-  return tokens.colors.scoreBad
+  if (score >= 80) return colors.scoreGreat
+  if (score >= 60) return colors.scoreOk
+  return colors.scoreBad
 }
 
 /** 根据分数返回等级文案 */
@@ -32,14 +35,14 @@ export function scoreLabel(score: number): string {
  * 所有颜色值来自 theme/index.ts 设计 tokens
  */
 export const CATEGORY_COLORS: Record<string, string> = {
-  '室内日常': tokens.colors.categoryIndoor,
-  '室内场景': tokens.colors.categoryIndoor,
-  '室内人像': tokens.colors.categoryIndoor,
-  '户外风景': tokens.colors.categoryOutdoor,
-  '餐厅美食': tokens.colors.categoryFood,
-  '特殊风格': tokens.colors.categoryStyle,
-  '情侣合照': tokens.colors.categoryCouple,
-  '城市街拍': tokens.colors.categoryStreet,
-  '自拍技巧': tokens.colors.categoryPortrait,
-  '构图技巧': tokens.colors.categoryComposition,
+  '室内日常': colors.categoryIndoor,
+  '室内场景': colors.categoryIndoor,
+  '室内人像': colors.categoryIndoor,
+  '户外风景': colors.categoryOutdoor,
+  '餐厅美食': colors.categoryFood,
+  '特殊风格': colors.categoryStyle,
+  '情侣合照': colors.categoryCouple,
+  '城市街拍': colors.categoryStreet,
+  '自拍技巧': colors.categoryPortrait,
+  '构图技巧': colors.categoryComposition,
 }

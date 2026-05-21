@@ -7,7 +7,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, withDelay, withTiming } from 'react-native-reanimated'
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getDiary } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
@@ -64,37 +64,17 @@ export default function HomeScreen() {
   const [todayCount, setTodayCount] = useState(0)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
-  const heroOpacity = useSharedValue(0)
-  const heroTranslateY = useSharedValue(20)
-  const statsOpacity = useSharedValue(0)
-  const cameraScale = useSharedValue(0.7)
-  const cameraOpacity = useSharedValue(0)
-  const featuresOpacity = useSharedValue(0)
-  const featuresTranslateY = useSharedValue(30)
+  // 统一入场动画
+  const enterAnim = useSharedValue(0)
   useEffect(() => {
     loadStats(); checkOnboard(); checkTipDismissed()
-    heroOpacity.value = withTiming(1, { duration: 400 })
-    heroTranslateY.value = withSpring(0, { damping: 16, stiffness: 100 })
-    statsOpacity.value = withDelay(150, withTiming(1, { duration: 300 }))
-    cameraOpacity.value = withDelay(300, withTiming(1, { duration: 250 }))
-    cameraScale.value = withDelay(300, withSpring(1, { damping: 12, stiffness: 100 }))
-    featuresOpacity.value = withDelay(450, withTiming(1, { duration: 300 }))
-    featuresTranslateY.value = withDelay(450, withSpring(0, { damping: 14 }))
+    enterAnim.value = withTiming(1, { duration: 350 })
   }, [])
 
+  // 数字动画：直接使用目标值，不再做缓动计数
   useEffect(() => {
-    if (diaryCount > 0 || avgScore > 0) {
-      const startTime = Date.now()
-      const interval = setInterval(() => {
-        const elapsed = Date.now() - startTime
-        const progress = Math.min(elapsed / 1000, 1)
-        const ep = 1 - Math.pow(1 - progress, 3)
-        setDisplayDiaryCount(Math.round(diaryCount * ep))
-        setDisplayAvgScore(Math.round(avgScore * ep))
-        if (progress >= 1) clearInterval(interval)
-      }, 16)
-      return () => clearInterval(interval)
-    }
+    setDisplayDiaryCount(diaryCount)
+    setDisplayAvgScore(Math.round(avgScore))
   }, [diaryCount, avgScore])
 
   const isNewUser = diaryCount === 0
@@ -169,10 +149,10 @@ export default function HomeScreen() {
     else finishOnboard()
   }
 
-  const heroStyle = useAnimatedStyle(() => ({ opacity: heroOpacity.value, transform: [{ translateY: heroTranslateY.value }] }))
-  const statsStyle = useAnimatedStyle(() => ({ opacity: statsOpacity.value }))
-  const cameraStyle = useAnimatedStyle(() => ({ opacity: cameraOpacity.value, transform: [{ scale: cameraScale.value }] }))
-  const featuresStyle = useAnimatedStyle(() => ({ opacity: featuresOpacity.value, transform: [{ translateY: featuresTranslateY.value }] }))
+  const heroStyle = useAnimatedStyle(() => ({ opacity: enterAnim.value, transform: [{ translateY: 20 * (1 - enterAnim.value) }] }))
+  const statsStyle = useAnimatedStyle(() => ({ opacity: enterAnim.value }))
+  const cameraStyle = useAnimatedStyle(() => ({ opacity: enterAnim.value, transform: [{ scale: 0.7 + 0.3 * enterAnim.value }] }))
+  const featuresStyle = useAnimatedStyle(() => ({ opacity: enterAnim.value, transform: [{ translateY: 30 * (1 - enterAnim.value) }] }))
 
   const totalTemplates = templates.length
   const avgScoreColor = scoreColor(displayAvgScore || avgScore)
@@ -194,7 +174,6 @@ export default function HomeScreen() {
       {/* 每日小技巧 */}
       {!tipDismissed && (() => {
         const tip = getDailyTip()
-        // 展开时显示多一条提示
         const moreTip = DAILY_TIPS[(Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000) + 1) % DAILY_TIPS.length]
         return (
           <Animated.View style={[styles.dailyTipCard, heroStyle]}>
@@ -268,7 +247,6 @@ export default function HomeScreen() {
             </View>
           </View>
           {diaryCount >= 2 && avgScore > 0 && (() => {
-            // 趋势色彩和文案
             const trendColor = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
             const trendEmoji = trend === 'up' ? '📈' : trend === 'down' ? '📉' : '➡️'
             const trendLabel = trend === 'up' ? '在进步！继续加油' : trend === 'down' ? '有点下滑，多拍几张找感觉' : '表现稳定'
