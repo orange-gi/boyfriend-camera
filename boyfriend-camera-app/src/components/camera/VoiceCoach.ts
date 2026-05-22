@@ -4268,6 +4268,42 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 情侣合照专属姿势提示 */
+  async speakCouplePoseTip(): Promise<void> {
+    const tips = [
+      '两个人靠近一点贴贴！这个距离刚刚好，按下去～',
+      '对视一下！就是这样，超级有感觉～',
+      '男生从后面抱着她！这个姿势超经典～',
+      '牵手背对镜头往前走，男朋友从后面抓拍，氛围感绝了～',
+      '两人并排站着，一起看镜头笑，这个合照经典又好看～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 闺蜜合照专属提示 */
+  async speakBestiePoseTip(): Promise<void> {
+    const tips = [
+      '两个人靠近一点！闺蜜照就是要贴贴才好看～',
+      '对视一下或者一起看镜头！两个人默契感绝了～',
+      '做相同的搞怪表情！这个角度超可爱～',
+      '背对镜头比耶！自然又有趣，比正对镜头自然多了～',
+      '错开站位！一个人稍微往前一点，层次感立刻出来了～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 连拍鼓励提示 — 用户已经拍了多张时 */
+  async speakStreakEncourage(): Promise<void> {
+    const tips = [
+      '拍了好几张了！选一张最喜欢的吧～',
+      '多拍几张选最优！第一张不一定最好～',
+      '这张比刚才那张好！继续保持，再来一张～',
+      '已经进步很明显了！最后一张，冲刺满分！',
+      '按快门别客气！多拍几张总有完美的～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
@@ -4280,4 +4316,7 @@ Round 3 新增 TTS 方法：
 - speakWindowPortraitTip(): 窗户人像拍摄提示（5条）
 - speakAutumnLeavesTip(): 秋季红叶/色彩环境提示（5条）
 - speakReflectionShotTip(): 反光面拍摄提示（5条）
+- speakCouplePoseTip(): 情侣合照专属姿势提示（5条）
+- speakBestiePoseTip(): 闺蜜合照专属提示（5条）
+- speakStreakEncourage(): 连拍鼓励提示（5条）
 */
