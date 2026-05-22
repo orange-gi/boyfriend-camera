@@ -201,9 +201,7 @@ export default function DiaryScreen() {
     levelScore: r.levelScore,
   }))
 
-  // 迷你进度条颜色
-  const miniBarColors = [COLORS.primary, COLORS.warning, COLORS.info, COLORS.categoryStyle]
-  const miniBarMaxScores = [40, 30, 20, 10]
+
 
   const renderRecord = ({ item, index }: { item: DiaryRecord; index: number }) => {
     const date = new Date(item.date)
@@ -304,7 +302,6 @@ export default function DiaryScreen() {
           <View style={styles.skeletonWrapper}>
             <View style={[styles.skeletonEmoji, { backgroundColor: colors.skeletonBase }]} />
             <View style={[styles.skeletonTitle, { backgroundColor: colors.skeletonBase }]} />
-            <View style={[styles.skeletonSubtitle, { backgroundColor: colors.skeletonBase }]} />
             <View style={[styles.skeletonBtn, { backgroundColor: colors.skeletonBase }]} />
           </View>
         ) : loadError ? (
@@ -319,30 +316,10 @@ export default function DiaryScreen() {
             </TouchableOpacity>
           </>
         ) : (
-          <>
-            {/* 预览进度图表（给用户展示效果） */}
-            <View style={styles.emptyPreviewCard}>
-              <Text style={styles.emptyPreviewTitle}>你的进步轨迹</Text>
-              <View style={styles.emptyChartPlaceholder}>
-                <Text style={styles.emptyChartPlaceholderText}>↑</Text>
-                <Text style={styles.emptyChartPlaceholderSubtext}>开始拍照后，这里会显示你的进步曲线</Text>
-              </View>
-            </View>
-
-            {/* 拍照小贴士 */}
-            <View style={styles.emptyTipCard}>
-              <Text style={styles.emptyTipTitle}>拍照小贴士</Text>
-              <Text style={styles.emptyTipText}>
-                第一张照片不要有压力！男朋友可以先从「侧身回眸」这种简单的姿势开始，
-                三分法构图 + 光线均匀，基本就能拿到 75 分以上～
-              </Text>
-            </View>
-
-            <EmptyState
-              type="diary"
-              onAction={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
-            />
-          </>
+          <EmptyState
+            type="diary"
+            onAction={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
+          />
         )}
       </View>
     )
@@ -894,13 +871,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.skeletonBase,
     marginBottom: 8,
   },
-  skeletonSubtitle: {
-    width: 240,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: COLORS.skeletonBase,
-    marginBottom: 24,
-  },
+
   skeletonBtn: {
     width: 140,
     height: 48,
@@ -988,33 +959,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
-  miniBarRow: {
-    flexDirection: 'row',
-    marginTop: 8,
-    gap: 6,
-    paddingVertical: 4,
-  },
-  miniBarItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  miniBarTrack: {
-    width: '100%',
-    height: 6,
-    backgroundColor: COLORS.divider,
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  miniBarFill: {
-    height: '100%',
-    borderRadius: 3,
-  },
-  miniBarLabel: {
-    fontSize: 10,
-    color: COLORS.textMuted,
-    marginTop: 3,
-    fontWeight: '500',
-  },
+
   emptyErrorCard: {
     backgroundColor: colors.bgCard,
     borderRadius: 16,
@@ -1045,54 +990,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
-  emptyPreviewCard: {
-    backgroundColor: colors.bgCard,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    alignItems: 'center',
-  },
-  emptyPreviewTitle: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: COLORS.textSecondary,
-    marginBottom: 12,
-  },
-  emptyChartPlaceholder: {
-    alignItems: 'center',
-    paddingVertical: 20,
-    opacity: 0.5,
-  },
-  emptyChartPlaceholderText: {
-    fontSize: 28,
-    color: COLORS.textMuted,
-    marginBottom: 8,
-  },
-  emptyChartPlaceholderSubtext: {
-    fontSize: 13,
-    color: COLORS.textMuted,
-    textAlign: 'center',
-    lineHeight: 18,
-  },
-  emptyTipCard: {
-    backgroundColor: colors.warningLight,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.warning,
-  },
-  emptyTipTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: colors.statAmber,
-    marginBottom: 6,
-  },
-  emptyTipText: {
-    fontSize: 13,
-    color: colors.statYellowText,
-    lineHeight: 20,
-  },
+
 
   sheetOverlay: {
     flex: 1,
