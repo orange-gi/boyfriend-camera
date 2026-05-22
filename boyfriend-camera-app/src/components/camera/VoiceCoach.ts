@@ -2702,6 +2702,26 @@ class VoiceCoach {
     await this.speak(FACE_TIPS.HIGH_ANGLE_FACE)
   }
 
+  /** 人脸检测到确认 + 引导拍照 */
+  async speakFaceFoundReady(): Promise<void> {
+    await this.speak(FACE_TIPS.FACE_FOUND_CONFIRM, false)
+  }
+
+  /** 构图完美时的确认提示 */
+  async speakCompositionGreat(): Promise<void> {
+    await this.speak(FACE_TIPS.GOOD_COMPOSITION_DETECTED, true)
+  }
+
+  /** 稳定性完美时的表扬 */
+  async speakStabilityPerfect(): Promise<void> {
+    const tips = [
+      '手好稳！稳住这个状态，按下去就是大片！',
+      '手机稳如泰山！这个角度绝了，拍！',
+      '超级稳！男朋友你是练过的吗，按！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 鼓励语播报 */
   async speakEncouragement(): Promise<void> {
     const tip = ENCOURAGEMENT[Math.floor(Math.random() * ENCOURAGEMENT.length)]
