@@ -153,14 +153,10 @@ const styles = StyleSheet.create({
     gap: CARD_GAP,
   },
   card: {
+    // 去装饰化：阴影移除；边框圆角 12px 足够表达卡片感，无需阴影浮托
     borderRadius: 12,
     overflow: 'hidden',
     backgroundColor: COLORS.bgCard,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
   },
   cardImage: {
     borderRadius: 12,
