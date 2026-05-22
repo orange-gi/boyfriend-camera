@@ -917,9 +917,6 @@ const styles = StyleSheet.create({
     borderRadius: 29,
     borderWidth: 3,
   },
-  filterCircleIcon: {
-    fontSize: 26,
-  },
   filterLabel: {
     fontSize: 12,
     color: COLORS.textMuted,
