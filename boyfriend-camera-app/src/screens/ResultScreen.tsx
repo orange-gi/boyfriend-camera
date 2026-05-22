@@ -529,15 +529,14 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
   }
 
   // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
+  // 简洁优雅：背景使用极淡的透明度色，去除色块厚重感；border-left 保留分数档位标识
   const getPraiseBannerColors = (): { bg: string; border: string } => {
-    if (!scoreResult) return { bg: colors.warningLight, border: colors.warning }
-    if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.scoreGreat }
-    if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: colors.primary }
-    if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: colors.success }
-    // 60-69: 及格 - warning 色系
-    if (scoreResult.totalScore >= 60) return { bg: colors.warningLight, border: colors.warning }
-    // 60 分以下: 加油 - danger 色系
-    return { bg: colors.dangerLight, border: colors.danger }
+    if (!scoreResult) return { bg: 'transparent', border: colors.warning }
+    if (scoreResult.totalScore >= 90) return { bg: 'rgba(76,175,80,0.06)', border: colors.scoreGreat }
+    if (scoreResult.totalScore >= 80) return { bg: 'rgba(255,107,107,0.06)', border: colors.primary }
+    if (scoreResult.totalScore >= 70) return { bg: 'rgba(76,175,80,0.05)', border: colors.success }
+    if (scoreResult.totalScore >= 60) return { bg: 'rgba(255,179,71,0.07)', border: colors.warning }
+    return { bg: 'rgba(255,107,107,0.05)', border: colors.danger }
   }
   const praiseColors = getPraiseBannerColors()
 
@@ -925,10 +924,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   filterCircleActive: {
-    shadowColor: colors.primary,
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 3,
+    // 简洁优雅：shadow 已移除，selectedRing 边框即为清晰的选中态标识
   },
   filterCircleSelectedRing: {
     position: 'absolute',
@@ -1132,15 +1128,16 @@ const styles = StyleSheet.create({
     color: COLORS.textOnPrimary,
     fontWeight: 'bold',
   },
+  // 去背景化：diaryEntryBtn 仅保留底部分割线，无背景填充，留白充分
   diaryEntryBtn: {
     alignItems: 'center',
     paddingVertical: 12,
     marginHorizontal: 20,
     marginTop: 8,
     borderRadius: 16,
-    borderWidth: 1,
+    borderTopWidth: 1,
     borderColor: colors.divider,
-    backgroundColor: colors.bgCard,
+    backgroundColor: 'transparent',
   },
   diaryEntryBtnText: {
     fontSize: 14,
