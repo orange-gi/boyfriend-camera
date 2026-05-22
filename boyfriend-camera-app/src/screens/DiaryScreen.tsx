@@ -949,13 +949,11 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   trendBannerRow: {
-    marginTop: 12,
+    marginTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.divider,
   },
   trendBannerText: {
     fontSize: 14,
