@@ -333,18 +333,15 @@ const styles = StyleSheet.create({
 
   // Hero
 
-  // 每日技巧：去除左侧色边装饰，标签文字已提供层级区分
   dailyTipCard: { paddingLeft: spacing[3], marginBottom: spacing[4] },
   dailyTipTouchable: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], paddingRight: spacing[2] },
   dailyTipContent: { flex: 1 },
   dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4, letterSpacing: 0.5, textTransform: 'uppercase' },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
-  // 姿势提示卡：去除左侧色边装饰，保持简洁
   poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5] },
 
   // 统计卡片
-  // 简洁优雅：统计卡片去除背景填充，用细边框代替厚重色块
   statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], borderWidth: 1, borderColor: COLORS.divider },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
@@ -382,7 +379,6 @@ const styles = StyleSheet.create({
   featuresSection: { marginBottom: spacing[5] },
   sectionTitle: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: spacing[4] },
   featuresGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[3] },
-  // 简洁优雅：功能卡片去除背景填充，仅用底部分割线分隔，留白充分
   featureCard: {
     width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2,
     paddingVertical: spacing[4],
@@ -394,7 +390,6 @@ const styles = StyleSheet.create({
   featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
 
   // 底部导航
-  // 简洁优雅：底部导航去除背景色，仅保留选中态高亮，视觉更轻盈
   bottomNav: { flexDirection: 'row', paddingVertical: 6, gap: 6 },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
   bottomNavBtnActive: { backgroundColor: COLORS.primaryLight },

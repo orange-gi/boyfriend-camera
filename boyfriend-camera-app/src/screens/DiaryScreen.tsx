@@ -180,13 +180,13 @@ export default function DiaryScreen() {
 
   // 进步趋势文案
   const trendInfo = useMemo(() => {
-    if (totalCount < 3) return { text: '继续加油！', color: COLORS.textMuted, gradient: [COLORS.skeletonHighlight, COLORS.skeletonBase] }
+    if (totalCount < 3) return { text: '继续加油！', color: COLORS.textMuted }
     const recent5 = records.slice(0, Math.min(5, totalCount))
     const avg = calcAvgScore(recent5)
-    if (avg >= 80) return { text: '男友进化中！', color: COLORS.success, gradient: [COLORS.successLight, COLORS.trendSuccessLight] }
-    if (avg >= 65) return { text: '稳步提升中', color: COLORS.success, gradient: [COLORS.gradientBlue, COLORS.trendInfoLight] }
-    if (avg >= 50) return { text: '还需要多练习', color: COLORS.warning, gradient: [COLORS.warningLight, COLORS.trendWarningLight] }
-    return { text: '革命尚未成功', color: COLORS.primary, gradient: [COLORS.dangerLight, COLORS.trendDangerLight] }
+    if (avg >= 80) return { text: '男友进化中！', color: COLORS.success }
+    if (avg >= 65) return { text: '稳步提升中', color: COLORS.success }
+    if (avg >= 50) return { text: '还需要多练习', color: COLORS.warning }
+    return { text: '革命尚未成功', color: COLORS.primary }
   }, [totalCount, records])
 
   // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
