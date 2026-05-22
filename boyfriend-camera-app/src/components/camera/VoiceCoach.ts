@@ -4315,18 +4315,6 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
-
-  /** 连拍鼓励提示 — 用户已经拍了多张时 */
-  async speakStreakEncourage(): Promise<void> {
-    const tips = [
-      '拍了好几张了！选一张最喜欢的吧～',
-      '多拍几张选最优！第一张不一定最好～',
-      '这张比刚才那张好！继续保持，再来一张～',
-      '已经进步很明显了！最后一张，冲刺满分！',
-      '按快门别客气！多拍几张总有完美的～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
