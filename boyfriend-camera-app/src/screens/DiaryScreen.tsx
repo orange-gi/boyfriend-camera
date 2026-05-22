@@ -18,7 +18,7 @@ import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, colors } from '../theme'
+import { COLORS, colors, hexAlpha } from '../theme'
 
 
 
@@ -235,7 +235,7 @@ export default function DiaryScreen() {
         accessibilityLabel={`${dateStr} 得分 ${item.score} 分${index === 0 ? '，最新' : ''}。长按删除`}
       >
         {/* 左侧分数 */}
-        <View style={[styles.scoreBadge, { backgroundColor: sc + '18' }]}>
+        <View style={[styles.scoreBadge, { backgroundColor: hexAlpha(sc, 0.1) }]}>
           <Text style={[styles.scoreNum, { color: sc }]}>{item.score}</Text>
           <Text style={[styles.scoreGrade, { color: sc }]}>{scoreGrade}</Text>
           {scoreDiff !== null && (
@@ -270,7 +270,7 @@ export default function DiaryScreen() {
 
           {/* 分数进度条 - 一眼扫过分数字 - Round 32 */}
           <View style={styles.scoreBarRow}>
-            <View style={[styles.scoreBarTrack, { backgroundColor: sc + '18' }]}>
+            <View style={[styles.scoreBarTrack, { backgroundColor: hexAlpha(sc, 0.1) }]}>
               <View
                 style={[
                   styles.scoreBarFill,

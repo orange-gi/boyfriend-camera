@@ -138,6 +138,20 @@ export const colors = {
 } as const
 
 // ─────────────────────────────────────────────
+// 工具函数
+// ─────────────────────────────────────────────
+/** 十六进制颜色 + 透明度，返回 rgba 字符串
+ * @param hex 6位 hex 颜色如 '#4CAF50'
+ * @param alpha 0-1 透明度
+ */
+export function hexAlpha(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  return `rgba(${r},${g},${b},${alpha})`
+}
+
+// ─────────────────────────────────────────────
 // 2. 字体 tokens
 // ─────────────────────────────────────────────
 export const typography = {
