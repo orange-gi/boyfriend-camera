@@ -1622,6 +1622,22 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '脸太大了！稍微退后一步，别贴那么近～',
     '人顶到边框了！退后两三步，画面留点空间更舒服～',
   ],
+  // ========== 本次迭代新增：超近距离镜头畸变警告 ==========
+  face_too_close: [
+    '贴太近了！手机镜头会让鼻子显大，退后一步拍更自然～',
+    '脸都填满整个画面了，稍微退后两步，不然会变形～',
+    '怼脸拍容易让脸变形，退后一点手机自带美颜效果更好～',
+    '太近了！手机广角镜头会让脸比例失调，退后一步试试～',
+    '近大远小原理：脸贴镜头会让鼻子显大，退远一点会更好看～',
+  ],
+  // ========== 本次迭代新增：轻微偏头提醒 ==========
+  slight_look_away: [
+    '脸稍微侧了一点，转过来正对镜头，眼神交流会更好～',
+    '稍微转过来一点，让两只眼睛都能看到镜头～',
+    '头稍微偏了，微微转回来，眼神会更聚焦～',
+    '稍微侧了一点，正对镜头拍眼神更有力量～',
+    '转过来一点点，视线更集中，画面会更有感染力～',
+  ],
   // ========== Round 5 新增建议池 ==========
   // 咖啡馆场景建议
   cafe_specific: [
@@ -3007,6 +3023,10 @@ export async function analyzePhoto(
       suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_large))
       if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.wrong_aspect_ratio))
     }
+    // 超近距离（面积 > 0.65，镜头畸变风险）
+    if (facePosition.area > 0.65) {
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.face_too_close))
+    }
     // 景大人小（面积小于0.08但不为0，说明人太小了）
     if (facePosition.area > 0 && facePosition.area < 0.08 && compositionScore < 30) {
       if (suggestions.length < 4) {
@@ -3143,6 +3163,10 @@ export async function analyzePhoto(
     if (yawAngle !== undefined && Math.abs(yawAngle) > 30) {
       expressionScore -= 4
       if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.side_profile_hint))
+    }
+    // 轻微偏头（15-30度，仍可看到正脸但不够居中）
+    if (yawAngle !== undefined && Math.abs(yawAngle) > 15 && Math.abs(yawAngle) <= 30) {
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.slight_look_away))
     }
     // 头部过度倾斜（影响表情自然度）
     if (rollAngle !== undefined && Math.abs(rollAngle) > 20) {
