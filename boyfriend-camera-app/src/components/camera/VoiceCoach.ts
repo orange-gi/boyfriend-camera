@@ -4268,6 +4268,54 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 宠物拍照提示 */
+  async speakPetPhoto(): Promise<void> {
+    const tips = [
+      '和小宠物一起入镜超有爱！蹲下来和它平视，画面更亲近～',
+      '用零食吸引宠物注意力，让它看向镜头，就是现在抓拍！',
+      '连拍模式最适合拍宠物！多拍几张总有一张完美～',
+      '宠物奔跑时抓拍最有活力！这个瞬间绝了！',
+      '和宠物互动时表情最自然，男朋友准备好了吗？',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 镜子自拍提示 */
+  async speakMirrorSelfie(): Promise<void> {
+    const tips = [
+      '对着镜子稍微斜一点拍！正对镜子会有反光～',
+      '镜子稍微斜一点角度更好看，手机举高一点点更显瘦～',
+      '镜子里的倒影和手机都会入镜，稍微调整位置躲开～',
+      '浴室镜子有雾气时超有氛围感！这个光线绝了～',
+      '对着镜子自拍时让身体稍微侧一点，更有曲线感～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 海边泳池场景提示 */
+  async speakBeachPool(): Promise<void> {
+    const tips = [
+      '海边阳光强烈，侧身站着让光打在侧脸上，表情更柔和～',
+      '泳池边等浪来的时候抓拍，浪花打在脚踝超有氛围感！',
+      '傍晚海边的夕阳光最温柔，侧身站让光打在侧脸上～',
+      '泳池边皮肤上有水珠时先擦干，不然反光太明显～',
+      '海边穿搭颜色鲜艳的话，在蓝色背景里会超级突出！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 车内拍照提示 */
+  async speakCarInterior(): Promise<void> {
+    const tips = [
+      '车里光线复杂，摇上车窗减少玻璃反光～',
+      '坐在副驾驶从斜后方拍，驾驶座的侧脸最有故事感！',
+      '傍晚车内暖色灯光超有氛围感，打开车内灯试试～',
+      '坐在后座从窗外拍，背景虚化超有电影感～',
+      '开车门站在车旁拍，车身当背景超有范儿！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }

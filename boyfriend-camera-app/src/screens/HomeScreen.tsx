@@ -1,8 +1,8 @@
 /**
  * HomeScreen - 首页
  */
-import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal } from 'react-native'
+import React, { useEffect, useState, useRef } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal, Animated as RNAnimated } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
@@ -50,6 +50,17 @@ export default function HomeScreen() {
   const [poseTipIndex, setPoseTipIndex] = useState(0)
   const [todayCount, setTodayCount] = useState(0)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
+
+  // 骨架屏 Shimmer 动画
+  const shimmerAnim = useRef(new RNAnimated.Value(0)).current
+  useEffect(() => {
+    RNAnimated.loop(
+      RNAnimated.sequence([
+        RNAnimated.timing(shimmerAnim, { toValue: 1, duration: 800, useNativeDriver: true }),
+        RNAnimated.timing(shimmerAnim, { toValue: 0, duration: 800, useNativeDriver: true }),
+      ])
+    ).start()
+  }, [shimmerAnim])
 
   // 统一入场动画
   const enterAnim = useSharedValue(0)
@@ -174,7 +185,14 @@ export default function HomeScreen() {
               <React.Fragment key={i}>
                 {i > 0 && <View style={styles.statDivider} />}
                 <View style={[styles.statItem, styles.statItemSkeleton]}>
-                  <View style={styles.skeletonNum} />
+                  <RNAnimated.View
+                    style={[
+                      styles.skeletonNum,
+                      {
+                        opacity: shimmerAnim.interpolate({ inputRange: [0, 1], outputRange: [0.4, 1] }),
+                      },
+                    ]}
+                  />
                   <Text style={styles.statsLoadingText}>{i === 0 ? '已拍摄' : i === 1 ? '平均分' : '姿势模板'}</Text>
                 </View>
               </React.Fragment>
@@ -315,14 +333,14 @@ const styles = StyleSheet.create({
   // Hero
 
   // 每日技巧
-  dailyTipCard: { borderRadius: borderRadius.lg, padding: spacing[4], marginBottom: spacing[4], borderWidth: 1, borderColor: COLORS.divider },
-  dailyTipTouchable: { flexDirection: 'row', alignItems: 'center' },
+  dailyTipCard: { paddingLeft: spacing[3], marginBottom: spacing[4], borderLeftWidth: 3, borderLeftColor: COLORS.primary },
+  dailyTipTouchable: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], paddingRight: spacing[2] },
   dailyTipContent: { flex: 1 },
   dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4, letterSpacing: 0.5, textTransform: 'uppercase' },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
   // 姿势提示卡
-  poseTipCard: { borderRadius: borderRadius.lg, paddingHorizontal: spacing[4], paddingVertical: spacing[3], marginBottom: spacing[5], borderWidth: 1, borderColor: COLORS.divider },
+  poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5], borderLeftWidth: 3, borderLeftColor: COLORS.primary },
 
   // 统计卡片
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6] },
