@@ -881,10 +881,16 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   badgeGold: {
-    // 金色徽章：纯文字，金色强调，去掉背景色
+    // 金色徽章：纯文字+金色，无背景无边框；padding 使文字有容器感而非漂浮
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   badgeGreen: {
-    // 绿色徽章：纯文字，绿色强调，去掉背景色
+    // 绿色徽章：纯文字+绿色，无背景无边框；padding 使文字有容器感
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   badgeText: {
     fontSize: 12,
