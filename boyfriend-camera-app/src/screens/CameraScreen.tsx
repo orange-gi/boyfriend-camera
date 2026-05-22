@@ -280,7 +280,7 @@ export default function CameraScreen() {
           photoWidth: undefined,
           photoHeight: undefined,
           templateCategory: activeTemplateRef.current?.category ?? null,
-        }}),
+        }})
         VoiceCoach.speakCaptureSuccess()
       } else {
         VoiceCoach.speakCaptureFailed()
