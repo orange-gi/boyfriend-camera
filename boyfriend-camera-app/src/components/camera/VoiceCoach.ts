@@ -4451,6 +4451,18 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  // ========== Round 3 新增 TTS 方法：无脸检测超长提示
+  async speakNoFaceLongTip(): Promise<void> {
+    const tips = [
+      '镜头里看不到人脸，试一下对着相机站近一点～',
+      '找不到人脸，可以点一下屏幕对焦～',
+      '让女朋友站到画面中间，这样人脸识别更容易找到～',
+      '光线太暗也会影响人脸识别，找个亮一点的地方试试～',
+      '如果想拍背影或剪影，可以关掉人脸识别～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 人脸重新检测到提示 — faceLost 后重新找回 */
   async speakFaceRegained(): Promise<void> {
     const tips = [
@@ -4634,6 +4646,31 @@ class VoiceCoach {
       '打开九宫格辅助线，把脸放在上横线交叉点～',
       '对着镜子自拍时手机稍微斜一点，避免镜面反光～',
       '举高手机从上往下拍，自拍最显脸小的角度！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：变焦使用提示
+  async speakZoomTip(): Promise<void> {
+    const tips = [
+      '光线充足时稍微拉近一点，人物特写更有张力～',
+      '不要用数字变焦！走近一点拍，画质会好很多～',
+      '人像模式最好用 1 倍或 2 倍光学变焦，画质最佳～',
+      '逆光时稍微拉近，可以拍到更多轮廓光～',
+      '光线好的时候可以用 2 倍变焦拍半身特写，更有质感～',
+      '超广角拍建筑有气势，拍人像容易变形，建议换回 1 倍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：人像模式提示
+  async speakPortraitModeTip(): Promise<void> {
+    const tips = [
+      '人像模式背景虚化超美！试试用这个模式拍～',
+      '人像模式让背景柔化，主体更突出～',
+      '开人像模式要找明显的前景或背景，虚化效果才明显～',
+      '人像模式光线充足时效果最好，逆光也能拍出轮廓光～',
+      '人像模式半身照最佳，距离 1 到 2 米效果最好～',
     ]
     await this.speak(pickRandom(tips), false)
   }
