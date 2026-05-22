@@ -979,8 +979,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 6,
   },
-  // 设计理由: 圆圈已是纯色实心背景，borderColor 不产生任何视觉效果；
-  // 保留 backgroundColor 让 active/done 态与默认骨架态形成清晰对比，删除冗余 borderColor
   processStepCircleActive: {
     backgroundColor: COLORS.primary,
   },
@@ -1034,14 +1032,11 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     lineHeight: 20,
   },
-  // 设计理由: borderLeftWidth: 3 已内联设置，borderLeftColor 通过 style prop 传入，
-  // 此处声明 borderLeftColor: COLORS.primary 是默认值；可省去以减少冗余
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
     borderRadius: 12,
     padding: 14,
-    // 去装饰化：移除淡紫色背景块，文字本身承载"建议"语义，无需色块衬托
   },
   suggestionBannerTitle: {
     fontSize: 14,
