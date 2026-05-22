@@ -111,25 +111,6 @@ export default function CameraScreen() {
   // 拍照闪白动画
   const flashAnim = useRef(new Animated.Value(0)).current
   const focusAnim = useRef(new Animated.Value(0)).current
-  // 取景框提示文字淡入
-  const hintOpacity = useRef(new Animated.Value(0)).current
-
-  // 取景框提示文字自动淡入
-  useEffect(() => {
-    Animated.sequence([
-      Animated.timing(hintOpacity, { toValue: 1, duration: 800, delay: 1200, useNativeDriver: true }),
-      Animated.timing(hintOpacity, { toValue: 0, duration: 600, delay: 3500, useNativeDriver: true }),
-    ]).start(({ finished }) => {
-      if (finished) {
-        // 循环
-        hintOpacity.setValue(0)
-        Animated.sequence([
-          Animated.timing(hintOpacity, { toValue: 1, duration: 800, delay: 1200, useNativeDriver: true }),
-          Animated.timing(hintOpacity, { toValue: 0, duration: 600, delay: 3500, useNativeDriver: true }),
-        ]).start()
-      }
-    })
-  }, [])
 
   // captureRetryRef 指向重试函数；doCapture 读取这些 ref 拿到最新状态
   const flashRef = useRef(flash)
@@ -524,13 +505,6 @@ export default function CameraScreen() {
         onTipPress={handleVoiceTipConfirm}
       />
 
-      {/* 取景框提示文字 */}
-      {!activeTemplate && (
-        <Animated.View style={[styles.viewfinderHint, { opacity: hintOpacity }]}>
-          <Text style={styles.viewfinderHintText}>试试点击下方「姿势」选一个模板</Text>
-        </Animated.View>
-      )}
-
       {/* 顶部悬浮姿势引导卡 — 毛玻璃风格 */}
       {activeTemplate && (
         <View style={styles.poseTipCardFrosted}>
@@ -628,11 +602,6 @@ export default function CameraScreen() {
           activeOpacity={0.72}
         >
           <Text style={styles.sideBtnText}>姿势</Text>
-          {templates.length > 0 && (
-            <View style={styles.templateBadge}>
-              <Text style={styles.templateBadgeText}>{templates.length}</Text>
-            </View>
-          )}
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -1024,25 +993,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   // 顶部悬浮姿势引导卡
-  viewfinderHint: {
-    position: 'absolute',
-    bottom: 130,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    zIndex: 15,
-  },
-  viewfinderHintText: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: '500',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    overflow: 'hidden',
-    textAlign: 'center',
-  },
   autoRecommendBadge: {
     backgroundColor: COLORS.primary,
     color: '#fff',
@@ -1053,10 +1003,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     marginRight: 2,
-  },
-  autoRecommendBadgeRow: {
-    alignSelf: 'flex-start',
-    marginBottom: 4,
   },
   poseTipCardFrosted: {
     position: 'absolute',
@@ -1135,22 +1081,6 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.9)',
     fontSize: 11,
     fontWeight: '500',
-  },
-  templateBadge: {
-    position: 'absolute',
-    top: 0,
-    right: 8,
-    backgroundColor: COLORS.primary,
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-    minWidth: 18,
-    alignItems: 'center',
-  },
-  templateBadgeText: {
-    color: '#fff',
-    fontSize: 10,
-    fontWeight: 'bold',
   },
   shutter: {
     alignItems: 'center',
