@@ -3578,6 +3578,34 @@ export async function analyzePhoto(
     const skiPool = SUGGESTION_POOL.ski_resort_specific || SUGGESTION_POOL.composition
     suggestions.push(pickRandom(skiPool))
   }
+  if (sceneType === 'gym' && totalScore < 75) {
+    const gymPool = SUGGESTION_POOL.gym_specific || SUGGESTION_POOL.stability
+    suggestions.push(pickRandom(gymPool))
+  }
+  if (sceneType === 'beach' && totalScore < 75) {
+    const beachPool = SUGGESTION_POOL.beach_sunset_specific || SUGGESTION_POOL.bokeh
+    suggestions.push(pickRandom(beachPool))
+  }
+  if (sceneType === 'cherry_blossom' && totalScore < 75) {
+    const cherryPool = SUGGESTION_POOL.cherry_blossom_specific || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(cherryPool))
+  }
+  if (sceneType === 'rainy_street' && totalScore < 75) {
+    const rainyPool = SUGGESTION_POOL.rainy_street_specific || SUGGESTION_POOL.rainy
+    suggestions.push(pickRandom(rainyPool))
+  }
+  if (sceneType === 'subway' && totalScore < 75) {
+    const subwayPool = SUGGESTION_POOL.subway_specific || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(subwayPool))
+  }
+  if (sceneType === 'bookstore' && totalScore < 75) {
+    const bookPool = SUGGESTION_POOL.bookstore_reading_specific || SUGGESTION_POOL.natural_light
+    suggestions.push(pickRandom(bookPool))
+  }
+  if (sceneType === 'dance_performance' && totalScore < 75) {
+    const dancePool = SUGGESTION_POOL.dance_performance_tips || SUGGESTION_POOL.motion
+    suggestions.push(pickRandom(dancePool))
+  }
   if (isCouplePhoto && totalScore < 75) {
     const couplePool = SUGGESTION_POOL.couple_specific || SUGGESTION_POOL.composition
     suggestions.push(pickRandom(couplePool))
