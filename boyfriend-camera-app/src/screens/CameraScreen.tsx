@@ -124,6 +124,7 @@ export default function CameraScreen() {
   const { faces, processFrame } = useFaceDetection()
   // 节流自拍距离 TTS（避免频繁播报）
   const lastSelfieWarningRef = useRef<number>(0)
+  const lastMultiFaceWarningRef = useRef<number>(0)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
   const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -231,6 +232,12 @@ export default function CameraScreen() {
     if (faces.length > 0 && faces[0].area > 0.22) {
       lastSelfieWarningRef.current = now
       VoiceCoach.speak('手机拿远一点！自拍离太近会变形～', false)
+    }
+    // 多脸检测 TTS（检测到多人时提醒构图）
+    if (faces.length > 1) {
+      if (now - lastMultiFaceWarningRef.current < 6000) return // 6s 节流
+      lastMultiFaceWarningRef.current = now
+      VoiceCoach.speakMultiFaceTip(faces.length)
     }
   }, [faces, cameraFacing])
 
