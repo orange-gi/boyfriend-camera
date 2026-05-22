@@ -4315,9 +4315,54 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  // ========== Round 3 新增 TTS 方法 ==========
+  /** 首次拍摄引导提示 */
+  async speakFirstPhotoHint(): Promise<void> {
+    const tips = [
+      '第一张照片！深呼吸，放轻松，男朋友准备好了就按下去～',
+      '新手上路！别紧张，慢慢来，男朋友你行的～',
+      '第一张开始！让女朋友站好位置，笑一个，按下去～',
+      '初次开拍！告诉男朋友打开九宫格辅助线，构图会更准～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 存储空间不足提示 */
+  async speakStorageHint(): Promise<void> {
+    const tips = [
+      '手机存储快满了！先清理一下再继续拍吧～',
+      '存储空间不够了，删点照片或清理缓存再继续～',
+      '存储快满了！先把好看的照片备份出来再拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** HDR 模式提示 */
+  async speakHDRTip(): Promise<void> {
+    const tips = [
+      '明暗对比大！打开 HDR 模式，高光阴影都能保留～',
+      '这个场景开 HDR 模式更好看！打开试试～',
+      '逆光或强光场景建议打开 HDR，打开相机的 HDR 设置～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 构图最后确认提示 */
+  async speakCompositionConfirm(): Promise<void> {
+    const tips = [
+      '最后确认一下：人脸在交叉点上，背景干净，光线均匀！',
+      '打开九宫格看一眼：人脸对准了吗？背景干净吗？可以按了～',
+      '构图确认！九宫格对齐了吗？可以按快门了～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
+
+
+
 export default new VoiceCoach()
 
 /*
