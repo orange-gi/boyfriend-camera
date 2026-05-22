@@ -43,7 +43,6 @@ export default function HomeScreen() {
   const [showOnboard, setShowOnboard] = useState(false)
   const [onboardStep, setOnboardStep] = useState(0)
   const [tipDismissed, setTipDismissed] = useState(false)
-  const [expandedTip, setExpandedTip] = useState(false)
   const [displayDiaryCount, setDisplayDiaryCount] = useState(0)
   const [displayAvgScore, setDisplayAvgScore] = useState(0)
   const [statsLoading, setStatsLoading] = useState(true)
@@ -51,15 +50,17 @@ export default function HomeScreen() {
   const [todayCount, setTodayCount] = useState(0)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
-  // 骨架屏 Shimmer 动画
+  // 骨架屏 Shimmer 动画（返回 ref 以便清理）
   const shimmerAnim = useRef(new RNAnimated.Value(0)).current
   useEffect(() => {
-    RNAnimated.loop(
+    const animation = RNAnimated.loop(
       RNAnimated.sequence([
         RNAnimated.timing(shimmerAnim, { toValue: 1, duration: 800, useNativeDriver: true }),
         RNAnimated.timing(shimmerAnim, { toValue: 0, duration: 800, useNativeDriver: true }),
       ])
-    ).start()
+    )
+    animation.start()
+    return () => animation.stop()
   }, [shimmerAnim])
 
   // 统一入场动画
