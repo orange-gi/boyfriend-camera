@@ -1,8 +1,8 @@
 /**
- * ScoreBoard - 评分板 v3
- * 改进：总分逐位滚动动画、各维度依次展开动画、建议文案气泡
+ * ScoreBoard - 评分板 v4
+ * 简洁优雅极致：去 emoji 标题、删冗余百分比、纯文字维度标签、克制的留白
  */
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { View, Text, StyleSheet, Animated } from 'react-native'
 import { COLORS, scoreColor, scoreLabel } from '../../theme/colors'
 
@@ -22,7 +22,6 @@ interface Props {
 
 interface DimensionProps {
   label: string
-  icon: string
   score: number
   maxScore: number
   color: string
@@ -32,7 +31,6 @@ interface DimensionProps {
 function AnimatedNumber({ value, style, color }: { value: number; style: import('react-native').StyleProp<import('react-native').TextStyle>; color?: string }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
-  // 防御性检查，防止 NaN
   const safeValue = typeof value === 'number' && !isNaN(value) ? value : 0
 
   useEffect(() => {
@@ -53,9 +51,8 @@ function AnimatedNumber({ value, style, color }: { value: number; style: import(
   )
 }
 
-function DimensionBar({ label, icon, score, maxScore, color, delay }: DimensionProps) {
+function DimensionBar({ label, score, maxScore, color, delay }: DimensionProps) {
   const progress = useRef(new Animated.Value(0)).current
-  // 防御性检查，防止 NaN 导致动画异常
   const safeScore = typeof score === 'number' && !isNaN(score) ? score : 0
 
   useEffect(() => {
@@ -67,16 +64,11 @@ function DimensionBar({ label, icon, score, maxScore, color, delay }: DimensionP
     }).start()
   }, [safeScore, maxScore, delay])
 
-  const percentage = useMemo(() => Math.round((safeScore / maxScore) * 100), [safeScore, maxScore])
-
   return (
     <View style={styles.dimRow}>
-      <Text style={styles.dimIcon}>{icon}</Text>
-      <View style={styles.dimContent}>
-        <View style={styles.dimHeader}>
-          <Text style={styles.dimLabel}>{label}</Text>
-          <Text style={[styles.dimScore, { color }]}>{score}分</Text>
-        </View>
+      {/* 纯文字标签，克制无 emoji */}
+      <Text style={[styles.dimLabel, { color }]}>{label}</Text>
+      <View style={styles.dimBarWrap}>
         <View style={styles.barTrack}>
           <Animated.View
             style={[
@@ -91,14 +83,14 @@ function DimensionBar({ label, icon, score, maxScore, color, delay }: DimensionP
             ]}
           />
         </View>
-        <Text style={styles.dimPercent}>{percentage}%</Text>
+        {/* 分数右对齐，不再显示冗余百分比 */}
+        <Text style={[styles.dimScore, { color }]}>{safeScore}<Text style={styles.dimMax}>/{maxScore}</Text></Text>
       </View>
     </View>
   )
 }
 
 export default function ScoreBoard({ result }: Props) {
-  // 防御性检查，防止 ResultScreen 还未设置 scoreResult 时崩溃
   if (!result) {
     return null
   }
@@ -114,48 +106,45 @@ export default function ScoreBoard({ result }: Props) {
   const totalColor = scoreColor(totalScore)
 
   const dimensions = [
-    { label: '构图', icon: '🎯', score: compositionScore, maxScore: 40, color: COLORS.primary },
-    { label: '曝光', icon: '💡', score: exposureScore, maxScore: 30, color: COLORS.warning },
-    { label: '稳定', icon: '🤚', score: stabilityScore, maxScore: 20, color: COLORS.info },
-    { label: '水平', icon: '📏', score: levelScore, maxScore: 10, color: COLORS.purple },
+    { label: '构图', score: compositionScore, maxScore: 40, color: COLORS.primary },
+    { label: '曝光', score: exposureScore, maxScore: 30, color: COLORS.warning },
+    { label: '稳定', score: stabilityScore, maxScore: 20, color: COLORS.info },
+    { label: '水平', score: levelScore, maxScore: 10, color: COLORS.purple },
   ]
 
   return (
     <View style={styles.container}>
-      {/* 总分卡片 */}
+      {/* 总分卡片 — 简洁落地，无阴影 */}
       <View style={styles.totalCard}>
         <View style={[styles.totalBadge, { backgroundColor: totalColor + '15' }]}>
           <AnimatedNumber value={totalScore} style={[styles.totalScore, { color: totalColor }]} />
-          <Text style={[styles.totalLabel, { color: totalColor }]}>综合评分</Text>
+          <Text style={[styles.totalLabel, { color: totalColor }]}>分</Text>
         </View>
         <View style={styles.totalMeta}>
           <Text style={[styles.totalGrade, { color: totalColor }]}>{scoreLabel(totalScore)}</Text>
-          <Text style={styles.totalSubtitle}>总分 100 · 构图40 · 曝光30 · 稳定20 · 水平10</Text>
+          <Text style={styles.totalSubtitle}>总分100 · 构图40 · 曝光30 · 稳定20 · 水平10</Text>
         </View>
       </View>
 
-      {/* 分维度条 */}
+      {/* 分维度 — 去 emoji 标题，简化维度展示 */}
       <View style={styles.dimsCard}>
-        <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>📊 详细评分</Text>
+        <Text style={styles.sectionTitle}>详细评分</Text>
         {dimensions.map((d, i) => (
           <DimensionBar key={d.label} {...d} delay={i * 80} />
         ))}
       </View>
 
-      {/* 建议文案气泡 */}
+      {/* 建议 — 去 emoji 标题，首条气泡样式 */}
       {suggestions.length > 0 && (
         <View style={styles.suggestCard}>
-          <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>💡 下次可以这样拍</Text>
-          {/* 首要建议：气泡样式 */}
+          <Text style={styles.sectionTitle}>下次可以这样拍</Text>
           <View style={styles.suggestBubble}>
-            <Text style={styles.suggestBubbleTail}>💬</Text>
             <Text style={styles.suggestBubbleText}>{suggestions[0]}</Text>
           </View>
-          {/* 其他建议 */}
           {suggestions.slice(1).map((s, i) => (
             <View key={i} style={styles.suggestRow}>
-              <Text style={styles.suggestBullet}>•</Text>
-              <Text style={[styles.suggestText, { color: COLORS.textSecondary }]}>{s}</Text>
+              <Text style={styles.suggestBullet}>·</Text>
+              <Text style={styles.suggestText}>{s}</Text>
             </View>
           ))}
         </View>
@@ -167,130 +156,134 @@ export default function ScoreBoard({ result }: Props) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    gap: 12,
+    gap: 16,
   },
+  // 总分卡片 — 简洁落地，无阴影无边框
   totalCard: {
     backgroundColor: COLORS.bgCard,
-    borderRadius: 16,
-    padding: 24,
+    borderRadius: 12,
+    padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    // 去装饰化：移除阴影，卡片不浮动，简洁落地
   },
   totalBadge: {
-    borderRadius: 24,
-    padding: 20,
+    borderRadius: 12,
+    padding: 16,
     alignItems: 'center',
-    minWidth: 100,
-    // 去装饰化：移除边框，颜色背景即为标识
+    justifyContent: 'center',
+    minWidth: 88,
+    flexDirection: 'row',
+    gap: 4,
   },
   totalScore: {
-    fontSize: 52,
+    fontSize: 48,
     fontWeight: 'bold',
     textAlign: 'center',
     letterSpacing: -1,
   },
   totalLabel: {
-    fontSize: 13,
-    marginTop: 4,
+    fontSize: 14,
     fontWeight: '600',
+    alignSelf: 'flex-end',
+    marginBottom: 10,
   },
   totalMeta: { flex: 1, marginLeft: 16 },
   totalGrade: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 4,
   },
   totalSubtitle: {
-    fontSize: 12,
+    fontSize: 11,
     color: COLORS.textMuted,
-    lineHeight: 18,
+    lineHeight: 16,
   },
+  // 维度区
   dimsCard: {
     backgroundColor: COLORS.bgCard,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 16,
-    // 去装饰化：移除阴影，保持卡片简洁
   },
   sectionTitle: {
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '600',
-    marginBottom: 14,
+    color: COLORS.textSecondary,
+    marginBottom: 16,
+    letterSpacing: 0.3,
+    textTransform: 'uppercase',
   },
+  // 维度行 — 标签左 + bar+分数右
   dimRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 14,
   },
-  dimIcon: { fontSize: 18, width: 28, textAlign: 'center' },
-  dimContent: { flex: 1, marginLeft: 10 },
-  dimHeader: {
+  dimLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    width: 36,
+  },
+  dimBarWrap: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 4,
+    alignItems: 'center',
+    marginLeft: 12,
+    gap: 10,
   },
-  dimLabel: { fontSize: 13, color: COLORS.textSecondary },
-  dimScore: { fontSize: 13, fontWeight: '600' },
   barTrack: {
-    height: 8,
+    flex: 1,
+    height: 6,
     backgroundColor: COLORS.divider,
-    borderRadius: 4,
+    borderRadius: 3,
     overflow: 'hidden',
   },
   barFill: {
     height: '100%',
-    borderRadius: 4,
+    borderRadius: 3,
   },
-  dimPercent: {
-    fontSize: 10,
-    color: COLORS.textMuted,
-    marginTop: 2,
+  dimScore: {
+    fontSize: 12,
+    fontWeight: '700',
+    width: 36,
     textAlign: 'right',
   },
+  dimMax: {
+    fontWeight: '400',
+    color: COLORS.textMuted,
+  },
+  // 建议区
   suggestCard: {
     backgroundColor: COLORS.bgCard,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 16,
-    // 去装饰化：移除阴影
   },
   suggestBubble: {
-    backgroundColor: COLORS.primary + '12',
-    borderRadius: 14,
-    // 去装饰化：移除边框，颜色背景足以区分
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    paddingRight: 20,
+    backgroundColor: COLORS.primary + '10',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
     marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 8,
-  },
-  suggestBubbleTail: {
-    fontSize: 16,
-    marginTop: 2,
-    flexShrink: 0,
   },
   suggestBubbleText: {
-    flex: 1,
     fontSize: 14,
     color: COLORS.textPrimary,
     lineHeight: 22,
-    fontWeight: '500',
   },
   suggestRow: {
     flexDirection: 'row',
-    marginBottom: 8,
-    paddingRight: 8,
+    marginBottom: 6,
+    paddingRight: 4,
   },
   suggestBullet: {
     fontSize: 14,
-    color: COLORS.primary,
+    color: COLORS.textMuted,
     marginRight: 8,
     marginTop: 1,
   },
   suggestText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 13,
     lineHeight: 20,
+    color: COLORS.textSecondary,
   },
 })
