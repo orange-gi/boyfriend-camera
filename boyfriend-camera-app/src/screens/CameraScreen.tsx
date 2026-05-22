@@ -829,12 +829,8 @@ export default function CameraScreen() {
                       accessibilityLabel={`姿势模板: ${item.name}${isActive ? '，已选中' : ''}`}
                       accessibilityHint="单击选择此姿势模板"
                     >
-                      {/* 选中态角标 */}
-                      {isActive && (
-                        <View style={styles.templateSelectedBadge}>
-                          <Text style={styles.templateSelectedBadgeText}>✓</Text>
-                        </View>
-                      )}
+                      {/* 选中态角标已移除 — 选择态由 borderColor + backgroundColor 承载，
+                          无需额外角标，避免角落装饰元素干扰模板缩略图 */}
                       <Image
                         source={{ uri: item.thumbnail }}
                         style={styles.templateThumb}
@@ -844,7 +840,7 @@ export default function CameraScreen() {
                         {item.name}
                       </Text>
                       {item.voiceTip && (
-                        <Text style={styles.templateVoiceTip} numberOfLines={1}>💬 {item.voiceTip.slice(0, 15)}...</Text>
+                        <Text style={styles.templateVoiceTip} numberOfLines={1}>{item.voiceTip.slice(0, 20)}...</Text>
                       )}
                       {item.category && (
                         <View style={[styles.templateCategory, { backgroundColor: catColor }]}>
@@ -877,7 +873,7 @@ export default function CameraScreen() {
             <Text style={styles.previewName}>{longPressTemplate?.name}</Text>
             <Text style={styles.previewDesc}>{longPressTemplate?.description}</Text>
             {longPressTemplate?.voiceTip && (
-              <Text style={styles.previewTip}>💬 {longPressTemplate.voiceTip}</Text>
+              <Text style={styles.previewTip}>{longPressTemplate.voiceTip}</Text>
             )}
             {/* 收藏姿势按钮 */}
             <TouchableOpacity
@@ -1231,24 +1227,6 @@ const styles = StyleSheet.create({
   templateCardActive: {
     borderColor: COLORS.primary,
     backgroundColor: COLORS.primaryLight,
-  },
-  templateSelectedBadge: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: COLORS.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 2,
-  },
-  templateSelectedBadgeText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
-    lineHeight: 16,
   },
   templateThumb: {
     width: SCREEN_W / 2 - 58,
