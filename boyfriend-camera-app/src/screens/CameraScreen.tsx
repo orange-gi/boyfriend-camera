@@ -93,6 +93,7 @@ export default function CameraScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string>('全部')
   const [cameraError, setCameraError] = useState<string | null>(null)
   const [focusPoint, setFocusPoint] = useState<{ x: number; y: number } | null>(null)
+  const photoCountRef = useRef(0)
   const [templateSearch, setTemplateSearch] = useState('')
   const [longPressTemplate, setLongPressTemplate] = useState<PoseTemplate | null>(null)
   const [isFavorite, setIsFavorite] = useState(false)
@@ -282,6 +283,13 @@ export default function CameraScreen() {
           templateCategory: activeTemplateRef.current?.category ?? null,
         }})
         VoiceCoach.speakCaptureSuccess()
+        photoCountRef.current++
+        const count = photoCountRef.current
+        if (count === 5) VoiceCoach.speakProgressEncouragement(count)
+        else if (count === 10) VoiceCoach.speakProgressEncouragement(count)
+        else if (count === 20) VoiceCoach.speakProgressEncouragement(count)
+        else if (count === 50) VoiceCoach.speakProgressEncouragement(count)
+        else if (count === 100) VoiceCoach.speakMilestone(count)
       } else {
         VoiceCoach.speakCaptureFailed()
         Alert.alert('拍照遇到点小状况', '可以换个角度重试一下～', [
@@ -348,8 +356,7 @@ export default function CameraScreen() {
   const cycleFlash = useCallback(() => {
     const idx = (FLASH_MODES.indexOf(flash) + 1) % FLASH_MODES.length
     setFlash(FLASH_MODES[idx])
-    const labels: Record<string, string> = { off: '闪光灯关闭', on: '闪光灯打开', auto: '闪光灯自动' }
-    VoiceCoach.speak(labels[FLASH_MODES[idx]], false)
+    VoiceCoach.speakFlashChanged(FLASH_MODES[idx])
   }, [flash])
 
   const handleStabilityUnstable = useCallback(() => {
@@ -552,12 +559,7 @@ export default function CameraScreen() {
               key={m}
               style={[styles.modeBtn, mode === m && styles.modeBtnActiveGlass]}
               onPress={() => {
-                const labels: Record<CompositionMode, string> = {
-                  grid: '九宫格',
-                  golden: '黄金螺旋',
-                  triangle: '三角构图',
-                }
-                VoiceCoach.speak(`已切换到${labels[m]}模式`, false)
+                VoiceCoach.speakGridModeChanged(m)
                 setMode(m)
               }}
               activeOpacity={0.72}
