@@ -421,8 +421,8 @@ export default function DiaryScreen() {
                 </>
               )}
 
-              {/* 趋势横幅 */}
-              <View style={[styles.trendBanner, { backgroundColor: trendInfo.color + '15' }]}>
+              {/* 趋势横幅 — 简洁版：无背景色，纯文字分层 */}
+              <View style={styles.trendBannerRow}>
                 <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
                   {trendInfo.text}
                 </Text>
@@ -440,7 +440,7 @@ export default function DiaryScreen() {
                 {/* 等级徽章 */}
                 {avgScore >= 80 && (
                   <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
                   </View>
                 )}
                 {avgScore >= 60 && avgScore < 80 && (
@@ -456,22 +456,22 @@ export default function DiaryScreen() {
                 {/* 里程碑徽章（不与等级重叠时显示） */}
                 {maxScore === 100 && avgScore < 80 && (
                   <View style={[styles.badgeGold]}>
-                    <Text style={styles.badgeText}>满分达成</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>满分达成</Text>
                   </View>
                 )}
                 {maxScore !== 100 && avgScore < 80 && totalCount >= 10 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>拍摄{totalCount}次</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.success }]}>拍摄{totalCount}次</Text>
                   </View>
                 )}
                 {maxScore !== 100 && avgScore < 80 && totalCount < 10 && weeklyStats.streak >= 3 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>连续{weeklyStats.streak}天</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.success }]}>连续{weeklyStats.streak}天</Text>
                   </View>
                 )}
                 {totalCount === 1 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={styles.badgeText}>首次记录</Text>
+                    <Text style={[styles.badgeText, { color: COLORS.success }]}>首次记录</Text>
                   </View>
                 )}
               </View>
@@ -890,15 +890,15 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   badgeGold: {
-    backgroundColor: COLORS.warning + '20',
+    // 金色徽章：纯文字，金色强调，去掉背景色
   },
-
   badgeGreen: {
-    backgroundColor: COLORS.success + '20',
+    // 绿色徽章：纯文字，绿色强调，去掉背景色
   },
   badgeText: {
     fontSize: 12,
     fontWeight: '600',
+    color: COLORS.warning,
   },
   monthCompareRow: {
     flexDirection: 'row',
@@ -940,15 +940,14 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     marginTop: 2,
   },
-  trendBanner: {
+  trendBannerRow: {
     marginTop: 12,
-    borderRadius: 12,
-    overflow: 'hidden',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.divider,
   },
   trendBannerText: {
     fontSize: 14,
