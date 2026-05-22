@@ -1240,6 +1240,23 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '风吹头发时按下快门，飘逸动感超美～',
     '玩的时候让男朋友在旁边等着，随时抓拍最自然的瞬间～',
   ],
+  // ========== Round 迭代新增：取景比例建议 ==========
+  wrong_aspect_ratio: [
+    '竖图拍成了横图！换个方向试试，竖屏更适合拍人像～',
+    '这个角度横图更好看！把手机转过来拍～',
+    '竖屏拍人像更有冲击力，让男朋友把手机竖过来～',
+    '横屏适合拍大场景和人多合照，竖屏拍单人会更好看～',
+    '情侣合照竖图更有感觉，让男朋友竖着拍～',
+  ],
+  // ========== Round 迭代新增：手抖警告 ==========
+  camera_shake: [
+    '手机在晃！先把手机拿稳，等稳定了再拍～',
+    '检测到手机在抖，深呼吸，稳住双手再按快门～',
+    '手机抖得好厉害！靠墙或找个支撑点会好很多～',
+    '手抖了照片会糊！双手握手机贴紧身体会更稳～',
+    '陀螺仪检测到晃动，等手机稳定再拍～',
+    '打开手机防抖模式可以减少糊片概率～',
+  ],
   // 新增建议池
   over_exposure: [
     '高光过曝了，脸部细节都没有了～稍微暗一点试试',
@@ -2988,6 +3005,7 @@ export async function analyzePhoto(
     } else if (facePosition.area > 0.5) {
       compositionScore -= 5
       suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_large))
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.wrong_aspect_ratio))
     }
     // 景大人小（面积小于0.08但不为0，说明人太小了）
     if (facePosition.area > 0 && facePosition.area < 0.08 && compositionScore < 30) {
@@ -3075,6 +3093,7 @@ export async function analyzePhoto(
     stabilityScore -= 15
     problems.push('stability')
     suggestions.push(pickRandom(SUGGESTION_POOL.stability))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.camera_shake))
   } else if (safeSharpness < 100) {
     stabilityScore -= 5
     problems.push('stability')
