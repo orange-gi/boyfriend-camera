@@ -8,7 +8,6 @@ import {
   typography,
   spacing,
   borderRadius,
-  shadows,
   componentTokens,
 } from './index'
 
