@@ -4429,6 +4429,197 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  // ========== Round 3 新增 TTS 方法：逆光检测提示
+  async speakBacklightGuide(): Promise<void> {
+    const tips = [
+      '检测到逆光！脸有点暗，侧身转过来让光打在脸上～',
+      '背光场景！脸太黑了，打开闪光灯补光试试～',
+      '逆光情况下打开闪光灯，让脸亮起来～',
+      '背光了！转过来面对光源，或者打开闪光灯补光～',
+      '逆光照片脸是黑的！打开 HDR 模式或者转过来面对光源～',
+      '背光检测到！打开闪光灯正面补光，或者侧身躲开逆光～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：夜景拍照提示
+  async speakNightGuide(): Promise<void> {
+    const tips = [
+      '夜景光线复杂，打开闪光灯补补光～',
+      '晚上光线不足，打开闪光灯或找个光源站～',
+      '夜间拍照手要更稳，深呼吸后按快门～',
+      '夜景模式自动开启，手拿稳等处理完成～',
+      '晚上光线暗，打开闪光灯拍出来会更清晰～',
+      '夜间逆光很美！转过来让脸朝向光源试试～',
+      '夜晚室内打开室内灯，让脸更亮更清晰～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：表情鼓励提示
+  async speakExpressionRelaxGuide(): Promise<void> {
+    const tips = [
+      '表情再自然一点！想想最开心的事，嘴角上扬一点点～',
+      '笑一个！自然的笑容最好看～',
+      '让她放松一下！深呼吸，然后笑一个～',
+      '表情再柔和一点，嘴角微微上扬就够了～',
+      '逗她笑一下！这个表情最生动～',
+      '假装被逗笑了，自然流露的笑容最动人～',
+      '让她想想最喜欢的人或事，表情会变温柔的～',
+      '别僵着！想象旁边有只小猫在逗她～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：情侣合照提示
+  async speakCoupleTip(): Promise<void> {
+    const tips = [
+      '情侣照要靠近一点！贴贴更甜蜜～',
+      '两人对视一下！这个角度超有感觉～',
+      '男生从后面环抱，经典的甜蜜姿势～',
+      '牵手背对镜头，回头看镜头，超有氛围感～',
+      '两人靠近一点，贴贴更上镜～',
+      '对视一下！这个表情绝了，按下去～',
+      '两人互动抓拍！逗她笑的那个瞬间最自然～',
+      '男生公主抱起来！这个瞬间超甜～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：黄金时段提示
+  async speakGoldenLightGuide(): Promise<void> {
+    const tips = [
+      '现在是拍照的黄金时段！光线超美，赶紧多拍几张～',
+      '日落前半小时光线最温柔！这时间段拍人像绝了～',
+      '黄金时段到了！趁阳光还在多按快门～',
+      '日落光线好温柔！侧身站让光打在侧脸上～',
+      '日出后或日落前是拍照黄金期，这光这角度绝了～',
+      '黄金时段很短！抓紧时间多拍几张，光线不会再来～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：阴天柔光提示
+  async speakCloudyLightGuide(): Promise<void> {
+    const tips = [
+      '阴天光线超柔和！脸上不会有硬阴影，随便拍都好看～',
+      '阴天的漫反射光是天然柔光箱，拍人像超合适～',
+      '阴天没有强光直射，不用担心过曝，这个时间随便拍～',
+      '阴天光线偏冷白，后期可以加一点暖色调让肤色更健康～',
+      '阴天光线均匀又稳定！拍特写和近景最合适了～',
+      '阴天拍照皮肤状态超好！这个时间段光线超柔～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：宠物互动提示
+  async speakPetTip(): Promise<void> {
+    const tips = [
+      '和宠物互动时蹲下来和它平视，表情最自然～',
+      '让男朋友在旁边等着随时抓拍！自然的瞬间最可爱～',
+      '逗猫逗狗抓拍！和小动物互动时表情最生动～',
+      '宠物动来动去！连拍模式按着快门别松手～',
+      '让宠物看向镜头！用零食或声音吸引它的注意力～',
+      '和宠物同框超有爱！自然的互动最可爱～',
+      '让猫咪或狗狗先放松，再慢慢引导它们看镜头～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：多人合照提示
+  async speakGroupShotGuide(): Promise<void> {
+    const tips = [
+      '多人合照大家靠近一点！贴贴更上镜～',
+      '合照时后排稍微错开站，这样每个人都能露出来～',
+      '人多往后退一步！大家都入镜才好看～',
+      '多人合照对焦在中间的人身上最合适～',
+      '大家看镜头！对焦在最前面的人身上哦～',
+      '合照时稍微错落站位，这样构图更有层次～',
+      '多人拍摄连拍几张，总有一张每个人表情都在线～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：闪光灯使用提示
+  async speakFlashTip(): Promise<void> {
+    const tips = [
+      '光线有点暗，打开闪光灯补补光～',
+      '闪光灯可以消除脸上的阴影，让皮肤看起来更通透～',
+      '逆光时打开闪光灯正面补光，背景和人脸都能兼顾～',
+      '闪光灯跳闪效果更柔和！把灯头朝向天花板反射下来～',
+      '后置镜头开闪光灯距离远效果一般，靠近一点补光会更自然～',
+      '柔光罩可以软化闪光灯直打的硬光，让皮肤更柔和～',
+      '晚上或暗光环境下打开闪光灯，照片会更清晰～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：自拍角度提示
+  async speakSelfieTip(): Promise<void> {
+    const tips = [
+      '自拍稍微侧一点脸！45度是最显瘦的黄金角度～',
+      '手机稍微抬高一点俯拍，自拍显脸小的秘密～',
+      '对着镜子用后置镜头自拍，画质比前置好很多～',
+      '下巴稍微收紧一点点，下颌线会更清晰～',
+      '稍微张嘴笑比抿嘴更自然～',
+      '打开九宫格辅助线，把脸放在上横线交叉点～',
+      '对着镜子自拍时手机稍微斜一点，避免镜面反光～',
+      '举高手机从上往下拍，自拍最显脸小的角度！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：连拍成功确认提示
+  async speakBurstSuccessTip(count: number): Promise<void> {
+    const tips = [
+      `连拍完成！拍了${count}张，挑一张最喜欢的吧～`,
+      `抓到了${count}张！选一张最好的吧～`,
+      `连拍结束！${count}张里肯定有一张完美的～`,
+      `${count}张连拍完成！动起来的瞬间最自然，选最自然的那张～`,
+      `拍了${count}张！多拍多选，好的总在其中～`,
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：姿势完美确认提示
+  async speakPoseConfirmTip(): Promise<void> {
+    const tips = [
+      '姿势完美！这个角度绝了，按下去就是大片～',
+      '姿势超准！就是现在，按快门！',
+      '跟着剪影摆好了！就是现在，笑一个按下去～',
+      '姿势和模板完美匹配！按下去就是满分作品～',
+      '完美！就是现在！按下去～',
+      '姿势超棒！就是现在，按下去就是大片！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：构图确认提示
+  async speakCompositionGuide(): Promise<void> {
+    const tips = [
+      '构图完美！这个光线，按下去就是大片～',
+      '打开九宫格！把脸放到交叉点上～',
+      '构图差不多了！就是现在，按下去～',
+      '脸放中间！构图会更稳～',
+      '九宫格对齐了！这个位置按下去～',
+      '构图完美！光线也完美！三连击，按下去！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  // ========== Round 3 新增 TTS 方法：户外正午光线提示
+  async speakHarshLightTip(): Promise<void> {
+    const tips = [
+      '正午阳光太硬了！找个树荫或阴凉处拍～',
+      '强光下眯眼好辛苦！找个柔和的地方试试～',
+      '正午光线太直了，脸上的阴影好奇怪～',
+      '太阳太晒了！找个阴凉处，光线会更柔和～',
+      '强光下容易过曝，找个阴影处或等傍晚再拍～',
+      '光线太硬了！找个树荫或建筑阴影，光会更柔～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
