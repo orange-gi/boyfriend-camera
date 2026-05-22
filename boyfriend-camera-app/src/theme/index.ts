@@ -12,16 +12,10 @@ export const colors = {
   // 品牌主色
   primary: '#FF6B6B',
   primaryLight: 'rgba(255,107,107,0.15)',
-  primaryDark: '#E85555',
 
   // 背景
   bg: '#FAFAFA',
   bgCard: '#FFFFFF',
-  bgMask: 'rgba(0,0,0,0.5)',
-  bgOverlay: 'rgba(0,0,0,0.6)',
-  bgOverlayLight: 'rgba(0,0,0,0.4)',
-  bgOverlayDark: 'rgba(0,0,0,0.55)',
-  bgOverlayXDark: 'rgba(0,0,0,0.8)',
 
   // 文字
   textPrimary: '#333333',
