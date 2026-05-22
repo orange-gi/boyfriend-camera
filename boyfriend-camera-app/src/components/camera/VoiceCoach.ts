@@ -2637,6 +2637,46 @@ class VoiceCoach {
     await this.speak(FACE_TIPS.CAPTURE_FAILED, true)
   }
 
+  /** 相机权限被拒绝时提示 */
+  async speakCameraPermissionDenied(): Promise<void> {
+    const tips = [
+      '相机权限被拒绝了～在设置里打开相机权限就可以拍照啦',
+      '需要相机权限才能拍照哦，去设置里开启一下～',
+      '相机用不了是因为没开权限！去设置-隐私-相机里打开就好～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 存储空间不足时提示 */
+  async speakStorageFull(): Promise<void> {
+    const tips = [
+      '手机存储快满了！先清理一下再继续拍吧～',
+      '存储空间不够了，删点照片腾出空间再拍～',
+      '手机快存满了，清理一下才能继续拍照哦～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 日记删除确认提示 */
+  async speakDiaryDeleted(): Promise<void> {
+    const tips = [
+      '删除成功！这张照片的记录已经从日记里移除了～',
+      '删掉啦～这张照片不在日记里了～',
+      '记录已删除！重新拍一张更好的吧～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 照片分享成功提示 */
+  async speakSharedSuccess(): Promise<void> {
+    const tips = [
+      '分享成功！让更多人来欣赏这张大片吧～',
+      '分享出去啦～男朋友这张拍得真好！',
+      '分享完成！把这张好看的照片分享给朋友们看吧～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   // ========== Round 5 新增 TTS 方法 ==========
   /** 闭眼检测提示（MLKit 返回闭眼时调用） */
   async speakBlinkTip(): Promise<void> {
