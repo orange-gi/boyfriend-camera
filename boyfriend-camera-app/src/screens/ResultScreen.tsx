@@ -287,6 +287,28 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
         suggestions: analysis.suggestions,
       })
 
+      // ========== 本次迭代：VoiceCoach 实时 TTS 集成 — 根据分析结果触发对应语音提示 ==========
+      // 仅在分数 < 80 时给出问题提示，避免啰嗦
+      if (analysis.totalScore < 80) {
+        const suggestCount = analysis.suggestions?.length || 0
+        // 闭眼检测（expressionScore 低时触发）
+        if (analysis.expressionScore < 12 && suggestCount > 0) {
+          setTimeout(() => { try { voiceCoach.speakBlinkTip() } catch {} }, 3000)
+        }
+        // 表情僵硬（expressionScore 低且无笑容时）
+        if (analysis.expressionScore < 10 && suggestCount > 0) {
+          setTimeout(() => { try { voiceCoach.speakStiffExpressionTip() } catch {} }, 3200)
+        }
+        // 逆光/过曝
+        if (analysis.problems?.includes('backlight') && suggestCount > 0) {
+          setTimeout(() => { try { voiceCoach.speakBacklightTip() } catch {} }, 3400)
+        }
+        // 欠曝/低光
+        if (analysis.exposureScore < 30) {
+          setTimeout(() => { try { voiceCoach.speakLowLightWarning() } catch {} }, 3400)
+        }
+      }
+
       await saveToDiary({
         date: new Date().toISOString(),
         score: analysis.totalScore,
