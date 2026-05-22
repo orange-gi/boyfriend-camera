@@ -49,27 +49,27 @@ export default function ResultScreen() {
   const [praiseList, setPraiseList] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [processing, setProcessing] = useState(true)
-const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
-  (() => {
-    const catFilterMap: Record<string, CoreFilter> = {
-      '餐厅美食': 'food',
-      '户外风景': 'warm',
-      '城市街拍': 'cinematic',
-      '室内场景': 'warm',
-      '室内人像': 'portrait',
-      '特殊风格': 'vivid',
-      '情侣合照': 'portrait',
-      '室内日常': 'soft',
-      '自拍技巧': 'soft',
-      '构图技巧': 'cinematic',
-      '人文风景': 'vivid',
-      '夜景': 'cinematic',
-      '节日限定': 'vivid',
-      '运动健身': 'vivid',
-    }
-    return (templateCategory ? (catFilterMap[templateCategory] ?? 'warm') : 'warm') as CoreFilter
-  })()
-)
+  const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
+    (() => {
+      const catFilterMap: Record<string, CoreFilter> = {
+        '餐厅美食': 'food',
+        '户外风景': 'warm',
+        '城市街拍': 'cinematic',
+        '室内场景': 'warm',
+        '室内人像': 'portrait',
+        '特殊风格': 'vivid',
+        '情侣合照': 'portrait',
+        '室内日常': 'soft',
+        '自拍技巧': 'soft',
+        '构图技巧': 'cinematic',
+        '人文风景': 'vivid',
+        '夜景': 'cinematic',
+        '节日限定': 'vivid',
+        '运动健身': 'vivid',
+      }
+      return (templateCategory ? (catFilterMap[templateCategory] ?? 'warm') : 'warm') as CoreFilter
+    })()
+  )
 
 const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> = [
   { key: 'warm', label: '暖黄', color: COLORS.filterWarm },
