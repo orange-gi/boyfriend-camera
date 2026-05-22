@@ -1051,10 +1051,9 @@ const styles = StyleSheet.create({
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    backgroundColor: colors.infoLight,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 14,
-    borderLeftWidth: 4,
+    borderLeftWidth: 3,
     borderLeftColor: COLORS.primary,
   },
   suggestionBannerTitle: {
