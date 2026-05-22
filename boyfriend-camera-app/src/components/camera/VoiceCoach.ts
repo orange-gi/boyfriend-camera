@@ -4316,6 +4316,36 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 日记加载完成提示 */
+  async speakDiaryLoaded(count: number): Promise<void> {
+    if (count === 0) {
+      await this.speak('进步日记是空的！先去拍一张吧～', true)
+    } else {
+      await this.speak(`已加载${count}条进步记录，继续加油！`, true)
+    }
+  }
+
+  /** 极低光警告 */
+  async speakLowLightWarning(): Promise<void> {
+    const tips = [
+      '光线太暗了！找个亮一点的地方，或者打开闪光灯～',
+      '周围好黑，打开闪光灯或找个光源，脸会更亮～',
+      '暗光环境下照片容易糊，打开手机手电筒补补光～',
+      '晚上拍照记得靠近光源，或者打开闪光灯补光～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 照片已删除提示 */
+  async speakPhotoDeleted(): Promise<void> {
+    await this.speak('这张已删除！换个姿势再拍一张吧～', true)
+  }
+
+  /** 达成新里程碑提示 */
+  async speakNewMilestone(milestone: string): Promise<void> {
+    await this.speak(`太棒了！解锁了「${milestone}」成就！继续保持～`, true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
