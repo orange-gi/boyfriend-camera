@@ -840,16 +840,14 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 20,
   },
+  // 去装饰化：仅用文字语义色承载意义，不加背景色和装饰线
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 8,
     marginBottom: 4,
     paddingVertical: 14,
     paddingHorizontal: 20,
-    backgroundColor: colors.warningLight,
     borderRadius: 16,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.warning,
     alignItems: 'center',
   },
   newRecordBannerText: {
@@ -1093,7 +1091,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1.5,
     borderColor: colors.warning,
-    backgroundColor: colors.cardCream,
+  // 去装饰化：分享按钮无背景色，仅靠边框和文字色表达语义
   },
   actionBtnShareText: {
     fontSize: 14,
@@ -1159,8 +1157,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
+  // 去装饰化：错误提示去除背景填充，文字色承载语义
   errorBanner: {
-    backgroundColor: colors.dangerLight,
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
