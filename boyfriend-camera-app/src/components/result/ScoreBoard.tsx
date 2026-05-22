@@ -175,19 +175,14 @@ const styles = StyleSheet.create({
     padding: 24,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 3,
-    overflow: 'hidden',
+    // 去装饰化：移除阴影，卡片不浮动，简洁落地
   },
   totalBadge: {
     borderRadius: 24,
     padding: 20,
     alignItems: 'center',
     minWidth: 100,
-    borderWidth: 2,
+    // 去装饰化：移除边框，颜色背景即为标识
   },
   totalScore: {
     fontSize: 52,
@@ -215,11 +210,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgCard,
     borderRadius: 16,
     padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    // 去装饰化：移除阴影，保持卡片简洁
   },
   sectionTitle: {
     fontSize: 15,
@@ -260,17 +251,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgCard,
     borderRadius: 16,
     padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    // 去装饰化：移除阴影
   },
   suggestBubble: {
     backgroundColor: COLORS.primary + '12',
     borderRadius: 14,
-    borderWidth: 1,
-    borderColor: COLORS.primary + '30',
+    // 去装饰化：移除边框，颜色背景足以区分
     paddingVertical: 12,
     paddingHorizontal: 16,
     paddingRight: 20,
