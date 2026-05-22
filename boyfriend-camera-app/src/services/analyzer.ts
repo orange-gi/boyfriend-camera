@@ -3388,12 +3388,14 @@ export async function analyzePhoto(
   // 亮度中等但构图/曝光分数不高时，可能是对比度问题
   if (brightness >= 80 && brightness <= 170 && compositionScore < 32 && exposureScore < 22 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.washed_out))
+    problems.push('washed_out')
   }
 
   // ========== 本次新增：肤色偏色检测 ==========
   // 室内暖黄光源或有色灯光下，可能影响肤色
   if (faceCount > 0 && brightness >= 100 && brightness <= 200 && sceneType === 'indoor' && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.skin_tone_cast))
+    problems.push('skin_tone_cast')
   }
 
   // ========== 本次新增：构图过满/留白不足检测 ==========
@@ -3401,6 +3403,7 @@ export async function analyzePhoto(
   if (faceCount > 0 && compositionScore < 30 && suggestions.length < 4) {
     if (facePosition && facePosition.area > 0.3) {
       suggestions.push(pickRandom(SUGGESTION_POOL.too_crowded))
+      problems.push('too_crowded')
     }
   }
 
