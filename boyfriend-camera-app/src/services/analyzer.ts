@@ -2871,6 +2871,22 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '商场玻璃门当镜子用时，找个没人经过的背景再拍～',
     '透过车窗拍外面时，让女朋友靠在车窗边，玻璃当柔光箱用～',
   ],
+  // ========== Round 迭代新增建议池 ==========
+  focus_tips: [
+    '对焦似乎没对上主体，点一下屏幕重新对焦试试～',
+    '这张焦点有点跑偏，对着人脸点一下再拍会更清晰～',
+    '手机对焦在了背景上，让男朋友点击屏幕重新对焦到人脸～',
+    '对焦距离不对，近距离拍时要离主体近一点再对焦～',
+    '光线太暗对焦会飘，让脸靠近光源或打开屏幕补光～',
+    '自动对焦有时候会跑偏，试试手动点击人脸位置对焦～',
+  ],
+  detail_tips: [
+    '发丝在光线下很美，但背景太杂乱会分散注意力～',
+    '皮肤的纹理在柔光下显得超细腻，这张细节满分～',
+    '这张清晰度不够，对焦后再拍一张会更锐利～',
+    '逆光下发丝的光晕超美，但脸要稍微补光～',
+    '细节清晰的照片放大看都很耐看，这张值得珍藏～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3147,6 +3163,27 @@ export async function analyzePhoto(
   // ========== Round 39 新增：模糊检测专属建议（清晰度明显不足时） ==========
   if (safeSharpness < 80 && !problems.includes('stability') && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.blurry))
+  }
+  // ========== 本次新增：对焦问题专属建议 ==========
+  if (safeSharpness < 85 && safeSharpness >= 75 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.focus_tips))
+  }
+  // ========== 本次新增：透视变形专属建议 ==========
+  if (facePosition && facePosition.area > 0.35 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.perspective_tips))
+  }
+  // ========== 本次新增：细节质感建议 ==========
+  if (safeSharpness >= 85 && totalScore >= 70 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.detail_tips))
+  }
+  // ========== 本次新增：黄金时段专属建议 ==========
+  const hourNow = new Date().getHours()
+  if ((hourNow >= 16 && hourNow <= 19) && sceneType === 'outdoor' && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.golden_hour_tips))
+  }
+  // ========== 本次新增：阴天专属建议 ==========
+  if (safeBrightness >= 80 && safeBrightness <= 150 && sceneType === 'outdoor' && exposureScore >= 18 && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.overcast_tips))
   }
 
   // ========== Round 34 新增：高级构图建议触发（构图一般但非极差） ==========
