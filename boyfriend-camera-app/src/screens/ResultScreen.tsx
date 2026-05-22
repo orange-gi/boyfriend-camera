@@ -31,7 +31,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS } from '../theme'
+import { COLORS, hexAlpha } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
@@ -538,15 +538,14 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
     return `${scoreResult.totalScore}分，继续加油，一定能越拍越好！`
   }
 
-  // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
-  // 简洁优雅：背景使用极淡的透明度色，去除色块厚重感；border-left 保留分数档位标识
+  // 夸奖横幅背景/边框颜色（按分数段）
   const getPraiseBannerColors = (): { bg: string; border: string } => {
     if (!scoreResult) return { bg: 'transparent', border: COLORS.warning }
-    if (scoreResult.totalScore >= 90) return { bg: 'rgba(76,175,80,0.06)', border: COLORS.scoreGreat }
-    if (scoreResult.totalScore >= 80) return { bg: 'rgba(255,107,107,0.06)', border: COLORS.primary }
-    if (scoreResult.totalScore >= 70) return { bg: 'rgba(76,175,80,0.05)', border: COLORS.success }
-    if (scoreResult.totalScore >= 60) return { bg: 'rgba(255,179,71,0.07)', border: COLORS.warning }
-    return { bg: 'rgba(255,107,107,0.05)', border: COLORS.danger }
+    if (scoreResult.totalScore >= 90) return { bg: hexAlpha(COLORS.scoreGreat, 0.06), border: COLORS.scoreGreat }
+    if (scoreResult.totalScore >= 80) return { bg: hexAlpha(COLORS.primary, 0.06), border: COLORS.primary }
+    if (scoreResult.totalScore >= 70) return { bg: hexAlpha(COLORS.success, 0.05), border: COLORS.success }
+    if (scoreResult.totalScore >= 60) return { bg: hexAlpha(COLORS.warning, 0.07), border: COLORS.warning }
+    return { bg: hexAlpha(COLORS.danger, 0.05), border: COLORS.danger }
   }
   const praiseColors = getPraiseBannerColors()
 
@@ -663,7 +662,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
 
         {/* 下次改进提示 */}
         {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
-          // 去装饰化：移除左侧色边，改用淡紫色背景承载语义
           <Animated.View entering={FadeInDown.duration(350).delay(200)} style={styles.suggestionBanner}>
             <Text style={styles.suggestionBannerTitle}>下次可以这样拍</Text>
             {scoreResult.suggestions.slice(0, 2).map((s: string, i: number) => (
@@ -852,7 +850,6 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 20,
   },
-  // 去装饰化：仅用文字语义色承载意义，不加背景色和装饰线
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 8,
@@ -923,11 +920,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  filterCircleActive: {
-    // 简洁优雅：shadow 已移除，selectedRing 边框即为清晰的选中态标识
-  },
-  // 设计理由: 选中环边框从 3px 减至 2px，保持清晰标识的同时减少视觉厚度；
-  // top/left/right/bottom 同步减 1px 使外径从 58px 缩小至 56px，与 filterCircleWrapper 比例更协调
+  filterCircleActive: {},
   filterCircleSelectedRing: {
     position: 'absolute',
     top: -2,
@@ -1087,7 +1080,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1.5,
     borderColor: COLORS.warning,
-  // 去装饰化：分享按钮无背景色，仅靠边框和文字色表达语义
   },
   actionBtnShareText: {
     fontSize: 14,
@@ -1112,14 +1104,11 @@ const styles = StyleSheet.create({
     color: COLORS.textOnPrimary,
     fontWeight: 'bold',
   },
-  // 去背景化：diaryEntryBtn 仅保留底部分割线，无背景填充，留白充分
-  // 去装饰化：View 默认透明，无需显式 backgroundColor: 'transparent'
   diaryEntryBtn: {
     alignItems: 'center',
     paddingVertical: 14,
     marginHorizontal: 20,
     marginTop: 8,
-    // 去装饰化：移除顶部装饰分割线，充分的上下 padding 本身已形成视觉分隔
   },
   diaryEntryBtnText: {
     fontSize: 14,
@@ -1151,7 +1140,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
-  // 去装饰化：错误提示去除背景填充，文字色承载语义
   errorBanner: {
     borderRadius: 12,
     paddingHorizontal: 16,
