@@ -581,6 +581,21 @@ const FACE_TIPS = {
   NOW_PERFECT: '现在光线完美！姿势也对！就是现在拍～',
   KEEP_TRYING: '继续拍！多拍几张选最好的～',
   GOOD_TAKING: '这张拍得好！继续保持这个感觉～',
+  // ========== 本次新增：手抖模糊检测提示 ==========
+  MOTION_BLUR_HINT: '照片有点糊了！双手握稳手机，憋住气再按快门～',
+  HANDHELD_NIGHT_SHAKE: '晚上光线暗，手稍微抖照片就糊了！靠在墙上或用闪光灯～',
+  STEADY_NIGHT_SHOOT: '晚上稳住！双手握手机，憋住气轻轻按快门～',
+  // ========== 本次新增：多人合照专属提示 ==========
+  THREE_FACES_DETECTED: '三个人！大家往中间靠，站整齐一点～',
+  FOUR_PLUS_FACES: '好多人一起拍！往后站一步，大家都能入镜～',
+  GROUP_SMILE_SYNC: '大家一起笑！一二三茄子～',
+  GROUP_LOOK_CAMERA: '大家看镜头！对焦在最前面的人身上～',
+  GROUP_LAYERED_STAND: '后排稍微错开站，这样每个人都能露出来～',
+  // ========== 本次新增：快速表情变换提示 ==========
+  EXPRESSION_CHANGE_TRICK: '假装被逗笑！这个表情最自然～',
+  THINK_SURPRISE: '假装听到什么惊讶的事！表情马上活起来～',
+  RELAX_BEFORE_SMILE: '肩膀放松一下！表情会更自然～',
+  TAKE_DEEP_BREATH: '深呼吸～放松再笑，这个表情最自然～',
 }
 
 const STABILITY_TIPS = {

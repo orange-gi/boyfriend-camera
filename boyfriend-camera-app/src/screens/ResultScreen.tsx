@@ -587,38 +587,30 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
                 { n: 2, label: '光线检测' },
                 { n: 3, label: '生成评分' },
                 { n: 4, label: '综合评分' },
-              ].map(({ n, label }, idx) => {
+              ].map(({ n, label }) => {
                 const isActive = processStep === n
                 const isDone = processStep > n
                 return (
-                  <React.Fragment key={n}>
-                    <View style={styles.processStepItem}>
-                      <View style={[
-                        styles.processStepCircle,
-                        isActive && styles.processStepCircleActive,
-                        isDone && styles.processStepCircleDone,
-                      ]}>
-                        {isDone
-                          ? <Text style={styles.processStepCheck}>✓</Text>
-                          : <Text style={[
-                              styles.processStepNum,
-                              isActive && styles.processStepNumActive,
-                            ]}>{n}</Text>
-                        }
-                      </View>
-                      <Text style={[
-                        styles.processStepLabel,
-                        isActive && styles.processStepLabelActive,
-                        isDone && styles.processStepLabelDone,
-                      ]}>{label}</Text>
+                  <View key={n} style={styles.processStepItem}>
+                    <View style={[
+                      styles.processStepCircle,
+                      isActive && styles.processStepCircleActive,
+                      isDone && styles.processStepCircleDone,
+                    ]}>
+                      {isDone
+                        ? <Text style={styles.processStepCheck}>✓</Text>
+                        : <Text style={[
+                            styles.processStepNum,
+                            isActive && styles.processStepNumActive,
+                          ]}>{n}</Text>
+                      }
                     </View>
-                    {idx < 3 && (
-                      <View style={[
-                        styles.processStepConnector,
-                        isDone && styles.processStepConnectorDone,
-                      ]} />
-                    )}
-                  </React.Fragment>
+                    <Text style={[
+                      styles.processStepLabel,
+                      isActive && styles.processStepLabelActive,
+                      isDone && styles.processStepLabelDone,
+                    ]}>{label}</Text>
+                  </View>
                 )
               })}
             </View>
@@ -1002,17 +994,6 @@ const styles = StyleSheet.create({
   processStepLabelDone: {
     color: COLORS.primary,
     opacity: 0.7,
-  },
-  processStepConnector: {
-    width: 20,
-    height: 1,
-    backgroundColor: colors.divider,
-    marginHorizontal: 4,
-    marginBottom: 20,
-  },
-  processStepConnectorDone: {
-    backgroundColor: COLORS.primary,
-    opacity: 0.5,
   },
   praiseBanner: {
     marginHorizontal: 20,
