@@ -332,15 +332,15 @@ const styles = StyleSheet.create({
 
   // Hero
 
-  // 每日技巧
-  dailyTipCard: { paddingLeft: spacing[3], marginBottom: spacing[4], borderLeftWidth: 3, borderLeftColor: COLORS.primary },
+  // 每日技巧：去除左侧色边装饰，标签文字已提供层级区分
+  dailyTipCard: { paddingLeft: spacing[3], marginBottom: spacing[4] },
   dailyTipTouchable: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], paddingRight: spacing[2] },
   dailyTipContent: { flex: 1 },
   dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4, letterSpacing: 0.5, textTransform: 'uppercase' },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
-  // 姿势提示卡
-  poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5], borderLeftWidth: 3, borderLeftColor: COLORS.primary },
+  // 姿势提示卡：去除左侧色边装饰，保持简洁
+  poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5] },
 
   // 统计卡片
   // 简洁优雅：统计卡片去除背景填充，用细边框代替厚重色块
