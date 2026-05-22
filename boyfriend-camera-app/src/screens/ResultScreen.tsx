@@ -644,6 +644,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
 
         {/* 下次改进提示 */}
         {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
+          // 设计理由: borderLeftColor 已内联设为 COLORS.primary，此处样式定义保留 borderLeftWidth: 3
           <Animated.View entering={FadeInDown.duration(350).delay(200)} style={[styles.suggestionBanner, { borderLeftColor: COLORS.primary }]}>
             <Text style={styles.suggestionBannerTitle}>下次可以这样拍</Text>
             {scoreResult.suggestions.slice(0, 2).map((s: string, i: number) => (
@@ -906,14 +907,16 @@ const styles = StyleSheet.create({
   filterCircleActive: {
     // 简洁优雅：shadow 已移除，selectedRing 边框即为清晰的选中态标识
   },
+  // 设计理由: 选中环边框从 3px 减至 2px，保持清晰标识的同时减少视觉厚度；
+  // top/left/right/bottom 同步减 1px 使外径从 58px 缩小至 56px，与 filterCircleWrapper 比例更协调
   filterCircleSelectedRing: {
     position: 'absolute',
-    top: -3,
-    left: -3,
-    right: -3,
-    bottom: -3,
-    borderRadius: 29,
-    borderWidth: 3,
+    top: -2,
+    left: -2,
+    right: -2,
+    bottom: -2,
+    borderRadius: 28,
+    borderWidth: 2,
   },
   filterLabel: {
     fontSize: 12,
@@ -957,14 +960,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 6,
   },
+  // 设计理由: 圆圈已是纯色实心背景，borderColor 不产生任何视觉效果；
+  // 保留 backgroundColor 让 active/done 态与默认骨架态形成清晰对比，删除冗余 borderColor
   processStepCircleActive: {
     backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
   },
   processStepCircleDone: {
     backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
-    opacity: 0.7,
+    opacity: 0.65,
   },
   processStepCheck: {
     color: colors.textOnPrimary,
@@ -1013,13 +1016,14 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     lineHeight: 20,
   },
+  // 设计理由: borderLeftWidth: 3 已内联设置，borderLeftColor 通过 style prop 传入，
+  // 此处声明 borderLeftColor: COLORS.primary 是默认值；可省去以减少冗余
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
     borderRadius: 12,
     padding: 14,
     borderLeftWidth: 3,
-    borderLeftColor: COLORS.primary,
   },
   suggestionBannerTitle: {
     fontSize: 14,
