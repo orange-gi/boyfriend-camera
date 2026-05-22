@@ -343,7 +343,8 @@ const styles = StyleSheet.create({
   poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5], borderLeftWidth: 3, borderLeftColor: COLORS.primary },
 
   // 统计卡片
-  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: spacing[5], marginBottom: spacing[6] },
+  // 简洁优雅：统计卡片去除背景填充，用细边框代替厚重色块
+  statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], borderWidth: 1, borderColor: COLORS.divider },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   statItemSkeleton: { alignItems: 'center' },
@@ -380,18 +381,20 @@ const styles = StyleSheet.create({
   featuresSection: { marginBottom: spacing[5] },
   sectionTitle: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: spacing[4] },
   featuresGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[3] },
+  // 简洁优雅：功能卡片去除背景填充，仅用底部分割线分隔，留白充分
   featureCard: {
     width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2,
-    backgroundColor: COLORS.bgCard,
-    borderRadius: borderRadius.lg,
-    padding: spacing[4],
+    paddingVertical: spacing[4],
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.divider,
   },
   featureText: { flex: 1 },
   featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
   featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
 
   // 底部导航
-  bottomNav: { flexDirection: 'row', backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 6, gap: 6 },
+  // 简洁优雅：底部导航去除背景色，仅保留选中态高亮，视觉更轻盈
+  bottomNav: { flexDirection: 'row', paddingVertical: 6, gap: 6 },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
   bottomNavBtnActive: { backgroundColor: COLORS.primaryLight },
   bottomNavText: { fontSize: typography.fontSize.md },
