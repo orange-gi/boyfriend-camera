@@ -4205,7 +4205,64 @@ class VoiceCoach {
   async speakNewMilestone(milestone: string): Promise<void> {
     await this.speak(`太棒了！解锁了「${milestone}」成就！继续保持～`, true)
   }
+
+  /** 夜景闪光灯提示 */
+  async speakNightFlashTip(): Promise<void> {
+    const tips = [
+      '夜景拍照打开闪光灯！让脸亮起来，背景也会保留～',
+      '晚上光线太暗，打开闪光灯补光试试～',
+      '夜景模式会自动多帧合成，打开夜景模式手要拿稳哦～',
+      '晚上拍人像，闪光灯正面补光最有效～',
+      '夜间开闪光灯时让手机稍微离人远一点，光线会更均匀～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 窗户人像提示 */
+  async speakWindowPortraitTip(): Promise<void> {
+    const tips = [
+      '窗户边的自然光最柔和！让女朋友靠近窗户坐～',
+      '找一扇大窗户，自然光打在人脸上超好看～',
+      '窗边拍摄时，让女朋友侧对窗户，光影最有立体感～',
+      '逆光剪影很有意境！把窗户放在身后，让光勾勒轮廓～',
+      '窗边拍摄时，背景选择干净的墙面，画面更简洁～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 秋季红叶/色彩环境提示 */
+  async speakAutumnLeavesTip(): Promise<void> {
+    const tips = [
+      '红叶季节光线斑斓！侧光让树叶更有层次感～',
+      '秋天拍逆光，叶子会透光超美！试试转过来～',
+      '红叶背景会让皮肤显得更通透，现在光线正好～',
+      '秋季户外光线好柔！让女朋友在红叶前转个圈抓拍～',
+      '秋天的光线最温柔，这个时间拍照光线绝美～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 反光面拍摄提示（镜子/玻璃/水面） */
+  async speakReflectionShotTip(): Promise<void> {
+    const tips = [
+      '玻璃和水面的倒影超有感觉！稍微斜着拍，倒影会更完整～',
+      '找一块干净的反光面，俯拍时倒影和人会形成对称构图～',
+      '玻璃反光时要斜着拍，躲开周围的杂乱环境～',
+      '水面倒影需要慢门或稳定手机，打开连拍抓一张～',
+      '镜子拍摄时把手机稍微侧一点，躲开自己和镜中像重叠～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
 export default new VoiceCoach()
+
+/*
+Round 3 新增 TTS 方法：
+- speakNightFlashTip(): 夜景闪光灯拍摄提示（5条）
+- speakGoldenHourTip(): 黄金时段拍摄提示（5条）
+- speakWindowPortraitTip(): 窗户人像拍摄提示（5条）
+- speakAutumnLeavesTip(): 秋季红叶/色彩环境提示（5条）
+- speakReflectionShotTip(): 反光面拍摄提示（5条）
+*/
