@@ -4358,6 +4358,51 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** 人脸丢失提示 — 实时检测中人脸突然消失时触发 */
+  async speakFaceLost(): Promise<void> {
+    const tips = [
+      '看不到脸了！再靠近一点，让相机找到你～',
+      '脸丢了！稍微站近一点，让镜头找到你～',
+      '相机找不到你的脸了，往前一点点～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 人脸重新检测到提示 — faceLost 后重新找回 */
+  async speakFaceRegained(): Promise<void> {
+    const tips = [
+      '找到你了！',
+      '看到你了！',
+      '识别成功！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 姿势完美匹配提示 — 模板匹配度 95%+ 时 */
+  async speakExcellentPose(): Promise<void> {
+    const tips = [
+      '姿势完美！就是现在，按下去就是大片！',
+      '和模板完全吻合！这一张绝对高分！',
+      '姿势绝了！男朋友快门按下去就是神作！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 接近满分提示 — 95-99 分区间 */
+  async speakNearPerfect(score: number): Promise<void> {
+    await this.speak(`${score}分！只差一点点就是满分了，太厉害了！`, true)
+  }
+
+  /** 夜景拍摄引导提示 */
+  async speakNightSceneTip(): Promise<void> {
+    const tips = [
+      '夜景光线复杂，打开闪光灯或找光源更亮的地方～',
+      '晚上拍照手要更稳！双手握手机，深呼吸后按快门～',
+      '夜景模式拍完要等一下，让手机自动合成多帧～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 连拍鼓励提示 — 引导男朋友多拍几张提升成功率 */
   async speakStreakEncourage(): Promise<void> {
     const tips = [
