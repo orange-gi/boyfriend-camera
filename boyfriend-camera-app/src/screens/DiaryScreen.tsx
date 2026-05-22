@@ -431,7 +431,7 @@ export default function DiaryScreen() {
                 {/* 等级徽章 */}
                 {avgScore >= 80 && (
                   <View style={[styles.badgeGold]}>
-                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
+                    <Text style={[styles.badgeText, styles.badgeGoldText]}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
                   </View>
                 )}
                 {avgScore >= 60 && avgScore < 80 && (
@@ -447,22 +447,22 @@ export default function DiaryScreen() {
                 {/* 里程碑徽章（不与等级重叠时显示） */}
                 {maxScore === 100 && avgScore < 80 && (
                   <View style={[styles.badgeGold]}>
-                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>满分达成</Text>
+                    <Text style={[styles.badgeText, styles.badgeGoldText]}>满分达成</Text>
                   </View>
                 )}
                 {maxScore !== 100 && avgScore < 80 && totalCount >= 10 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={[styles.badgeText, { color: COLORS.success }]}>拍摄{totalCount}次</Text>
+                    <Text style={[styles.badgeText, styles.badgeGreenText]}>拍摄{totalCount}次</Text>
                   </View>
                 )}
                 {maxScore !== 100 && avgScore < 80 && totalCount < 10 && weeklyStats.streak >= 3 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={[styles.badgeText, { color: COLORS.success }]}>连续{weeklyStats.streak}天</Text>
+                    <Text style={[styles.badgeText, styles.badgeGreenText]}>连续{weeklyStats.streak}天</Text>
                   </View>
                 )}
                 {totalCount === 1 && (
                   <View style={[styles.badgeGreen]}>
-                    <Text style={[styles.badgeText, { color: COLORS.success }]}>首次记录</Text>
+                    <Text style={[styles.badgeText, styles.badgeGreenText]}>首次记录</Text>
                   </View>
                 )}
               </View>
@@ -667,7 +667,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   clearAllBtn: {
-    backgroundColor: COLORS.bgCard,
+    // 去背景色：内联按钮无需背景，白板文字靠色值承载
     borderRadius: 16,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -702,7 +702,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     alignItems: 'center',
-    backgroundColor: COLORS.bg,
+    // 去背景色：父容器 bgCard 已提供容器感，子元素无需重复背景
   },
   statCardNum: {
     fontSize: 26,
@@ -796,7 +796,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     alignItems: 'center',
-    backgroundColor: COLORS.bg,
+    // 去背景色：与 statCard 统一，纯留白分隔，无需色块
   },
   weeklyCardNum: {
     fontSize: 26,
@@ -892,10 +892,16 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 12,
   },
+  // 各徽章样式去装饰化：纯文字靠语义色承载信息，无多余边框/背景
   badgeText: {
     fontSize: 12,
     fontWeight: '600',
+  },
+  badgeGoldText: {
     color: COLORS.warning,
+  },
+  badgeGreenText: {
+    color: COLORS.success,
   },
   // 去装饰化：月对比行无背景色，留白充分，无需色块承托
   monthCompareRow: {
