@@ -656,7 +656,7 @@ const EXPRESSION_TIPS = {
   PERFECT_FACE: '表情完美！光线也棒，按快门的最佳时机！',
   TALKING_FACE: '在说话的时候抓拍，自然又生动～',
   WINK_POSE: '比个小心心或眨眨眼，俏皮感拉满！',
-  PEACE_SIGN: '比个耶或比个剪刀手，活力满满！',
+  PEACE_SIGN_2: '比个耶或比个剪刀手，活力满满！',
   HAND_WAVE: '轻轻挥手打招呼，自然又可爱～',
   NECK_STRETCH: '伸长脖子，下巴微微收紧，脸更显小～',
   SQUINT_SUN: '阳光刺眼眯眼时最自然！就是现在抓拍～',
@@ -711,7 +711,7 @@ const EXPRESSION_TIPS = {
   TEASING_LOOK: '调皮地歪头，嘴角微微上扬，这个表情绝了！',
   LOOK_UP_GAZE: '抬头向上看，眼神更有灵气，这个角度超美～',
   LIP_BITE: '轻轻咬一下下唇，这个表情好撩人！',
-  EYEBROW_RAISE: '轻轻抬一下眉毛，俏皮感立刻上来～',
+  EYEBROW_RAISE_2: '轻轻抬一下眉毛，俏皮感立刻上来～',
   GENUINE_SMILE: '这笑容好自然！比摆拍好看一百倍～',
   TEASING_SMILE: '调皮地笑一个！比正襟危坐好看多了～',
   CONFIDENT_SMILE: '自信的笑容最上镜！就是现在拍～',
@@ -750,7 +750,7 @@ const SCENE_TIPS = {
   // 新场景提示（模板扩展）
   CAFE_DATE: '咖啡馆光线暖暖的！让人靠近窗户或者台灯～',
   BOOKSTORE: '书店里的光线很柔和，靠书架站着超有文艺感！',
-  KITCHEN_COOKING: '厨房里灶台前光线暖暖的，笑着拍一张～',
+  KITCHEN_COOKING_2: '厨房里灶台前光线暖暖的，笑着拍一张～',
   SUBWAY_STATION: '地铁站灯光冷调很有都市感！靠着栏杆随意一点～',
   BEACH_SUNSET: '海边日落光线超美！侧身站着让夕阳打在侧脸上～',
   BALCONY_VIEW: '阳台光线超通透！靠在栏杆上看向远方～',
@@ -795,7 +795,7 @@ const SCENE_TIPS = {
   // 清晨晨光场景
   MORNING_SUNRISE: '清晨的光线最柔和！迎着阳光笑一个，整个人都在发光～',
   // 逆光剪影场景
-  BACKLIGHT_SILHOUETTE: '逆光拍剪影超有感觉！转过身来，让光线打在侧脸上～',
+  BACKLIGHT_SILHOUETTE_2: '逆光拍剪影超有感觉！转过身来，让光线打在侧脸上～',
   // 闺蜜合照场景
   BESTIE_PHOTO: '闺蜜照最重要的是互动！靠近一点，笑着抓拍～',
   // 夜市小吃场景
@@ -811,13 +811,13 @@ const SCENE_TIPS = {
   // 海边礁石
   ROCKY_BEACH: '礁石上有浪花超浪漫！站稳了，侧身看向大海～',
   // 演唱会场景
-  CONCERT_LIGHTS: '演唱会灯光超有氛围！让灯光打在侧脸上，超酷～',
+  CONCERT_LIGHTS_2: '演唱会灯光超有氛围！让灯光打在侧脸上，超酷～',
   // 樱花雨场景
   CHERRY_BLOSSOM_RAIN: '樱花飘落的时候按下快门，绝美！',
   // 灯笼夜景
   LANTERN_NIGHT: '灯笼光暖暖的超有感觉！侧身站着，让光打在侧脸上～',
   // 地铁站台
-  SUBWAY_PLATFORM: '地铁站台光线冷调超有都市感！随意站着，抓拍～',
+  SUBWAY_PLATFORM_2: '地铁站台光线冷调超有都市感！随意站着，抓拍～',
   // 便利店门口
   CONVENIENCE_DOOR: '便利店门口光线均匀！拿个零食道具，俏皮地看镜头～',
   // 海边灯塔
@@ -1370,7 +1370,7 @@ const SCENE_TIPS = {
   GRADUATION_HAT_TOSS: '抛帽瞬间超有活力！连拍几张，总有一张完美～',
   GRADUATION_GROUP: '毕业合照大家靠近贴贴，画面更温馨～',
   // 圣诞/节日场景
-  CHRISTMAS_LIGHTS: '圣诞灯饰超有节日氛围！靠近灯串站，让光打在脸上～',
+  CHRISTMAS_LIGHTS_2: '圣诞灯饰超有节日氛围！靠近灯串站，让光打在脸上～',
   CHRISTMAS_TREE: '圣诞树前光线暖暖的！侧身站着，节日感拉满～',
   // 动物园场景
   ZOO_ENCLOSURE: '动物园背景杂乱，试试虚化背景让人更突出～',
@@ -1473,7 +1473,7 @@ const CAMERA_USAGE_TIPS = {
   PORTRAIT_MODE_HINT: '人像模式最适合拍近景，打开它背景会自动虚化～',
   GRID_LINE_REMINDER: '打开九宫格！构图会好很多～',
   FLASH_REMINDER: '光线有点暗，打开闪光灯试试～',
-  NIGHT_MODE_HINT: '晚上记得打开夜景模式，照片会更清晰～',
+  NIGHT_MODE_HINT_2: '晚上记得打开夜景模式，照片会更清晰～',
   HDR_MODE_HINT: '明暗对比大时，打开 HDR 模式高光阴影都能保留～',
   ZOOM_TIP: '适当拉近一点！脸部占比大一点更好看～',
   WIDE_ANGLE_TIP: '退后一步！让更多背景入镜，画面更丰富～',
@@ -1482,7 +1482,7 @@ const CAMERA_USAGE_TIPS = {
   TIMER_REMINDER: '用定时拍照！放在稳定的地方，自己也能入镜～',
   BURST_MODE_REMINDER: '连拍模式开起来！多拍几张总有一张完美～',
   REFLECTOR_TRICK: '白墙白纸都能反光！用它们给脸补补光～',
-  SCREEN_FILL_LIGHT: '手机屏幕对着脸！白色背景就是简易补光灯～',
+  SCREEN_FILL_LIGHT_2: '手机屏幕对着脸！白色背景就是简易补光灯～',
 }
 
 // 光线检测语音提示
@@ -1526,16 +1526,16 @@ const COMPOSITION_TIPS = {
   CENTER_COMPOSITION_2: '中间构图超有气场！就是现在拍！',
   LEADING_ROOM: '眼睛看的一方留多一点空间，看起来更舒服～',
   LEADING_ROOM_2: '视线前方留白，构图更有呼吸感～',
-  FRAME_IN_FRAME: '找个窗户或门框当背景，画面更有层次～',
-  FRAME_IN_FRAME_2: '框架构图超有感觉！用前景把主体框起来～',
+  FRAME_IN_FRAME_2: '找个窗户或门框当背景，画面更有层次～',
+  FRAME_IN_FRAME_3: '框架构图超有感觉！用前景把主体框起来～',
   SYMMETRY: '左右对称超有感觉！站正了拍一张～',
   SYMMETRY_2: '对称构图超稳！找个中线对齐一下～',
-  DIAGONAL_LEAD: '对角线构图超有动感！歪一点站试试～',
-  DIAGONAL_LEAD_2: '对角线构图好有活力！顺着线拍过去～',
+  DIAGONAL_LEAD_2: '对角线构图超有动感！歪一点站试试～',
+  DIAGONAL_LEAD_3: '对角线构图好有活力！顺着线拍过去～',
   FILL_FRAME: '再靠近一点！特写更有冲击力～',
   FILL_FRAME_2: '怼脸拍更有感觉！把脸占满画面～',
-  NEGATIVE_SPACE: '背景很干净，多留点空间反而更高级～',
-  NEGATIVE_SPACE_2: '背景留白超有氛围感！不要把人拍满了～',
+  NEGATIVE_SPACE_2: '背景很干净，多留点空间反而更高级～',
+  NEGATIVE_SPACE_3: '背景留白超有氛围感！不要把人拍满了～',
   BACKGROUND_DEPTH: '找个远一点的背景，虚化效果会更好～',
   BACKGROUND_DEPTH_2: '背景离远一点，背景虚化更明显～',
   LEADING_LINES: '找条路或栏杆做引导线，构图更有张力～',
@@ -1576,7 +1576,7 @@ const COMPOSITION_TIPS = {
   BACKLIGHT_SOFTEN: '逆光脸太暗！侧身让光从侧面打过来～',
   TOP_LIGHT_SOFTEN: '顶光阴影重！找个侧光或往前站一点躲开顶光～',
   MIXED_LIGHT_FIX: '两种光混在一起脸会花！只朝向一种光源～',
-  GOLDEN_HOUR_NOW: '现在是黄金时段！赶紧拍，光线超美～',
+  GOLDEN_HOUR_NOW_2: '现在是黄金时段！赶紧拍，光线超美～',
   BLUE_HOUR_NOW: '蓝色时刻超浪漫！赶紧拍，光线绝绝子～',
 }
 
