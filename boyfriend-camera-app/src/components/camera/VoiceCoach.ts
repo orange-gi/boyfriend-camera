@@ -4357,22 +4357,21 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 连拍鼓励提示 — 引导男朋友多拍几张提升成功率 */
+  async speakStreakEncourage(): Promise<void> {
+    const tips = [
+      '多拍几张！按住快门别松手，总有一张完美的～',
+      '连拍模式开启！多按几张，男朋友总能找到最好的角度～',
+      '连拍！多拍总没错，最好的表情往往在不经意间～',
+      '连拍模式拍起来！多按几张成功率更高～',
+      '多拍几张保险！连拍模式下男朋友尽情按快门～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
 
 
-
 export default new VoiceCoach()
-
-/*
-Round 3 新增 TTS 方法：
-- speakNightFlashTip(): 夜景闪光灯拍摄提示（5条）
-- speakGoldenHourTip(): 黄金时段拍摄提示（5条）
-- speakWindowPortraitTip(): 窗户人像拍摄提示（5条）
-- speakAutumnLeavesTip(): 秋季红叶/色彩环境提示（5条）
-- speakReflectionShotTip(): 反光面拍摄提示（5条）
-- speakCouplePoseTip(): 情侣合照专属姿势提示（5条）
-- speakBestiePoseTip(): 闺蜜合照专属提示（5条）
-- speakStreakEncourage(): 连拍鼓励提示（5条）
-*/
