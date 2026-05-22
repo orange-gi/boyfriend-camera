@@ -2626,6 +2626,57 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
+  /** ========== 本次新增：对比度/饱和度/肤色/构图 TTS 提示 ========== */
+  /** 低对比度（灰蒙蒙）提示 */
+  async speakWashedOutTip(): Promise<void> {
+    const tips = [
+      '这张照片有点灰蒙蒙的，下次让对比度强一点试试～',
+      '画面有点平，稍微加点对比度会更立体～',
+      '男朋友试试找更亮的地方拍，光线对比会更分明～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 饱和度过高提示 */
+  async speakOverSaturatedTip(): Promise<void> {
+    const tips = [
+      '颜色稍微浓了点，稍微淡雅一点会更自然～',
+      '饱和度拉太满了，稍微降降会更耐看～',
+      '这张颜色有点过了，换个柔和点的滤镜试试～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 肤色偏色提示 */
+  async speakSkinToneTip(): Promise<void> {
+    const tips = [
+      '肤色稍微有点偏，下次换个角度躲开有色光～',
+      '脸上有点发黄或发绿，试试侧身躲开环境光～',
+      '光源颜色影响了肤色，换个地方重新拍会更好看～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 构图裁切/留白提示 */
+  async speakFramingTip(): Promise<void> {
+    const tips = [
+      '构图稍微紧了一点，多留点边距会更舒服～',
+      '稍微退后一步，让背景更完整人也更舒服～',
+      '人不要紧贴边缘，多留点呼吸空间会更好看～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 画面过满提示（与 crowdedPlaceTip 互补，更多场景） */
+  async speakTooFullTip(): Promise<void> {
+    const tips = [
+      '画面有点挤，退后一点让背景多一点～',
+      '男朋友稍微退后，画面会更通透～',
+      '背景留少一点，人会更突出更好看～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
   /** 相册保存成功提示 */
   async speakSavedToAlbum(): Promise<void> {
     await this.speak(FACE_TIPS.SAVED_TO_ALBUM, true)

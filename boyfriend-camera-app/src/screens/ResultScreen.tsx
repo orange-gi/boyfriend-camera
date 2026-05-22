@@ -300,6 +300,26 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
         if (analysis.exposureScore < 30) {
           setTimeout(() => { try { voiceCoach.speakLowLightWarning() } catch {} }, 3400)
         }
+        // 低对比度/灰蒙蒙提示
+        if (analysis.suggestions?.includes('washed_out') && suggestCount > 0) {
+          setTimeout(() => { try { voiceCoach.speakWashedOutTip() } catch {} }, 3600)
+        }
+        // 饱和度过高提示
+        if (analysis.suggestions?.includes('over_saturated') && suggestCount > 0) {
+          setTimeout(() => { try { voiceCoach.speakOverSaturatedTip() } catch {} }, 3600)
+        }
+        // 肤色偏色提示
+        if (analysis.suggestions?.includes('skin_tone_cast') && suggestCount > 0) {
+          setTimeout(() => { try { voiceCoach.speakSkinToneTip() } catch {} }, 3800)
+        }
+        // 构图裁切提示
+        if (analysis.suggestions?.includes('careful_framing') && suggestCount > 0) {
+          setTimeout(() => { try { voiceCoach.speakFramingTip() } catch {} }, 3800)
+        }
+        // 画面过满提示
+        if (analysis.suggestions?.includes('too_crowded') && suggestCount > 0) {
+          setTimeout(() => { try { voiceCoach.speakTooFullTip() } catch {} }, 4000)
+        }
       }
 
       await saveToDiary({
