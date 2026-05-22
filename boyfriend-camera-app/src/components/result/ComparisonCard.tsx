@@ -199,13 +199,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '600',
   },
-  filterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 14,
-    paddingHorizontal: 4,
-    gap: 8,
-  },
   compareHint: {
     alignItems: 'center',
     marginTop: 8,
@@ -214,36 +207,5 @@ const styles = StyleSheet.create({
   compareHintText: {
     fontSize: 12,
     color: COLORS.textMuted,
-  },
-  filterLabel: {
-    fontSize: 13,
-    color: COLORS.textMuted,
-    width: 36,
-  },
-  filterBtns: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-    flex: 1,
-  },
-  filterBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: COLORS.divider,
-    backgroundColor: COLORS.bgCard,
-    gap: 4,
-  },
-  filterDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  filterBtnText: {
-    fontSize: 12,
-    color: COLORS.textSecondary,
   },
 })
