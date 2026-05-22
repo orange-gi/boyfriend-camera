@@ -1041,7 +1041,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     borderRadius: 12,
     padding: 14,
-    backgroundColor: 'rgba(124, 77, 255, 0.06)',
+    // 去装饰化：移除淡紫色背景块，文字本身承载"建议"语义，无需色块衬托
   },
   suggestionBannerTitle: {
     fontSize: 14,
@@ -1121,16 +1121,14 @@ const styles = StyleSheet.create({
   // 去装饰化：View 默认透明，无需显式 backgroundColor: 'transparent'
   diaryEntryBtn: {
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: 14,
     marginHorizontal: 20,
     marginTop: 8,
-    borderRadius: 16,
-    borderTopWidth: 1,
-    borderColor: COLORS.divider,
+    // 去装饰化：移除顶部装饰分割线，充分的上下 padding 本身已形成视觉分隔
   },
   diaryEntryBtnText: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: COLORS.textSecondary,
     fontWeight: '500',
   },
   errorContainer: {
