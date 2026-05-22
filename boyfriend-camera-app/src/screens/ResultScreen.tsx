@@ -120,10 +120,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
   const mountedRef = useRef(true)
   const screenshotTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // 打字机效果
-  const [typedPraise, setTypedPraise] = useState('')
-  const typeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
   const scoreReveal = useSharedValue(0)
   const cardSlide = useSharedValue(50)
 
@@ -146,7 +142,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
     return () => {
       mountedRef.current = false
       if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
-      if (typeTimerRef.current) clearTimeout(typeTimerRef.current)
     }
   }, [photoPath])
 
@@ -163,19 +158,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
     const t4 = setTimeout(() => { if (mountedRef.current) setProcessStep(4) }, 1600)
     return () => { clearTimeout(t2); clearTimeout(t3); clearTimeout(t4) }
   }, [processing])
-
-  function typeText(text: string) {
-    if (typeTimerRef.current) clearTimeout(typeTimerRef.current)
-    setTypedPraise('')
-    let i = 0
-    function typeNext() {
-      if (i > text.length || !mountedRef.current) return
-      setTypedPraise(text.slice(0, i))
-      i++
-      typeTimerRef.current = setTimeout(typeNext, 40)
-    }
-    typeNext()
-  }
 
 
   async function runAnalysis() {
@@ -347,10 +329,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
         }, 500)
       }
 
-      // 打字机效果
-      if (analysis.praise && analysis.praise.length > 0) {
-        setTimeout(() => typeText(analysis.praise[0]), 600)
-      }
+
 
       // TTS 朗读夸奖文案（分数 ≥ 90 时，截取前 50 字朗读）
       const praiseToSpeak = analysis.praise?.[0]?.slice(0, 50) || ''
@@ -665,8 +644,8 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
             <Text style={[styles.praiseBannerScore, { color: praiseColors.border }]}>
               {getPraiseBannerText()}
             </Text>
-            {typedPraise.length > 0 && (
-              <Text style={styles.praiseBannerSub}>{typedPraise}</Text>
+            {scoreAnimationDone && praiseList.length > 0 && (
+              <Text style={styles.praiseBannerSub}>{praiseList[0]}</Text>
             )}
           </Animated.View>
         )}
