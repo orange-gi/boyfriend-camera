@@ -2051,6 +2051,21 @@ class VoiceCoach {
       await this.speak(FACE_TIPS.OVERCAST_PERFECT_TIME, true)
       return
     }
+    // 健身房场景
+    if (sceneType === 'gym') {
+      await this.speak('健身房灯光均匀，开闪光灯或找窗边，活力满满拍起来～', true)
+      return
+    }
+    // 海边/沙滩场景
+    if (sceneType === 'beach') {
+      await this.speak('海边阳光强烈，找阴凉处或用闪光灯补光～', true)
+      return
+    }
+    // 雨天街头场景
+    if (sceneType === 'rainy_street') {
+      await this.speak('雨天光线柔和，靠窗户边拍超有氛围感～', true)
+      return
+    }
     // 默认推荐人像模式
     await this.speak(FACE_TIPS.PORTRAIT_MODE, true)
   }
@@ -2398,6 +2413,18 @@ class VoiceCoach {
         '构图最重要的是主体位置！试试把人放在三分点上～',
         '构图要简洁！背景越干净主体越突出～',
         '构图要有留白！头顶留白三分之一，画面更舒适～',
+      ],
+      '运动健身': [
+        '健身房光线均匀！侧身站着笑着拍一张超有活力～',
+        '运动后脸红润通透，这个状态超适合拍照！',
+        '健身房镜子自拍要斜着拍，避免镜面反光～',
+        '动作舒展一点，笑得灿烂点，活力满满！',
+      ],
+      '舞蹈表演': [
+        '舞蹈动作最灵动！抓住最舒展的瞬间按下快门～',
+        '舞台灯光打在侧脸上，表情和动作同时到位！',
+        '运动中的表情最自然，笑着抓拍最灵动～',
+        '全身照要展示完整动作，侧身或回眸都超有气场！',
       ],
       '全部': [
         '模板全都展示出来啦！找一个最喜欢的开始拍吧～',
