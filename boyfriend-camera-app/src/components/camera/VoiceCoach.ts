@@ -2922,6 +2922,21 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
   }
 
+  /** 分数揭晓播报 — 分数动画完成后朗读总分，营造仪式感 */
+  async speakScoreReveal(score: number): Promise<void> {
+    if (score >= 90) {
+      await this.speak(`${score}分！满分之作！男朋友你太强了！`, true)
+    } else if (score >= 80) {
+      await this.speak(`${score}分！高分！男朋友表现很棒！`, false)
+    } else if (score >= 70) {
+      await this.speak(`${score}分！不错不错，继续保持！`, false)
+    } else if (score >= 60) {
+      await this.speak(`${score}分！及格啦，下次会更好！`, false)
+    } else {
+      await this.speak(`${score}分，继续加油！多拍几张一定会越拍越好！`, false)
+    }
+  }
+
   /** 新纪录庆祝 */
   async speakNewRecordAlert(score: number): Promise<void> {
     const tips = [

@@ -87,9 +87,14 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
   // 滤镜滑动引导 TTS（分数动画完成后播报）
   useEffect(() => {
     if (!scoreAnimationDone) return
-    const tid = setTimeout(() => { try { voiceCoach.speakFilterSwipeHint() } catch {} }, 2500)
+    const tid = setTimeout(() => {
+      try {
+        if (scoreResult) voiceCoach.speakScoreReveal(scoreResult.totalScore)
+      } catch {}
+      setTimeout(() => { try { voiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
+    }, 500)
     return () => clearTimeout(tid)
-  }, [scoreAnimationDone])
+  }, [scoreAnimationDone, scoreResult])
   const [newRecordBanner, setNewRecordBanner] = useState(false)
   const [processStep, setProcessStep] = useState(1) // 1-4 动画步骤
 
