@@ -3153,6 +3153,59 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '长曝光时手机不能有任何抖动，否则会糊～',
     '长曝光夜景光线会累积，出来的照片会很梦幻～',
   ],
+  // ========== 本次新增建议类别 ==========
+  // 低对比度（灰蒙蒙/灰平）
+  washed_out: [
+    '照片看起来有点灰蒙蒙的，对比度再强一点会更立体～',
+    '这张稍微调一下对比度，层次感会更分明～',
+    '画面有点平，男朋友试试稍微加深一下明暗对比～',
+  ],
+  // 颜色过饱和（过于鲜艳）
+  over_saturated: [
+    '颜色稍微有点过了，稍微淡雅一点会更耐看～',
+    '饱和度拉满有点假，稍微降一点更自然～',
+    '颜色太鲜艳了，稍微柔和一点会更有质感～',
+  ],
+  // 广角畸变（手机超广角边缘拉伸）
+  wide_angle_distortion: [
+    '广角镜头边缘有点拉伸，让人往中间站一点～',
+    '手机广角会让边缘变形，主体放中间效果更好～',
+    '这张广角感太强了，稍微退后一点或换普通焦段～',
+  ],
+  // 肤色偏色（黄/绿/紫）
+  skin_tone_cast: [
+    '肤色稍微有点偏色，下次找更自然的光试试～',
+    '脸上有点发绿或发黄，换个角度避开环境色光～',
+    '肤色不太对！找没有有色光源的地方重新拍～',
+  ],
+  // 主体被裁切（构图严谨性）
+  careful_framing: [
+    '稍微留多点边距，别让人紧贴边缘～',
+    '构图稍微紧了一点，下次多留点呼吸空间～',
+    '男朋友可以稍微退后一步，背景更完整人也更舒服～',
+  ],
+  // 画面过满（留白不足）
+  too_crowded: [
+    '画面稍微有点挤，背景留少一点会更通透～',
+    '画面太满了，稍微退后让背景多一点～',
+    '男朋友试试多留点空间，画面会更舒服耐看～',
+  ],
+  // 逆光时未补光（可开闪光灯补救）
+  backlight_no_fill: [
+    '逆光时脸有点黑，打开闪光灯补补光会好很多～',
+    '背光时打开闪光灯或手机屏幕补光，脸会更亮～',
+    '这个角度背光了，侧身让光打在脸上试试～',
+  ],
+  // 黄金时段专属提示（与 golden_hour_tips 合并，新增 2 条）
+  golden_hour_new: [
+    '现在是黄金时段！赶紧多拍几张，光线超美～',
+    'Golden Hour 光线最温柔，错过就没了，赶紧拍～',
+  ],
+  // 阴天专属提示
+  overcast_perfect: [
+    '阴天光线超柔和！随便拍都好看，不用担心过曝～',
+    '阴天拍照最省心，光线均匀不刺眼，随便摆pose～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3327,6 +3380,26 @@ export async function analyzePhoto(
     problems.push('backlight')
     suggestions.push(pickRandom(SUGGESTION_POOL.backlight))
     suggestions.push(pickRandom(SUGGESTION_POOL.flash_usage))
+  }
+
+  // ========== 本次新增：画面灰蒙蒙（低对比度）检测 ==========
+  // 亮度中等但构图/曝光分数不高时，可能是对比度问题
+  if (brightness >= 80 && brightness <= 170 && compositionScore < 32 && exposureScore < 22 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.washed_out))
+  }
+
+  // ========== 本次新增：肤色偏色检测 ==========
+  // 室内暖黄光源或有色灯光下，可能影响肤色
+  if (faceCount > 0 && brightness >= 100 && brightness <= 200 && sceneType === 'indoor' && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.skin_tone_cast))
+  }
+
+  // ========== 本次新增：构图过满/留白不足检测 ==========
+  // 人脸面积过大（>0.4），说明留白不足
+  if (faceCount > 0 && compositionScore < 30 && suggestions.length < 4) {
+    if (facePosition && facePosition.area > 0.3) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.too_crowded))
+    }
   }
 
   // 稳定分 0-20
