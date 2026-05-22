@@ -875,10 +875,10 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 10,
   },
+  // 去装饰化：badge 无背景色，纯文字靠语义色承载信息
   badge: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 12,
   },
   badgeGold: {
     // 金色徽章：纯文字+金色，无背景无边框；padding 使文字有容器感而非漂浮
@@ -897,14 +897,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.warning,
   },
+  // 去装饰化：月对比行无背景色，留白充分，无需色块承托
   monthCompareRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.bg,
     marginTop: 10,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: 12,
   },
   monthItem: {
     flex: 1,
@@ -1038,8 +1037,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignItems: 'center',
   },
+  // 去装饰化：取消按钮无背景色，仅靠文字承载
   sheetCancelBtn: {
-    backgroundColor: colors.bg,
   },
   sheetCancelBtnText: {
     fontSize: 16,
