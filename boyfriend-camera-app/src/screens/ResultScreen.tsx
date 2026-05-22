@@ -89,7 +89,13 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
     if (!scoreAnimationDone) return
     const tid = setTimeout(() => {
       try {
-        if (scoreResult) voiceCoach.speakScoreReveal(scoreResult.totalScore)
+        if (scoreResult) {
+          voiceCoach.speakScoreReveal(scoreResult.totalScore)
+          // 满分时追加满分专属庆祝 TTS（接在分数播报之后）
+          if (scoreResult.totalScore === 100) {
+            setTimeout(() => { try { voiceCoach.speakPerfectScore(100) } catch {} }, 2500)
+          }
+        }
       } catch {}
       setTimeout(() => { try { voiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
     }, 500)
