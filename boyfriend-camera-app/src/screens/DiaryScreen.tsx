@@ -225,15 +225,6 @@ export default function DiaryScreen() {
     const prevRecord = records[index + 1]
     const scoreDiff = prevRecord ? item.score - prevRecord.score : null
 
-    // 紧凑迷你进度条
-    const hasBreakdown = item.compositionScore !== undefined
-    const dims = [
-      { label: '构图', score: item.compositionScore ?? 0, max: 40 },
-      { label: '曝光', score: item.exposureScore ?? 0, max: 30 },
-      { label: '稳定', score: item.stabilityScore ?? 0, max: 20 },
-      { label: '水平', score: item.levelScore ?? 0, max: 10 },
-    ].filter(d => d.score > 0 || item.compositionScore !== undefined)
-
     return (
       <TouchableOpacity
         style={styles.recordCard}
