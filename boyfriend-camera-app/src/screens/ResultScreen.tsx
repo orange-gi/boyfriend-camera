@@ -628,7 +628,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
                   { translateY: scoreAnimationDone ? 0 : -10 },
                 ],
                 backgroundColor: praiseColors.bg,
-                borderLeftColor: praiseColors.border,
               },
             ]}
           >
@@ -644,8 +643,8 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
 
         {/* 下次改进提示 */}
         {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
-          // 设计理由: borderLeftColor 已内联设为 COLORS.primary，此处样式定义保留 borderLeftWidth: 3
-          <Animated.View entering={FadeInDown.duration(350).delay(200)} style={[styles.suggestionBanner, { borderLeftColor: COLORS.primary }]}>
+          // 去装饰化：移除左侧色边，改用淡紫色背景承载语义
+          <Animated.View entering={FadeInDown.duration(350).delay(200)} style={styles.suggestionBanner}>
             <Text style={styles.suggestionBannerTitle}>下次可以这样拍</Text>
             {scoreResult.suggestions.slice(0, 2).map((s: string, i: number) => (
               <Text key={i} style={styles.suggestionBannerText}>
@@ -1003,7 +1002,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     borderRadius: 16,
     padding: 14,
-    borderLeftWidth: 4,
   },
   praiseBannerScore: {
     fontSize: 18,
@@ -1023,7 +1021,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     borderRadius: 12,
     padding: 14,
-    borderLeftWidth: 3,
+    backgroundColor: 'rgba(124, 77, 255, 0.06)',
   },
   suggestionBannerTitle: {
     fontSize: 14,
