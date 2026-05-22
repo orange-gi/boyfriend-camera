@@ -30,7 +30,6 @@ const FACE_TIPS = {
   KEEP_STILL: '别动！就是现在，按快门！',
   // 新增边缘场景
   FACE_MOVING: '别动！脸不要晃来晃去的～',
-  // ========== Round 2 新增 TTS 场景 ==========
   FACE_MOVING_TOO_MUCH: '别晃来晃去的！站定之后再拍～',
   CAMERA_MOVING: '手机在晃！先把手机拿稳再拍～',
   ALMOST_PERFECT: '就差一点点！稳住，按下去就是大片！',
@@ -60,7 +59,6 @@ const FACE_TIPS = {
   FACE_EDGE_RIGHT: '脸靠右边缘了，往左挪一点点～',
   FACE_EDGE_TOP: '脸太靠上了，往下站一点～',
   FACE_EDGE_BOTTOM: '脸太靠近底部了，头稍微抬高一点～',
-  // ========== Round 3 新增人脸位置提示 ==========
   FACE_CENTERING: '脸稍微往中间挪一点点，构图会更稳～',
   FACE_CENTER_PERFECT: '位置完美！就是现在，笑一个按下去！',
   LOOK_LEFT_THEN_SMILE: '先看左边，再转头笑！这个表情超自然～',
@@ -75,7 +73,6 @@ const FACE_TIPS = {
   SAVED_TO_ALBUM: '已保存到相册！可以去相册里找找看～',
   // 拍照成功
   CLICK_SNAP: '咔嚓！拍好了～来看看效果吧！',
-  // ========== Round 5 新增 TTS 场景 ==========
   // 闭眼检测
   BLINK_DETECTED: '看到有人闭眼了！提醒她睁开大眼睛～',
   BLINK_DETECTED_2: '闭眼了！睁大眼睛再拍～',
@@ -120,16 +117,13 @@ const FACE_TIPS = {
   GOLDEN_HOUR: '这光线好温柔！现在是拍照的黄金时间～',
   // 尝试开闪光灯
   TRY_FLASH: '光线有点暗～打开闪光灯试试～',
-  // ========== Round 20 新增人脸提示 ==========
   CLOSE_ONE_EYE: '试试闭一只眼！俏皮又可爱，活泼感拉满～',
   HAIR_OVER_FACE: '头发挡住脸了～轻轻拨开，光会更通透～',
   HAND_NEAR_FACE: '手靠近脸可以显脸小！试试托腮或撩头发～',
   BLUSH_HINT: '侧过脸让光打在颧骨上，皮肤会看起来更通透～',
-  // ========== Round 20 新增拍摄提示 ==========
   SHOOT_NOW_LIGHT: '光线刚刚好！就是现在，按快门！',
   SHOOT_NOW_POSE: '姿势超棒！表情到位！按下去就是大片！',
   SHOOT_NOW_PERFECT: '完美时刻！这光线这角度，按下去！',
-  // ========== Round 20 新增鼓励提示 ==========
   KEEP_GOING: '继续拍！多拍几张选最好的～',
   ONE_MORE_TRY: '再来一张！这张有进步空间，继续加油～',
   GREAT_PROGRESS: '肉眼可见的进步！男朋友继续保持！',
@@ -142,7 +136,6 @@ const FACE_TIPS = {
   // 试拍建议
   TRY_ONE_MORE: '多拍几张选最好的！第一张不一定最好～',
   TRY_FIVE: '建议连拍几张！按快门别客气～',
-  // ========== 本次新增 TTS 场景 ==========
   // HDR 模式提示
   HDR_HINT: '这个场景明暗对比大！打开 HDR 模式，高光阴影都能保留～',
   HDR_HINT_2: 'HDR 模式可以让亮部和暗部都清晰，打开试试～',
@@ -193,7 +186,6 @@ const FACE_TIPS = {
   TOP_DOWN_FULL: '俯拍全身！男朋友站高一点，你躺下仰头看镜头～',
   // 仰拍大长腿提示
   LOW_ANGLE_LEGS: '仰拍大长腿！男朋友蹲低，你踮起脚尖～',
-  // ========== Round 27 新增场景提示 ==========
   GYM_CARDIO_TIP: '动感单车上身体微微前倾，笑着看向镜头，活力满满！',
   RAINY_WINDOW_INDOOR: '雨天室内窗边超有氛围！让窗户的光打在侧脸上～',
   SUNGLASSES_COOL: '戴墨镜超酷！稍微侧身站，摘下墨镜的一瞬间抓拍～',
@@ -222,7 +214,6 @@ const FACE_TIPS = {
   TRY_CONFIDENT: '试试酷酷的表情！超级有范儿～',
   TRY_SURPRISED: '惊讶表情！眼睛睁大超可爱～',
   LAST_CHANCE: '这张一定会很好看！鼓起勇气按下去！',
-  // ========== Round 3 新增 TTS 场景 ==========
   CHECK_MIRROR: '检查一下镜子里有没有乱！头发衣服都要整理好～',
   GRAB_ATTENTION: '吸引她的注意力！逗她笑一下再按快门～',
   TELL_JOKE: '给她讲个笑话！表情自然的时候抓拍～',
@@ -233,7 +224,6 @@ const FACE_TIPS = {
   POSE_ADJUSTMENT: '稍微调整一下姿势！这个角度可以更好看～',
   EXPRESSION_REFRESH: '表情换一换！试试酷酷的、甜甜的、酷甜的三种～',
   LIGHT_CHECK: '确认一下光线方向！脸要朝向光源才好看～',
-  // ========== Round 30 新增 TTS 场景 ==========
   CHECK_HAIR: '头发稍微理一下！光线下会更通透～',
   ADJUST_COLLAR: '领口整理一下！露出锁骨线条更好看～',
   CLEAN_LENS: '镜头有指纹！用衣服擦一下会更清晰～',
@@ -313,20 +303,17 @@ const FACE_TIPS = {
   KITCHEN_COOKING: '系上围裙做饭！生活感十足～',
   BALCONY_SUNSET: '阳台看夕阳！逆光侧脸超浪漫～',
   TERRACE_STARS: '天台看星星！仰头让星星落在眼睛里～',
-  // ========== Round 45 新增高频场景 TTS ==========
   SPRING_RAIN: '春雨绵绵的窗边超有氛围感！让窗户的光打在侧脸上～',
   FOGGY_MORNING: '雾蒙蒙的早晨超有诗意！这个光线超柔和，拍～',
   SUNSET_WINDOW_INDOOR: '傍晚斜阳从窗户洒进来，光影绝了！就在这拍～',
   BACKLIGHT_SILHOUETTE: '逆光剪影超有感觉！转过身来，让光线打在侧脸上～',
   WINDOW_LIGHT_NEAR: '脸稍微靠近窗户！自然光直接打在脸上～',
-  // ========== Round 30 新增姿势切换提示 ==========
   POSE_READY_NOW: '姿势摆好了！就是现在，按下去！',
   POSE_ALMOST_THERE: '就差一点点！手的位置再调整一下～',
   FACE_TOO_LEFT: '脸稍微往右挪！位置会更正～',
   FACE_TOO_RIGHT: '脸稍微往左挪！位置会更正～',
   STEP_CLOSER: '往前走一步！距离刚刚好～',
   STEP_BACK: '退后一步！距离刚刚好～',
-  // ========== Round 33 新增 TTS 场景 ==========
   // 情绪引导类
   THINK_OF_SOMETHING: '想一件让你开心的事！这个表情最自然～',
   LOOK_SIDEWAYS_NATURAL: '假装在看旁边什么东西！眼神会超自然～',
@@ -384,7 +371,6 @@ const FACE_TIPS = {
   TIGHT_CROPPING: '拍近一点！特写更有冲击力～',
   WIDER_BACKGROUND: '退后一点！让背景更完整～',
   BALANCED_FRAME: '画面重心要稳！别让一边太空～',
-  // ========== Round 38 新增 TTS 场景 ==========
   WIND_HAIR_MESSY: '风把头发吹乱了！先拨开再拍，或者让风吹着也很有氛围～',
   WIND_HAIR_NATURAL: '头发飘起来好美！就是现在抓拍发丝～',
   COLD_BREATH_HINT: '天冷拍照哈气！先深呼吸憋住，按快门就不会哈气啦～',
@@ -408,12 +394,10 @@ const FACE_TIPS = {
   CAT_LOOK_AWAY: '猫咪在看别处！等它转过来或者假装喂它～',
   CROWD_BACKGROUND: '背景人好多！稍微等人走开再拍，或者开人像模式虚化～',
   CAMERA_DIRTY_LENS: '镜头好像脏了！先擦一下，拍出来会更清晰～',
-  // ========== Round 40 新增场景提示 ==========
   CAMERA_UPSIDE_DOWN: '手机好像拿反了！把摄像头朝上拿好～',
   FACE_LOCKED: '找到你了！就是现在，笑一个～',
   CAMERA_TOO_CLOSE: '手机离脸太近了！稍微拿远一点点～',
   LOW_BATTERY_HINT: '手机快没电了！抓紧时间多拍几张～',
-  // ========== Round 3 新增 TTS 场景 ==========
   CAMERA_SWITCHED_FRONT: '切换到前置摄像头啦～找好角度，笑一个～',
   CAMERA_SWITCHED_FRONT_2: '自拍模式开启！侧脸也超好看，试试看～',
   CAMERA_SWITCHED_FRONT_3: '前置镜头就位！对着镜子找找最好的角度～',
@@ -426,7 +410,6 @@ const FACE_TIPS = {
   IDLE_TOO_LONG: '等了好一会儿了～动起来！换个姿势试试～',
   IDLE_TOO_LONG_2: '站太久了！换个角度或者走几步，照片会更有活力～',
   IDLE_TOO_LONG_3: '好安静呀～笑一个，逗逗她，让男朋友抓拍～',
-  // ========== 本次新增拍摄状态 TTS ==========
   FACE_FINDING_IN_PROGRESS: '正在识别人脸～等一下哦～',
   FACE_FOUND_CONFIRM: '找到脸了！就是现在，笑一个～',
   STORAGE_NEAR_FULL: '手机存储快满了！先清理一下再继续拍吧～',
@@ -437,7 +420,6 @@ const FACE_TIPS = {
   CROWD_AVOID_HINT: '旁边人多，稍微等一下或者换个角度躲开～',
   SHADOW_ON_FACE_HINT: '脸上有阴影！稍微侧身躲开阴影，光会更干净～',
   HANDLE_WITH_CARE: '手机拿稳！等她准备好再按快门～',
-  // ========== Round 41 新增人脸提示 ==========
   GLASSES_REFLECTION: '眼镜反光太亮了！稍微侧一下脸躲开光源～',
   GLASSES_TILT: '镜片反光挡住眼睛了，抬头或低头一点点～',
   EYE_CONTACT_HINT: '看镜头！眼神定住更有神～',
@@ -449,7 +431,6 @@ const FACE_TIPS = {
   HAIR_WIND_MESSY: '风把头发吹乱了！先理一下再拍，或者让风吹着也很有氛围～',
   EXPRESSION_THINK_OF_SONG: '想想你最喜欢的歌！这个表情最自然～',
   EXPRESSION_NATURAL_BREATH: '深呼吸放松！表情会更自然～',
-  // ========== 本次新增人脸/光线/姿势提示 ==========
   DRESS_COLOR_HINT: '衣服颜色和背景太接近了！换个角度或者背景躲开～',
   HAIR_TUCK_EAR: '头发挡住耳朵了！轻轻拨到耳后，轮廓会更清晰～',
   COLLAR_PULL: '领口歪了！轻轻整理一下，露出一边锁骨更好看～',
@@ -466,26 +447,22 @@ const FACE_TIPS = {
   TEETH_SHOW_SMILE: '露出上排牙齿笑！会更自信有感染力～',
   POSE_READY_HINT: '姿势摆好了！就是现在，按下去！',
   LIGHT_PERFECT_NOW: '光线完美！这个时刻拍出来一定超好看！',
-  // ========== Round 42 新增天气场景 ==========
   RAINY_STREET_LAMP: '雨夜路灯下超有氛围！让雨滴打在伞上拍一张～',
   RAIN_PUDDLE_REFLECTION: '地上有水洼！蹲低拍倒影，角度绝了～',
   SNOW_CATCH_LIGHT: '雪地里光线反射强！戴墨镜或者眯眼笑～',
   WIND_STRONG_STABILIZE: '风太大了！双手握稳手机，头发乱的时候别按～',
   FOGGY_MYSTERY: '雾蒙蒙的超有氛围感！这个天气拍出来好有意境～',
   MORNING_DEW: '早晨光线超通透！趁露水还在多拍几张～',
-  // ========== Round 42 新增构图进阶提示 ==========
   LEADING_LINE_HINT: '找一条引导线！道路围栏都能引导视线到人身上～',
   SYMMETRY_BUILDING: '正面站直对称构图！这个角度气场全开～',
   FRAME_BOUNDARY: '用门框窗户当框架！画面更有层次感～',
   DEPTH_OF_FIELD_HINT: '走近主体！背景自然虚化，主体更突出～',
   NEGATIVE_SPACE: '留白多一点！画面更透气，更有呼吸感～',
-  // ========== Round 42 新增表情微调 ==========
   EYEBROW_RAISE: '眉毛稍微抬起来一点！眼睛会显得更大～',
   JAWLINE_TIGHTEN: '舌尖顶住上颚！下颌线立刻变清晰～',
   NECK_EXTEND: '脖子伸长一点！天鹅颈上线，气质立刻提升～',
   SMILE_TENSION: '嘴角向耳朵方向拉！笑容会更开更灿烂～',
   EYE_SQUINT_HINT: '笑的时候眼睛眯小一点！这个表情好甜～',
-  // ========== Round 43 新增人脸提示 ==========
   HAIR_MESSY_NATURAL: '头发有点乱但很有氛围感！自然的才是最美的～',
   HAIR_WIND_BLOW: '风把头发吹起来好美！就是现在抓拍～',
   GLASSES_CLEAN: '眼镜有点反光，侧一下脸躲开光源～',
@@ -500,7 +477,6 @@ const FACE_TIPS = {
   HAND_HIP_TIP: '双手叉腰！这个姿势显瘦又有气场～',
   FINGER_TIPS: '手指轻轻合拢，比张开更优雅～',
   STAND_ONE_LEG: '站立时重心放一只脚，腿看起来更直更长～',
-  // ========== 本次新增 TTS 场景 ==========
   MIRROR_ANGLE_HINT: '镜子稍微斜一点拍！角度不要正对镜子，会有反光～',
   INDOOR_GLASS_REFLECT: '玻璃有反光！稍微侧身躲开反光～',
   SCREEN_FILL_LIGHT: '用手机屏幕补光！白色背景对着脸，手机屏幕就是简易补光灯～',
@@ -521,7 +497,6 @@ const FACE_TIPS = {
   BICYCLE_PROP_TIP: '靠在自行车旁边！活力十足，姿势也更丰富～',
   FLOWER_PROP_TIP: '拿束花当道具！捧着花或闻花香，自然又好看～',
   BOOK_PROP_TIP: '拿本书当道具！假装在看书，文艺感拉满～',
-  // ========== 本次新增边缘场景提示 ==========
   FACE_LOOKING_DOWN_TOO_LONG: '抬起头看镜头！低头太久脖子会累，表情也看不见了～',
   FACE_SQUINTING_HARD: '眼睛眯太紧了！稍微放松一点，眯眼会显得没精神～',
   HAIR_EXTREMELY_MESSY: '头发太乱了！先理一下再拍，不然会抢戏～',
@@ -533,7 +508,6 @@ const FACE_TIPS = {
   EXPRESSION_FORCED: '表情别太夸张！自然一点最美～',
   GOOD_COMPOSITION_DETECTED: '构图很棒！就是这个位置，按下去！',
   PERFECT_MOMENT_NOW: '就是现在！这光这角度，绝了！',
-  // ========== Round 5 新增：完美组合场景 ==========
   PERFECT_FACE_AND_LIGHT: '位置完美！光线也完美！就是现在，按下去就是大片！',
   PERFECT_ALL_IN_ONE: '构图完美！光线完美！姿势完美！三连击，按下去！',
   READY_TO_CAPTURE: '一切就绪！这个瞬间绝美，按快门！',
@@ -541,57 +515,45 @@ const FACE_TIPS = {
   // 笑脸被检测到时的即时确认
   SMILE_DETECTED: '看到你在笑！就是这个表情，别动，按下去！',
   NATURAL_SMILE_DETECTED: '自然的笑容！好生动，按下去！',
-  // ========== Round 6 新增：拍照引导提示 ==========
   SAY_CHEESE: '笑一个～茄子！',
   READY_POSE: '准备好了吗？三、二、一！',
   HOLD_STEADY_CAPTURE: '稳住！就是现在！',
   GROUP_FOTO_GUIDE: '大家靠近一点！看镜头，笑一个～',
   KEEP_STEADY_SHAKE: '手别抖！稳住～',
-  // ========== 本次新增：夜景氛围提示 ==========
   NIGHT_WARM_LIGHT: '夜色里暖暖的灯光打在脸上好温柔！就是现在拍～',
   CITY_NIGHT_FACE: '城市夜景璀璨！让灯光打在脸上，超有氛围～',
   BALCONY_NIGHT_TIP: '阳台夜景好浪漫！打开闪光灯补补光，脸会更亮～',
   NEON_REFLECTION: '霓虹灯光斑驳打在脸上超美！侧身躲开直射光～',
-  // ========== 本次新增：情绪互动提示 ==========
   THINK_OF_BEST_MOMENT: '想一件最开心的事！这个表情好生动～',
   LOOK_INTO_EYES: '看着我！眼神更有神～',
   LAUGH_LOUDLY: '大笑一个！夸张一点更好看～',
   COUNT_TO_THREE: '一、二、三，笑！',
-  // ========== 本次新增：构图最后确认 ==========
   RULE_OF_THIRDS_REMIND: '参考九宫格！把脸放到交叉点上～',
   LEADING_ROOM_CHECK: '眼睛看的方向留点空间，画面会更舒服～',
   FACE_CENTER_REMIND: '脸放中间！构图会更稳～',
   COMPOSITION_FINAL: '构图完美！就是现在，按下去！',
-  // ========== 本次新增：模板场景提示 ==========
   TEMPLATE_MATCH_PERFECT_NOW: '姿势超准！这个光线这角度，按下去就是大片！',
   TEMPLATE_FACE_MOVE: '跟着模板稍微调整一下！就是现在，拍～',
-  // ========== Round 46 新增：构图确认 TTS ==========
   COMPOSITION_OKAY_NOW: '构图差不多了！这个光线，按下去！',
   COMPOSITION_ALMOST: '就差一点点！稍微调整一下站位～',
   RULE_OF_THIRDS_ON: '打开九宫格！构图会好很多～',
-  // ========== Round 46 新增：表情鼓励 TTS ==========
   SMILE_CUTE_NOW: '这个表情好可爱！就是现在，按下去！',
   EXPRESSION_READY: '表情准备好了！笑一个，按快门！',
   POSE_PERFECT_TRY: '姿势超棒！就是现在，按下去就是大片！',
-  // ========== Round 46 新增：光线确认 TTS ==========
   LIGHT_NICE_NOW: '光线刚刚好！就是现在，拍～',
   LIGHT_SOFT_INDOOR: '室内柔光超适合拍照！随便拍都好看～',
   LIGHT_HARD_AVOID: '光线有点硬！找个柔和的地方试试～',
-  // ========== Round 46 新增：拍摄时机 TTS ==========
   NOW_PERFECT: '现在光线完美！姿势也对！就是现在拍～',
   KEEP_TRYING: '继续拍！多拍几张选最好的～',
   GOOD_TAKING: '这张拍得好！继续保持这个感觉～',
-  // ========== 本次新增：手抖模糊检测提示 ==========
   MOTION_BLUR_HINT: '照片有点糊了！双手握稳手机，憋住气再按快门～',
   HANDHELD_NIGHT_SHAKE: '晚上光线暗，手稍微抖照片就糊了！靠在墙上或用闪光灯～',
   STEADY_NIGHT_SHOOT: '晚上稳住！双手握手机，憋住气轻轻按快门～',
-  // ========== 本次新增：多人合照专属提示 ==========
   THREE_FACES_DETECTED: '三个人！大家往中间靠，站整齐一点～',
   FOUR_PLUS_FACES: '好多人一起拍！往后站一步，大家都能入镜～',
   GROUP_SMILE_SYNC: '大家一起笑！一二三茄子～',
   GROUP_LOOK_CAMERA: '大家看镜头！对焦在最前面的人身上～',
   GROUP_LAYERED_STAND: '后排稍微错开站，这样每个人都能露出来～',
-  // ========== 本次新增：快速表情变换提示 ==========
   EXPRESSION_CHANGE_TRICK: '假装被逗笑！这个表情最自然～',
   THINK_SURPRISE: '假装听到什么惊讶的事！表情马上活起来～',
   RELAX_BEFORE_SMILE: '肩膀放松一下！表情会更自然～',
@@ -625,28 +587,23 @@ const STABILITY_TIPS = {
   BREATHE_STEADY: '深呼吸～稳住手，这光线不会再来！',
   WALL_SUPPORT: '靠墙拍更稳！找个支撑按快门～',
   WIDE_STANCE: '双脚分开站稳，像练功一样哈哈～',
-  // ========== Round 32 新增稳定性提示 ==========
   ELBOW_SUPPORT: '手臂贴近身体更稳！试试看～',
   TWO_HAND_GRIP: '双手握手机！会更稳更清晰～',
   BREATHE_IN_OUT: '深吸一口气，憋住，按快门～',
   RELAX_GRIP: '手机别握太紧！放松一点，手会更稳～',
   GROUND_STANCE: '双脚与肩同宽站好，稳稳的～',
   LOCK_ARMS: '手臂伸直锁住！比弯曲更稳～',
-  // ========== Round 3 新增稳定性提示 ==========
   REST_ELBOW: '手臂靠在膝盖或桌子上，会稳很多～',
   SIT_DOWN_STABLE: '坐下来拍比站着拍更稳，靠着椅背试试～',
   USE_TIMER: '用定时拍照！放在桌面或稳定的地方，自己也能入镜～',
-  // ========== Round 3 新增拍摄场景提示 ==========
   SUN_GLARE_SQUINT: '阳光太刺眼了！稍微侧身躲开强光，眼睛会更舒服～',
   GLASS_FACE_REFLECTION: '玻璃有反光！稍微侧身躲开脸上的反光～',
   MIRROR_CHECK_OUTFIT: '拍之前先检查一下镜子里！衣服领口都要整理好～',
   POSE_CONFIRM_OK: '姿势到位了！表情准备好了吗？笑一个～',
   POSE_MICRO_ADJUST: '就差一点点了！手的位置再微调一下～',
-  // ========== Round 5 新增稳定性提示 ==========
   STABLE_READY: '稳稳的！可以按快门了～',
   STEADY_AND_GOOD: '手稳了！光线也棒，现在拍正好～',
   HOLD_FOR_MOMENT: '稳住！就这个瞬间，按下去！',
-  // ========== 本次新增稳定性提示 ==========
   TRIPOD_HINT: '找个稳定的支撑点放手机！靠在墙边更稳～',
   SELFIE_STICK: '用自拍杆可以拉远距离，手更稳构图更好～',
   BREATHE_IN_OUT_DEEP: '深吸一口气，憋住，轻轻按快门～',
@@ -656,10 +613,8 @@ const STABILITY_TIPS = {
 
 // 表情检测提示
 const EXPRESSION_TIPS = {
-  // ========== Round 5 新增表情提示 ==========
   LOOK_SIDE_SMILE: '假装看旁边再转头笑，自然又灵动～',
   HAND_ON_CHIN: '一只手托着下巴，显脸小的经典pose～',
-  // ========== Round 3 新增表情动作提示 ==========
   ACT_SHAKE: '假装被什么东西吓到！这个表情好生动～',
   COUNT_SHEEP: '说"田七"！嘴型刚刚好，表情最自然～',
   HAND_WAVE_SOFT: '轻轻挥手打招呼！幅度不要太大，自然最美～',
@@ -733,7 +688,6 @@ const EXPRESSION_TIPS = {
   POSE_HAND_FACE: '一只手轻轻放在脸旁边，显脸小效果满分～',
   POSE_FIGURE_8: '双手比个8放在下巴旁边，超显脸小！',
   POSE_ARM_WAVE: '一只手臂举起来，活力感拉满！',
-  // ========== Round 7 新增表情/动作提示 ==========
   POSE_LIE_DOWN: '躺在草地上或床上，仰头看镜头，超有氛围～',
   POSE_HAND_CHEEK: '双手托腮，甜美感拉满！',
   POSE_KISS_FINGER: '手指轻轻亲一下，再指向镜头，俏皮死了！',
@@ -753,18 +707,15 @@ const EXPRESSION_TIPS = {
   POSE_BATHROBE: '穿浴袍靠在窗边，慵懒又高级～',
   POSE_UMBRELLA: '撑把透明伞，雨天氛围感绝了！',
   POSE_BIKE: '骑着自行车或靠在一旁，活力满满！',
-  // ========== Round 5 (hourly iter) 新增表情提示 ==========
   COLD_EXPRESSION: '表情稍微冷一点！嘴角不要上扬，眼神放空，超有气场～',
   TEASING_LOOK: '调皮地歪头，嘴角微微上扬，这个表情绝了！',
   LOOK_UP_GAZE: '抬头向上看，眼神更有灵气，这个角度超美～',
   LIP_BITE: '轻轻咬一下下唇，这个表情好撩人！',
   EYEBROW_RAISE: '轻轻抬一下眉毛，俏皮感立刻上来～',
-  // ========== Round 5 新增表情提示 ==========
   GENUINE_SMILE: '这笑容好自然！比摆拍好看一百倍～',
   TEASING_SMILE: '调皮地笑一个！比正襟危坐好看多了～',
   CONFIDENT_SMILE: '自信的笑容最上镜！就是现在拍～',
   RELAXED_SMILE: '放松的笑好美！自然流露的表情最动人～',
-  // ========== 本次新增表情提示 ==========
   SOFT_GAZE: '眼神温柔一点！这个表情好有感觉～',
   PROUD_LOOK: '自信地抬起头！这个表情好有气场～',
   POUT_EXPRESSION: '微微嘟嘴！可爱俏皮满分～',
@@ -895,7 +846,6 @@ const SCENE_TIPS = {
   CAFE_LATTE: '咖啡拉花超好看！捧着咖啡，侧头看镜头～',
   // 烘焙甜点
   BAKERY_SWEET: '甜点柜台好诱人！端着蛋糕，笑一个～',
-  // ========== 新模板场景提示（081-090）==========
   // 健身房动感单车
   GYM_CARDIO: '动感单车超有活力！身体微微前倾，笑着看向镜头，活力满满！',
   // 厨房烹饪
@@ -914,7 +864,6 @@ const SCENE_TIPS = {
   CONVENIENCE_SELF_CHECKOUT: '自助结账机前好日常！手里拿着商品，俏皮地看镜头笑～',
   // 公园草坪野餐
   PARK_PICNIC_LAWN: '野餐垫上光线好温柔！坐在草地上，一手撑地，侧头微笑看向镜头～',
-  // ========== Round 3 新增场景提示 ==========
   PARK_BENCH_SUN: '公园长椅上光线斑驳！找个阳光直射的地方坐下～',
   // 地铁站台
   SUBWAY_PLATFORM_NIGHT: '地铁站台都市感十足！靠着柱子，看向远处，文艺日常～',
@@ -928,7 +877,6 @@ const SCENE_TIPS = {
   GYM_MACHINE: '器械区背景好有运动感！侧身站着，举起哑铃或笑着看镜头～',
   // 厨房水槽前
   KITCHEN_SINK: '水槽前光线均匀！端着一杯水或拿着食材，笑着看镜头～',
-  // ========== 本次新增场景提示 ==========
   // 秋叶场景
   AUTUMN_LEAVES: '秋天落叶超有氛围！站在落叶中笑着拍一张～',
   AUTUMN_LEAVES_2: '银杏叶枫叶做前景，虚化后超有层次感！',
@@ -1159,11 +1107,9 @@ const SCENE_TIPS = {
   ENGAGEMENT_DAY: '订婚典礼超有甜蜜感！戴着订婚戒指，笑着看镜头～',
   // 婚礼现场
   WEDDING_DAY: '婚礼现场超有幸福感动！站在花门下，笑着看镜头～',
-  // ========== Round 3 新增场景提示 ==========
   WINDOW_SEAT_SUNSET: '靠窗位置的夕阳光线超温柔！这个角度绝了～',
   // 蜜月旅行
   HONEYMOON: '蜜月旅行超有甜蜜感！站在异国风景前，笑着看镜头～',
-  // ========== Round 32 新增场景提示 ==========
   // 春季踏青
   SPRING_FIELD: '春天踏青超有活力感！站在草地旁，笑着看远方～',
   // 樱花季补充
@@ -1174,7 +1120,6 @@ const SCENE_TIPS = {
   INDOOR_RAINY: '雨天室内窗边超有氛围！让窗户的光打在侧脸上～',
   // 健身房补充
   GYM_EQUIPMENT: '健身房器械区超有运动感！侧身站着，笑着看镜头～',
-  // ========== Round 3 新增场景专项提示 ==========
   GYM_LOCKER: '更衣室镜子前光线均匀！打开闪光灯拍一张～',
   // 咖啡馆补充
   CAFE_CUP: '咖啡馆光线暖暖的！捧着咖啡，侧头看镜头～',
@@ -1182,7 +1127,6 @@ const SCENE_TIPS = {
   URBAN_NIGHT: '街头夜景灯光好美！靠近灯光站着，超有都市感～',
   // 草原补充
   FIELD_SUNSET: '草原日落超有开阔感！站在草丛中，笑着看远方～',
-  // ========== Round 34 新增场景提示 ==========
   // 新年氛围场景
   SPRING_FESTIVAL: '新年氛围感满满！红灯笼和中国结做背景，超有过年感觉～',
   NEW_YEAR_EVE_TIP: '除夕夜烟花璀璨！打开闪光灯，在烟火下笑着拍一张～',
@@ -1396,9 +1340,7 @@ const SCENE_TIPS = {
   BALLOON_FESTIVAL: '热气球节超有色彩感！站在热气球旁，笑着看镜头～',
   // 音乐节彩灯
   MUSIC_LIGHTS: '音乐节彩灯超有动感！跟着灯光摇摆，笑着抓拍～',
-  // ========== 本次新增场景提示 ==========
   // 海边场景
-  // ========== 本次新增场景提示 ==========
   // 海边场景
   BEACH_WIND_HAIR: '海边风大头发乱，先理一下再拍，或者让风吹着也很有氛围～',
   BEACH_SUN_REFLECT: '沙滩上光线反射强，戴墨镜或找阴影处，不然眼睛睁不开～',
@@ -1423,7 +1365,6 @@ const SCENE_TIPS = {
   CAFE_WINDOW_NEW: '咖啡馆靠窗位置光线最好！坐窗边拍，让自然光打在脸上～',
   CAFE_WINDOW_NEW_2: '咖啡馆暖光很柔和，让脸稍微靠近窗户光会更通透～',
   CAR_MIRROR: '对着车内后视镜自拍！角度刚刚好，背景也好控制～',
-  // ========== 本次新增场景提示 ==========
   // 毕业场景
   GRADUATION_ROBE: '毕业袍配学士帽超有纪念感！背景选校园地标，笑一个～',
   GRADUATION_HAT_TOSS: '抛帽瞬间超有活力！连拍几张，总有一张完美～',
@@ -1460,7 +1401,6 @@ const SCENE_TIPS = {
   // 露营场景
   CAMPFIRE_NIGHT_VOICE: '篝火火光打在脸上好温暖！连拍几张选最好的～',
   TENT_OUTSIDE: '帐篷外星空璀璨超浪漫！仰头看星空，笑一个～',
-  // ========== Round 5 新增场景提示 ==========
   WEDDING_CHOIR: '婚礼现场光线超美！站在蜡烛或灯光旁，超有氛围感～',
   WEDDING_CAKE: '蛋糕前光线暖暖的！转过来面向光源，笑一个～',
   PROM_NIGHT: '毕业舞会灯光超梦幻！站在灯下超有感觉～',
@@ -1497,7 +1437,6 @@ const NIGHT_TIPS = {
   CAR_HEADLIGHTS: '车灯打在脸上超有氛围！侧身站着，表情到位～',
   NEON_REFLECT: '霓虹灯反射在脸上超有感觉！',
   CITY_GLOW: '城市微光超有氛围感！侧身站着，让光勾出轮廓～',
-  // ========== Round 32 新增夜景提示 ==========
   NIGHT_STREET_FOOD: '夜市灯光超有烟火气！找个光源站好，表情会更清晰～',
   NIGHT_GARDEN: '花园夜景灯光超浪漫！靠近灯光站着，超有氛围～',
   NIGHT_POOL: '泳池灯光好梦幻！开闪光灯拍一张～',
@@ -1507,11 +1446,9 @@ const NIGHT_TIPS = {
   NIGHT_PARTY: '天台派对灯光璀璨！让灯光打在侧脸上，表情会更立体～',
   NIGHT_CANDLE: '阳台烛光超浪漫！让烛光打在脸上，温柔感拉满～',
   NIGHT_CAR: '车窗外的夜景好美！侧身靠着车窗，让灯光打在侧脸上～',
-  // ========== Round 39 新增夜景提示 ==========
   NIGHT_STABLE_COUNT: '晚上好美，注意保持稳定！我来帮你数，一、二、三～',
   NIGHT_STABLE_COUNT_2: '夜景光线柔和，稳住手哦！一、二、三，按！',
   NIGHT_TRIPOD_HINT: '晚上光线暗，打开闪光灯或者找个支撑点会更清晰～',
-  // ========== 本次新增夜景提示 ==========
   NIGHT_BOAT_DECK: '甲板夜色超浪漫！让灯光打在脸上，背景是大海和星星～',
   NIGHT_TRAIN_WINDOW: '火车车窗边的灯光好均匀！靠着窗拍，侧脸超美～',
   NIGHT_FESTIVAL_LIGHTS: '节日灯展好美！让灯光打在脸上，表情更立体～',
@@ -1520,7 +1457,6 @@ const NIGHT_TIPS = {
   NIGHT_GARDEN_STRING: '花园串灯超梦幻！站在灯串下，让灯光打在侧脸上～',
 }
 
-// ========== Round 39 新增：摄像头使用场景提示 ==========
 const CAMERA_USAGE_TIPS = {
   HESITATION_LOW_ANGLE: '想好了吗？可以尝试从低角度往上拍，仰拍超显腿长～',
   HESITATION_10S: '想好怎么拍了吗？别犹豫，先拍一张试试～',
@@ -1528,12 +1464,10 @@ const CAMERA_USAGE_TIPS = {
   FRONT_CAMERA_QUALITY: '后置摄像头像素更高，让男朋友拿手机拍更清晰～',
   BACKLIGHT_TIP: '有点逆光，试试换个角度或者靠近一点光源～',
   BACKLIGHT_TIP_2: '逆光时脸会变黑，侧身站或者换个方向避开直射光～',
-  // ========== Round 40 新增场景提示 ==========
   ROOFTOP_PARK: '天台花园超有情调！站在花草中间，笑一个～',
   UNDERGROUND_PARKING: '地下车库光线冷调超有都市感！靠着柱子，看向远方～',
   CARGO_SHIP: '港口货轮超有工业感！站在集装箱旁，酷酷地看镜头～',
   SKYSCRAPER_LOBBY: '摩天大楼大堂超有都市感！靠着玻璃墙，看向远方～',
-  // ========== 本次新增摄像头提示 ==========
   SELFIE_REMINDER: '前置摄像头自拍！找好角度，笑一个～',
   BACK_CAMERA_REMINDER: '后置摄像头画质更好！男朋友准备好了吗～',
   PORTRAIT_MODE_HINT: '人像模式最适合拍近景，打开它背景会自动虚化～',
@@ -1571,7 +1505,6 @@ const LIGHT_TIPS = {
   GLOW_REFLECT: '找个发光的屏幕放在脸下方，补光又自然～',
   CANDLE_LIGHT: '烛光氛围感绝了！脸靠近一点，光更柔和～',
   SUNSET_SIDE: '夕阳侧光超有层次！让光打在侧脸上～',
-  // ========== Round 7 新增光线提示 ==========
   WINDOW_SOFT: '窗边自然光超柔和！让人脸朝向窗户～',
   DOORWAY_LIGHT: '门洞光超有戏剧感！站在光影交界处～',
   OVERCAST_PERFECT: '阴天光线像柔光箱，拍出来皮肤超好～',
@@ -1613,7 +1546,6 @@ const COMPOSITION_TIPS = {
   SPiral_POSE: '试试螺旋构图，姿势有延伸感～',
   SENTINEL_POSE: '侧身站着，肩膀和脚成三角形，超有气场～',
   CENTER_DOT: '把人放在画面正中心，更有冲击力～',
-  // ========== Round 7 新增构图提示 ==========
   FILL_VERTICAL: '竖图拍全身超显腿长！试试竖着拍～',
   HORIZONTAL_CINEMA: '横图拍近景有电影感！换个方向试试～',
   LOW_HORIZON: '低角度仰拍超显气质！抬头看镜头试试～',
@@ -1630,7 +1562,6 @@ const COMPOSITION_TIPS = {
   LEGS_STAGGER: '站姿稍微错开，一只脚稍微往前伸～',
   PROFILE_SHOT: '试试侧脸！轮廓感超强的～',
   COLLAR_EXPOSE: '稍微拉一下衣领，脖子线条更修长～',
-  // ========== Round 34 新增构图提示 ==========
   EDGE_CROWDING: '人太靠近边框了！稍微退后一点，画面更舒展～',
   CENTER_SPLIT: '人正好在正中间显得有点呆，稍微往左或右挪一点～',
   WEIGHT_IMBALANCE: '画面重心不稳！把主体稍微偏移一点试试～',
@@ -1642,7 +1573,6 @@ const COMPOSITION_TIPS = {
   EYE_LINE: '眼睛连线要水平！歪了会显得画面不稳～',
   RULE_SIXTHS: '试试六分法！比九宫格更精准，人在六分线附近～',
   GOLDEN_TRIANGLE: '试试黄金三角构图！对角线划分画面，主体在交点～',
-  // ========== Round 34 新增光线提示 ==========
   BACKLIGHT_SOFTEN: '逆光脸太暗！侧身让光从侧面打过来～',
   TOP_LIGHT_SOFTEN: '顶光阴影重！找个侧光或往前站一点躲开顶光～',
   MIXED_LIGHT_FIX: '两种光混在一起脸会花！只朝向一种光源～',
@@ -1660,7 +1590,6 @@ const WELCOME_TIPS = [
   '开工啦！男朋友准备好拍摄最佳角度了吗～',
   '男友相机为您服务！今天多拍几张，选最好的～',
   '拍照时间到！男朋友摆好姿势，开始拍～',
-  // ========== Round 16 新增欢迎语 ==========
   '今天想拍什么风格？男朋友准备好了就开始～',
   '男友相机已上线！摆好姿势，今天多拍几张～',
   '约会怎么能少了合影！男朋友准备开拍吧～',
@@ -1678,7 +1607,6 @@ const TEMPLATE_SELECT_TIPS = [
   '姿势已更新！按照模板调整站位～',
   '新姿势选好了！跟着模板试试看～',
   '已切换姿势！调整好站位，准备好就拍～',
-  // ========== Round 16 新增模板选择语 ==========
   '这个姿势好美！调整好站位，开始拍～',
   '姿势选中啦！看看模板，摆好姿势就开始～',
   '换了个新姿势！跟着模板调整一下，准备拍～',
@@ -1737,7 +1665,6 @@ const ENCOURAGEMENT = [
   '照片好有故事感！',
   '色调好治愈～',
   '这张太可了！',
-  // ========== Round 5 新增鼓励语 ==========
   '光线好温柔，这张绝了！',
   '构图干净利落，主体超突出！',
   '这个表情好灵动，捕捉到了！',
@@ -1760,7 +1687,6 @@ const ENCOURAGEMENT = [
   '男朋友审美在线，这张好高级！',
   '前景背景层次分明，画面好丰富！',
   '男友进步速度惊人，这张要收藏！',
-  // ========== Round 17 新增鼓励语 ==========
   '背景虚化超有层次！主体和背景分离得刚刚好～',
   '这张色调好治愈，有被暖到！',
   '光影搭配得刚刚好，这张绝了！',
@@ -1777,7 +1703,6 @@ const ENCOURAGEMENT = [
   '背景和衣服颜色好搭！男朋友有在认真选景～',
   '构图有想法，这张照片有故事感！',
   '男朋友越拍越有感觉了，继续保持！',
-  // ========== Round 2 新增鼓励语 ==========
   '光影层次好丰富，这张绝了！',
   '表情捕捉得好生动，很有灵气！',
   '男朋友审美持续在线，这张要收藏！',
@@ -1803,7 +1728,6 @@ const ENCOURAGEMENT = [
   '构图干净利落，男朋友越来越专业了！',
   '姿势好自然不做作，这张绝了！',
   '男朋友审美大爆发，这张太可了！',
-  // ========== 本次新增鼓励语 ==========
   '光线层次分明，这张像杂志大片！',
   '男朋友构图越来越有想法了！',
   '表情和光线都在线，这张绝了！',
@@ -1827,7 +1751,6 @@ const ENCOURAGEMENT = [
   '姿势和光线都是教科书级别！',
   '男朋友越拍越顺手，这张绝了！',
   '表情灵动+构图讲究，这张要存档！',
-  // ========== Round 39 新增鼓励语 ==========
   '感觉不错哦，继续保持这个角度～',
   '连续拍了几张都很棒！就是这种感觉！',
   '男朋友越来越果断，赞！',
@@ -2571,7 +2494,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  // ========== Round 5 新增 TTS 方法 ==========
   /** 闭眼检测提示（MLKit 返回闭眼时调用） */
   async speakBlinkTip(): Promise<void> {
     const tips = [
@@ -2623,7 +2545,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
-  /** ========== 本次新增：对比度/饱和度/肤色/构图 TTS 提示 ========== */
   /** 低对比度（灰蒙蒙）提示 */
   async speakWashedOutTip(): Promise<void> {
     const tips = [
@@ -2943,7 +2864,6 @@ class VoiceCoach {
     await this.speak(tip, true)
   }
 
-  // ========== Round 2 新增 ==========
   /** 倒计时提示（3-2-1） */
   async speakCountdown(num: number): Promise<void> {
     if (num === 3) await this.speak('三～', true)
@@ -3172,7 +3092,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  // ========== Round 8 新增 TTS 场景 ==========
   async speakPerfectMoment(): Promise<void> {
     const tips = [
       '这一刻光线绝了！表情也超棒！就是现在，按快门！',
@@ -3310,7 +3229,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  /** ========== 本次新增 TTS 场景 ========== */
 
   /** 情侣甜蜜互动提示 */
   async speakCoupleSweetTip(): Promise<void> {
@@ -3800,7 +3718,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  /** ========== Round 28 新增：舞蹈/表演场景 TTS ========== */
   async speakDancePerformanceTip(): Promise<void> {
     const tips = [
       '舞台灯光变化快，连拍几张选最清晰的那张～',
@@ -3812,7 +3729,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  /** ========== Round 28 新增：红叶特写场景 TTS ========== */
   async speakRedAutumnTip(): Promise<void> {
     const tips = [
       '红叶背景下光线斑驳！风吹过来的时候按下快门，绝美～',
@@ -3824,7 +3740,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  /** ========== Round 28 新增：节日灯展场景 TTS ========== */
   async speakFestivalLightsTip(): Promise<void> {
     const tips = [
       '灯展场景色彩斑斓！侧身站着让灯光打侧脸上，超有氛围～',
@@ -3836,7 +3751,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  /** ========== Round 28 新增：游乐园/嘉年华场景 TTS ========== */
   async speakAmusementTip(): Promise<void> {
     const tips = [
       '游乐园灯光超梦幻！找个项目做背景，笑着拍一张～',
@@ -3848,7 +3762,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  /** ========== Round 28 新增：天台日间场景 TTS ========== */
   async speakRooftopDaytimeTip(): Promise<void> {
     const tips = [
       '天台白天光线充足！找个有阴影的角落，别让太阳直射～',
@@ -3860,7 +3773,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  /** ========== Round 28 新增：草原/牧场场景 TTS ========== */
   async speakMeadowRanchTip(): Promise<void> {
     const tips = [
       '草原上光线超通透！站在草丛中，笑着看镜头～',
@@ -3872,7 +3784,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  // ========== Round 35 新增 TTS 场景 ==========
   // 拍摄前引导
   async speakPreShootTip(): Promise<void> {
     const tips = [
@@ -3946,7 +3857,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  // ========== Round 3 新增 TTS 方法 ==========
   /** 切换到前置摄像头 */
   async speakCameraSwitchedFront(): Promise<void> {
     const tips = [FACE_TIPS.CAMERA_SWITCHED_FRONT, FACE_TIPS.CAMERA_SWITCHED_FRONT_2, FACE_TIPS.CAMERA_SWITCHED_FRONT_3]
@@ -4399,7 +4309,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  // ========== Round 3 新增 TTS 方法 ==========
   /** 首次拍摄引导提示 */
   async speakFirstPhotoHint(): Promise<void> {
     const tips = [
@@ -4451,7 +4360,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  // ========== Round 3 新增 TTS 方法：无脸检测超长提示
   async speakNoFaceLongTip(): Promise<void> {
     const tips = [
       '镜头里看不到人脸，试一下对着相机站近一点～',
@@ -4510,7 +4418,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  // ========== Round 3 新增 TTS 方法：逆光检测提示
   async speakBacklightGuide(): Promise<void> {
     const tips = [
       '检测到逆光！脸有点暗，侧身转过来让光打在脸上～',
@@ -4523,7 +4430,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：夜景拍照提示
   async speakNightGuide(): Promise<void> {
     const tips = [
       '夜景光线复杂，打开闪光灯补补光～',
@@ -4537,7 +4443,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：表情鼓励提示
   async speakExpressionRelaxGuide(): Promise<void> {
     const tips = [
       '表情再自然一点！想想最开心的事，嘴角上扬一点点～',
@@ -4552,7 +4457,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：情侣合照提示
   async speakCoupleTip(): Promise<void> {
     const tips = [
       '情侣照要靠近一点！贴贴更甜蜜～',
@@ -4567,7 +4471,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：黄金时段提示
   async speakGoldenLightGuide(): Promise<void> {
     const tips = [
       '现在是拍照的黄金时段！光线超美，赶紧多拍几张～',
@@ -4580,7 +4483,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：阴天柔光提示
   async speakCloudyLightGuide(): Promise<void> {
     const tips = [
       '阴天光线超柔和！脸上不会有硬阴影，随便拍都好看～',
@@ -4593,7 +4495,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：宠物互动提示
   async speakPetTip(): Promise<void> {
     const tips = [
       '和宠物互动时蹲下来和它平视，表情最自然～',
@@ -4607,7 +4508,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：多人合照提示
   async speakGroupShotGuide(): Promise<void> {
     const tips = [
       '多人合照大家靠近一点！贴贴更上镜～',
@@ -4621,7 +4521,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：闪光灯使用提示
   async speakFlashTip(): Promise<void> {
     const tips = [
       '光线有点暗，打开闪光灯补补光～',
@@ -4635,7 +4534,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：自拍角度提示
   async speakSelfieTip(): Promise<void> {
     const tips = [
       '自拍稍微侧一点脸！45度是最显瘦的黄金角度～',
@@ -4650,7 +4548,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：变焦使用提示
   async speakZoomTip(): Promise<void> {
     const tips = [
       '光线充足时稍微拉近一点，人物特写更有张力～',
@@ -4663,7 +4560,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：人像模式提示
   async speakPortraitModeTip(): Promise<void> {
     const tips = [
       '人像模式背景虚化超美！试试用这个模式拍～',
@@ -4675,7 +4571,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：连拍成功确认提示
   async speakBurstSuccessTip(count: number): Promise<void> {
     const tips = [
       `连拍完成！拍了${count}张，挑一张最喜欢的吧～`,
@@ -4687,7 +4582,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：姿势完美确认提示
   async speakPoseConfirmTip(): Promise<void> {
     const tips = [
       '姿势完美！这个角度绝了，按下去就是大片～',
@@ -4700,7 +4594,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：构图确认提示
   async speakCompositionGuide(): Promise<void> {
     const tips = [
       '构图完美！这个光线，按下去就是大片～',
@@ -4713,7 +4606,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ========== Round 3 新增 TTS 方法：户外正午光线提示
   async speakHarshLightTip(): Promise<void> {
     const tips = [
       '正午阳光太硬了！找个树荫或阴凉处拍～',
