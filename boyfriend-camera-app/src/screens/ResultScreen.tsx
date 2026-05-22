@@ -1102,6 +1102,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   // 去背景化：diaryEntryBtn 仅保留底部分割线，无背景填充，留白充分
+  // 去装饰化：View 默认透明，无需显式 backgroundColor: 'transparent'
   diaryEntryBtn: {
     alignItems: 'center',
     paddingVertical: 12,
@@ -1110,7 +1111,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderTopWidth: 1,
     borderColor: colors.divider,
-    backgroundColor: 'transparent',
   },
   diaryEntryBtnText: {
     fontSize: 14,
