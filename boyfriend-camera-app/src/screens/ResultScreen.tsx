@@ -903,7 +903,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   filterCircleActive: {
-    borderColor: 'transparent',
     shadowColor: colors.primary,
     shadowOpacity: 0.15,
     shadowRadius: 6,
@@ -1002,9 +1001,9 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   processStepConnector: {
-    width: 28,
-    height: 2,
-    backgroundColor: COLORS.divider,
+    width: 20,
+    height: 1,
+    backgroundColor: colors.divider,
     marginHorizontal: 4,
     marginBottom: 20,
   },
@@ -1122,13 +1121,13 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: COLORS.divider,
+    borderColor: colors.divider,
     backgroundColor: colors.bgCard,
   },
   diaryEntryBtnText: {
     fontSize: 14,
-    color: COLORS.textSecondary,
-    fontWeight: '600',
+    color: colors.textMuted,
+    fontWeight: '500',
   },
   errorContainer: {
     flex: 1,
