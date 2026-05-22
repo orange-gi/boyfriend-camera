@@ -463,7 +463,7 @@ export default function CameraScreen() {
           onError={(err) => {
             setCameraError(err)
             if (err === 'permission_denied') {
-              VoiceCoach.speak('相机权限未授权，请在手机设置中开启相机权限', true)
+              VoiceCoach.speakCameraPermissionDenied()
             } else {
               VoiceCoach.speak('相机设备不可用，请检查摄像头是否正常', true)
             }
