@@ -1496,6 +1496,13 @@ const NIGHT_TIPS = {
   NIGHT_STABLE_COUNT: '晚上好美，注意保持稳定！我来帮你数，一、二、三～',
   NIGHT_STABLE_COUNT_2: '夜景光线柔和，稳住手哦！一、二、三，按！',
   NIGHT_TRIPOD_HINT: '晚上光线暗，打开闪光灯或者找个支撑点会更清晰～',
+  // ========== 本次新增夜景提示 ==========
+  NIGHT_BOAT_DECK: '甲板夜色超浪漫！让灯光打在脸上，背景是大海和星星～',
+  NIGHT_TRAIN_WINDOW: '火车车窗边的灯光好均匀！靠着窗拍，侧脸超美～',
+  NIGHT_FESTIVAL_LIGHTS: '节日灯展好美！让灯光打在脸上，表情更立体～',
+  NIGHT_MALL_DISPLAY: '商场橱窗灯光超美！靠近橱窗站，侧身躲开反光～',
+  NIGHT_BALCONY_ROMANTIC: '阳台夜景好浪漫！打开闪光灯，让脸更亮～',
+  NIGHT_GARDEN_STRING: '花园串灯超梦幻！站在灯串下，让灯光打在侧脸上～',
 }
 
 // ========== Round 39 新增：摄像头使用场景提示 ==========
@@ -1511,6 +1518,22 @@ const CAMERA_USAGE_TIPS = {
   UNDERGROUND_PARKING: '地下车库光线冷调超有都市感！靠着柱子，看向远方～',
   CARGO_SHIP: '港口货轮超有工业感！站在集装箱旁，酷酷地看镜头～',
   SKYSCRAPER_LOBBY: '摩天大楼大堂超有都市感！靠着玻璃墙，看向远方～',
+  // ========== 本次新增摄像头提示 ==========
+  SELFIE_REMINDER: '前置摄像头自拍！找好角度，笑一个～',
+  BACK_CAMERA_REMINDER: '后置摄像头画质更好！男朋友准备好了吗～',
+  PORTRAIT_MODE_HINT: '人像模式最适合拍近景，打开它背景会自动虚化～',
+  GRID_LINE_REMINDER: '打开九宫格！构图会好很多～',
+  FLASH_REMINDER: '光线有点暗，打开闪光灯试试～',
+  NIGHT_MODE_HINT: '晚上记得打开夜景模式，照片会更清晰～',
+  HDR_MODE_HINT: '明暗对比大时，打开 HDR 模式高光阴影都能保留～',
+  ZOOM_TIP: '适当拉近一点！脸部占比大一点更好看～',
+  WIDE_ANGLE_TIP: '退后一步！让更多背景入镜，画面更丰富～',
+  FOCUS_TAP: '点击屏幕对焦！把焦点对到脸上～',
+  EXPOSURE_TAP: '点击脸部测光！这样脸部亮度会更准确～',
+  TIMER_REMINDER: '用定时拍照！放在稳定的地方，自己也能入镜～',
+  BURST_MODE_REMINDER: '连拍模式开起来！多拍几张总有一张完美～',
+  REFLECTOR_TRICK: '白墙白纸都能反光！用它们给脸补补光～',
+  SCREEN_FILL_LIGHT: '手机屏幕对着脸！白色背景就是简易补光灯～',
 }
 
 // 光线检测语音提示
