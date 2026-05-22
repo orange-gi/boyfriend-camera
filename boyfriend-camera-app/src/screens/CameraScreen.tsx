@@ -1400,7 +1400,7 @@ const styles = StyleSheet.create({
   previewTip: {
     fontSize: 12,
     color: COLORS.primary,
-    backgroundColor: COLORS.dangerLight,
+    backgroundColor: COLORS.primaryLight,
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 6,
@@ -1408,8 +1408,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   favoriteBtn: {
-    borderWidth: 1.5,
-    borderColor: COLORS.categoryCouple,
+    backgroundColor: 'transparent',
     borderRadius: 24,
     paddingVertical: 10,
     paddingHorizontal: 24,
@@ -1421,7 +1420,7 @@ const styles = StyleSheet.create({
   favoriteBtnText: {
     color: COLORS.categoryCouple,
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   favoriteBtnTextActive: {
     color: '#fff',
@@ -1431,10 +1430,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingVertical: 12,
     paddingHorizontal: 32,
-    shadowColor: COLORS.primary,
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 3,
   },
   previewUseBtnText: {
     color: '#fff',
