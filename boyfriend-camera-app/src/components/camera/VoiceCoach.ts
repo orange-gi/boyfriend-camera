@@ -2612,6 +2612,18 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
+  /** 姿势匹配提示 — 模板匹配度高时鼓励拍摄 */
+  async speakPoseMatchTip(): Promise<void> {
+    const tips = [
+      '姿势和模板匹配度很高！这个角度绝了，按下去～',
+      '剪影和真人完美契合！就是现在，笑一个按下去～',
+      '姿势摆得超准！就是这张，按快门就是大片！',
+      '完美匹配！就是现在，按下去就是满分作品～',
+      '姿势和光线都很棒！按下去就是最佳照片～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
   /** 画面过满提示（与 crowdedPlaceTip 互补，更多场景） */
   async speakTooFullTip(): Promise<void> {
     const tips = [
