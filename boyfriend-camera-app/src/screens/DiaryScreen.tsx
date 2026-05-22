@@ -18,7 +18,7 @@ import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, colors, hexAlpha } from '../theme'
+import { COLORS, hexAlpha } from '../theme'
 
 
 
@@ -180,13 +180,13 @@ export default function DiaryScreen() {
 
   // 进步趋势文案
   const trendInfo = useMemo(() => {
-    if (totalCount < 3) return { text: '继续加油！', color: colors.textMuted, gradient: [colors.skeletonHighlight, colors.skeletonBase] }
+    if (totalCount < 3) return { text: '继续加油！', color: COLORS.textMuted, gradient: [COLORS.skeletonHighlight, COLORS.skeletonBase] }
     const recent5 = records.slice(0, Math.min(5, totalCount))
     const avg = calcAvgScore(recent5)
-    if (avg >= 80) return { text: '男友进化中！', color: colors.success, gradient: [colors.successLight, colors.trendSuccessLight] }
-    if (avg >= 65) return { text: '稳步提升中', color: colors.success, gradient: [colors.gradientBlue, colors.trendInfoLight] }
-    if (avg >= 50) return { text: '还需要多练习', color: colors.warning, gradient: [colors.warningLight, colors.trendWarningLight] }
-    return { text: '革命尚未成功', color: colors.primary, gradient: [colors.dangerLight, colors.trendDangerLight] }
+    if (avg >= 80) return { text: '男友进化中！', color: COLORS.success, gradient: [COLORS.successLight, COLORS.trendSuccessLight] }
+    if (avg >= 65) return { text: '稳步提升中', color: COLORS.success, gradient: [COLORS.gradientBlue, COLORS.trendInfoLight] }
+    if (avg >= 50) return { text: '还需要多练习', color: COLORS.warning, gradient: [COLORS.warningLight, COLORS.trendWarningLight] }
+    return { text: '革命尚未成功', color: COLORS.primary, gradient: [COLORS.dangerLight, COLORS.trendDangerLight] }
   }, [totalCount, records])
 
   // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
@@ -291,9 +291,9 @@ export default function DiaryScreen() {
       <View style={styles.emptyContainer}>
         {loading ? (
           <View style={styles.skeletonWrapper}>
-            <View style={[styles.skeletonEmoji, { backgroundColor: colors.skeletonBase }]} />
-            <View style={[styles.skeletonTitle, { backgroundColor: colors.skeletonBase }]} />
-            <View style={[styles.skeletonBtn, { backgroundColor: colors.skeletonBase }]} />
+            <View style={[styles.skeletonEmoji, { backgroundColor: COLORS.skeletonBase }]} />
+            <View style={[styles.skeletonTitle, { backgroundColor: COLORS.skeletonBase }]} />
+            <View style={[styles.skeletonBtn, { backgroundColor: COLORS.skeletonBase }]} />
           </View>
         ) : loadError ? (
           <>
@@ -962,7 +962,7 @@ const styles = StyleSheet.create({
   },
 
   emptyErrorCard: {
-    backgroundColor: colors.bgCard,
+    backgroundColor: COLORS.bgCard,
     borderRadius: 16,
     padding: 32,
     marginBottom: 16,
@@ -999,7 +999,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   sheetContainer: {
-    backgroundColor: colors.bgCard,
+    backgroundColor: COLORS.bgCard,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 24,
@@ -1011,7 +1011,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: colors.skeletonBase,
+    backgroundColor: COLORS.skeletonBase,
     marginBottom: 16,
   },
   sheetDangerIcon: {
@@ -1052,11 +1052,11 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
   },
   sheetDeleteBtn: {
-    backgroundColor: colors.danger,
+    backgroundColor: COLORS.danger,
   },
   sheetDeleteBtnText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.textOnPrimary,
+    color: COLORS.textOnPrimary,
   },
 })

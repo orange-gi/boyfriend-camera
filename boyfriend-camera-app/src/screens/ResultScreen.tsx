@@ -31,7 +31,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, colors } from '../theme'
+import { COLORS } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
@@ -72,14 +72,14 @@ const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
 )
 
 const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> = [
-  { key: 'warm', label: '暖黄', color: colors.filterWarm },
-  { key: 'cool', label: '冷调', color: colors.filterCool },
-  { key: 'vivid', label: '生动', color: colors.filterVivid },
-  { key: 'soft', label: '柔和', color: colors.filterSoft },
-  { key: 'bw', label: '黑白', color: colors.filterBw },
-  { key: 'portrait', label: '人像', color: colors.filterPortrait },
-  { key: 'food', label: '美食', color: colors.filterFood },
-  { key: 'cinematic', label: '电影', color: colors.filterCinematic },
+  { key: 'warm', label: '暖黄', color: COLORS.filterWarm },
+  { key: 'cool', label: '冷调', color: COLORS.filterCool },
+  { key: 'vivid', label: '生动', color: COLORS.filterVivid },
+  { key: 'soft', label: '柔和', color: COLORS.filterSoft },
+  { key: 'bw', label: '黑白', color: COLORS.filterBw },
+  { key: 'portrait', label: '人像', color: COLORS.filterPortrait },
+  { key: 'food', label: '美食', color: COLORS.filterFood },
+  { key: 'cinematic', label: '电影', color: COLORS.filterCinematic },
 ]
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
@@ -521,12 +521,12 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
   // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
   // 简洁优雅：背景使用极淡的透明度色，去除色块厚重感；border-left 保留分数档位标识
   const getPraiseBannerColors = (): { bg: string; border: string } => {
-    if (!scoreResult) return { bg: 'transparent', border: colors.warning }
-    if (scoreResult.totalScore >= 90) return { bg: 'rgba(76,175,80,0.06)', border: colors.scoreGreat }
-    if (scoreResult.totalScore >= 80) return { bg: 'rgba(255,107,107,0.06)', border: colors.primary }
-    if (scoreResult.totalScore >= 70) return { bg: 'rgba(76,175,80,0.05)', border: colors.success }
-    if (scoreResult.totalScore >= 60) return { bg: 'rgba(255,179,71,0.07)', border: colors.warning }
-    return { bg: 'rgba(255,107,107,0.05)', border: colors.danger }
+    if (!scoreResult) return { bg: 'transparent', border: COLORS.warning }
+    if (scoreResult.totalScore >= 90) return { bg: 'rgba(76,175,80,0.06)', border: COLORS.scoreGreat }
+    if (scoreResult.totalScore >= 80) return { bg: 'rgba(255,107,107,0.06)', border: COLORS.primary }
+    if (scoreResult.totalScore >= 70) return { bg: 'rgba(76,175,80,0.05)', border: COLORS.success }
+    if (scoreResult.totalScore >= 60) return { bg: 'rgba(255,179,71,0.07)', border: COLORS.warning }
+    return { bg: 'rgba(255,107,107,0.05)', border: COLORS.danger }
   }
   const praiseColors = getPraiseBannerColors()
 
@@ -823,7 +823,7 @@ const FilterItem = memo(function FilterItem({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.bg,
+    backgroundColor: COLORS.bg,
   },
   scrollContainer: {
     flex: 1,
@@ -845,12 +845,12 @@ const styles = StyleSheet.create({
   newRecordBannerText: {
     fontSize: 18,
     fontWeight: '700',
-    color: colors.statYellowText,
+    color: COLORS.statYellowText,
     marginBottom: 4,
   },
   newRecordBannerSub: {
     fontSize: 13,
-    color: colors.statAmber,
+    color: COLORS.statAmber,
     textAlign: 'center',
   },
   titleRow: {
@@ -876,7 +876,7 @@ const styles = StyleSheet.create({
   filterPickerTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: colors.textPrimary,
+    color: COLORS.textPrimary,
     marginBottom: 10,
   },
   filterPickerList: {
@@ -925,13 +925,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   filterLabelActive: {
-    color: colors.primary,
+    color: COLORS.primary,
     fontWeight: '700',
     fontSize: 13,
   },
   processingLabel: {
     fontSize: 15,
-    color: colors.textSecondary,
+    color: COLORS.textSecondary,
     marginTop: 8,
     marginBottom: 12,
   },
@@ -954,7 +954,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: colors.skeletonBase,
+    backgroundColor: COLORS.skeletonBase,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 6,
@@ -969,7 +969,7 @@ const styles = StyleSheet.create({
     opacity: 0.65,
   },
   processStepCheck: {
-    color: colors.textOnPrimary,
+    color: COLORS.textOnPrimary,
     fontSize: 14,
     fontWeight: 'bold',
     lineHeight: 18,
@@ -981,7 +981,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   processStepNumActive: {
-    color: colors.textOnPrimary,
+    color: COLORS.textOnPrimary,
   },
   processStepLabel: {
     fontSize: 11,
@@ -1054,7 +1054,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1.5,
     borderColor: COLORS.divider,
-    backgroundColor: colors.bgCard,
+    backgroundColor: COLORS.bgCard,
     gap: 6,
   },
   actionBtnSecondaryIcon: {
@@ -1073,7 +1073,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 24,
     borderWidth: 1.5,
-    borderColor: colors.warning,
+    borderColor: COLORS.warning,
   // 去装饰化：分享按钮无背景色，仅靠边框和文字色表达语义
   },
   actionBtnShareText: {
@@ -1108,18 +1108,18 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderRadius: 16,
     borderTopWidth: 1,
-    borderColor: colors.divider,
+    borderColor: COLORS.divider,
   },
   diaryEntryBtnText: {
     fontSize: 14,
-    color: colors.textMuted,
+    color: COLORS.textMuted,
     fontWeight: '500',
   },
   errorContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.bgCard,
+    backgroundColor: COLORS.bgCard,
   },
   errorEmoji: {
     fontSize: 52,
@@ -1155,29 +1155,29 @@ const styles = StyleSheet.create({
   },
   errorBannerText: {
     fontSize: 13,
-    color: colors.danger,
+    color: COLORS.danger,
     textAlign: 'center',
     marginBottom: 8,
   },
   errorRetryBtn: {
-    backgroundColor: colors.danger,
+    backgroundColor: COLORS.danger,
     borderRadius: 16,
     paddingHorizontal: 20,
     paddingVertical: 7,
   },
   errorRetryBtnText: {
     fontSize: 13,
-    color: colors.textOnPrimary,
+    color: COLORS.textOnPrimary,
     fontWeight: '600',
   },
   errorSecondaryBtn: {
-    backgroundColor: colors.bgCard,
+    backgroundColor: COLORS.bgCard,
     borderWidth: 1,
-    borderColor: colors.danger,
+    borderColor: COLORS.danger,
   },
   errorSecondaryBtnText: {
     fontSize: 13,
-    color: colors.danger,
+    color: COLORS.danger,
     fontWeight: '600',
   },
   // 无图片时的友好提示
