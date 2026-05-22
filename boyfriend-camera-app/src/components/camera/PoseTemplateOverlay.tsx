@@ -37,7 +37,6 @@ const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window')
 
 export default function PoseTemplateOverlay({ template, onTipPress }: Props) {
   const [scale, setScale] = useState(1.0)
-  const [position] = useState(new Animated.ValueXY())
 
   // 拖动状态
   const pan = useRef(new Animated.ValueXY()).current

@@ -1851,8 +1851,6 @@ function pickStabilityTip(category: 'STABLE' | 'SHAKY' | 'EXTREME_SHAKE' | 'TILT
 class VoiceCoach {
   private enabled: boolean = false
   private initialized: boolean = false
-  private lastFaceTip: string = ''
-  private lastStabilityTip: string = ''
   private cooldownMs: number = 3000  // 提示冷却时间
   private lastSpokeAt: number = 0
   private speaking: boolean = false  // 防止并发 TTS 调用
@@ -1924,7 +1922,6 @@ class VoiceCoach {
     }
 
     this.lastSpokeAt = now
-    this.lastFaceTip = text
     // 记录最近提示（去重用）
     this.recentTips.push(text)
     if (this.recentTips.length > this.MAX_RECENT_TIPS) {
