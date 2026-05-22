@@ -12,7 +12,7 @@ import { getDiary } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
-import { borderRadius, spacing, typography } from '../theme/index'
+import { borderRadius, spacing, typography, shadows } from '../theme/index'
 import { logger } from '../utils/logger'
 import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/homeData'
 
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5] },
 
   // 统计卡片
-  statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], borderWidth: 1, borderColor: COLORS.divider },
+  statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], backgroundColor: COLORS.bgCard, ...shadows.md },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   statItemSkeleton: { alignItems: 'center' },
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
   statsLoadingText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 4, alignSelf: 'center' },
-  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[4], paddingTop: spacing[4], borderTopWidth: 1, borderTopColor: COLORS.divider, gap: spacing[3] },
+  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[5], paddingTop: spacing[4], gap: spacing[3] },
   trendText: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, flexShrink: 0 },
   trendBar: { flex: 1, height: 6, borderRadius: borderRadius.sm, overflow: 'hidden' },
   trendBarFill: { height: '100%', borderRadius: borderRadius.sm },
@@ -382,8 +382,7 @@ const styles = StyleSheet.create({
   featureCard: {
     width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2,
     paddingVertical: spacing[4],
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.divider,
+    // featureCard: 去底边框，gap 已足够分隔（简洁优雅设计）
   },
   featureText: { flex: 1 },
   featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
@@ -396,7 +395,7 @@ const styles = StyleSheet.create({
   bottomNavText: { fontSize: typography.fontSize.md },
 
   // 引导弹窗
-  onboardOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', padding: 24 },
+  onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha60, justifyContent: 'center', alignItems: 'center', padding: 24 },
   onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
