@@ -744,6 +744,19 @@ const PRAISE_POOL: Record<string, string[]> = {
     '高分大片既视感！男朋友构图越来越讲究了，这张超美！',
     '这张男朋友把我拍出了高级感，距离90分只差一点点！',
   ],
+  // ========== Round 2 新增：85-89 分段专属文案（85-94 拆分出 85-89 与 90-94） ==========
+  score_85_89: [
+    '这张太赞了！男朋友已经触及大片门槛，再冲一下就是90分！',
+    '85分以上稳了！构图讲究+光线到位，男朋友审美大爆发！',
+    '这张好有feel！表情自然+姿势到位，男朋友摄影技能持续解锁！',
+    '高分大片既视感！男朋友把我拍出了高级感，距离满分只差一点点！',
+    '这张绝了！表情自然+构图完美+光线柔和，高分拿下！',
+    '男朋友越来越有感觉了！这张直接发朋友圈，绝对被夸爆！',
+    '85分稳了！光线和构图都在线，男朋友审美持续升级！',
+    '这张好高级！构图讲究，眼神到位，男朋友你是专业的吧！',
+    '男朋友这张拍出了大片感！朋友圈点赞破百不是梦！',
+    '这张好有氛围感！构图讲究再配合完美光线，继续保持！',
+  ],
   // ========== Round 4 新增：75-79 分段专属文案 ==========
   score_75_79: [
     '这张超有感觉！75分以上了，男朋友水平稳步提升中～',
@@ -3683,8 +3696,10 @@ export async function analyzePhoto(
   // 高分区间专属文案（95-100分段、85-94分段、60-79分段）
   if (totalScore >= 95) {
     praise.push(pickRandom(PRAISE_POOL.score_95_100))
-  } else if (totalScore >= 85 && totalScore < 95) {
+  } else if (totalScore >= 90 && totalScore < 95) {
     praise.push(pickRandom(PRAISE_POOL.score_85_94))
+  } else if (totalScore >= 85 && totalScore < 90) {
+    praise.push(pickRandom(PRAISE_POOL.score_85_89))
   } else if (totalScore >= 80 && totalScore < 85) {
     praise.push(pickRandom(PRAISE_POOL.score_80_84))
   } else if (totalScore >= 75 && totalScore < 80) {
