@@ -1530,8 +1530,6 @@ const LIGHT_TIPS = {
   HARD_SHADOW_2: '脸上有硬阴影，侧一点站或者换个地方～',
   SPOTLIGHT_HOT: '顶上有个大白灯！往下站一点，阴影会少很多～',
   SPOTLIGHT_HOT_2: '头顶聚光灯太亮了！换个位置或者抬头找别的光～',
-  REFLECTOR_HACK: '找个白墙或白纸放在脸下方，可以补眼神光～',
-  REFLECTOR_HACK_2: '用白色东西在脸下补光，眼神会亮很多～',
   GLOW_REFLECT: '找个发光的屏幕放在脸下方，补光又自然～',
   CANDLE_LIGHT: '烛光氛围感绝了！脸靠近一点，光更柔和～',
   SUNSET_SIDE: '夕阳侧光超有层次！让光打在侧脸上～',
@@ -1610,7 +1608,6 @@ const COMPOSITION_TIPS = {
   BACKLIGHT_SOFTEN: '逆光脸太暗！侧身让光从侧面打过来～',
   TOP_LIGHT_SOFTEN: '顶光阴影重！找个侧光或往前站一点躲开顶光～',
   MIXED_LIGHT_FIX: '两种光混在一起脸会花！只朝向一种光源～',
-  SCREEN_LIGHT_HACK: '手机屏幕对着脸补光！白色背景就是简易补光灯～',
   GOLDEN_HOUR_NOW: '现在是黄金时段！赶紧拍，光线超美～',
   BLUE_HOUR_NOW: '蓝色时刻超浪漫！赶紧拍，光线绝绝子～',
 }
