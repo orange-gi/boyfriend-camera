@@ -1291,7 +1291,7 @@ const styles = StyleSheet.create({
   },
   templateCardActive: {
     borderColor: COLORS.primary,
-    backgroundColor: COLORS.cardPink,
+    backgroundColor: COLORS.primaryLight,
   },
   templateSelectedBadge: {
     position: 'absolute',

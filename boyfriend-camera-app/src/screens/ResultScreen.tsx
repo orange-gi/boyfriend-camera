@@ -507,15 +507,15 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
   }
 
   // 夸奖横幅背景/边框颜色（按分数段，使用设计系统 tokens）
-  const getPraiseBannerColors = (): { bg: string; border: string; shadow: string } => {
-    if (!scoreResult) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning }
-    if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.scoreGreat, shadow: colors.scoreGreat }
-    if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: colors.primary, shadow: colors.primary }
-    if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: colors.success, shadow: colors.success }
+  const getPraiseBannerColors = (): { bg: string; border: string } => {
+    if (!scoreResult) return { bg: colors.warningLight, border: colors.warning }
+    if (scoreResult.totalScore >= 90) return { bg: colors.scoreGreatBg, border: colors.scoreGreat }
+    if (scoreResult.totalScore >= 80) return { bg: colors.primaryLight, border: colors.primary }
+    if (scoreResult.totalScore >= 70) return { bg: colors.successLight, border: colors.success }
     // 60-69: 及格 - warning 色系
-    if (scoreResult.totalScore >= 60) return { bg: colors.warningLight, border: colors.warning, shadow: colors.warning }
+    if (scoreResult.totalScore >= 60) return { bg: colors.warningLight, border: colors.warning }
     // 60 分以下: 加油 - danger 色系
-    return { bg: colors.dangerLight, border: colors.danger, shadow: colors.danger }
+    return { bg: colors.dangerLight, border: colors.danger }
   }
   const praiseColors = getPraiseBannerColors()
 
@@ -1156,8 +1156,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   errorBanner: {
-    backgroundColor: colors.cardYellow,
-    borderRadius: 8,
+    backgroundColor: colors.dangerLight,
+    borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 12,
@@ -1170,12 +1170,12 @@ const styles = StyleSheet.create({
   },
   errorBannerText: {
     fontSize: 13,
-    color: colors.cardBrown,
+    color: colors.danger,
     textAlign: 'center',
     marginBottom: 8,
   },
   errorRetryBtn: {
-    backgroundColor: colors.cardBrown,
+    backgroundColor: colors.danger,
     borderRadius: 16,
     paddingHorizontal: 20,
     paddingVertical: 7,
@@ -1186,13 +1186,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   errorSecondaryBtn: {
-    backgroundColor: colors.cardCream,
+    backgroundColor: colors.bgCard,
     borderWidth: 1,
-    borderColor: colors.warning,
+    borderColor: colors.danger,
   },
   errorSecondaryBtnText: {
     fontSize: 13,
-    color: colors.cardBrown,
+    color: colors.danger,
     fontWeight: '600',
   },
   // 无图片时的友好提示
