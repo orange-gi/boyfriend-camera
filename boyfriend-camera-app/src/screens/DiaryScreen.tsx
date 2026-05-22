@@ -391,7 +391,9 @@ export default function DiaryScreen() {
               {/* 周统计卡片网格 */}
               {totalCount > 0 && (
                 <>
-                  <Text style={styles.statsCardTitle}>本周数据</Text>
+                  {/* 去装饰化：用细分割线替代大标题，视觉更轻盈 */}
+                  <View style={styles.weeklyDivider} />
+                  <Text style={styles.statsCardTitle}>本周</Text>
                   <View style={styles.weeklyGrid}>
                   {/* 本周平均分 */}
                   <View style={styles.weeklyCard}>
@@ -435,12 +437,12 @@ export default function DiaryScreen() {
                   </View>
                 )}
                 {avgScore >= 60 && avgScore < 80 && (
-                  <View style={[styles.badge, { backgroundColor: COLORS.info + '28', borderColor: COLORS.info }]}>
+                  <View style={styles.badge}>
                     <Text style={[styles.badgeText, { color: COLORS.info }]}>{avgScore >= 70 ? '进阶中' : '成长中'}</Text>
                   </View>
                 )}
                 {avgScore > 0 && avgScore < 60 && (
-                  <View style={[styles.badge, { backgroundColor: COLORS.warning + '28', borderColor: COLORS.warning }]}>
+                  <View style={styles.badge}>
                     <Text style={[styles.badgeText, { color: COLORS.warning }]}>新手期</Text>
                   </View>
                 )}
@@ -683,10 +685,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   statsCardTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: COLORS.textSecondary,
-    marginBottom: 14,
+    // 去装饰化：12px muted 色，与 17px sectionTitle 拉开层次差
+    fontSize: 12,
+    fontWeight: '400',
+    color: COLORS.textMuted,
+    marginBottom: 12,
   },
   // 4 格统计卡片网格
   statsGrid: {
@@ -787,6 +790,12 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 8,
     marginBottom: 4,
+  },
+  // 去装饰化：细分割线替代大标题，在紧凑布局中创造轻盈分隔
+  weeklyDivider: {
+    height: 1,
+    backgroundColor: COLORS.divider,
+    marginVertical: 10,
   },
   weeklyCard: {
     flex: 1,
