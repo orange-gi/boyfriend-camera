@@ -129,6 +129,8 @@ export default function CameraScreen() {
   // 节流正视镜头和多人合照不看镜头 TTS
   const lastLookAtCameraRef = useRef<number>(0)
   const lastGroupLookAtCameraRef = useRef<number>(0)
+  // 节流人脸位置 TTS
+  const lastFaceTipRef = useRef<number>(0)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
   const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -194,7 +196,7 @@ export default function CameraScreen() {
 
   useEffect(() => {
     VoiceCoach.initialize()
-    return () => VoiceCoach.stop()
+    return () => VoiceCoach.destroy()
   }, [])
 
   // ========== Round 3 新增：闲置计时器（45秒无操作则提醒） ==========
@@ -227,6 +229,16 @@ export default function CameraScreen() {
   useEffect(() => {
     VoiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
   }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
+
+  // 人脸位置 TTS 提示（归一化坐标 + 面积，6s 节流）
+  useEffect(() => {
+    if (faces.length !== 1) return
+    const now = Date.now()
+    if (now - lastFaceTipRef.current < 6000) return
+    lastFaceTipRef.current = now
+    const face = faces[0]
+    VoiceCoach.speakFaceTip(face.x, face.y, face.area).catch(() => {})
+  }, [faces])
 
   // 自拍距离 TTS 检查（前置摄像头下，Face 面积 > 0.22 时提示退远）
   useEffect(() => {
@@ -955,7 +967,7 @@ const styles = StyleSheet.create({
     top: 60,
     left: 16,
     right: 16,
-    backgroundColor: 'rgba(255, 80, 80, 0.95)',
+    backgroundColor: COLORS.danger,
     borderRadius: 12,
     padding: 12,
     flexDirection: 'row',
@@ -964,13 +976,13 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   cameraErrorText: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 13,
     flex: 1,
     lineHeight: 18,
   },
   cameraErrorClose: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 8,
@@ -990,7 +1002,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(0,0,0,0.45)',
+    backgroundColor: COLORS.blackAlpha40,
     borderRadius: 16,
     paddingHorizontal: 8,
     paddingVertical: 6,
@@ -999,12 +1011,12 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 16,
-    backgroundColor: 'rgba(0,0,0,0.55)',
+    backgroundColor: COLORS.blackAlpha50,
     alignItems: 'center',
     justifyContent: 'center',
   },
   topBtnText: {
-    color: '#fff',
+    color: COLORS.textOnDark,
     fontSize: 22,
   },
   modeGroupGlass: {
@@ -1025,11 +1037,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   modeBtnText: {
-    color: 'rgba(255,255,255,0.6)',
+    color: COLORS.whiteAlpha60,
     fontSize: 17,
   },
   modeBtnTextActive: {
-    color: '#fff',
+    color: COLORS.textOnDark,
   },
   // 顶部悬浮姿势引导卡
   autoRecommendBadge: {
@@ -1060,7 +1072,7 @@ const styles = StyleSheet.create({
   poseTipText: {
     flex: 1,
     fontSize: 14,
-    color: '#fff',
+    color: COLORS.textOnDark,
     fontWeight: '600',
     lineHeight: 20,
   },
@@ -1080,7 +1092,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: COLORS.blackAlpha10,
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
@@ -1109,7 +1121,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 52,
     height: 52,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: COLORS.blackAlpha40,
     borderRadius: 16,
   },
   sideBtnIcon: {
@@ -1117,7 +1129,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   sideBtnText: {
-    color: 'rgba(255,255,255,0.9)',
+    color: COLORS.whiteAlpha90,
     fontSize: 11,
     fontWeight: '500',
   },
@@ -1134,7 +1146,7 @@ const styles = StyleSheet.create({
     height: 84,
     borderRadius: 16,
     borderWidth: 4,
-    borderColor: 'rgba(255,255,255,0.8)',
+    borderColor: COLORS.whiteAlpha80,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1163,7 +1175,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bgCard,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     paddingBottom: 24,
@@ -1225,7 +1237,7 @@ const styles = StyleSheet.create({
   categoryTab: {
     paddingHorizontal: 16,
     paddingVertical: 10,
-    borderRadius: 16,
+    borderRadius: 14,
     backgroundColor: COLORS.divider,
     marginHorizontal: 4,
   },
@@ -1257,7 +1269,6 @@ const styles = StyleSheet.create({
   },
   templateCardActive: {
     borderColor: COLORS.primary,
-    // 去装饰化：只保留边框颜色指示选中态，浅色背景属于冗余装饰
     backgroundColor: COLORS.skeletonBase,
   },
   templateThumb: {
@@ -1364,7 +1375,7 @@ const styles = StyleSheet.create({
   recentCard: {
     width: 64,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bgCard,
     borderRadius: 10,
     borderWidth: 1.5,
     padding: 6,
@@ -1388,7 +1399,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   previewCard: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bgCard,
     borderRadius: 16,
     padding: 20,
     width: '88%',
@@ -1439,7 +1450,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   favoriteBtnTextActive: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
   },
   previewUseBtn: {
     backgroundColor: COLORS.primary,
@@ -1448,7 +1459,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   previewUseBtnText: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 15,
     fontWeight: 'bold',
   },
