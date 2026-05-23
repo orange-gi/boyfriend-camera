@@ -438,7 +438,7 @@ export default function DiaryScreen() {
               </View>
             )}
 
-                        {/* 本月 vs 上月对比 */}
+            {/* 本月 vs 上月对比 */}
             {(monthlyStats.monthAvg > 0 || monthlyStats.prevMonthAvg > 0) && (
               <Text style={styles.monthCompareText}>
                 本月 {monthlyStats.monthAvg}分 · 上月 {monthlyStats.prevMonthAvg > 0 ? `${monthlyStats.prevMonthAvg}分` : '-'}{monthlyStats.monthDiff !== 0 ? (

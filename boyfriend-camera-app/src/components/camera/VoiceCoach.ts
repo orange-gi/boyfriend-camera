@@ -612,8 +612,6 @@ const STABILITY_TIPS = {
 }
 
 // 表情检测提示
-
-// 表情检测提示
 const EXPRESSION_TIPS = {
   LOOK_SIDE_SMILE: '假装看旁边再转头笑，自然又灵动～',
   HAND_ON_CHIN: '一只手托着下巴，显脸小的经典pose～',
