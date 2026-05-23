@@ -42,15 +42,13 @@ export default function DiaryScreen() {
       const [diary, score] = await Promise.all([getDiary(), getPeakScore()])
       setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
       setPeakScore(score)
-      // 加载完成后 TTS 播报（仅首次有数据时）
+      // 加载完成后 TTS 播报（fire-and-forget，TTS 失败不影响 UI）
       if (diary.length > 0) {
-        try {
-          await voiceCoach.speakDiaryLoaded(diary.length)
-          const highScoreCount = diary.filter(r => r.score >= 80).length
-          const milestone: 'first' | 'streak3' | 'streak7' | 'week10' =
-            diary.length >= 10 ? 'week10' : highScoreCount >= 7 ? 'streak7' : highScoreCount >= 3 ? 'streak3' : 'first'
-          voiceCoach.speakDiaryMilestone(milestone)
-        } catch { /* ignore TTS */ }
+        voiceCoach.speakDiaryLoaded(diary.length)
+        const highScoreCount = diary.filter(r => r.score >= 80).length
+        const milestone: 'first' | 'streak3' | 'streak7' | 'week10' =
+          diary.length >= 10 ? 'week10' : highScoreCount >= 7 ? 'streak7' : highScoreCount >= 3 ? 'streak3' : 'first'
+        voiceCoach.speakDiaryMilestone(milestone)
       }
     } catch {
       setLoadError(true)
