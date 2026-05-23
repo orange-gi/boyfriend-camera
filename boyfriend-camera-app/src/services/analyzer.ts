@@ -2810,6 +2810,14 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '试试让光线打在主体上，增加明暗对比，画面会更立体～',
   ],
   // 颜色过饱和（过于鲜艳）
+  over_saturated: [
+    '颜色有点太艳了，看起来不太自然，稍微降低饱和度会更舒服～',
+    '这张色调太重，饱和度拉太高反而不好看～',
+    '滤镜加太重了，照片有点假，降低饱和度会更真实～',
+    '色调有点过猛，试试柔和一点的滤镜会更耐看～',
+    '这张颜色太浓了，稍微调淡一点会有大片感～',
+    '饱和度拉过头了，看起来有点刺眼，稍微收一点更高级～',
+  ],
   // 广角畸变（手机超广角边缘拉伸）
   // 肤色偏色（黄/绿/紫）
   skin_tone_cast: [
@@ -2823,6 +2831,15 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '背光时手机自动白平衡会偏，让女朋友转过来对着光～',
   ],
   // 主体被裁切（构图严谨性）
+  careful_framing: [
+    '人脸被切掉了一部分，下次让男朋友后退一点点～',
+    '这张把头给截掉了，记得把整个人都拍进来～',
+    '画面稍微切到人了，退后一步让整个人都入镜～',
+    '边缘裁切到脸了，稍微调整一下站位或距离～',
+    '构图稍微紧了一点，让人完整入镜会更舒服～',
+    '这张差一点就把人完整收进来了，稍微拉远就好～',
+    '注意一下画面边缘，别把重要部分切掉～',
+  ],
   // 画面过满（留白不足）
   too_crowded: [
     '画面稍微有点挤，背景留少一点会更通透～',
@@ -3084,11 +3101,13 @@ export async function analyzePhoto(
       facePosition.y < 0.12 || facePosition.y > 0.88
     if (tooCloseToEdge && suggestions.length < 4) {
       suggestions.push(pickRandom(SUGGESTION_POOL.face_cut_off))
+      problems.push('careful_framing')
     }
     // 人脸太靠边（比 off-center 更严重）
     if (facePosition.x < 0.12 || facePosition.x > 0.88 || facePosition.y < 0.18 || facePosition.y > 0.82) {
       if (suggestions.length < 4) {
         suggestions.push(pickRandom(SUGGESTION_POOL.face_too_edge))
+        problems.push('careful_framing')
       }
     }
   }
@@ -3145,6 +3164,12 @@ export async function analyzePhoto(
   if (brightness >= 80 && brightness <= 170 && compositionScore < 32 && exposureScore < 22 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.washed_out))
     problems.push('washed_out')
+  }
+
+  // 过饱和检测：极亮户外场景（阳光直射）可能导致颜色过艳
+  if (brightness > 200 && sceneType === 'outdoor' && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.over_saturated))
+    problems.push('over_saturated')
   }
 
   // 室内暖黄光源或有色灯光下，可能影响肤色
