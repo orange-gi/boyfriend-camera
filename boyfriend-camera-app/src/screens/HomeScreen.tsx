@@ -2,7 +2,7 @@
  * HomeScreen - 首页
  */
 import React, { useEffect, useState, useRef } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal, Animated as RNAnimated } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
@@ -50,18 +50,7 @@ export default function HomeScreen() {
   const [todayCount, setTodayCount] = useState(0)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
-  // 骨架屏 Shimmer 动画（返回 ref 以便清理）
-  const shimmerAnim = useRef(new RNAnimated.Value(0)).current
-  useEffect(() => {
-    const animation = RNAnimated.loop(
-      RNAnimated.sequence([
-        RNAnimated.timing(shimmerAnim, { toValue: 1, duration: 800, useNativeDriver: true }),
-        RNAnimated.timing(shimmerAnim, { toValue: 0, duration: 800, useNativeDriver: true }),
-      ])
-    )
-    animation.start()
-    return () => animation.stop()
-  }, [shimmerAnim])
+
 
   // 统一入场动画
   const enterAnim = useSharedValue(0)
@@ -185,15 +174,8 @@ export default function HomeScreen() {
             {[0,1,2].map(i => (
               <React.Fragment key={i}>
                 {i > 0 && <View style={styles.statDivider} />}
-                <View style={[styles.statItem, styles.statItemSkeleton]}>
-                  <RNAnimated.View
-                    style={[
-                      styles.skeletonNum,
-                      {
-                        opacity: shimmerAnim.interpolate({ inputRange: [0, 1], outputRange: [0.4, 1] }),
-                      },
-                    ]}
-                  />
+                <View style={styles.statItem}>
+                  <View style={styles.skeletonNum} />
                   <Text style={styles.statsLoadingText}>{i === 0 ? '已拍摄' : i === 1 ? '平均分' : '姿势模板'}</Text>
                 </View>
               </React.Fragment>
@@ -345,7 +327,6 @@ const styles = StyleSheet.create({
   statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], backgroundColor: COLORS.bgCard, ...shadows.md },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
-  statItemSkeleton: { alignItems: 'center' },
   skeletonNum: { width: 36, height: 36, borderRadius: 4, backgroundColor: COLORS.divider, marginBottom: 4 },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 52 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
