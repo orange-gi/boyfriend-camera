@@ -448,7 +448,7 @@ export default function DiaryScreen() {
             {/* 拖动条 */}
             <View style={styles.sheetHandle} />
             {/* 标题 */}
-            <Text style={styles.sheetTitle}>🗑️ 删除记录</Text>
+            <Text style={styles.sheetTitle}>删除记录</Text>
             <Text style={styles.sheetSubtitle}>确定要删除这条进步记录吗？删除后不可恢复哦～</Text>
             {/* 操作按钮 */}
             <View style={styles.sheetActions}>
@@ -641,8 +641,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 14,
     marginTop: 8,
-    // 去装饰化：sectionTitle 仅在 ListHeaderComponent 中用于分隔 ProgressChart 和历史记录
-    // 进步曲线无需标题，图表本身即标题
   },
   recordCard: {
     flexDirection: 'row',
@@ -859,7 +857,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     alignItems: 'center',
   },
-  emptyErrorEmoji: { fontSize: 32, color: COLORS.textMuted, marginBottom: 12 },
+  emptyErrorEmoji: { fontSize: 28, color: COLORS.textMuted, marginBottom: 12 },
   emptyErrorTitle: {
     fontSize: 18,
     fontWeight: '600',
