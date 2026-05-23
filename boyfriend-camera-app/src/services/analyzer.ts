@@ -366,6 +366,18 @@ const PRAISE_POOL: Record<string, string[]> = {
     '逆光剪影好有意境，男朋友你懂浪漫啊～',
     '这个取景也太会选了吧，审美在线！',
   ],
+  // 美食摄影专项表扬（无人脸+亮度合适+构图好）
+  food_photo_good: [
+    '这道菜拍得食欲大开！构图超有食欲感～',
+    '美食摄影小能手！光线打在食物上刚刚好',
+    '这张美食照发朋友圈绝对被问在哪拍的！',
+  ],
+  // 风景摄影专项表扬（无人脸+亮度合适）
+  landscape_photo_good: [
+    '风景大片！这构图和光线拿捏得超有感觉',
+    '这张风景照色彩好美，男朋友开窍了！',
+    '取景超有感觉，发朋友圈绝对点赞爆棚！',
+  ],
   indoor_good: [
     '室内的光线氛围感拉满了！',
     '室内也能拍出这种感觉，太会找了！',
@@ -3325,6 +3337,14 @@ export async function analyzePhoto(
   }
   if (sceneMatchScore < 0.5 && isLandscapeScene && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.landscape_scene_low))
+  }
+
+  // ===== 美食/风景专项表扬（场景匹配度高时） =====
+  if (isFoodScene && compositionScore >= 28 && suggestions.length < 4) {
+    praise.push(pickRandom(PRAISE_POOL.food_photo_good))
+  }
+  if (isLandscapeScene && compositionScore >= 28 && brightness >= 80 && brightness <= 200) {
+    praise.push(pickRandom(PRAISE_POOL.landscape_photo_good))
   }
 
   // ===== Round 5 新增：细分场景建议触发 =====
