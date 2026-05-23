@@ -16,6 +16,11 @@ export type VoiceScene =
   | 'milestone'         // 里程碑提示（如首次 80 分、首次满分等）
   | 'encourage'         // 鼓励提示（分数低于 50 时）
   | 'celebration'       // 高分庆祝（>=85）
+  | 'photo_saved'       // 照片保存成功
+  | 'filter_selected'   // 滤镜选中
+  | 'filter_swipe'     // 滤镜滑动提示
+  | 'share_success'    // 分享成功
+  | 'photo_deleted'    // 照片删除
 
 export async function speakScene(scene: VoiceScene, score?: number): Promise<void> {
   try {
@@ -48,6 +53,11 @@ function getSceneText(scene: VoiceScene, score?: number): string {
     },
     encourage: (s) => `没关系！${typeof s === 'number' ? s + '分' : ''}只是起点，多拍几张就会越来越好！`,
     celebration: (s) => `哇！${s}分！男朋友审美大爆发！这张要永久保存！`,
+    photo_saved: '照片已保存到相册！可以去相册里找找看～',
+    filter_selected: (s) => `滤镜切换成功！${s ? `现在用${s}滤镜呈现～` : '恢复原色调了！'}`,
+    filter_swipe: '左右滑动切换滤镜，找到最喜欢的风格～',
+    share_success: '分享成功！快让朋友们看看这张大片吧！',
+    photo_deleted: '照片已删除～',
   }
   const t = templates[scene]
   if (typeof t === 'function') return t(score)
