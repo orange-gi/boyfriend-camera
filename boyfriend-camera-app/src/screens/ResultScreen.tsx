@@ -807,13 +807,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     width: 68,
   },
-  filterCircleWrapper: {
-    width: 58,
-    height: 58,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 5,
-  },
   filterCircle: {
     width: 54,
     height: 54,

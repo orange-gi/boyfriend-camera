@@ -1354,15 +1354,6 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
-  focusRing: {
-    position: 'absolute',
-    width: 60,
-    height: 60,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: COLORS.warning,
-    zIndex: 50,
-  },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
