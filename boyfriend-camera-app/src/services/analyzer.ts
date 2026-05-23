@@ -3075,6 +3075,107 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '风景照背景太大反而没有重点，让人占画面三分之一～',
     '户外场景试试把手机放低仰拍，腿长立刻翻倍～',
   ],
+
+  // ===== Round 5 新增建议池（覆盖更多细分场景） =====
+  // 日落黄昏场景建议
+  sunset_golden_hour: [
+    '现在是黄昏黄金时段！侧身站着让夕阳打在侧脸上，超有氛围感～',
+    '日落光线正在变！赶紧多拍几张，这个时间段很短～',
+    '傍晚逆光超浪漫！让女朋友背对太阳，轮廓光绝了～',
+    '夕阳余晖打在脸上超温暖！这个时刻按快门就是大片～',
+    '黄昏光线色彩最浓郁，抓拍回眸或侧颜都超有感觉～',
+    'Golden Hour 稍纵即逝，这十分钟拍到就是赚到！',
+  ],
+
+  // 日出清晨场景建议
+  sunrise_morning: [
+    '日出时光线超通透！趁着朝霞还在赶紧拍几张～',
+    '清晨日出光线偏金色，让女朋友背对光源拍剪影～',
+    '日出的光线变化很快，抓紧时间多按快门～',
+    '早晨的光线最通透，趁太阳刚升起时拍效果最好～',
+    '日出后半小时内光线最柔和，拍出来皮肤状态超好～',
+    '清晨薄雾会让照片有朦胧感，这个氛围感绝了～',
+  ],
+
+  // 雨天户外场景建议
+  rainy_outdoor: [
+    '雨天光线超柔和！在窗户边拍皮肤状态超好～',
+    '雨天拍照光线偏暗，打开闪光灯或靠近光源～',
+    '雨天找有水坑的地方拍倒影，蹲低拍效果绝了～',
+    '雨伞是超棒的道具！透明伞最有意境～',
+    '雨后路面有积水，蹲低拍倒影，角度绝了～',
+    '雨天光线偏冷白，后期可以加一点暖色调更温暖～',
+  ],
+
+  // 镜子/试衣间场景建议
+  mirror_room_tips: [
+    '对着镜子自拍时手机稍微倾斜一点拍，角度更好看～',
+    '试衣间镜子自拍光线均匀超上镜，试试歪头笑一个～',
+    '镜子里的倒影也很美！试试拍镜子里的自己，更有氛围～',
+    '镜子自拍时开闪光灯或找光源，脸会更亮～',
+    '全身镜自拍显腿长！站在镜子前拍你，超有范儿～',
+    '镜子稍微斜着拍避免反光，别正对镜子站～',
+  ],
+
+  // 水面/倒影摄影建议
+  water_reflection: [
+    '有水面的时候蹲低拍倒影！上下对称超有意境～',
+    '雨后积水或湖面都能拍倒影，等水面平静时按下快门～',
+    '拍倒影时稍微低角度，让相机贴近水面效果更好～',
+    '有风的时候水面会有波纹，等风停的瞬间拍～',
+    '用手机屏幕朝下补光可以让水面反光更亮～',
+    '找一面干净的水洼或镜子一样的地面，倒影会超清晰～',
+  ],
+
+  // 夜间手持拍摄建议
+  night_handheld: [
+    '夜间手持拍摄手要超级稳！靠在墙上或双手握手机～',
+    '晚上光线暗快门慢，稍微手抖就会糊片，深呼吸～',
+    '夜间拍照打开闪光灯或找光源，手就不用那么稳～',
+    '手机夜景模式会自动多帧合成，手要拿稳等处理完成～',
+    '晚上拍完立刻检查，糊了马上重拍别犹豫～',
+    '夜间光线复杂，打开闪光灯补面部光线，脸会更清晰～',
+  ],
+
+  // 跳闪/柔光闪光建议
+  flash_bounce: [
+    '闪光灯直打太硬了！试试对着白墙跳闪，光线更柔和～',
+    '跳闪让闪光灯的光经过墙壁漫反射，柔光效果绝了～',
+    '闪光灯对着天花板打光，光会从头顶均匀洒下来～',
+    '没有白墙的话，用白色衣服或白纸板做临时反光板～',
+    '跳闪时角度大概 45-60 度，让墙壁成为二次光源～',
+    '跳闪适合室内近距离拍摄，让脸不要正对墙壁方向～',
+  ],
+
+  // 暗光人像建议
+  low_light_portrait: [
+    '暗光环境下打开闪光灯补面部光线，不然脸会黑黑的～',
+    '暗光时手机会自动拉高 ISO，噪点会变多，靠近光源拍更好～',
+    '暗光环境尽量找窗户或台灯，脸正对光源站～',
+    '暗光时打开屏幕补光功能，用屏幕光当补光灯～',
+    '手机屏幕朝脸举起来，用屏幕光补个自拍的逆光～',
+    '暗光环境下别让脸背光，转过来正对光源～',
+  ],
+
+  // 硬光室内建议（顶灯/射灯）
+  harsh_light_indoor: [
+    '天花板射灯在脸上留下奇怪的阴影，往边上站一站躲开～',
+    '室内硬光源会让脸上一块亮一块暗，找柔和的光源重新站位～',
+    '聚光灯下光线太集中，找散射光或用窗帘柔化～',
+    '台灯或落地灯可以做主光源，让女朋友面向它～',
+    '顶灯会造成眼窝深陷的阴影，往窗户方向站让自然光补在脸上～',
+    '卤素灯偏黄偏硬，靠近窗户用自然光最安全～',
+  ],
+
+  // 阴天柔光场景建议
+  cloud_soft_light: [
+    '阴天的云层就是天然柔光箱，拍出来的肤色超均匀～',
+    '阴天拍照最省心！光线均匀不刺眼，随便摆 pose 都好看～',
+    '别等晴天了！阴天才是拍照的黄金天气，快多拍几张～',
+    '阴天虽然看不到太阳，但漫反射光最适合拍五官特写～',
+    '快门速度会慢一些，让男朋友双手握稳手机～',
+    '阴天拍近景特别棒！表情细节全捕捉，皮肤质感满分～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3393,6 +3494,38 @@ export async function analyzePhoto(
   }
   if (sceneMatchScore < 0.5 && isLandscapeScene && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.landscape_scene_low))
+  }
+
+  // ===== Round 5 新增：细分场景建议触发 =====
+  // 日落/黄昏黄金时段（17:00-19:00）
+  {
+    const h = new Date().getHours()
+    if (h >= 17 && h <= 19 && brightness >= 60 && brightness <= 200 && suggestions.length < 4) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.sunset_golden_hour))
+    }
+    if (h >= 5 && h <= 8 && brightness >= 60 && brightness <= 180 && suggestions.length < 4) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.sunrise_morning))
+    }
+  }
+  // 夜间手持拍摄（低光+低稳定分）
+  if (safeBrightness < 70 && stabilityScore < 15 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.night_handheld))
+  }
+  // 硬光室内（亮度够但有顶光阴影）
+  if (sceneType === 'indoor' && brightness >= 100 && brightness <= 200 && Math.abs(tiltAngle) > 5 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.harsh_light_indoor))
+  }
+  // 暗光人像（人脸存在但亮度不足）
+  if (faceCount > 0 && safeBrightness < 70 && safeBrightness >= 30 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.low_light_portrait))
+  }
+  // 阴天柔光（亮度均衡但无强光直射）
+  if (sceneType === 'outdoor' && brightness >= 80 && brightness <= 170 && exposureScore >= 20 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.cloud_soft_light))
+  }
+  // 雨天户外（低亮度场景下有湿度感）
+  if (safeBrightness >= 30 && safeBrightness <= 100 && sceneType !== undefined && ['rainy', 'outdoor'].includes(sceneType) && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rainy_outdoor))
   }
 
   // 表情僵硬建议（低分区+人脸存在时触发）
