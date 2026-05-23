@@ -378,6 +378,12 @@ const PRAISE_POOL: Record<string, string[]> = {
     '这张风景照色彩好美，男朋友开窍了！',
     '取景超有感觉，发朋友圈绝对点赞爆棚！',
   ],
+  // 风景美照专属满分 praise（isLandscapeScene && safeSharpness >= 100）
+  landscape_beautiful: [
+    '风景绝美！清晰度满分，这张可以直接当壁纸了！',
+    '大片感拉满！风景和构图都是满分表现！',
+    '这张风景照太惊艳了，光影层次感绝了！',
+  ],
   indoor_good: [
     '室内的光线氛围感拉满了！',
     '室内也能拍出这种感觉，太会找了！',
@@ -3345,6 +3351,10 @@ export async function analyzePhoto(
   }
   if (isLandscapeScene && compositionScore >= 28 && brightness >= 80 && brightness <= 200) {
     praise.push(pickRandom(PRAISE_POOL.landscape_photo_good))
+  }
+  // 风景美照专属满分 praise
+  if (isLandscapeScene && safeSharpness >= 100) {
+    praise.push(pickRandom(PRAISE_POOL.landscape_beautiful))
   }
 
   // ===== Round 5 新增：细分场景建议触发 =====
