@@ -225,6 +225,8 @@ export default function HomeScreen() {
           style={styles.cameraBtn}
           onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
           activeOpacity={0.85}
+          accessibilityLabel="开始拍照"
+          accessibilityRole="button"
         >
           <Text style={[styles.cameraBtnText, { color: COLORS.textOnPrimary }]}>开始拍照</Text>
           {isNewUser && <View style={styles.newBadge}><Text style={styles.newBadgeText}>新</Text></View>}
