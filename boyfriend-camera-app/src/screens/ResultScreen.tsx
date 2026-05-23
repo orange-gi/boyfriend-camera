@@ -39,37 +39,23 @@ const SCREEN_W = Dimensions.get('window').width
 
 type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
 
-export default function ResultScreen() {
-  const route = useRoute<RouteProp<RootStackParamList, 'Result'>>()
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Result'>>()
-  const { photoPath, templateCategory } = route.params || {}
-
-  const [processedPath, setProcessedPath] = useState<string>('')
-  const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
-  const [praiseList, setPraiseList] = useState<string[]>([])
-  const [saving, setSaving] = useState(false)
-  const [processing, setProcessing] = useState(true)
-  const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
-    (() => {
-      const catFilterMap: Record<string, CoreFilter> = {
-        '餐厅美食': 'food',
-        '户外风景': 'warm',
-        '城市街拍': 'cinematic',
-        '室内场景': 'warm',
-        '室内人像': 'portrait',
-        '特殊风格': 'vivid',
-        '情侣合照': 'portrait',
-        '室内日常': 'soft',
-        '自拍技巧': 'soft',
-        '构图技巧': 'cinematic',
-        '人文风景': 'vivid',
-        '夜景': 'cinematic',
-        '节日限定': 'vivid',
-        '运动健身': 'vivid',
-      }
-      return (templateCategory ? (catFilterMap[templateCategory] ?? 'warm') : 'warm') as CoreFilter
-    })()
-  )
+// 模块层常量：避免 useState initializer 每次渲染重建
+const CAT_FILTER_MAP: Record<string, CoreFilter> = {
+  '餐厅美食': 'food',
+  '户外风景': 'warm',
+  '城市街拍': 'cinematic',
+  '室内场景': 'warm',
+  '室内人像': 'portrait',
+  '特殊风格': 'vivid',
+  '情侣合照': 'portrait',
+  '室内日常': 'soft',
+  '自拍技巧': 'soft',
+  '构图技巧': 'cinematic',
+  '人文风景': 'vivid',
+  '夜景': 'cinematic',
+  '节日限定': 'vivid',
+  '运动健身': 'vivid',
+}
 
 const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> = [
   { key: 'warm', label: '暖黄', color: COLORS.filterWarm },
@@ -81,6 +67,21 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
   { key: 'food', label: '美食', color: COLORS.filterFood },
   { key: 'cinematic', label: '电影', color: COLORS.filterCinematic },
 ]
+
+export default function ResultScreen() {
+  const route = useRoute<RouteProp<RootStackParamList, 'Result'>>()
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Result'>>()
+  const { photoPath, templateCategory } = route.params || {}
+
+  const [processedPath, setProcessedPath] = useState<string>('')
+  const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
+  const [praiseList, setPraiseList] = useState<string[]>([])
+  const [saving, setSaving] = useState(false)
+  const [processing, setProcessing] = useState(true)
+  const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
+    (templateCategory ? (CAT_FILTER_MAP[templateCategory] ?? 'warm') : 'warm') as CoreFilter
+  )
+
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
