@@ -14,8 +14,7 @@ interface Props {
 export default function ScoreTag({ score, size = 'md', showLabel = false }: Props) {
   const color = scoreColor(score)
   const fontSize = size === 'sm' ? 14 : size === 'lg' ? 28 : 20
-  const paddingH = size === 'sm' ? 6 : size === 'lg' ? 14 : 10
-  const paddingV = size === 'sm' ? 3 : size === 'lg' ? 6 : 4
+
   const borderRadius = size === 'sm' ? 6 : size === 'lg' ? 10 : 8
 
   return (

@@ -18,7 +18,6 @@ import Animated, {
   withSpring,
   withTiming,
   interpolate,
-  FadeInDown,
 } from 'react-native-reanimated'
 import ViewShot, { ViewShotRef } from 'react-native-view-shot'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -30,11 +29,9 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, hexAlpha, typography, borderRadius } from '../theme'
+import { COLORS, hexAlpha } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
-
-const SCREEN_W = Dimensions.get('window').width
 
 type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
 
@@ -580,8 +577,7 @@ export default function ResultScreen() {
 
         {/* 夸奖横幅 — 去背景色，用左侧彩色竖线作为分数段强调，简洁不抢镜 */}
         {!processing && (
-          <Animated.View
-            entering={FadeInDown.duration(300).delay(100)}
+          <View
             style={[
               styles.praiseBanner,
               { borderLeftColor: praiseColors.border },
@@ -593,19 +589,19 @@ export default function ResultScreen() {
             {scoreAnimationDone && praiseList.length > 0 && (
               <Text style={styles.praiseBannerSub}>{praiseList[0]}</Text>
             )}
-          </Animated.View>
+          </View>
         )}
 
         {/* 下次改进提示 */}
         {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
-          <Animated.View entering={FadeInDown.duration(350).delay(200)} style={styles.suggestionBanner}>
+          <View style={styles.suggestionBanner}>
             <Text style={styles.suggestionBannerTitle}>下次可以这样拍</Text>
             {scoreResult.suggestions.slice(0, 2).map((s: string, i: number) => (
               <Text key={i} style={styles.suggestionBannerText}>
                 • {s}
               </Text>
             ))}
-          </Animated.View>
+          </View>
         )}
 
         {/* 滤镜选择器 */}
@@ -647,13 +643,10 @@ export default function ResultScreen() {
 
         {/* 新纪录横幅 */}
         {!processing && newRecordBanner && scoreResult && (
-          <Animated.View
-            entering={FadeInDown.duration(400)}
-            style={styles.newRecordBanner}
-          >
+          <View style={styles.newRecordBanner}>
             <Text style={styles.newRecordBannerText}>破纪录了！历史最高分！</Text>
             <Text style={styles.newRecordBannerSub}>男朋友太强了，继续保持这个状态！</Text>
-          </Animated.View>
+          </View>
         )}
 
         {/* 评分板 */}
@@ -729,19 +722,6 @@ const FilterItem = memo(function FilterItem({
   isActive: boolean
   onPress: () => void
 }) {
-  const scale = useSharedValue(1)
-
-  useEffect(() => {
-    if (isActive) {
-      scale.value = withSpring(1.12, { damping: 8, stiffness: 120 })
-      setTimeout(() => {
-        scale.value = withSpring(1.0, { damping: 10, stiffness: 100 })
-      }, 150)
-    }
-  }, [isActive])
-
-  const animatedStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }))
-
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -751,9 +731,7 @@ const FilterItem = memo(function FilterItem({
       accessibilityLabel={`滤镜: ${filter.label}${isActive ? '，已选中' : ''}`}
       accessibilityHint="单击切换滤镜"
     >
-      <Animated.View style={[styles.filterCircleWrapper, animatedStyle]}>
-        <View style={[styles.filterCircle, { backgroundColor: filter.color }, isActive && styles.filterCircleActive]} />
-      </Animated.View>
+      <View style={[styles.filterCircle, { backgroundColor: filter.color }, isActive && styles.filterCircleActive]} />
       <Text style={[
         styles.filterLabel,
         isActive && styles.filterLabelActive,

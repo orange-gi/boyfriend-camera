@@ -3813,7 +3813,6 @@ export async function analyzePhoto(
 
   // 新纪录检测（当本次分数超越历史最高分）
   if (peakScore !== undefined && totalScore > peakScore && totalScore >= 70) {
-    const margin = totalScore - peakScore
     if (totalScore >= 90) {
       praise.push(`🏆🏆🏆 新纪录！！！历史最高${peakScore}→${totalScore}！男朋友这是开挂了吧！`)
     } else if (totalScore >= 80) {

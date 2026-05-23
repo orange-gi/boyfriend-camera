@@ -85,7 +85,7 @@ export default function CameraScreen() {
   const [mode, setMode] = useState<CompositionMode>('grid')
   const [activeTemplate, setActiveTemplate] = useState<PoseTemplate | null>(null)
   const [showTemplateModal, setShowTemplateModal] = useState(false)
-  const [showVoiceTip, setShowVoiceTip] = useState(false)
+  const [_showVoiceTip, setShowVoiceTip] = useState(false)
   const [flash, setFlash] = useState<'off' | 'on' | 'auto'>('off')
   const [isCapturing, setIsCapturing] = useState(false)
   const [isActive, setIsActive] = useState(true)
@@ -131,6 +131,12 @@ export default function CameraScreen() {
   const lastGroupLookAtCameraRef = useRef<number>(0)
   // 节流人脸位置 TTS
   const lastFaceTipRef = useRef<number>(0)
+  // ========== Round 3 新增：节流微笑检测 TTS（检测到笑脸时确认） ==========
+  const lastSmileDetectedRef = useRef<number>(0)
+  // ========== Round 3 新增：节流逆光检测 TTS ==========
+  const lastBacklightRef = useRef<number>(0)
+  // ========== Round 3 新增：节流低光检测 TTS ==========
+  const lastLowLightRef = useRef<number>(0)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
   const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -275,6 +281,37 @@ export default function CameraScreen() {
           lastLookAtCameraRef.current = now
           VoiceCoach.speakFaceLookAtCamera().catch(() => {})
         }
+      }
+    }
+
+    // ========== Round 3 新增：笑脸检测 TTS（笑容概率 >= 0.65 时确认） ==========
+    if (faces.length === 1 && cameraFacing === 'front') {
+      const smileProb = typeof faces[0].smiling === 'number' ? faces[0].smiling : 0
+      if (smileProb >= 0.65 && now - lastSmileDetectedRef.current >= 5000) {
+        lastSmileDetectedRef.current = now
+        VoiceCoach.speakSmileDetected().catch(() => {})
+      }
+    }
+
+    // ========== Round 3 新增：逆光/背光检测 TTS（前置摄像头+人脸面积正常但亮度偏低） ==========
+    // 逆光 Proxy：人脸面积正常(0.05-0.25)但笑容概率低(<0.35)，说明可能脸太暗导致笑容检测不到
+    if (faces.length === 1 && cameraFacing === 'front' && now - lastBacklightRef.current >= 8000) {
+      const face = faces[0]
+      const smileProb = typeof face.smiling === 'number' ? face.smiling : 0.5
+      const isNormalSize = face.area >= 0.05 && face.area <= 0.25
+      if (isNormalSize && smileProb < 0.35) {
+        // 可能是逆光导致脸暗，笑容检测不到
+        lastBacklightRef.current = now
+        VoiceCoach.speakBacklightGuide().catch(() => {})
+      }
+    }
+
+    // ========== Round 3 新增：低光检测 TTS（后置摄像头+人脸面积较小） ==========
+    // 低光 Proxy：后置摄像头且人脸面积很小(<0.04)，说明光线不足
+    if (faces.length === 1 && cameraFacing === 'back' && now - lastLowLightRef.current >= 8000) {
+      if (faces[0].area < 0.04) {
+        lastLowLightRef.current = now
+        VoiceCoach.speakLowLightWarning().catch(() => {})
       }
     }
     // 多人合照中有人不看镜头（yaw 角偏大）
@@ -484,17 +521,6 @@ export default function CameraScreen() {
       .filter(Boolean)
       .slice(0, 3) as PoseTemplate[]
   }, [recentIds, templates])
-
-  function handleScreenTap(e: { nativeEvent: { locationX: number; locationY: number } }) {
-    const { locationX, locationY } = e.nativeEvent
-    setFocusPoint({ x: locationX, y: locationY })
-    focusAnim.setValue(0)
-    Animated.sequence([
-      Animated.timing(focusAnim, { toValue: 1, duration: 200, useNativeDriver: false }),
-      Animated.timing(focusAnim, { toValue: 0, duration: 600, useNativeDriver: false }),
-    ]).start(() => setFocusPoint(null))
-    VoiceCoach.speak('已对焦', false)
-  }
 
   return (
     <View style={styles.container}>
@@ -1061,14 +1087,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 108,
     left: 16,
-    right: 80,
-    backgroundColor: 'rgba(20,20,20,0.78)',
-    borderRadius: 16,
+    right: 88,
+    backgroundColor: 'rgba(10,10,10,0.75)',
+    borderRadius: 12,
     paddingVertical: 10,
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
     zIndex: 20,
   },
   poseTipText: {
@@ -1121,10 +1147,9 @@ const styles = StyleSheet.create({
   sideBtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 52,
-    height: 52,
-    backgroundColor: COLORS.blackAlpha40,
-    borderRadius: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 12,
   },
   sideBtnIcon: {
     fontSize: 28,
@@ -1144,8 +1169,8 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   shutterOuter: {
-    width: 84,
-    height: 84,
+    width: 80,
+    height: 80,
     borderRadius: 16,
     borderWidth: 4,
     borderColor: COLORS.whiteAlpha80,
@@ -1157,9 +1182,9 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.95 }],
   },
   shutterInner: {
-    width: 64,
-    height: 64,
-    borderRadius: 16,
+    width: 60,
+    height: 60,
+    borderRadius: 14,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -1170,7 +1195,7 @@ const styles = StyleSheet.create({
   },
   modalBackdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
+    backgroundColor: 'rgba(0,0,0,0.6)',
     justifyContent: 'flex-end',
   },
   modalDismissArea: {
@@ -1261,27 +1286,26 @@ const styles = StyleSheet.create({
   },
   templateCard: {
     flex: 1,
-    backgroundColor: COLORS.skeletonBase,
-    borderRadius: 16,
-    padding: 12,
+    backgroundColor: COLORS.bgCard,
+    borderRadius: 12,
+    padding: 10,
     alignItems: 'center',
-    borderWidth: 2.5,
+    borderWidth: 2,
     borderColor: 'transparent',
     overflow: 'hidden',
   },
   templateCardActive: {
     borderColor: COLORS.primary,
-    backgroundColor: COLORS.skeletonBase,
   },
   templateThumb: {
-    width: SCREEN_W / 2 - 58,
-    height: 130,
+    width: SCREEN_W / 2 - 60,
+    height: 120,
     backgroundColor: COLORS.divider,
-    borderRadius: 12,
+    borderRadius: 10,
   },
   templateName: {
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '600',
     color: COLORS.textPrimary,
     marginTop: 8,
     textAlign: 'center',

@@ -725,172 +725,9 @@ const EXPRESSION_TIPS = {
 // 场景专项提示
 
 
-// 夜景专属语音提示
-const NIGHT_TIPS = {
-  CITY_LIGHTS: '夜景灯光好美！打开闪光灯照亮人脸～',
-  CITY_LIGHTS_2: '城市灯光璀璨！让女朋友站在灯光前，脸不会黑～',
-  CITY_LIGHTS_3: '夜拍最重要的是补光！打开闪光灯或找光源～',
-  GLOW_STICK: '荧光棒挥动起来！夜晚的光轨超有氛围感～',
-  GLOW_STICK_2: '夜色里的小光源超有氛围，举起来拍一张～',
-  FIREFLY: '萤火虫的光点点超浪漫！蹲下来和它们合影～',
-  FIREFLY_2: '夏夜萤火虫好梦幻！快门慢一点，光点更密～',
-  ROOFTOP_NIGHT: '天台夜景好浪漫！打开闪光灯把人脸照亮～',
-  ROOFTOP_NIGHT_2: '夜幕下的城市好美！侧身站着，让灯光打在侧脸上～',
-  BALCONY_NIGHT_2: '夜阳台好浪漫！打开闪光灯补补光，表情更清晰～',
-  NEON_SIGN: '霓虹招牌光超有感觉！靠近光站着，超酷的～',
-  NEON_SIGN_2: '霓虹灯下拍一张！让灯光打在脸上，超有都市感～',
-  STARLIGHT: '星光下好浪漫！仰头看向天空，眼睛里有光～',
-  STARLIGHT_2: '夜晚星空超美！抬头仰望，星星落在眼睛里～',
-  LAMP_POST: '路灯下光线好暖！站在灯下，脸超柔和～',
-  LAMP_POST_2: '街灯暖暖的光超适合拍照，侧身站着超有感觉～',
-  NIGHT_WINDOW: '窗边夜色好美！让脸靠近窗户，光从背后透进来～',
-  NIGHT_WINDOW_2: '窗外的灯光映在脸上，夜晚氛围感绝了～',
-  CANDLE_AMB: '烛光晚餐超有氛围！让烛光打在脸上，温柔又浪漫～',
-  CAR_HEADLIGHTS: '车灯打在脸上超有氛围！侧身站着，表情到位～',
-  NEON_REFLECT: '霓虹灯反射在脸上超有感觉！',
-  CITY_GLOW: '城市微光超有氛围感！侧身站着，让光勾出轮廓～',
-  NIGHT_STREET_FOOD: '夜市灯光超有烟火气！找个光源站好，表情会更清晰～',
-  NIGHT_GARDEN: '花园夜景灯光超浪漫！靠近灯光站着，超有氛围～',
-  NIGHT_POOL: '泳池灯光好梦幻！开闪光灯拍一张～',
-  NIGHT_BALCONY: '阳台夜灯超柔和！靠着栏杆，笑着拍一张～',
-  NIGHT_STROLL: '街头路灯下光线均匀！走着抓拍，自然又生动～',
-  NIGHT_SUBWAY: '地铁站灯光冷调超有都市感！靠着柱子，看向远方～',
-  NIGHT_PARTY: '天台派对灯光璀璨！让灯光打在侧脸上，表情会更立体～',
-  NIGHT_CANDLE: '阳台烛光超浪漫！让烛光打在脸上，温柔感拉满～',
-  NIGHT_CAR: '车窗外的夜景好美！侧身靠着车窗，让灯光打在侧脸上～',
-  NIGHT_STABLE_COUNT: '晚上好美，注意保持稳定！我来帮你数，一、二、三～',
-  NIGHT_STABLE_COUNT_2: '夜景光线柔和，稳住手哦！一、二、三，按！',
-  NIGHT_TRIPOD_HINT: '晚上光线暗，打开闪光灯或者找个支撑点会更清晰～',
-  NIGHT_BOAT_DECK: '甲板夜色超浪漫！让灯光打在脸上，背景是大海和星星～',
-  NIGHT_TRAIN_WINDOW: '火车车窗边的灯光好均匀！靠着窗拍，侧脸超美～',
-  NIGHT_FESTIVAL_LIGHTS: '节日灯展好美！让灯光打在脸上，表情更立体～',
-  NIGHT_MALL_DISPLAY: '商场橱窗灯光超美！靠近橱窗站，侧身躲开反光～',
-  NIGHT_BALCONY_ROMANTIC: '阳台夜景好浪漫！打开闪光灯，让脸更亮～',
-  NIGHT_GARDEN_STRING: '花园串灯超梦幻！站在灯串下，让灯光打在侧脸上～',
-}
 
-const CAMERA_USAGE_TIPS = {
-  HESITATION_LOW_ANGLE: '想好了吗？可以尝试从低角度往上拍，仰拍超显腿长～',
-  HESITATION_10S: '想好怎么拍了吗？别犹豫，先拍一张试试～',
-  FRONT_CAMERA_SWITCH: '试试用后置摄像头，画质更好哦～',
-  FRONT_CAMERA_QUALITY: '后置摄像头像素更高，让男朋友拿手机拍更清晰～',
-  BACKLIGHT_TIP: '有点逆光，试试换个角度或者靠近一点光源～',
-  BACKLIGHT_TIP_2: '逆光时脸会变黑，侧身站或者换个方向避开直射光～',
-  ROOFTOP_PARK: '天台花园超有情调！站在花草中间，笑一个～',
-  UNDERGROUND_PARKING: '地下车库光线冷调超有都市感！靠着柱子，看向远方～',
-  CARGO_SHIP: '港口货轮超有工业感！站在集装箱旁，酷酷地看镜头～',
-  SKYSCRAPER_LOBBY: '摩天大楼大堂超有都市感！靠着玻璃墙，看向远方～',
-  SELFIE_REMINDER: '前置摄像头自拍！找好角度，笑一个～',
-  BACK_CAMERA_REMINDER: '后置摄像头画质更好！男朋友准备好了吗～',
-  PORTRAIT_MODE_HINT: '人像模式最适合拍近景，打开它背景会自动虚化～',
-  GRID_LINE_REMINDER: '打开九宫格！构图会好很多～',
-  FLASH_REMINDER: '光线有点暗，打开闪光灯试试～',
-  NIGHT_MODE_HINT_2: '晚上记得打开夜景模式，照片会更清晰～',
-  HDR_MODE_HINT: '明暗对比大时，打开 HDR 模式高光阴影都能保留～',
-  ZOOM_TIP: '适当拉近一点！脸部占比大一点更好看～',
-  WIDE_ANGLE_TIP: '退后一步！让更多背景入镜，画面更丰富～',
-  FOCUS_TAP: '点击屏幕对焦！把焦点对到脸上～',
-  EXPOSURE_TAP: '点击脸部测光！这样脸部亮度会更准确～',
-  TIMER_REMINDER: '用定时拍照！放在稳定的地方，自己也能入镜～',
-  BURST_MODE_REMINDER: '连拍模式开起来！多拍几张总有一张完美～',
-  REFLECTOR_TRICK: '白墙白纸都能反光！用它们给脸补补光～',
-  SCREEN_FILL_LIGHT_2: '手机屏幕对着脸！白色背景就是简易补光灯～',
-}
 
-// 光线检测语音提示
-const LIGHT_TIPS = {
-  FACE_TOO_DARK: '脸有点暗了！转过来面向光源试试～',
-  FACE_TOO_DARK_2: '光都在背后了！让人脸朝向光源，脸会更亮～',
-  FACE_TOO_DARK_3: '背光脸黑了！往前站一点或者让光源在前面～',
-  FACE_TOO_BRIGHT: '光太强了！眯眼睛了！稍微侧一下身～',
-  FACE_TOO_BRIGHT_2: '光线太刺眼了！找个阴凉处或者侧身站～',
-  FACE_TOO_BRIGHT_3: '脸上有强烈光斑！稍微转一下角度试试～',
-  PERFECT_LIGHT: '光线刚刚好！就是现在，按快门！',
-  PERFECT_LIGHT_2: '这光线绝了！脸上的光好柔和，快拍！',
-  PERFECT_LIGHT_3: '自然光好舒服！皮肤看起来超通透，拍起来！',
-  SOFT_LIGHT: '柔光好舒服！拍出来皮肤超好的～',
-  SOFT_LIGHT_2: '阴天光线超柔和，不用担心过曝，随便拍！',
-  HARD_SHADOW: '阴影太重了！找个柔和的地方会更好看～',
-  HARD_SHADOW_2: '脸上有硬阴影，侧一点站或者换个地方～',
-  SPOTLIGHT_HOT: '顶上有个大白灯！往下站一点，阴影会少很多～',
-  SPOTLIGHT_HOT_2: '头顶聚光灯太亮了！换个位置或者抬头找别的光～',
-  GLOW_REFLECT: '找个发光的屏幕放在脸下方，补光又自然～',
-  CANDLE_LIGHT: '烛光氛围感绝了！脸靠近一点，光更柔和～',
-  SUNSET_SIDE: '夕阳侧光超有层次！让光打在侧脸上～',
-  WINDOW_SOFT: '窗边自然光超柔和！让人脸朝向窗户～',
-  DOORWAY_LIGHT: '门洞光超有戏剧感！站在光影交界处～',
-  OVERCAST_PERFECT: '阴天光线像柔光箱，拍出来皮肤超好～',
-  MORNING_GOLD: '晨光暖暖的！侧身站着让光线打在侧脸上～',
-  SCREEN_FILL: '用手机屏幕补光！白色背景亮度刚好～',
-  WHITE_WALL_BOUNCE: '白墙会反光！站在墙边让光线更均匀～',
-  MIRROR_REFLECT: '镜子能反射光线！靠近镜子让光打均匀～',
-  SHADE_PERFECT: '阴凉处光线超柔和！脸上的光刚刚好～',
-  LAMP_WARM: '台灯光暖暖的！靠近台灯脸会超柔和～',
-  FLUORESCENT_SOFT: '日光灯有点平！靠近窗户找自然光～',
-}
 
-// 构图专项语音提示
-const COMPOSITION_TIPS = {
-  RULE_OF_THIRDS: '试试把人脸放在九宫格的交叉点上～',
-  RULE_OF_THIRDS_2: '把眼睛放在画面上三分之一处，会更好看～',
-  RULE_OF_THIRDS_3: '人脸稍微靠左或靠右一点，打开九宫格试试～',
-  CENTER_COMPOSITION: '正中间构图也很美！人站中间超稳～',
-  CENTER_COMPOSITION_2: '中间构图超有气场！就是现在拍！',
-  LEADING_ROOM: '眼睛看的一方留多一点空间，看起来更舒服～',
-  LEADING_ROOM_2: '视线前方留白，构图更有呼吸感～',
-  FRAME_IN_FRAME_2: '找个窗户或门框当背景，画面更有层次～',
-  FRAME_IN_FRAME_3: '框架构图超有感觉！用前景把主体框起来～',
-  SYMMETRY: '左右对称超有感觉！站正了拍一张～',
-  SYMMETRY_2: '对称构图超稳！找个中线对齐一下～',
-  DIAGONAL_LEAD_2: '对角线构图超有动感！歪一点站试试～',
-  DIAGONAL_LEAD_3: '对角线构图好有活力！顺着线拍过去～',
-  FILL_FRAME: '再靠近一点！特写更有冲击力～',
-  FILL_FRAME_2: '怼脸拍更有感觉！把脸占满画面～',
-  NEGATIVE_SPACE_2: '背景很干净，多留点空间反而更高级～',
-  NEGATIVE_SPACE_3: '背景留白超有氛围感！不要把人拍满了～',
-  BACKGROUND_DEPTH: '找个远一点的背景，虚化效果会更好～',
-  BACKGROUND_DEPTH_2: '背景离远一点，背景虚化更明显～',
-  LEADING_LINES: '找条路或栏杆做引导线，构图更有张力～',
-  LEADING_LINES_2: '顺着线条拍过去，画面有纵深感～',
-  BOKEH_LAYER: '背景有光斑超有层次！开大光圈虚化更美～',
-  GOLDEN_RATIO: '试试黄金螺旋构图，画面更有张力～',
-  TRIANGLE_POSE: '身体形成三角形构图，超稳又有动感～',
-  SPiral_POSE: '试试螺旋构图，姿势有延伸感～',
-  SENTINEL_POSE: '侧身站着，肩膀和脚成三角形，超有气场～',
-  CENTER_DOT: '把人放在画面正中心，更有冲击力～',
-  FILL_VERTICAL: '竖图拍全身超显腿长！试试竖着拍～',
-  HORIZONTAL_CINEMA: '横图拍近景有电影感！换个方向试试～',
-  LOW_HORIZON: '低角度仰拍超显气质！抬头看镜头试试～',
-  HIGH_ANGLE: '俯拍显脸小！从上往下拍试试～',
-  FRAME_EDGES: '画面边缘留点空间，不要让人贴着边框～',
-  HEADROOM: '头顶留白太多！稍微往下挪一挪～',
-  GROUND_LINE: '地平线稍微偏一点，构图更有张力～',
-  BODY_CURVES: '身体稍微侧一下，S形曲线超有气质～',
-  HANDS_NATURAL: '手不知道怎么放？拿个道具自然一点～',
-  HAIR_TUCK: '头发稍微理一下，光线会把它照得更通透～',
-  JAWLINE_TILT: '稍微抬一点下巴，下颌线会更清晰～',
-  SHOULDER_ANGLE: '肩膀稍微侧一下，体型更显瘦～',
-  ARM_GAP: '手臂稍微离身体远一点，显得更瘦～',
-  LEGS_STAGGER: '站姿稍微错开，一只脚稍微往前伸～',
-  PROFILE_SHOT: '试试侧脸！轮廓感超强的～',
-  COLLAR_EXPOSE: '稍微拉一下衣领，脖子线条更修长～',
-  EDGE_CROWDING: '人太靠近边框了！稍微退后一点，画面更舒展～',
-  CENTER_SPLIT: '人正好在正中间显得有点呆，稍微往左或右挪一点～',
-  WEIGHT_IMBALANCE: '画面重心不稳！把主体稍微偏移一点试试～',
-  LEADING_ROOM_LEFT: '人脸的视线方向要留白，让她看向留白更多的一边～',
-  ASPECT_PORTRAIT: '竖着拍人像！竖图更显瘦，背景更干净～',
-  ASPECT_LANDSCAPE: '换横图拍！横图能收入更多背景，更有故事感～',
-  ASPECT_SQUARE: '试试方图！方图很文艺，朋友圈很受欢迎～',
-  FILL_VERTICAL_WHOLE: '竖图拍全身！脚底贴着底部，头顶留白三分之一～',
-  EYE_LINE: '眼睛连线要水平！歪了会显得画面不稳～',
-  RULE_SIXTHS: '试试六分法！比九宫格更精准，人在六分线附近～',
-  GOLDEN_TRIANGLE: '试试黄金三角构图！对角线划分画面，主体在交点～',
-  BACKLIGHT_SOFTEN: '逆光脸太暗！侧身让光从侧面打过来～',
-  TOP_LIGHT_SOFTEN: '顶光阴影重！找个侧光或往前站一点躲开顶光～',
-  MIXED_LIGHT_FIX: '两种光混在一起脸会花！只朝向一种光源～',
-  GOLDEN_HOUR_NOW_2: '现在是黄金时段！赶紧拍，光线超美～',
-  BLUE_HOUR_NOW: '蓝色时刻超浪漫！赶紧拍，光线绝绝子～',
-}
 
 // 每日首次打开欢迎语
 const WELCOME_TIPS = [
@@ -1078,9 +915,6 @@ const ENCOURAGEMENT = [
   '男朋友越来越果断，赞！',
 ]
 
-type FaceTipKey = keyof typeof FACE_TIPS
-type StabilityTipKey = keyof typeof STABILITY_TIPS
-
 /** 从稳定性提示池中随机选取同类提示 */
 function pickStabilityTip(category: 'STABLE' | 'SHAKY' | 'EXTREME_SHAKE' | 'TILTED'): string {
   const variants: Record<string, string[]> = {
@@ -1206,10 +1040,6 @@ class VoiceCoach {
       await this.speak(FACE_TIPS.NOT_FOUND)
       return
     }
-
-    // 中心点
-    const centerX = 0.5
-    const centerY = 0.4 // 三分点偏上
 
     // 面积极小（<3%）
     if (faceArea !== null && faceArea < 0.03) {

@@ -48,7 +48,6 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
   onError,
   onBurstDone,
 }, ref) => {
-  const internalRef = useRef<CameraRef>(null)
   const photoOutputRef = useRef<CameraPhotoOutput | null>(null)
   const onErrorRef = useRef(onError)
   onErrorRef.current = onError
@@ -56,7 +55,6 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
   const { hasPermission, requestPermission } = useCameraPermission()
   const device = useCameraDevice(facing)
   const [requestedPermission, setRequestedPermission] = useState(false)
-  const [retryKey, setRetryKey] = useState(0) // 用于强制刷新相机
 
   // Photo output - v5 API
   const photoOutput = usePhotoOutput({

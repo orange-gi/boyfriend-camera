@@ -4,7 +4,7 @@
  * 使用 Image 加载 data URI，支持 PanResponder 拖动 + pinch 缩放
  */
 import React, { useRef, useState, useEffect } from 'react'
-import { COLORS, colors } from '../../theme'
+import { colors } from '../../theme'
 import {
   View,
   StyleSheet,
@@ -14,7 +14,6 @@ import {
   Dimensions,
   TouchableOpacity,
   Text,
-  useWindowDimensions,
 } from 'react-native'
 
 export interface PoseTemplate {
@@ -42,7 +41,7 @@ export default function PoseTemplateOverlay({ template, onTipPress }: Props) {
   const pan = useRef(new Animated.ValueXY()).current
   const lastScale = useRef(1.0)
   const lastOffset = useRef({ x: 0, y: 0 })
-  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 })
+  const [panOffset] = useState({ x: 0, y: 0 })
   // 监听器 ID ref，用于清理
   const listenerId = useRef<string | null>(null)
 

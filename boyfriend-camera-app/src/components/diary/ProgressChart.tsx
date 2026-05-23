@@ -54,8 +54,7 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
   // 单点：展示分数圆环
   if (sorted.length === 1) {
     const score = sorted[0].score
-    const cx = width / 2
-    const cy = height / 2 - 10
+
     return (
       <View style={[styles.container, { height }]}>
         <View style={styles.singlePoint}>

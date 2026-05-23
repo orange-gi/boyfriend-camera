@@ -129,7 +129,7 @@ export default function DiaryScreen() {
 
   // 最高分：优先使用存储的巅峰分，兼顾日记内最高
   const maxScore = peakScore > 0 ? peakScore : (totalCount > 0 ? records.reduce((max, r) => (r.score > max ? r.score : max), 0) : 0)
-  const recentScore = totalCount > 0 ? records[0].score : 0
+  // recentScore available as records[0]?.score when needed
 
   // 周统计数据
   const weeklyStats = useMemo(() => {
@@ -185,15 +185,7 @@ export default function DiaryScreen() {
   }, [records])
 
   // 进步趋势文案
-  const trendInfo = useMemo(() => {
-    if (totalCount < 3) return { text: '继续加油！', color: COLORS.textMuted }
-    const recent5 = records.slice(0, Math.min(5, totalCount))
-    const avg = calcAvgScore(recent5)
-    if (avg >= 80) return { text: '男友进化中！', color: COLORS.success }
-    if (avg >= 65) return { text: '稳步提升中', color: COLORS.success }
-    if (avg >= 50) return { text: '还需要多练习', color: COLORS.warning }
-    return { text: '革命尚未成功', color: COLORS.primary }
-  }, [totalCount, records])
+  // trendInfo computed inline when needed via calcAvgScore
 
   // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
   // entries 直接使用 records；ProgressChart 内部切片取最近 10 条
@@ -398,39 +390,25 @@ export default function DiaryScreen() {
             {totalCount > 0 && (
               <View style={styles.badgeRow}>
                 {maxScore === 100 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={[styles.badgeText, styles.badgeGoldText]}>满分达成</Text>
-                  </View>
+                  <Text style={[styles.badgeText, styles.badgeGoldText]}>满分达成</Text>
                 )}
                 {maxScore !== 100 && avgScore >= 80 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={[styles.badgeText, styles.badgeGoldText]}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
-                  </View>
+                  <Text style={[styles.badgeText, styles.badgeGoldText]}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
                 )}
                 {maxScore !== 100 && avgScore >= 60 && avgScore < 80 && (
-                  <View style={styles.badge}>
-                    <Text style={[styles.badgeText, { color: COLORS.info }]}>{avgScore >= 70 ? '进阶中' : '成长中'}</Text>
-                  </View>
+                  <Text style={[styles.badgeText, { color: COLORS.info }]}>{avgScore >= 70 ? '进阶中' : '成长中'}</Text>
                 )}
                 {maxScore !== 100 && avgScore > 0 && avgScore < 60 && (
-                  <View style={styles.badge}>
-                    <Text style={[styles.badgeText, { color: COLORS.warning }]}>新手期</Text>
-                  </View>
+                  <Text style={[styles.badgeText, { color: COLORS.warning }]}>新手期</Text>
                 )}
                 {maxScore !== 100 && avgScore < 80 && totalCount >= 10 && (
-                  <View style={[styles.badgeGreen]}>
-                    <Text style={[styles.badgeText, styles.badgeGreenText]}>拍摄{totalCount}次</Text>
-                  </View>
+                  <Text style={[styles.badgeText, styles.badgeGreenText]}>拍摄{totalCount}次</Text>
                 )}
                 {maxScore !== 100 && avgScore < 80 && totalCount >= 1 && totalCount < 10 && weeklyStats.streak >= 3 && (
-                  <View style={[styles.badgeGreen]}>
-                    <Text style={[styles.badgeText, styles.badgeGreenText]}>连续{weeklyStats.streak}天</Text>
-                  </View>
+                  <Text style={[styles.badgeText, styles.badgeGreenText]}>连续{weeklyStats.streak}天</Text>
                 )}
                 {maxScore !== 100 && avgScore < 80 && totalCount === 1 && (
-                  <View style={[styles.badgeGreen]}>
-                    <Text style={[styles.badgeText, styles.badgeGreenText]}>首次记录</Text>
-                  </View>
+                  <Text style={[styles.badgeText, styles.badgeGreenText]}>首次记录</Text>
                 )}
               </View>
             )}

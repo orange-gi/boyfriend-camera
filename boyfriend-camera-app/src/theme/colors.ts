@@ -3,13 +3,7 @@
  * 新代码请直接从 'src/theme/index.ts' 导入
  *   import { colors, typography, spacing, borderRadius, shadows } from '../theme'
  */
-import {
-  colors,
-  typography,
-  spacing,
-  borderRadius,
-  componentTokens,
-} from './index'
+import { colors } from './index'
 
 // 向后兼容别名
 export const COLORS = colors

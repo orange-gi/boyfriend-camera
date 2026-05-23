@@ -38,66 +38,6 @@ const FILTER_PARAMS: Record<FilterKey, { brightness: number; contrast: number; s
   cinematic: { brightness: 0.95, contrast: 1.12, saturation: 0.85 },
 }
 
-// 预设滤镜颜色叠加（RGBA 透明色，模拟色调）
-const FILTER_OVERLAY: Record<FilterKey, string> = {
-  warm: 'rgba(255, 200, 100, 0.12)',
-  cool: 'rgba(100, 150, 255, 0.12)',
-  vivid: 'rgba(255, 100, 150, 0.08)',
-  soft: 'rgba(255, 220, 200, 0.1)',
-  bw: 'rgba(180, 160, 140, 0.08)',
-  cinematic: 'rgba(80, 100, 160, 0.1)',
-  portrait: 'rgba(255, 220, 200, 0.06)',
-  food: 'rgba(255, 180, 120, 0.1)',
-}
-
-interface CropRegion {
-  x: number
-  y: number
-  width: number
-  height: number
-}
-
-/**
- * 计算裁剪区域
- * 目标：以人脸为中心，裁剪到目标比例
- */
-function computeCropRegion(
-  imgWidth: number,
-  imgHeight: number,
-  targetRatio: number,
-  faceCenter?: { x: number; y: number }
-): CropRegion {
-  const imgRatio = imgWidth / imgHeight
-  let cropWidth: number
-  let cropHeight: number
-
-  if (imgRatio > targetRatio) {
-    cropHeight = imgHeight
-    cropWidth = cropHeight * targetRatio
-  } else {
-    cropWidth = imgWidth
-    cropHeight = cropWidth / targetRatio
-  }
-
-  let cropX: number
-  let cropY: number
-
-  if (faceCenter) {
-    const facePxX = faceCenter.x * imgWidth
-    const facePxY = faceCenter.y * imgHeight
-    cropX = facePxX - cropWidth / 2
-    cropY = facePxY - cropHeight / 2
-  } else {
-    cropX = (imgWidth - cropWidth) / 2
-    cropY = (imgHeight - cropHeight) * 0.3
-  }
-
-  cropX = Math.max(0, Math.min(cropX, imgWidth - cropWidth))
-  cropY = Math.max(0, Math.min(cropY, imgHeight - cropHeight))
-
-  return { x: cropX, y: cropY, width: cropWidth, height: cropHeight }
-}
-
 /**
  * 处理单张图片（本地流水线）
  *

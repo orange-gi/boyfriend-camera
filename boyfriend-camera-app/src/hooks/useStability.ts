@@ -49,7 +49,6 @@ class KalmanFilter {
   }
 }
 
-const SHAKE_THRESHOLD = 2.0 // m/s² 加速度阈值
 const STABILITY_THRESHOLD = 0.15 // 稳定判定阈值
 
 export function useStability() {
@@ -84,8 +83,8 @@ export function useStability() {
       lastUpdateRef.current = now
 
       // 应用卡尔曼滤波
-      const filteredX = kfX.current.update(x)
-      const filteredY = kfY.current.update(y)
+      kfX.current.update(x)
+      kfY.current.update(y)
 
       // 计算倾斜角度
       const tiltX = Math.atan2(x, Math.sqrt(y * y + z * z)) * (180 / Math.PI)

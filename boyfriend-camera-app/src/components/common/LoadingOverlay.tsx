@@ -3,7 +3,7 @@
  * 改进：进度百分比、步骤提示、子标题
  */
 import React from 'react'
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Animated } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
 import { COLORS } from '../../theme/colors'
 
 interface Props {
