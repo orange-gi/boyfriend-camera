@@ -16,7 +16,6 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  withDelay,
   withTiming,
   interpolate,
   FadeInDown,
@@ -73,6 +72,8 @@ export default function ResultScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Result'>>()
   const { photoPath, templateCategory } = route.params || {}
 
+  // photoWidth/photoHeight intentionally omitted — not used in current analysis flow
+
   const [processedPath, setProcessedPath] = useState<string>('')
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
   const [praiseList, setPraiseList] = useState<string[]>([])
@@ -108,7 +109,6 @@ export default function ResultScreen() {
   const mountedRef = useRef(true)
   const screenshotTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const scoreReveal = useSharedValue(0)
   const cardSlide = useSharedValue(50)
 
   // 初始化 VoiceCoach（TTS 引擎）
@@ -137,7 +137,6 @@ export default function ResultScreen() {
     if (!mountedRef.current) return
     setProcessing(true)
     setError(null)
-    scoreReveal.value = 0
     cardSlide.value = 50
 
     try {
@@ -310,7 +309,7 @@ export default function ResultScreen() {
 
       // 启动入场动画
       cardSlide.value = withTiming(0, { duration: 400 })
-      scoreReveal.value = withDelay(300, withSpring(1, { damping: 14, stiffness: 90 }))
+
 
       // 新纪录 + TTS 播报（撒花移除，用分数揭示动画替代庆祝反馈）
       if (isNewRecord) {
@@ -379,7 +378,7 @@ export default function ResultScreen() {
         suggestions: ['构图不错，可以试试三分法把人脸放在交点上～'],
       })
       cardSlide.value = 0
-      scoreReveal.value = 1
+
     } finally {
       if (mountedRef.current) setProcessing(false)
     }
