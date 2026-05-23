@@ -1,5 +1,5 @@
 /** ResultScreen - 拍照结果页 */
-import React, { useEffect, useState, useRef, useMemo, memo } from 'react'
+import React, { useEffect, useState, useRef, memo } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   View,
@@ -102,18 +102,7 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
     return () => clearTimeout(tid)
   }, [scoreAnimationDone, scoreResult])
   const [newRecordBanner, setNewRecordBanner] = useState(false)
-  const [processStep, setProcessStep] = useState(1) // 1-4 动画步骤
-
-  // 处理步骤对应的文案
-  const processStepText = useMemo(() => {
-    switch (processStep) {
-      case 1: return '正在分析构图...'
-      case 2: return '正在检测光线...'
-      case 3: return '正在生成评分...'
-      case 4: return '完成！正在加载结果...'
-      default: return '正在分析中...'
-    }
-  }, [processStep])
+  const [processStep, setProcessStep] = useState(1)
 
   const viewShotRef = useRef<ViewShotRef | null>(null)
   const { faces } = useFaceDetection()
@@ -649,7 +638,6 @@ const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> =
               },
             ]}
           >
-              {/* praise banner */}
             <Text style={[styles.praiseBannerScore, { color: praiseColors.border }]}>
               {getPraiseBannerText()}
             </Text>
@@ -901,7 +889,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 5,
     width: 68,
-    // 最小触摸区域 48px，达标
   },
   filterCircleWrapper: {
     width: 58,
@@ -1168,7 +1155,6 @@ const styles = StyleSheet.create({
     color: COLORS.danger,
     fontWeight: '600',
   },
-  // 无图片时的友好提示
   noPhotoContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, gap: 8 },
   noPhotoTitle: { fontSize: 20, fontWeight: 'bold' },
   noPhotoDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22 },
