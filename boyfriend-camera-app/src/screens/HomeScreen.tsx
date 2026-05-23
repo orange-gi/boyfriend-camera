@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
 
   // Hero
 
-  dailyTipCard: { paddingLeft: spacing[3], marginBottom: spacing[4] },
+  dailyTipCard: { marginBottom: spacing[4] },
   dailyTipTouchable: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], paddingRight: spacing[2] },
   dailyTipContent: { flex: 1 },
   dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4, letterSpacing: 0.5, textTransform: 'uppercase' },
