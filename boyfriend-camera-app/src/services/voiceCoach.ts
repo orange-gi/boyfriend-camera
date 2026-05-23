@@ -21,6 +21,8 @@ export type VoiceScene =
   | 'filter_swipe'     // 滤镜滑动提示
   | 'share_success'    // 分享成功
   | 'photo_deleted'    // 照片删除
+  | 'processing_done'   // 分析完成
+  | 'perfect_timing'   // 最佳时机提示
 
 export async function speakScene(scene: VoiceScene, score?: number): Promise<void> {
   try {
@@ -58,6 +60,8 @@ function getSceneText(scene: VoiceScene, score?: number): string {
     filter_swipe: '左右滑动切换滤镜，找到最喜欢的风格～',
     share_success: '分享成功！快让朋友们看看这张大片吧！',
     photo_deleted: '照片已删除～',
+    processing_done: '分析完成！来看看这张照片哪里做得好～',
+    perfect_timing: '就是现在！按快门！',
   }
   const t = templates[scene]
   if (typeof t === 'function') return t(score)
