@@ -44,8 +44,8 @@ export default function HomeScreen() {
   const [showOnboard, setShowOnboard] = useState(false)
   const [onboardStep, setOnboardStep] = useState(0)
   const [tipDismissed, setTipDismissed] = useState(false)
-  const [displayDiaryCount, setDisplayDiaryCount] = useState(0)
-  const [displayAvgScore, setDisplayAvgScore] = useState(0)
+  // displayDiaryCount / displayAvgScore: 去掉"数字动画"后，这两个 state 仍被 statsCard 直接引用，保持与 diaryCount / avgScore 同步
+  // displayDiaryCount / displayAvgScore: 动画移除后直接用 diaryCount / avgScore，仅在 statsLoading 时占位为 0
   const [statsLoading, setStatsLoading] = useState(true)
   const [poseTipIndex, setPoseTipIndex] = useState(0)
   const [todayCount, setTodayCount] = useState(0)
@@ -65,11 +65,7 @@ export default function HomeScreen() {
     if (!statsLoading) VoiceCoach.speakDailyWelcome(diaryCount === 0)
   }, [statsLoading])
 
-  // 数字动画：直接使用目标值，不再做缓动计数
-  useEffect(() => {
-    setDisplayDiaryCount(diaryCount)
-    setDisplayAvgScore(Math.round(avgScore))
-  }, [diaryCount, avgScore])
+
 
   const isNewUser = diaryCount === 0
   useEffect(() => {
@@ -88,8 +84,6 @@ export default function HomeScreen() {
       if (diary.length > 0) {
         const avg = calcAvgScore(diary)
         setAvgScore(avg)
-        setDisplayDiaryCount(diary.length)
-        setDisplayAvgScore(avg)
       }
       // 计算真实趋势：比较最近 3 次 vs 更早的 3 次
       if (diary.length >= 4) {
@@ -149,7 +143,7 @@ export default function HomeScreen() {
   const featuresStyle = useAnimatedStyle(() => ({ opacity: enterAnim.value, transform: [{ translateY: 30 * (1 - enterAnim.value) }] }))
 
   const totalTemplates = templates.length
-  const avgScoreColor = scoreColor(displayAvgScore || avgScore)
+  const avgScoreColor = scoreColor(avgScore)
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -192,12 +186,12 @@ export default function HomeScreen() {
         <Animated.View style={[styles.statsCard, statsStyle]}>
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
-              <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{displayDiaryCount}</Text>
+              <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{diaryCount}</Text>
               <Text style={styles.statLabel}>已拍摄</Text>
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
-              <Text style={[styles.statNumber, { color: avgScoreColor }]}>{displayAvgScore}</Text>
+              <Text style={[styles.statNumber, { color: avgScoreColor }]}>{avgScore}</Text>
               <Text style={styles.statLabel}>平均分</Text>
             </View>
             <View style={styles.statDivider} />
