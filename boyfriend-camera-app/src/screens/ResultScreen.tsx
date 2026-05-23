@@ -323,6 +323,11 @@ export default function ResultScreen() {
 
 
 
+      // 首次拍照专属 TTS 鼓励（与分数无关，独立触发）
+      if (diary.length === 0) {
+        setTimeout(() => { try { voiceCoach.speakFirstPhotoTip() } catch { /* ignore */ } }, 1500)
+      }
+
       // TTS 朗读夸奖文案（分数 ≥ 90 时，截取前 50 字朗读）
       const praiseToSpeak = analysis.praise?.[0]?.slice(0, 50) || ''
       if (praiseToSpeak) {
