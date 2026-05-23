@@ -124,6 +124,7 @@ export default function CameraScreen() {
   const { faces, processFrame } = useFaceDetection()
   // 节流自拍距离 TTS（避免频繁播报）
   const lastSelfieWarningRef = useRef<number>(0)
+  const lastHairTipRef = useRef<number>(0)
   const lastMultiFaceWarningRef = useRef<number>(0)
   const lastExpressionTipRef = useRef<number>(0)
   // 节流正视镜头和多人合照不看镜头 TTS
@@ -267,6 +268,16 @@ export default function CameraScreen() {
     if (faces.length > 0 && faces[0].area > 0.22) {
       lastSelfieWarningRef.current = now
       VoiceCoach.speak('手机拿远一点！自拍离太近会变形～', false)
+    }
+    // 头发遮挡检测：前置自拍时人脸靠上（可能被刘海遮挡），节流 10s
+    if (cameraFacing === 'front' && faces.length === 1) {
+      const face = faces[0]
+      if (face.y < 0.25 && face.area > 0.05 && face.area < 0.2) {
+        if (now - lastHairTipRef.current >= 10000) {
+          lastHairTipRef.current = now
+          VoiceCoach.speakFaceOccluded('hair')
+        }
+      }
     }
     // 多脸检测 TTS（检测到多人时提醒构图）
     if (faces.length > 1) {
