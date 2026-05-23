@@ -4693,9 +4693,72 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 照片已保存到相册（ResultScreen 保存成功后播报） */
+  async speakResultSaved(): Promise<void> {
+    const tips = [
+      '已保存到相册！去相册里翻翻看吧～',
+      '保存成功！这张要好好收藏哦～',
+      '照片已入库！有空去相册里看看～',
+      '保存好了！可以去相册里找这张了～',
+      '搞定！这张值得永久保存～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 分享准备就绪 */
+  async speakShareReady(): Promise<void> {
+    const tips = [
+      '分享出去让大家羡慕一下～',
+      '这张不分享可惜了！发朋友圈吧～',
+      '男朋友的大作，分享给闺蜜看看～',
+      '这张绝了！分享给朋友炫耀一下～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 日记为空时的引导提示 */
+  async speakDiaryEmpty(): Promise<void> {
+    const tips = [
+      '日记还是空的！先去拍一张吧～',
+      '还没有记录呢！去拍照看看男朋友进步了没有～',
+      '日记等着你来填满！先拍一张试试～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 用户跳过自动推荐的模板 */
+  async speakTemplateSkipped(): Promise<void> {
+    const tips = [
+      '没关系！换一个姿势试试～',
+      '这个不太喜欢？往左滑看看别的～',
+      '跳过啦～看看下一个姿势合不合适～',
+      '没找到喜欢的？翻翻看其他模板吧～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 连拍串断裂提醒 */
+  async speakStreakBroken(): Promise<void> {
+    const tips = [
+      '连续拍照断了～没关系，今天重新开始！',
+      '打卡断了一天！明天继续加油～',
+      '连续记录暂时休息了一下，新的一天重新开始吧～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 接近每日目标时的鼓励 */
+  async speakNearDailyGoal(remaining: number): Promise<void> {
+    const tips = [
+      `就差${remaining}张了！再拍几张达标～`,
+      `今天目标快完成了！再坚持${remaining}张～`,
+      `${remaining}张就到今天的任务了！冲一下～`,
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
-
 
 export default new VoiceCoach()
