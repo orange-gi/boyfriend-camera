@@ -202,16 +202,8 @@ export default function DiaryScreen() {
   }, [totalCount, records])
 
   // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
-  const entries: DiaryRecord[] = records.map((r) => ({
-    date: r.date,
-    score: r.score,
-    suggestions: r.suggestions,
-    faceCount: r.faceCount,
-    compositionScore: r.compositionScore,
-    exposureScore: r.exposureScore,
-    stabilityScore: r.stabilityScore,
-    levelScore: r.levelScore,
-  }))
+  // entries 直接使用 records；ProgressChart 内部切片取最近 10 条
+  const entries: DiaryRecord[] = records
 
 
 

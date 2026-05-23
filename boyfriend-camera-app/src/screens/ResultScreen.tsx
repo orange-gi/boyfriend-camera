@@ -31,7 +31,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, hexAlpha } from '../theme'
+import { COLORS, hexAlpha, typography, borderRadius } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
@@ -778,8 +778,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     paddingVertical: 14,
     paddingHorizontal: 20,
-    borderRadius: 16,
+    borderRadius: borderRadius.xl,
     alignItems: 'center',
+    backgroundColor: COLORS.warningLight,
   },
   newRecordBannerText: {
     fontSize: 18,
@@ -813,8 +814,8 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   filterPickerTitle: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: typography.fontSize.base,
+    fontWeight: typography.fontWeight.bold,
     color: COLORS.textPrimary,
     marginBottom: 10,
   },
