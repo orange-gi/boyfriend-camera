@@ -1780,6 +1780,36 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
+  /** 构图偏了提示 */
+  async speakCompositionOffTip(): Promise<void> {
+    const tips = [
+      '构图稍微偏了点，稍微移动一下位置会更好看～',
+      '男朋友稍微调整一下站位，让主体更居中或按三分法摆放～',
+      '构图跑偏了，打开九宫格辅助线，对齐再拍～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 背景太暗提示 */
+  async speakBackgroundDarkTip(): Promise<void> {
+    const tips = [
+      '背景太暗了！找个光源更亮的地方试试～',
+      '这张背景有点黑，男朋友换个角度让光打在背景上～',
+      '背景太暗了，打开闪光灯或找更亮的地方试试～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 建议换个角度 */
+  async speakDifferentAngleTip(): Promise<void> {
+    const tips = [
+      FACE_TIPS.TRY_DIFFERENT_ANGLE,
+      '换个角度试试！侧面、正面不同角度感觉不一样～',
+      '稍微调整一下拍摄角度，画面会更丰富～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
   /** 相册保存成功提示 */
   async speakSavedToAlbum(): Promise<void> {
     await this.speak(FACE_TIPS.SAVED_TO_ALBUM, true)
