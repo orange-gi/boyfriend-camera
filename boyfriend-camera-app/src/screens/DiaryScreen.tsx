@@ -790,12 +790,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 4,
   },
-  // 去装饰化：细分割线替代大标题，在紧凑布局中创造轻盈分隔
-  weeklyDivider: {
-    height: 1,
-    backgroundColor: COLORS.divider,
-    marginVertical: 10,
-  },
   weeklyCard: {
     flex: 1,
     minWidth: '45%',
@@ -908,46 +902,14 @@ const styles = StyleSheet.create({
   badgeGreenText: {
     color: COLORS.success,
   },
-  // 去装饰化：月对比行无背景色，留白充分，无需色块承托
+  // 月对比行 — 极简单行文字，删掉三列布局
   monthCompareRow: {
     marginTop: 10,
-    // 极简：单行文字对比，删掉三列布局，信息密度高但视觉噪音低
   },
   monthCompareText: {
     fontSize: 13,
     color: COLORS.textMuted,
     lineHeight: 20,
-  },
-  monthItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  monthDivider: {
-    alignItems: 'center',
-    paddingHorizontal: 12,
-  },
-  monthVs: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-  },
-  monthDiffText: {
-    fontSize: 13,
-    fontWeight: 'bold',
-  },
-  monthLabel: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    marginBottom: 2,
-  },
-  monthNum: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: COLORS.textPrimary,
-  },
-  monthSub: {
-    fontSize: 10,
-    color: COLORS.textMuted,
-    marginTop: 2,
   },
   trendBannerRow: {
     marginTop: 16,
