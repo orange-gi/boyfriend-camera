@@ -103,8 +103,6 @@ export default function ResultScreen() {
     return () => clearTimeout(tid)
   }, [scoreAnimationDone, scoreResult])
   const [newRecordBanner, setNewRecordBanner] = useState(false)
-  const [processStep, setProcessStep] = useState(1)
-
   const viewShotRef = useRef<ViewShotRef | null>(null)
   const { faces } = useFaceDetection()
   const mountedRef = useRef(true)
@@ -134,21 +132,6 @@ export default function ResultScreen() {
       if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
     }
   }, [photoPath])
-
-  // 处理步骤动画（每 600ms 切换一步）
-  useEffect(() => {
-    if (!processing) {
-      // 处理完成时，确保显示第 4 步（完成）
-      setProcessStep(4)
-      return
-    }
-    setProcessStep(1)
-    const t2 = setTimeout(() => { if (mountedRef.current) setProcessStep(2) }, 600)
-    const t3 = setTimeout(() => { if (mountedRef.current) setProcessStep(3) }, 1200)
-    const t4 = setTimeout(() => { if (mountedRef.current) setProcessStep(4) }, 1600)
-    return () => { clearTimeout(t2); clearTimeout(t3); clearTimeout(t4) }
-  }, [processing])
-
 
   async function runAnalysis() {
     if (!mountedRef.current) return
@@ -583,60 +566,21 @@ export default function ResultScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* 处理中 */}
+        {/* 处理中 — 极简加载指示器 */}
         {processing && (
           <View style={styles.processingOverlay}>
+            <ActivityIndicator size="large" color={COLORS.primary} style={{ marginBottom: 12 }} />
             <Text style={styles.processingLabel}>正在分析...</Text>
-            <ActivityIndicator size="large" color={COLORS.primary} style={{ marginTop: 16 }} />
-            {/* 精简进度条：步骤 + 连接线（与上方骨架卡配合，简洁明了） */}
-            <View style={styles.processingStepsRow}>
-              {[
-                { n: 1, label: '构图分析' },
-                { n: 2, label: '光线检测' },
-                { n: 3, label: '生成评分' },
-                { n: 4, label: '综合评分' },
-              ].map(({ n, label }) => {
-                const isActive = processStep === n
-                const isDone = processStep > n
-                return (
-                  <View key={n} style={styles.processStepItem}>
-                    <View style={[
-                      styles.processStepCircle,
-                      isActive && styles.processStepCircleActive,
-                      isDone && styles.processStepCircleDone,
-                    ]}>
-                      {isDone
-                        ? <Text style={styles.processStepCheck}>✓</Text>
-                        : <Text style={[
-                            styles.processStepNum,
-                            isActive && styles.processStepNumActive,
-                          ]}>{n}</Text>
-                      }
-                    </View>
-                    <Text style={[
-                      styles.processStepLabel,
-                      isActive && styles.processStepLabelActive,
-                      isDone && styles.processStepLabelDone,
-                    ]}>{label}</Text>
-                  </View>
-                )
-              })}
-            </View>
           </View>
         )}
 
-        {/* 夸奖横幅（打字机效果 + 渐变色背景） */}
+        {/* 夸奖横幅 — 去背景色，用左侧彩色竖线作为分数段强调，简洁不抢镜 */}
         {!processing && (
           <Animated.View
+            entering={FadeInDown.duration(300).delay(100)}
             style={[
               styles.praiseBanner,
-              {
-                opacity: scoreAnimationDone ? 1 : 0,
-                transform: [
-                  { translateY: scoreAnimationDone ? 0 : -10 },
-                ],
-                backgroundColor: praiseColors.bg,
-              },
+              { borderLeftColor: praiseColors.border },
             ]}
           >
             <Text style={[styles.praiseBannerScore, { color: praiseColors.border }]}>
@@ -934,72 +878,19 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     paddingHorizontal: 20,
   },
-  processingStepsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    paddingHorizontal: 8,
-  },
-  processStepItem: {
-    alignItems: 'center',
-  },
-  processStepCircle: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: COLORS.skeletonBase,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 6,
-  },
-  processStepCircleActive: {
-    backgroundColor: COLORS.primary,
-  },
-  processStepCircleDone: {
-    backgroundColor: COLORS.primary,
-    opacity: 0.65,
-  },
-  processStepCheck: {
-    color: COLORS.textOnPrimary,
-    fontSize: 14,
-    fontWeight: 'bold',
-    lineHeight: 18,
-  },
-  processStepNum: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: COLORS.textMuted,
-    lineHeight: 18,
-  },
-  processStepNumActive: {
-    color: COLORS.textOnPrimary,
-  },
-  processStepLabel: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    fontWeight: '500',
-    textAlign: 'center',
-  },
-  processStepLabelActive: {
-    color: COLORS.primary,
-    fontWeight: '700',
-  },
-  processStepLabelDone: {
-    color: COLORS.primary,
-    opacity: 0.7,
-  },
   praiseBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    borderRadius: 16,
     padding: 14,
+    paddingLeft: 16,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.primary,
   },
   praiseBannerScore: {
-    fontSize: 18,
-    fontWeight: '800',
+    fontSize: 17,
+    fontWeight: '700',
     marginBottom: 4,
-    letterSpacing: -0.3,
+    letterSpacing: -0.2,
   },
   praiseBannerSub: {
     fontSize: 13,
@@ -1009,8 +900,10 @@ const styles = StyleSheet.create({
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    borderRadius: 12,
     padding: 14,
+    paddingLeft: 16,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.textMuted,
   },
   suggestionBannerTitle: {
     fontSize: 14,
