@@ -12,7 +12,7 @@ import { getDiary } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
-import { borderRadius, spacing, typography, shadows } from '../theme/index'
+import { borderRadius, spacing, typography } from '../theme/index'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/homeData'
@@ -274,7 +274,7 @@ export default function HomeScreen() {
 
       {/* 底部导航 */}
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
-        <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnActive]} onPress={() => navigation.navigate({ name: 'Home' as const, params: undefined })} activeOpacity={0.72}>
+        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Home' as const, params: undefined })} activeOpacity={0.72}>
           <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>首页</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
   poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5] },
 
   // 统计卡片
-  statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], backgroundColor: COLORS.bgCard, ...shadows.md },
+  statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], backgroundColor: COLORS.bgCard, borderWidth: 1, borderColor: COLORS.borderLight },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   skeletonNum: { width: 36, height: 36, borderRadius: 4, backgroundColor: COLORS.divider, marginBottom: 4 },
@@ -369,11 +369,11 @@ const styles = StyleSheet.create({
   // 底部导航
   bottomNav: { flexDirection: 'row', paddingVertical: 6, gap: 6 },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
-  bottomNavBtnActive: { backgroundColor: COLORS.primaryLight },
+
   bottomNavText: { fontSize: typography.fontSize.md },
 
   // 引导弹窗
-  onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha60, justifyContent: 'center', alignItems: 'center', padding: 24 },
+  onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
   onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },

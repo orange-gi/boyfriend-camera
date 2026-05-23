@@ -4132,6 +4132,233 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  // ===== speakScene - 统一场景入口（映射 VoiceScene 类型到具体方法） =====
+  /**
+   * speakScene - 统一场景入口
+   * 将 VoiceScene 类型映射到具体的 speak 方法
+   * VoiceScene 类型定义见 src/services/voiceCoach.ts
+   */
+  async speakScene(scene: string, score?: number): Promise<void> {
+    switch (scene) {
+      case 'app_start':
+        await this.speakDailyWelcome(true); break
+      case 'camera_ready':
+        await this.speakCameraSetupTip(); break
+      case 'photo_captured':
+        await this.speakCaptureSuccess(); break
+      case 'analyzing':
+        await this.speakProcessingDone(); break
+      case 'score_reveal':
+        await this.speakScoreReveal(score ?? 0); break
+      case 'diary_loaded':
+        await this.speakDiaryLoaded(0); break
+      case 'template_selected':
+        await this.speakTemplateTip('跟着剪影摆好姿势，让男朋友准备拍照！'); break
+      case 'milestone':
+        await this.speakMilestone(score ?? 0); break
+      case 'encourage':
+        await this.speakRetryTip(score ?? 0); break
+      case 'celebration':
+        await this.speakCelebration('streak3'); break
+      case 'photo_saved':
+        await this.speakSavedToAlbum(); break
+      case 'filter_selected':
+        await this.speakFilterSwipeHint(); break
+      case 'filter_swipe':
+        await this.speakFilterSwipeHint(); break
+      case 'share_success':
+        await this.speakShareSuccess(); break
+      case 'photo_deleted':
+        await this.speakDiaryDeleted(); break
+      case 'processing_done':
+        await this.speakProcessingDone(); break
+      case 'perfect_timing':
+        await this.speakPerfectTiming(); break
+      default:
+        await this.speakPerfectTiming()
+    }
+  }
+
+  // ===== 缺失的场景方法 - 基于 analyzer.ts SceneType 枚举 =====
+  // 场景类型定义: indoor | outdoor | cafe | rooftop_night | camping_campfire | snow |
+  // ski_resort | cherry_blossom | christmas | gym | zoo | train | ancient_town | lighthouse |
+  // subway | supermarket | rooftop_party | farm | graffiti | aquarium | chapel | market_stall |
+  // bakery | carousel | greenhouse | tent_camp | graduation | festival_lights | graduation_outdoor |
+  // old_town | beach_sunset | rainy_street | morning_run | bookstore | mirror | carnival |
+  // beach | dance_performance | red_autumn_detail | rooftop_daytime | amusement_carnival |
+  // airport_station | meadow_ranch | subway_escalator
+
+  /** 天台派对场景 */
+  async speakRooftopPartyTip(): Promise<void> {
+    const tips = [
+      '天台派对灯光璀璨！让灯光打在侧脸上，表情放松超有氛围～',
+      '派对灯光超炫酷！打开闪光灯补补光，笑容灿烂一点～',
+      '天台夜景超有感觉！侧身站着让城市灯光勾勒轮廓，超酷～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 农场田园场景 */
+  async speakFarmTip(): Promise<void> {
+    const tips = [
+      '农场田园光线超自然！侧身站着让阳光打在侧脸上，温柔又清新～',
+      '田园场景好适合拍自然风！表情放松，笑容灿烂最上镜～',
+      '农场草地超有氛围！找个有趣的角度，让背景更丰富～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 涂鸦墙场景 */
+  async speakGraffitiTip(): Promise<void> {
+    const tips = [
+      '涂鸦墙前超酷！侧身站着，超有态度～',
+      '街头涂鸦做背景超有范儿！找个干净的角落，表情酷一点～',
+      '涂鸦墙是绝佳背景！让灯光打在脸上，表情自信一点～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 水族馆蓝色场景 */
+  async speakAquariumTip(): Promise<void> {
+    const tips = [
+      '水族馆蓝色光线超梦幻！侧身站着让鱼群做背景，超浪漫～',
+      '水族馆的光线超柔和！表情放松，笑容甜美一点～',
+      '蓝色水下世界超有氛围！靠近鱼缸，让光影打在脸上～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 教堂婚礼场景 */
+  async speakChapelTip(): Promise<void> {
+    const tips = [
+      '教堂里光线超神圣！正对镜头笑一个，表情庄重又甜美～',
+      '教堂建筑超有层次！找个拱门做框架，构图会超美～',
+      '神圣时刻超有意义！表情自然放松，这张值得永久保存～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 集市摊位场景 */
+  async speakMarketStallTip(): Promise<void> {
+    const tips = [
+      '集市摊位灯光暖暖的！靠着摊位随意一点，生活感十足～',
+      '市集超有烟火气！捧着喜欢的物件，表情自然一点～',
+      '集市道具超丰富！找个有趣的摊位做背景，俏皮一点～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 旋转木马场景 */
+  async speakCarouselTip(): Promise<void> {
+    const tips = [
+      '旋转木马超梦幻！坐在木马上侧身看镜头最上镜～',
+      '游乐场光线复杂，找个不逆光的角度～',
+      '木马转起来的时候抓拍，表情自然又灵动～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 温室植物园场景 */
+  async speakGreenhouseTip(): Promise<void> {
+    const tips = [
+      '温室里光线超柔和！绿植背景清新又自然～',
+      '站在花丛前面，侧身微笑最上镜～',
+      '温室光线均匀，不用担心过曝，放开笑～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 帐篷露营场景 */
+  async speakTentCampTip(): Promise<void> {
+    const tips = [
+      '帐篷露营超有氛围！让帐篷做背景，笑容灿烂一点～',
+      '户外露营光线自然！找个好看的角度，让背景更丰富～',
+      '帐篷旁边超有野外感！表情放松自然，这张绝了～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 海边日落场景 */
+  async speakBeachSunsetTip(): Promise<void> {
+    const tips = [
+      '海边夕阳余晖超浪漫！侧身站着让光打在侧脸上，轮廓绝了～',
+      '夕阳倒映在海面上超美！蹲低一点拍出倒影，角度绝了～',
+      '海边夕阳光线最温柔！表情放松，笑容自然，这张值得永久保存～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 雨天街头场景 */
+  async speakRainyStreetTip(): Promise<void> {
+    const tips = [
+      '雨天街道超有氛围感！透明伞撑起来，画面超有感觉～',
+      '雨滴打在伞上超浪漫！侧身靠着，表情放松，这张绝了～',
+      '雨夜路灯下光线超柔和！找个光源站好，表情会更清晰～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 晨跑运动场景 */
+  async speakMorningRunTip(): Promise<void> {
+    const tips = [
+      '早晨光线超通透！笑容灿烂活力满满，这张绝了～',
+      '晨跑场景好有活力！动起来抓拍，活力感十足～',
+      '早晨户外光线最柔和！找个干净的背景，表情自然一点～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 书店文艺场景 */
+  async speakBookstoreTip(): Promise<void> {
+    const tips = [
+      '书店里的光线超有质感！靠在书架旁边，文艺感拉满～',
+      '书香气质超适合拍照！侧身站着，表情知性一点～',
+      '书架前超有氛围感！找个光线好的角落，表情自然～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 地铁站场景 */
+  async speakSubwayTip(): Promise<void> {
+    const tips = [
+      '地铁站冷调灯光超有都市感！侧身站着，表情酷一点～',
+      '地铁站光线均匀！靠着柱子，看向远方，超有故事感～',
+      '地铁站背景超有层次！找个干净的角落，表情自然一点～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 地铁扶梯场景 */
+  async speakSubwayEscalatorTip(): Promise<void> {
+    const tips = [
+      '扶梯上动起来超有活力！走起来抓拍，表情自然又生动～',
+      '扶梯背景超有都市感！侧身靠着，表情放松，这张绝了～',
+      '地铁扶梯光线均匀！找个不逆光的角度，表情酷一点～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 机场车站场景 */
+  async speakAirportStationTip(): Promise<void> {
+    const tips = [
+      '机场车站超有故事感！背对镜头或侧身站，表情自然一点～',
+      '候车大厅光线均匀！靠着柱子，看向远方，超有氛围～',
+      '车站背景超有层次！找个简洁的角落，表情放松～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 海滩泳池派对场景 */
+  async speakBeachPoolPartyTip(): Promise<void> {
+    const tips = [
+      '泳池边光影好漂亮！坐在池边看镜头笑～',
+      '海滩光线超通透！侧身站着让光打在侧脸上，超美～',
+      '泳池派对超有活力！动起来抓拍，笑容灿烂～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
