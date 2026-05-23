@@ -85,7 +85,7 @@ export default function CameraScreen() {
   const [mode, setMode] = useState<CompositionMode>('grid')
   const [activeTemplate, setActiveTemplate] = useState<PoseTemplate | null>(null)
   const [showTemplateModal, setShowTemplateModal] = useState(false)
-  const [_showVoiceTip, setShowVoiceTip] = useState(false)
+  const [showVoiceTip, setShowVoiceTip] = useState(false)
   const [flash, setFlash] = useState<'off' | 'on' | 'auto'>('off')
   const [isCapturing, setIsCapturing] = useState(false)
   const [isActive, setIsActive] = useState(true)
