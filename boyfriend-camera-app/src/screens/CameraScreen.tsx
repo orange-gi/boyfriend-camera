@@ -319,14 +319,6 @@ export default function CameraScreen() {
       }
     }
 
-    // ========== Round 3 新增：低光检测 TTS（后置摄像头+人脸面积较小） ==========
-    // 低光 Proxy：后置摄像头且人脸面积很小(<0.04)，说明光线不足
-    if (faces.length === 1 && cameraFacing === 'back' && now - lastLowLightRef.current >= 8000) {
-      if (faces[0].area < 0.04) {
-        lastLowLightRef.current = now
-        VoiceCoach.speakLowLightWarning().catch(() => {})
-      }
-    }
     // 多人合照中有人不看镜头（yaw 角偏大）
     if (faces.length > 1) {
       const notLooking = faces.filter(f => f.yawAngle !== undefined && Math.abs(f.yawAngle) > 25)
