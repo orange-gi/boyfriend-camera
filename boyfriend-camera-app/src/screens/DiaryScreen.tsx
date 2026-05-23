@@ -402,8 +402,7 @@ export default function DiaryScreen() {
               {/* 周统计卡片网格 */}
               {totalCount > 0 && (
                 <>
-                  {/* 去装饰化：用细分割线替代大标题，视觉更轻盈 */}
-                  <View style={styles.weeklyDivider} />
+                  {/* 去装饰化：移除细分割线 — "本周" 标签本身已是足够的新段落标记，无需额外线条分隔 */}
                   <Text style={styles.statsCardTitle}>本周</Text>
                   <View style={styles.weeklyGrid}>
                   {/* 本周平均分 */}
@@ -799,7 +798,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-    marginTop: 8,
+    marginTop: 16,
     marginBottom: 4,
   },
   // 去装饰化：细分割线替代大标题，在紧凑布局中创造轻盈分隔
