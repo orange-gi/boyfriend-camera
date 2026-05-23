@@ -2,7 +2,7 @@
  * useStability - 陀螺仪稳定性 Hook v2
  * 改进：卡尔曼滤波降噪、双轴稳定、更平滑的输出
  */
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { accelerometer, setUpdateIntervalForType, SensorTypes } from 'react-native-sensors'
 
 export interface StabilityData {

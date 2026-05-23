@@ -84,6 +84,7 @@ export default function DiaryScreen() {
       await recalcPeakScore(updated)
       setRecords(updated)
       setPeakScore(updated.length > 0 ? Math.max(...updated.map(r => r.score)) : 0)
+      try { voiceCoach.speakDiaryDeleted() } catch {}
     } catch (e: unknown) {
       Alert.alert('删除失败', '请稍后重试')
     }

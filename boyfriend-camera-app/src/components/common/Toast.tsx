@@ -4,7 +4,7 @@
  */
 import React, { useEffect, useRef } from 'react'
 import { Text, StyleSheet, Animated } from 'react-native'
-import { COLORS } from '../../theme/colors'
+
 
 interface ToastProps {
   message: string

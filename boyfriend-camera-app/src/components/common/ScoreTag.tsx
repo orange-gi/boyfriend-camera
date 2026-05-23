@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { scoreColor, scoreLabel, COLORS } from '../../theme/colors'
+import { scoreColor, scoreLabel } from '../../theme/colors'
 
 interface Props {
   score: number
