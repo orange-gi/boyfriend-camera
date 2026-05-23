@@ -364,11 +364,9 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            {/* 统计卡片 */}
+            {/* 统计卡片 — 统一 2×3 网格，整合核心统计和本周数据 */}
             <View style={styles.statsCard}>
-              {/* 顶部标题 */}
               <Text style={styles.statsCardTitle}>综合数据</Text>
-              {/* 4 格统计卡片网格 */}
               <View style={styles.statsGrid}>
                 <View style={styles.statCard}>
                   <AnimatedCountUp value={totalCount} style={[styles.statCardNum, { color: COLORS.textPrimary }]} />
@@ -386,42 +384,16 @@ export default function DiaryScreen() {
                   <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: COLORS.warning }]} suffix="分" />
                   <Text style={styles.statCardLabel}>最高分</Text>
                 </View>
-              </View>
-
-              {/* 周统计卡片网格 */}
-              {totalCount > 0 && (
-                <>
-                  {/* 本周小节标题 */}
-                  <View style={styles.weeklyGrid}>
-                  {/* 本周平均分 */}
-                  <View style={styles.weeklyCard}>
-                    <Text style={[styles.weeklyCardNum, { color: weeklyStats.weekAvg >= 80 ? COLORS.success : weeklyStats.weekAvg >= 60 ? COLORS.warning : COLORS.textMuted }]}>
-                      {weeklyStats.weekAvg > 0 ? weeklyStats.weekAvg : '-'}
-                    </Text>
-                    <Text style={styles.weeklyCardLabel}>本周均分</Text>
-                  </View>
-
-                  {/* 本周拍摄次数 */}
-                  <View style={styles.weeklyCard}>
-                    <Text style={[styles.weeklyCardNum, { color: COLORS.textPrimary }]}>
-                      {weeklyStats.weekCount}
-                    </Text>
-                    <Text style={styles.weeklyCardLabel}>本周拍摄</Text>
-                  </View>
-                </View>
-                </>
-              )}
-
-              {/* 趋势横幅 */}
-              <View style={styles.trendBannerRow}>
-                <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
-                  {trendInfo.text}
-                </Text>
-                {totalProgress !== 0 && (
-                  <Text style={[styles.trendBannerNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.textMuted }]}>
-                    {totalProgress >= 0 ? `+${totalProgress}` : totalProgress}分
+                <View style={styles.statCard}>
+                  <Text style={[styles.statCardNum, { color: weeklyStats.weekAvg >= 80 ? COLORS.success : weeklyStats.weekAvg >= 60 ? COLORS.warning : COLORS.textMuted }]}>
+                    {weeklyStats.weekAvg > 0 ? weeklyStats.weekAvg : '-'}
                   </Text>
-                )}
+                  <Text style={styles.statCardLabel}>本周均分</Text>
+                </View>
+                <View style={styles.statCard}>
+                  <Text style={[styles.statCardNum, { color: COLORS.textPrimary }]}>{weeklyStats.weekCount}</Text>
+                  <Text style={styles.statCardLabel}>本周拍摄</Text>
+                </View>
               </View>
             </View>
 
@@ -466,16 +438,15 @@ export default function DiaryScreen() {
               </View>
             )}
 
-            {/* 本月 vs 上月对比 — 极简：单行文字对比，删掉三列布局和多余标签 */}
+                        {/* 本月 vs 上月对比 */}
             {(monthlyStats.monthAvg > 0 || monthlyStats.prevMonthAvg > 0) && (
-              <View style={styles.monthCompareRow}>
-                <Text style={styles.monthCompareText}>
-                  本月 {monthlyStats.monthAvg}分 · 上月 {monthlyStats.prevMonthAvg > 0 ? `${monthlyStats.prevMonthAvg}分` : '-'}
-                  <Text style={{ color: monthlyStats.monthDiff >= 0 ? COLORS.success : COLORS.textMuted }}>
-                    {monthlyStats.monthDiff >= 0 ? ` (+${monthlyStats.monthDiff})` : monthlyStats.prevMonthAvg > 0 ? ` (${monthlyStats.monthDiff})` : ''}
+              <Text style={styles.monthCompareText}>
+                本月 {monthlyStats.monthAvg}分 · 上月 {monthlyStats.prevMonthAvg > 0 ? `${monthlyStats.prevMonthAvg}分` : '-'}{monthlyStats.monthDiff !== 0 ? (
+                  <Text style={{ color: monthlyStats.monthDiff > 0 ? COLORS.success : COLORS.textMuted }}>
+                    {' '}{monthlyStats.monthDiff > 0 ? `↑+${monthlyStats.monthDiff}` : `↓${monthlyStats.monthDiff}`}
                   </Text>
-                </Text>
-              </View>
+                ) : null}
+              </Text>
             )}
 
             {/* 进步曲线 */}
