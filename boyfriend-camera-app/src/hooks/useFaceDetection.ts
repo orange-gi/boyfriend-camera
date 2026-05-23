@@ -111,7 +111,7 @@ export function useFaceDetection() {
    * @returns 检测到的人脸列表
    */
   const processFrame = useCallback(async (
-    frame: { width: number; height: number },
+    _frame: { width: number; height: number },
     cameraFacing: 'front' | 'back' = 'front'
   ): Promise<FaceInfo[]> => {
     // === MLKit 集成说明（接入时取消注释以下代码）===

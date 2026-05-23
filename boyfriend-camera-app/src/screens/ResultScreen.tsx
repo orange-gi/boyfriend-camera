@@ -9,13 +9,12 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  Dimensions,
   Share,
 } from 'react-native'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
+
   withTiming,
   interpolate,
 } from 'react-native-reanimated'
@@ -29,7 +28,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, hexAlpha } from '../theme'
+import { COLORS, hexAlpha, typography, borderRadius } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 

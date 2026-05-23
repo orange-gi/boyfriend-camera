@@ -41,7 +41,6 @@ export default function PoseTemplateOverlay({ template, onTipPress }: Props) {
   const pan = useRef(new Animated.ValueXY()).current
   const lastScale = useRef(1.0)
   const lastOffset = useRef({ x: 0, y: 0 })
-  const [panOffset] = useState({ x: 0, y: 0 })
   // 监听器 ID ref，用于清理
   const listenerId = useRef<string | null>(null)
 
@@ -78,7 +77,6 @@ export default function PoseTemplateOverlay({ template, onTipPress }: Props) {
         if (listenerId.current !== null) pan.removeListener(listenerId.current)
         listenerId.current = pan.addListener((v: { x?: unknown; y?: unknown }) => {
           lastOffset.current = { x: Number(v.x ?? 0), y: Number(v.y ?? 0) }
-          setPanOffset(lastOffset.current)
           pan.removeListener(listenerId.current!)
           listenerId.current = null
         })

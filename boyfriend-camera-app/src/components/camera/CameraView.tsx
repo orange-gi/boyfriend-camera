@@ -19,7 +19,6 @@ import {
   CommonResolutions,
   CameraPhotoOutput,
   Photo,
-  CameraRef,
 } from 'react-native-vision-camera'
 import { logger } from '../../utils/logger'
 
@@ -163,7 +162,6 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
 
   const handleRetry = () => {
     setRequestedPermission(false)
-    setRetryKey((k) => k + 1)
     requestPermission().then(() => setRequestedPermission(true))
   }
 
