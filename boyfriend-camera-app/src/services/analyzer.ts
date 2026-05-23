@@ -3305,6 +3305,50 @@ export async function analyzePhoto(
   const rawTotal = compositionScore + exposureScore + stabilityScore + levelScore + expressionScore
   const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal)))
 
+  // ===== 场景匹配度推断 =====
+  // 推断当前照片的主体类型与场景是否匹配（纯本地规则）
+  const isNightScene = brightness < 90 || (sceneType !== undefined &&
+    ['rooftop_night', 'night_market', 'starry_night', 'camping_campfire'].includes(sceneType))
+  const isPortraitScene = faceCount > 0 && brightness >= 60 && brightness <= 200
+  const isFoodScene = faceCount === 0 && brightness >= 60 && brightness <= 200
+  const isLandscapeScene = faceCount === 0 && brightness >= 80 && brightness <= 220
+
+  // 场景匹配度评分（0-1）
+  let sceneMatchScore = 1.0
+  if (isPortraitScene && faceCount > 0) {
+    const faceAreaOk = facePosition ? (facePosition.area >= 0.05 && facePosition.area <= 0.6) : false
+    const notEdge = facePosition ? (facePosition.x > 0.1 && facePosition.x < 0.9) : false
+    sceneMatchScore = faceAreaOk && notEdge ? 0.9 : 0.5
+  } else if (isNightScene) {
+    sceneMatchScore = faceCount > 0 && stabilityScore >= 12 ? 0.8 : 0.4
+  } else if (isFoodScene) {
+    sceneMatchScore = brightness >= 80 && brightness <= 180 && compositionScore >= 25 ? 0.8 : 0.4
+  } else if (isLandscapeScene) {
+    sceneMatchScore = brightness >= 80 && brightness <= 200 ? 0.8 : 0.5
+  }
+
+  // ===== 表情僵硬但其他维度优秀时的鼓励型建议 =====
+  if (faceCount > 0 && expressionScore < 15) {
+    const otherScoreSum = compositionScore + exposureScore + stabilityScore
+    if (otherScoreSum >= 60 && suggestions.length < 4) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.expression_low_but_others_good))
+    }
+  }
+
+  // ===== 场景匹配度专项建议 =====
+  if (sceneMatchScore < 0.5 && isPortraitScene && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.portrait_scene_low))
+  }
+  if (sceneMatchScore < 0.5 && isNightScene && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.night_scene_low))
+  }
+  if (sceneMatchScore < 0.5 && isFoodScene && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.food_scene_low))
+  }
+  if (sceneMatchScore < 0.5 && isLandscapeScene && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.landscape_scene_low))
+  }
+
   // 表情僵硬建议（低分区+人脸存在时触发）
   if (faceCount > 0 && totalScore < 60 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.stiff_expression))
