@@ -165,17 +165,13 @@ export default function DiaryScreen() {
     return { weekAvg, weekCount, streak }
   }, [records])
 
-  // 月度统计数据
+  // 月度统计数据（仅取月均分和上月均分，其余字段无需计算）
   const monthlyStats = useMemo(() => {
     const now = new Date()
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
     const monthRecords = records.filter((r) => new Date(r.date) >= monthStart)
     const monthAvg = monthRecords.length > 0
       ? Math.round(monthRecords.reduce((s, r) => s + r.score, 0) / monthRecords.length)
-      : 0
-    const monthCount = monthRecords.length
-    const monthBest = monthRecords.length > 0
-      ? monthRecords.reduce((max, r) => (r.score > max ? r.score : max), 0)
       : 0
     const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
@@ -187,7 +183,7 @@ export default function DiaryScreen() {
       ? Math.round(prevMonthRecords.reduce((s, r) => s + r.score, 0) / prevMonthRecords.length)
       : 0
     const monthDiff = monthAvg - prevMonthAvg
-    return { monthAvg, monthCount, monthBest, monthDiff, prevMonthAvg }
+    return { monthAvg, monthDiff, prevMonthAvg }
   }, [records])
 
   // 进步趋势文案
@@ -395,8 +391,7 @@ export default function DiaryScreen() {
               {/* 周统计卡片网格 */}
               {totalCount > 0 && (
                 <>
-                  {/* 去装饰化：移除细分割线 — "本周" 标签本身已是足够的新段落标记，无需额外线条分隔 */}
-                  <Text style={styles.statsCardTitle}>本周</Text>
+                  {/* 本周小节标题 */}
                   <View style={styles.weeklyGrid}>
                   {/* 本周平均分 */}
                   <View style={styles.weeklyCard}>
@@ -417,7 +412,7 @@ export default function DiaryScreen() {
                 </>
               )}
 
-              {/* 趋势横幅 — 简洁版：无背景色，纯文字分层 */}
+              {/* 趋势横幅 */}
               <View style={styles.trendBannerRow}>
                 <Text style={[styles.trendBannerText, { color: trendInfo.color }]}>
                   {trendInfo.text}
@@ -472,7 +467,7 @@ export default function DiaryScreen() {
             )}
 
             {/* 本月 vs 上月对比 — 极简：单行文字对比，删掉三列布局和多余标签 */}
-            {monthlyStats.monthCount > 0 && (
+            {(monthlyStats.monthAvg > 0 || monthlyStats.prevMonthAvg > 0) && (
               <View style={styles.monthCompareRow}>
                 <Text style={styles.monthCompareText}>
                   本月 {monthlyStats.monthAvg}分 · 上月 {monthlyStats.prevMonthAvg > 0 ? `${monthlyStats.prevMonthAvg}分` : '-'}
