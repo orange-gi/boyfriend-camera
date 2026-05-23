@@ -321,7 +321,8 @@ const styles = StyleSheet.create({
   poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5] },
 
   // 统计卡片
-  statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], backgroundColor: COLORS.bgCard, borderWidth: 1, borderColor: COLORS.borderLight },
+  // 去边框：白卡在浅灰背景上已自然分层，不需要额外边框线
+  statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], backgroundColor: COLORS.bgCard },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   skeletonNum: { width: 36, height: 36, borderRadius: 4, backgroundColor: COLORS.divider, marginBottom: 4 },

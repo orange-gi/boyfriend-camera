@@ -977,16 +977,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
-  // errorBanner 背景：浅危险色衬底，让错误提示有视觉重量，不再漂浮
+  // 去背景+左竖线：简洁优雅，避免全框背景色喧宾夺主
   errorBanner: {
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 12,
     alignItems: 'center',
-    backgroundColor: hexAlpha(COLORS.danger, 0.07),
-    borderWidth: 1,
-    borderColor: hexAlpha(COLORS.danger, 0.2),
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.danger,
   },
   errorBannerBtns: {
     flexDirection: 'row',
