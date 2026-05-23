@@ -1270,6 +1270,15 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '手挡住了一点点脸，稍微抬起来一点躲开～',
     '自拍时手指别贴手机边缘，稍微伸直手臂更好看～',
   ],
+  hair_occlusion_tips: [
+    '头发挡到脸了，让她把头发撩到耳后试试～',
+    '刘海进画面了，稍微拨开一点会更清晰～',
+    '头发遮住眼睛了，把头发往后撩一下会更精神～',
+    '头发挡脸了，让她甩一下头发或换个分边～',
+    '头发有点乱入镜了，整理一下再拍会更清爽～',
+    '头发丝飘到脸上了，轻轻拨开后再拍～',
+    '发丝挡到眼睛了，让她把头发别到耳后～',
+  ],
   ugly_background: [
     '背景有点乱，下次找个干净的地方拍～',
     '背景太杂了，简洁的背景更显高级感～',
@@ -3118,6 +3127,11 @@ export async function analyzePhoto(
   }
   if (safeSharpness < 50 && safeSharpness >= 30 && faceCount > 0 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.grainy_photo))
+  }
+  // 头发遮挡检测：清晰度低但亮度正常（不是暗光），且人脸面积正常 → 可能是头发遮挡
+  if (safeSharpness < 80 && safeSharpness >= 40 && safeBrightness >= 100 && faceCount > 0 && facePosition && facePosition.area > 0.08 && facePosition.area < 0.4 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.hair_occlusion_tips))
+    problems.push('hair_occlusion')
   }
   if (facePosition && compositionScore >= 28 && compositionScore < 36 && suggestions.length < 4) {
     const cx = facePosition.x, cy = facePosition.y
