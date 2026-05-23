@@ -382,7 +382,6 @@ const styles = StyleSheet.create({
   featureCard: {
     width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2,
     paddingVertical: spacing[4],
-    // featureCard: 去底边框，gap 已足够分隔（简洁优雅设计）
   },
   featureText: { flex: 1 },
   featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
