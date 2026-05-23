@@ -13,6 +13,7 @@ import { avgScore as calcAvgScore } from '../utils/scoring'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
 import { borderRadius, spacing, typography, shadows } from '../theme/index'
+import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/homeData'
 
@@ -58,6 +59,11 @@ export default function HomeScreen() {
     loadStats(); checkOnboard(); checkTipDismissed()
     enterAnim.value = withTiming(1, { duration: 350 })
   }, [])
+
+  // 首次加载统计后播报语音欢迎
+  useEffect(() => {
+    if (!statsLoading) VoiceCoach.speakDailyWelcome(diaryCount === 0)
+  }, [statsLoading])
 
   // 数字动画：直接使用目标值，不再做缓动计数
   useEffect(() => {
