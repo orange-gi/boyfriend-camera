@@ -606,7 +606,7 @@ function AnimatedCountUp({ value, style, color, suffix = '' }: {
   )
 }
 
-/** 进步数字动画（带箭头+颜色） */
+/** 进步数字动画（纯数字+颜色，无箭头装饰） */
 function AnimatedProgressNum({ value, style }: { value: number; style: import('react-native').StyleProp<import('react-native').TextStyle> }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
@@ -623,11 +623,11 @@ function AnimatedProgressNum({ value, style }: { value: number; style: import('r
   }, [value])
 
   const color = value >= 0 ? COLORS.success : COLORS.primary
-  const arrow = value >= 0 ? '↑' : '↓'
+  // 简洁优雅：去掉箭头，颜色+符号已足够传达方向信息
 
   return (
     <Animated.Text style={[style, { color }]}>
-      {display >= 0 ? `+${display}` : display} {arrow}
+      {display >= 0 ? `+${display}` : display}
     </Animated.Text>
   )
 }

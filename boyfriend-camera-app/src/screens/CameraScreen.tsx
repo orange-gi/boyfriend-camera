@@ -1239,7 +1239,8 @@ const styles = StyleSheet.create({
   },
   templateCardActive: {
     borderColor: COLORS.primary,
-    backgroundColor: COLORS.primaryLight,
+    // 去装饰化：只保留边框颜色指示选中态，浅色背景属于冗余装饰
+    backgroundColor: COLORS.skeletonBase,
   },
   templateThumb: {
     width: SCREEN_W / 2 - 58,
