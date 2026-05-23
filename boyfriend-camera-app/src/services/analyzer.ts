@@ -3145,9 +3145,14 @@ export async function analyzePhoto(
     }
   }
 
-  // clamp 到 0-100 范围，防止边界情况下越界
+  // clamp individual scores to valid ranges (防止越界)
+  compositionScore = Math.max(0, Math.min(40, compositionScore))
+  exposureScore = Math.max(0, Math.min(30, exposureScore))
+  stabilityScore = Math.max(0, Math.min(20, stabilityScore))
+  levelScore = Math.max(0, Math.min(10, levelScore))
+  // clamp total to 0-100 (5项满分 120，scale to 100)
   const rawTotal = compositionScore + exposureScore + stabilityScore + levelScore + expressionScore
-  const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal)))
+  const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal * 100 / 120)))
 
   // ===== 场景匹配度推断 =====
   // 推断当前照片的主体类型与场景是否匹配（纯本地规则）
