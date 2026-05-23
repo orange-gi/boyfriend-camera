@@ -4359,6 +4359,27 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
+  /** 早晨拍照提示 */
+  async speakMorningPhotoTip(): Promise<void> {
+    await this.speak('早晨的光线最通透！趁光线好赶紧多拍几张～', false)
+  }
+
+  /** 连续拍摄激励 */
+  async speakDayStreakTip(count: number): Promise<void> {
+    if (count === 2) {
+      await this.speak('连续两天都在拍！男朋友越来越有感觉了～', false)
+    } else if (count === 3) {
+      await this.speak('连续三天！男朋友拍照习惯养成了，继续保持～', false)
+    } else {
+      await this.speak(`连续${count}天都在拍照！男朋友你是认真的吧，太棒了～`, false)
+    }
+  }
+
+  /** 首次拍照引导 */
+  async speakFirstPhotoTip(): Promise<void> {
+    await this.speak('第一次拍！不用紧张，随便找个好看的角度按下去就是进步～', false)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
