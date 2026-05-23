@@ -1177,13 +1177,12 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: COLORS.skeletonHighlight,
     alignItems: 'center',
     justifyContent: 'center',
   },
   modalClose: {
     fontSize: 18,
-    color: COLORS.textSecondary,
+    color: COLORS.textMuted,
   },
   categoryTabs: {
     paddingHorizontal: 12,
