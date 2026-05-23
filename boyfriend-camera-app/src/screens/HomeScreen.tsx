@@ -44,8 +44,6 @@ export default function HomeScreen() {
   const [showOnboard, setShowOnboard] = useState(false)
   const [onboardStep, setOnboardStep] = useState(0)
   const [tipDismissed, setTipDismissed] = useState(false)
-  // displayDiaryCount / displayAvgScore: 去掉"数字动画"后，这两个 state 仍被 statsCard 直接引用，保持与 diaryCount / avgScore 同步
-  // displayDiaryCount / displayAvgScore: 动画移除后直接用 diaryCount / avgScore，仅在 statsLoading 时占位为 0
   const [statsLoading, setStatsLoading] = useState(true)
   const [poseTipIndex, setPoseTipIndex] = useState(0)
   const [todayCount, setTodayCount] = useState(0)

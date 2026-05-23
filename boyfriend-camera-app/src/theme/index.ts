@@ -51,31 +51,16 @@ export const colors = {
   skeletonBase: '#EBEBEB',
   skeletonHighlight: '#F5F5F5',
 
-  // 趋势卡片渐变色（扩展）
-  trendSuccessLight: '#C8E6C9',
-  trendInfoLight: '#BBDEFB',
-  trendWarningLight: '#FFECB3',
-  trendDangerLight: '#FFE0E0',
+  // 滤镜色
 
-  // 统计卡专用色
-  statYellowText: '#D4A200',
-  statAmber: '#E6A800',
-
-  // 滤镜色（14种）
   filterWarm: '#FF8C00',
   filterCool: '#4A90D9',
   filterVivid: '#FF6B6B',
   filterSoft: '#FFB6C1',
   filterBw: '#888888',
-  filterGolden: '#E8A838',
   filterCinematic: '#5B7FA6',
   filterPortrait: '#E8B4C8',
   filterFood: '#FF9A3C',
-  filterLandscape: '#5BBF8A',
-  filterNight: '#7B68EE',
-  filterSunset: '#FF6B6B',
-  filterFloral: '#FF69B4',
-  filterSnow: '#B0E0FF',
 
   // 主题渐变色（仅 gradientBlue 在 DiaryScreen 中实际使用）
   gradientBlue: '#E3F2FD',
@@ -120,15 +105,6 @@ export const colors = {
   scoreGreatGlow: 'rgba(255,180,80,0.18)',
   scoreOkGlow: 'rgba(160,160,224,0.15)',
   scoreLowGlow: 'rgba(255,107,107,0.12)',
-
-  // 特殊卡片背景
-  cardPink: '#FFF0F5',
-  cardCream: '#FFFBF5',
-  cardYellow: '#FFF3CD',
-  cardBrown: '#856404',
-
-  // 评分金色
-  goldDark: '#B8860B',
 } as const
 
 // ─────────────────────────────────────────────
