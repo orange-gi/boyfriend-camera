@@ -126,6 +126,9 @@ export default function CameraScreen() {
   const lastSelfieWarningRef = useRef<number>(0)
   const lastMultiFaceWarningRef = useRef<number>(0)
   const lastExpressionTipRef = useRef<number>(0)
+  // 节流正视镜头和多人合照不看镜头 TTS
+  const lastLookAtCameraRef = useRef<number>(0)
+  const lastGroupLookAtCameraRef = useRef<number>(0)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
   const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -254,6 +257,21 @@ export default function CameraScreen() {
         sharpness: undefined,
         mouthOpen: undefined,
       }).catch(() => {})
+      // 正视镜头检测（yaw 角接近 0 且在 6s 内未提醒）
+      if (face.yawAngle !== undefined && Math.abs(face.yawAngle) < 12) {
+        if (now - lastLookAtCameraRef.current >= 6000) {
+          lastLookAtCameraRef.current = now
+          VoiceCoach.speakFaceLookAtCamera().catch(() => {})
+        }
+      }
+    }
+    // 多人合照中有人不看镜头（yaw 角偏大）
+    if (faces.length > 1) {
+      const notLooking = faces.filter(f => f.yawAngle !== undefined && Math.abs(f.yawAngle) > 25)
+      if (notLooking.length > 0 && now - lastGroupLookAtCameraRef.current >= 6000) {
+        lastGroupLookAtCameraRef.current = now
+        VoiceCoach.speakGroupLookAtCamera().catch(() => {})
+      }
     }
   }, [faces, cameraFacing])
 

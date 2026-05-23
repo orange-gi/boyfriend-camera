@@ -4757,6 +4757,65 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 检测到正视镜头（眼神到位）— 正向确认 */
+  async speakFaceLookAtCamera(): Promise<void> {
+    const tips = [
+      '眼神到位了！就是现在，笑一个按下去～',
+      '眼睛看着镜头，这个角度绝了！',
+      '眼神定住了！就是现在，按快门！',
+      '眼睛有神！姿势也对，按下去就是大片！',
+      '对视镜头，眼神满分！就是现在拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 脸部被遮挡检测（头发/手/眼镜反光） */
+  async speakFaceOccluded(occluder: 'hair' | 'hand' | 'glasses' | 'other'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      hair: [
+        '头发挡住脸了！轻轻拨到耳后，轮廓会更清晰～',
+        '头发有点遮眼睛，拨开一下拍出来会更好看～',
+      ],
+      hand: [
+        '手离脸太近了！稍微拿开一点，显脸小效果更好～',
+        '手挡住脸的一部分，挪开再拍会更完整～',
+      ],
+      glasses: [
+        '眼镜反光太亮了！稍微侧一下躲开光源～',
+        '镜片反光挡住眼睛了，抬头或低头一点点～',
+      ],
+      other: [
+        '脸上有东西挡住了，稍微调整一下角度～',
+        '有东西挡住脸了，挪开再拍～',
+      ],
+    }
+    const pool = tips[occluder] || tips.other
+    await this.speak(pickRandom(pool), false)
+  }
+
+  /** 完美时刻综合播报（构图+光线+姿势均到位时） */
+  async speakPerfectMomentNow(): Promise<void> {
+    const tips = [
+      '现在光线完美！姿势也对！就是现在拍～',
+      '这光线这角度绝了！按下去就是大片！',
+      '光线刚刚好，姿势也到位了！就是现在拍～',
+      '完美时刻！构图光线都在线，赶紧按下去！',
+      '这角度这光线都绝了！就是现在！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 多人合照中有人没看镜头 */
+  async speakGroupLookAtCamera(): Promise<void> {
+    const tips = [
+      '大家都在看镜头吗？提醒一下还没看过来的人～',
+      '有人没看镜头哦！让大家一起看镜头笑一个～',
+      '后排的也要看镜头！提醒一下～',
+      '合照大家要一起看镜头哦～准备，一二三茄子！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS, SCENE_TIPS }
