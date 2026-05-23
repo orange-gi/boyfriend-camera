@@ -748,11 +748,7 @@ const FilterItem = memo(function FilterItem({
       accessibilityHint="单击切换滤镜"
     >
       <Animated.View style={[styles.filterCircleWrapper, animatedStyle]}>
-        <View style={[styles.filterCircle, { backgroundColor: filter.color }]}>
-          {isActive && (
-            <View style={[styles.filterCircleSelectedRing, { borderColor: COLORS.primary }]} />
-          )}
-        </View>
+        <View style={[styles.filterCircle, { backgroundColor: filter.color }]} />
       </Animated.View>
       <Text style={[
         styles.filterLabel,
@@ -845,16 +841,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // filterCircleActive: 空样式，选中态由 filterCircleSelectedRing 承载
-  filterCircleSelectedRing: {
-    position: 'absolute',
-    top: -2,
-    left: -2,
-    right: -2,
-    bottom: -2,
-    borderRadius: 28,
-    borderWidth: 2,
-  },
+  // filterCircleActive: 空样式，选中态由 scale 动画 + 文字颜色变化承载
   filterLabel: {
     fontSize: 12,
     color: COLORS.textMuted,
