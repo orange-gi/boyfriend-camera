@@ -366,7 +366,6 @@ export default function DiaryScreen() {
 
             {/* 统计卡片 — 统一 2×3 网格，整合核心统计和本周数据 */}
             <View style={styles.statsCard}>
-              <Text style={styles.statsCardTitle}>综合数据</Text>
               <View style={styles.statsGrid}>
                 <View style={styles.statCard}>
                   <AnimatedCountUp value={totalCount} style={[styles.statCardNum, { color: COLORS.textPrimary }]} />
@@ -450,11 +449,7 @@ export default function DiaryScreen() {
             )}
 
             {/* 进步曲线 */}
-            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>进步曲线</Text>
             <ProgressChart entries={entries} height={200} />
-
-            {/* 历史记录标题 */}
-            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>历史记录</Text>
           </>
         }
         ListFooterComponent={<View style={{ height: 40 }} />}
@@ -641,13 +636,6 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20,
   },
-  statsCardTitle: {
-    // 去装饰化：12px muted 色，与 17px sectionTitle 拉开层次差
-    fontSize: 12,
-    fontWeight: '400',
-    color: COLORS.textMuted,
-    marginBottom: 12,
-  },
   // 4 格统计卡片网格
   statsGrid: {
     flexDirection: 'row',
@@ -677,6 +665,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 14,
     marginTop: 8,
+    // 去装饰化：sectionTitle 仅在 ListHeaderComponent 中用于分隔 ProgressChart 和历史记录
+    // 进步曲线无需标题，图表本身即标题
   },
   recordCard: {
     flexDirection: 'row',
