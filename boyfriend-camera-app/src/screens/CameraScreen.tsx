@@ -125,6 +125,7 @@ export default function CameraScreen() {
   // 节流自拍距离 TTS（避免频繁播报）
   const lastSelfieWarningRef = useRef<number>(0)
   const lastMultiFaceWarningRef = useRef<number>(0)
+  const lastExpressionTipRef = useRef<number>(0)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
   const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -238,6 +239,21 @@ export default function CameraScreen() {
       if (now - lastMultiFaceWarningRef.current < 6000) return // 6s 节流
       lastMultiFaceWarningRef.current = now
       VoiceCoach.speakMultiFaceTip(faces.length)
+    }
+    // 表情实时分析 TTS（前置摄像头+单人脸+8s 节流）
+    if (faces.length === 1 && cameraFacing === 'front') {
+      if (now - lastExpressionTipRef.current < 8000) return
+      lastExpressionTipRef.current = now
+      const face = faces[0]
+      VoiceCoach.speakExpressionTip({
+        smiling: face.smiling,
+        leftEyeOpen: face.leftEyeOpen,
+        rightEyeOpen: face.rightEyeOpen,
+        yawAngle: face.yawAngle,
+        rollAngle: face.rollAngle,
+        sharpness: undefined,
+        mouthOpen: undefined,
+      }).catch(() => {})
     }
   }, [faces, cameraFacing])
 
