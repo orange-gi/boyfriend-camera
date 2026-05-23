@@ -3266,15 +3266,15 @@ export async function analyzePhoto(
     if (!inThird) {
       compositionScore -= 10
       problems.push('composition')
-      suggestions.push(pickRandom(SUGGESTION_POOL.composition))
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.composition))
     }
     // 人脸面积占比
     if (facePosition.area < 0.05) {
       compositionScore -= 5
-      suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_small))
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_small))
     } else if (facePosition.area > 0.5) {
       compositionScore -= 5
-      suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_large))
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_large))
       if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.wrong_aspect_ratio))
     }
     // 超近距离（面积 > 0.65，镜头畸变风险）
@@ -3300,7 +3300,7 @@ export async function analyzePhoto(
   if (facePosition && compositionScore < 35) {
     const tooCloseToEdge = facePosition.x < 0.08 || facePosition.x > 0.92 ||
       facePosition.y < 0.12 || facePosition.y > 0.88
-    if (tooCloseToEdge) {
+    if (tooCloseToEdge && suggestions.length < 4) {
       suggestions.push(pickRandom(SUGGESTION_POOL.face_cut_off))
     }
     // 人脸太靠边（比 off-center 更严重）
@@ -3312,7 +3312,7 @@ export async function analyzePhoto(
   }
 
   // 噪点检测（亮度尚可但清晰度低 = 暗光噪点）
-  if (safeBrightness >= 60 && safeBrightness <= 160 && safeSharpness < 80 && safeSharpness >= 50) {
+  if (safeBrightness >= 60 && safeBrightness <= 160 && safeSharpness < 80 && safeSharpness >= 50 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.noise_in_dark))
   }
   if (safeSharpness < 50 && safeSharpness >= 30 && faceCount > 0 && suggestions.length < 4) {
@@ -3331,18 +3331,18 @@ export async function analyzePhoto(
     exposureScore -= 20
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
-    suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
   } else if (safeBrightness >= 40 && safeBrightness < 60) {
     // 填充 40-60 低亮度灰色地带（之前漏掉）：轻度欠曝
     exposureScore -= 8
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
-    suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
   } else if (safeBrightness > 220) {
     exposureScore -= 15
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
-    suggestions.push(pickRandom(SUGGESTION_POOL.over_exposure))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.over_exposure))
   } else if (safeBrightness > 200 || safeBrightness < 80) {
     // 收紧边界：200-220 高光区、60-80 微暗区各扣 8 分
     exposureScore -= 8
@@ -3356,7 +3356,7 @@ export async function analyzePhoto(
   if (safeBrightness > 180 && exposureScore < 18 && faceCount > 0) {
     problems.push('backlight')
     suggestions.push(pickRandom(SUGGESTION_POOL.backlight))
-    suggestions.push(pickRandom(SUGGESTION_POOL.flash_usage))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.flash_usage))
   }
 
   // 亮度中等但构图/曝光分数不高时，可能是对比度问题
@@ -3389,7 +3389,7 @@ export async function analyzePhoto(
   } else if (safeSharpness < 100) {
     stabilityScore -= 5
     problems.push('stability')
-    suggestions.push(pickRandom(SUGGESTION_POOL.stability))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.stability))
   }
   if (stabilityScore >= 18) praise.push(pickRandom(PRAISE_POOL.stability_great))
 
@@ -3399,11 +3399,11 @@ export async function analyzePhoto(
   if (absTilt > 10) {
     levelScore -= 8
     problems.push('level')
-    suggestions.push(pickRandom(SUGGESTION_POOL.level))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.level))
   } else if (absTilt > 5) {
     levelScore -= 4
     problems.push('level')
-    suggestions.push(pickRandom(SUGGESTION_POOL.level))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.level))
   } else if (absTilt > 2) {
     levelScore -= 2
   }
