@@ -246,8 +246,8 @@ export default function DiaryScreen() {
         accessibilityRole="button"
         accessibilityLabel={`${dateStr} 得分 ${item.score} 分${index === 0 ? '，最新' : ''}。长按删除`}
       >
-        {/* 左侧分数 */}
-        <View style={[styles.scoreBadge, { backgroundColor: hexAlpha(sc, 0.1) }]}>
+        {/* 左侧分数 — 无背景色：分数本身有颜色，无需色块衬底 */}
+        <View style={styles.scoreBadge}>
           <Text style={[styles.scoreNum, { color: sc }]}>{item.score}</Text>
           <Text style={[styles.scoreGrade, { color: sc }]}>{scoreGrade}</Text>
           {scoreDiff !== null && (
@@ -438,29 +438,27 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            {/* 成就徽章 — 最多 2 个，避免视觉过载 */}
+            {/* 成就徽章 — 极简：只展示最优先的 1 个徽章，避免多标签竞争注意力 */}
             {totalCount > 0 && (
               <View style={styles.badgeRow}>
-                {/* 等级徽章 */}
-                {avgScore >= 80 && (
+                {maxScore === 100 && (
+                  <View style={[styles.badgeGold]}>
+                    <Text style={[styles.badgeText, styles.badgeGoldText]}>满分达成</Text>
+                  </View>
+                )}
+                {maxScore !== 100 && avgScore >= 80 && (
                   <View style={[styles.badgeGold]}>
                     <Text style={[styles.badgeText, styles.badgeGoldText]}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
                   </View>
                 )}
-                {avgScore >= 60 && avgScore < 80 && (
+                {maxScore !== 100 && avgScore >= 60 && avgScore < 80 && (
                   <View style={styles.badge}>
                     <Text style={[styles.badgeText, { color: COLORS.info }]}>{avgScore >= 70 ? '进阶中' : '成长中'}</Text>
                   </View>
                 )}
-                {avgScore > 0 && avgScore < 60 && (
+                {maxScore !== 100 && avgScore > 0 && avgScore < 60 && (
                   <View style={styles.badge}>
                     <Text style={[styles.badgeText, { color: COLORS.warning }]}>新手期</Text>
-                  </View>
-                )}
-                {/* 里程碑徽章（不与等级重叠时显示） */}
-                {maxScore === 100 && avgScore < 80 && (
-                  <View style={[styles.badgeGold]}>
-                    <Text style={[styles.badgeText, styles.badgeGoldText]}>满分达成</Text>
                   </View>
                 )}
                 {maxScore !== 100 && avgScore < 80 && totalCount >= 10 && (
@@ -468,12 +466,12 @@ export default function DiaryScreen() {
                     <Text style={[styles.badgeText, styles.badgeGreenText]}>拍摄{totalCount}次</Text>
                   </View>
                 )}
-                {maxScore !== 100 && avgScore < 80 && totalCount < 10 && weeklyStats.streak >= 3 && (
+                {maxScore !== 100 && avgScore < 80 && totalCount >= 1 && totalCount < 10 && weeklyStats.streak >= 3 && (
                   <View style={[styles.badgeGreen]}>
                     <Text style={[styles.badgeText, styles.badgeGreenText]}>连续{weeklyStats.streak}天</Text>
                   </View>
                 )}
-                {totalCount === 1 && (
+                {maxScore !== 100 && avgScore < 80 && totalCount === 1 && (
                   <View style={[styles.badgeGreen]}>
                     <Text style={[styles.badgeText, styles.badgeGreenText]}>首次记录</Text>
                   </View>
@@ -481,25 +479,15 @@ export default function DiaryScreen() {
               </View>
             )}
 
-            {/* 本月 vs 上月对比 */}
+            {/* 本月 vs 上月对比 — 极简：单行文字对比，删掉三列布局和多余标签 */}
             {monthlyStats.monthCount > 0 && (
               <View style={styles.monthCompareRow}>
-                <View style={styles.monthItem}>
-                  <Text style={styles.monthLabel}>本月</Text>
-                  <Text style={styles.monthNum}>{monthlyStats.monthAvg}分</Text>
-                  <Text style={styles.monthSub}>{monthlyStats.monthCount}次</Text>
-                </View>
-                <View style={styles.monthDivider}>
-                  <Text style={styles.monthVs}>vs</Text>
-                  <Text style={[styles.monthDiffText, { color: monthlyStats.monthDiff >= 0 ? COLORS.success : COLORS.primary }]}>
-                    {monthlyStats.monthDiff >= 0 ? '+' : ''}{monthlyStats.monthDiff}分
+                <Text style={styles.monthCompareText}>
+                  本月 {monthlyStats.monthAvg}分 · 上月 {monthlyStats.prevMonthAvg > 0 ? `${monthlyStats.prevMonthAvg}分` : '-'}
+                  <Text style={{ color: monthlyStats.monthDiff >= 0 ? COLORS.success : COLORS.textMuted }}>
+                    {monthlyStats.monthDiff >= 0 ? ` (+${monthlyStats.monthDiff})` : monthlyStats.prevMonthAvg > 0 ? ` (${monthlyStats.monthDiff})` : ''}
                   </Text>
-                </View>
-                <View style={styles.monthItem}>
-                  <Text style={styles.monthLabel}>上月</Text>
-                  <Text style={styles.monthNum}>{monthlyStats.prevMonthAvg > 0 ? monthlyStats.prevMonthAvg + '分' : '-'}</Text>
-                  <Text style={styles.monthSub}>{monthlyStats.monthDiff === 0 ? '持平' : monthlyStats.monthDiff > 0 ? '有进步' : '继续加油'}</Text>
-                </View>
+                </Text>
               </View>
             )}
 
@@ -743,10 +731,10 @@ const styles = StyleSheet.create({
   scoreBadge: {
     width: 56,
     height: 56,
-    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
+    // 去装饰化：删掉 borderRadius 和背景色；分数颜色本身已承载信息
   },
   scoreNum: {
     fontSize: 24,
@@ -890,9 +878,9 @@ const styles = StyleSheet.create({
   },
   badgeRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: 8,
     marginTop: 10,
+    // 极简：单行展示，内容靠语义色区分，不需要多行 wrap
   },
   // 去装饰化：badge 无背景色，纯文字靠语义色承载信息
   badge: {
@@ -922,11 +910,13 @@ const styles = StyleSheet.create({
   },
   // 去装饰化：月对比行无背景色，留白充分，无需色块承托
   monthCompareRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginTop: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    // 极简：单行文字对比，删掉三列布局，信息密度高但视觉噪音低
+  },
+  monthCompareText: {
+    fontSize: 13,
+    color: COLORS.textMuted,
+    lineHeight: 20,
   },
   monthItem: {
     flex: 1,
