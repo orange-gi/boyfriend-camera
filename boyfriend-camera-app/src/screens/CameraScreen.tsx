@@ -92,7 +92,6 @@ export default function CameraScreen() {
   const [cameraFacing, setCameraFacing] = useState<'front' | 'back'>('back')
   const [selectedCategory, setSelectedCategory] = useState<string>('全部')
   const [cameraError, setCameraError] = useState<string | null>(null)
-  const [focusPoint] = useState<{ x: number; y: number } | null>(null)
   const photoCountRef = useRef(0)
   const [templateSearch, setTemplateSearch] = useState('')
   const [longPressTemplate, setLongPressTemplate] = useState<PoseTemplate | null>(null)
@@ -111,7 +110,6 @@ export default function CameraScreen() {
 
   // 拍照闪白动画
   const flashAnim = useRef(new Animated.Value(0)).current
-  const focusAnim = useRef(new Animated.Value(0)).current
 
   // captureRetryRef 指向重试函数；doCapture 读取这些 ref 拿到最新状态
   const flashRef = useRef(flash)
@@ -582,24 +580,6 @@ export default function CameraScreen() {
       {/* 构图线 */}
       <CompositionLines mode={mode} />
 
-      {/* 点击聚焦指示 */}
-      {focusPoint && (
-        <Animated.View
-          style={[
-            styles.focusRing,
-            {
-              left: focusPoint.x - 30,
-              top: focusPoint.y - 30,
-              opacity: focusAnim.interpolate({ inputRange: [0, 0.3, 1], outputRange: [0, 1, 0] }),
-              transform: [
-                {
-                  scale: focusAnim.interpolate({ inputRange: [0, 0.3, 1], outputRange: [0.5, 1.2, 1] }),
-                },
-              ],
-            },
-          ]}
-        />
-      )}
 
       {/* 姿势模板 */}
       <PoseTemplateOverlay
