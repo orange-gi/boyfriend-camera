@@ -28,7 +28,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, hexAlpha, typography, borderRadius } from '../theme'
+import { COLORS, typography, borderRadius } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
@@ -510,14 +510,14 @@ export default function ResultScreen() {
     return `${scoreResult.totalScore}分，继续加油，一定能越拍越好！`
   }
 
-  // 夸奖横幅背景/边框颜色（按分数段）
-  const getPraiseBannerColors = (): { bg: string; border: string } => {
-    if (!scoreResult) return { bg: 'transparent', border: COLORS.warning }
-    if (scoreResult.totalScore >= 90) return { bg: hexAlpha(COLORS.scoreGreat, 0.06), border: COLORS.scoreGreat }
-    if (scoreResult.totalScore >= 80) return { bg: hexAlpha(COLORS.primary, 0.06), border: COLORS.primary }
-    if (scoreResult.totalScore >= 70) return { bg: hexAlpha(COLORS.success, 0.05), border: COLORS.success }
-    if (scoreResult.totalScore >= 60) return { bg: hexAlpha(COLORS.warning, 0.07), border: COLORS.warning }
-    return { bg: hexAlpha(COLORS.danger, 0.05), border: COLORS.danger }
+  // 夸奖横幅边框颜色（按分数段）
+  const getPraiseBannerColors = (): { border: string } => {
+    if (!scoreResult) return { border: COLORS.warning }
+    if (scoreResult.totalScore >= 90) return { border: COLORS.scoreGreat }
+    if (scoreResult.totalScore >= 80) return { border: COLORS.primary }
+    if (scoreResult.totalScore >= 70) return { border: COLORS.success }
+    if (scoreResult.totalScore >= 60) return { border: COLORS.warning }
+    return { border: COLORS.danger }
   }
   const praiseColors = getPraiseBannerColors()
 

@@ -721,31 +721,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  weeklyGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginTop: 16,
-    marginBottom: 4,
-  },
-  weeklyCard: {
-    flex: 1,
-    minWidth: '45%',
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    alignItems: 'center',
-    // 去背景色：与 statCard 统一，纯留白分隔，无需色块
-  },
-  weeklyCardNum: {
-    fontSize: 26,
-    fontWeight: 'bold',
-  },
-  weeklyCardLabel: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    marginTop: 4,
-  },
   recordDate: {
     fontSize: 14,
     color: COLORS.textSecondary,

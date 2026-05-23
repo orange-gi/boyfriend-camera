@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },
-  onboardDotDone: { backgroundColor: COLORS.warning },
+  onboardDotDone: { backgroundColor: COLORS.primary },
   onboardStepLabel: { fontSize: 13, color: COLORS.textMuted, marginBottom: 16, fontWeight: '600', letterSpacing: 1 },
   onboardTitle: { fontSize: 22, fontWeight: '700', color: COLORS.textPrimary, marginBottom: 12, textAlign: 'center' },
   onboardDesc: { fontSize: 15, color: COLORS.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 28 },
