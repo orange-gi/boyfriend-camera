@@ -222,15 +222,12 @@ export default function HomeScreen() {
       {/* 拍照主按钮 */}
       <Animated.View style={[styles.cameraBtnWrapper, cameraStyle]}>
         <TouchableOpacity
-          style={[styles.cameraBtn, isNewUser ? styles.cameraBtnNewUser : styles.cameraBtnRegular]}
+          style={styles.cameraBtn}
           onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
           activeOpacity={0.85}
         >
-          <View style={styles.cameraBtnInner}><Text style={styles.cameraBtnIcon}>+</Text></View>
-          <View style={styles.cameraBtnTextRow}>
-            <Text style={[styles.cameraBtnText, { color: COLORS.textOnPrimary }]}>开始拍照</Text>
-            {isNewUser && <View style={styles.newBadge}><Text style={styles.newBadgeText}>新</Text></View>}
-          </View>
+          <Text style={[styles.cameraBtnText, { color: COLORS.textOnPrimary }]}>开始拍照</Text>
+          {isNewUser && <View style={styles.newBadge}><Text style={styles.newBadgeText}>新</Text></View>}
         </TouchableOpacity>
         <View style={styles.cameraBtnSub}>
           {templatesLoading ? <Text style={styles.cameraBtnSubText}>正在加载姿势模板...</Text>
@@ -340,13 +337,8 @@ const styles = StyleSheet.create({
 
   // 拍照按钮
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
-  cameraBtn: { position: 'relative', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, overflow: 'visible' },
-  cameraBtnNewUser: { backgroundColor: COLORS.primary, paddingVertical: 24, paddingHorizontal: 64 },
-  cameraBtnRegular: { backgroundColor: COLORS.primary, paddingVertical: 20, paddingHorizontal: 56 },
-  cameraBtnInner: { marginBottom: spacing[2] },
-  cameraBtnIcon: { fontSize: 40 },
-  cameraBtnTextRow: { flexDirection: 'row', alignItems: 'center', gap: spacing[2] },
-  cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5 },
+  cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
+  cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5, color: COLORS.textOnPrimary },
   newBadge: { backgroundColor: 'rgba(255,255,255,0.25)', borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2 },
   newBadgeText: { color: COLORS.textOnPrimary, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold },
   cameraBtnSub: { marginTop: spacing[3] },

@@ -874,7 +874,7 @@ export default function CameraScreen() {
                         {item.name}
                       </Text>
                       {item.voiceTip && (
-                        <Text style={styles.templateVoiceTip} numberOfLines={1}>{item.voiceTip.slice(0, 20)}...</Text>
+                        <Text style={styles.templateVoiceTip} numberOfLines={1}>{item.voiceTip}</Text>
                       )}
                       {item.category && (
                         <View style={[styles.templateCategory, { backgroundColor: catColor }]}>
