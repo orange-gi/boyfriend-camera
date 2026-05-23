@@ -4207,7 +4207,20 @@ class VoiceCoach {
 
   /** 首次拍照引导 */
   async speakFirstPhotoTip(): Promise<void> {
-    await this.speak('第一次拍！不用紧张，随便找个好看的角度按下去就是进步～', false)
+    const tips = [
+      '第一次拍！不用紧张，随便找个好看的角度按下去就是进步～',
+      '新手第一天！找个光线好的地方，随便拍两张练练手～',
+      '第一次玩这个！不用追求完美，先熟悉一下怎么用～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 定时拍照提示（扩展版，支持秒数参数） */
+  async speakSelfieTimerTip(seconds: number = 3): Promise<void> {
+    const tips = seconds === 3
+      ? ['定时三秒！放在稳定的地方，摆好姿势等着～', '三秒倒计时！先摆好姿势，然后去站位～']
+      : ['定时十秒！先摆好姿势和位置，然后跑去站好～', '十秒倒计时！有充足的时间走到位置摆好pose～']
+    await this.speak(pickRandom(tips), true)
   }
 
 }
