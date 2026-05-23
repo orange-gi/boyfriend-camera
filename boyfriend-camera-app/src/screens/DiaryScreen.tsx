@@ -34,6 +34,8 @@ export default function DiaryScreen() {
   const [clearAllVisible, setClearAllVisible] = useState(false)
   const [loadError, setLoadError] = useState(false)
   const deleteSheetY = useRef(new Animated.Value(300)).current
+  // 骨架屏呼吸动画（告知用户"正在加载"，而非静态占位）
+  const skeletonOpacity = useRef(new Animated.Value(0.4)).current
 
   const loadDiaryData = useCallback(async () => {
     setLoading(true)
@@ -61,6 +63,19 @@ export default function DiaryScreen() {
   useFocusEffect(useCallback(() => {
     loadDiaryData()
   }, []))
+
+  // 骨架屏呼吸动画
+  const shimmerAnim = useRef<Animated.CompositeAnimation | null>(null)
+  useEffect(() => {
+    shimmerAnim.current = Animated.loop(
+      Animated.sequence([
+        Animated.timing(skeletonOpacity, { toValue: 0.7, duration: 900, useNativeDriver: true }),
+        Animated.timing(skeletonOpacity, { toValue: 0.35, duration: 900, useNativeDriver: true }),
+      ])
+    )
+    shimmerAnim.current.start()
+    return () => { shimmerAnim.current?.stop() }
+  }, [skeletonOpacity])
 
 
   const showDeleteSheet = useCallback((date: string) => {
@@ -164,6 +179,7 @@ export default function DiaryScreen() {
   }, [records])
 
   // 月度统计数据（仅取月均分和上月均分，其余字段无需计算）
+  // 用 useMemo 避免每次渲染都做日期过滤，records 变化时才重算
   const monthlyStats = useMemo(() => {
     const now = new Date()
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
@@ -281,9 +297,9 @@ export default function DiaryScreen() {
       <View style={styles.emptyContainer}>
         {loading ? (
           <View style={styles.skeletonWrapper}>
-            <View style={[styles.skeletonEmoji, { backgroundColor: COLORS.skeletonBase }]} />
-            <View style={[styles.skeletonTitle, { backgroundColor: COLORS.skeletonBase }]} />
-            <View style={[styles.skeletonBtn, { backgroundColor: COLORS.skeletonBase }]} />
+            <Animated.View style={[styles.skeletonEmoji, { backgroundColor: COLORS.skeletonBase, opacity: skeletonOpacity }]} />
+            <Animated.View style={[styles.skeletonTitle, { backgroundColor: COLORS.skeletonBase, opacity: skeletonOpacity }]} />
+            <Animated.View style={[styles.skeletonBtn, { backgroundColor: COLORS.skeletonBase, opacity: skeletonOpacity }]} />
           </View>
         ) : loadError ? (
           <>
