@@ -2988,6 +2988,7 @@ class VoiceCoach {
   }
 
   /** 分数揭晓播报 — 分数动画完成后朗读总分，营造仪式感 */
+  /** 分数揭示 — 鼓励型变体（根据最终分数传入不同语气） */
   async speakScoreReveal(score: number): Promise<void> {
     if (score >= 90) {
       await this.speak(`${score}分！满分之作！男朋友你太强了！`, true)
@@ -2999,6 +3000,42 @@ class VoiceCoach {
       await this.speak(`${score}分！及格啦，下次会更好！`, false)
     } else {
       await this.speak(`${score}分，继续加油！多拍几张一定会越拍越好！`, false)
+    }
+    // 鼓励型变体：补充一句温暖的话
+    await this.speakScoreEncouragement(score)
+  }
+
+  /** 分数段专属鼓励语（温暖补充） */
+  private async speakScoreEncouragement(score: number): Promise<void> {
+    const highPraise = [
+      '这张太惊艳了，女朋友要感动哭了！',
+      '男朋友你是偷偷请了摄影师吗！',
+      '这张可以直接当头像，太好看了！',
+    ]
+    const goodPraise = [
+      '进步好大！男朋友越拍越有感觉了～',
+      '这张很棒！继续保持，下一张冲击满分！',
+      '男朋友审美在线！再接再厉！',
+    ]
+    const okayPraise = [
+      '有亮点！多拍几张分数会更高的～',
+      '慢慢来，摄影师都是练出来的！',
+      '这张比之前好多了，继续加油！',
+    ]
+    const lowPraise = [
+      '没关系！每张大片都是练出来的～',
+      '男朋友别气馁，下次一定会更好！',
+      '第一次不够完美太正常了，多拍几张感觉就来了！',
+    ]
+
+    if (score >= 85) {
+      await this.speak(highPraise[Math.floor(Math.random() * highPraise.length)], false)
+    } else if (score >= 70) {
+      await this.speak(goodPraise[Math.floor(Math.random() * goodPraise.length)], false)
+    } else if (score >= 50) {
+      await this.speak(okayPraise[Math.floor(Math.random() * okayPraise.length)], false)
+    } else {
+      await this.speak(lowPraise[Math.floor(Math.random() * lowPraise.length)], false)
     }
   }
 
