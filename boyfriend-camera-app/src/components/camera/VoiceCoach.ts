@@ -1714,6 +1714,8 @@ class VoiceCoach {
       FACE_TIPS.EXPRESSION_STIFF,
       FACE_TIPS.EXPRESSION_STIFF_2,
       FACE_TIPS.EXPRESSION_STIFF_3,
+      '表情稍微放松一点！想想开心的事，笑得更自然～',
+      '别僵着！深呼吸一下，嘴角微微上扬，这个表情最好看～',
     ]
     await this.speak(pickRandom(tips))
   }
@@ -2467,6 +2469,7 @@ class VoiceCoach {
       '逆光的时候让女朋友稍微侧身，光线勾勒轮廓超美～',
       '逆光太强了！打开闪光灯补光，不然脸会黑黑的～',
       '换个角度！让光源打在脸的侧面或后方，轮廓会更清晰～',
+      '逆光检测到！试试打开 HDR 模式，或者让女友侧身躲开强光～',
     ]
     await this.speak(pickRandom(tips), true)
   }
@@ -3314,6 +3317,8 @@ class VoiceCoach {
       FACE_TIPS.NATURAL_SMILE_DETECTED,
       '看到笑容了！这个表情好生动，就是现在！',
       '她在笑！就是这张，按下去！',
+      '表情超自然！就是这个瞬间，咔嚓！',
+      '笑容满分！按下快门就是大片～',
     ]
     await this.speak(pickRandom(tips), false)
   }
@@ -3475,6 +3480,8 @@ class VoiceCoach {
       '周围好黑，打开闪光灯或找个光源，脸会更亮～',
       '暗光环境下照片容易糊，打开手机手电筒补补光～',
       '晚上拍照记得靠近光源，或者打开闪光灯补光～',
+      '光线不足！靠近窗户或打开闪光灯补补光～',
+      '暗光拍摄容易糊！找个光源或者打开补光灯试试～',
     ]
     await this.speak(pickRandom(tips), true)
   }
