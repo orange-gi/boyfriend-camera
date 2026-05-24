@@ -34,8 +34,6 @@ export default function DiaryScreen() {
   const [clearAllVisible, setClearAllVisible] = useState(false)
   const [loadError, setLoadError] = useState(false)
   const deleteSheetY = useRef(new Animated.Value(300)).current
-  // 骨架屏呼吸动画
-  const skeletonOpacity = useRef(new Animated.Value(0.4)).current
 
   const loadDiaryData = useCallback(async () => {
     setLoading(true)
@@ -66,23 +64,9 @@ export default function DiaryScreen() {
     loadDiaryData()
   }, []))
 
-  // 骨架屏呼吸动画
-  const shimmerAnim = useRef<Animated.CompositeAnimation | null>(null)
-  useEffect(() => {
-    shimmerAnim.current = Animated.loop(
-      Animated.sequence([
-        Animated.timing(skeletonOpacity, { toValue: 0.7, duration: 900, useNativeDriver: true }),
-        Animated.timing(skeletonOpacity, { toValue: 0.35, duration: 900, useNativeDriver: true }),
-      ])
-    )
-    shimmerAnim.current.start()
-    return () => { shimmerAnim.current?.stop() }
-  }, [skeletonOpacity])
-
-
   const showDeleteSheet = useCallback((date: string) => {
     setDeleteTarget(date)
-    Animated.spring(deleteSheetY, { toValue: 0, damping: 20, stiffness: 200, useNativeDriver: true }).start()
+    Animated.timing(deleteSheetY, { toValue: 0, duration: 220, useNativeDriver: true }).start()
   }, [deleteSheetY])
 
   const hideDeleteSheet = useCallback(() => {
@@ -300,9 +284,9 @@ export default function DiaryScreen() {
       <View style={styles.emptyContainer}>
         {loading ? (
           <View style={styles.skeletonWrapper}>
-            <Animated.View style={[styles.skeletonEmoji, { backgroundColor: COLORS.skeletonBase, opacity: skeletonOpacity }]} />
-            <Animated.View style={[styles.skeletonTitle, { backgroundColor: COLORS.skeletonBase, opacity: skeletonOpacity }]} />
-            <Animated.View style={[styles.skeletonBtn, { backgroundColor: COLORS.skeletonBase, opacity: skeletonOpacity }]} />
+            <View style={[styles.skeletonEmoji, { backgroundColor: COLORS.skeletonBase }]} />
+            <View style={[styles.skeletonTitle, { backgroundColor: COLORS.skeletonBase }]} />
+            <View style={[styles.skeletonBtn, { backgroundColor: COLORS.skeletonBase }]} />
           </View>
         ) : loadError ? (
           <>
@@ -353,7 +337,6 @@ export default function DiaryScreen() {
         }
         ListHeaderComponent={
           <>
-            {/* 标题栏 */}
             <View style={styles.header}>
               <Text style={[styles.title, { color: COLORS.textPrimary }]}>进步日记</Text>
               <View style={styles.headerActions}>
@@ -380,7 +363,6 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            {/* 统计卡片 — 统一 2×3 网格，整合核心统计和本周数据 */}
             <View style={styles.statsCard}>
               <View style={styles.statsGrid}>
                 <View style={styles.statCard}>
@@ -412,7 +394,6 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            {/* 成就徽章 — 极简：只展示最优先的 1 个徽章，避免多标签竞争注意力 */}
             {totalCount > 0 && (
               <View style={styles.badgeRow}>
                 {maxScore === 100 && (
@@ -439,7 +420,6 @@ export default function DiaryScreen() {
               </View>
             )}
 
-            {/* 本月 vs 上月对比 */}
             {(monthlyStats.monthAvg > 0 || monthlyStats.prevMonthAvg > 0) && (() => {
               const diff = monthlyStats.monthDiff
               const diffStr = diff !== 0
@@ -454,7 +434,6 @@ export default function DiaryScreen() {
               )
             })()}
 
-            {/* 进步曲线 */}
             <ProgressChart entries={entries} height={200} />
           </>
         }
@@ -462,7 +441,6 @@ export default function DiaryScreen() {
         showsVerticalScrollIndicator={false}
       />
 
-      {/* 删除确认底部弹窗 */}
       <Modal visible={!!deleteTarget} transparent animationType="fade" onRequestClose={hideDeleteSheet}>
         <TouchableOpacity
           style={styles.sheetOverlay}
@@ -475,12 +453,6 @@ export default function DiaryScreen() {
               { transform: [{ translateY: deleteSheetY }] },
             ]}
           >
-            {/* 拖动条 */}
-            <View style={styles.sheetHandle} />
-            {/* 标题 */}
-            <Text style={styles.sheetTitle}>删除记录</Text>
-            <Text style={styles.sheetSubtitle}>确定要删除这条进步记录吗？删除后不可恢复哦～</Text>
-            {/* 操作按钮 */}
             <View style={styles.sheetActions}>
               <TouchableOpacity
                 style={[styles.sheetBtn, styles.sheetCancelBtn]}
@@ -506,7 +478,6 @@ export default function DiaryScreen() {
         </TouchableOpacity>
       </Modal>
 
-      {/* 清空全部确认底部弹窗 */}
       <Modal visible={clearAllVisible} transparent animationType="fade" onRequestClose={() => setClearAllVisible(false)}>
         <TouchableOpacity
           style={styles.sheetOverlay}
@@ -514,12 +485,6 @@ export default function DiaryScreen() {
           onPress={() => setClearAllVisible(false)}
         >
           <View style={styles.sheetContainer}>
-            {/* 拖动条 */}
-            <View style={styles.sheetHandle} />
-            {/* 标题 */}
-            <Text style={styles.sheetTitle}>清空全部记录</Text>
-            <Text style={styles.sheetSubtitle}>确定要清空所有进步记录吗？此操作不可恢复哦～</Text>
-            {/* 操作按钮 */}
             <View style={styles.sheetActions}>
               <TouchableOpacity
                 style={[styles.sheetBtn, styles.sheetCancelBtn]}
@@ -663,7 +628,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     alignItems: 'center',
-    // 去背景色：父容器 bgCard 已提供容器感，子元素无需重复背景
   },
   statCardNum: {
     fontSize: 26,
@@ -694,7 +658,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    // 去装饰化：删掉 borderRadius 和背景色；分数颜色本身已承载信息
   },
   scoreNum: {
     fontSize: 24,
