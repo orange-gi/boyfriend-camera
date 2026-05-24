@@ -4253,6 +4253,32 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** 连拍高产鼓励（拍了 5/10/15 张后） */
+  async speakBurstEncourage(count: number): Promise<void> {
+    const tips = [
+      `连拍${count}张！多拍几张选最好的，这种方法超有效～`,
+      `${count}张连拍！男朋友太努力了，继续保持这个节奏！`,
+      `拍了${count}张！量变引起质变，继续加油！`,
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 进步加速提示（分数比上次提升 10 分以上时） */
+  async speakScoreJumped(previousScore: number, newScore: number): Promise<void> {
+    const diff = newScore - previousScore
+    const tips = [
+      `比上次进步了${diff}分！男朋友你开窍了！`,
+      `${previousScore}分到${newScore}分，进步${diff}分！继续保持！`,
+      `一下子进步了${diff}分！男朋友学得好快！`,
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 模板加载缓慢提示 */
+  async speakTemplateLoadingSlow(): Promise<void> {
+    await this.speak('姿势模板加载中，耐心等一下～', false)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
