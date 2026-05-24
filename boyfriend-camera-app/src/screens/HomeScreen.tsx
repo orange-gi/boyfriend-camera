@@ -52,6 +52,8 @@ export default function HomeScreen() {
 
 
   // 统一入场动画
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // 注：loadStats/checkOnboard/checkTipDismissed 仅在 mount 时执行一次，不应加入 deps
   const enterAnim = useSharedValue(0)
   useEffect(() => {
     loadStats(); checkOnboard(); checkTipDismissed()
