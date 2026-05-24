@@ -924,9 +924,7 @@ export default function CameraScreen() {
                         <Text style={styles.templateVoiceTip} numberOfLines={1}>{item.voiceTip}</Text>
                       )}
                       {item.category && (
-                        <View style={[styles.templateCategory, { backgroundColor: catColor }]}>
-                          <Text style={styles.templateCategoryText}>{item.category}</Text>
-                        </View>
+                        <Text style={[styles.templateCategoryText, { color: catColor }]}>{item.category}</Text>
                       )}
                     </TouchableOpacity>
                   )
@@ -1317,11 +1315,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
   },
+  // 去背景色：分类名仅用文字承载，删除装饰性纯色色块
   templateCategory: {
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    marginTop: 6,
+    marginTop: 4,
   },
   templateCategoryText: {
     color: '#fff',
