@@ -19,7 +19,7 @@ import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord }
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
 import { COLORS, hexAlpha } from '../theme'
-import voiceCoach from '../components/camera/VoiceCoach'
+import VoiceCoach from '../components/camera/VoiceCoach'
 
 
 
@@ -44,13 +44,13 @@ export default function DiaryScreen() {
       setPeakScore(score)
       // 加载完成后 TTS 播报（fire-and-forget，TTS 失败不影响 UI）
       if (diary.length > 0) {
-        voiceCoach.speakDiaryLoaded(diary.length)
+        VoiceCoach.speakDiaryLoaded(diary.length)
         const highScoreCount = diary.filter(r => r.score >= 80).length
         const milestone: 'first' | 'streak3' | 'streak7' | 'week10' =
           diary.length >= 10 ? 'week10' : highScoreCount >= 7 ? 'streak7' : highScoreCount >= 3 ? 'streak3' : 'first'
-        voiceCoach.speakDiaryMilestone(milestone)
+        VoiceCoach.speakDiaryMilestone(milestone)
         // 照片数量里程碑 TTS（>= 25 时额外播报，避免与 week10 重复）
-        if (diary.length >= 25) voiceCoach.speakPhotoCountMilestone(diary.length)
+        if (diary.length >= 25) VoiceCoach.speakPhotoCountMilestone(diary.length)
       }
     } catch {
       setLoadError(true)
@@ -83,7 +83,7 @@ export default function DiaryScreen() {
       await recalcPeakScore(updated)
       setRecords(updated)
       setPeakScore(updated.length > 0 ? Math.max(...updated.map(r => r.score)) : 0)
-      try { voiceCoach.speakDiaryDeleted() } catch {}
+      try { VoiceCoach.speakDiaryDeleted() } catch {}
     } catch (e: unknown) {
       Alert.alert('删除失败', '请稍后重试')
     }
@@ -100,7 +100,7 @@ export default function DiaryScreen() {
       await recalcPeakScore([])
       setRecords([])
       setPeakScore(0)
-      try { voiceCoach.speakDiaryCleared() } catch {}
+      try { VoiceCoach.speakDiaryCleared() } catch {}
     } catch (e: unknown) {
       Alert.alert('清空失败', '请稍后重试')
     }

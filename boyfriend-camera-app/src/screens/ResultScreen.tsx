@@ -28,7 +28,7 @@ import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
 import { COLORS, typography, borderRadius, hexAlpha } from '../theme'
-import voiceCoach from '../components/camera/VoiceCoach'
+import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
 type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
@@ -96,18 +96,18 @@ export default function ResultScreen() {
     const tid = setTimeout(() => {
       try {
         if (currentScore) {
-          voiceCoach.speakScoreReveal(currentScore.totalScore)
+          VoiceCoach.speakScoreReveal(currentScore.totalScore)
           // 满分时追加满分专属庆祝 TTS（接在分数播报之后）
           if (currentScore.totalScore === 100) {
-            track(() => { try { voiceCoach.speakPerfectScore(currentScore.totalScore) } catch {} }, 2500)
+            track(() => { try { VoiceCoach.speakPerfectScore(currentScore.totalScore) } catch {} }, 2500)
           }
           // 夜景场景（曝光分低+总分低）时追加夜景氛围提示
           if (currentScore.exposureScore < 20 && currentScore.totalScore < 75) {
-            track(() => { try { voiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
+            track(() => { try { VoiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
           }
         }
       } catch {}
-      track(() => { try { voiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
+      track(() => { try { VoiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
     }, 500)
     return () => clearTimeout(tid)
   }, [scoreAnimationDone, scoreResult])
@@ -129,9 +129,9 @@ export default function ResultScreen() {
 
   // 初始化 VoiceCoach（TTS 引擎）
   useEffect(() => {
-    voiceCoach.initialize().catch(() => { /* ignore init errors */ })
+    VoiceCoach.initialize().catch(() => { /* ignore init errors */ })
     return () => {
-      voiceCoach.reset()
+      VoiceCoach.reset()
     }
   }, [])
 
@@ -260,51 +260,51 @@ export default function ResultScreen() {
         const suggestCount = analysis.suggestions?.length || 0
         // 闭眼检测（expressionScore 低时触发）
         if (analysis.expressionScore < 12 && suggestCount > 0) {
-          track(() => { try { voiceCoach.speakBlinkTip() } catch {} }, 3000)
+          track(() => { try { VoiceCoach.speakBlinkTip() } catch {} }, 3000)
         }
         // 表情僵硬（expressionScore 低且无笑容时）
         if (analysis.expressionScore < 10 && suggestCount > 0) {
-          track(() => { try { voiceCoach.speakStiffExpressionTip() } catch {} }, 3200)
+          track(() => { try { VoiceCoach.speakStiffExpressionTip() } catch {} }, 3200)
         }
         // 表情优秀夸奖（expressionScore >= 18 时触发）
         if (analysis.expressionScore >= 18 && (scoreResult?.totalScore ?? 0) >= 75) {
-          track(() => { try { voiceCoach.speakExpressionGreat() } catch {} }, 4000)
+          track(() => { try { VoiceCoach.speakExpressionGreat() } catch {} }, 4000)
         }
         // 完美拍摄夸奖（总分 >= 90）
         if ((scoreResult?.totalScore ?? 0) >= 90) {
-          track(() => { try { voiceCoach.speakPerfectShotTip() } catch {} }, 3500)
+          track(() => { try { VoiceCoach.speakPerfectShotTip() } catch {} }, 3500)
         }
         // 接近满分夸奖（总分 80-89）
         if ((scoreResult?.totalScore ?? 0) >= 80 && (scoreResult?.totalScore ?? 0) < 90) {
-          track(() => { try { voiceCoach.speakAlmostGreat(scoreResult!.totalScore) } catch {} }, 3500)
+          track(() => { try { VoiceCoach.speakAlmostGreat(scoreResult!.totalScore) } catch {} }, 3500)
         }
         // 逆光/过曝
         if (analysis.problems?.includes('backlight') && suggestCount > 0) {
-          track(() => { try { voiceCoach.speakBacklightTip() } catch {} }, 3400)
+          track(() => { try { VoiceCoach.speakBacklightTip() } catch {} }, 3400)
         }
         // 欠曝/低光
         if (analysis.exposureScore < 30) {
-          track(() => { try { voiceCoach.speakLowLightWarning() } catch {} }, 3400)
+          track(() => { try { VoiceCoach.speakLowLightWarning() } catch {} }, 3400)
         }
         // 低对比度/灰蒙蒙提示
         if (analysis.problems?.includes('washed_out') && suggestCount > 0) {
-          track(() => { try { voiceCoach.speakWashedOutTip() } catch {} }, 3600)
+          track(() => { try { VoiceCoach.speakWashedOutTip() } catch {} }, 3600)
         }
         // 饱和度过高提示
         if (analysis.problems?.includes('over_saturated') && suggestCount > 0) {
-          track(() => { try { voiceCoach.speakOverSaturatedTip() } catch {} }, 3600)
+          track(() => { try { VoiceCoach.speakOverSaturatedTip() } catch {} }, 3600)
         }
         // 肤色偏色提示
         if (analysis.problems?.includes('skin_tone_cast') && suggestCount > 0) {
-          track(() => { try { voiceCoach.speakSkinToneTip() } catch {} }, 3800)
+          track(() => { try { VoiceCoach.speakSkinToneTip() } catch {} }, 3800)
         }
         // 构图裁切提示
         if (analysis.problems?.includes('careful_framing') && suggestCount > 0) {
-          track(() => { try { voiceCoach.speakFramingTip() } catch {} }, 3800)
+          track(() => { try { VoiceCoach.speakFramingTip() } catch {} }, 3800)
         }
         // 画面过满提示
         if (analysis.problems?.includes('too_crowded') && suggestCount > 0) {
-          track(() => { try { voiceCoach.speakTooFullTip() } catch {} }, 4000)
+          track(() => { try { VoiceCoach.speakTooFullTip() } catch {} }, 4000)
         }
       }
 
@@ -326,7 +326,7 @@ export default function ResultScreen() {
 
       // 稳定分低时的 TTS 提示（照片歪斜或手抖）
       if (analysis.stabilityScore < 16) {
-        track(() => { try { voiceCoach.speakStabilityIssue(tiltAngle) } catch {} }, 4000)
+        track(() => { try { VoiceCoach.speakStabilityIssue(tiltAngle) } catch {} }, 4000)
       }
 
 
@@ -335,7 +335,7 @@ export default function ResultScreen() {
         setNewRecordBanner(true)
         track(async () => {
           try {
-            await voiceCoach.speakNewRecord(0, analysis.totalScore)
+            await VoiceCoach.speakNewRecord(0, analysis.totalScore)
           } catch { /* ignore TTS errors */ }
         }, 500)
       }
@@ -344,7 +344,7 @@ export default function ResultScreen() {
 
       // 首次拍照专属 TTS 鼓励（与分数无关，独立触发）
       if (diary.length === 0) {
-        track(() => { try { voiceCoach.speakFirstPhotoTip() } catch { /* ignore */ } }, 1500)
+        track(() => { try { VoiceCoach.speakFirstPhotoTip() } catch { /* ignore */ } }, 1500)
       }
 
       // TTS 朗读夸奖文案（分数 ≥ 90 时，截取前 50 字朗读）
@@ -352,7 +352,7 @@ export default function ResultScreen() {
       if (praiseToSpeak) {
         track(async () => {
           try {
-            await voiceCoach.speak(praiseToSpeak, false)
+            await VoiceCoach.speak(praiseToSpeak, false)
           } catch { /* ignore TTS errors */ }
         }, 1500)
       }
@@ -374,7 +374,7 @@ export default function ResultScreen() {
       // 处理完成 TTS 提示
       track(async () => {
         try {
-          await voiceCoach.speakProcessingDone()
+          await VoiceCoach.speakProcessingDone()
         } catch { /* ignore TTS errors */ }
       }, 1800)
     } catch (e: unknown) {
@@ -426,10 +426,10 @@ export default function ResultScreen() {
       const pathToSave = comparisonUri || processedPath || photoPath
       const ok = await saveToAlbum(pathToSave)
       if (ok) {
-        try { await voiceCoach.speakSavedToAlbum() } catch { /* ignore TTS errors */ }
+        try { await VoiceCoach.speakSavedToAlbum() } catch { /* ignore TTS errors */ }
         Alert.alert('保存成功', '照片已保存到相册，快去发朋友圈吧～')
       } else {
-        try { await voiceCoach.speakSaveFailed() } catch { /* ignore TTS errors */ }
+        try { await VoiceCoach.speakSaveFailed() } catch { /* ignore TTS errors */ }
         Alert.alert('保存失败', '请检查相册权限')
       }
     } catch { /* ignore */ }
@@ -439,7 +439,7 @@ export default function ResultScreen() {
   }
 
   async function handleShare() {
-    voiceCoach.speakShareTip()
+    VoiceCoach.speakShareTip()
     try {
       let pathToShare = comparisonUri || processedPath || photoPath
       if (!pathToShare) {
@@ -501,7 +501,7 @@ export default function ResultScreen() {
   }
 
   function handleGoCamera() {
-    voiceCoach.speakRetryTip(scoreResult?.totalScore ?? 0)
+    VoiceCoach.speakRetryTip(scoreResult?.totalScore ?? 0)
     navigation.navigate({ name: 'Camera' as const, params: { templateId: undefined } })
   }
 
@@ -631,7 +631,7 @@ export default function ResultScreen() {
                   isActive={selectedFilter === f.key}
                   onPress={() => {
                     setSelectedFilter(f.key)
-                    voiceCoach.speakFilterApplied(f.key)
+                    VoiceCoach.speakFilterApplied(f.key)
                   }}
                 />
               ))}
