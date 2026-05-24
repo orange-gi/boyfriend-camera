@@ -899,8 +899,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: 24,
-    borderWidth: 1.5,
-    borderColor: COLORS.divider,
   },
   actionBtnSecondaryText: {
     fontSize: 14,
@@ -914,8 +912,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: 24,
-    borderWidth: 1.5,
-    borderColor: COLORS.divider,
   },
   actionBtnShareText: {
     fontSize: 14,
