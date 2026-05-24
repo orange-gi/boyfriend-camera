@@ -132,6 +132,8 @@ export default function CameraScreen() {
   const lastFaceTipRef = useRef<number>(0)
   // ========== Round 3 新增：节流微笑检测 TTS（检测到笑脸时确认） ==========
   const lastSmileDetectedRef = useRef<number>(0)
+  // ========== Round 3 新增：节流自拍姿势提示 TTS ==========
+  const lastSelfiePoseTipRef = useRef<number>(0)
   // ========== Round 3 新增：节流逆光检测 TTS ==========
   const lastBacklightRef = useRef<number>(0)
   // ========== Round 3 新增：节流低光检测 TTS ==========
@@ -282,11 +284,22 @@ export default function CameraScreen() {
       if (now - lastMultiFaceWarningRef.current < 6000) return // 6s 节流
       lastMultiFaceWarningRef.current = now
       VoiceCoach.speakMultiFaceTip(faces.length)
+      // 多人合照专属姿势提示（节流独立于上面）
+      if (faces.length === 2) {
+        VoiceCoach.speakCoupleInteractionTipV2().catch(() => {})
+      } else if (faces.length > 2) {
+        VoiceCoach.speakGroupPhotoTipV2().catch(() => {})
+      }
     }
     // 表情实时分析 TTS（前置摄像头+单人脸+8s 节流）
     if (faces.length === 1 && cameraFacing === 'front') {
       if (now - lastExpressionTipRef.current < 8000) return
       lastExpressionTipRef.current = now
+      // 自拍姿势提示（前置摄像头+无模板+12s 节流）
+      if (!activeTemplate && now - lastSelfiePoseTipRef.current >= 12000) {
+        lastSelfiePoseTipRef.current = now
+        VoiceCoach.speakSelfiePoseTip().catch(() => {})
+      }
       const face = faces[0]
       VoiceCoach.speakExpressionTip({
         smiling: face.smiling,

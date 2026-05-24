@@ -4279,6 +4279,53 @@ class VoiceCoach {
     await this.speak('姿势模板加载中，耐心等一下～', false)
   }
 
+  /** 情侣互动专属提示（进阶版） */
+  async speakCoupleInteractionTipV2(): Promise<void> {
+    const tips = [
+      '情侣照可以试试从后面环抱！甜蜜感拉满～',
+      '牵手往前走，然后转头看镜头！这个瞬间最自然～',
+      '额头碰额头嘟嘴，比正脸更甜哦～',
+      '两个人背对镜头，让男朋友从背后拍，超有氛围感～',
+      '对视笑一个！这个表情比摆拍甜一百倍～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 自拍姿势专属提示 */
+  async speakSelfiePoseTip(): Promise<void> {
+    const tips = [
+      '对着镜子自拍！手机稍微斜一点拍，角度更好看～',
+      '45度侧脸最上镜，稍微仰头看镜子里的自己～',
+      '用后置镜头对着镜子拍，画质比前置好很多～',
+      '手机和镜子成45度角，这个经典角度永远不会出错～',
+      '侧脸对镜子，露出下颌线！这个角度显脸小～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 多人合照专属提示（进阶版） */
+  async speakGroupPhotoTipV2(): Promise<void> {
+    const tips = [
+      '闺蜜照站成一排太无聊！试试错落有致，前后排错开～',
+      '中间的人稍微往前站，后排踮脚，这样大家都能露出来～',
+      '多人拍摄找一个共同视线点，避免各看各的～',
+      '最后排踮脚、前排蹲下，这个经典队形适合所有人入镜～',
+      '穿相近色系的衣服会更和谐高级，不一定要完全一样～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 夜景氛围提示 */
+  async speakNightAmbianceTip(): Promise<void> {
+    const tips = [
+      '夜色里的灯光打在侧脸上超有故事感～',
+      '晚上拍照记得开闪光灯！不然脸就是一块黑影～',
+      '霓虹灯下侧身站，让多彩的光打在侧脸上～',
+      '找个光源让光打在脸上，别让脸太暗～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
