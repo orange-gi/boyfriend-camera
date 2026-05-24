@@ -590,15 +590,12 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 下次改进提示 */}
+        {/* 下次改进提示 — 去装饰化：移除标题和项目符号，只保留核心内容 */}
         {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
           <View style={styles.suggestionBanner}>
-            <Text style={styles.suggestionBannerTitle}>下次可以这样拍</Text>
-            {scoreResult.suggestions.slice(0, 2).map((s: string, i: number) => (
-              <Text key={i} style={styles.suggestionBannerText}>
-                • {s}
-              </Text>
-            ))}
+            <Text style={styles.suggestionBannerText}>
+              {scoreResult.suggestions[0]}
+            </Text>
           </View>
         )}
 
@@ -868,17 +865,9 @@ const styles = StyleSheet.create({
     borderLeftWidth: 3,
     borderLeftColor: COLORS.textMuted,
   },
-  suggestionBannerTitle: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: COLORS.textMuted,
-    marginBottom: 6,
-    letterSpacing: 0.3,
-  },
   suggestionBannerText: {
     fontSize: 13,
     color: COLORS.textSecondary,
-    marginBottom: 3,
     lineHeight: 20,
   },
   viewShot: {
