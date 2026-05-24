@@ -320,15 +320,15 @@ const styles = StyleSheet.create({
   dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4, letterSpacing: 0.5, textTransform: 'uppercase' },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
-  poseTipCard: { paddingLeft: spacing[3], marginBottom: spacing[5] },
+  poseTipCard: { paddingLeft: spacing[3], paddingVertical: spacing[3], marginBottom: spacing[5] },
 
   // 统计卡片
   // 去边框：白卡在浅灰背景上已自然分层，不需要额外边框线
   statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], backgroundColor: COLORS.bgCard },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
-  skeletonNum: { width: 36, height: 36, borderRadius: 4, backgroundColor: COLORS.divider, marginBottom: 4 },
-  statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 52 },
+  skeletonNum: { width: 36, height: 36, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
+  statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
   statsLoadingText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 4, alignSelf: 'center' },
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
   cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
   cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5, color: COLORS.textOnPrimary },
-  newBadge: { backgroundColor: 'rgba(255,255,255,0.25)', borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2 },
+  newBadge: { backgroundColor: hexAlpha(COLORS.bgCard, 0.25), borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2 },
   newBadgeText: { color: COLORS.textOnPrimary, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold },
   cameraBtnSub: { marginTop: spacing[3] },
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
