@@ -919,7 +919,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   actionBtnPrimary: {
-    flex: 2.4,
+    flex: 1.6,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -940,7 +940,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 14,
     marginHorizontal: 20,
-    marginTop: 8,
   },
   diaryEntryBtnText: {
     fontSize: 14,
