@@ -27,7 +27,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, typography, borderRadius } from '../theme'
+import { COLORS, typography, borderRadius, hexAlpha } from '../theme'
 import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
@@ -772,6 +772,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 14,
     paddingLeft: 16,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.warning,
   },
   newRecordBannerText: {
     fontSize: 16,
@@ -901,6 +903,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: 24,
+    backgroundColor: hexAlpha(COLORS.primary, 0.08),
   },
   actionBtnSecondaryText: {
     fontSize: 14,
@@ -914,10 +917,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: 24,
+    backgroundColor: hexAlpha(COLORS.primary, 0.12),
   },
   actionBtnShareText: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: COLORS.primary,
     fontWeight: '600',
   },
   actionBtnPrimary: {
