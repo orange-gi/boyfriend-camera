@@ -12,7 +12,7 @@ import { getDiary } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import { useTemplates } from '../hooks/useTemplates'
 import { COLORS, scoreColor } from '../theme/colors'
-import { borderRadius, spacing, typography } from '../theme/index'
+import { borderRadius, spacing, typography, hexAlpha } from '../theme/index'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/homeData'
@@ -266,16 +266,18 @@ export default function HomeScreen() {
         </View>
       </Animated.View>
 
-      {/* 底部导航 */}
+      {/* 底部导航 — active 态：浅色背景 pill，与页面整体留白融为一体 */}
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Home' as const, params: undefined })} activeOpacity={0.72}>
-          <Text style={[styles.bottomNavText, { color: COLORS.primary, fontWeight: '700' }]}>首页</Text>
+          <View style={styles.bottomNavPillActive}>
+            <Text style={styles.bottomNavTextActive}>首页</Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
-          <Text style={[styles.bottomNavText, { color: COLORS.textMuted }]}>进步日记</Text>
+          <Text style={styles.bottomNavText}>进步日记</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
-          <Text style={[styles.bottomNavText, { color: COLORS.textMuted }]}>拍照</Text>
+          <Text style={styles.bottomNavText}>拍照</Text>
         </TouchableOpacity>
       </Animated.View>
 
@@ -361,11 +363,12 @@ const styles = StyleSheet.create({
   featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
   featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
 
-  // 底部导航
+  // 底部导航 — 简洁留白，active 态用浅色药丸背景替代边框装饰
   bottomNav: { flexDirection: 'row', paddingVertical: 6, gap: 6 },
-  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRadius: borderRadius.xl, gap: 8 },
-
-  bottomNavText: { fontSize: typography.fontSize.md },
+  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, borderRadius: borderRadius.xl },
+  bottomNavPillActive: { backgroundColor: hexAlpha(COLORS.primary, 0.12), borderRadius: borderRadius.xl, paddingVertical: 8, paddingHorizontal: 16 },
+  bottomNavTextActive: { fontSize: typography.fontSize.md, color: COLORS.primary, fontWeight: '700' },
+  bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
 
   // 引导弹窗
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
