@@ -91,15 +91,15 @@ export default function ResultScreen() {
           voiceCoach.speakScoreReveal(scoreResult.totalScore)
           // 满分时追加满分专属庆祝 TTS（接在分数播报之后）
           if (scoreResult.totalScore === 100) {
-            setTimeout(() => { try { voiceCoach.speakPerfectScore(100) } catch {} }, 2500)
+            track(() => { try { voiceCoach.speakPerfectScore(100) } catch {} }, 2500)
           }
           // 夜景场景（曝光分低+总分低）时追加夜景氛围提示
           if (scoreResult.exposureScore < 20 && scoreResult.totalScore < 75) {
-            setTimeout(() => { try { voiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
+            track(() => { try { voiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
           }
         }
       } catch {}
-      setTimeout(() => { try { voiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
+      track(() => { try { voiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
     }, 500)
     return () => clearTimeout(tid)
   }, [scoreAnimationDone, scoreResult])
@@ -108,6 +108,14 @@ export default function ResultScreen() {
   const { faces } = useFaceDetection()
   const mountedRef = useRef(true)
   const screenshotTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // 跟踪所有 TTS setTimeout，便于组件卸载时统一清理，防止用户在分析完成前离开页面导致 TTS 错乱
+  const ttsTimerRefs = useRef<ReturnType<typeof setTimeout>[]>([])
+  // 统一 setTimeout 追踪，避免多处 setTimeout 泄露
+  const track = (fn: () => void, ms: number) => {
+    const id = setTimeout(fn, ms)
+    ttsTimerRefs.current.push(id)
+    return id
+  }
 
   const cardSlide = useSharedValue(50)
 
@@ -130,6 +138,9 @@ export default function ResultScreen() {
     return () => {
       mountedRef.current = false
       if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
+      // 清理所有 TTS 定时器，防止用户离开页面后 TTS 仍乱触发
+      ttsTimerRefs.current.forEach(clearTimeout)
+      ttsTimerRefs.current = []
     }
   }, [photoPath])
 
@@ -242,39 +253,39 @@ export default function ResultScreen() {
         const suggestCount = analysis.suggestions?.length || 0
         // 闭眼检测（expressionScore 低时触发）
         if (analysis.expressionScore < 12 && suggestCount > 0) {
-          setTimeout(() => { try { voiceCoach.speakBlinkTip() } catch {} }, 3000)
+          track(() => { try { voiceCoach.speakBlinkTip() } catch {} }, 3000)
         }
         // 表情僵硬（expressionScore 低且无笑容时）
         if (analysis.expressionScore < 10 && suggestCount > 0) {
-          setTimeout(() => { try { voiceCoach.speakStiffExpressionTip() } catch {} }, 3200)
+          track(() => { try { voiceCoach.speakStiffExpressionTip() } catch {} }, 3200)
         }
         // 逆光/过曝
         if (analysis.problems?.includes('backlight') && suggestCount > 0) {
-          setTimeout(() => { try { voiceCoach.speakBacklightTip() } catch {} }, 3400)
+          track(() => { try { voiceCoach.speakBacklightTip() } catch {} }, 3400)
         }
         // 欠曝/低光
         if (analysis.exposureScore < 30) {
-          setTimeout(() => { try { voiceCoach.speakLowLightWarning() } catch {} }, 3400)
+          track(() => { try { voiceCoach.speakLowLightWarning() } catch {} }, 3400)
         }
         // 低对比度/灰蒙蒙提示
         if (analysis.problems?.includes('washed_out') && suggestCount > 0) {
-          setTimeout(() => { try { voiceCoach.speakWashedOutTip() } catch {} }, 3600)
+          track(() => { try { voiceCoach.speakWashedOutTip() } catch {} }, 3600)
         }
         // 饱和度过高提示
         if (analysis.problems?.includes('over_saturated') && suggestCount > 0) {
-          setTimeout(() => { try { voiceCoach.speakOverSaturatedTip() } catch {} }, 3600)
+          track(() => { try { voiceCoach.speakOverSaturatedTip() } catch {} }, 3600)
         }
         // 肤色偏色提示
         if (analysis.problems?.includes('skin_tone_cast') && suggestCount > 0) {
-          setTimeout(() => { try { voiceCoach.speakSkinToneTip() } catch {} }, 3800)
+          track(() => { try { voiceCoach.speakSkinToneTip() } catch {} }, 3800)
         }
         // 构图裁切提示
         if (analysis.problems?.includes('careful_framing') && suggestCount > 0) {
-          setTimeout(() => { try { voiceCoach.speakFramingTip() } catch {} }, 3800)
+          track(() => { try { voiceCoach.speakFramingTip() } catch {} }, 3800)
         }
         // 画面过满提示
         if (analysis.problems?.includes('too_crowded') && suggestCount > 0) {
-          setTimeout(() => { try { voiceCoach.speakTooFullTip() } catch {} }, 4000)
+          track(() => { try { voiceCoach.speakTooFullTip() } catch {} }, 4000)
         }
       }
 
@@ -298,7 +309,7 @@ export default function ResultScreen() {
       // 新纪录 + TTS 播报（撒花移除，用分数揭示动画替代庆祝反馈）
       if (isNewRecord) {
         setNewRecordBanner(true)
-        setTimeout(async () => {
+        track(async () => {
           try {
             await voiceCoach.speakNewRecord(0, analysis.totalScore)
           } catch { /* ignore TTS errors */ }
@@ -309,13 +320,13 @@ export default function ResultScreen() {
 
       // 首次拍照专属 TTS 鼓励（与分数无关，独立触发）
       if (diary.length === 0) {
-        setTimeout(() => { try { voiceCoach.speakFirstPhotoTip() } catch { /* ignore */ } }, 1500)
+        track(() => { try { voiceCoach.speakFirstPhotoTip() } catch { /* ignore */ } }, 1500)
       }
 
       // TTS 朗读夸奖文案（分数 ≥ 90 时，截取前 50 字朗读）
       const praiseToSpeak = analysis.praise?.[0]?.slice(0, 50) || ''
       if (praiseToSpeak) {
-        setTimeout(async () => {
+        track(async () => {
           try {
             await voiceCoach.speak(praiseToSpeak, false)
           } catch { /* ignore TTS errors */ }
@@ -337,7 +348,7 @@ export default function ResultScreen() {
       }, 1200)
 
       // 处理完成 TTS 提示
-      setTimeout(async () => {
+      track(async () => {
         try {
           await voiceCoach.speakProcessingDone()
         } catch { /* ignore TTS errors */ }
