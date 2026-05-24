@@ -97,7 +97,7 @@ export default function ResultScreen() {
           voiceCoach.speakScoreReveal(scoreResult.totalScore)
           // 满分时追加满分专属庆祝 TTS（接在分数播报之后）
           if (scoreResult.totalScore === 100) {
-            track(() => { try { voiceCoach.speakPerfectScore(100) } catch {} }, 2500)
+            track(() => { try { voiceCoach.speakPerfectScore(scoreResult.totalScore) } catch {} }, 2500)
           }
           // 夜景场景（曝光分低+总分低）时追加夜景氛围提示
           if (scoreResult.exposureScore < 20 && scoreResult.totalScore < 75) {
