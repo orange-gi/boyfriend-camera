@@ -39,7 +39,6 @@ export default function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>()
   const [diaryCount, setDiaryCount] = useState(0)
   const [avgScore, setAvgScore] = useState(0)
-  // 趋势状态：'up' | 'down' | 'stable' | null
   const [trend, setTrend] = useState<'up' | 'down' | 'stable' | null>(null)
   const [showOnboard, setShowOnboard] = useState(false)
   const [onboardStep, setOnboardStep] = useState(0)
@@ -49,21 +48,15 @@ export default function HomeScreen() {
   const [todayCount, setTodayCount] = useState(0)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
-
-
-  // 统一入场动画
   const enterAnim = useSharedValue(0)
   useEffect(() => {
     loadStats(); checkOnboard(); checkTipDismissed()
     enterAnim.value = withTiming(1, { duration: 350 })
   }, [])
 
-  // 首次加载统计后播报语音欢迎
   useEffect(() => {
     if (!statsLoading) VoiceCoach.speakDailyWelcome(diaryCount === 0)
   }, [statsLoading])
-
-
 
   const isNewUser = diaryCount === 0
   useEffect(() => {
@@ -83,7 +76,6 @@ export default function HomeScreen() {
         const avg = calcAvgScore(diary)
         setAvgScore(avg)
       }
-      // 计算真实趋势：比较最近 3 次 vs 更早的 3 次
       if (diary.length >= 4) {
         const sorted = [...diary]
           .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
@@ -145,7 +137,6 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-      {/* 每日小技巧 */}
       {!tipDismissed && (() => {
         const tip = getDailyTip()
         return (
@@ -165,7 +156,6 @@ export default function HomeScreen() {
         )
       })()}
 
-      {/* 统计数据条 */}
       {statsLoading ? (
         <View style={styles.statsCard}>
           <View style={styles.statsRow}>
@@ -204,9 +194,7 @@ export default function HomeScreen() {
             const scoreLevelColor = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
             return (
               <View style={styles.trendRow}>
-                <Text style={[styles.trendText, { color: trendColor }]}>
-                  {trendLabel}
-                </Text>
+                <Text style={[styles.trendText, { color: trendColor }]}>{trendLabel}</Text>
                 <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
                   <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: scoreLevelColor }]} />
                 </View>
@@ -217,7 +205,6 @@ export default function HomeScreen() {
         </Animated.View>
       ) : null}
 
-      {/* 拍照主按钮 */}
       <Animated.View style={[styles.cameraBtnWrapper, cameraStyle]}>
         <TouchableOpacity
           style={styles.cameraBtn}
@@ -243,20 +230,21 @@ export default function HomeScreen() {
         )}
       </Animated.View>
 
-      {/* 姿势提示卡 */}
       {isNewUser && (
         <Animated.View style={[styles.poseTipCard, heroStyle]}>
           <Text style={styles.poseTipText}>{FIRST_TIME_POSE_TIPS[poseTipIndex].text}</Text>
         </Animated.View>
       )}
 
-      {/* 功能特性区 */}
       <Animated.View style={[styles.featuresSection, featuresStyle]}>
         <Text style={styles.sectionTitle}>功能介绍</Text>
         <View style={styles.featuresGrid}>
           {FEATURES.map((f, i) => (
             <TouchableOpacity key={i} style={styles.featureCard} activeOpacity={0.72}
-              onPress={() => { if (f.label === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} }); else if (f.label === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined }) }}>
+              onPress={() => {
+                if (f.label === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} })
+                else if (f.label === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined })
+              }}>
               <View style={styles.featureText}>
                 <Text style={styles.featureTitle}>{f.label}</Text>
                 <Text style={styles.featureDesc}>{f.desc}</Text>
@@ -266,12 +254,9 @@ export default function HomeScreen() {
         </View>
       </Animated.View>
 
-      {/* 底部导航 — active 态：浅色背景 pill，与页面整体留白融为一体 */}
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Home' as const, params: undefined })} activeOpacity={0.72}>
-          <View style={styles.bottomNavPillActive}>
-            <Text style={styles.bottomNavTextActive}>首页</Text>
-          </View>
+          <View style={styles.bottomNavPillActive}><Text style={styles.bottomNavTextActive}>首页</Text></View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
           <Text style={styles.bottomNavText}>进步日记</Text>
@@ -283,7 +268,6 @@ export default function HomeScreen() {
 
       <View style={{ height: 40 }} />
 
-      {/* 引导弹窗 */}
       <Modal visible={showOnboard} transparent animationType="fade">
         <View style={styles.onboardOverlay}>
           <View style={styles.onboardCard}>
@@ -311,9 +295,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
-
-  // Hero
-
   dailyTipCard: { marginBottom: spacing[4] },
   dailyTipTouchable: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], paddingRight: spacing[2] },
   dailyTipContent: { flex: 1 },
@@ -321,9 +302,6 @@ const styles = StyleSheet.create({
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
   poseTipCard: { paddingLeft: spacing[3], paddingVertical: spacing[3], marginBottom: spacing[5] },
-
-  // 统计卡片
-  // 去边框：白卡在浅灰背景上已自然分层，不需要额外边框线
   statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6], backgroundColor: COLORS.bgCard },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
@@ -337,8 +315,6 @@ const styles = StyleSheet.create({
   trendBar: { flex: 1, height: 6, borderRadius: borderRadius.sm, overflow: 'hidden' },
   trendBarFill: { height: '100%', borderRadius: borderRadius.sm },
   trendPercent: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold, width: 36, textAlign: 'right', flexShrink: 0 },
-
-  // 拍照按钮
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
   cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
   cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5, color: COLORS.textOnPrimary },
@@ -347,30 +323,19 @@ const styles = StyleSheet.create({
   cameraBtnSub: { marginTop: spacing[3] },
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
   todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
-
-  // 姿势提示卡
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-
-  // 功能特性
   featuresSection: { marginBottom: spacing[5] },
   sectionTitle: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: spacing[4] },
   featuresGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[3] },
-  featureCard: {
-    width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2,
-    paddingVertical: spacing[4],
-  },
+  featureCard: { width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2, paddingVertical: spacing[4] },
   featureText: { flex: 1 },
   featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
   featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
-
-  // 底部导航 — 简洁留白，active 态用浅色药丸背景替代边框装饰
   bottomNav: { flexDirection: 'row', paddingVertical: 6, gap: 6 },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, borderRadius: borderRadius.xl },
   bottomNavPillActive: { backgroundColor: hexAlpha(COLORS.primary, 0.12), borderRadius: borderRadius.xl, paddingVertical: 8, paddingHorizontal: 16 },
   bottomNavTextActive: { fontSize: typography.fontSize.md, color: COLORS.primary, fontWeight: '700' },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
-
-  // 引导弹窗
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
   onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
