@@ -4399,6 +4399,78 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** 健身房镜子拍照提示 */
+  async speakGymMirrorTip(): Promise<void> {
+    const tips = [
+      '对着镜子侧身站！举一下哑铃超有活力，赶紧拍～',
+      '健身房镜子前光线从侧面打进来最有立体感～',
+      '穿亮色运动服在镜子前超显眼！笑一个拍～',
+      '动感单车旁光线好！侧身站着，让侧光勾勒线条～',
+      '瑜伽垫上躺着俯拍超显脸小！这个姿势绝了～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 火车窗边拍照提示 */
+  async speakTrainWindowTip(): Promise<void> {
+    const tips = [
+      '火车窗边光线均匀！侧身靠着窗，让光打在侧脸上～',
+      '车窗有反光，稍微侧身躲开玻璃反光～',
+      '透过车窗拍人，层次感绝了！试试看～',
+      '火车窗边穿纯色衣服，和窗外风景更搭～',
+      '高铁窗边超有电影感！就是现在，按快门～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 节日灯展/灯会拍照提示 */
+  async speakFestivalLanternTip(): Promise<void> {
+    const tips = [
+      '灯展灯光斑斓！让光打在侧脸上，别让灯直射眼睛～',
+      '灯串做前景超浪漫！让灯串在镜头前虚化成光斑～',
+      '灯展一般晚上拍，打开闪光灯正面补光～',
+      '灯展颜色丰富！穿纯色衣服更显主体～',
+      '灯串从上方垂下来做背景，仰头看镜头，梦幻感绝了～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 雨天室内窗边拍照提示 */
+  async speakRainyWindowTip(): Promise<void> {
+    const tips = [
+      '雨天室内窗边超有氛围！让窗户的光打在侧脸上～',
+      '玻璃上有水珠超有意境！镜头贴近玻璃拍出朦胧感～',
+      '雨滴落在窗户上形成漂亮的模糊背景，特写超美～',
+      '雨天窗户雾气蒙蒙！用手指在玻璃上画个爱心超浪漫～',
+      '雨夜路灯透过窗户照进来，暖黄色超有氛围感～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 雪天拍照提示 */
+  async speakSnowWeatherTip(): Promise<void> {
+    const tips = [
+      '雪地光线反射极强！戴墨镜或者眯眼笑～',
+      '雪地白茫茫一片，穿鲜艳衣服才不会被背景吞没～',
+      '雪地脚印可以做引导线！顺着脚印走向镜头，画面有延伸感～',
+      '雪后初晴光线最美！趁雪还没化赶紧多拍几张～',
+      '雪地仰拍超浪漫！躺在雪地上仰头看镜头，超有创意～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 演唱会现场拍照提示 */
+  async speakConcertLiveTip(): Promise<void> {
+    const tips = [
+      '演唱会灯光闪烁！举起荧光棒，让光源照亮脸部～',
+      '舞台灯光打在脸上颜色会变！等白光时赶紧拍一张～',
+      '举起双手跟着节奏摇摆，活力感十足，连拍抓拍～',
+      '演唱会拍的是氛围！对焦在脸上，让舞台灯光做背景光斑～',
+      '演唱会手机拍不清楚？开启专业模式调高 ISO～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
