@@ -89,7 +89,7 @@ export default function ComparisonCard({
               resizeMode="cover"
             />
           ) : (
-            <PlaceholderCard label="原图" color="#333" />
+            <PlaceholderCard label="原图" color={COLORS.skeletonBase} />
           )}
           <View style={[styles.cardLabel, styles.cardLabelLeft]}>
             <Text style={styles.cardLabelText}>原图</Text>
@@ -187,8 +187,9 @@ const styles = StyleSheet.create({
   cardLabelRight: {
     right: 8,
   },
+  // 激活态：改为 primary 色，与 danger 语义区分（激活=选中，非危险）
   cardLabelActive: {
-    backgroundColor: 'rgba(255,107,107,0.7)',
+    backgroundColor: COLORS.primary,
   },
   cardLabelText: {
     color: '#fff',

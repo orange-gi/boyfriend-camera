@@ -1720,6 +1720,18 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
+  /** 表情优秀夸奖（expressionScore >= 18 时触发） */
+  async speakExpressionGreat(): Promise<void> {
+    const tips = [
+      '这表情太灵动！笑得灿烂又自然，男朋友抓到了最完美的一刻！',
+      '眼睛里有光！表情满分，男朋友简直是天生的摄影师！',
+      '这笑容绝了！生动有感染力，眼睛都在发光～',
+      '表情满分！眼神灵动笑容灿烂，这张可以直接上杂志封面！',
+      '这笑容好生动！每一个角度都好看，男朋友太会抓了～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 低对比度（灰蒙蒙）提示 */
   async speakWashedOutTip(): Promise<void> {
     const tips = [

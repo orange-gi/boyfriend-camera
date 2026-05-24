@@ -259,6 +259,10 @@ export default function ResultScreen() {
         if (analysis.expressionScore < 10 && suggestCount > 0) {
           track(() => { try { voiceCoach.speakStiffExpressionTip() } catch {} }, 3200)
         }
+        // 表情优秀夸奖（expressionScore >= 18 时触发）
+        if (analysis.expressionScore >= 18 && (scoreResult?.totalScore ?? 0) >= 75) {
+          track(() => { try { voiceCoach.speakExpressionGreat() } catch {} }, 4000)
+        }
         // 逆光/过曝
         if (analysis.problems?.includes('backlight') && suggestCount > 0) {
           track(() => { try { voiceCoach.speakBacklightTip() } catch {} }, 3400)
@@ -976,8 +980,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 8,
   },
+  // 重试按钮：语义上非危险操作，用 primary 替代 danger
   errorRetryBtn: {
-    backgroundColor: COLORS.danger,
+    backgroundColor: COLORS.primary,
     borderRadius: 16,
     paddingHorizontal: 20,
     paddingVertical: 7,
