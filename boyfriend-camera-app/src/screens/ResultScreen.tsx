@@ -761,14 +761,11 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 20,
   },
-  // 去装饰化：newRecordBanner 改为左竖线风格，与 praiseBanner/suggestionBanner 统一
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 10,
     padding: 14,
     paddingLeft: 16,
-    borderLeftWidth: 3,
-    borderLeftColor: COLORS.warning,
   },
   newRecordBannerText: {
     fontSize: 16,
@@ -855,8 +852,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     padding: 14,
     paddingLeft: 16,
-    borderLeftWidth: 3,
-    borderLeftColor: COLORS.primary,
   },
   praiseBannerScore: {
     fontSize: 17,
@@ -874,8 +869,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     padding: 14,
     paddingLeft: 16,
-    borderLeftWidth: 3,
-    borderLeftColor: COLORS.textMuted,
   },
   suggestionBannerText: {
     fontSize: 13,
