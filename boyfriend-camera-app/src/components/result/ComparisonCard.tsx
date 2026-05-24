@@ -132,11 +132,9 @@ export default function ComparisonCard({
         </TouchableOpacity>
       </View>
 
-      {/* 操作提示 */}
+      {/* 操作提示 — 去冗余：一句文案覆盖两种状态 */}
       <Text style={styles.compareHint}>
-        {showOriginal
-          ? '点击「优化图」查看滤镜效果'
-          : '点击可切换原图模式对比'}
+        {showOriginal ? '滤镜已关闭，点击查看效果' : '点击查看原图对比'}
       </Text>
     </View>
   )

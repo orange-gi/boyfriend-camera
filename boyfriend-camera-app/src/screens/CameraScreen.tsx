@@ -395,8 +395,6 @@ export default function CameraScreen() {
         setCameraError(null)
         navigation.navigate({ name: 'Result' as const, params: {
           photoPath: photo.filePath,
-          photoWidth: undefined,
-          photoHeight: undefined,
           templateCategory: activeTemplateRef.current?.category ?? null,
         }})
         VoiceCoach.speakCaptureSuccess()

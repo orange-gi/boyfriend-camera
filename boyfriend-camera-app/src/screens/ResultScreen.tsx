@@ -68,7 +68,6 @@ export default function ResultScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Result'>>()
   const { photoPath, templateCategory } = route.params || {}
 
-  // photoWidth/photoHeight intentionally omitted — not used in current analysis flow
 
   const [processedPath, setProcessedPath] = useState<string>('')
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
