@@ -896,6 +896,9 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     padding: 14,
     paddingLeft: 16,
+    // 左边框：与 praiseBanner / errorBanner 保持一致的视觉语言
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.info,
   },
   suggestionBannerText: {
     fontSize: 13,
