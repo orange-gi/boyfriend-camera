@@ -416,6 +416,7 @@ export default function ResultScreen() {
         try { await voiceCoach.speakSavedToAlbum() } catch { /* ignore TTS errors */ }
         Alert.alert('保存成功', '照片已保存到相册，快去发朋友圈吧～')
       } else {
+        try { await voiceCoach.speakSaveFailed() } catch { /* ignore TTS errors */ }
         Alert.alert('保存失败', '请检查相册权限')
       }
     } catch { /* ignore */ }

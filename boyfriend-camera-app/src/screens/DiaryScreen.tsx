@@ -114,6 +114,7 @@ export default function DiaryScreen() {
       await recalcPeakScore([])
       setRecords([])
       setPeakScore(0)
+      try { voiceCoach.speakDiaryCleared() } catch {}
     } catch (e: unknown) {
       Alert.alert('清空失败', '请稍后重试')
     }

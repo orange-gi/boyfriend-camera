@@ -71,6 +71,7 @@ const FACE_TIPS = {
   CAPTURE_FAILED: '拍照失败了，再试一次吧～',
   // 相册保存
   SAVED_TO_ALBUM: '已保存到相册！可以去相册里找找看～',
+  SAVE_FAILED: '保存失败了，去设置里看看相册权限开了没～',
   // 拍照成功
   CLICK_SNAP: '咔嚓！拍好了～来看看效果吧！',
   // 闭眼检测
@@ -1827,6 +1828,21 @@ class VoiceCoach {
   /** 相册保存成功提示 */
   async speakSavedToAlbum(): Promise<void> {
     await this.speak(FACE_TIPS.SAVED_TO_ALBUM, true)
+  }
+
+  /** 保存失败提示 */
+  async speakSaveFailed(): Promise<void> {
+    await this.speak(FACE_TIPS.SAVE_FAILED)
+  }
+
+  /** 日记清空提示 */
+  async speakDiaryCleared(): Promise<void> {
+    const tips = [
+      '进步日记已清空，一切从新开始，继续加油！',
+      '日记已清空，男朋友继续加油，每次拍摄都是新起点！',
+      '从零开始！男朋友的拍照之旅还在继续，冲冲冲～',
+    ]
+    await this.speak(pickRandom(tips))
   }
 
   /** 脸在移动提示 */
