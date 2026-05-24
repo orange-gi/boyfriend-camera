@@ -311,7 +311,14 @@ export default function DiaryScreen() {
               <Text style={styles.emptyErrorTitle}>加载失败了</Text>
               <Text style={styles.emptyErrorSubtitle}>别担心，可能是网络小波动</Text>
             </View>
-            <TouchableOpacity style={styles.retryBtn} onPress={loadDiaryData} activeOpacity={0.7}>
+            <TouchableOpacity
+              style={styles.retryBtn}
+              onPress={loadDiaryData}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel="重新加载"
+              accessibilityHint="点击重新加载进步日记"
+            >
               <Text style={styles.retryBtnText}>重新加载</Text>
             </TouchableOpacity>
           </>
@@ -479,6 +486,8 @@ export default function DiaryScreen() {
                 style={[styles.sheetBtn, styles.sheetCancelBtn]}
                 onPress={hideDeleteSheet}
                 activeOpacity={0.72}
+                accessibilityRole="button"
+                accessibilityLabel="取消"
               >
                 <Text style={styles.sheetCancelBtnText}>取消</Text>
               </TouchableOpacity>
@@ -486,6 +495,9 @@ export default function DiaryScreen() {
                 style={[styles.sheetBtn, styles.sheetDeleteBtn]}
                 onPress={handleDeleteRecord}
                 activeOpacity={0.72}
+                accessibilityRole="button"
+                accessibilityLabel="删除"
+                accessibilityHint="确认删除这条进步记录"
               >
                 <Text style={styles.sheetDeleteBtnText}>删除</Text>
               </TouchableOpacity>
@@ -513,6 +525,8 @@ export default function DiaryScreen() {
                 style={[styles.sheetBtn, styles.sheetCancelBtn]}
                 onPress={() => setClearAllVisible(false)}
                 activeOpacity={0.72}
+                accessibilityRole="button"
+                accessibilityLabel="取消"
               >
                 <Text style={styles.sheetCancelBtnText}>取消</Text>
               </TouchableOpacity>
@@ -520,6 +534,9 @@ export default function DiaryScreen() {
                 style={[styles.sheetBtn, styles.sheetDeleteBtn]}
                 onPress={handleClearAll}
                 activeOpacity={0.72}
+                accessibilityRole="button"
+                accessibilityLabel="清空全部"
+                accessibilityHint="确认清空所有进步记录，此操作不可恢复"
               >
                 <Text style={styles.sheetDeleteBtnText}>清空全部</Text>
               </TouchableOpacity>

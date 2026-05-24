@@ -685,6 +685,9 @@ export default function ResultScreen() {
               style={styles.actionBtnSecondary}
               onPress={handleRetry}
               activeOpacity={0.72}
+              accessibilityRole="button"
+              accessibilityLabel="重拍"
+              accessibilityHint="返回相机重新拍摄"
             >
               <Text style={styles.actionBtnSecondaryText}>重拍</Text>
             </TouchableOpacity>
@@ -693,6 +696,9 @@ export default function ResultScreen() {
               style={styles.actionBtnShare}
               onPress={handleShare}
               activeOpacity={0.72}
+              accessibilityRole="button"
+              accessibilityLabel="分享"
+              accessibilityHint="将照片分享给好友"
             >
               <Text style={styles.actionBtnShareText}>分享</Text>
             </TouchableOpacity>
@@ -702,6 +708,9 @@ export default function ResultScreen() {
               onPress={handleSave}
               disabled={saving}
               activeOpacity={0.72}
+              accessibilityRole="button"
+              accessibilityLabel={saving ? '保存中' : '保存到相册'}
+              accessibilityHint="将照片保存到手机相册"
             >
               <Text style={styles.actionBtnPrimaryText}>{saving ? '保存中...' : '保存到相册'}</Text>
             </TouchableOpacity>
@@ -714,6 +723,9 @@ export default function ResultScreen() {
             style={styles.diaryEntryBtn}
             onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })}
             activeOpacity={0.72}
+            accessibilityRole="button"
+            accessibilityLabel="查看进步日记"
+            accessibilityHint="查看历史拍照记录和进步轨迹"
           >
             <Text style={styles.diaryEntryBtnText}>查看进步日记</Text>
           </TouchableOpacity>
