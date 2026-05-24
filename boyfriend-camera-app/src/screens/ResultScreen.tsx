@@ -190,24 +190,8 @@ export default function ResultScreen() {
       // tiltAngle: 模拟值 -15° 到 +15°
       const tiltAngle = (((ts * 17 + photoTimestamp * 3) % 300) - 150) * 0.1
 
-      // 根据模板分类推断场景类型
-      const sceneTypeMap: Record<string, 'indoor' | 'outdoor' | 'other'> = {
-        '室内日常': 'indoor',
-        '室内场景': 'indoor',
-        '室内人像': 'indoor',
-        '餐厅美食': 'indoor',
-        '户外风景': 'outdoor',
-        '城市街拍': 'outdoor',
-        '人文风景': 'outdoor',
-        '特殊风格': 'other',
-        '情侣合照': 'other',
-        '自拍技巧': 'other',
-        '构图技巧': 'other',
-        '运动健身': 'other',
-        '节日限定': 'other',
-        '夜景': 'other',
-      }
-      const sceneType = templateCategory ? (sceneTypeMap[templateCategory] ?? 'other') : 'other'
+      const sceneType = (['室内日常', '室内场景', '室内人像', '餐厅美食'].includes(templateCategory ?? '')) ? 'indoor' as const :
+        (['户外风景', '城市街拍', '人文风景'].includes(templateCategory ?? '')) ? 'outdoor' as const : 'other' as const
 
       const analysis: AnalysisResult = await analyzePhoto(
         {
