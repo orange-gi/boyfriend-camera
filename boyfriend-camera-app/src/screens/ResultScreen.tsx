@@ -846,11 +846,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // 选中态：白色内环 + 品牌色外边，清晰区分选中/未选中
-  filterCircleActive: {
-    borderWidth: 3,
-    borderColor: COLORS.primary,
-  },
+  // 选中态：依赖滤镜色圆圈 + 标签 primary 色，已足够区分
+  filterCircleActive: {},
   filterLabel: {
     fontSize: 12,
     color: COLORS.textMuted,
