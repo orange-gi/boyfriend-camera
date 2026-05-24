@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
   poseTipCard: { paddingLeft: spacing[3], paddingVertical: spacing[3], marginBottom: spacing[5] },
-  statsCard: { borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6] },
+  statsCard: { padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   skeletonNum: { width: 36, height: 36, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
