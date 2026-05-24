@@ -3253,6 +3253,54 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '水族馆隧道超适合拍仰视视角！仰头看镜头，超有沉浸感～',
     '动物园猴子会抢东西！手机别伸太长，安全第一～',
   ],
+  // ===== 新增建议池（Round 2 迭代） =====
+  posture_guidance: [
+    '身体稍微侧一点站，比正对镜头更显瘦更有气场～',
+    '肩膀往后夹一点，背部挺直，整个人看起来更有精神～',
+    '下巴稍微收紧一点，下颌线会更清晰，轮廓更好看～',
+    '脖子伸长一点，像天鹅颈一样，气质瞬间提升～',
+    '手臂稍微离开身体两侧，侧面会更显瘦～',
+    '重心放低一点，双脚分开站稳，拍照更稳更自然～',
+    '脸部平行于墙壁，这样光线分布会更均匀～',
+    '稍微踮起脚尖，拉长腿部线条，显高又显瘦～',
+  ],
+  background_enhancement: [
+    '背景稍微简洁一点会更好！让人成为画面主角～',
+    '找个干净背景站！白墙或纯色背景最安全～',
+    '背景颜色和衣服太接近了，换个角度或背景更好～',
+    '前景有点杂，避开杂物让画面更干净～',
+    '背景留白多一点，画面会更透气更有呼吸感～',
+    '找个框架构图！门框窗户都能当框架，画面更有层次～',
+  ],
+  emotion_boost: [
+    '想一件让你开心的事！这个表情最自然～',
+    '想象面前是你最爱的美食，眼睛都亮了～',
+    '假装在看旁边什么东西！眼神会超自然～',
+    '先闭眼放松，深呼吸～然后睁开眼看镜头，就是现在！',
+    '说"田七"！嘴型刚刚好，表情最自然～',
+    '想象喜欢的人！这个表情好甜～',
+    '跟着音乐轻轻点头，节奏感会让表情更生动～',
+  ],
+  couple_dynamic: [
+    '两个人靠近一点！贴贴更甜蜜～',
+    '对视一下！眼神里有光的时候就是最佳时机～',
+    '从后面环抱！经典的甜蜜姿势～',
+    '牵手背对镜头，超有氛围感～',
+    '靠肩或贴额头，自然又亲密～',
+    '两个人一起跳一下！抓拍旋转或跳跃的瞬间超自然～',
+    '玩闹时抓拍！情侣互动最生动的表情就是这样来的～',
+    '背对背站立挑战默契！这个姿势超有趣～',
+  ],
+  low_light_tips: [
+    '光线有点暗！脸稍微靠近窗户，自然光最柔和～',
+    '用手机屏幕给脸补光！白色背景对着脸就是简易补光灯～',
+    '背靠白墙站！白墙会反光，脸会更亮～',
+    '找个光源方向！脸要朝向光源才好看～',
+    '开闪光灯补光！正面闪光太硬，试试侧着打～',
+    '晚上拍照要找暖色光源！路灯下光线暖暖的～',
+    '阴天光线最柔和！不用担心过曝，随便拍都好看～',
+    '傍晚斜阳超温柔！侧身站着光影最立体～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -4669,6 +4717,28 @@ export async function analyzePhoto(
 
   if (Math.random() > 0.6) {
     suggestions.push(pickRandom(SUGGESTION_POOL.expression_bold_tips))
+  }
+
+  // ===== 新增建议池调用（Round 2） =====
+  // 姿势引导：当构图分 < 36 且非合照时
+  if (compositionScore < 36 && faceCount <= 2 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.posture_guidance))
+  }
+  // 背景增强：背景分低时
+  if (compositionScore < 34 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.background_enhancement))
+  }
+  // 情绪引导：表情分 < 14 且其他维度优秀时
+  if (expressionScore < 14 && compositionScore >= 30 && exposureScore >= 22 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.emotion_boost))
+  }
+  // 情侣互动：合照且表情分 < 16 时
+  if (isCouplePhoto && expressionScore < 16 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.couple_dynamic))
+  }
+  // 低光环境建议
+  if (safeBrightness < 80 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.low_light_tips))
   }
 
   const uniquePraise = [...new Set(praise)]
