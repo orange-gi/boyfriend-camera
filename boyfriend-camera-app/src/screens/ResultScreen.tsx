@@ -841,7 +841,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // 选中态：依赖滤镜色圆圈 + 标签 primary 色，已足够区分
+  // 选中态：依赖 filter.color 圆圈本色 + 下方标签 primary 色双重区分，无需额外样式
   filterCircleActive: {},
   filterLabel: {
     fontSize: 12,
