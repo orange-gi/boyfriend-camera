@@ -791,8 +791,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 14,
     paddingLeft: 16,
-    borderLeftWidth: 3,
-    borderLeftColor: COLORS.warning,
   },
   newRecordBannerText: {
     fontSize: 16,
@@ -896,9 +894,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     padding: 14,
     paddingLeft: 16,
-    // 左边框：与 praiseBanner / errorBanner 保持一致的视觉语言
-    borderLeftWidth: 3,
-    borderLeftColor: COLORS.info,
   },
   suggestionBannerText: {
     fontSize: 13,
