@@ -63,6 +63,17 @@ const FACE_TIPS = {
   FACE_CENTER_PERFECT: '位置完美！就是现在，笑一个按下去！',
   LOOK_LEFT_THEN_SMILE: '先看左边，再转头笑！这个表情超自然～',
   LOOK_RIGHT_THEN_SMILE: '先看右边，再转头笑！自然的笑容马上就出来了～',
+  // 新增：手势引导
+  HAND_NATURAL: '手自然垂下就好！别紧贴身体，侧面更显瘦～',
+  HAND_HIP_POSE: '双手叉腰！这个姿势显瘦又有气场～',
+  HAND_FINGERS_TIPS: '手指轻轻合拢，比张开更优雅～',
+  // 新增：表情场景
+  RELAX_SHOULDER_TIP: '肩膀放松一下！别端着，自然最美～',
+  BREATH_RELAX: '深呼吸～放松再笑，这个表情最自然～',
+  THINK_HAPPY: '想一件开心的事！表情马上活起来～',
+  // 新增：稳定性实时反馈
+  STEADY_NOW: '稳住！手不抖了，按下去～',
+  CAMERA_SHAKE_LESS: '好多了！继续稳住，按快门～',
   SELFIE_TOO_HIGH: '手机稍微放低一点点，正面拍摄会更有神～',
   SELFIE_TOO_LOW: '手机抬高一点！俯拍显脸小，下巴尖尖的～',
   // 拍摄成功
