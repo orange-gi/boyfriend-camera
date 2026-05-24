@@ -1846,6 +1846,15 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '地铁站台候车区光线相对均匀，这个角度拍效果最好～',
     '地铁里镜子玻璃可以当道具！对着镜子拍，超有都市感～',
   ],
+  // 火车站场景建议
+  train_station_specific: [
+    '火车站台等火车进站抓拍！背景有纵深感，超有故事感～',
+    '候车大厅找一处有光线的地方，侧身站让光打在脸上～',
+    '火车站台人来人往，等一班火车进站瞬间抓拍，背景超有动感～',
+    '火车站指示牌前站好，男朋友半蹲仰拍，这个视角超显腿长～',
+    '站台铁轨旁拍一张侧身照，背景有纵深感，超有电影感～',
+    '候车大厅里找彩色座椅或广告牌做背景，画面更有活力～',
+  ],
   // 超市货架场景建议
   supermarket_specific: [
     '超市货架前光线均匀！拿个零食饮料当道具，俏皮又自然～',
@@ -3749,6 +3758,10 @@ export async function analyzePhoto(
     const subwayPool = SUGGESTION_POOL.subway_specific || SUGGESTION_POOL.composition
     suggestions.push(pickRandom(subwayPool))
   }
+  // 火车站场景建议
+  if (sceneType === 'train' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.train_station_specific))
+  }
   if (sceneType === 'bookstore' && totalScore < 75) {
     const bookPool = SUGGESTION_POOL.bookstore_reading_specific || SUGGESTION_POOL.natural_light
     suggestions.push(pickRandom(bookPool))
@@ -4292,6 +4305,10 @@ export async function analyzePhoto(
   // 地铁站台场景
   if (sceneType === 'subway') {
     suggestions.push(pickRandom(SUGGESTION_POOL.subway_specific))
+  }
+  // 火车站场景
+  if (sceneType === 'train') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.train_station_specific))
   }
   // 超市货架场景
   if (sceneType === 'supermarket') {
