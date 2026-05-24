@@ -1885,6 +1885,26 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** 拍摄后稳定分低时的语音提示（tiltAngle 来自分析结果） */
+  async speakStabilityIssue(tiltAngle: number): Promise<void> {
+    const absTilt = Math.abs(tiltAngle)
+    let tips: string[]
+    if (absTilt > 20) {
+      tips = [
+        '这张照片歪了！下次拍照时把手机放正，别着急按～',
+        '拍歪了！手机和地面保持垂直，照片会更正～',
+        '角度有点歪！拍照前看一眼九宫格线，让手机保持水平～',
+      ]
+    } else {
+      tips = [
+        '稍微有点歪，下次把手机端平会更好看～',
+        '端稳一点！这张有点歪，但不影响整体～',
+        '手稍微抖了一下，下次稳住再按快门～',
+      ]
+    }
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 鼓励语播报 */
   async speakEncouragement(): Promise<void> {
     const tip = ENCOURAGEMENT[Math.floor(Math.random() * ENCOURAGEMENT.length)]

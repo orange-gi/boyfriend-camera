@@ -322,6 +322,11 @@ export default function ResultScreen() {
       // 启动入场动画
       cardSlide.value = withTiming(0, { duration: 400 })
 
+      // 稳定分低时的 TTS 提示（照片歪斜或手抖）
+      if (analysis.stabilityScore < 16) {
+        track(() => { try { voiceCoach.speakStabilityIssue(tiltAngle) } catch {} }, 4000)
+      }
+
 
       // 新纪录 + TTS 播报（撒花移除，用分数揭示动画替代庆祝反馈）
       if (isNewRecord) {
