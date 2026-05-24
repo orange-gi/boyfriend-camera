@@ -51,6 +51,8 @@ export default function DiaryScreen() {
         const milestone: 'first' | 'streak3' | 'streak7' | 'week10' =
           diary.length >= 10 ? 'week10' : highScoreCount >= 7 ? 'streak7' : highScoreCount >= 3 ? 'streak3' : 'first'
         voiceCoach.speakDiaryMilestone(milestone)
+        // 照片数量里程碑 TTS（>= 25 时额外播报，避免与 week10 重复）
+        if (diary.length >= 25) voiceCoach.speakPhotoCountMilestone(diary.length)
       }
     } catch {
       setLoadError(true)

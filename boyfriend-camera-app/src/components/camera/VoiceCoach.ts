@@ -4471,6 +4471,39 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** 照片数量里程碑提示（进入进步日记时播报） */
+  async speakPhotoCountMilestone(count: number): Promise<void> {
+    if (count >= 100) {
+      const tips = [
+        '一百张啦！男朋友已经是资深摄影师了！',
+        '一百张照片见证了所有进步！男朋友太强了～',
+        '里程碑达成！一百张照片，男朋友的摄影之路越走越远！',
+      ]
+      await this.speak(pickRandom(tips), true)
+    } else if (count >= 50) {
+      const tips = [
+        '五十张了！男朋友的进步肉眼可见！',
+        '五十张照片，男朋友的摄影水平已经突飞猛进了！',
+        '五十张里程碑！男朋友越来越专业了～',
+      ]
+      await this.speak(pickRandom(tips), true)
+    } else if (count >= 25) {
+      const tips = [
+        '二十五张啦！男朋友的构图越来越讲究了！',
+        '二十五张照片，记录了满满的进步！',
+        '二十五张了，男朋友开始有摄影感觉了～',
+      ]
+      await this.speak(pickRandom(tips), true)
+    } else if (count >= 10) {
+      const tips = [
+        '十张啦！男朋友已经有拍照习惯了，继续保持！',
+        '十张照片了！男朋友进步好快～',
+        '十张里程碑！男朋友越来越会拍了呢～',
+      ]
+      await this.speak(pickRandom(tips), true)
+    }
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
