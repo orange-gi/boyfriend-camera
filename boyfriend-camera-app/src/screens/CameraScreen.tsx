@@ -1436,8 +1436,6 @@ const styles = StyleSheet.create({
   previewTip: {
     fontSize: 12,
     color: COLORS.primary,
-    backgroundColor: COLORS.primaryLight,
-    borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 6,
     marginBottom: 12,
