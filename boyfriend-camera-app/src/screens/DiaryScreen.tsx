@@ -621,13 +621,15 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 10,
   },
+  // statCard 加浅灰背景：与 statsCard 白色底形成微弱对比，传达"网格内分区"语义
   statCard: {
     flex: 1,
     minWidth: '45%',
     borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
     alignItems: 'center',
+    backgroundColor: COLORS.bg,
   },
   statCardNum: {
     fontSize: 26,
@@ -768,10 +770,11 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: COLORS.skeletonBase,
   },
+  // badgeRow marginTop 增大至 14：与 sectionTitle marginBottom: 14 对称，视觉留白充分
   badgeRow: {
     flexDirection: 'row',
     gap: 8,
-    marginTop: 10,
+    marginTop: 14,
   },
   // 各徽章样式去装饰化：纯文字靠语义色承载信息，无多余边框/背景
   badgeText: {
