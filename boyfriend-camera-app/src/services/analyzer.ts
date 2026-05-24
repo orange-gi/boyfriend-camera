@@ -3032,6 +3032,48 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '快门速度会慢一些，让男朋友双手握稳手机～',
     '阴天拍近景特别棒！表情细节全捕捉，皮肤质感满分～',
   ],
+  // 情侣互动专属建议
+  couple_interaction_tips: [
+    '情侣照可以让男朋友从背后环抱，正面拍超有感觉～',
+    '牵手往前走，然后转头看镜头！这个瞬间最自然～',
+    '两个人背对镜头牵手，逆光侧脸超有氛围感～',
+    '试试额头碰额头嘟嘴，比正脸更显亲密～',
+    '猜拳决定谁买单的瞬间抓拍，表情最生动～',
+    '男朋友公主抱起来！这个姿势活力感十足～',
+    '对视一笑！这个表情比任何摆拍都甜～',
+    '互相整理头发或衣领，自然又亲密～',
+  ],
+  // 黄金时段拍照建议
+  golden_hour_photo_tips: [
+    '夕阳余晖打在人脸上最温柔！现在就是拍照的黄金时间～',
+    '趁现在拍！黄昏的光最会说话，男朋友按下去就是大片～',
+    'Golden Hour 来了！侧身站让光打在侧脸上，绝了～',
+    '现在光线每秒都在变美！抓紧时间多拍几张～',
+  ],
+  // 多人合照构图建议
+  group_photo_extended: [
+    '闺蜜照站成一排太无聊！试试错落有致，前后排错开～',
+    '中间的人可以稍微往前站，后排踮脚或举手，这样大家都能露出来～',
+    '多人拍摄时找一个共同视线点（比如相机），避免各看各的～',
+    '合照里穿相近色系的衣服会更和谐高级，不一定要完全一样～',
+    '最后排踮脚、前排蹲下，这个经典队形适合所有人入镜～',
+  ],
+  // 自拍专属姿势建议
+  selfie_pose_tips: [
+    '对着镜子自拍！手机稍微斜一点拍，角度更好看～',
+    '侧脸对镜子，露出下颌线！这个角度显脸小～',
+    '45度侧脸最上镜，稍微仰头看镜子里的自己～',
+    '用后置镜头对着镜子拍，画质比前置好很多～',
+    '手机和镜子成45度角，这个经典角度永远不会出错～',
+    '自拍时舌尖顶住上颚，下颌线立刻变清晰～',
+  ],
+  // 夜景氛围建议
+  night_ambiance_tips: [
+    '夜色里的灯光打在侧脸上超有故事感～',
+    '找一个光源让光打在脸上，别让脸太暗～',
+    '晚上拍照开闪光灯！不然脸就是一块黑影～',
+    '霓虹灯下侧身站，让多彩的光打在侧脸上～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3719,9 +3761,17 @@ export async function analyzePhoto(
     const couplePool = SUGGESTION_POOL.couple_specific || SUGGESTION_POOL.composition
     suggestions.push(pickRandom(couplePool))
   }
+  // 情侣互动专属建议（情侣照且有进步空间）
+  if (isCouplePhoto && faceCount >= 2 && totalScore >= 55 && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.couple_interaction_tips))
+  }
   // 自拍专属建议（首次/自拍模式）
   if (isFirstPhoto && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.selfie_tips))
+  }
+  // 自拍姿势专属建议（自拍且构图一般）
+  if (isFirstPhoto && faceCount > 0 && compositionScore < 35 && totalScore < 70) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.selfie_pose_tips))
   }
   // 构图方向建议（人太小 = 可能是要拍全身；人太多 = 换横图）
   if (facePosition && facePosition.area < 0.08 && totalScore < 75) {
@@ -3729,6 +3779,11 @@ export async function analyzePhoto(
   }
   if (faceCount > 2 && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.orientation_hint))
+    if (suggestions.length < 5) suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_extended))
+  }
+  // 夜景氛围建议（夜景且曝光一般）
+  if (brightness < 90 && sceneType !== 'indoor' && exposureScore < 25 && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.night_ambiance_tips))
   }
   // 室内背景太暗建议
   if (safeBrightness < 60 && sceneType === 'indoor' && totalScore < 75) {
