@@ -841,8 +841,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // 选中态：依赖 filter.color 圆圈本色 + 下方标签 primary 色双重区分，无需额外样式
-  filterCircleActive: {},
+  // 选中态：2px primary 边框，与未选中态形成明确区分
+  filterCircleActive: {
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+  },
   filterLabel: {
     fontSize: 12,
     color: COLORS.textMuted,
