@@ -3509,7 +3509,9 @@ export async function analyzePhoto(
   if (levelScore >= 9) praise.push(pickRandom(PRAISE_POOL.level_great))
 
   // 表情分 0-20（MLKit 人脸检测提供 expression 数据时计算）
-  let expressionScore = 20
+  // 当无有效数据时给中性分 12，避免 mock 场景默认满分导致总分虚高
+  let expressionScore = 12
+  let hasNumericExpression = false
   if (expression) {
     const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle } = expression
     // MLKit 返回 0-1 概率值，非布尔值
@@ -3543,9 +3545,11 @@ export async function analyzePhoto(
     if (rollAngle !== undefined && Math.abs(rollAngle) > 20) {
       expressionScore -= 2
     }
-    expressionScore = Math.max(0, expressionScore)
-    // 表情优秀（>= 18）
-    if (expressionScore >= 18) {
+    // 标记是否有数值类型数据（避免默认满分）
+    hasNumericExpression = typeof smiling === 'number' || typeof leftEyeOpen === 'number' || typeof rightEyeOpen === 'number'
+    expressionScore = Math.max(0, Math.min(20, expressionScore))
+    // 表情优秀（>= 18）且有有效数据时才给夸奖
+    if (expressionScore >= 18 && hasNumericExpression) {
       praise.push(pickRandom(PRAISE_POOL.expression_great))
     } else if (expressionScore >= 15) {
       praise.push(pickRandom(PRAISE_POOL.expression_good))
