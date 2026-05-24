@@ -34,7 +34,7 @@ export default function DiaryScreen() {
   const [clearAllVisible, setClearAllVisible] = useState(false)
   const [loadError, setLoadError] = useState(false)
   const deleteSheetY = useRef(new Animated.Value(300)).current
-  // 骨架屏呼吸动画（告知用户"正在加载"，而非静态占位）
+  // 骨架屏呼吸动画
   const skeletonOpacity = useRef(new Animated.Value(0.4)).current
 
   const loadDiaryData = useCallback(async () => {
@@ -497,8 +497,6 @@ export default function DiaryScreen() {
           <View style={styles.sheetContainer}>
             {/* 拖动条 */}
             <View style={styles.sheetHandle} />
-            {/* 图标 */}
-            <Text style={styles.sheetDangerIcon}>⚠️</Text>
             {/* 标题 */}
             <Text style={styles.sheetTitle}>清空全部记录</Text>
             <Text style={styles.sheetSubtitle}>确定要清空所有进步记录吗？此操作不可恢复哦～</Text>
@@ -878,10 +876,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.skeletonBase,
     marginBottom: 16,
   },
-  sheetDangerIcon: {
-    fontSize: 40,
-    marginBottom: 8,
-  },
+
   sheetTitle: {
     fontSize: 18,
     fontWeight: 'bold',
