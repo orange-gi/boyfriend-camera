@@ -3233,6 +3233,7 @@ export async function analyzePhoto(
     }
   }
   if (compositionScore >= 35) praise.push(pickRandom(PRAISE_POOL.composition_great))
+  if (compositionScore >= 28 && compositionScore < 35) praise.push(pickRandom(PRAISE_POOL.composition_okay))
   if (compositionScore >= 35 && faceCount > 0) praise.push(pickRandom(PRAISE_POOL.face_great))
   if (faceCount > 1 && compositionScore >= 30) praise.push(pickRandom(PRAISE_POOL.multiple_faces))
 
