@@ -85,7 +85,6 @@ export default function CameraScreen() {
   const [mode, setMode] = useState<CompositionMode>('grid')
   const [activeTemplate, setActiveTemplate] = useState<PoseTemplate | null>(null)
   const [showTemplateModal, setShowTemplateModal] = useState(false)
-  const [showVoiceTip, setShowVoiceTip] = useState(false)
   const [flash, setFlash] = useState<'off' | 'on' | 'auto'>('off')
   const [isCapturing, setIsCapturing] = useState(false)
   const [isActive, setIsActive] = useState(true)
@@ -147,15 +146,13 @@ export default function CameraScreen() {
     autoRecTimeoutRef.current.forEach(clearTimeout)
     autoRecTimeoutRef.current = []
     setActiveTemplate(template)
-    setShowVoiceTip(true)
     VoiceCoach.speakTemplateSelected(template.name)
     VoiceCoach.speak(`跟着半透明剪影站位～`, true)
     if (template.voiceTip) {
       const t1 = setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 2800)
       autoRecTimeoutRef.current.push(t1)
     }
-    const t2 = setTimeout(() => setShowVoiceTip(false), 6000)
-    autoRecTimeoutRef.current.push(t2)
+
     // 自动推荐的模板也记录到历史
     saveRecentTemplate(template.id)
     markUsed(template.id)
@@ -454,8 +451,6 @@ export default function CameraScreen() {
     if (template.category) {
       VoiceCoach.speakCategoryTip(template.category)
     }
-    setShowVoiceTip(true)
-    setTimeout(() => setShowVoiceTip(false), 4000)
     await saveRecentTemplate(template.id)
     setRecentIds(await getRecentTemplateIds())
     await markUsed(template.id)
@@ -465,7 +460,6 @@ export default function CameraScreen() {
     if (activeTemplate?.voiceTip) {
       VoiceCoach.speakTemplateTip(activeTemplate.voiceTip)
     }
-    setShowVoiceTip(false)
   }, [activeTemplate])
 
   const cycleFlash = useCallback(() => {
