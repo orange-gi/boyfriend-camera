@@ -640,12 +640,6 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     marginTop: 4,
   },
-  sectionTitle: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    marginBottom: 14,
-    marginTop: 8,
-  },
   recordCard: {
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
@@ -840,28 +834,6 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 40,
     alignItems: 'center',
-  },
-  sheetHandle: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: COLORS.skeletonBase,
-    marginBottom: 16,
-  },
-
-  sheetTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: COLORS.textPrimary,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  sheetSubtitle: {
-    fontSize: 14,
-    color: COLORS.textMuted,
-    textAlign: 'center',
-    lineHeight: 20,
-    marginBottom: 24,
   },
   sheetActions: {
     flexDirection: 'row',
