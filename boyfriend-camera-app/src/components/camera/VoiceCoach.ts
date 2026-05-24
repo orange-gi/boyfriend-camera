@@ -4333,6 +4333,44 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  // ===== 新增语音场景 =====
+
+  // speakBacklightTip/speakGoldenHourTip/speakPortraitModeTip/speakCompositionGuide/speakLowBattery
+  // 已在上方定义，此处补充以下新增方法：
+
+  /** 光线太暗时提醒（与 speakLowLightWarning 不同：强调找光源策略） */
+  async speakLowLightTip(): Promise<void> {
+    const tips = [
+      '光线有点暗，打开补光灯或找亮一点的地方试试～',
+      '环境光不够，靠近窗户或打开手机闪光灯～',
+      '太暗了！找个光源或者打开屏幕补光吧～',
+      '光线不足噪点会很多，找个亮一点的地方拍会更好～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 完美拍摄时的鼓励 */
+  async speakPerfectShotTip(): Promise<void> {
+    const tips = [
+      '这张绝了！完美构图加自然表情，超级加分～',
+      '哇！男朋友这张拍得超棒，有大师级水准了！',
+      '这张光线构图都在线，太好看了！',
+      '拍得真不错！发朋友圈绝对会被夸～',
+      '男朋友进步好大！继续加油～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 低电量警告（与 speakLowBattery 不同：强调催促男朋友加快速度） */
+  async speakLowBatteryWarning(): Promise<void> {
+    const tips = [
+      '手机电量低了，抓紧时间多拍几张～',
+      '电池快没啦！趁现在赶紧多拍几张好看的～',
+      '手机要没电了！男朋友快点，我们抢时间多拍几张～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
