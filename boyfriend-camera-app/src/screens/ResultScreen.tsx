@@ -598,14 +598,9 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 夸奖横幅 — 去背景色，用左侧彩色竖线作为分数段强调，简洁不抢镜 */}
+        {/* 夸奖横幅 — 纯文字，字号层级传达分数权威，无装饰线条 */}
         {!processing && (
-          <View
-            style={[
-              styles.praiseBanner,
-              { borderLeftColor: praiseColors.border },
-            ]}
-          >
+          <View style={styles.praiseBanner}>
             <Text style={[styles.praiseBannerScore, { color: praiseColors.border }]}>
               {getPraiseBannerText()}
             </Text>
@@ -786,11 +781,13 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 20,
   },
+  // 破纪录横幅：淡黄色背景强调重要性，字号和间距克制
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 10,
     padding: 14,
     paddingLeft: 16,
+    backgroundColor: COLORS.warningLight,
   },
   newRecordBannerText: {
     fontSize: 16,
@@ -872,11 +869,11 @@ const styles = StyleSheet.create({
   processingSpinner: {
     marginBottom: 12,
   },
+  // 夸奖横幅：无边框无背景，文字颜色承载分数信息层级
   praiseBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    padding: 14,
-    paddingLeft: 16,
+    paddingVertical: 8,
   },
   praiseBannerScore: {
     fontSize: 17,
@@ -889,11 +886,12 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     lineHeight: 20,
   },
+  // 建议横幅：无背景无边框，纯文字+左缩进，克制不抢镜
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    padding: 14,
-    paddingLeft: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 0,
   },
   suggestionBannerText: {
     fontSize: 13,
@@ -987,14 +985,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
-  // 去背景+左竖线：简洁优雅，避免全框背景色喧宾夺主
+  // 简洁优雅：去掉左竖线装饰，仅用文字和浅色背景传达信息层级
   errorBanner: {
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 12,
     alignItems: 'center',
-    borderLeftWidth: 3,
-    borderLeftColor: COLORS.danger,
+    backgroundColor: COLORS.dangerLight,
   },
   errorBannerBtns: {
     flexDirection: 'row',
