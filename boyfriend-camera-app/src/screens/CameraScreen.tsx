@@ -727,8 +727,6 @@ export default function CameraScreen() {
             onPress={() => setShowTemplateModal(false)}
           />
           <View style={styles.modalContent}>
-            <View style={styles.modalHandle} />
-
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>姿势模板</Text>
               <View style={styles.modalHeaderActions}>
@@ -798,7 +796,7 @@ export default function CameraScreen() {
               </View>
             )}
 
-            {/* 分类标签 */}
+            {/* 分类标签 — 去背景色：色文字承载分类信息，简洁不抢镜 */}
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -812,7 +810,7 @@ export default function CameraScreen() {
                     key={cat}
                     style={[
                       styles.categoryTab,
-                      isSelected && { backgroundColor: color },
+                      isSelected && styles.categoryTabActive,
                     ]}
                     onPress={() => {
                       if (selectedCategory !== cat) {
@@ -827,7 +825,7 @@ export default function CameraScreen() {
                     <Text
                       style={[
                         styles.categoryTabText,
-                        isSelected && styles.categoryTabTextActive,
+                        isSelected && { color },
                       ]}
                     >
                       {cat}
@@ -1268,17 +1266,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 14,
-    backgroundColor: COLORS.divider,
     marginHorizontal: 4,
+  },
+  categoryTabActive: {
+    borderBottomWidth: 2,
+    borderBottomColor: COLORS.primary,
   },
   categoryTabText: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: COLORS.textMuted,
     fontWeight: '600',
-  },
-  categoryTabTextActive: {
-    color: '#fff',
-    fontWeight: 'bold',
   },
   templateList: {
     padding: 12,
@@ -1303,7 +1300,6 @@ const styles = StyleSheet.create({
   templateThumb: {
     width: SCREEN_W / 2 - 60,
     height: 120,
-    backgroundColor: COLORS.divider,
     borderRadius: 10,
   },
   templateName: {
@@ -1313,14 +1309,11 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
   },
-  // 去背景色：分类名仅用文字承载，删除装饰性纯色色块
-  templateCategory: {
-    marginTop: 4,
-  },
   templateCategoryText: {
-    color: '#fff',
+    color: '#999',
     fontSize: 11,
-    fontWeight: 'bold',
+    fontWeight: '500',
+    marginTop: 4,
   },
   templateVoiceTip: {
     fontSize: 11,
