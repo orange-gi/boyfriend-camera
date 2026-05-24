@@ -886,16 +886,18 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     lineHeight: 20,
   },
-  // 建议横幅：无背景无边框，纯文字+左缩进，克制不抢镜
+  // 建议横幅：极淡背景色区分于普通文字，克制不抢镜
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
     paddingVertical: 10,
-    paddingHorizontal: 0,
+    paddingHorizontal: 12,
+    backgroundColor: COLORS.primaryLight,
+    borderRadius: 8,
   },
   suggestionBannerText: {
     fontSize: 13,
-    color: COLORS.textSecondary,
+    color: COLORS.primary,
     lineHeight: 20,
   },
   viewShot: {
