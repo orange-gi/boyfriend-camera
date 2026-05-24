@@ -89,18 +89,20 @@ export default function ResultScreen() {
   const [error, setError] = useState<string | null>(null)
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
   // 滤镜滑动引导 TTS（分数动画完成后播报）
+  // 修复：捕获当前 scoreResult 避免闭包过期问题
   useEffect(() => {
     if (!scoreAnimationDone) return
+    const currentScore = scoreResult
     const tid = setTimeout(() => {
       try {
-        if (scoreResult) {
-          voiceCoach.speakScoreReveal(scoreResult.totalScore)
+        if (currentScore) {
+          voiceCoach.speakScoreReveal(currentScore.totalScore)
           // 满分时追加满分专属庆祝 TTS（接在分数播报之后）
-          if (scoreResult.totalScore === 100) {
-            track(() => { try { voiceCoach.speakPerfectScore(scoreResult.totalScore) } catch {} }, 2500)
+          if (currentScore.totalScore === 100) {
+            track(() => { try { voiceCoach.speakPerfectScore(currentScore.totalScore) } catch {} }, 2500)
           }
           // 夜景场景（曝光分低+总分低）时追加夜景氛围提示
-          if (scoreResult.exposureScore < 20 && scoreResult.totalScore < 75) {
+          if (currentScore.exposureScore < 20 && currentScore.totalScore < 75) {
             track(() => { try { voiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
           }
         }
