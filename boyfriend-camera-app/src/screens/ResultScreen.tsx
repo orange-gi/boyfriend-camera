@@ -93,6 +93,10 @@ export default function ResultScreen() {
           if (scoreResult.totalScore === 100) {
             setTimeout(() => { try { voiceCoach.speakPerfectScore(100) } catch {} }, 2500)
           }
+          // 夜景场景（曝光分低+总分低）时追加夜景氛围提示
+          if (scoreResult.exposureScore < 20 && scoreResult.totalScore < 75) {
+            setTimeout(() => { try { voiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
+          }
         }
       } catch {}
       setTimeout(() => { try { voiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
