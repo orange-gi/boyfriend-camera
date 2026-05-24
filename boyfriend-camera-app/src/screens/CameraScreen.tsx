@@ -34,6 +34,7 @@ import { useSceneRecommendation } from '../hooks/useSceneRecommendation'
 import { useBatteryMonitor } from '../hooks/useBatteryMonitor'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
 import { COLORS, CATEGORY_COLORS } from '../theme/colors'
+import { hexAlpha } from '../theme'
 
 type CompositionMode = 'grid' | 'golden' | 'triangle'
 
@@ -1398,7 +1399,7 @@ const styles = StyleSheet.create({
   },
   previewOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.65)',
+    backgroundColor: hexAlpha('#000', 0.65),
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
