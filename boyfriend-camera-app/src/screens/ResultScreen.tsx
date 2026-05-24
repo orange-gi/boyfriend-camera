@@ -263,6 +263,14 @@ export default function ResultScreen() {
         if (analysis.expressionScore >= 18 && (scoreResult?.totalScore ?? 0) >= 75) {
           track(() => { try { voiceCoach.speakExpressionGreat() } catch {} }, 4000)
         }
+        // 完美拍摄夸奖（总分 >= 90）
+        if ((scoreResult?.totalScore ?? 0) >= 90) {
+          track(() => { try { voiceCoach.speakPerfectShotTip() } catch {} }, 3500)
+        }
+        // 接近满分夸奖（总分 80-89）
+        if ((scoreResult?.totalScore ?? 0) >= 80 && (scoreResult?.totalScore ?? 0) < 90) {
+          track(() => { try { voiceCoach.speakAlmostGreat(scoreResult!.totalScore) } catch {} }, 3500)
+        }
         // 逆光/过曝
         if (analysis.problems?.includes('backlight') && suggestCount > 0) {
           track(() => { try { voiceCoach.speakBacklightTip() } catch {} }, 3400)
