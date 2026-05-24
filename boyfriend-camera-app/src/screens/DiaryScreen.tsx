@@ -430,15 +430,19 @@ export default function DiaryScreen() {
             )}
 
             {/* 本月 vs 上月对比 */}
-            {(monthlyStats.monthAvg > 0 || monthlyStats.prevMonthAvg > 0) && (
-              <Text style={styles.monthCompareText}>
-                本月 {monthlyStats.monthAvg}分 · 上月 {monthlyStats.prevMonthAvg > 0 ? `${monthlyStats.prevMonthAvg}分` : '-'}{monthlyStats.monthDiff !== 0 ? (
-                  <Text style={{ color: monthlyStats.monthDiff > 0 ? COLORS.success : COLORS.textMuted }}>
-                    {' '}{monthlyStats.monthDiff > 0 ? `↑+${monthlyStats.monthDiff}` : `↓${monthlyStats.monthDiff}`}
-                  </Text>
-                ) : null}
-              </Text>
-            )}
+            {(monthlyStats.monthAvg > 0 || monthlyStats.prevMonthAvg > 0) && (() => {
+              const diff = monthlyStats.monthDiff
+              const diffStr = diff !== 0
+                ? diff > 0 ? ` ↑+${diff}` : ` ↓${diff}`
+                : ''
+              const diffColor = diff > 0 ? COLORS.success : COLORS.textMuted
+              return (
+                <Text style={styles.monthCompareText}>
+                  本月 {monthlyStats.monthAvg}分 · 上月 {monthlyStats.prevMonthAvg > 0 ? `${monthlyStats.prevMonthAvg}分` : '-'}
+                  <Text style={{ color: diffColor }}>{diffStr}</Text>
+                </Text>
+              )
+            })()}
 
             {/* 进步曲线 */}
             <ProgressChart entries={entries} height={200} />
@@ -798,29 +802,11 @@ const styles = StyleSheet.create({
     color: COLORS.success,
   },
   // 月对比行 — 极简单行文字，删掉三列布局
-  monthCompareRow: {
-    marginTop: 10,
-  },
   monthCompareText: {
     fontSize: 13,
     color: COLORS.textMuted,
     lineHeight: 20,
-  },
-  trendBannerRow: {
-    marginTop: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: 12,
-  },
-  trendBannerText: {
-    fontSize: 14,
-    fontWeight: '600',
-    flex: 1,
-  },
-  trendBannerNum: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    marginTop: 8,
   },
 
   emptyErrorCard: {
