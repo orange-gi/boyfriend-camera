@@ -4675,6 +4675,40 @@ class VoiceCoach {
     }
   }
 
+
+  /** 超市便利店场景提示 */
+  async speakSupermarketTip(): Promise<void> {
+    const tips = [
+      '拿个零食饮料当道具！俏皮可爱，互动感十足～',
+      '超市货架前超有生活感！靠过去拍一张～',
+      '便利店灯光均匀，俏皮自然～',
+      '拿个小零食比耶！活力感十足～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 室内人像场景提示 */
+  async speakIndoorPortraitTip(): Promise<void> {
+    const tips = [
+      '室内找窗边！自然光最柔和～',
+      '靠近窗户让光线打在脸上，这质感绝了！',
+      '避开窗户反光，侧身站着更自然～',
+      '室内白墙会反光！靠近墙站脸会更亮～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 户外风景场景提示 */
+  async speakOutdoorLandscapeTip(): Promise<void> {
+    const tips = [
+      '户外找干净背景！光影斑驳超有层次感～',
+      '逆光剪影好有意境！转过身来让光打在侧脸上～',
+      '户外光线充足，找好角度超容易出片！',
+      '找一面白墙或绿植背景，构图干净又高级～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
