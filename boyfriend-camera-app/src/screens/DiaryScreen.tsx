@@ -787,22 +787,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     marginTop: 10,
-    // 极简：单行展示，内容靠语义色区分，不需要多行 wrap
-  },
-  // 去装饰化：badge 无背景色，纯文字靠语义色承载信息
-  badge: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
-  badgeGold: {
-    // 金色徽章：纯文字+金色，无背景无边框；padding 使文字有容器感而非漂浮
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
-  badgeGreen: {
-    // 绿色徽章：纯文字+绿色，无背景无边框；padding 使文字有容器感
-    paddingHorizontal: 10,
-    paddingVertical: 4,
   },
   // 各徽章样式去装饰化：纯文字靠语义色承载信息，无多余边框/背景
   badgeText: {

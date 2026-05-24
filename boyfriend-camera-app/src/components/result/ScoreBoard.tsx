@@ -109,6 +109,7 @@ export default function ScoreBoard({ result }: Props) {
     { label: '构图', score: compositionScore, maxScore: 40, color: COLORS.primary },
     { label: '曝光', score: exposureScore, maxScore: 30, color: COLORS.warning },
     { label: '稳定', score: stabilityScore, maxScore: 20, color: COLORS.info },
+    { label: '表情', score: result.expressionScore, maxScore: 20, color: COLORS.success },
     { label: '水平', score: levelScore, maxScore: 10, color: COLORS.purple },
   ]
 
