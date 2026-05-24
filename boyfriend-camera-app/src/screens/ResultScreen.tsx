@@ -958,7 +958,6 @@ const styles = StyleSheet.create({
   },
   // 去背景+左竖线：简洁优雅，避免全框背景色喧宾夺主
   errorBanner: {
-    borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 12,

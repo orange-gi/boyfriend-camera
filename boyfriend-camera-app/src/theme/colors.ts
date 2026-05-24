@@ -15,13 +15,13 @@ export function scoreColor(score: number): string {
   return colors.scoreBad
 }
 
-/** 根据分数返回等级文案 */
+/** 根据分数返回等级文案（无 emoji，简洁克制） */
 export function scoreLabel(score: number): string {
-  if (score >= 90) return '💯 完美'
-  if (score >= 80) return '🌟 优秀'
-  if (score >= 70) return '👍 良好'
-  if (score >= 60) return '😊 及格'
-  return '💪 加油'
+  if (score >= 90) return '完美'
+  if (score >= 80) return '优秀'
+  if (score >= 70) return '良好'
+  if (score >= 60) return '及格'
+  return '继续加油'
 }
 
 /** 分类色板（统一使用此处定义，各页面不再重复定义）
