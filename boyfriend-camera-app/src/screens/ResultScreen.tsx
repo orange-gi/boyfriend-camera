@@ -1,5 +1,5 @@
 /** ResultScreen - 拍照结果页 */
-import React, { useEffect, useState, useRef, memo } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   View,
@@ -15,8 +15,7 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
 
-  withTiming,
-  interpolate,
+  withTiming, interpolate,
 } from 'react-native-reanimated'
 import ViewShot, { ViewShotRef } from 'react-native-view-shot'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -33,6 +32,14 @@ import voiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
 type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
+type SceneTypeLabel = 'indoor' | 'outdoor' | 'other'
+
+function getSceneType(category: string | null | undefined): SceneTypeLabel {
+  if (!category) return 'other'
+  if (['室内日常', '室内场景', '室内人像', '餐厅美食'].includes(category)) return 'indoor'
+  if (['户外风景', '城市街拍', '人文风景'].includes(category)) return 'outdoor'
+  return 'other'
+}
 
 // 模块层常量：避免 useState initializer 每次渲染重建
 const CAT_FILTER_MAP: Record<string, CoreFilter> = {
@@ -200,8 +207,7 @@ export default function ResultScreen() {
       // tiltAngle: 模拟值 -15° 到 +15°
       const tiltAngle = (((ts * 17 + photoTimestamp * 3) % 300) - 150) * 0.1
 
-      const sceneType = (['室内日常', '室内场景', '室内人像', '餐厅美食'].includes(templateCategory ?? '')) ? 'indoor' as const :
-        (['户外风景', '城市街拍', '人文风景'].includes(templateCategory ?? '')) ? 'outdoor' as const : 'other' as const
+      const sceneType = getSceneType(templateCategory)
 
       const analysis: AnalysisResult = await analyzePhoto(
         {
@@ -580,7 +586,7 @@ export default function ResultScreen() {
         {/* 处理中 — 极简加载指示器 */}
         {processing && (
           <View style={styles.processingOverlay}>
-            <ActivityIndicator size="large" color={COLORS.primary} style={{ marginBottom: 12 }} />
+            <ActivityIndicator size="large" color={COLORS.primary} style={styles.processingSpinner} />
             <Text style={styles.processingLabel}>正在分析...</Text>
           </View>
         )}
@@ -720,7 +726,7 @@ export default function ResultScreen() {
 }
 
 /** FilterItem - 带动画反馈的滤镜选项组件 */
-const FilterItem = memo(function FilterItem({
+const FilterItem = React.memo(function FilterItem({
   filter,
   isActive,
   onPress,
@@ -846,6 +852,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 24,
     paddingHorizontal: 20,
+  },
+  processingSpinner: {
+    marginBottom: 12,
   },
   praiseBanner: {
     marginHorizontal: 20,
