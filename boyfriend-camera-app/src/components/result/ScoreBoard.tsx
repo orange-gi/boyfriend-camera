@@ -123,7 +123,7 @@ export default function ScoreBoard({ result }: Props) {
         </View>
         <View style={styles.totalMeta}>
           <Text style={[styles.totalGrade, { color: totalColor }]}>{scoreLabel(totalScore)}</Text>
-          <Text style={styles.totalSubtitle}>总分100 · 构图40 · 曝光30 · 稳定20 · 水平10</Text>
+          <Text style={styles.totalSubtitle}>构图40 · 曝光30 · 表情20 · 稳定20 · 水平10 = 总分120折算100</Text>
         </View>
       </View>
 
