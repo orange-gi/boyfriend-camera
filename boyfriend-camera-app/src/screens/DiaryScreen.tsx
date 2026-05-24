@@ -621,7 +621,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 10,
   },
-  // statCard 加浅灰背景：与 statsCard 白色底形成微弱对比，传达"网格内分区"语义
+  // statCard 去掉背景：纯内容无背景，间距和字号承载分区视觉，不依赖背景色制造噪音
   statCard: {
     flex: 1,
     minWidth: '45%',
@@ -629,7 +629,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 8,
     alignItems: 'center',
-    backgroundColor: COLORS.bg,
   },
   statCardNum: {
     fontSize: 26,

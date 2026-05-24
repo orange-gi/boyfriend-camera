@@ -1350,10 +1350,12 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
+  // searchBar 无背景：边框勾勒输入区，视觉更轻；modal 白色背景足够区隔搜索区与内容区
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.divider,
+    borderWidth: 1,
+    borderColor: COLORS.divider,
     borderRadius: 10,
     paddingHorizontal: 12,
     marginHorizontal: 16,
