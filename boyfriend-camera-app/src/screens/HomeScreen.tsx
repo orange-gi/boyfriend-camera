@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
   onboardTitle: { fontSize: 22, fontWeight: '700', color: COLORS.textPrimary, marginBottom: 12, textAlign: 'center' },
   onboardDesc: { fontSize: 15, color: COLORS.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 28 },
   onboardBtns: { flexDirection: 'row', gap: 12, width: '100%' },
-  onboardBackBtn: { flex: 1, paddingVertical: 14, borderRadius: 25, borderWidth: 1.5, borderColor: COLORS.primary, alignItems: 'center' },
+  onboardBackBtn: { flex: 1, paddingVertical: 14, borderRadius: 25, alignItems: 'center' },
   onboardBackBtnText: { fontSize: 15, color: COLORS.primary, fontWeight: '600' },
   onboardNextBtn: { flex: 2, paddingVertical: 14, borderRadius: 25, backgroundColor: COLORS.primary, alignItems: 'center' },
   onboardNextBtnFull: { flex: 1 },
