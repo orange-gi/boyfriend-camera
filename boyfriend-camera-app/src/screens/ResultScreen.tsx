@@ -37,8 +37,10 @@ type SceneTypeLabel = 'indoor' | 'outdoor' | 'other'
 
 function getSceneType(category: string | null | undefined): SceneTypeLabel {
   if (!category) return 'other'
-  if (['室内日常', '室内场景', '室内人像', '餐厅美食'].includes(category)) return 'indoor'
-  if (['户外风景', '城市街拍', '人文风景'].includes(category)) return 'outdoor'
+  const indoor = ['室内日常', '室内场景', '室内人像', '餐厅美食']
+  const outdoor = ['户外风景', '城市街拍', '人文风景', '构图技巧']
+  if (indoor.includes(category)) return 'indoor'
+  if (outdoor.includes(category)) return 'outdoor'
   return 'other'
 }
 
@@ -90,21 +92,32 @@ export default function ResultScreen() {
   const [error, setError] = useState<string | null>(null)
   const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
   // 滤镜滑动引导 TTS（分数动画完成后播报）
-  // 修复：捕获当前 scoreResult 避免闭包过期问题
+  // 修复：scoreResult 作为依赖，同时在 setTimeout 内用 captured 变量捕获最新值避免闭包过期
   useEffect(() => {
     if (!scoreAnimationDone) return
-    const currentScore = scoreResult
     const tid = setTimeout(() => {
       try {
-        if (currentScore) {
-          VoiceCoach.speakScoreReveal(currentScore.totalScore)
+        if (scoreResult) {
+          VoiceCoach.speakScoreReveal(scoreResult.totalScore)
           // 满分时追加满分专属庆祝 TTS（接在分数播报之后）
-          if (currentScore.totalScore === 100) {
-            track(() => { try { VoiceCoach.speakPerfectScore(currentScore.totalScore) } catch {} }, 2500)
+          if (scoreResult.totalScore === 100) {
+            track(() => { try { VoiceCoach.speakPerfectScore(scoreResult.totalScore) } catch {} }, 2500)
           }
           // 夜景场景（曝光分低+总分低）时追加夜景氛围提示
-          if (currentScore.exposureScore < 20 && currentScore.totalScore < 75) {
+          if (scoreResult.exposureScore < 20 && scoreResult.totalScore < 75) {
             track(() => { try { VoiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
+          }
+          // 表情优秀夸奖（expressionScore >= 18 时触发）
+          if (scoreResult.expressionScore >= 18 && scoreResult.totalScore >= 75) {
+            track(() => { try { VoiceCoach.speakExpressionGreat() } catch {} }, 4000)
+          }
+          // 完美拍摄夸奖（总分 >= 90）
+          if (scoreResult.totalScore >= 90) {
+            track(() => { try { VoiceCoach.speakPerfectShotTip() } catch {} }, 3500)
+          }
+          // 接近满分夸奖（总分 80-89）
+          if (scoreResult.totalScore >= 80 && scoreResult.totalScore < 90) {
+            track(() => { try { VoiceCoach.speakAlmostGreat(scoreResult.totalScore) } catch {} }, 3500)
           }
         }
       } catch {}
@@ -255,55 +268,39 @@ export default function ResultScreen() {
         suggestions: analysis.suggestions,
       })
 
-      // ========== 本次迭代：VoiceCoach 实时 TTS 集成 — 根据分析结果触发对应语音提示 ==========
-      // 仅在分数 < 80 时给出问题提示，避免啰嗦
-      if (analysis.totalScore < 80) {
+      // VoiceCoach 实时 TTS 集成 — 根据分析结果触发对应语音提示（分数 >= 80 时给高分夸奖，< 80 时给问题提示）
+      if (analysis.totalScore >= 80) {
+        if (analysis.totalScore >= 90) {
+          track(() => { try { VoiceCoach.speakPerfectShotTip() } catch {} }, 3500)
+        } else {
+          track(() => { try { VoiceCoach.speakAlmostGreat(analysis.totalScore) } catch {} }, 3500)
+        }
+      } else {
         const suggestCount = analysis.suggestions?.length || 0
-        // 闭眼检测（expressionScore 低时触发）
         if (analysis.expressionScore < 12 && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakBlinkTip() } catch {} }, 3000)
         }
-        // 表情僵硬（expressionScore 低且无笑容时）
         if (analysis.expressionScore < 10 && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakStiffExpressionTip() } catch {} }, 3200)
         }
-        // 表情优秀夸奖（expressionScore >= 18 时触发）
-        if (analysis.expressionScore >= 18 && (scoreResult?.totalScore ?? 0) >= 75) {
-          track(() => { try { VoiceCoach.speakExpressionGreat() } catch {} }, 4000)
-        }
-        // 完美拍摄夸奖（总分 >= 90）
-        if ((scoreResult?.totalScore ?? 0) >= 90) {
-          track(() => { try { VoiceCoach.speakPerfectShotTip() } catch {} }, 3500)
-        }
-        // 接近满分夸奖（总分 80-89）
-        if ((scoreResult?.totalScore ?? 0) >= 80 && (scoreResult?.totalScore ?? 0) < 90) {
-          track(() => { try { VoiceCoach.speakAlmostGreat(scoreResult!.totalScore) } catch {} }, 3500)
-        }
-        // 逆光/过曝
         if (analysis.problems?.includes('backlight') && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakBacklightTip() } catch {} }, 3400)
         }
-        // 欠曝/低光
         if (analysis.exposureScore < 30) {
           track(() => { try { VoiceCoach.speakLowLightWarning() } catch {} }, 3400)
         }
-        // 低对比度/灰蒙蒙提示
         if (analysis.problems?.includes('washed_out') && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakWashedOutTip() } catch {} }, 3600)
         }
-        // 饱和度过高提示
         if (analysis.problems?.includes('over_saturated') && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakOverSaturatedTip() } catch {} }, 3600)
         }
-        // 肤色偏色提示
         if (analysis.problems?.includes('skin_tone_cast') && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakSkinToneTip() } catch {} }, 3800)
         }
-        // 构图裁切提示
         if (analysis.problems?.includes('careful_framing') && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakFramingTip() } catch {} }, 3800)
         }
-        // 画面过满提示
         if (analysis.problems?.includes('too_crowded') && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakTooFullTip() } catch {} }, 4000)
         }
