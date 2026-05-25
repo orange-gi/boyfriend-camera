@@ -597,7 +597,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   clearAllBtn: {
-    // 去背景色：内联按钮无需背景，白板文字靠色值承载
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
@@ -621,9 +620,8 @@ const styles = StyleSheet.create({
   // statCard 无背景色，borderRadius 无视觉作用，移除以保持代码整洁
   statCard: {
     flex: 1,
-    minWidth: '45%',
+    minWidth: '30%',
     paddingVertical: 10,
-    paddingHorizontal: 8,
     alignItems: 'center',
   },
   statCardNum: {
@@ -841,9 +839,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignItems: 'center',
   },
-  // 去装饰化：取消按钮无背景色，仅靠文字承载
-  sheetCancelBtn: {
-  },
+  sheetCancelBtn: {},
   sheetCancelBtnText: {
     fontSize: 16,
     fontWeight: '600',
