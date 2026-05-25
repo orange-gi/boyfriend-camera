@@ -599,9 +599,9 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 夸奖横幅 — 左侧色条暗示分数等级，字号层级传达分数权威 */}
+        {/* 夸奖横幅 — 左侧色条暗示分数等级，与文字颜色一致（简洁优雅：去多余强调色） */}
         {!processing && (
-          <View style={styles.praiseBanner}>
+          <View style={[styles.praiseBanner, { borderLeftColor: praiseColors.border }]}>
             <Text style={[styles.praiseBannerScore, { color: praiseColors.border }]}>
               {getPraiseBannerText()}
             </Text>
@@ -873,15 +873,13 @@ const styles = StyleSheet.create({
   processingSpinner: {
     marginBottom: 12,
   },
-  // 夸奖横幅：左侧 3px 色条暗示分数等级，克制不抢镜，符合简洁优雅极致原则
-  // 设计理由：色条是功能型装饰（传达分数类别），非冗余装饰；与背景形成明确层次
+  // 夸奖横幅：左侧 3px 色条暗示分数等级（颜色由父组件动态传入，与文字同色）
   praiseBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
     paddingVertical: 8,
     paddingLeft: 12,
     borderLeftWidth: 3,
-    borderLeftColor: hexAlpha(COLORS.primary, 0.45),
   },
   praiseBannerScore: {
     fontSize: 17,
