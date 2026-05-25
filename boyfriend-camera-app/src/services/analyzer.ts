@@ -1,7 +1,7 @@
 /**
- * analyzer.ts - 规则引擎评分与分析 v3
+ * analyzer.ts - 规则引擎评分与分析 v4
  * 纯本地分析，无需 AI
- * v3: 新增 expressionScore 表情分（0-20）
+ * v4: 扩展 SUGGESTION_POOL 对称/引导线/留白构图专项建议 + 滤镜匹配建议 + 雾霾/地铁场景建议
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { logger } from '../utils/logger'

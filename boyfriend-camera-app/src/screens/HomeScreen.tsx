@@ -17,7 +17,9 @@ import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/homeData'
 
-function getDailyTip() {
+/** 天内常量，可放模块层避免每次渲染重建 */
+interface DailyTipItem { text: string }
+function getDailyTip(): DailyTipItem {
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
   return DAILY_TIPS[dayOfYear % DAILY_TIPS.length]
 }
