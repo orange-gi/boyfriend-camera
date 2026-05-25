@@ -215,13 +215,15 @@ export default function DiaryScreen() {
       >
         {/* 左侧分数 — 无背景色：分数本身有颜色，无需色块衬底 */}
         <View style={styles.scoreBadge}>
-          <Text style={[styles.scoreNum, { color: sc }]}>{item.score}</Text>
-          <Text style={[styles.scoreGrade, { color: sc }]}>{scoreGrade}</Text>
-          {scoreDiff !== null && (
-            <Text style={[styles.scoreDiff, { color: scoreDiff >= 0 ? COLORS.success : COLORS.primary }]}>
-              {scoreDiff > 0 ? `+${scoreDiff}` : `${scoreDiff}`}
-            </Text>
-          )}
+          <View style={styles.scoreRow}>
+            <Text style={[styles.scoreNum, { color: sc }]}>{item.score}</Text>
+            {scoreDiff !== null && (
+              <Text style={[styles.scoreDiff, { color: scoreDiff >= 0 ? COLORS.success : COLORS.primary }]}>
+                {scoreDiff > 0 ? `+${scoreDiff}` : `${scoreDiff}`}
+              </Text>
+            )}
+          </View>
+          <Text style={styles.scoreGrade}>{scoreGrade}</Text>
         </View>
 
         {/* 右侧内容 */}
@@ -595,22 +597,30 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     gap: 14,
   },
+  // 去装饰化：分数主数字 + diff 同行，grade 作为下标注；视觉更舒展
   scoreBadge: {
     width: 56,
-    height: 56,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     flexShrink: 0,
+    paddingVertical: 4,
+  },
+  scoreRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 2,
   },
   scoreNum: {
     fontSize: 24,
     fontWeight: 'bold',
-    lineHeight: 28,
+    lineHeight: 26,
   },
+  // grade 作为下标注（小字 muted 色），与主分数形成层级
   scoreGrade: {
-    fontSize: 11,
-    fontWeight: 'bold',
-    marginTop: -2,
+    fontSize: 10,
+    fontWeight: '600',
+    color: COLORS.textMuted,
+    marginTop: 1,
   },
 
   recordContent: {
