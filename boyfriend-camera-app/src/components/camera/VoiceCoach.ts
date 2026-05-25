@@ -4593,6 +4593,86 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** ===== 2026-05-25 新增 TTS 场景 ===== */
+
+  /** 对焦失焦提醒 */
+  async speakFocusLost(): Promise<void> {
+    const tips = [
+      '对焦跑掉了！点一下屏幕上的人脸位置，重新对焦～',
+      '对焦没对上！用手指点一下屏幕中间，让相机重新找到你～',
+      '相机对焦丢失了！在屏幕上点击人物位置，重新对焦～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 预览模式下确认拍摄 */
+  async speakPreviewReady(): Promise<void> {
+    const tips = [
+      '预览好了吗？准备好了就按快门吧～',
+      '这个角度不错！就是现在，按下去～',
+      '预览效果很好！按快门记录下来吧～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+
+  /** 持续稳定时的确认提示 */
+  async speakSteadyConfirmed(): Promise<void> {
+    const tips = [
+      '稳了稳了！就是现在，按下去就是大片！',
+      '手稳住了！姿势也对，按快门！',
+      '稳如磐石！这个瞬间绝了，按下去！',
+      '稳稳的！光线也刚好，就是这张了！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+
+  /** 拍摄后夸奖确认（增强用户信心） */
+  async speakPhotoConfirmation(): Promise<void> {
+    const tips = [
+      '这张拍得不错！继续拍下去～',
+      '拍到了！多拍几张选最好的～',
+      '按下了！就是这张，感觉不错～',
+      '咔嚓！这张可以，继续保持～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 定时拍照倒计时中 */
+  async speakTimerRunning(seconds: number): Promise<void> {
+    const tips = [
+      `${seconds}秒后拍摄～摆好姿势别动哦～`,
+      `还有${seconds}秒！姿势准备好，马上拍～`,
+      `倒计时${seconds}秒！准备好了吗～`,
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 夜间手持不稳警告 */
+  async speakNightHandheldWarning(): Promise<void> {
+    const tips = [
+      '晚上光线暗！靠在墙上或找个支撑点拍～',
+      '晚上手机容易抖！把手机放在桌面或靠在墙上更稳～',
+      '夜间拍照要更稳！双手握手机，深呼吸后按快门～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 滤镜选中确认 */
+  async speakFilterSelected(filterName: string): Promise<void> {
+    const names: Record<string, string> = {
+      warm: '暖黄', cool: '冷调', vivid: '生动', soft: '柔和',
+      bw: '黑白', portrait: '人像', food: '美食', cinematic: '电影',
+    }
+    const label = names[filterName] || filterName
+    const tips = [
+      `已切换到${label}滤镜！`,
+      `${label}色调！感觉不错吧～`,
+      `滤镜换成${label}了！好看～`,
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
