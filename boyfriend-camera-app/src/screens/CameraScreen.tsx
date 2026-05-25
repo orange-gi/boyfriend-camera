@@ -1193,8 +1193,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 16,
   },
-  // modalHeaderActions 已移除（从未在 JSX 中使用）
-  // modalHandle 已移除（从未在 JSX 中使用）
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
