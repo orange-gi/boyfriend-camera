@@ -45,14 +45,11 @@ export const colors = {
   // 分割线 & 边框
   divider: '#EEEEEE',
   border: '#E8E8E8',
-  borderLight: '#F0F0F0',
 
   // Skeleton
   skeletonBase: '#EBEBEB',
-  skeletonHighlight: '#F5F5F5',
 
   // 滤镜色
-
   filterWarm: '#FF8C00',
   filterCool: '#4A90D9',
   filterVivid: '#FF6B6B',
@@ -61,9 +58,6 @@ export const colors = {
   filterCinematic: '#5B7FA6',
   filterPortrait: '#E8B4C8',
   filterFood: '#FF9A3C',
-
-  // 主题渐变色（仅 gradientBlue 在 DiaryScreen 中实际使用）
-  gradientBlue: '#E3F2FD',
 
   // 分类标签色
   categoryIndoor: '#FF9F43',
@@ -95,16 +89,6 @@ export const colors = {
   whiteAlpha90: 'rgba(255,255,255,0.9)',
   whiteAlpha95: 'rgba(255,255,255,0.95)',
 
-  // 评分横幅渐变背景（按分数段）
-  scoreGreatBg: '#FFF0E8',
-  scoreOkBg: '#F5F8FF',
-  scoreLowBg: '#FFF5F5',
-  // 评分横幅边框
-  scoreOkBorder: '#A0A0E0',
-  // 评分横幅 glow
-  scoreGreatGlow: 'rgba(255,180,80,0.18)',
-  scoreOkGlow: 'rgba(160,160,224,0.15)',
-  scoreLowGlow: 'rgba(255,107,107,0.12)',
 } as const
 
 // ─────────────────────────────────────────────
