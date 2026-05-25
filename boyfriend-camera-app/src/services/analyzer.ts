@@ -3325,6 +3325,28 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '单侧硬光让脸上阴影很重，侧身稍微转过来让光更均匀～',
     '光源太集中了，脸上的阴影好明显，找两个光源或者用反光板补补～',
   ],
+  // 强日光户外建议（正午/夏季户外）
+  harsh_sunlight_outdoor: [
+    '户外阳光太强了！找树荫或建筑阴影处，光线更柔和～',
+    '正午阳光太硬脸上有硬阴影！等云遮住或者找个阴凉处～',
+    '阳光直晒容易过曝，侧身站让光打在侧脸上更有立体感～',
+    '户外强光下逆光拍剪影超美！转过身让轮廓发光～',
+    '戴墨镜超酷！摘下墨镜的一瞬间抓拍，眼神最灵动～',
+  ],
+  // 雾霾天/沙尘天建议
+  smoke_haze_tips: [
+    '今天天气有点雾霾，光线比较柔和反而适合拍照～',
+    '雾霾天光线散射后超柔和！找个前景虚化，层次感绝了～',
+    '雾霾天背景朦胧有氛围感！让主体清晰、背景柔化，层次分明～',
+    '这种天气拍侧脸超有感觉！柔和的光线让皮肤看起来超好～',
+  ],
+  // 地铁/地下空间暗光建议
+  metro_subway_tips: [
+    '地铁站光线偏暗偏冷，找个灯光充足的位置站好～',
+    '地铁站台等车时让光打在脸上，开闪光灯补补光～',
+    '地铁出口光差大！稍微等眼睛适应后再拍，避免脸太黑～',
+    '地下空间人工光偏冷偏暗，侧身站让光打在侧脸上～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3520,6 +3542,21 @@ export async function analyzePhoto(
   if (brightness > 200 && sceneType === 'outdoor' && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.over_saturated))
     problems.push('over_saturated')
+  }
+
+  // 强日光户外建议：正午/夏季户外亮度高且直射
+  if (brightness > 170 && sceneType === 'outdoor' && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.harsh_sunlight_outdoor))
+  }
+
+  // 雾霾天建议：户外亮度偏低且散射光柔和（用简单亮度范围，不依赖后定义变量）
+  if (brightness >= 80 && brightness <= 160 && sceneType === 'outdoor' && exposureScore >= 15 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.smoke_haze_tips))
+  }
+
+  // 地铁/地下空间暗光建议
+  if (sceneType === 'subway' && brightness < 120 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.metro_subway_tips))
   }
 
   // 室内暖黄光源或有色灯光下，可能影响肤色
