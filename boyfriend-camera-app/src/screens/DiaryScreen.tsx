@@ -134,9 +134,9 @@ export default function DiaryScreen() {
   const totalCount = records.length
   const avgScore = calcAvgScore(records)
 
-  // 总进步（第一条=最旧 - 最后一条=最新）：进步为正说明越拍越好
+  // 总进步 = 最新得分 - 初始得分（正数代表进步，负数代表退步）
   const totalProgress = totalCount >= 2
-    ? records[records.length - 1].score - records[0].score
+    ? records[0].score - records[records.length - 1].score
     : 0
 
   // 最高分：优先使用存储的巅峰分，兼顾日记内最高
