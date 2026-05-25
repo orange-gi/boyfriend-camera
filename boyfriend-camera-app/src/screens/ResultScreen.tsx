@@ -609,9 +609,9 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 夸奖横幅 — 左侧色条暗示分数等级，与文字颜色一致（简洁优雅：去多余强调色） */}
+        {/* 夸奖横幅 — 文字颜色已暗示分数等级，无需多余左侧色条 */}
         {!processing && (
-          <View style={[styles.praiseBanner, { borderLeftColor: praiseColors.border }]}>
+          <View style={styles.praiseBanner}>
             <Text style={[styles.praiseBannerScore, { color: praiseColors.border }]}>
               {getPraiseBannerText()}
             </Text>
@@ -792,19 +792,17 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 20,
   },
-  // 破纪录横幅：淡黄色背景强调重要性，字号和间距克制
+  // 破纪录横幅：去掉黄色背景，字重和大字号已传达重要性，避免同色块堆砌
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 10,
-    padding: 14,
-    paddingLeft: 16,
-    backgroundColor: COLORS.warningLight,
+    paddingVertical: 8,
   },
   newRecordBannerText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
-    color: COLORS.warning,
-    marginBottom: 4,
+    color: COLORS.success,
+    marginBottom: 2,
   },
   newRecordBannerSub: {
     fontSize: 13,
