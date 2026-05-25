@@ -823,8 +823,7 @@ export default function CameraScreen() {
               </View>
             ) : templatesError ? (
               <View style={styles.loadingContainer}>
-                <Text style={styles.emptyStateIcon}>📡</Text>
-                <Text style={styles.emptyStateTitle}>网络不给力～</Text>
+                <Text style={styles.emptyStateTitle}>网络连接失败</Text>
                 <Text style={styles.loadingText}>{templatesError}</Text>
                 <TouchableOpacity style={styles.retryBtn} onPress={refresh} activeOpacity={0.72}>
                   <Text style={styles.retryBtnText}>重新加载模板</Text>
@@ -834,7 +833,7 @@ export default function CameraScreen() {
               <View style={styles.loadingContainer}>
                 {selectedCategory === '收藏' ? (
                   <>
-                    <Text style={styles.loadingText}>💛 还没有收藏任何模板</Text>
+                    <Text style={styles.loadingText}>还没有收藏任何模板</Text>
                     <Text style={[styles.loadingText, { fontSize: 12, marginTop: 6, color: COLORS.textMuted }]}>长按模板可收藏，下次快速找到～</Text>
                   </>
                 ) : templateSearch ? (
@@ -1290,10 +1289,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 13,
     fontWeight: 'bold',
-  },
-  emptyStateIcon: {
-    fontSize: 48,
-    marginBottom: 12,
   },
   emptyStateTitle: {
     fontSize: 18,
