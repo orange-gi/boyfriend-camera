@@ -350,6 +350,31 @@ export default function ResultScreen() {
         track(() => { try { VoiceCoach.speakFirstPhotoTip() } catch { /* ignore */ } }, 1500)
       }
 
+      // 稳定完美时的 TTS 表扬（与低分时的 speakStabilityIssue 互补）
+      if (analysis.stabilityScore === 20 && analysis.totalScore < 80) {
+        track(() => { try { VoiceCoach.speakStabilityPerfect() } catch {} }, 4000)
+      }
+
+      // 构图优秀时的 TTS 表扬
+      if (analysis.compositionScore >= 18 && analysis.totalScore < 80) {
+        track(() => { try { VoiceCoach.speakCompositionGreat() } catch {} }, 4200)
+      }
+
+      // 维度进步检测 TTS（对比上一张照片的各维度分）
+      if (lastRecord && analysis.totalScore < 80) {
+        if (analysis.compositionScore > (lastRecord.compositionScore || 0) + 3) {
+          track(() => { try { VoiceCoach.speakImprovementDetected('composition') } catch {} }, 4500)
+        } else if (analysis.exposureScore > (lastRecord.exposureScore || 0) + 3) {
+          track(() => { try { VoiceCoach.speakImprovementDetected('exposure') } catch {} }, 4500)
+        } else if (analysis.stabilityScore > (lastRecord.stabilityScore || 0) + 3) {
+          track(() => { try { VoiceCoach.speakImprovementDetected('stability') } catch {} }, 4500)
+        } else if (analysis.expressionScore > (lastRecord.expressionScore || 0) + 3) {
+          track(() => { try { VoiceCoach.speakImprovementDetected('expression') } catch {} }, 4500)
+        } else if (analysis.levelScore > (lastRecord.levelScore || 0) + 3) {
+          track(() => { try { VoiceCoach.speakImprovementDetected('level') } catch {} }, 4500)
+        }
+      }
+
       // TTS 朗读夸奖文案（分数 ≥ 90 时，截取前 50 字朗读）
       const praiseToSpeak = analysis.praise?.[0]?.slice(0, 50) || ''
       if (praiseToSpeak) {
