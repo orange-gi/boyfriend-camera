@@ -3428,6 +3428,29 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '多人拍照时对焦在中间的人，这样前后都能清晰～',
     '合照表情要同步！大家统一说"茄子"或"田七"，表情最一致～',
   ],
+  // v5 新增：抬头角度 / 双下巴预防建议（head tilt 相关场景）
+  chin_angle: [
+    '稍微抬点头，下巴微微收紧，脸部轮廓会更清晰～',
+    '头微微往上抬一点，避免下巴堆叠，侧面轮廓更利落～',
+    '挺直脖颈抬点头，双下巴藏起来，侧颜更精致～',
+    '头部稍微上抬，让下巴和脖子呈一条直线，仪态会好很多～',
+    '别低头！抬起下巴收紧脖颈，气质立刻不一样～',
+    '从下往上拍时让对方把下巴抬起来，脸会更显小～',
+  ],
+  // v5 新增：手部遮挡脸部建议
+  hand_face_occlusion: [
+    '手不要挡脸！自然垂在身体两侧或放在下巴旁边，比挡脸更自然～',
+    '捂嘴显脸小，但捂半边脸就有点奇怪了，换个姿势吧～',
+    '用手托腮时别太用力，轻轻搭着才有慵懒感～',
+    '比耶小心不要挡眼睛，把手指分开举高一点更活泼～',
+  ],
+  // v5 新增：玻璃反光 / 镜面拍摄建议
+  reflection_photo_tips: [
+    '玻璃上有反光时让脸贴近一点，减少杂乱的背景倒影～',
+    '镜面自拍稍微斜一点拍，避免拍到镜头本身～',
+    '雨后玻璃有水珠时拍特写，朦胧感很加分～',
+    '反光太强时用手挡在镜头旁边，减少玻璃反光～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3721,6 +3744,7 @@ export async function analyzePhoto(
     // 头部过度倾斜（影响表情自然度）
     if (rollAngle !== undefined && Math.abs(rollAngle) > 20) {
       expressionScore -= 2
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.chin_angle))
     }
     // 标记是否有数值类型数据（避免默认满分）
     hasNumericExpression = typeof smiling === 'number' || typeof leftEyeOpen === 'number' || typeof rightEyeOpen === 'number'
