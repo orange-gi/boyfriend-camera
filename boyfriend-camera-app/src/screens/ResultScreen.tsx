@@ -870,12 +870,10 @@ const styles = StyleSheet.create({
   processingSpinner: {
     marginBottom: 12,
   },
-  // 夸奖横幅：左侧 3px 色条暗示分数等级（颜色由父组件动态传入，与文字同色）
   praiseBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
     paddingVertical: 8,
-    paddingLeft: 0,
     borderRadius: 8,
   },
   praiseBannerScore: {
