@@ -622,11 +622,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 10,
   },
-  // statCard 去掉背景：纯内容无背景，间距和字号承载分区视觉，不依赖背景色制造噪音
+  // statCard 无背景色，borderRadius 无视觉作用，移除以保持代码整洁
   statCard: {
     flex: 1,
     minWidth: '45%',
-    borderRadius: 12,
     paddingVertical: 10,
     paddingHorizontal: 8,
     alignItems: 'center',
