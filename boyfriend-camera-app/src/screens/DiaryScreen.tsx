@@ -18,7 +18,7 @@ import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, hexAlpha, borderRadius } from '../theme'
+import { COLORS, borderRadius } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 
 export default function DiaryScreen() {
@@ -634,28 +634,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: -2,
   },
-  scoreBarRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6,
-    gap: 8,
-  },
-  scoreBarTrack: {
-    flex: 1,
-    height: 5,
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  scoreBarFill: {
-    height: '100%',
-    borderRadius: 3,
-  },
-  scoreBarNum: {
-    fontSize: 12,
-    fontWeight: '600',
-    minWidth: 34,
-    textAlign: 'right',
-  },
+
   recordContent: {
     flex: 1,
   },
