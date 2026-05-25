@@ -4658,21 +4658,6 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
-
-  /** 滤镜选中确认 */
-  async speakFilterSelected(filterName: string): Promise<void> {
-    const names: Record<string, string> = {
-      warm: '暖黄', cool: '冷调', vivid: '生动', soft: '柔和',
-      bw: '黑白', portrait: '人像', food: '美食', cinematic: '电影',
-    }
-    const label = names[filterName] || filterName
-    const tips = [
-      `已切换到${label}滤镜！`,
-      `${label}色调！感觉不错吧～`,
-      `滤镜换成${label}了！好看～`,
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }

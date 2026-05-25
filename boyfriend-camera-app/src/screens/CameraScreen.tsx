@@ -1187,26 +1187,14 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     maxHeight: '75%',
   },
-  modalHandle: {
-    width: 40,
-    height: 4,
-    backgroundColor: COLORS.divider,
-    borderRadius: 2,
-    alignSelf: 'center',
-    marginTop: 10,
-    marginBottom: 0,
-  },
   modalHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 16,
   },
-  modalHeaderActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
+  // modalHeaderActions 已移除（从未在 JSX 中使用）
+  // modalHandle 已移除（从未在 JSX 中使用）
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
