@@ -3444,12 +3444,14 @@ export async function analyzePhoto(
       facePosition.y < 0.12 || facePosition.y > 0.88
     if (tooCloseToEdge && suggestions.length < 4) {
       suggestions.push(pickRandom(SUGGESTION_POOL.face_cut_off))
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.careful_framing))
       problems.push('careful_framing')
     }
     // 人脸太靠边（比 off-center 更严重）
     if (facePosition.x < 0.12 || facePosition.x > 0.88 || facePosition.y < 0.18 || facePosition.y > 0.82) {
       if (suggestions.length < 4) {
         suggestions.push(pickRandom(SUGGESTION_POOL.face_too_edge))
+        if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.careful_framing))
         problems.push('careful_framing')
       }
     }
@@ -3489,6 +3491,7 @@ export async function analyzePhoto(
     exposureScore -= 15
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.over_exposure))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.lighting_harsh_single))
   } else if (safeBrightness > 200 || safeBrightness < 80) {
     // 轻微亮度偏差：只推一条通用曝光建议，避免冗余
     exposureScore -= 8
@@ -3646,6 +3649,9 @@ export async function analyzePhoto(
     if (otherScoreSum >= 60 && suggestions.length < 4) {
       suggestions.push(pickRandom(SUGGESTION_POOL.expression_low_but_others_good))
     }
+    if (suggestions.length < 4) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.emotion_lacking_tip))
+    }
   }
 
   // ===== 场景匹配度专项建议 =====
@@ -3709,6 +3715,7 @@ export async function analyzePhoto(
   // 表情僵硬建议（低分区+人脸存在时触发）
   if (faceCount > 0 && totalScore < 60 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.stiff_expression))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.expression_stiff))
   }
   if (faceCount > 0 && !problems.includes('face') && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.no_smile))
