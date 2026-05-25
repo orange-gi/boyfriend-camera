@@ -281,11 +281,9 @@ export default function ResultScreen() {
         suggestions: analysis.suggestions,
       })
 
-      // VoiceCoach 实时 TTS 集成 — 根据分析结果触发对应语音提示（分数 >= 80 时给高分夸奖，< 80 时给问题提示）
-      // 注意：>=90 的 PerfectShotTip 和 80-89 的 AlmostGreat 已在 useEffect(scoreAnimationDone) 中处理，避免重复调用
-      if (analysis.totalScore >= 80) {
-        // 高分夸奖已在 useEffect 中处理
-      } else {
+      // VoiceCoach 实时 TTS 集成 — 低分时给出问题诊断语音提示
+      // 注意：高分（>=80）的分数播报已在 useEffect(scoreAnimationDone) 中处理
+      if (analysis.totalScore < 80) {
         const suggestCount = analysis.suggestions?.length || 0
         if (analysis.expressionScore < 12 && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakBlinkTip() } catch {} }, 3000)
@@ -762,10 +760,10 @@ const FilterItem = React.memo(function FilterItem({
       accessibilityLabel={`滤镜: ${filter.label}${isActive ? '，已选中' : ''}`}
       accessibilityHint="单击切换滤镜"
     >
-      <View style={[styles.filterCircle, { backgroundColor: filter.color }, isActive && styles.filterCircleActive]} />
+      <View style={[styles.filterCircle, { backgroundColor: filter.color }, isActive ? styles.filterCircleActive : null]} />
       <Text style={[
         styles.filterLabel,
-        isActive && styles.filterLabelActive,
+        isActive ? styles.filterLabelActive : null,
       ]}>
         {filter.label}
       </Text>
