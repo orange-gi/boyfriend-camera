@@ -191,11 +191,4 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '600',
   },
-  compareHint: {
-    textAlign: 'center',
-    marginTop: 8,
-    paddingVertical: 6,
-    fontSize: 12,
-    color: COLORS.textMuted,
-  },
 })
