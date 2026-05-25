@@ -2,7 +2,7 @@
  * HomeScreen - 首页
  */
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
@@ -16,8 +16,6 @@ import { borderRadius, spacing, typography, hexAlpha } from '../theme/index'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/homeData'
-
-const { width: SCREEN_W } = Dimensions.get('window')
 
 function getDailyTip() {
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
@@ -186,7 +184,7 @@ export default function HomeScreen() {
             const scoreLevelColor = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
             return (
               <View style={styles.trendRow}>
-                <Text style={[styles.trendText, { color: trendColor }]}>{trendLabel}</Text>
+                <Text style={styles.trendText}>{trendLabel}</Text>
                 <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
                   <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: scoreLevelColor }]} />
                 </View>
@@ -276,7 +274,7 @@ const styles = StyleSheet.create({
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
   poseTipCard: { paddingLeft: spacing[3], paddingVertical: spacing[3], marginBottom: spacing[5] },
-  statsCard: { padding: spacing[5], marginBottom: spacing[6] },
+  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   skeletonNum: { width: 36, height: 36, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
