@@ -3557,7 +3557,7 @@ export async function analyzePhoto(
   // 头发遮挡检测：清晰度低但亮度正常（不是暗光），且人脸面积正常 → 可能是头发遮挡
   if (safeSharpness < 80 && safeSharpness >= 40 && safeBrightness >= 100 && faceCount > 0 && facePosition && facePosition.area > 0.08 && facePosition.area < 0.4 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.hair_occlusion_tips))
-    problems.push('hair_occlusion')
+    problems.push('hair_occlusion_tips')
   }
   if (facePosition && compositionScore >= 28 && compositionScore < 36 && suggestions.length < 4) {
     const cx = facePosition.x, cy = facePosition.y
