@@ -910,18 +910,17 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     lineHeight: 20,
   },
-  // 建议横幅：极淡背景色区分于普通文字，克制不抢镜
+  // 建议横幅：去装饰化 — 去掉背景色块，用 muted 文字色传达次要层级
+  // 理由：建议是补充信息，不应与夸奖横幅竞争视觉权重；textSecondary 已足够
   suggestionBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    backgroundColor: COLORS.primaryLight,
-    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 4,
   },
   suggestionBannerText: {
     fontSize: 13,
-    color: COLORS.primary,
+    color: COLORS.textMuted,
     lineHeight: 20,
   },
   viewShot: {
