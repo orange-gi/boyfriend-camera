@@ -1548,6 +1548,9 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '边缘裁切到身体了！退后一步让整体完整入镜～',
     '脸太大了！稍微退后一步，别贴那么近～',
     '人顶到边框了！退后两三步，画面留点空间更舒服～',
+    '画面太满了！退后一步让背景留出空间，看起来更舒服～',
+    '人占画面比例太大了，稍微退后两步取景会更协调～',
+    '怼脸拍虽然显脸大但太满了，退后一点构图会更好看～',
   ],
   face_too_close: [
     '贴太近了！手机镜头会让鼻子显大，退后一步拍更自然～',
@@ -3416,7 +3419,6 @@ export async function analyzePhoto(
     } else if (facePosition.area > 0.5) {
       compositionScore -= 5
       if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_large))
-      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.wrong_aspect_ratio))
     }
     // 超近距离（面积 > 0.65，镜头畸变风险）
     if (facePosition.area > 0.65) {
