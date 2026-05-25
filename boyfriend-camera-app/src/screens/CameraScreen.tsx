@@ -22,6 +22,7 @@ import {
   Vibration,
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { logger } from '../utils/logger'
 import { useFocusEffect } from '@react-navigation/native'
 import CompositionLines from '../components/camera/CompositionLines'
 import PoseTemplateOverlay, { type PoseTemplate } from '../components/camera/PoseTemplateOverlay'
@@ -345,7 +346,9 @@ export default function CameraScreen() {
   // 定期触发 mock 人脸检测（让自拍距离 TTS 有数据可用）
   useEffect(() => {
     const id = setInterval(() => {
-      processFrame({ width: 1080, height: 1920 }, cameraFacing).catch(() => {})
+      processFrame({ width: 1080, height: 1920 }, cameraFacing).catch((e) =>
+        logger.warn('CameraScreen', 'processFrame failed (TTS frame dropped)', e),
+      )
     }, 300)
     return () => clearInterval(id)
   }, [cameraFacing, processFrame])
