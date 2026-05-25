@@ -91,7 +91,6 @@ export default function ResultScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Result'>>()
   const { photoPath, templateCategory } = route.params || {}
 
-
   const [processedPath, setProcessedPath] = useState<string>('')
   const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
   const [praiseList, setPraiseList] = useState<string[]>([])
@@ -340,7 +339,6 @@ export default function ResultScreen() {
         track(() => { try { VoiceCoach.speakStabilityIssue(tiltAngle) } catch {} }, 4000)
       }
 
-
       // 新纪录 + TTS 播报（撒花移除，用分数揭示动画替代庆祝反馈）
       if (isNewRecord) {
         setNewRecordBanner(true)
@@ -350,8 +348,6 @@ export default function ResultScreen() {
           } catch { /* ignore TTS errors */ }
         }, 500)
       }
-
-
 
       // 首次拍照专属 TTS 鼓励（与分数无关，独立触发）
       if (diary.length === 0) {

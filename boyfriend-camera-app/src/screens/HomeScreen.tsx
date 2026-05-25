@@ -19,7 +19,6 @@ import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/ho
 
 const { width: SCREEN_W } = Dimensions.get('window')
 
-
 function getDailyTip() {
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
   return DAILY_TIPS[dayOfYear % DAILY_TIPS.length]

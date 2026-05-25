@@ -131,13 +131,9 @@ export default function CameraScreen() {
   const lastGroupLookAtCameraRef = useRef<number>(0)
   // 节流人脸位置 TTS
   const lastFaceTipRef = useRef<number>(0)
-  // ========== Round 3 新增：节流微笑检测 TTS（检测到笑脸时确认） ==========
   const lastSmileDetectedRef = useRef<number>(0)
-  // ========== Round 3 新增：节流自拍姿势提示 TTS ==========
   const lastSelfiePoseTipRef = useRef<number>(0)
-  // ========== Round 3 新增：节流逆光检测 TTS ==========
   const lastBacklightRef = useRef<number>(0)
-  // ========== Round 3 新增：节流低光检测 TTS ==========
   const lastLowLightRef = useRef<number>(0)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
@@ -205,7 +201,6 @@ export default function CameraScreen() {
     return () => VoiceCoach.destroy()
   }, [])
 
-  // ========== Round 3 新增：闲置计时器（45秒无操作则提醒） ==========
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const resetIdleTimer = useCallback(() => {
     if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
@@ -229,7 +224,6 @@ export default function CameraScreen() {
     }
   }, [resetIdleTimer])
 
-  // ========== Round 3 新增：电量监控（低于 20% 时 TTS 提醒） ==========
   useBatteryMonitor(() => VoiceCoach.speak('手机快没电了！抓紧时间多拍几张～', true))
 
   useEffect(() => {
@@ -246,7 +240,6 @@ export default function CameraScreen() {
     VoiceCoach.speakFaceTip(face.x, face.y, face.area).catch(() => {})
   }, [faces])
 
-  // ========== Round 3 新增：低光检测 TTS（后置摄像头+人脸面积较小） ==========
   // 低光 Proxy：后置摄像头且人脸面积很小(<0.04)，说明光线不足
   useEffect(() => {
     if (cameraFacing !== 'back') return
@@ -318,7 +311,6 @@ export default function CameraScreen() {
       }
     }
 
-    // ========== Round 3 新增：笑脸检测 TTS（笑容概率 >= 0.65 时确认） ==========
     if (faces.length === 1 && cameraFacing === 'front') {
       const smileProb = typeof faces[0].smiling === 'number' ? faces[0].smiling : 0
       if (smileProb >= 0.65 && now - lastSmileDetectedRef.current >= 5000) {
@@ -327,7 +319,6 @@ export default function CameraScreen() {
       }
     }
 
-    // ========== Round 3 新增：逆光/背光检测 TTS（前置摄像头+人脸面积正常但亮度偏低） ==========
     // 逆光 Proxy：人脸面积正常(0.05-0.25)但笑容概率低(<0.35)，说明可能脸太暗导致笑容检测不到
     if (faces.length === 1 && cameraFacing === 'front' && now - lastBacklightRef.current >= 8000) {
       const face = faces[0]
@@ -586,7 +577,6 @@ export default function CameraScreen() {
 
       {/* 构图线 */}
       <CompositionLines mode={mode} />
-
 
       {/* 姿势模板 */}
       <PoseTemplateOverlay
@@ -861,7 +851,6 @@ export default function CameraScreen() {
                 numColumns={2}
                 columnWrapperStyle={styles.templateRow}
                 contentContainerStyle={styles.templateList}
-                // ========== Round 36 UI/UX 优化：FlatList 性能优化 ==========
                 getItemLayout={(_, index) => ({
                   length: 205,
                   offset: 205 * Math.floor(index / 2),

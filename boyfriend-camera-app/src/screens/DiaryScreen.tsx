@@ -21,8 +21,6 @@ import EmptyState from '../components/common/EmptyState'
 import { COLORS, hexAlpha } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 
-
-
 export default function DiaryScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Diary'>>()
   const [records, setRecords] = useState<DiaryRecord[]>([])
@@ -105,8 +103,6 @@ export default function DiaryScreen() {
       Alert.alert('清空失败', '请稍后重试')
     }
   }
-
-
 
   async function handleRefresh() {
     setRefreshing(true)
@@ -193,8 +189,6 @@ export default function DiaryScreen() {
   // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
   // entries 直接使用 records；ProgressChart 内部切片取最近 10 条
   const entries: DiaryRecord[] = records
-
-
 
   const renderRecord = ({ item, index }: { item: DiaryRecord; index: number }) => {
     const date = new Date(item.date)
@@ -812,7 +806,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
-
 
   sheetOverlay: {
     flex: 1,
