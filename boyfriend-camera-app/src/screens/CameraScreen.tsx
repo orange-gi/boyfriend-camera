@@ -40,7 +40,8 @@ type CompositionMode = 'grid' | 'golden' | 'triangle'
 
 const { width: SCREEN_W } = Dimensions.get('window')
 const FLASH_MODES: Array<'off' | 'on' | 'auto'> = ['off', 'on', 'auto']
-const FLASH_ICONS: Record<string, string> = { off: '📷', on: '⚡', auto: '🔄' }
+// 简洁优雅：闪光灯用文字标签，克制不用 emoji 装饰
+const FLASH_ICONS: Record<string, string> = { off: '关', on: '开', auto: '自动' }
 
 const RECENT_KEY = 'recent_templates'
 const FAVORITE_KEY = 'favorite_templates'
@@ -607,7 +608,7 @@ export default function CameraScreen() {
             onPress={handleVoiceTipConfirm}
             activeOpacity={0.72}
           >
-            <Text style={styles.poseTipVoiceBtnText}>🔊</Text>
+            <Text style={styles.poseTipVoiceBtnText}>播放</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.poseTipClearBtn}
@@ -683,8 +684,9 @@ export default function CameraScreen() {
             setShowTemplateModal(true)
           }}
           activeOpacity={0.72}
+          accessibilityLabel="姿势模板"
         >
-          <Text style={styles.sideBtnIcon}>📋</Text>
+          <Text style={styles.sideBtnIcon}>姿势</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -702,8 +704,9 @@ export default function CameraScreen() {
           style={styles.sideBtn}
           onPress={flipCamera}
           activeOpacity={0.72}
+          accessibilityLabel="切换摄像头"
         >
-          <Text style={styles.sideBtnIcon}>↻</Text>
+          <Text style={styles.sideBtnIcon}>翻转</Text>
         </TouchableOpacity>
       </View>
 
@@ -1130,9 +1133,11 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
   },
+  // 侧边按钮 — 中文文字，字号适配，不再使用 emoji
   sideBtnIcon: {
-    fontSize: 28,
-    marginBottom: 3,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.9)',
+    fontWeight: '600',
   },
   sideBtnText: {
     color: 'rgba(255,255,255,0.8)',
