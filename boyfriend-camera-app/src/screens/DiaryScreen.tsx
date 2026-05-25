@@ -241,28 +241,15 @@ export default function DiaryScreen() {
             </View>
           </View>
 
+          {item.faceCount > 1 && (
+            <Text style={styles.faceCount}>{item.faceCount}人合照</Text>
+          )}
+
           {item.suggestions.length > 0 && (
             <Text style={styles.recordTip} numberOfLines={2}>
               {item.suggestions[0]}
             </Text>
           )}
-
-          {item.faceCount > 0 && (
-            <Text style={styles.faceCount}>{item.faceCount}人</Text>
-          )}
-
-          {/* 分数进度条 */}
-          <View style={styles.scoreBarRow}>
-            <View style={[styles.scoreBarTrack, { backgroundColor: hexAlpha(sc, 0.1) }]}>
-              <View
-                style={[
-                  styles.scoreBarFill,
-                  { width: `${item.score}%`, backgroundColor: sc },
-                ]}
-              />
-            </View>
-            <Text style={[styles.scoreBarNum, { color: sc }]}>{item.score}分</Text>
-          </View>
 
         </View>
       </TouchableOpacity>
@@ -398,10 +385,10 @@ export default function DiaryScreen() {
                 avgScore >= 60 ? COLORS.info :
                 COLORS.textMuted
               return (
-                <View style={[styles.achievementBadge, { backgroundColor: hexAlpha(badgeColor, 0.1) }]}>
+                <View style={styles.achievementBadge}>
                   <Text style={[styles.achievementBadgeText, { color: badgeColor }]}>{badgeLabel}</Text>
                   {totalCount > 0 && (
-                    <Text style={styles.achievementCount}>{totalCount}张照片 · 最高{peakScore}分</Text>
+                    <Text style={styles.achievementCount}> · {totalCount}张照片 · 最高{peakScore}分</Text>
                   )}
                 </View>
               )
@@ -733,16 +720,14 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: COLORS.skeletonBase,
   },
-  // 成就徽章 — 简洁胶囊设计：左色块承载信息，右细副标题
+  // 成就徽章 — 简洁文字设计：等级色文字 + 副标题用 muted 色
   achievementBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    borderRadius: 20,
-    paddingVertical: 6,
-    paddingHorizontal: 14,
     marginTop: 16,
-    gap: 8,
+    marginBottom: 8,
+    gap: 0,
   },
   achievementBadgeText: {
     fontSize: 13,
