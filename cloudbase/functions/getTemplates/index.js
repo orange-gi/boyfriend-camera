@@ -940,7 +940,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_091",
-    name: "窗边逆光",
     description: "窗边逆光剪影，氛围感拉满",
     name: "窗边逆光剪影",
     overlayUrl: genSVG(091),
@@ -951,7 +950,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_092",
-    name: "镜子自拍",
     description: "对着镜子自拍，找好角度",
     name: "对着镜子自拍",
     overlayUrl: genSVG(092),
@@ -962,7 +960,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_093",
-    name: "书架前文艺",
     description: "书架前随手拿本书，文艺感十足",
     name: "书架前随手拿",
     overlayUrl: genSVG(093),
@@ -973,7 +970,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_094",
-    name: "双栏杆前景",
     description: "双栏杆做前景虚化，层次感强",
     name: "双栏杆做前景",
     overlayUrl: genSVG(094),
@@ -984,7 +980,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_095",
-    name: "三点光源",
     description: "三点布光练习，影视级打光",
     name: "三点布光练习",
     overlayUrl: genSVG(095),
@@ -995,7 +990,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_096",
-    name: "黄金时段",
     description: "日落前后黄金时段，光线最柔",
     name: "日落前后黄金",
     overlayUrl: genSVG(096),
@@ -1006,7 +1000,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_097",
-    name: "水面反光",
     description: "水边拍照，倒影和水波超有氛围",
     name: "水边拍照",
     overlayUrl: genSVG(097),
@@ -1017,7 +1010,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_098",
-    name: "九宫格三分",
     description: "打开九宫格，人物放在交叉点",
     name: "打开九宫格",
     overlayUrl: genSVG(098),
@@ -1028,7 +1020,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_099",
-    name: "隧道纵深",
     description: "站在隧道里，利用纵深构图",
     name: "站在隧道里",
     overlayUrl: genSVG(099),
@@ -1039,7 +1030,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_100",
-    name: "十字构图",
     description: "十字构图法，交叉点放主体",
     name: "十字构图法",
     overlayUrl: genSVG(100),
@@ -1050,7 +1040,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_101",
-    name: "菱形框架构图",
     description: "找菱形或钻石形状的场景（窗户、镜子、地砖），把人放在菱形中心，构图立刻高级起来～",
     name: "找菱形或钻石",
     overlayUrl: genSVG(101),
@@ -1061,7 +1050,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_102",
-    name: "螺旋生长",
     description: "找有螺旋元素的场景（楼梯、贝壳、旋涡），顺着螺旋构图，画面超有动感～",
     name: "找有螺旋元素",
     overlayUrl: genSVG(102),
@@ -1072,7 +1060,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_103",
-    name: "镜像对称",
     description: "找对称的场景（镜面、玻璃、水面），利用对称反射增加层次感～",
     name: "找对称的场景",
     overlayUrl: genSVG(103),
@@ -1083,7 +1070,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_104",
-    name: "三角山峰",
     description: "找有山峰或尖顶的场景，让人物站在三角形的顶点，超有气势～",
     name: "找有山峰或尖",
     overlayUrl: genSVG(104),
@@ -1094,7 +1080,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_105",
-    name: "波浪地平线",
     description: "找波浪形或起伏的场景，利用曲线构图，画面柔美又流畅～",
     name: "找波浪形或起",
     overlayUrl: genSVG(105),
@@ -1105,7 +1090,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_106",
-    name: "星光绽放",
     description: "找发光源或有星芒的场景，让光芒从身后透出，超有仙气～",
     name: "找发光源或有",
     overlayUrl: genSVG(106),
@@ -1116,7 +1100,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_107",
-    name: "渐变纵深",
     description: "找有明暗对比的场景，让光线形成纵深感，立体感立刻拉满～",
     name: "找有明暗对比",
     overlayUrl: genSVG(107),
@@ -1127,7 +1110,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_108",
-    name: "圆形统一",
     description: "找圆形元素（镜子、拱门、窗户），利用圆形构图，画面完整又有焦点～",
     name: "找圆形元素（",
     overlayUrl: genSVG(108),
@@ -1138,7 +1120,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_109",
-    name: "网格矩阵",
     description: "找网格或格子场景（窗格、铁丝网），打破网格制造张力，超有艺术感～",
     name: "找网格或格子",
     overlayUrl: genSVG(109),
@@ -1149,7 +1130,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_110",
-    name: "弧形彩虹",
     description: "找弧形元素（彩虹、拱桥、隧道），顺着弧线构图，画面有延伸感～",
     name: "找弧形元素（",
     overlayUrl: genSVG(110),
@@ -1160,7 +1140,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_111",
-    name: "光影分割",
     description: "找有明显光影分界的场景，让光线切割画面，形成戏剧感～",
     name: "找有明显光影",
     overlayUrl: genSVG(111),
@@ -1171,7 +1150,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_112",
-    name: "同心圆环",
     description: "找同心圆元素（靶心、涟漪、漩涡），利用圆环构图，焦点超明确～",
     name: "找同心圆元素",
     overlayUrl: genSVG(112),
@@ -1182,7 +1160,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_113",
-    name: "之字动感",
     description: "找有锯齿或曲折线条的场景，之字构图充满活力和动感～",
     name: "找有锯齿或曲",
     overlayUrl: genSVG(113),
@@ -1193,7 +1170,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_114",
-    name: "辐射线条",
     description: "找有辐射线条的场景（光芒、射灯、铁路），从中心向外辐射，画面张力十足～",
     name: "找有辐射线条",
     overlayUrl: genSVG(114),
@@ -1204,7 +1180,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_115",
-    name: "窗格图案",
     description: "找有规则的窗格场景，让人物打破规则，构图立刻有趣起来～",
     name: "找有规则的窗",
     overlayUrl: genSVG(115),
@@ -1215,7 +1190,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_116",
-    name: "分形树叶",
     description: "找有自然叶脉或树枝的场景，利用自然线条，画面清新又有生机～",
     name: "找有自然叶脉",
     overlayUrl: genSVG(116),
@@ -1226,7 +1200,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_117",
-    name: "倒影水池",
     description: "找有水面或玻璃的场景，利用倒影增加层次，对称又梦幻～",
     name: "找有水面或玻",
     overlayUrl: genSVG(117),
@@ -1237,7 +1210,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_118",
-    name: "六边形阵",
     description: "找六边形或蜂巢场景，规律的几何图形让构图更有设计感～",
     name: "找六边形或蜂",
     overlayUrl: genSVG(118),
@@ -1248,7 +1220,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_119",
-    name: "光之走廊",
     description: "找走廊或纵深感强的场景，让光线引导视线，画面深邃又神秘～",
     name: "找走廊或纵深",
     overlayUrl: genSVG(119),
@@ -1259,7 +1230,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_120",
-    name: "宇宙漩涡",
     description: "找旋涡或星系元素的场景，螺旋构图超有宇宙感，大片感拉满～",
     name: "找旋涡或星系",
     overlayUrl: genSVG(120),
@@ -1270,7 +1240,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_121",
-    name: "健身房瑜伽垫",
     description: "瑜伽垫或健身房背景，运动感满满，活力女孩超好看～",
     name: "瑜伽垫或健身",
     overlayUrl: genSVG(121),
@@ -1281,7 +1250,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_122",
-    name: "古城墙前",
     description: "古城墙或长城背景，历史感与文艺感并存，超有氛围～",
     name: "古城墙或长城",
     overlayUrl: genSVG(122),
@@ -1292,7 +1260,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_123",
-    name: "沙漠戈壁",
     description: "沙漠或戈壁背景，广袤天地间的大片感，超有冲击力～",
     name: "沙漠或戈壁背",
     overlayUrl: genSVG(123),
@@ -1303,7 +1270,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_124",
-    name: "樱花隧道",
     description: "樱花盛开的树下或樱花隧道，粉嫩浪漫超有氛围感～",
     name: "樱花盛开的树",
     overlayUrl: genSVG(124),
@@ -1314,7 +1280,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_125",
-    name: "瀑布溪流前",
     description: "瀑布或溪流背景，水汽氤氲超有清新感，大自然感拉满～",
     name: "瀑布或溪流背",
     overlayUrl: genSVG(125),
@@ -1326,7 +1291,6 @@ const ALL_TEMPLATES = [
   // ========== Round 20 新增模板 126-130 ==========
   {
     id: "template_126",
-    name: "超市货架前",
     description: "超市货架做背景超有生活感！拿着零食道具，俏皮看镜头～",
     name: "超市货架做背",
     overlayUrl: genSVG(126),
@@ -1337,7 +1301,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_127",
-    name: "海边栈道漫步",
     description: "海边栈道上光线通透！背对大海侧身站，海风吹起头发超有氛围～",
     name: "海边栈道上光",
     overlayUrl: genSVG(127),
@@ -1348,7 +1311,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_128",
-    name: "健身房镜前",
     description: "健身房镜前光线均匀！侧身站着，笑得灿烂超有活力～",
     name: "健身房镜前光",
     overlayUrl: genSVG(128),
@@ -1359,7 +1321,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_129",
-    name: "露台夕阳",
     description: "露台夕阳余晖超浪漫！逆光拍剪影超有感觉，让夕阳打在侧脸上～",
     name: "露台夕阳余晖",
     overlayUrl: genSVG(129),
@@ -1370,7 +1331,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_130",
-    name: "咖啡馆角落",
     description: "咖啡馆角落光线超柔和！捧着咖啡看向窗外，文艺感满满～",
     name: "咖啡馆角落光",
     overlayUrl: genSVG(130),
@@ -1382,7 +1342,6 @@ const ALL_TEMPLATES = [
 
   {
     id: "template_131",
-    name: "天台夜景",
     description: "城市高楼天台，俯瞰璀璨夜景，让女友站在天台边缘，背后是星星点点的城市灯火～",
     name: "城市高楼天台",
     overlayUrl: genSVG(131),
@@ -1393,7 +1352,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_132",
-    name: "演唱会现场",
     description: "演唱会现场灯光闪烁，音乐节超嗨！举起双手跟着节拍摇摆，表情夸张灿烂～",
     name: "演唱会现场灯",
     overlayUrl: genSVG(132),
@@ -1404,7 +1362,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_133",
-    name: "艺术展画廊",
     description: "画廊看展超文艺！站在艺术品旁，侧头微笑，文艺感拉满～",
     name: "画廊看展超文",
     overlayUrl: genSVG(133),
@@ -1415,7 +1372,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_134",
-    name: "便利店自助结账",
     description: "自助结账机前好日常！手里拿着商品，俏皮地看镜头笑～",
     name: "自助结账机前",
     overlayUrl: genSVG(134),
@@ -1426,7 +1382,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_135",
-    name: "公园草坪野餐",
     description: "野餐垫上光线好温柔！坐在草地上，一手撑地，侧头微笑看向镜头～",
     name: "野餐垫上光线",
     overlayUrl: genSVG(135),
@@ -1437,7 +1392,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_136",
-    name: "地铁站台都市",
     description: "地铁站台都市感十足！靠着柱子，看向远处，文艺日常～",
     name: "地铁站台都市",
     overlayUrl: genSVG(136),
@@ -1448,7 +1402,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_137",
-    name: "便利店货架前",
     description: "货架前光线均匀！拿个零食饮料，俏皮地看镜头～",
     name: "货架前光线均",
     overlayUrl: genSVG(137),
@@ -1459,7 +1412,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_138",
-    name: "健身房器械区",
     description: "器械区背景好有运动感！侧身站着，举起哑铃或笑着看镜头～",
     name: "器械区背景好",
     overlayUrl: genSVG(138),
@@ -1470,7 +1422,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_139",
-    name: "厨房水槽前",
     description: "水槽前光线均匀！端着一杯水或拿着食材，笑着看镜头～",
     name: "水槽前光线均",
     overlayUrl: genSVG(139),
@@ -1481,7 +1432,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_140",
-    name: "图书馆自习",
     description: "图书馆安静又文艺！靠在书架旁，低头看书或者看镜头都超美～",
     name: "图书馆安静又",
     overlayUrl: genSVG(140),
@@ -1492,7 +1442,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_141",
-    name: "露营帐篷前",
     description: "帐篷前光线超美！靠近帐篷站着，背景超有感觉～",
     name: "帐篷前光线超",
     overlayUrl: genSVG(141),
@@ -1503,7 +1452,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_142",
-    name: "天台星空",
     description: "天台星空好美！抬头看天空，让星星落在眼睛里～",
     name: "天台星空好美",
     overlayUrl: genSVG(142),
@@ -1514,7 +1462,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_143",
-    name: "泳池派对",
     description: "泳池派对超嗨！靠在泳池边，笑得灿烂点～",
     name: "泳池派对超嗨",
     overlayUrl: genSVG(143),
@@ -1525,7 +1472,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_144",
-    name: "便利店冰柜前",
     description: "冰柜前光线冷白！拿瓶饮料，俏皮地笑一个～",
     name: "冰柜前光线冷",
     overlayUrl: genSVG(144),
@@ -1536,7 +1482,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_145",
-    name: "海边灯塔",
     description: "灯塔背景超有画面感！侧身站着，让海风吹起头发～",
     name: "灯塔背景超有",
     overlayUrl: genSVG(145),
@@ -1547,7 +1492,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_146",
-    name: "校园操场",
     description: "校园操场运动风超阳光！站在单杠旁，身体舒展，笑一个～",
     name: "校园操场运动",
     overlayUrl: genSVG(146),
@@ -1558,7 +1502,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_147",
-    name: "竹林小径",
     description: "竹林小径光线斑驳！走着抓拍，自然又灵动～",
     name: "竹林小径光线",
     overlayUrl: genSVG(147),
@@ -1569,7 +1512,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_148",
-    name: "屋顶花园",
     description: "屋顶花园超有情调！站在花草中间，笑一个～",
     name: "屋顶花园超有",
     overlayUrl: genSVG(148),
@@ -1580,7 +1522,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_149",
-    name: "烘焙甜点",
     description: "甜点柜台好诱人！端着蛋糕，笑一个～",
     name: "甜点柜台好诱",
     overlayUrl: genSVG(149),
@@ -1591,7 +1532,6 @@ const ALL_TEMPLATES = [
   },
     {
     id: "template_150",
-    name: "便利店熟食区",
     description: "便利店熟食区光线均匀！拿着关东煮或饭团，俏皮地看镜头～",
     name: "便利店熟食区",
     overlayUrl: genSVG(150),
@@ -1602,7 +1542,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_151",
-    name: "毕业照抛帽",
     description: "毕业袍配学士帽，抛帽的瞬间超有活力！连拍几张总有一张完美～",
     name: "毕业袍配学士",
     overlayUrl: genSVG(151),
@@ -1613,7 +1552,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_152",
-    name: "樱花树下",
     description: "樱花树下光线斑驳！风吹过来的时候按下快门，绝美～",
     name: "樱花树下光线",
     overlayUrl: genSVG(152),
@@ -1624,7 +1562,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_153",
-    name: "健身房镜前",
     description: "健身房镜子自拍光线均匀！侧身站着，笑着拍一张超有活力～",
     name: "健身房镜子自",
     overlayUrl: genSVG(153),
@@ -1635,7 +1572,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_154",
-    name: "超市货架前",
     description: "超市货架前光线均匀！拿个零食饮料当道具，俏皮又自然～",
     name: "超市货架前光",
     overlayUrl: genSVG(154),
@@ -1646,7 +1582,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_155",
-    name: "古镇老街",
     description: "古镇老墙做背景超有年代感！侧身站立更有氛围～",
     name: "古镇老墙做背",
     overlayUrl: genSVG(155),
@@ -1657,7 +1592,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_156",
-    name: "灯塔海边",
     description: "灯塔背景超有画面感！侧身站着让光线打在侧脸上～",
     name: "灯塔背景超有",
     overlayUrl: genSVG(156),
@@ -1668,7 +1602,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_157",
-    name: "地铁站台",
     description: "地铁站台冷调灯光超有都市感！随意站着抓拍～",
     name: "地铁站台冷调",
     overlayUrl: genSVG(157),
@@ -1679,7 +1612,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_158",
-    name: "农场田园",
     description: "农场田园好清新！站在田埂上或麦田里，笑一个～",
     name: "农场田园好清",
     overlayUrl: genSVG(158),
@@ -1690,7 +1622,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_159",
-    name: "涂鸦墙前",
     description: "涂鸦墙背景超有潮流感！靠着墙站着，酷酷地看镜头～",
     name: "涂鸦墙背景超",
     overlayUrl: genSVG(159),
@@ -1701,7 +1632,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_160",
-    name: "水族馆前",
     description: "水族馆里光线超梦幻！站在大鱼缸前，笑一个～",
     name: "水族馆里光线",
     overlayUrl: genSVG(160),
@@ -1712,7 +1642,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_161",
-    name: "教堂背景",
     description: "教堂背景超庄严！端正站着，笑得温柔点～",
     name: "教堂背景超庄",
     overlayUrl: genSVG(161),
@@ -1723,7 +1652,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_162",
-    name: "集市摊位",
     description: "集市摊位好热闹！靠着摊位，随意自然地笑～",
     name: "集市摊位好热",
     overlayUrl: genSVG(162),
@@ -1734,7 +1662,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_163",
-    name: "烘焙甜点",
     description: "面包店香气仿佛都能闻到，这张照片太有感觉了！",
     name: "面包店香气仿",
     overlayUrl: genSVG(163),
@@ -1745,7 +1672,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_164",
-    name: "旋转木马",
     description: "旋转木马灯光超梦幻！抓着柱子笑一个～",
     name: "旋转木马灯光",
     overlayUrl: genSVG(164),
@@ -1756,7 +1682,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_165",
-    name: "玻璃花房",
     description: "玻璃花房光线超通透！站在植物旁边，自然微笑看向镜头～",
     name: "玻璃花房光线",
     overlayUrl: genSVG(165),
@@ -1767,7 +1692,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_166",
-    name: "露营帐篷",
     description: "帐篷前拍照超有户外感，男朋友这构图绝了！",
     name: "帐篷前拍照超",
     overlayUrl: genSVG(166),
@@ -1778,7 +1702,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_167",
-    name: "节日装饰",
     description: "节日装饰做背景超有氛围感，让她在灯光下站好～",
     name: "节日装饰做背",
     overlayUrl: genSVG(167),
@@ -1789,7 +1712,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_168",
-    name: "圣诞树前",
     description: "圣诞树灯光暖暖的超有氛围感！让光打在侧脸上～",
     name: "圣诞树灯光暖",
     overlayUrl: genSVG(168),
@@ -1800,7 +1722,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_169",
-    name: "雨天窗边",
     description: "雨天窗边光线好柔和，在这拍超有感觉～",
     name: "雨天窗边光线",
     overlayUrl: genSVG(169),
@@ -1811,7 +1732,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_170",
-    name: "仰拍大长腿",
     description: "仰拍超级显腿长！男朋友蹲低，你踮起脚尖～",
     name: "仰拍超级显腿",
     overlayUrl: genSVG(170),
@@ -1822,54 +1742,49 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_171",
-    name: "镜子贴脸自拍",
     description: "镜子自拍超显脸小！贴近镜子，眼睛更有神～",
     name: "镜子自拍超显",
-    overlayUrl: genSVG(169),
-    thumbnail: genSVG(169),
+    overlayUrl: genSVG(171),
+    thumbnail: genSVG(171),
     voiceTip: "镜子自拍超显脸小！贴近镜子，眼睛更有神～",
     category: "自拍技巧",
     version: 1,
   },
   {
     id: "template_172",
-    name: "海边逆光剪影",
     description: "夕阳海边拍剪影超浪漫！背对太阳，轮廓超美～",
     name: "夕阳海边拍剪",
-    overlayUrl: genSVG(150),
-    thumbnail: genSVG(150),
+    overlayUrl: genSVG(172),
+    thumbnail: genSVG(172),
     voiceTip: "夕阳海边拍剪影超浪漫！背对太阳，轮廓超美～",
     category: "户外风景",
     version: 1,
   },
   {
     id: "template_173",
-    name: "樱花雨抓拍",
     description: "风吹樱花飘落时按下快门，绝美瞬间～",
     name: "风吹樱花飘落",
-    overlayUrl: genSVG(130),
-    thumbnail: genSVG(130),
+    overlayUrl: genSVG(173),
+    thumbnail: genSVG(173),
     voiceTip: "风吹樱花飘落时按下快门，绝美瞬间～",
     category: "户外风景",
     version: 1,
   },
   {
     id: "template_174",
-    name: "天台城市夜景",
     description: "天台夜景超有氛围！城市灯光做背景，浪漫感拉满～",
     name: "天台夜景超有",
-    overlayUrl: genSVG(100),
-    thumbnail: genSVG(100),
+    overlayUrl: genSVG(174),
+    thumbnail: genSVG(174),
     voiceTip: "天台夜景超有氛围！城市灯光做背景，浪漫感拉满～",
     category: "特殊风格",
     version: 1,
   },
   {
     id: "template_175",
-    name: "咖啡馆窗边文艺",
     description: "咖啡馆窗边光线超温柔！捧着咖啡笑一个～",
     name: "咖啡馆窗边光",
-    overlayUrl: genSVG(040),
+    overlayUrl: genSVG(175),
     thumbnail: genSVG(040),
     voiceTip: "咖啡馆窗边光线超温柔！捧着咖啡笑一个～",
     category: "餐厅美食",
@@ -1877,7 +1792,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_176",
-    name: "毕业抛帽瞬间",
     description: "抛帽瞬间超有活力！让男朋友对准脸多拍几张～",
     name: "抛帽瞬间超有",
     overlayUrl: genSVG(110),
@@ -1888,7 +1802,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_177",
-    name: "游乐场旋转木马",
     description: "旋转木马前超梦幻！侧身站着，光线超温柔～",
     name: "旋转木马前超",
     overlayUrl: genSVG(095),
@@ -1899,7 +1812,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_178",
-    name: "健身房镜前运动风",
     description: "运动完脸微微泛红最有活力！对着镜子笑一个～",
     name: "运动完脸微微",
     overlayUrl: genSVG(120),
@@ -1910,7 +1822,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_179",
-    name: "雪景围巾特写",
     description: "白茫茫雪地里彩色围巾超好看！特写超有氛围～",
     name: "白茫茫雪地里",
     overlayUrl: genSVG(130),
@@ -1921,7 +1832,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_180",
-    name: "火车车窗文艺",
     description: "火车车窗光线超有故事感！侧脸望向窗外～",
     name: "火车车窗光线",
     overlayUrl: genSVG(140),
@@ -1932,7 +1842,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_181",
-    name: "古镇青石板路",
     description: "古镇老街超有味道！慢慢走着让男朋友抓拍～",
     name: "古镇老街超有",
     overlayUrl: genSVG(145),
@@ -1943,7 +1852,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_182",
-    name: "面包房暖光特写",
     description: "面包房暖黄灯光超温馨！捧着面包笑一个～",
     name: "面包房暖黄灯",
     overlayUrl: genSVG(050),
@@ -1954,7 +1862,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_183",
-    name: "水族馆海底世界",
     description: "水族馆蓝色光影超梦幻！站在鱼群前超浪漫～",
     name: "水族馆蓝色光",
     overlayUrl: genSVG(060),
@@ -1965,7 +1872,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_184",
-    name: "图书馆安静时光",
     description: "图书馆光线超柔和！低头看书侧脸超好看～",
     name: "图书馆光线超",
     overlayUrl: genSVG(070),
@@ -1976,7 +1882,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_185",
-    name: "草地野餐惬意",
     description: "草地野餐超惬意！躺下来俯拍，超有度假感～",
     name: "草地野餐超惬",
     overlayUrl: genSVG(085),
@@ -1987,7 +1892,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_186",
-    name: "超市水果区鲜亮",
     description: "超市水果区颜色超鲜亮！拿个水果笑着拍～",
     name: "超市水果区颜",
     overlayUrl: genSVG(160),
@@ -1998,7 +1902,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_187",
-    name: "地铁站城市感",
     description: "地铁站超有城市感！靠在墙边侧拍，超酷～",
     name: "地铁站超有城",
     overlayUrl: genSVG(165),
@@ -2009,7 +1912,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_188",
-    name: "帐篷露营温馨",
     description: "露营帐篷前超温馨！夜晚灯光超有氛围～",
     name: "露营帐篷前超",
     overlayUrl: genSVG(090),
@@ -2020,7 +1922,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_189",
-    name: "商场橱窗精致",
     description: "商场橱窗光线超精致！站在橱窗前超有范儿～",
     name: "商场橱窗光线",
     overlayUrl: genSVG(155),
@@ -2031,7 +1932,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_190",
-    name: "海边踩水活泼",
     description: "海边踩水超活泼！侧身笑着拍，浪花超美～",
     name: "海边踩水超活",
     overlayUrl: genSVG(150),
@@ -2042,7 +1942,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_191",
-    name: "花卉市场浪漫",
     description: "花卉市场超浪漫！捧着一束花，笑着拍～",
     name: "花卉市场超浪",
     overlayUrl: genSVG(130),
@@ -2053,7 +1952,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_192",
-    name: "厨房烹饪日常",
     description: "厨房里认真做饭超有生活感！侧拍超温馨～",
     name: "厨房里认真做",
     overlayUrl: genSVG(055),
@@ -2064,7 +1962,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_193",
-    name: "画室文艺创作",
     description: "画室里超有艺术气息！认真画画的样子超美～",
     name: "画室里超有艺",
     overlayUrl: genSVG(070),
@@ -2075,7 +1972,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_194",
-    name: "阳台下午茶",
     description: "阳台下午茶超惬意！阳光洒进来，超有生活感～",
     name: "阳台下午茶超",
     overlayUrl: genSVG(040),
@@ -2086,7 +1982,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_195",
-    name: "涂鸦墙街拍",
     description: "涂鸦墙前超酷！靠在墙边，歪头笑着拍～",
     name: "涂鸦墙前超酷",
     overlayUrl: genSVG(145),
@@ -2097,7 +1992,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_196",
-    name: "雨中撑伞浪漫",
     description: "雨天撑伞超有氛围感！让雨伞遮住半边脸，超神秘～",
     name: "雨天撑伞超有",
     overlayUrl: genSVG(169),
@@ -2108,7 +2002,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_197",
-    name: "滑板场活力",
     description: "滑板场超有活力！坐在场边笑着拍，超酷～",
     name: "滑板场超有活",
     overlayUrl: genSVG(120),
@@ -2119,7 +2012,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_198",
-    name: "便利店零食感",
     description: "便利店零食超可爱！拿一包零食笑着拍，超日常～",
     name: "便利店零食超",
     overlayUrl: genSVG(160),
@@ -2130,7 +2022,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_199",
-    name: "屋顶派对夜色",
     description: "屋顶派对超嗨！夜晚灯光超有氛围，笑着拍～",
     name: "屋顶派对超嗨",
     overlayUrl: genSVG(100),
@@ -2141,7 +2032,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_200",
-    name: "海边日落剪影",
     description: "海边日落剪影超浪漫！张开双臂，让轮廓发光～",
     name: "海边日落剪影",
     overlayUrl: genSVG(150),
@@ -2153,7 +2043,6 @@ const ALL_TEMPLATES = [
   // ========== 本次新增模板 201-230 ==========
   {
     id: "template_201",
-    name: "露营篝火旁",
     description: "篝火旁超有氛围！靠近火光侧身站，脸被照得超暖～",
     name: "篝火旁超有氛",
     overlayUrl: genSVG(1),
@@ -2164,7 +2053,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_202",
-    name: "圣诞树前",
     description: "圣诞树前超有节日感！笑着看向镜头，背景要亮～",
     name: "圣诞树前超有",
     overlayUrl: genSVG(2),
@@ -2175,7 +2063,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_203",
-    name: "博物馆看展",
     description: "博物馆里超有文艺感！侧身站在艺术品旁，低头微笑～",
     name: "博物馆里超有",
     overlayUrl: genSVG(3),
@@ -2186,7 +2073,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_204",
-    name: "地铁站都市感",
     description: "地铁站冷调灯光超有都市感！靠着柱子随意自然～",
     name: "地铁站冷调灯",
     overlayUrl: genSVG(4),
@@ -2197,7 +2083,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_205",
-    name: "便利店俏皮风",
     description: "便利店日常感满分！拿个零食饮料，俏皮地笑一个～",
     name: "便利店日常感",
     overlayUrl: genSVG(5),
@@ -2208,7 +2093,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_206",
-    name: "健身房镜前",
     description: "健身房镜前超有活力！侧身站着，运动风满满～",
     name: "健身房镜前超",
     overlayUrl: genSVG(6),
@@ -2219,7 +2103,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_207",
-    name: "厨房烹饪",
     description: "厨房灶台前超温馨！端菜或举杯，笑得灿烂点～",
     name: "厨房灶台前超",
     overlayUrl: genSVG(7),
@@ -2230,7 +2113,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_208",
-    name: "温泉泡汤",
     description: "温泉蒸汽超治愈！靠在池边让蒸汽打在脸上，自然微笑～",
     name: "温泉蒸汽超治",
     overlayUrl: genSVG(8),
@@ -2241,7 +2123,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_209",
-    name: "滑雪场酷照",
     description: "滑雪场运动感十足！站在雪道旁，墨镜酷酷的～",
     name: "滑雪场运动感",
     overlayUrl: genSVG(209),
@@ -2252,7 +2133,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_210",
-    name: "动物园长颈鹿",
     description: "长颈鹿背景超可爱！靠近围栏侧身站着，活泼自然～",
     name: "长颈鹿背景超",
     overlayUrl: genSVG(10),
@@ -2263,7 +2143,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_211",
-    name: "公交站等车",
     description: "公交站日常感满满！靠着站牌看远方，文艺又自然～",
     name: "公交站日常感",
     overlayUrl: genSVG(11),
@@ -2274,7 +2153,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_212",
-    name: "操场单杠",
     description: "操场运动风超阳光！站在单杠旁身体舒展，笑一个～",
     name: "操场运动风超",
     overlayUrl: genSVG(12),
@@ -2285,7 +2163,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_213",
-    name: "音乐节舞台",
     description: "音乐节舞台超嗨！双手举起跟着节拍摇摆，表情夸张灿烂～",
     name: "音乐节舞台超",
     overlayUrl: genSVG(13),
@@ -2296,7 +2173,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_214",
-    name: "艺术展画廊",
     description: "画廊看展超文艺！站在艺术品旁侧头微笑，文艺感拉满～",
     name: "画廊看展超文",
     overlayUrl: genSVG(14),
@@ -2307,7 +2183,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_215",
-    name: "公园草坪野餐",
     description: "野餐垫上光线超温柔！坐在草地上，一手撑地侧头微笑～",
     name: "野餐垫上光线",
     overlayUrl: genSVG(15),
@@ -2318,7 +2193,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_216",
-    name: "超市货架前",
     description: "超市货架前超有趣！拿个零食饮料，俏皮地看镜头笑～",
     name: "超市货架前超",
     overlayUrl: genSVG(16),
@@ -2329,7 +2203,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_217",
-    name: "便利店冰柜前",
     description: "便利店冰柜前光线冷白超清爽！拿瓶饮料俏皮地笑一个～",
     name: "便利店冰柜前",
     overlayUrl: genSVG(17),
@@ -2340,7 +2213,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_218",
-    name: "地铁扶手电梯",
     description: "扶手电梯上光线冷调超有都市感！靠着扶手随意自然～",
     name: "扶手电梯上光",
     overlayUrl: genSVG(18),
@@ -2351,7 +2223,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_219",
-    name: "健身房器械区",
     description: "器械区背景好有运动感！侧身站着举起哑铃或笑着看镜头～",
     name: "器械区背景好",
     overlayUrl: genSVG(19),
@@ -2362,7 +2233,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_220",
-    name: "厨房水槽前",
     description: "水槽前光线均匀超好拍！端杯水或拿食材笑着看镜头～",
     name: "水槽前光线均",
     overlayUrl: genSVG(20),
@@ -2373,7 +2243,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_221",
-    name: "草原牧场",
     description: "草原上光线超通透！站在草丛中笑着看向远方～",
     name: "草原上光线超",
     overlayUrl: genSVG(21),
@@ -2384,7 +2253,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_222",
-    name: "秋季落叶",
     description: "秋天落叶超有氛围！站在落叶中笑着拍一张～",
     name: "秋天落叶超有",
     overlayUrl: genSVG(22),
@@ -2395,7 +2263,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_223",
-    name: "雾天户外",
     description: "雾天的光线超柔和！不用担心过曝，随便拍都好看～",
     name: "雾天的光线超",
     overlayUrl: genSVG(23),
@@ -2406,7 +2273,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_224",
-    name: "楼梯间",
     description: "楼梯上光线从上往下打超有气场！侧身站着或坐在台阶上～",
     name: "楼梯上光线从",
     overlayUrl: genSVG(24),
@@ -2417,7 +2283,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_225",
-    name: "天台白天",
     description: "天台背景是城市天际线超有范儿！找个阴凉处侧身站着～",
     name: "天台背景是城",
     overlayUrl: genSVG(225),
@@ -2428,7 +2293,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_226",
-    name: "海边礁石",
     description: "礁石上有浪花超浪漫！站稳了侧身看向大海～",
     name: "礁石上有浪花",
     overlayUrl: genSVG(26),
@@ -2439,7 +2303,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_227",
-    name: "灯笼夜景",
     description: "灯笼光暖暖的超有感觉！侧身站着让光打在侧脸上～",
     name: "灯笼光暖暖的",
     overlayUrl: genSVG(27),
@@ -2450,7 +2313,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_228",
-    name: "水族馆",
     description: "水族馆光线超梦幻！站在大鱼缸前笑着看向镜头～",
     name: "水族馆光线超",
     overlayUrl: genSVG(28),
@@ -2461,7 +2323,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_229",
-    name: "摩天轮",
     description: "摩天轮里光线超柔和！侧身坐着看向窗外，笑一个～",
     name: "摩天轮里光线",
     overlayUrl: genSVG(29),
@@ -2472,7 +2333,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_230",
-    name: "教堂婚礼",
     description: "教堂背景超庄严！端正站着笑得温柔点，背景要拍完整～",
     name: "教堂背景超庄",
     overlayUrl: genSVG(30),
@@ -2484,7 +2344,6 @@ const ALL_TEMPLATES = [
   // ========== Round 25 新增模板 (231-250) ==========
   {
     id: "template_231",
-    name: "复古唱片店",
     description: "唱片店内文艺感十足！靠在唱片架旁，假装在选唱片，自然又有氛围～",
     name: "唱片店内文艺",
     overlayUrl: genSVG(10),
@@ -2495,7 +2354,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_232",
-    name: "自行车骑行",
     description: "骑自行车时抓拍动态瞬间，活力感十足！",
     name: "骑自行车时抓",
     overlayUrl: genSVG(8),
@@ -2506,7 +2364,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_233",
-    name: "便利店货架前",
     description: "便利店货架前拿零食饮料互动，俏皮可爱的日常感！",
     name: "便利店货架前",
     overlayUrl: genSVG(15),
@@ -2517,7 +2374,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_234",
-    name: "水族馆大鱼缸",
     description: "水族馆大鱼缸前侧脸站立，蓝色水光打在脸上超梦幻！",
     name: "水族馆大鱼缸",
     overlayUrl: genSVG(20),
@@ -2528,7 +2384,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_235",
-    name: "音乐节舞台侧",
     description: "音乐节跟着节奏摇摆，表情夸张灿烂的时候抓拍！",
     name: "音乐节跟着节",
     overlayUrl: genSVG(235),
@@ -2539,7 +2394,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_236",
-    name: "酒吧靠吧台",
     description: "酒吧暖光下靠在吧台边，鸡尾酒杯做道具，氛围感拉满！",
     name: "酒吧暖光下靠",
     overlayUrl: genSVG(12),
@@ -2550,7 +2404,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_237",
-    name: "花卉市场捧花",
     description: "花卉市场捧一束鲜花互动，蹲下来仰拍人在花丛中美美的～",
     name: "花卉市场捧一",
     overlayUrl: genSVG(5),
@@ -2561,7 +2414,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_238",
-    name: "游乐场碰碰车",
     description: "碰碰车场地灯光超有动感！笑着抓拍活力瞬间～",
     name: "碰碰车场地灯",
     overlayUrl: genSVG(8),
@@ -2572,7 +2424,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_239",
-    name: "电影院海报前",
     description: "电影院走廊站在海报旁，和海报互动超有感觉！",
     name: "电影院走廊站",
     overlayUrl: genSVG(18),
@@ -2583,7 +2434,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_240",
-    name: "图书馆书架间",
     description: "图书馆书架间安静站立，低头看书或看镜头都超美！",
     name: "图书馆书架间",
     overlayUrl: genSVG(2),
@@ -2594,7 +2444,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_241",
-    name: "健身房器械区",
     description: "健身房器械区侧身站立，运动风满满，活力十足！",
     name: "健身房器械区",
     overlayUrl: genSVG(22),
@@ -2605,7 +2454,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_242",
-    name: "超市零食货架",
     description: "超市零食货架前拿商品互动，俏皮可爱的购物日常！",
     name: "超市零食货架",
     overlayUrl: genSVG(16),
@@ -2616,7 +2464,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_243",
-    name: "冰淇淋店甜品台",
     description: "冰淇淋店甜品台前拿着冰淇淋，俏皮可爱超有夏天气息～",
     name: "冰淇淋店甜品",
     overlayUrl: genSVG(5),
@@ -2627,7 +2474,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_244",
-    name: "便利店冰柜前",
     description: "便利店冰柜前拿瓶饮料，冷白灯光下也超有活力！",
     name: "便利店冰柜前",
     overlayUrl: genSVG(15),
@@ -2638,7 +2484,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_245",
-    name: "水族馆隧道",
     description: "水族馆隧道里仰头看鱼群，蓝色光影超梦幻！",
     name: "水族馆隧道里",
     overlayUrl: genSVG(20),
@@ -2649,7 +2494,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_246",
-    name: "游乐园旋转木马",
     description: "旋转木马超有童话感！坐着或靠着木马，活泼可爱～",
     name: "旋转木马超有",
     overlayUrl: genSVG(246),
@@ -2660,7 +2504,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_247",
-    name: "电影院爆米花",
     description: "捧着爆米花和饮料，俏皮地看镜头，生活感十足～",
     name: "捧着爆米花和",
     overlayUrl: genSVG(12),
@@ -2671,7 +2514,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_248",
-    name: "书店阅读角",
     description: "书店阅读角安静坐着，手拿书本，文艺感满满～",
     name: "书店阅读角安",
     overlayUrl: genSVG(2),
@@ -2682,7 +2524,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_249",
-    name: "花卉拱门下",
     description: "花卉拱门下站立，超浪漫的户外拍照背景！",
     name: "花卉拱门下站",
     overlayUrl: genSVG(249),
@@ -2693,7 +2534,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_250",
-    name: "演唱会荧光棒",
     description: "演唱会现场拿着荧光棒，跟着节拍摇摆，氛围感爆棚！",
     name: "演唱会现场拿",
     overlayUrl: genSVG(250),
@@ -2745,7 +2585,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_255",
-    name: "花海漫步",
     description: "花海里漫步，超浪漫的春日人像",
     name: "花海里漫步",
     overlayUrl: genSVG(255),
@@ -2756,7 +2595,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_256",
-    name: "草原骑马",
     description: "草原骑马超有自由感，大片感十足",
     name: "草原骑马超有",
     overlayUrl: genSVG(256),
@@ -2767,7 +2605,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_257",
-    name: "海边礁石",
     description: "礁石上海浪拍打，超有电影感",
     name: "礁石上海浪拍",
     overlayUrl: genSVG(257),
@@ -2778,7 +2615,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_258",
-    name: "山坡野餐",
     description: "山坡上野餐超有春日感，背景是城市天际线",
     name: "山坡上野餐超",
     overlayUrl: genSVG(258),
@@ -2789,7 +2625,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_259",
-    name: "向日葵田",
     description: "向日葵金黄一片，超有夏日的活力感",
     name: "向日葵金黄一",
     overlayUrl: genSVG(259),
@@ -2800,7 +2635,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_260",
-    name: "芦苇荡",
     description: "芦苇荡里超有秋日感，夕阳下的剪影超美",
     name: "芦苇荡里超有",
     overlayUrl: genSVG(260),
@@ -2811,7 +2645,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_261",
-    name: "梯田风光",
     description: "梯田层层叠叠，超有大地艺术感",
     name: "梯田层层叠叠",
     overlayUrl: genSVG(261),
@@ -2822,7 +2655,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_262",
-    name: "红土地",
     description: "红土地超有云南风情，色彩浓烈超上镜",
     name: "红土地超有云",
     overlayUrl: genSVG(262),
@@ -2833,7 +2665,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_263",
-    name: "海边灯塔",
     description: "灯塔背景超有画面感，电影感拉满",
     name: "灯塔背景超有",
     overlayUrl: genSVG(263),
@@ -2844,7 +2675,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_264",
-    name: "悬崖海边",
     description: "悬崖俯瞰大海，超有大片感，气势磅礴",
     name: "悬崖俯瞰大海",
     overlayUrl: genSVG(264),
@@ -2855,7 +2685,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_265",
-    name: "湖泊倒影",
     description: "湖面如镜超宁静，倒影和人都完美",
     name: "湖面如镜超宁",
     overlayUrl: genSVG(265),
@@ -2866,7 +2695,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_266",
-    name: "溪流抓拍",
     description: "溪流边光线斑驳，超有小清新感",
     name: "溪流边光线斑",
     overlayUrl: genSVG(266),
@@ -2877,7 +2705,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_267",
-    name: "山顶远眺",
     description: "山顶俯瞰城市或山峦，超有诗和远方感",
     name: "山顶俯瞰城市",
     overlayUrl: genSVG(267),
@@ -2888,7 +2715,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_268",
-    name: "沙漠驼队",
     description: "沙漠里驼队超有丝绸之路感，大漠风情",
     name: "沙漠里驼队超",
     overlayUrl: genSVG(268),
@@ -2899,7 +2725,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_269",
-    name: "枫叶林",
     description: "枫叶林红黄一片，秋日感拉满",
     name: "枫叶林红黄一",
     overlayUrl: genSVG(269),
@@ -2910,7 +2735,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_270",
-    name: "竹林深处",
     description: "竹林深处光线斑驳，超有禅意",
     name: "竹林深处光线",
     overlayUrl: genSVG(270),
@@ -2921,7 +2745,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_271",
-    name: "地铁站艺术墙",
     description: "地铁站艺术墙超有设计感，文艺感拉满",
     name: "地铁站艺术墙",
     overlayUrl: genSVG(271),
@@ -2932,7 +2755,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_272",
-    name: "便利店橱窗",
     description: "便利店橱窗灯光亮丽，夜晚超有都市感",
     name: "便利店橱窗灯",
     overlayUrl: genSVG(272),
@@ -2943,7 +2765,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_273",
-    name: "天桥俯拍",
     description: "天桥上俯拍街道，都市感十足",
     name: "天桥上俯拍街",
     overlayUrl: genSVG(273),
@@ -2954,7 +2775,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_274",
-    name: "红绿灯路口",
     description: "红绿灯路口超有都市感，霓虹灯下超酷",
     name: "红绿灯路口超",
     overlayUrl: genSVG(274),
@@ -2965,7 +2785,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_275",
-    name: "商场扶梯",
     description: "商场自动扶梯超有都市节奏感",
     name: "商场自动扶梯",
     overlayUrl: genSVG(275),
@@ -2976,7 +2795,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_276",
-    name: "地下通道",
     description: "地下通道光线有明暗对比，超有电影感",
     name: "地下通道光线",
     overlayUrl: genSVG(276),
@@ -2987,7 +2805,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_277",
-    name: "街边电话亭",
     description: "英伦风电话亭超有异国感，拍照超有范儿",
     name: "英伦风电话亭",
     overlayUrl: genSVG(277),
@@ -2998,7 +2815,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_278",
-    name: "涂鸦墙",
     description: "彩色涂鸦墙超有街头艺术感，酷感十足",
     name: "彩色涂鸦墙超",
     overlayUrl: genSVG(278),
@@ -3009,7 +2825,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_279",
-    name: "地铁末班",
     description: "深夜地铁站人少超有孤独感，电影感拉满",
     name: "深夜地铁站人",
     overlayUrl: genSVG(279),
@@ -3020,7 +2835,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_280",
-    name: "旋转门",
     description: "酒店旋转门超有都市感，大堂感十足",
     name: "酒店旋转门超",
     overlayUrl: genSVG(280),
@@ -3031,7 +2845,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_281",
-    name: "摩天大楼",
     description: "摩天大楼脚下超有压迫感，大片感",
     name: "摩天大楼脚下",
     overlayUrl: genSVG(281),
@@ -3042,7 +2855,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_282",
-    name: "公交站牌",
     description: "公交站牌超有都市通勤感，日常又好看",
     name: "公交站牌超有",
     overlayUrl: genSVG(282),
@@ -3053,7 +2865,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_283",
-    name: "地下车库",
     description: "地下车库线条感强，工业风超酷",
     name: "地下车库线条",
     overlayUrl: genSVG(283),
@@ -3064,7 +2875,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_284",
-    name: "天桥仰拍",
     description: "天桥下仰拍超有纵深感，都市感拉满",
     name: "天桥下仰拍超",
     overlayUrl: genSVG(284),
@@ -3075,7 +2885,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_285",
-    name: "街头艺人",
     description: "街头艺人表演背景超有文艺感",
     name: "街头艺人表演",
     overlayUrl: genSVG(285),
@@ -3086,7 +2895,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_286",
-    name: "厨房料理台",
     description: "厨房料理台光线均匀，做饭日常感满满",
     name: "厨房料理台光",
     overlayUrl: genSVG(286),
@@ -3097,7 +2905,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_287",
-    name: "浴室镜前",
     description: "浴室镜前光线超均匀，自拍超显气质",
     name: "浴室镜前光线",
     overlayUrl: genSVG(287),
@@ -3108,7 +2915,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_288",
-    name: "阳台躺椅",
     description: "阳台躺椅超有慵懒感，夏日午后必备",
     name: "阳台躺椅超有",
     overlayUrl: genSVG(288),
@@ -3119,7 +2925,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_289",
-    name: "客厅沙发",
     description: "客厅沙发超有居家感，慵懒又好看",
     name: "客厅沙发超有",
     overlayUrl: genSVG(289),
@@ -3130,7 +2935,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_290",
-    name: "书架前阅读",
     description: "书架前看书超有文艺感，文静气质满满",
     name: "书架前看书超",
     overlayUrl: genSVG(290),
@@ -3141,7 +2945,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_291",
-    name: "餐桌前美食",
     description: "餐桌前美食超有生活感，温馨又好看",
     name: "餐桌前美食超",
     overlayUrl: genSVG(291),
@@ -3152,7 +2955,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_292",
-    name: "钢琴前",
     description: "钢琴前超有艺术气质，文艺感拉满",
     name: "钢琴前超有艺",
     overlayUrl: genSVG(292),
@@ -3163,7 +2965,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_293",
-    name: "落地窗前",
     description: "落地窗前光线超美，背光侧脸都好看",
     name: "落地窗前光线",
     overlayUrl: genSVG(293),
@@ -3174,7 +2975,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_294",
-    name: "复古装修",
     description: "复古装修超有年代感，穿越感十足",
     name: "复古装修超有",
     overlayUrl: genSVG(294),
@@ -3185,7 +2985,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_295",
-    name: "床铺清晨",
     description: "床铺清晨光线柔和，超有慵懒美感",
     name: "床铺清晨光线",
     overlayUrl: genSVG(295),
@@ -3196,7 +2995,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_296",
-    name: "复古胶片",
     description: "复古胶片感超有年代感，穿越时光的美",
     name: "复古胶片感超",
     overlayUrl: genSVG(296),
@@ -3207,7 +3005,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_297",
-    name: "韩系清新",
     description: "韩系清新超有氧气感，温柔又好看",
     name: "韩系清新超有",
     overlayUrl: genSVG(297),
@@ -3218,7 +3015,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_298",
-    name: "日系杂志",
     description: "日系杂志感超有文艺感，杂志大片风",
     name: "日系杂志感超",
     overlayUrl: genSVG(298),
@@ -3229,7 +3025,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_299",
-    name: "法式优雅",
     description: "法式优雅超有高级感，浪漫又好看",
     name: "法式优雅超有",
     overlayUrl: genSVG(299),
@@ -3240,7 +3035,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_300",
-    name: "运动活力",
     description: "运动装活力满满，超有健康美感",
     name: "运动装活力满",
     overlayUrl: genSVG(300),
@@ -3251,7 +3045,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_301",
-    name: "古风汉服",
     description: "古风汉服超有东方美，气质满满",
     name: "古风汉服超有",
     overlayUrl: genSVG(301),
@@ -3262,7 +3055,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_302",
-    name: "甜美公主",
     description: "甜美公主风超有少女感，梦幻又好看",
     name: "甜美公主风超",
     overlayUrl: genSVG(302),
@@ -3273,7 +3065,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_303",
-    name: "帅气中性",
     description: "帅气中性风超有态度，酷感十足",
     name: "帅气中性风超",
     overlayUrl: genSVG(303),
@@ -3284,7 +3075,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_304",
-    name: "海边度假",
     description: "海边度假超有夏日感，沙滩海风超浪漫",
     name: "海边度假超有",
     overlayUrl: genSVG(304),
@@ -3295,7 +3085,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_305",
-    name: "都市通勤",
     description: "都市通勤风超有职业感，干练又好看",
     name: "都市通勤风超",
     overlayUrl: genSVG(305),
@@ -3306,7 +3095,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_306",
-    name: "拥抱对视",
     description: "两人相拥对视，超甜的情侣瞬间",
     name: "两人相拥对视",
     overlayUrl: genSVG(306),
@@ -3317,7 +3105,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_307",
-    name: "牵手背影",
     description: "两人牵手背影超有氛围感，简约又甜蜜",
     name: "两人牵手背影",
     overlayUrl: genSVG(307),
@@ -3328,7 +3115,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_308",
-    name: "额头碰额头",
     description: "额头碰额头超甜，亲密感拉满",
     name: "额头碰额头超",
     overlayUrl: genSVG(308),
@@ -3339,7 +3125,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_309",
-    name: "背后环抱自拍",
     description: "男生从后面环抱自拍，甜蜜感溢出屏幕",
     name: "男生从后面环",
     overlayUrl: genSVG(309),
@@ -3350,7 +3135,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_310",
-    name: "举高高",
     description: "男生把女生举高高，超有活力感",
     name: "男生把女生举",
     overlayUrl: genSVG(310),
@@ -3361,7 +3145,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_311",
-    name: "一起做饭",
     description: "两人一起做饭超有生活感，甜蜜又温馨",
     name: "两人一起做饭",
     overlayUrl: genSVG(311),
@@ -3372,7 +3155,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_312",
-    name: "牵手过马路",
     description: "两人牵手过马路超有都市感，温馨日常",
     name: "两人牵手过马",
     overlayUrl: genSVG(312),
@@ -3383,7 +3165,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_313",
-    name: "一起看日落",
     description: "两人一起看日落超浪漫，夕阳超美",
     name: "两人一起看日",
     overlayUrl: genSVG(313),
@@ -3394,7 +3175,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_314",
-    name: "比心合照",
     description: "情侣比心超可爱，甜蜜感拉满",
     name: "情侣比心超可",
     overlayUrl: genSVG(314),
@@ -3405,7 +3185,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_315",
-    name: "偷亲瞬间",
     description: "假装亲一下超甜蜜，抓拍瞬间绝了",
     name: "假装亲一下超",
     overlayUrl: genSVG(315),
@@ -3416,7 +3195,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_316",
-    name: "咖啡馆角落",
     description: "咖啡馆角落超有小资情调，捧着咖啡超好看",
     name: "咖啡馆角落超",
     overlayUrl: genSVG(316),
@@ -3427,7 +3205,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_317",
-    name: "火锅热气",
     description: "火锅前热气腾腾，生活感满满",
     name: "火锅前热气腾",
     overlayUrl: genSVG(317),
@@ -3438,7 +3215,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_318",
-    name: "甜品店",
     description: "甜品店里光线柔和，捧着甜点超可爱",
     name: "甜品店里光线",
     overlayUrl: genSVG(318),
@@ -3449,7 +3225,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_319",
-    name: "酒吧吧台",
     description: "酒吧吧台灯光超有氛围感，霓虹灯下超酷",
     name: "酒吧吧台灯光",
     overlayUrl: genSVG(319),
@@ -3460,7 +3235,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_320",
-    name: "路边小吃摊",
     description: "路边小吃摊烟火气超足，超有生活感",
     name: "路边小吃摊烟",
     overlayUrl: genSVG(320),
@@ -3471,7 +3245,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_321",
-    name: "奶茶店",
     description: "奶茶店里光线均匀，捧着奶茶超可爱",
     name: "奶茶店里光线",
     overlayUrl: genSVG(321),
@@ -3482,7 +3255,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_322",
-    name: "面包店",
     description: "面包店暖光超温馨，捧着面包超有食欲",
     name: "面包店暖光超",
     overlayUrl: genSVG(322),
@@ -3493,7 +3265,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_323",
-    name: "西餐厅",
     description: "西餐厅装修典雅，烛光超有仪式感",
     name: "西餐厅装修典",
     overlayUrl: genSVG(323),
@@ -3504,7 +3275,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_324",
-    name: "日料店",
     description: "日料店装修简约清新，超有日式感",
     name: "日料店装修简",
     overlayUrl: genSVG(324),
@@ -3515,7 +3285,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_325",
-    name: "下午茶三层架",
     description: "下午茶三层架超有英伦感，优雅又好看",
     name: "下午茶三层架",
     overlayUrl: genSVG(325),
@@ -3526,7 +3295,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_326",
-    name: "框中框构图",
     description: "找门框窗框当框架，主体在框中超有层次",
     name: "找门框窗框当",
     overlayUrl: genSVG(326),
@@ -3537,7 +3305,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_327",
-    name: "镜像对称构图",
     description: "找镜面或水面利用对称反射，增加层次感",
     name: "找镜面或水面",
     overlayUrl: genSVG(327),
@@ -3548,7 +3315,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_328",
-    name: "引导线构图",
     description: "找道路或栏杆做引导线，构图超有纵深感",
     name: "找道路或栏杆",
     overlayUrl: genSVG(328),
@@ -3559,7 +3325,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_329",
-    name: "留白构图",
     description: "背景留白超有呼吸感，高级又好看",
     name: "背景留白超有",
     overlayUrl: genSVG(329),
@@ -3570,7 +3335,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_330",
-    name: "三角构图",
     description: "身体形成三角形，超稳又有动感",
     name: "身体形成三角",
     overlayUrl: genSVG(330),
@@ -3581,7 +3345,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_331",
-    name: "S形构图",
     description: "身体形成S形曲线，超有女性柔美感",
     name: "身体形成S形",
     overlayUrl: genSVG(331),
@@ -3592,7 +3355,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_332",
-    name: "C形构图",
     description: "身体形成C形曲线，优雅又自然",
     name: "身体形成C形",
     overlayUrl: genSVG(332),
@@ -3603,7 +3365,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_333",
-    name: "对角线构图",
     description: "身体倾斜成对角线，超有动感",
     name: "身体倾斜成对",
     overlayUrl: genSVG(333),
@@ -3614,7 +3375,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_334",
-    name: "前景虚化",
     description: "找树叶或花朵做前景虚化，层次感丰富",
     name: "找树叶或花朵",
     overlayUrl: genSVG(334),
@@ -3625,7 +3385,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_335",
-    name: "框架前景",
     description: "用门框窗框做前景，构图超有电影感",
     name: "用门框窗框做",
     overlayUrl: genSVG(335),
@@ -3636,7 +3395,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_336",
-    name: "地平线偏移",
     description: "地平线偏移构图，打破平淡感",
     name: "地平线偏移构",
     overlayUrl: genSVG(336),
@@ -3647,7 +3405,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_337",
-    name: "局部特写",
     description: "只拍局部特写，超有艺术感",
     name: "只拍局部特写",
     overlayUrl: genSVG(337),
@@ -3658,7 +3415,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_338",
-    name: "剪影特写",
     description: "逆光剪影超有意境感",
     name: "逆光剪影超有",
     overlayUrl: genSVG(338),
@@ -3669,7 +3425,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_339",
-    name: "高低机位",
     description: "高低机位变化构图丰富多样",
     name: "高低机位变化",
     overlayUrl: genSVG(339),
@@ -3680,7 +3435,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_340",
-    name: "三分法进阶",
     description: "人脸放在三分点，构图专业又好看",
     name: "人脸放在三分",
     overlayUrl: genSVG(340),
@@ -3692,7 +3446,6 @@ const ALL_TEMPLATES = [
   // ========== Round 32 新增模板 341-360 ==========
   {
     id: "template_341",
-    name: "车窗回眸",
     description: "侧身坐车，回眸看镜头，自然又灵动",
     name: "侧身坐车",
     overlayUrl: genSVG(341),
@@ -3703,7 +3456,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_342",
-    name: "天台仰头",
     description: "仰头看向天空，背景是城市天际线",
     name: "仰头看向天空",
     overlayUrl: genSVG(342),
@@ -3714,7 +3466,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_343",
-    name: "樱花雨特写",
     description: "樱花飘落时抬头微笑，捕捉灵动瞬间",
     name: "樱花飘落时抬",
     overlayUrl: genSVG(343),
@@ -3725,7 +3476,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_344",
-    name: "银杏金秋",
     description: "站在金黄银杏树下，秋日感拉满",
     name: "站在金黄银杏",
     overlayUrl: genSVG(344),
@@ -3736,7 +3486,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_345",
-    name: "露营篝火",
     description: "围坐篝火旁，火光打在脸上超温暖",
     name: "围坐篝火旁",
     overlayUrl: genSVG(345),
@@ -3747,7 +3496,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_346",
-    name: "滑雪动感",
     description: "滑雪服穿搭抓拍，活力满满",
     name: "滑雪服穿搭抓",
     overlayUrl: genSVG(346),
@@ -3758,7 +3506,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_347",
-    name: "便利店俏皮",
     description: "拿零食饮料当道具，俏皮可爱",
     name: "拿零食饮料当",
     overlayUrl: genSVG(347),
@@ -3769,7 +3516,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_348",
-    name: "健身房活力",
     description: "运动装备出镜，活力动感抓拍",
     name: "运动装备出镜",
     overlayUrl: genSVG(348),
@@ -3780,7 +3526,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_349",
-    name: "古镇老街",
     description: "古镇老街背景，文艺又有年代感",
     name: "古镇老街背景",
     overlayUrl: genSVG(349),
@@ -3791,7 +3536,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_350",
-    name: "公交站日常",
     description: "公交站台日常感，文艺抓拍",
     name: "公交站台日常",
     overlayUrl: genSVG(350),
@@ -3802,7 +3546,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_351",
-    name: "水族馆梦幻",
     description: "水族馆大鱼缸前，蓝色梦幻感",
     name: "水族馆大鱼缸",
     overlayUrl: genSVG(351),
@@ -3813,7 +3556,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_352",
-    name: "音乐节现场",
     description: "音乐节舞台感，活力动感",
     name: "音乐节舞台感",
     overlayUrl: genSVG(352),
@@ -3824,7 +3566,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_353",
-    name: "圣诞树前",
     description: "圣诞树前节日感，温暖又喜庆",
     name: "圣诞树前节日",
     overlayUrl: genSVG(353),
@@ -3835,7 +3576,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_354",
-    name: "烘焙坊甜点",
     description: "捧着面包或甜点，暖黄色调超温馨",
     name: "捧着面包或甜",
     overlayUrl: genSVG(354),
@@ -3846,7 +3586,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_355",
-    name: "草原骑马",
     description: "草原骑马帅气瞬间，马背上活力抓拍",
     name: "草原骑马帅气",
     overlayUrl: genSVG(355),
@@ -3857,7 +3596,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_356",
-    name: "寺庙祈福",
     description: "寺庙古建筑前，传统文化感",
     name: "寺庙古建筑前",
     overlayUrl: genSVG(356),
@@ -3868,7 +3606,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_357",
-    name: "高铁车窗",
     description: "高铁靠窗座位，旅途感十足",
     name: "高铁靠窗座位",
     overlayUrl: genSVG(357),
@@ -3879,7 +3616,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_358",
-    name: "雕塑前艺术感",
     description: "城市雕塑前，文艺艺术感",
     name: "城市雕塑前",
     overlayUrl: genSVG(358),
@@ -3890,7 +3626,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_359",
-    name: "毕业典礼",
     description: "毕业礼服学位帽，青春感十足",
     name: "毕业礼服学位",
     overlayUrl: genSVG(359),
@@ -3901,7 +3636,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_360",
-    name: "摩天轮包厢",
     description: "摩天轮包厢内，城市全景背景",
     name: "摩天轮包厢内",
     overlayUrl: genSVG(360),
@@ -3913,7 +3647,6 @@ const ALL_TEMPLATES = [
   // ========== Round 35 新增 25 个模板 ==========
   {
     id: "template_361",
-    name: "艺术装置展",
     description: "艺术馆内创意装置艺术背景",
     name: "艺术馆内创意",
     overlayUrl: genSVG(361),
@@ -3924,7 +3657,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_362",
-    name: "瑜伽修炼",
     description: "室内瑜伽垫或户外草地上做瑜伽",
     name: "室内瑜伽垫或",
     overlayUrl: genSVG(362),
@@ -3935,7 +3667,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_363",
-    name: "农场采摘",
     description: "水果农场采摘新鲜水果",
     name: "水果农场采摘",
     overlayUrl: genSVG(363),
@@ -3946,7 +3677,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_364",
-    name: "温泉泡汤",
     description: "日式温泉或泡汤场景背景",
     name: "日式温泉或泡",
     overlayUrl: genSVG(364),
@@ -3957,7 +3687,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_365",
-    name: "冰场舞动",
     description: "室内滑冰场或冰壶馆",
     name: "室内滑冰场或",
     overlayUrl: genSVG(365),
@@ -3968,7 +3697,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_366",
-    name: "房车公路",
     description: "房车旁公路旅行场景",
     name: "房车旁公路旅",
     overlayUrl: genSVG(366),
@@ -3979,7 +3707,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_367",
-    name: "天文台观星",
     description: "天文台或山顶星空观测",
     name: "天文台或山顶",
     overlayUrl: genSVG(367),
@@ -3990,7 +3717,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_368",
-    name: "古镇小巷",
     description: "江南古镇青石板小巷背景",
     name: "江南古镇青石",
     overlayUrl: genSVG(368),
@@ -4001,7 +3727,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_369",
-    name: "码头灯塔",
     description: "海边码头灯塔和船舶背景",
     name: "海边码头灯塔",
     overlayUrl: genSVG(369),
@@ -4012,7 +3737,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_370",
-    name: "天际线夜",
     description: "高楼天际线夜景背景",
     name: "高楼天际线夜",
     overlayUrl: genSVG(370),
@@ -4023,7 +3747,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_371",
-    name: "樱花电车",
     description: "粉色樱花电车经过的瞬间",
     name: "粉色樱花电车",
     overlayUrl: genSVG(371),
@@ -4034,7 +3757,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_372",
-    name: "薰衣草田",
     description: "普罗旺斯薰衣草花田背景",
     name: "普罗旺斯薰衣",
     overlayUrl: genSVG(372),
@@ -4045,7 +3767,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_373",
-    name: "沙漠绿洲",
     description: "沙漠中绿洲棕榈树背景",
     name: "沙漠中绿洲棕",
     overlayUrl: genSVG(373),
@@ -4056,7 +3777,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_374",
-    name: "竹林小径",
     description: "静谧翠绿竹林小道背景",
     name: "静谧翠绿竹林",
     overlayUrl: genSVG(374),
@@ -4067,7 +3787,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_375",
-    name: "瀑布飞泉",
     description: "瀑布前水雾弥漫场景",
     name: "瀑布前水雾弥",
     overlayUrl: genSVG(375),
@@ -4078,7 +3797,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_376",
-    name: "草原策马",
     description: "大草原骑马或马场场景",
     name: "大草原骑马或",
     overlayUrl: genSVG(376),
@@ -4089,7 +3807,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_377",
-    name: "热气球",
     description: "热气球升空俯瞰大地场景",
     name: "热气球升空俯",
     overlayUrl: genSVG(377),
@@ -4100,7 +3817,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_378",
-    name: "火车车窗",
     description: "火车旅行车窗风景同框",
     name: "火车旅行车窗",
     overlayUrl: genSVG(378),
@@ -4111,7 +3827,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_379",
-    name: "美术馆咖啡",
     description: "美术馆附属咖啡厅背景",
     name: "美术馆附属咖",
     overlayUrl: genSVG(379),
@@ -4122,7 +3837,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_380",
-    name: "酒吧露台",
     description: "酒吧天台露台夜景背景",
     name: "酒吧天台露台",
     overlayUrl: genSVG(380),
@@ -4133,7 +3847,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_381",
-    name: "圣诞市集",
     description: "圣诞市场小木屋彩灯背景",
     name: "圣诞市场小木",
     overlayUrl: genSVG(381),
@@ -4144,7 +3857,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_382",
-    name: "新年倒数",
     description: "新年倒数烟花和气球背景",
     name: "新年倒数烟花",
     overlayUrl: genSVG(382),
@@ -4155,7 +3867,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_383",
-    name: "元宵灯会",
     description: "元宵节花灯夜景背景",
     name: "元宵节花灯夜",
     overlayUrl: genSVG(383),
@@ -4166,7 +3877,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_384",
-    name: "音乐喷泉",
     description: "音乐喷泉灯光秀背景",
     name: "音乐喷泉灯光",
     overlayUrl: genSVG(384),
@@ -4177,7 +3887,6 @@ const ALL_TEMPLATES = [
   },
   {
     id: "template_385",
-    name: "夜幕摩天轮",
     description: "夜间摩天轮霓虹灯光背景",
     name: "夜间摩天轮霓",
     overlayUrl: genSVG(385),

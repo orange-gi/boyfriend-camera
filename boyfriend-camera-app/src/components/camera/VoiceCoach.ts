@@ -4697,6 +4697,110 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 维度改善提示（构图/光线/表情/稳定某项提升时） */
+  async speakImprovementDetected(dimension: 'composition' | 'exposure' | 'stability' | 'expression' | 'level'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      composition: [
+        '构图进步了！终于把我放对位置了～',
+        '构图感觉变好了，男朋友悟性不错嘛～',
+        '这次站位讲究多了，男朋友有在认真构图～',
+      ],
+      exposure: [
+        '光线拿捏得比上次好了！',
+        '脸上终于有光了，男朋友找到感觉了！',
+        '这张亮度刚刚好，比上次进步了～',
+      ],
+      stability: [
+        '这张稳多了！手不抖了，进步好大～',
+        '终于不糊了，男朋友手稳了！',
+        '清晰度比上次好多了，男朋友认真在拍～',
+      ],
+      expression: [
+        '这次表情自然多了！比上次好看～',
+        '笑得比上次自然了，进步肉眼可见～',
+        '这个表情好灵动，男朋友抓到好瞬间了！',
+      ],
+      level: [
+        '这次端得超稳！终于不歪了～',
+        '水平线直了，强迫症看了都说舒服～',
+        '照片终于不歪了，男朋友进步了！',
+      ],
+    }
+    const pool = tips[dimension] || tips.composition
+    await this.speak(pickRandom(pool), false)
+  }
+
+  /** 新纪录达成提示 */
+  async speakNewRecordSingle(score: number): Promise<void> {
+    const tips = [
+      `新纪录！${score}分！男朋友你开挂了吧！`,
+      `哇！${score}分创历史新高！要裱起来珍藏！`,
+      `${score}分！男朋友你太强了，新纪录诞生！`,
+      `史上最高分！${score}分！男朋友你是天才摄影师！`,
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 连胜警告（连续高分即将中断时） */
+  async speakStreakRiskWarning(count: number): Promise<void> {
+    const tips = [
+      `已经连续${count}张高分了！保持这个感觉别断！`,
+      `${count}连高分！摄影师养成了，别断在今天！`,
+      `${count}连击！男朋友你是开挂了吗？继续输出！`,
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 晨光拍摄提示（早晨黄金时段） */
+  async speakDawnLightTip(): Promise<void> {
+    const tips = [
+      '早安！早晨光线超通透，趁光线好多拍几张～',
+      '早起的光线最温柔！拍出来的皮肤状态最好～',
+      '清晨阳光暖洋洋，这个时间拍照绝了～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 蓝调时刻提示（黄昏） */
+  async speakBlueHourTip(): Promise<void> {
+    const tips = [
+      '蓝调时刻来啦！天空好蓝，光线最浪漫～',
+      '傍晚蓝光正在变！赶紧拍几张，这光稍纵即逝～',
+      '黄昏光线太美了！这个时间段拍逆光绝了～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 阴天人像提示（漫反射光优势） */
+  async speakOvercastPortraitTip(): Promise<void> {
+    const tips = [
+      '阴天光线超柔和！不用担心脸上有硬阴影，随便拍都好看～',
+      '阴天的云就是天然柔光箱！怼脸拍皮肤质感超好～',
+      '别等晴天了！阴天才是拍照的黄金天气，快拍！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 硬光户外提示（正午强光） */
+  async speakHarshSunlightTip(): Promise<void> {
+    const tips = [
+      '正午阳光太硬了！找个树荫下拍，光线更柔和～',
+      '强光下脸上有硬阴影！躲到阴影里试试～',
+      '大中午拍照容易过曝，等云遮一下或找阴凉处～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 夜间拍摄手稳提示 */
+  async speakNightSteadyTip(): Promise<void> {
+    const tips = [
+      '晚上光线暗，按快门时双手握稳手机～',
+      '夜景手要更稳！靠在墙上或找个支撑点～',
+      '晚上拍照手抖容易糊，深呼吸憋住气再按快门～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
