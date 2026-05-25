@@ -3756,6 +3756,9 @@ export async function analyzePhoto(
   if (isFoodScene && compositionScore >= 28 && suggestions.length < 4) {
     praise.push(pickRandom(PRAISE_POOL.food_photo_good))
   }
+  if (isFoodScene && compositionScore >= 25 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.food_scene_specific))
+  }
   if (isLandscapeScene && compositionScore >= 28 && brightness >= 80 && brightness <= 200) {
     praise.push(pickRandom(PRAISE_POOL.landscape_photo_good))
   }
@@ -3859,7 +3862,14 @@ export async function analyzePhoto(
   }
   // 进阶构图建议（高分段但有提升空间）
   if (totalScore >= 70 && totalScore < 85 && compositionScore >= 30 && suggestions.length < 2) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.advanced_composition))
+    // 进阶构图四选一：对称构图/引导线/留白/高级构图
+    const advCompPool = [
+      SUGGESTION_POOL.symmetry_composition,
+      SUGGESTION_POOL.leading_line,
+      SUGGESTION_POOL.negative_space,
+      SUGGESTION_POOL.advanced_composition,
+    ]
+    suggestions.push(pickRandom(advCompPool[Math.floor(Math.random() * advCompPool.length)]))
   }
   if (absTilt > 3 && totalScore >= 40 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.posture_body))
@@ -3876,6 +3886,9 @@ export async function analyzePhoto(
   }
   if (faceCount >= 2 && compositionScore < 35 && totalScore >= 40 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_position))
+  }
+  if (faceCount >= 2 && compositionScore >= 25 && totalScore >= 50 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_tips))
   }
   const exprOk = (lastExpressionScore !== undefined ? lastExpressionScore >= 25 : true)
   if (exprOk && stabilityScore >= 12 && totalScore >= 55 && suggestions.length < 4) {
