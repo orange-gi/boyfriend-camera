@@ -878,8 +878,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 14,
     paddingVertical: 8,
-    paddingLeft: 12,
-    borderLeftWidth: 3,
+    paddingLeft: 0,
   },
   praiseBannerScore: {
     fontSize: 17,
