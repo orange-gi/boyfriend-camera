@@ -142,7 +142,6 @@ export default function ScoreBoard({ result }: Props) {
           </View>
           {suggestions.slice(1).map((s, i) => (
             <View key={i} style={styles.suggestRow}>
-              <Text style={styles.suggestBullet}>·</Text>
               <Text style={styles.suggestText}>{s}</Text>
             </View>
           ))}
@@ -262,21 +261,19 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     lineHeight: 22,
   },
+  // 去装饰化：删掉无意义的圆点符号，纯缩进传达列表层级
   suggestRow: {
     flexDirection: 'row',
     marginBottom: 6,
     paddingRight: 4,
   },
-  suggestBullet: {
-    fontSize: 14,
-    color: COLORS.textMuted,
-    marginRight: 8,
-    marginTop: 1,
-  },
+  // suggestBullet 已删除 — 不需要装饰符号
   suggestText: {
     flex: 1,
     fontSize: 13,
     lineHeight: 20,
     color: COLORS.textSecondary,
+    // 缩进 20 替代圆点占位，视觉更干净
+    paddingLeft: 4,
   },
 })
