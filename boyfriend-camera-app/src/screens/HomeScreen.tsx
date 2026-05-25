@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   dailyTipCard: { marginBottom: spacing[4] },
   dailyTipTouchable: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], paddingRight: spacing[2] },
   dailyTipContent: { flex: 1 },
-  dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4, letterSpacing: 0.5, textTransform: 'uppercase' },
+  dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4 },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
   poseTipCard: { paddingLeft: spacing[3], paddingVertical: spacing[3], marginBottom: spacing[5] },

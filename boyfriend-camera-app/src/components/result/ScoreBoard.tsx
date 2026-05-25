@@ -123,7 +123,7 @@ export default function ScoreBoard({ result }: Props) {
         </View>
         <View style={styles.totalMeta}>
           <Text style={[styles.totalGrade, { color: totalColor }]}>{scoreLabel(totalScore)}</Text>
-          <Text style={styles.totalSubtitle}>构图40 · 曝光30 · 表情20 · 稳定20 · 水平10 = 总分120折算100</Text>
+          <Text style={styles.totalSubtitle}>六维度综合评分</Text>
         </View>
       </View>
 
@@ -210,8 +210,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.textSecondary,
     marginBottom: 16,
-    letterSpacing: 0.3,
-    textTransform: 'uppercase',
   },
   // 维度行 — 标签左 + bar+分数右
   dimRow: {
