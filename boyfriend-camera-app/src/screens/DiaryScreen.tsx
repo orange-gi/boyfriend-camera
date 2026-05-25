@@ -243,11 +243,7 @@ export default function DiaryScreen() {
           <View style={styles.recordHeader}>
             <Text style={styles.recordDate}>{dateStr} {timeStr}</Text>
             <View style={styles.recordRight}>
-              {index === 0 && (
-                <View style={[styles.newTag, { backgroundColor: COLORS.primary }]}>
-                  <Text style={styles.newTagText}>NEW</Text>
-                </View>
-              )}
+              {index === 0 && <View style={[styles.newTagDot]} />}
             </View>
           </View>
 
@@ -706,15 +702,12 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     fontWeight: '600',
   },
-  newTag: {
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-  },
-  newTagText: {
-    color: COLORS.textOnPrimary,
-    fontSize: 10,
-    fontWeight: 'bold',
+  // 简洁圆点指示器替代实心标签（去装饰化）
+  newTagDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: COLORS.primary,
   },
   recordTip: {
     fontSize: 13,
