@@ -123,22 +123,20 @@ export default function ScoreBoard({ result }: Props) {
         </View>
         <View style={styles.totalMeta}>
           <Text style={[styles.totalGrade, { color: totalColor }]}>{scoreLabel(totalScore)}</Text>
-          <Text style={styles.totalSubtitle}>六维度综合评分</Text>
+
         </View>
       </View>
 
-      {/* 分维度 — 去 emoji 标题，简化维度展示 */}
+      {/* 分维度 */}
       <View style={styles.dimsCard}>
-        <Text style={styles.sectionTitle}>详细评分</Text>
         {dimensions.map((d, i) => (
           <DimensionBar key={d.label} {...d} delay={i * 80} />
         ))}
       </View>
 
-      {/* 建议 — 去 emoji 标题，首条气泡样式 */}
+      {/* 建议 */}
       {suggestions.length > 0 && (
         <View style={styles.suggestCard}>
-          <Text style={styles.sectionTitle}>下次可以这样拍</Text>
           <View style={styles.suggestBubble}>
             <Text style={styles.suggestBubbleText}>{suggestions[0]}</Text>
           </View>
@@ -194,11 +192,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  totalSubtitle: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    lineHeight: 16,
-  },
+
   // 维度区
   dimsCard: {
     backgroundColor: COLORS.bgCard,

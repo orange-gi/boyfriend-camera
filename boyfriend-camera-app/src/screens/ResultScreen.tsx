@@ -629,7 +629,6 @@ export default function ResultScreen() {
         {/* 滤镜选择器 */}
         {!processing && (
           <View style={styles.filterPicker}>
-            <Text style={styles.filterPickerTitle}>滤镜</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterPickerList}>
               {FILTER_OPTIONS.map((f) => (
                 <FilterItem
@@ -823,12 +822,6 @@ const styles = StyleSheet.create({
   filterPicker: {
     marginHorizontal: 16,
     marginTop: 12,
-  },
-  filterPickerTitle: {
-    fontSize: typography.fontSize.base,
-    fontWeight: typography.fontWeight.bold,
-    color: COLORS.textPrimary,
-    marginBottom: 10,
   },
   filterPickerList: {
     flexDirection: 'row',
