@@ -829,12 +829,12 @@ const styles = StyleSheet.create({
   },
   filterItem: {
     alignItems: 'center',
-    marginHorizontal: 5,
-    width: 68,
+    marginHorizontal: 4,
+    width: 58,
   },
   filterCircle: {
-    width: 54,
-    height: 54,
+    width: 46,
+    height: 46,
     borderRadius: borderRadius.full,
     alignItems: 'center',
     justifyContent: 'center',
@@ -845,16 +845,16 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
   },
   filterLabel: {
-    fontSize: 12,
+    fontSize: 11,
     color: COLORS.textMuted,
     textAlign: 'center',
-    fontWeight: '500',
+    fontWeight: '400',
     marginTop: 5,
   },
   filterLabelActive: {
     color: COLORS.primary,
-    fontWeight: '700',
-    fontSize: 13,
+    fontWeight: '600',
+    fontSize: 12,
   },
   processingLabel: {
     fontSize: 15,

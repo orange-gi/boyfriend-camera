@@ -584,7 +584,7 @@ const styles = StyleSheet.create({
   },
   statsCard: {
     backgroundColor: COLORS.bgCard,
-    borderRadius: 20,
+    borderRadius: 16,
     padding: 20,
     marginBottom: 20,
   },
@@ -597,15 +597,12 @@ const styles = StyleSheet.create({
   statCard: {
     flex: 1,
     minWidth: '30%',
-    backgroundColor: hexAlpha(COLORS.primary, 0.05),
-    borderRadius: borderRadius.md,
-    paddingVertical: 10,
-    paddingHorizontal: 6,
     alignItems: 'center',
   },
   statCardNum: {
-    fontSize: 26,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '700',
+    color: COLORS.textPrimary,
   },
   statCardLabel: {
     fontSize: 11,
