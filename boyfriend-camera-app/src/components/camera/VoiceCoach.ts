@@ -110,6 +110,10 @@ const FACE_TIPS = {
   EXPRESSION_STIFF: '表情放松一点～嘴角微微上扬，自然最美～',
   EXPRESSION_STIFF_2: '别僵着！想想开心的事，笑一个试试～',
   EXPRESSION_STIFF_3: '表情有点紧，肩膀放松，深呼吸～',
+  // 抬头角度 / 双下巴预防
+  CHIN_ANGLE: '下巴稍微抬一点，收紧脖颈，脸部轮廓会更好看～',
+  CHIN_ANGLE_2: '头微微上抬！挺直脖颈，气质立刻不一样～',
+  CHIN_ANGLE_3: '别低头！抬起下巴，让下巴和脖子呈一条线～',
   // 前置摄像头提示
   SELFIE_MODE: '自拍模式！找好角度，笑一个～',
   SELFIE_TOO_CLOSE: '手机拿远一点！自拍离太近会变形～',
@@ -1764,6 +1768,18 @@ class VoiceCoach {
       FACE_TIPS.EXPRESSION_STIFF_3,
       '表情稍微放松一点！想想开心的事，笑得更自然～',
       '别僵着！深呼吸一下，嘴角微微上扬，这个表情最好看～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 抬头角度提示（rollAngle 过大时触发） */
+  async speakChinAngleTip(): Promise<void> {
+    const tips = [
+      FACE_TIPS.CHIN_ANGLE,
+      FACE_TIPS.CHIN_ANGLE_2,
+      FACE_TIPS.CHIN_ANGLE_3,
+      '下巴稍微抬起来一点，脸部轮廓会更清晰～',
+      '头微微上抬！下巴收紧，仪态会好很多～',
     ]
     await this.speak(pickRandom(tips))
   }

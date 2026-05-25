@@ -291,6 +291,10 @@ export default function ResultScreen() {
         if (analysis.expressionScore < 10 && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakStiffExpressionTip() } catch {} }, 3200)
         }
+        // 抬头角度过大时触发 chin angle TTS
+        if (analysis.expressionScore < 12 && faces[0]?.rollAngle !== undefined && Math.abs(faces[0].rollAngle) > 20) {
+          track(() => { try { VoiceCoach.speakChinAngleTip() } catch {} }, 3400)
+        }
         if (analysis.problems?.includes('backlight') && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakBacklightTip() } catch {} }, 3400)
         }
