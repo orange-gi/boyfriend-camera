@@ -229,9 +229,6 @@ export default function HomeScreen() {
       )}
 
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
-        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Home' as const, params: undefined })} activeOpacity={0.72}>
-          <View style={styles.bottomNavPillActive}><Text style={styles.bottomNavTextActive}>首页</Text></View>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
           <Text style={styles.bottomNavText}>进步日记</Text>
         </TouchableOpacity>
@@ -279,7 +276,7 @@ const styles = StyleSheet.create({
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
-  skeletonNum: { width: 36, height: 36, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
+  skeletonNum: { width: 56, height: 36, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
