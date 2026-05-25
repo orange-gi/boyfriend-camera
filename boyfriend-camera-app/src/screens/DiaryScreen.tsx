@@ -584,7 +584,7 @@ const styles = StyleSheet.create({
   },
   statsCard: {
     backgroundColor: COLORS.bgCard,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 20,
     marginBottom: 20,
   },
@@ -612,7 +612,7 @@ const styles = StyleSheet.create({
   recordCard: {
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 16,
     marginBottom: 10,
     gap: 14,
@@ -751,7 +751,7 @@ const styles = StyleSheet.create({
 
   emptyErrorCard: {
     backgroundColor: COLORS.bgCard,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 32,
     marginBottom: 16,
     alignItems: 'center',
