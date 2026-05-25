@@ -385,43 +385,26 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            {totalCount > 0 && (
-              <View style={styles.badgeRow}>
-                {maxScore === 100 && (
-                  <Text style={[styles.badgeText, styles.badgeGoldText]}>满分达成</Text>
-                )}
-                {maxScore !== 100 && avgScore >= 80 && (
-                  <Text style={[styles.badgeText, styles.badgeGoldText]}>{avgScore >= 90 ? '大师级' : '专业级'}</Text>
-                )}
-                {maxScore !== 100 && avgScore >= 60 && avgScore < 80 && (
-                  <Text style={[styles.badgeText, { color: COLORS.info }]}>{avgScore >= 70 ? '进阶中' : '成长中'}</Text>
-                )}
-                {maxScore !== 100 && avgScore > 0 && avgScore < 60 && (
-                  <Text style={[styles.badgeText, { color: COLORS.warning }]}>新手期</Text>
-                )}
-                {maxScore !== 100 && avgScore < 80 && totalCount >= 10 && (
-                  <Text style={[styles.badgeText, styles.badgeGreenText]}>拍摄{totalCount}次</Text>
-                )}
-                {maxScore !== 100 && avgScore < 80 && totalCount >= 1 && totalCount < 10 && weeklyStats.streak >= 3 && (
-                  <Text style={[styles.badgeText, styles.badgeGreenText]}>连续{weeklyStats.streak}天</Text>
-                )}
-                {maxScore !== 100 && avgScore < 80 && totalCount === 1 && (
-                  <Text style={[styles.badgeText, styles.badgeGreenText]}>首次记录</Text>
-                )}
-              </View>
-            )}
-
-            {(monthlyStats.monthAvg > 0 || monthlyStats.prevMonthAvg > 0) && (() => {
-              const diff = monthlyStats.monthDiff
-              const diffStr = diff !== 0
-                ? diff > 0 ? ` ↑+${diff}` : ` ↓${diff}`
-                : ''
-              const diffColor = diff > 0 ? COLORS.success : COLORS.textMuted
+            {totalCount > 0 && (() => {
+              const badgeLabel =
+                maxScore === 100 ? '满分达成' :
+                avgScore >= 90 ? '大师级' :
+                avgScore >= 80 ? '专业级' :
+                avgScore >= 70 ? '进阶中' :
+                avgScore >= 60 ? '成长中' :
+                '新手期'
+              const badgeColor =
+                maxScore === 100 ? COLORS.warning :
+                avgScore >= 80 ? COLORS.success :
+                avgScore >= 60 ? COLORS.info :
+                COLORS.textMuted
               return (
-                <Text style={styles.monthCompareText}>
-                  本月 {monthlyStats.monthAvg}分 · 上月 {monthlyStats.prevMonthAvg > 0 ? `${monthlyStats.prevMonthAvg}分` : '-'}
-                  <Text style={{ color: diffColor }}>{diffStr}</Text>
-                </Text>
+                <View style={[styles.achievementBadge, { backgroundColor: hexAlpha(badgeColor, 0.1) }]}>
+                  <Text style={[styles.achievementBadgeText, { color: badgeColor }]}>{badgeLabel}</Text>
+                  {totalCount > 0 && (
+                    <Text style={styles.achievementCount}>{totalCount}张照片 · 最高{peakScore}分</Text>
+                  )}
+                </View>
               )
             })()}
 
@@ -750,29 +733,24 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: COLORS.skeletonBase,
   },
-  // badgeRow marginTop 增大至 14：与 sectionTitle marginBottom: 14 对称，视觉留白充分
-  badgeRow: {
+  // 成就徽章 — 简洁胶囊设计：左色块承载信息，右细副标题
+  achievementBadge: {
     flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    marginTop: 16,
     gap: 8,
-    marginTop: 14,
   },
-  // 各徽章样式去装饰化：纯文字靠语义色承载信息，无多余边框/背景
-  badgeText: {
-    fontSize: 12,
+  achievementBadgeText: {
+    fontSize: 13,
     fontWeight: '600',
   },
-  badgeGoldText: {
-    color: COLORS.warning,
-  },
-  badgeGreenText: {
-    color: COLORS.success,
-  },
-  // 月对比行 — 极简单行文字，删掉三列布局
-  monthCompareText: {
-    fontSize: 13,
+  achievementCount: {
+    fontSize: 12,
     color: COLORS.textMuted,
-    lineHeight: 20,
-    marginTop: 8,
   },
 
   emptyErrorCard: {
