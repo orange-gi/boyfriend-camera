@@ -1,10 +1,9 @@
 /**
- * 男友相机 - getTemplates 云函数 v37
- * 385 个姿势模板，每个模板新增 name 字段（从 description 提取前6字）
- * 覆盖室内/户外/餐厅/特殊风格/情侣合照/城市街拍等全场景
+ * 男友相机 - getTemplates 云函数 v38
+ * 385 个姿势模板，清理 dead code（genName）+ 完善 expression praise pool
  */
 
-const CURRENT_VERSION = 37
+const CURRENT_VERSION = 38
 
 // ===== Deterministic SVG generator (replaces 170 static constants, reduces ~60KB) =====
 function genSVG(id) {
@@ -26,15 +25,9 @@ function genSVG(id) {
     `<ellipse cx="${n()}" cy="${n()}" rx="${n()}" ry="${n()}" fill="${rgba()}"/>`,
   ]
   return `data:image/svg+xml;base64,${Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" fill="'+f+'" stroke="rgba(255,255,255,0.6)" stroke-width="1.5">'+els.join('')+'</svg>').toString('base64')}`
-// 从 description 提取短名称（用于 UI template.name 字段）
-function genName(desc) {
-  if (!desc) return '姿势模板'
-  const first = (desc.split(/[，。、.!！?？]/)[0] || desc).trim()
-  return first.length <= 6 ? first : first.slice(0, 6)
 }
 
 
-}
 
 const ALL_TEMPLATES = [
   {
