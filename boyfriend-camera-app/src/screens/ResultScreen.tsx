@@ -566,14 +566,14 @@ export default function ResultScreen() {
     return `${scoreResult.totalScore}分，继续加油，一定能越拍越好！`
   }
 
-  // 夸奖横幅边框颜色（按分数段）
-  const getPraiseBannerColors = (): { border: string } => {
-    if (!scoreResult) return { border: COLORS.warning }
-    if (scoreResult.totalScore >= 90) return { border: COLORS.scoreGreat }
-    if (scoreResult.totalScore >= 80) return { border: COLORS.primary }
-    if (scoreResult.totalScore >= 70) return { border: COLORS.success }
-    if (scoreResult.totalScore >= 60) return { border: COLORS.warning }
-    return { border: COLORS.danger }
+  // 夸奖横幅文字颜色（按分数段）— 语义化命名，从 border → scoreColor
+  const getPraiseBannerColors = (): { scoreColor: string } => {
+    if (!scoreResult) return { scoreColor: COLORS.warning }
+    if (scoreResult.totalScore >= 90) return { scoreColor: COLORS.scoreGreat }
+    if (scoreResult.totalScore >= 80) return { scoreColor: COLORS.primary }
+    if (scoreResult.totalScore >= 70) return { scoreColor: COLORS.success }
+    if (scoreResult.totalScore >= 60) return { scoreColor: COLORS.warning }
+    return { scoreColor: COLORS.danger }
   }
   const praiseColors = getPraiseBannerColors()
 
@@ -633,7 +633,7 @@ export default function ResultScreen() {
         {/* 夸奖横幅 — 文字颜色已暗示分数等级，无需多余左侧色条 */}
         {!processing && (
           <View style={styles.praiseBanner}>
-            <Text style={[styles.praiseBannerScore, { color: praiseColors.border }]}>
+            <Text style={[styles.praiseBannerScore, { color: praiseColors.scoreColor }]}>
               {getPraiseBannerText()}
             </Text>
             {scoreAnimationDone && praiseList.length > 0 && (
