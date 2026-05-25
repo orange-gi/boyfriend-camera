@@ -4801,6 +4801,50 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 宠物合照提示（与宠物互动场景） */
+  async speakPetPhotoTip(): Promise<void> {
+    const tips = [
+      '和宠物互动抓拍！蹲下来和它平视，表情最自然～',
+      '趁宠物看向镜头时赶紧按快门！这个瞬间最可爱～',
+      '让宠物待在画面下方，上方留给主人，大片感十足～',
+      '和宠物贴贴拍！这个角度超有爱～',
+      '对着宠物说话或发出声音，趁它抬头时抓拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 泳池/水上场景提示 */
+  async speakPoolWaterTip(): Promise<void> {
+    const tips = [
+      '泳池边水光粼粼！侧身站着让光打在侧脸上，肤色超通透～',
+      '泳池水面的反光打在脸上超梦幻！这个角度绝了～',
+      '泳池边开闪光灯可以压掉水面反光，试试看～',
+      '日出日落时泳池边光线最温柔！赶紧拍几张～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 夜市美食场景提示 */
+  async speakNightMarketFoodTip(): Promise<void> {
+    const tips = [
+      '夜市灯光超有烟火气！食物和人一起来一张，氛围感绝了～',
+      '夜市光线偏暖偏暗，打开闪光灯补补光，食物会更诱人～',
+      '找个干净的摊位背景，让食物成为画面主角～',
+      '夜市人很多！开人像模式虚化背景，主体更突出～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 情侣贴贴提示（强调肢体互动） */
+  async speakCoupleSqueezeTip(): Promise<void> {
+    const tips = [
+      '两个人再靠近一点！贴贴更甜蜜，构图也更紧凑～',
+      '情侣照要的就是这种自然亲密感！靠近一点～',
+      '两个人贴在一起拍！这个距离超甜～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
