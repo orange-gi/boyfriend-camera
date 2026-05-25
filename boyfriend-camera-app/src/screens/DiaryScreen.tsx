@@ -18,7 +18,7 @@ import ProgressChart from '../components/diary/ProgressChart'
 import { getDiary, writeDiary, getPeakScore, recalcPeakScore, type DiaryRecord } from '../services/analyzer'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, hexAlpha } from '../theme'
+import { COLORS, hexAlpha, borderRadius } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 
 export default function DiaryScreen() {
@@ -591,13 +591,15 @@ const styles = StyleSheet.create({
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
+    gap: 8,
   },
-  // statCard 无背景色，borderRadius 无视觉作用，移除以保持代码整洁
   statCard: {
     flex: 1,
     minWidth: '30%',
+    backgroundColor: hexAlpha(COLORS.primary, 0.05),
+    borderRadius: borderRadius.md,
     paddingVertical: 10,
+    paddingHorizontal: 6,
     alignItems: 'center',
   },
   statCardNum: {
