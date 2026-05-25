@@ -1,6 +1,7 @@
 /**
  * EmptyState - 空状态通用组件
  * 支持预设类型（网络错误、拍照失败、无结果等），也可完全自定义
+ * 设计原则：简洁优雅极致 — 去 emoji 装饰，依赖排版和颜色传达信息
  */
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
@@ -16,45 +17,38 @@ export type EmptyStateType =
   | 'diary'      // 进步日记为空（首次使用）
   | 'camera'     // 相机权限未开启
 
-/** 各预设类型的默认内容 */
-const PRESETS: Record<EmptyStateType, { icon: string; title: string; subtitle?: string; actionLabel?: string }> = {
+/** 各预设类型的默认内容 — 去 emoji，用字号和颜色区分层级 */
+const PRESETS: Record<EmptyStateType, { title: string; subtitle?: string; actionLabel?: string }> = {
   default: {
-    icon: '📭',
     title: '这里空空如也',
     subtitle: '暂无内容',
   },
   network: {
-    icon: '📶',
     title: '网络不给力',
     subtitle: '请检查网络连接后重试',
     actionLabel: '重新加载',
   },
   capture: {
-    icon: '📷',
     title: '拍照遇到点小状况',
     subtitle: '可以试试重启相机或换个角度',
     actionLabel: '重新拍照',
   },
   noResult: {
-    icon: '🔍',
     title: '没有找到合适的模板',
     subtitle: '试试换个场景或手动选择一个模板',
     actionLabel: '查看全部模板',
   },
   template: {
-    icon: '📋',
     title: '模板加载失败',
     subtitle: '请检查网络后重新加载',
     actionLabel: '重试',
   },
   diary: {
-    icon: '📝',
     title: '还没有进步记录',
     subtitle: '开始拍照吧！每张照片都会记录在这里，看着分数一点点提高超有成就感的～',
     actionLabel: '去拍照',
   },
   camera: {
-    icon: '📷',
     title: '相机权限未开启',
     subtitle: '需要相机权限才能拍照，请在设置中开启摄像头权限',
     actionLabel: '去设置',
@@ -69,7 +63,6 @@ interface PresetProps {
 }
 
 interface CustomProps {
-  icon?: string
   title: string
   subtitle?: string
   action?: { label: string; onPress: () => void }
@@ -83,14 +76,12 @@ function isPreset(props: Props): props is PresetProps {
 }
 
 export default function EmptyState(props: Props) {
-  let icon: string
   let title: string
   let subtitle: string | undefined
   let action: { label: string; onPress: () => void } | undefined
 
   if (isPreset(props)) {
     const preset = PRESETS[props.type] ?? PRESETS.default
-    icon = preset.icon
     title = preset.title
     subtitle = preset.subtitle
     if (props.onAction) {
@@ -100,7 +91,6 @@ export default function EmptyState(props: Props) {
       }
     }
   } else {
-    icon = props.icon ?? '📭'
     title = props.title
     subtitle = props.subtitle
     action = props.action
@@ -108,7 +98,6 @@ export default function EmptyState(props: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.icon}>{icon}</Text>
       <Text style={styles.title}>{title}</Text>
       {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
       {action && (
@@ -124,22 +113,22 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 40,
+    paddingVertical: 48,
   },
-  icon: { fontSize: 48, marginBottom: 12 },
   title: {
     fontSize: 16,
     fontWeight: '600',
     color: COLORS.textPrimary,
     textAlign: 'center',
-    marginBottom: 6,
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
     color: COLORS.textMuted,
     textAlign: 'center',
     lineHeight: 20,
-    marginBottom: 16,
+    marginBottom: 20,
+    paddingHorizontal: 24,
   },
   btn: {
     backgroundColor: COLORS.primary,

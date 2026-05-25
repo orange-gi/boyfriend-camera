@@ -38,11 +38,10 @@ export default function Toast({ message, type = 'info', visible, onHide, duratio
 
   if (!visible) return null
 
-  const iconMap = { success: '✅', error: '❌', info: '💡' }
   const bgMap = {
-    success: 'rgba(40, 167, 69, 0.92)',
-    error: 'rgba(220, 53, 69, 0.92)',
-    info: 'rgba(33, 37, 41, 0.90)',
+    success: 'rgba(40, 167, 69, 0.95)',
+    error: 'rgba(220, 53, 69, 0.95)',
+    info: 'rgba(33, 37, 41, 0.92)',
   }
 
   return (
@@ -53,7 +52,6 @@ export default function Toast({ message, type = 'info', visible, onHide, duratio
       ]}
       pointerEvents="none"
     >
-      <Text style={styles.icon}>{iconMap[type]}</Text>
       <Text style={styles.message}>{message}</Text>
     </Animated.View>
   )
@@ -76,12 +74,11 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 5,
   },
-  icon: { fontSize: 16, marginRight: 8 },
   message: {
     fontSize: 14,
     color: '#fff',
     fontWeight: '500',
-    maxWidth: 240,
+    textAlign: 'center',
   },
 })
 

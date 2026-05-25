@@ -168,7 +168,7 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
   if (!hasPermission) {
     return (
       <View style={styles.permissionContainer}>
-        <Text style={styles.permissionText}>📷 需要相机权限</Text>
+        <Text style={styles.permissionText}>需要相机权限</Text>
         {requestedPermission ? (
           <>
             <Text style={styles.permissionSubText}>好像被拒绝了🥲</Text>
@@ -192,7 +192,7 @@ const CameraView = forwardRef<CameraViewRef, Props>(({
   if (!device) {
     return (
       <View style={styles.permissionContainer}>
-        <Text style={styles.permissionText}>❌ 未找到相机设备</Text>
+        <Text style={styles.permissionText}>未找到相机设备</Text>
         <Text style={styles.permissionSubText}>请确保相机可用</Text>
         <TouchableOpacity style={styles.retryBtn} onPress={handleRetry}>
           <Text style={styles.retryBtnText}>重试</Text>
