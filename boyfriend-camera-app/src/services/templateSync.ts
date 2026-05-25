@@ -55,7 +55,7 @@ export async function syncTemplates(): Promise<PoseTemplate[]> {
 
     // 云端无更新
     if (data.latestVersion <= localVersion) {
-      // 无更新，当前版本: 
+      logger.debug('TemplateSync', `已是最新版本(v${localVersion})，无需更新`)
       return getCachedTemplates()
     }
 
@@ -66,7 +66,7 @@ export async function syncTemplates(): Promise<PoseTemplate[]> {
       JSON.stringify(templates)
     )
     await setLocalVersion(data.latestVersion)
-    // 已更新到新版本，共 
+    logger.info('TemplateSync', `同步成功: v${localVersion} → v${data.latestVersion}，共 ${templates.length} 个模板`)
     return templates
   } catch (e) {
     logger.warn('TemplateSync', `云函数不可用，使用离线模板: ${(e as Error).message}`)
