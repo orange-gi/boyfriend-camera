@@ -1617,10 +1617,23 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '桌面杂乱时试试俯拍，让男朋友站高一点，只拍上半身～',
     '咖啡馆白墙或书架做背景，比杂乱的桌面更干净高级～',
   ],
-  // 花季/樱花场景建议
   // 复古胶片风建议
-  // 演唱会场景建议
+  vintage_film_specific: [
+    '复古胶片风光线偏暗宽容度低，稍微过曝一点补偿阴影细节～',
+    '胶片色调偏暖，适当欠曝保留高光细节更有质感～',
+    '复古风格适合侧光或逆光，让光影层次更丰富～',
+    '胶片颗粒感来自高 ISO，让光更充足减少噪点更细腻～',
+    '复古胶片风适合暖色调服装，颜色对比会让画面更鲜活～',
+  ],
   // 温泉/泡汤场景建议
+  hotspring_specific: [
+    '温泉水汽缭绕超有氛围感！让蒸汽打在脸上，朦胧又唯美～',
+    '温泉场景光线昏暗，打开闪光灯正面补光最安全～',
+    '泡汤时头发容易湿乱，拍照前先整理好发型再入水～',
+    '温泉石墙做背景超有质感！侧身靠着石墙，氛围感拉满～',
+    '泡汤照不用看镜头，让蒸汽或水流入镜，画面更有故事感～',
+    '温泉光线下脸偏暖白，适当降低色温让肤色更自然～',
+  ],
   // 滑雪场景建议
   ski_resort_specific: [
     '雪地里光线反射极强！戴墨镜保护眼睛，或者站在阴影里拍～',
@@ -1719,7 +1732,16 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '让女生坐姿伸直腿，男生从对角线方向拍，构图超有趣～',
   ],
   // 拍摄角度建议
-  // 背景与距离综合建议
+  shooting_angle_tips: [
+    '俯拍显脸小，仰拍显腿长，根据想展现的效果选择角度～',
+    '拍侧颜时让女友微微抬头，下颌线会更清晰～',
+    '手机与眼睛平齐是最自然的人像角度，不要过高或过低～',
+    '让女友坐在椅子上，男朋友蹲低一点拍，这个角度超显瘦～',
+    '从背后拍让她往前走，回头看镜头，这个角度超有故事感～',
+    '45度角是永远不出错的角度，让脸更立体～',
+    '躺下拍时从正上方俯拍，光线从头顶打下来最柔和～',
+    '从侧面拍让身体转30-45度，这个角度身材线条最美～',
+  ],
   // 低分安慰（总分 40-60）
   medium_low_encourage: [
     '第一次拍成这样已经不错啦，多拍几张更好～',
@@ -2009,21 +2031,6 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '书架间的缝隙光超有氛围，让光斑打在脸上～',
     '翻书的瞬间抓拍最自然！手指轻轻翻动书页～',
   ],
-  // 樱花季/春季场景建议
-  // 音乐节/演唱会场景建议
-  // 温泉/泡汤场景建议
-  // 咖啡馆场景建议
-  // 超市/便利店场景建议
-  // 健身房/运动场景建议
-  // 动物园/水族馆场景建议
-  // 烘焙甜点场景建议
-  // 氛围感/情绪感建议
-  // 情侣互动建议
-  // 道具/配件建议
-  // 姿势引导建议
-  // 拍摄时机建议
-  // 构图进阶建议
-  // 多人合照建议
   group_photo_tips: [
     '人多的话站两边，中间留给人多的那侧～',
     '多人合照要让每个人都能看到镜头，别只顾着中间的人～',
@@ -3419,7 +3426,7 @@ export type SceneType =
   | 'beach_sunset' | 'rainy_street' | 'morning_run' | 'bookstore' | 'mirror' | 'carnival' | 'beach'
   | 'dance_performance' | 'red_autumn_detail' | 'rooftop_daytime' | 'amusement_carnival'
   | 'airport_station' | 'meadow_ranch' | 'subway_escalator'
-  | 'sunset' | 'overcast'
+  | 'sunset' | 'overcast' | 'hotspring' | 'vintage_film'
 
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */
@@ -4835,6 +4842,15 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.autumn_leaves_tips))
   }
 
+  // 温泉/泡汤场景
+  if (sceneType === 'hotspring') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.hotspring_specific))
+  }
+  // 复古胶片风场景
+  if (sceneType === 'vintage_film') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.vintage_film_specific))
+  }
+
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
   const uniqueSuggestions = [...new Set(suggestions)]
   // 俯拍（人脸在画面上半部分）
@@ -4863,6 +4879,10 @@ export async function analyzePhoto(
   }
 
   // ===== 新增建议池调用（Round 2） =====
+  // 拍摄角度：当构图分 < 36 时触发
+  if (compositionScore < 36 && faceCount === 1 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.shooting_angle_tips))
+  }
   // 姿势引导：当构图分 < 36 且非合照时
   if (compositionScore < 36 && faceCount <= 2 && suggestions.length < 5) {
     suggestions.push(pickRandom(SUGGESTION_POOL.posture_guidance))
