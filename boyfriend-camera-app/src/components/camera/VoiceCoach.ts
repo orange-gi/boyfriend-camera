@@ -3173,28 +3173,6 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
-  // 情侣互动特别提示
-  async speakCoupleInteractionTip(): Promise<void> {
-    const tips = [
-      '两个人靠近一点！贴贴更甜蜜～',
-      '对视一下！这个瞬间按下去，超有感觉～',
-      '从背后抱！经典的甜蜜姿势学起来～',
-      '牵手往前走，边走边抓拍，自然又好看～',
-      '额头碰额头！嘟嘴亲亲，超甜～',
-    ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
-  }
-
-  // 连拍建议
-  async speakBurstTip(): Promise<void> {
-    const tips = [
-      '按住快门连拍！多拍几张选最好的～',
-      '连拍模式开起来！动起来的瞬间最自然～',
-      '多拍几张总有一张完美！别只拍一张就收工～',
-    ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
-  }
-
   /** 切换到前置摄像头 */
   async speakCameraSwitchedFront(): Promise<void> {
     const tips = [FACE_TIPS.CAMERA_SWITCHED_FRONT, FACE_TIPS.CAMERA_SWITCHED_FRONT_2, FACE_TIPS.CAMERA_SWITCHED_FRONT_3]
