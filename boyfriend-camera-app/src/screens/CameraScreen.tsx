@@ -806,8 +806,9 @@ export default function CameraScreen() {
                   >
                     <Text
                       style={[
-                        styles.categoryTabText,
-                        isSelected && { color },
+                        isSelected
+                          ? [styles.categoryTabTextActive, { color }]
+                          : styles.categoryTabText,
                       ]}
                     >
                       {cat}
@@ -1220,16 +1221,19 @@ const styles = StyleSheet.create({
   categoryTab: {
     paddingHorizontal: 14,
     paddingVertical: 6,
-    borderRadius: 14,
     marginHorizontal: 2,
   },
   categoryTabActive: {
-    backgroundColor: hexAlpha(COLORS.primary, 0.1),
+    // 去背景色：纯文字权重 + 主色承载激活态，克制不抢镜
   },
   categoryTabText: {
     fontSize: 14,
     color: COLORS.textMuted,
-    fontWeight: '600',
+    fontWeight: '400',
+  },
+  categoryTabTextActive: {
+    fontSize: 14,
+    fontWeight: '700',
   },
   templateList: {
     padding: 12,
@@ -1296,7 +1300,7 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
-  // 搜索框：无边框无背景，白色底自然区隔，视觉更轻
+  // 搜索框：浅灰底 + 无边框，视觉分区清晰，不抢模态内容
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1304,6 +1308,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 10,
     height: 38,
+    backgroundColor: COLORS.bg,
+    borderRadius: 10,
   },
   searchInput: {
     flex: 1,
