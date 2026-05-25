@@ -3365,6 +3365,15 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '地铁站台玻璃顶棚能透自然光！找有天窗的位置站，光最柔和～',
     '站台灯光偏青冷调，让脸稍微侧向光源偏暖的方向，肤色更自然～',
   ],
+  // 多人合照专项建议
+  group_photo_tips_suggestion: [
+    '人多的时候往后站一步！这样每个人都能入镜，不被切掉～',
+    '合照时让高的人站后面，矮的站前面，这样每个人都能露出来～',
+    '多人合照找高点拍！从上往下拍大家的脸都能看到～',
+    '闺蜜照尽量找干净的背景！人多背景杂，虚化效果会更干净～',
+    '多人拍照时对焦在中间的人，这样前后都能清晰～',
+    '合照表情要同步！大家统一说"茄子"或"田七"，表情最一致～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -4691,7 +4700,7 @@ export async function analyzePhoto(
 
   // 多人合照建议（2人以上）
   if (faceCount >= 3) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_tips))
+    suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_tips_suggestion))
   }
   if (sceneType === 'mirror') {
     suggestions.push(pickRandom(SUGGESTION_POOL.mirror_selfie_tips))
