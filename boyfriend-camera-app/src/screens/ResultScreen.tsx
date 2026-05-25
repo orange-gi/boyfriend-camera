@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Share,
 } from 'react-native'
+// Note: Share API usage in handleShare()
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -475,7 +476,7 @@ export default function ResultScreen() {
         title: '男友相机 - 拍照分析',
         message: shareMessage,
         url: pathToShare,
-      } as const
+      }
       await Share.share(shareOptions)
     } catch (e: unknown) {
       const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : ''
