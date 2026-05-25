@@ -2305,7 +2305,7 @@ class VoiceCoach {
     const tips = [
       `新纪录！${score}分！男朋友你破纪录了！`,
       `${score}分！历史最高！男朋友进化了！`,
-      `🏆 新纪录达成！${score}分！男朋友太厉害了！`,
+      `新纪录达成！${score}分！男朋友太厉害了！`,
     ]
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
@@ -2313,12 +2313,12 @@ class VoiceCoach {
   /** 里程碑庆祝 */
   async speakMilestone(count: number): Promise<void> {
     const msgs: Record<number, string> = {
-      10: '🎉 十连拍达成！男朋友进步肉眼可见！',
-      20: '🏆 二十连拍里程碑！摄影师已在线！',
-      50: '👑 五十次快门！男朋友你是被拍照耽误的摄影师！',
-      100: '💎 百次快门达成！男朋友已经是拍照达人了！',
+      10: '十连拍达成！男朋友进步肉眼可见！',
+      20: '二十连拍里程碑！摄影师已在线！',
+      50: '五十次快门！男朋友你是被拍照耽误的摄影师！',
+      100: '百次快门达成！男朋友已经是拍照达人了！',
     }
-    const msg = msgs[count] || `🎊 ${count}次拍摄达成！继续加油！`
+    const msg = msgs[count] || `${count}次拍摄达成！继续加油！`
     await this.speak(msg, true)
   }
 
