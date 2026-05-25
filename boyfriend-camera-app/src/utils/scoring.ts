@@ -30,3 +30,8 @@ export function safeBrightness(value: number): number {
 export function safeSharpness(value: number): number {
   return Math.max(0, Math.min(255, value))
 }
+
+/** 分数安全范围 [0, 100] */
+export function safeScore(value: number): number {
+  return Math.max(0, Math.min(100, Math.round(value)))
+}
