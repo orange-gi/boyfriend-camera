@@ -3960,6 +3960,36 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
+  /** 强日光户外建议 — 正午/夏季户外亮度高直射（Round 2 新增） */
+  async speakHarshSunlightOutdoor(): Promise<void> {
+    const tips = [
+      '阳光直晒太烈了！找个树荫或建筑阴影，光线会柔很多～',
+      '户外阳光太强容易过曝！侧身站躲开直射光，或者找个阴凉处～',
+      '正午烈日下拍照容易阴阳脸！找个柔和的光源再拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 雾霾天/沙尘天建议（Round 2 新增） */
+  async speakSmokeHazeTip(): Promise<void> {
+    const tips = [
+      '今天天气有点雾，光线反而很柔和！找个前景虚化，超有层次感～',
+      '雾霾天气拍侧脸超有感觉！柔和的光线让皮肤看起来超好～',
+      '这种天气背景朦胧有氛围感！主体清晰、背景柔化，层次分明～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 地铁/地下空间暗光建议（Round 2 新增） */
+  async speakMetroSubwayTip(): Promise<void> {
+    const tips = [
+      '地铁站光线偏暗！找个灯光充足的位置，或者打开闪光灯补光～',
+      '地下空间灯光偏冷偏暗！侧身站让光打在侧脸上，立体感会更强～',
+      '地铁出口光差大！稍微等眼睛适应后再拍，避免脸太黑～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
   /** 照片已保存到相册（ResultScreen 保存成功后播报） */
   async speakResultSaved(): Promise<void> {
     const tips = [
