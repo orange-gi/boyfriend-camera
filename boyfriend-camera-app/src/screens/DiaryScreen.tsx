@@ -175,28 +175,6 @@ export default function DiaryScreen() {
     return { weekAvg, weekCount, streak }
   }, [records])
 
-  // 月度统计数据（仅取月均分和上月均分，其余字段无需计算）
-  // 用 useMemo 避免每次渲染都做日期过滤，records 变化时才重算
-  const monthlyStats = useMemo(() => {
-    const now = new Date()
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
-    const monthRecords = records.filter((r) => new Date(r.date) >= monthStart)
-    const monthAvg = monthRecords.length > 0
-      ? Math.round(monthRecords.reduce((s, r) => s + r.score, 0) / monthRecords.length)
-      : 0
-    const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-    const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
-    const prevMonthRecords = records.filter((r) => {
-      const d = new Date(r.date)
-      return d >= prevMonthStart && d <= prevMonthEnd
-    })
-    const prevMonthAvg = prevMonthRecords.length > 0
-      ? Math.round(prevMonthRecords.reduce((s, r) => s + r.score, 0) / prevMonthRecords.length)
-      : 0
-    const monthDiff = monthAvg - prevMonthAvg
-    return { monthAvg, monthDiff, prevMonthAvg }
-  }, [records])
-
   // 进步趋势文案
   // trendInfo computed inline when needed via calcAvgScore
 
