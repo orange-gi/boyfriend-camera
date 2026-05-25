@@ -4150,61 +4150,13 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  // ===== speakScene - 统一场景入口（映射 VoiceScene 类型到具体方法） =====
-  /**
-   * speakScene - 统一场景入口
-   * 将 VoiceScene 类型映射到具体的 speak 方法
-   * VoiceScene 类型定义见 src/services/voiceCoach.ts
-   */
-  async speakScene(scene: string, score?: number): Promise<void> {
-    switch (scene) {
-      case 'app_start':
-        await this.speakDailyWelcome(true); break
-      case 'camera_ready':
-        await this.speakCameraSetupTip(); break
-      case 'photo_captured':
-        await this.speakCaptureSuccess(); break
-      case 'analyzing':
-        await this.speakProcessingDone(); break
-      case 'score_reveal':
-        await this.speakScoreReveal(score ?? 0); break
-      case 'diary_loaded':
-        await this.speakDiaryLoaded(0); break
-      case 'template_selected':
-        await this.speakTemplateTip('跟着剪影摆好姿势，让男朋友准备拍照！'); break
-      case 'milestone':
-        await this.speakMilestone(score ?? 0); break
-      case 'encourage':
-        await this.speakRetryTip(score ?? 0); break
-      case 'celebration':
-        await this.speakCelebration('streak3'); break
-      case 'photo_saved':
-        await this.speakSavedToAlbum(); break
-      case 'filter_selected':
-        await this.speakFilterSwipeHint(); break
-      case 'filter_swipe':
-        await this.speakFilterSwipeHint(); break
-      case 'share_success':
-        await this.speakShareSuccess(); break
-      case 'photo_deleted':
-        await this.speakDiaryDeleted(); break
-      case 'processing_done':
-        await this.speakProcessingDone(); break
-      case 'perfect_timing':
-        await this.speakPerfectTiming(); break
-      default:
-        await this.speakPerfectTiming()
-    }
-  }
-
-  // ===== 缺失的场景方法 - 基于 analyzer.ts SceneType 枚举 =====
-  // 场景类型定义: indoor | outdoor | cafe | rooftop_night | camping_campfire | snow |
-  // ski_resort | cherry_blossom | christmas | gym | zoo | train | ancient_town | lighthouse |
-  // subway | supermarket | rooftop_party | farm | graffiti | aquarium | chapel | market_stall |
-  // bakery | carousel | greenhouse | tent_camp | graduation | festival_lights | graduation_outdoor |
-  // old_town | beach_sunset | rainy_street | morning_run | bookstore | mirror | carnival |
-  // beach | dance_performance | red_autumn_detail | rooftop_daytime | amusement_carnival |
-  // airport_station | meadow_ranch | subway_escalator
+  // ===== 场景专属 TTS 方法（保留定义，暂无调用方） =====
+  // 计划: 通过统一的 scene-type → speak method 路由调用
+  // 场景类型: indoor | outdoor | cafe | rooftop_night | camping_campfire | snow |
+  // ski_resort | cherry_blossom | christmas | gym | zoo | train | subway | supermarket |
+  // rooftop_party | farm | graffiti | aquarium | chapel | market_stall | bakery |
+  // carousel | greenhouse | tent_camp | graduation | old_town | beach_sunset |
+  // rainy_street | morning_run | bookstore | beach | airport_station | meadow_ranch
 
   /** 天台派对场景 */
   async speakRooftopPartyTip(): Promise<void> {
