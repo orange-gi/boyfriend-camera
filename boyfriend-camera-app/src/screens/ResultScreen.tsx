@@ -53,6 +53,8 @@ function getSceneType(category: string | null | undefined): SceneType {
     '自拍技巧': 'other',
     '节日限定': 'christmas',
     '运动健身': 'gym',
+    '温泉': 'hotspring',
+    '复古胶片': 'vintage_film',
   }
   return map[category] ?? 'other'
 }
