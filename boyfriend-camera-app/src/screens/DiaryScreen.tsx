@@ -282,7 +282,6 @@ export default function DiaryScreen() {
         ) : loadError ? (
           <>
             <View style={styles.emptyErrorCard}>
-              <Text style={styles.emptyErrorDash}>—</Text>
               <Text style={styles.emptyErrorTitle}>加载失败了</Text>
               <Text style={styles.emptyErrorSubtitle}>别担心，可能是网络小波动</Text>
             </View>
@@ -760,7 +759,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   // 空错误状态用横杠占位 — 语义化命名（不是 emoji）
-  emptyErrorDash: { fontSize: 28, color: COLORS.textMuted, marginBottom: 12 },
   emptyErrorTitle: {
     fontSize: 18,
     fontWeight: '600',

@@ -27,13 +27,6 @@ function getDailyTip() {
 const ONBOARD_KEY = 'onboarded_v4'
 const TIP_DISMISS_KEY = 'tip_dismissed_today_v4'
 
-const FEATURES = [
-  { label: '构图辅助', desc: '九宫格 / 黄金螺旋 / 三角构图线实时叠加' },
-  { label: '姿势模板', desc: '半透明剪影引导，让男友知道该怎么站' },
-  { label: '智能修图', desc: '智能裁剪到三分点，自动滤镜美化' },
-  { label: '进步日记', desc: '记录每次评分和进步曲线，越拍越好' },
-] as const
-
 export default function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>()
   const [diaryCount, setDiaryCount] = useState(0)
@@ -235,24 +228,6 @@ export default function HomeScreen() {
         </Animated.View>
       )}
 
-      <Animated.View style={[styles.featuresSection, featuresStyle]}>
-        <Text style={styles.sectionTitle}>功能介绍</Text>
-        <View style={styles.featuresGrid}>
-          {FEATURES.map((f, i) => (
-            <TouchableOpacity key={i} style={styles.featureCard} activeOpacity={0.72}
-              onPress={() => {
-                if (f.label === '姿势模板') navigation.navigate({ name: 'Camera' as const, params: {} })
-                else if (f.label === '进步日记') navigation.navigate({ name: 'Diary' as const, params: undefined })
-              }}>
-              <View style={styles.featureText}>
-                <Text style={styles.featureTitle}>{f.label}</Text>
-                <Text style={styles.featureDesc}>{f.desc}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </Animated.View>
-
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Home' as const, params: undefined })} activeOpacity={0.72}>
           <View style={styles.bottomNavPillActive}><Text style={styles.bottomNavTextActive}>首页</Text></View>
@@ -323,13 +298,6 @@ const styles = StyleSheet.create({
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
   todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  featuresSection: { marginBottom: spacing[5] },
-  sectionTitle: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: spacing[4] },
-  featuresGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[3] },
-  featureCard: { width: (SCREEN_W - spacing[5] * 2 - spacing[3]) / 2, paddingVertical: spacing[4] },
-  featureText: { flex: 1 },
-  featureTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: COLORS.textPrimary, marginBottom: 4 },
-  featureDesc: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, lineHeight: 20 },
   bottomNav: { flexDirection: 'row', paddingVertical: 6, gap: 6 },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, borderRadius: borderRadius.xl },
   bottomNavPillActive: { backgroundColor: hexAlpha(COLORS.primary, 0.12), borderRadius: borderRadius.xl, paddingVertical: 8, paddingHorizontal: 16 },
