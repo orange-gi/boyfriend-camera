@@ -337,7 +337,8 @@ const styles = StyleSheet.create({
   bottomNavTextActive: { fontSize: typography.fontSize.md, color: COLORS.primary, fontWeight: '700' },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center' },
+  // 简洁优雅：borderRadius 20（与 diaryCard 一致）；padding 24（收紧留白）
+  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 20, padding: 24, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },

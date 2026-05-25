@@ -923,13 +923,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 8,
   },
+  // 简洁优雅：borderRadius 20（统一按钮层级，与 HomeScreen/其他屏幕一致）；8% 透明度维持次级按钮的克制表达
   actionBtnSecondary: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 14,
-    borderRadius: 24,
+    borderRadius: 20,
     backgroundColor: hexAlpha(COLORS.primary, 0.08),
   },
   actionBtnSecondaryText: {
@@ -937,13 +938,14 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     fontWeight: '600',
   },
+  // 简洁优雅：borderRadius 20（与 actionBtnSecondary/actionBtnPrimary 统一）
   actionBtnShare: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 14,
-    borderRadius: 24,
+    borderRadius: 20,
     backgroundColor: hexAlpha(COLORS.primary, 0.12),
   },
   actionBtnShareText: {
@@ -951,13 +953,14 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontWeight: '600',
   },
+  // 简洁优雅：borderRadius 20（与次级按钮统一，primary 按钮视觉已足够突出）
   actionBtnPrimary: {
     flex: 1.6,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 14,
-    borderRadius: 24,
+    borderRadius: 20,
     backgroundColor: COLORS.primary,
     gap: 8,
   },
