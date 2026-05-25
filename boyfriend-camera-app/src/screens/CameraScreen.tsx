@@ -210,6 +210,7 @@ export default function CameraScreen() {
       setTimeout(() => {
         if (!activeTemplate) {
           VoiceCoach.speakRandomPoseTip()
+          VoiceCoach.speakTryNewTemplate()
         } else {
           VoiceCoach.speakQuickPoseTip()
         }
@@ -431,9 +432,11 @@ export default function CameraScreen() {
   const handleSelectTemplate = useCallback(async (template: PoseTemplate) => {
     resetIdleTimer()
     markManualTemplate()
+    const isSwitch = activeTemplate !== null
     setActiveTemplate(template)
     setShowTemplateModal(false)
     setTemplateSearch('')
+    if (isSwitch) VoiceCoach.speakTemplateChanged()
     // 模板选中确认语
     VoiceCoach.speakTemplateSelected(template.name)
     // 随后朗读具体动作指导
