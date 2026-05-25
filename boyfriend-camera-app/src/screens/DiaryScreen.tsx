@@ -251,7 +251,7 @@ export default function DiaryScreen() {
             <Text style={styles.faceCount}>{item.faceCount}人</Text>
           )}
 
-          {/* 分数进度条 - 一眼扫过分数字 - Round 32 */}
+          {/* 分数进度条 */}
           <View style={styles.scoreBarRow}>
             <View style={[styles.scoreBarTrack, { backgroundColor: hexAlpha(sc, 0.1) }]}>
               <View
@@ -635,7 +635,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: -2,
   },
-  // 分数进度条 - Round 32
   scoreBarRow: {
     flexDirection: 'row',
     alignItems: 'center',

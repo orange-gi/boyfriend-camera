@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
   Share,
 } from 'react-native'
-// Note: Share API usage in handleShare()
+
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
