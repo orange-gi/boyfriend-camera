@@ -4658,6 +4658,37 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 检测到自然表情时的正向确认（补充 speakSmileDetected） */
+  async speakExpressionDetected(): Promise<void> {
+    const tips = [
+      '表情好自然！就是这个感觉，按下去～',
+      '眼神到位了！表情超自然，按快门！',
+      '这表情好灵动！就是现在拍～',
+      '笑容好生动！这个瞬间绝了，按下去！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 背景变干净时的确认提示 */
+  async speakBackgroundClear(): Promise<void> {
+    const tips = [
+      '背景干净了！这个位置超好看，按快门～',
+      '换了个好位置！背景干净主体突出，拍～',
+      '这个角度背景超简洁，就是现在拍！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 黄金时刻拍摄确认（光线条件完美时） */
+  async speakGoldenLightConfirm(): Promise<void> {
+    const tips = [
+      '这光线绝了！就是现在拍，光影最美的时刻～',
+      '黄金光线！男朋友快按快门，这光太美了～',
+      '光影太漂亮了！赶紧拍一张，光线不会等人的～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
