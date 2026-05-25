@@ -1649,6 +1649,18 @@ class VoiceCoach {
     await this.speak(`${templateName}～${tip}`, true)
   }
 
+  /** 建议尝试新模板（同一模板用过多次时） */
+  async speakTryNewTemplate(): Promise<void> {
+    const tips = [
+      '这个姿势拍了好几张了！换个新姿势试试吧～',
+      '试试其他模板！换个姿势照片会更有变化～',
+      '这个姿势用得差不多了！往左滑看看有没有新模板～',
+      '多尝试不同的姿势！往下滑还有更多选择～',
+      '换个新姿势会有惊喜！男朋友跟着模板拍，效果更好～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
   /** 每日首次打开欢迎语（判断是否今日首次使用）
    *  @param isFirstToday 今天是否首次打开（由调用方传入判断逻辑）
    */
@@ -2445,6 +2457,17 @@ class VoiceCoach {
 
   async speakFaceTooLarge(): Promise<void> {
     await this.speak('脸占画面太大了！稍微退后一点点，留点背景更好看～', true)
+  }
+
+  /** 人脸偏中心提示 */
+  async speakOffCenterTip(direction: 'left' | 'right' | 'top' | 'bottom'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      left: ['往右边挪一点点！把你放中间会更稳～', '脸靠左边缘了，稍微往右站～', '往右移一点，构图会更舒服～'],
+      right: ['往左边挪一点点！脸稍微往中间靠～', '脸靠右边缘了，稍微往左站～', '往左移一点，构图会更舒服～'],
+      top: ['镜头稍微下移一点，把脸放在画面中央～', '脸太靠上了，稍微低一点点头～', '往下看一点，脸不要顶到边框～'],
+      bottom: ['镜头稍微上移一点，让脸离边框远一点～', '下巴快顶到边框了，稍微抬点头～', '往上移一下，构图会更好看～'],
+    }
+    await this.speak(pickRandom(tips[direction]), true)
   }
 
   async speakWindBlowsHair(): Promise<void> {
