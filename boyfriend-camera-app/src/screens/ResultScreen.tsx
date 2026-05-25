@@ -15,8 +15,8 @@ import {
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-
-  withTiming, interpolate,
+  withTiming,
+  interpolate,
 } from 'react-native-reanimated'
 import ViewShot, { ViewShotRef } from 'react-native-view-shot'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -28,12 +28,11 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult, type SceneType } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, typography, borderRadius, hexAlpha } from '../theme'
+import { COLORS, typography, hexAlpha } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
 type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
-type SceneTypeLabel = 'indoor' | 'outdoor' | 'other'
 
 /** 映射模板分类 → analyzer SceneType（精确分类让夜间/节庆等场景获得专属建议） */
 function getSceneType(category: string | null | undefined): SceneType {
@@ -283,12 +282,9 @@ export default function ResultScreen() {
       })
 
       // VoiceCoach 实时 TTS 集成 — 根据分析结果触发对应语音提示（分数 >= 80 时给高分夸奖，< 80 时给问题提示）
+      // 注意：>=90 的 PerfectShotTip 和 80-89 的 AlmostGreat 已在 useEffect(scoreAnimationDone) 中处理，避免重复调用
       if (analysis.totalScore >= 80) {
-        if (analysis.totalScore >= 90) {
-          track(() => { try { VoiceCoach.speakPerfectShotTip() } catch {} }, 3500)
-        } else {
-          track(() => { try { VoiceCoach.speakAlmostGreat(analysis.totalScore) } catch {} }, 3500)
-        }
+        // 高分夸奖已在 useEffect 中处理
       } else {
         const suggestCount = analysis.suggestions?.length || 0
         if (analysis.expressionScore < 12 && suggestCount > 0) {
@@ -837,7 +833,7 @@ const styles = StyleSheet.create({
   filterCircle: {
     width: 46,
     height: 46,
-    borderRadius: borderRadius.full,
+    borderRadius: 9999,
     alignItems: 'center',
     justifyContent: 'center',
   },
