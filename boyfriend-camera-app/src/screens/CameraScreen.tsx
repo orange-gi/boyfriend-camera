@@ -684,7 +684,7 @@ export default function CameraScreen() {
           }}
           activeOpacity={0.72}
         >
-          <Text style={styles.sideBtnText}>姿势</Text>
+          <Text style={styles.sideBtnIcon}>📋</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -704,7 +704,6 @@ export default function CameraScreen() {
           activeOpacity={0.72}
         >
           <Text style={styles.sideBtnIcon}>↻</Text>
-          <Text style={styles.sideBtnText}>翻转</Text>
         </TouchableOpacity>
       </View>
 
@@ -724,28 +723,13 @@ export default function CameraScreen() {
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>姿势模板</Text>
-              <View style={styles.modalHeaderActions}>
-                <TouchableOpacity
-                  style={styles.randomBtn}
-                  onPress={() => {
-                    const randomIdx = Math.floor(Math.random() * filteredTemplates.length)
-                    if (filteredTemplates[randomIdx]) {
-                      handleSelectTemplate(filteredTemplates[randomIdx])
-                      setShowTemplateModal(false)
-                    }
-                  }}
-                  activeOpacity={0.72}
-                >
-                  <Text style={styles.randomBtnText}>随机</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.modalCloseBtn}
-                  onPress={() => setShowTemplateModal(false)}
-                  activeOpacity={0.72}
-                >
-                  <Text style={styles.modalClose}>✕</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                style={styles.modalCloseBtn}
+                onPress={() => setShowTemplateModal(false)}
+                activeOpacity={0.72}
+              >
+                <Text style={styles.modalClose}>完成</Text>
+              </TouchableOpacity>
             </View>
 
             {/* 搜索框 */}
@@ -885,7 +869,6 @@ export default function CameraScreen() {
                 windowSize={5}
                 initialNumToRender={8}
                 renderItem={({ item }) => {
-                  const catColor = CATEGORY_COLORS[item.category || ''] || COLORS.primary
                   const isActive = activeTemplate?.id === item.id
                   return (
                     <TouchableOpacity
@@ -913,9 +896,6 @@ export default function CameraScreen() {
                       </Text>
                       {item.voiceTip && (
                         <Text style={styles.templateVoiceTip} numberOfLines={1}>{item.voiceTip}</Text>
-                      )}
-                      {item.category && (
-                        <Text style={[styles.templateCategoryText, { color: catColor }]}>{item.category}</Text>
                       )}
                     </TouchableOpacity>
                   )
@@ -1227,48 +1207,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  randomBtn: {
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-    borderRadius: 16,
-  },
-  randomBtnText: {
-    color: COLORS.textOnPrimary,
-    fontSize: 13,
-    fontWeight: '600',
-  },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: COLORS.textPrimary,
   },
   modalCloseBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
   modalClose: {
-    fontSize: 18,
-    color: COLORS.textMuted,
+    fontSize: 15,
+    color: COLORS.primary,
+    fontWeight: '600',
   },
   categoryTabs: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    gap: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    gap: 4,
     flexDirection: 'row',
   },
   categoryTab: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
     borderRadius: 14,
-    marginHorizontal: 4,
+    marginHorizontal: 2,
   },
   categoryTabActive: {
-    borderBottomWidth: 2,
-    borderBottomColor: COLORS.primary,
+    backgroundColor: hexAlpha(COLORS.primary, 0.1),
   },
   categoryTabText: {
     fontSize: 14,
@@ -1301,17 +1267,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   templateName: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
     color: COLORS.textPrimary,
-    marginTop: 8,
+    marginTop: 6,
     textAlign: 'center',
-  },
-  templateCategoryText: {
-    color: '#999',
-    fontSize: 11,
-    fontWeight: '500',
-    marginTop: 4,
   },
   templateVoiceTip: {
     fontSize: 11,
@@ -1350,13 +1310,10 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
-  // searchBar 无背景：边框勾勒输入区，视觉更轻；modal 白色背景足够区隔搜索区与内容区
+  // 搜索框：无边框无背景，白色底自然区隔，视觉更轻
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.divider,
-    borderRadius: 10,
     paddingHorizontal: 12,
     marginHorizontal: 16,
     marginBottom: 10,
