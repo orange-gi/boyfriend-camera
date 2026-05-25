@@ -873,8 +873,10 @@ const styles = StyleSheet.create({
   praiseBanner: {
     marginHorizontal: 20,
     marginBottom: 14,
-    paddingVertical: 8,
-    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    backgroundColor: COLORS.bgCard,
   },
   praiseBannerScore: {
     fontSize: 17,
