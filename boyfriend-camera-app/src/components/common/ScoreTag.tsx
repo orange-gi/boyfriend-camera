@@ -4,6 +4,7 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { scoreColor, scoreLabel } from '../../theme/colors'
+import { borderRadius as r } from '../../theme/index'
 
 interface Props {
   score: number
@@ -15,10 +16,10 @@ export default function ScoreTag({ score, size = 'md', showLabel = false }: Prop
   const color = scoreColor(score)
   const fontSize = size === 'sm' ? 14 : size === 'lg' ? 28 : 20
 
-  const borderRadius = size === 'sm' ? 6 : size === 'lg' ? 10 : 8
+  const radius = size === 'sm' ? r.sm : size === 'lg' ? r.md : r.md
 
   return (
-    <View style={[styles.tag, { backgroundColor: color + '20', borderRadius }]}>
+    <View style={[styles.tag, { backgroundColor: color + '20', borderRadius: radius }]}>
       <Text style={[styles.score, { color, fontSize }]}>{score}</Text>
       {showLabel && (
         <Text style={[styles.label, { color }]}>{scoreLabel(score)}</Text>
