@@ -3361,6 +3361,7 @@ export type SceneType =
   | 'beach_sunset' | 'rainy_street' | 'morning_run' | 'bookstore' | 'mirror' | 'carnival' | 'beach'
   | 'dance_performance' | 'red_autumn_detail' | 'rooftop_daytime' | 'amusement_carnival'
   | 'airport_station' | 'meadow_ranch' | 'subway_escalator'
+  | 'sunset' | 'overcast'
 
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */

@@ -4,7 +4,7 @@
  * 使用 react-native-tts 朗读
  */
 import Tts from 'react-native-tts'
-import { type EmotionDetection } from '../../services/analyzer'
+import { type EmotionDetection, type SceneType } from '../../services/analyzer'
 import { logger } from '../../utils/logger'
 import { pickRandom } from '../../utils/scoring'
 
@@ -1209,7 +1209,7 @@ class VoiceCoach {
   }
 
   /** 推荐拍照模式（根据场景自动推荐最佳模式） */
-  async speakRecommendMode(brightness: number, sceneType?: string): Promise<void> {
+  async speakRecommendMode(brightness: number, sceneType?: SceneType): Promise<void> {
     // 暗光场景推荐闪光灯或专业模式
     if (brightness < 50) {
       await this.speak(FACE_TIPS.TOO_DARK, true)
