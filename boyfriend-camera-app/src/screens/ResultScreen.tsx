@@ -26,7 +26,7 @@ import ComparisonCard from '../components/result/ComparisonCard'
 import ScoreBoard from '../components/result/ScoreBoard'
 import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
-import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult } from '../services/analyzer'
+import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult, type SceneType } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
 import { COLORS, typography, borderRadius, hexAlpha } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
@@ -35,13 +35,26 @@ import { logger } from '../utils/logger'
 type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
 type SceneTypeLabel = 'indoor' | 'outdoor' | 'other'
 
-function getSceneType(category: string | null | undefined): SceneTypeLabel {
+/** 映射模板分类 → analyzer SceneType（精确分类让夜间/节庆等场景获得专属建议） */
+function getSceneType(category: string | null | undefined): SceneType {
   if (!category) return 'other'
-  const indoor = ['室内日常', '室内场景', '室内人像', '餐厅美食']
-  const outdoor = ['户外风景', '城市街拍', '人文风景', '构图技巧']
-  if (indoor.includes(category)) return 'indoor'
-  if (outdoor.includes(category)) return 'outdoor'
-  return 'other'
+  const map: Record<string, SceneType> = {
+    '夜景': 'rooftop_night',
+    '户外风景': 'outdoor',
+    '城市街拍': 'other',
+    '人文风景': 'other',
+    '构图技巧': 'other',
+    '室内日常': 'indoor',
+    '室内场景': 'indoor',
+    '室内人像': 'indoor',
+    '餐厅美食': 'cafe',
+    '情侣合照': 'other',
+    '特殊风格': 'other',
+    '自拍技巧': 'other',
+    '节日限定': 'christmas',
+    '运动健身': 'gym',
+  }
+  return map[category] ?? 'other'
 }
 
 // 模块层常量：避免 useState initializer 每次渲染重建
