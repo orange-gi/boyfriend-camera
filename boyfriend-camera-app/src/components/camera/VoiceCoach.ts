@@ -114,6 +114,12 @@ const FACE_TIPS = {
   CHIN_ANGLE: '下巴稍微抬一点，收紧脖颈，脸部轮廓会更好看～',
   CHIN_ANGLE_2: '头微微上抬！挺直脖颈，气质立刻不一样～',
   CHIN_ANGLE_3: '别低头！抬起下巴，让下巴和脖子呈一条线～',
+  // 头发遮挡
+  HAIR_OCCLUSION: '头发挡到脸了！把头发撩到耳后，露出完整的脸部～',
+  HAIR_OCCLUSION_2: '刘海遮住眼睛了！拨开头发，眼神更有神～',
+  // 模糊 / 抖动
+  BLURRY_PHOTO: '照片有点糊了！拿稳手机，或者站近一点～',
+  BLURRY_PHOTO_2: '这张有点模糊，下一张拿稳试试～',
   // 前置摄像头提示
   SELFIE_MODE: '自拍模式！找好角度，笑一个～',
   SELFIE_TOO_CLOSE: '手机拿远一点！自拍离太近会变形～',
@@ -1780,6 +1786,28 @@ class VoiceCoach {
       FACE_TIPS.CHIN_ANGLE_3,
       '下巴稍微抬起来一点，脸部轮廓会更清晰～',
       '头微微上抬！下巴收紧，仪态会好很多～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 头发遮挡提示 */
+  async speakHairOcclusionTip(): Promise<void> {
+    const tips = [
+      FACE_TIPS.HAIR_OCCLUSION,
+      FACE_TIPS.HAIR_OCCLUSION_2,
+      '头发遮住脸了！把头发撩到耳后，露出完整的脸部～',
+      '刘海太长挡住眼睛了，轻轻拨开一点～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 照片模糊提示（sharpness < 80 时触发） */
+  async speakBlurryTip(): Promise<void> {
+    const tips = [
+      FACE_TIPS.BLURRY_PHOTO,
+      FACE_TIPS.BLURRY_PHOTO_2,
+      '照片有点糊了！对焦清楚再拍，或者站近一点～',
+      '这张有点模糊，拿稳手机再拍一张试试～',
     ]
     await this.speak(pickRandom(tips))
   }

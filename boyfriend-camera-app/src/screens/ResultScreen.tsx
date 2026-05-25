@@ -316,6 +316,13 @@ export default function ResultScreen() {
         if (analysis.problems?.includes('too_crowded') && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakTooFullTip() } catch {} }, 4000)
         }
+        if (analysis.problems?.includes('hair_occlusion_tips') && suggestCount > 0) {
+          track(() => { try { VoiceCoach.speakHairOcclusionTip() } catch {} }, 4200)
+        }
+        // 模糊：safeSharpness < 80（已在 SUGGESTION_POOL.blurry 中触发）
+        if (analysis.stabilityScore < 14 && suggestCount > 0) {
+          track(() => { try { VoiceCoach.speakBlurryTip() } catch {} }, 4200)
+        }
       }
 
       await saveToDiary({
