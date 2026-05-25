@@ -283,15 +283,16 @@ export default function DiaryScreen() {
     return (
       <View style={styles.emptyContainer}>
         {loading ? (
-          <View style={styles.skeletonWrapper}>
-            <View style={[styles.skeletonEmoji, { backgroundColor: COLORS.skeletonBase }]} />
+          // 骨架屏左对齐，模拟真实内容布局，不再居中显得刻意
+          <View style={styles.skeletonContent}>
+            <View style={[styles.skeletonAvatar, { backgroundColor: COLORS.skeletonBase }]} />
             <View style={[styles.skeletonTitle, { backgroundColor: COLORS.skeletonBase }]} />
             <View style={[styles.skeletonBtn, { backgroundColor: COLORS.skeletonBase }]} />
           </View>
         ) : loadError ? (
           <>
             <View style={styles.emptyErrorCard}>
-              <Text style={styles.emptyErrorEmoji}>—</Text>
+              <Text style={styles.emptyErrorDash}>—</Text>
               <Text style={styles.emptyErrorTitle}>加载失败了</Text>
               <Text style={styles.emptyErrorSubtitle}>别担心，可能是网络小波动</Text>
             </View>
@@ -739,15 +740,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
     padding: 40,
   },
-  skeletonWrapper: {
-    alignItems: 'center',
+  // 骨架屏左对齐，模拟真实记录卡片布局，不再居中显得刻意
+  skeletonContent: {
+    alignSelf: 'stretch',
   },
-  skeletonEmoji: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+  // 骨架屏头像圆 — 语义化命名（不是 emoji）
+  skeletonAvatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: COLORS.skeletonBase,
-    marginBottom: 16,
+    marginBottom: 12,
   },
   skeletonTitle: {
     width: 160,
@@ -795,7 +798,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     alignItems: 'center',
   },
-  emptyErrorEmoji: { fontSize: 28, color: COLORS.textMuted, marginBottom: 12 },
+  // 空错误状态用横杠占位 — 语义化命名（不是 emoji）
+  emptyErrorDash: { fontSize: 28, color: COLORS.textMuted, marginBottom: 12 },
   emptyErrorTitle: {
     fontSize: 18,
     fontWeight: '600',
