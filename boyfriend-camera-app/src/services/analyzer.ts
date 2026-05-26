@@ -3342,6 +3342,44 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '雨天室内注意白平衡，偏暖的灯光和冷调窗外形成对比更有氛围～',
     '雨天光线偏暗，打开室内灯补光，让脸朝向光源～',
   ],
+
+  // v6 新增：滤镜匹配建议（用户选了滤镜但场景不适合时给出提示）
+  filter_tips: [
+    '这个滤镜和场景很搭！暖色调配暖光，男朋友审美在线～',
+    '滤镜和光线有点不搭，可以试试根据光线强度选滤镜～',
+    '人像滤镜可以让皮肤看起来更通透，下次试试～',
+    '美食滤镜让食物看起来更有食欲，这张绝了！',
+    '黑白滤镜很有艺术感，适合有光影对比的场景～',
+    '冷色调滤镜配阴天光线，氛围感十足！',
+  ],
+
+  // v6 新增：自拍距离专属建议
+  selfie_distance: [
+    '手机离脸太近了，稍微拿远一点点，大头照会更自然～',
+    '这张怼脸自拍有点变形了，往后退一步试试～',
+    '自拍距离要把握好，一臂距离是最显脸小的角度～',
+    '前置摄像头拍近景会变形，退远一点再加后期裁剪更好～',
+    '手机稍微举高一点俯拍，显脸小还有大长腿效果～',
+    '自拍时让男友把手机拉远一点，加1.5倍数码变焦更清晰～',
+  ],
+
+  // v6 新增：对焦提醒建议
+  focus_reminder: [
+    '对焦点好像不在脸上，拍照前先在屏幕上点一下人脸位置～',
+    '这张对焦有点跑，下次点屏幕确认对焦在人脸上～',
+    '拍照前点一下屏幕中央，确保对焦点在脸上～',
+    '手机会自动对焦到最近的物体，确认一下是不是对到了脸上～',
+    '如果画面模糊可能是因为对焦失败，再拍一张时注意点屏幕对焦～',
+  ],
+
+  // v6 新增：天气光比对比度建议
+  weather_contrast: [
+    '阴天光线柔和但偏暗，可以稍微调高亮度，皮肤会更通透～',
+    '阳光强烈时光比大，打开 HDR 模式高光阴影都能保留～',
+    '雾天光线漫反射均匀，适合拍柔和的人像～',
+    '傍晚光比最小，是拍人像的黄金时段，皮肤状态最好～',
+    '正午阳光太硬容易过曝，找个阴影处或等一下再拍～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -4092,6 +4130,14 @@ export async function analyzePhoto(
   if (isFirstPhoto && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.selfie_tips))
   }
+  // 自拍距离专属建议（自拍且人脸面积异常大）
+  if (isFirstPhoto && facePosition && facePosition.area > 0.25 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.selfie_distance))
+  }
+  // 对焦提醒（清晰度低但稳定分高时，可能是对焦问题）
+  if (safeSharpness < 100 && stabilityScore >= 16 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.focus_reminder))
+  }
   // 自拍姿势专属建议（自拍且构图一般）
   if (isFirstPhoto && faceCount > 0 && compositionScore < 35 && totalScore < 70) {
     suggestions.push(pickRandom(SUGGESTION_POOL.selfie_pose_tips))
@@ -4805,6 +4851,14 @@ export async function analyzePhoto(
   // 春雨室内场景
   if ((sceneType as string) === 'spring_rain' && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.spring_rain_specific))
+  }
+  // 天气光比建议（光线过暗或过亮时触发）
+  if ((safeBrightness < 60 || safeBrightness > 200) && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.weather_contrast))
+  }
+  // 滤镜匹配提示（场景分低但整体分中等时）
+  if (totalScore >= 55 && totalScore < 75 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.filter_tips))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
