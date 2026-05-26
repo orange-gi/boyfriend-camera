@@ -3380,6 +3380,51 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '傍晚光比最小，是拍人像的黄金时段，皮肤状态最好～',
     '正午阳光太硬容易过曝，找个阴影处或等一下再拍～',
   ],
+
+  // v7 新增：表情夸张引导建议（expressionScore 极低时）
+  expression_exaggerate: [
+    '表情稍微夸张一点！大笑或嘟嘴都比面无表情好看～',
+    '太严肃了！试试夸张的表情，照片会更有感染力～',
+    '表情再放开一点，夸张的笑容比平淡的表情上镜多了～',
+    '让她想一件超级好笑的事，夸张的表情最上镜～',
+    '说"哈哈哈"的表情比微笑更上镜，试试看～',
+  ],
+
+  // v7 新增：服装与背景颜色不搭建议
+  outfit_background_clash: [
+    '衣服颜色和背景太接近了，有点糊在一起，换个角度试试～',
+    '服装和背景撞色了，人物不够突出，找个对比色背景会更好～',
+    '衣服颜色和背景太相近，显得整个人融进背景了，换个站位～',
+    '浅色衣服配浅色背景会糊在一起，找个深色背景试试～',
+    '深色衣服在深色背景里不突出，换到亮一点的背景会更显眼～',
+  ],
+
+  // v7 新增：表情引导专项建议（独立于 no_smile / stiff_expression）
+  expression_guidance: [
+    '告诉她"假装被逗笑了"，这个表情最自然生动～',
+    '让她先不看镜头，自然转头时抓拍，表情最自然～',
+    '假装在闻花香或吃东西，表情瞬间活起来～',
+    '说"田七"或"茄子"的口型刚刚好，自然又好看～',
+    '轻轻甩一下头发，然后转头笑，自然又灵动～',
+  ],
+
+  // v7 新增：夜间手持稳定建议（夜景专属）
+  night_handheld_tips: [
+    '夜景光线暗，手稍微抖照片就糊了！靠在墙上或用闪光灯～',
+    '晚上拍照双手握稳手机，憋住气轻轻按快门～',
+    '晚上手机会自动延长曝光时间，手一定要稳住等处理完成～',
+    '夜景太暗手抖了！找个支撑点或打开闪光灯试试～',
+    '夜晚光线不足时手稳是关键，靠墙或用三脚架最稳～',
+  ],
+
+  // v7 新增：姿势引导建议（构图尚可但姿势平淡时）
+  pose_guidance: [
+    '换个姿势试试！站着比坐着更有气场～',
+    '身体稍微侧一点，比正对镜头更显瘦～',
+    '手不知道往哪放？叉腰或自然垂下都比僵硬好～',
+    '让男朋友换个角度试试，侧面比正面更有层次～',
+    '身体微微前倾，会显得更有活力和互动感～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3821,6 +3866,31 @@ export async function analyzePhoto(
   // 此处补充：玻璃反光检测（当 brightness 在 100-180 且非室内专属场景时）
   if (sceneType !== 'mirror' && sceneType !== 'cafe' && sceneType !== 'indoor' && safeBrightness >= 100 && safeBrightness <= 180 && suggestions.length < 5) {
     suggestions.push(pickRandom(SUGGESTION_POOL.reflection_photo_tips))
+  }
+
+  // v7 新增：表情夸张引导（expressionScore 极低且有提升空间时）
+  if (expressionScore < 10 && faceCount > 0 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.expression_exaggerate))
+  }
+
+  // v7 新增：姿势引导建议（构图尚可但姿势平淡时）
+  if (compositionScore >= 28 && totalScore < 75 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.pose_guidance))
+  }
+
+  // v7 新增：表情引导专项（独立于僵硬/无笑容场景）
+  if (faceCount > 0 && expressionScore >= 10 && expressionScore < 15 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.expression_guidance))
+  }
+
+  // v7 新增：服装背景颜色冲突建议（构图好但主体不突出时）
+  if (compositionScore >= 30 && expressionScore >= 15 && totalScore < 80 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.outfit_background_clash))
+  }
+
+  // v7 新增：夜间手持稳定专项建议（夜景专属，低分时覆盖通用稳定建议）
+  if (isNightScene && stabilityScore < 14 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.night_handheld_tips))
   }
   // 多光源复杂环境建议（亮度在100-180之间但分布不均时）
   if (safeBrightness >= 100 && safeBrightness <= 180 && suggestions.length < 5) {
