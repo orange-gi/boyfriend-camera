@@ -1134,11 +1134,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.9)',
     fontWeight: '600',
   },
-  sideBtnText: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 11,
-    fontWeight: '500',
-  },
+
   shutter: {
     alignItems: 'center',
     justifyContent: 'center',

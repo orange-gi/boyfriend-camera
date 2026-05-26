@@ -297,8 +297,6 @@ const styles = StyleSheet.create({
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   bottomNav: { flexDirection: 'row', paddingVertical: 6, gap: 6 },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, borderRadius: borderRadius.xl },
-  bottomNavPillActive: { backgroundColor: hexAlpha(COLORS.primary, 0.12), borderRadius: borderRadius.xl, paddingVertical: 8, paddingHorizontal: 16 },
-  bottomNavTextActive: { fontSize: typography.fontSize.md, color: COLORS.primary, fontWeight: '700' },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
   // 简洁优雅：borderRadius 20（与 diaryCard 一致）；padding 24（收紧留白）
