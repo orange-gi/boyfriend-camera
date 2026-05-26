@@ -1,8 +1,9 @@
+import type { PoseTemplate } from '../components/camera/PoseTemplateOverlay'
+import type { SceneContext } from './sceneAnalysis'
+
 /**
  * recommendTemplate - 根据场景/光线推荐姿势模板
  */
-import type { PoseTemplate } from '../components/camera/PoseTemplateOverlay'
-import type { SceneContext } from './sceneAnalysis'
 
 /** 场景 → 优先匹配的模板分类 */
 const SCENE_CATEGORY_MAP: Record<string, string[]> = {
