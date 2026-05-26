@@ -1061,6 +1061,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 4,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    borderRadius: 12,
+    overflow: 'hidden',
   },
   // 关闭/闪光灯按钮
   topBtn: {
@@ -1116,11 +1119,14 @@ const styles = StyleSheet.create({
     left: 16,
     right: 88,
     paddingVertical: 6,
-    paddingHorizontal: 4,
+    paddingHorizontal: 8,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
     zIndex: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   poseTipText: {
     flex: 1,
@@ -1166,6 +1172,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 14,
     zIndex: 20,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    borderRadius: 16,
+    overflow: 'hidden',
   },
   // 侧边按钮
   sideBtn: {
