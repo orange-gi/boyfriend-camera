@@ -1723,14 +1723,20 @@ class VoiceCoach {
     }
   }
 
+  /** 停止当前语音（不清除 enabled 状态，确保后续 speak() 调用仍可工作） */
   stop(): void {
     this.speaking = false
-    this.enabled = false
     try {
       Tts.stop()
     } catch {
       // 静默处理 stop 失败
     }
+  }
+
+  /** 完全禁用 TTS（清理时使用，stop 后不再允许 speak） */
+  disable(): void {
+    this.enabled = false
+    this.stop()
   }
 
   /** 重置 TTS 状态（在页面跳转时安全清理） */
