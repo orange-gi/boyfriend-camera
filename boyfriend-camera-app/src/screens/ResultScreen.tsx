@@ -603,14 +603,15 @@ export default function ResultScreen() {
     return COLORS.danger
   }
   // 横幅主文本：优先用分析器的个性化夸奖，无则用分数段 fallback
+  // 简洁优雅：去冗余——分数+简洁描述即可，情感由 color 承载
   const getPraiseBannerText = (): string => {
     if (scoreResult && praiseList.length > 0) return praiseList[0]
     if (!scoreResult) return ''
-    if (scoreResult.totalScore >= 90) return `${scoreResult.totalScore}分，太厉害了，完美之作！`
-    if (scoreResult.totalScore >= 80) return `${scoreResult.totalScore}分，优秀，男朋友进步好大！`
-    if (scoreResult.totalScore >= 70) return `${scoreResult.totalScore}分，不错不错，继续保持！`
-    if (scoreResult.totalScore >= 60) return `${scoreResult.totalScore}分，及格啦，下次会更好！`
-    return `${scoreResult.totalScore}分，继续加油，一定能越拍越好！`
+    if (scoreResult.totalScore >= 90) return `${scoreResult.totalScore}分，完美之作！`
+    if (scoreResult.totalScore >= 80) return `${scoreResult.totalScore}分，男朋友进步好大！`
+    if (scoreResult.totalScore >= 70) return `${scoreResult.totalScore}分，继续保持！`
+    if (scoreResult.totalScore >= 60) return `${scoreResult.totalScore}分，下次会更好！`
+    return `${scoreResult.totalScore}分，继续加油！`
   }
   const praiseColor = getPraiseBannerColor()
 
@@ -667,7 +668,7 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 夸奖横幅 — 简洁单行：个性化夸奖优先，分数兜底 */}
+        {/* 夸奖横幅 — 无背景卡片：文字直接承载信息，极简留白 */}
         {!processing && (
           <View style={styles.praiseBanner}>
             <Text style={[styles.praiseBannerScore, { color: praiseColor }]}>
@@ -837,16 +838,14 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   // 破纪录横幅：克制的 success 色文字 + 淡背景 pill，庆祝但不俗气
+  // 简洁优雅：去掉 successLight 背景——纯色文字已有足够视觉冲击
   newRecordBanner: {
     marginHorizontal: 20,
-    marginTop: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    backgroundColor: COLORS.successLight,
+    marginTop: 6,
+    paddingVertical: 4,
   },
   newRecordBannerText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: COLORS.success,
   },
@@ -921,16 +920,15 @@ const styles = StyleSheet.create({
   },
   praiseBanner: {
     marginHorizontal: 20,
-    marginBottom: 14,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    backgroundColor: COLORS.bgCard,
+    marginBottom: 8,
+    paddingVertical: 6,
+    // 简洁优雅：无背景色——文字直接承载信息，极简留白
   },
   praiseBannerScore: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '700',
-    letterSpacing: -0.2,
+    letterSpacing: -0.1,
+    // 简洁优雅：去掉 bgCard 包裹，文字直接呈现更轻盈
   },
   viewShot: {
     alignItems: 'center',
