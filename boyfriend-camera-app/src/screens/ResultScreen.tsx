@@ -76,6 +76,22 @@ const CAT_FILTER_MAP: Record<string, CoreFilter> = {
   '运动健身': 'vivid',
 }
 
+/** 将 analyzer SceneType 映射到 speakFilterTip 的合法类型（避免 as any） */
+const SCENE_TO_FILTER_TIP: Partial<Record<SceneType, 'indoor' | 'outdoor' | 'food' | 'night' | 'street' | 'sunset' | 'natural_light'>> = {
+  indoor: 'indoor',
+  outdoor: 'outdoor',
+  cafe: 'food',
+  supermarket: 'food',
+  bakery: 'food',
+  rooftop_night: 'night',
+  subway: 'night',
+  rooftop_daytime: 'street',
+  beach: 'street',
+  beach_sunset: 'sunset',
+  sunset: 'sunset',
+  hotspring: 'natural_light',
+}
+
 const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> = [
   { key: 'warm', label: '暖黄', color: COLORS.filterWarm },
   { key: 'cool', label: '冷调', color: COLORS.filterCool },
@@ -344,9 +360,9 @@ export default function ResultScreen() {
 
       // v6 新增：滤镜推荐 TTS（根据场景类型，在分数揭示后播报）
       // sceneType 在上方已声明（line ~236），此处直接复用
-      const validSceneTypes = ['warm_light', 'cool_light', 'night', 'sunset', 'indoor', 'outdoor', 'portrait', 'food', 'street', 'night_photo', 'cloudy', 'golden_hour', 'natural_light']
-      if (sceneType && validSceneTypes.includes(sceneType)) {
-        track(() => { try { VoiceCoach.speakFilterTip(sceneType as any) } catch {} }, 5500)
+      const filterTipType = SCENE_TO_FILTER_TIP[sceneType]
+      if (filterTipType) {
+        track(() => { try { VoiceCoach.speakFilterTip(filterTipType) } catch {} }, 5500)
       }
 
       await saveToDiary({
@@ -1003,7 +1019,7 @@ const styles = StyleSheet.create({
   },
   diaryEntryBtnText: {
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: COLORS.primary,
     fontWeight: '500',
   },
   errorContainer: {
