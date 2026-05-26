@@ -28,7 +28,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult, type SceneType } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, typography, hexAlpha } from '../theme'
+import { COLORS, typography } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 

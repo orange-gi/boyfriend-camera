@@ -19,7 +19,7 @@ import { getDiary, writeDiary, getPeakScore, recalcPeakScore } from '../services
 import type { DiaryRecord } from '../services/diaryTypes'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, borderRadius, hexAlpha, scoreGrade as getScoreGrade, scoreColor } from '../theme'
+import { COLORS, borderRadius, scoreGrade as getScoreGrade, scoreColor } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 
 export default function DiaryScreen() {
@@ -760,7 +760,7 @@ const styles = StyleSheet.create({
 
   sheetOverlay: {
     flex: 1,
-    backgroundColor: hexAlpha('#000', 0.45),
+    backgroundColor: COLORS.blackAlpha50,
     justifyContent: 'flex-end',
   },
   sheetContainer: {
