@@ -40,8 +40,8 @@ function getSceneType(category: string | null | undefined): SceneType {
   const map: Record<string, SceneType> = {
     '夜景': 'rooftop_night',
     '户外风景': 'outdoor',
-    '城市街拍': 'other',
-    '人文风景': 'other',
+    '城市街拍': 'outdoor',
+    '人文风景': 'outdoor',
     '构图技巧': 'other',
     '室内日常': 'indoor',
     '室内场景': 'indoor',
@@ -54,6 +54,8 @@ function getSceneType(category: string | null | undefined): SceneType {
     '运动健身': 'gym',
     '温泉': 'hotspring',
     '复古胶片': 'vintage_film',
+    '户外海边': 'beach',
+    '滑雪': 'ski_resort',
   }
   return map[category] ?? 'other'
 }
@@ -74,6 +76,8 @@ const CAT_FILTER_MAP: Record<string, CoreFilter> = {
   '夜景': 'cinematic',
   '节日限定': 'vivid',
   '运动健身': 'vivid',
+  '户外海边': 'warm',
+  '滑雪': 'cool',
 }
 
 /** 将 analyzer SceneType 映射到 speakFilterTip 的合法类型（避免 as any） */

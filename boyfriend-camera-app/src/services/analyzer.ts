@@ -532,6 +532,19 @@ const PRAISE_POOL: Record<string, string[]> = {
     '城市灯光做背景超有氛围，男朋友审美在线！',
     '夜景都市感拉满，这构图太会了！',
   ],
+  // 健身房场景夸奖（总分 >= 75 时触发）
+  gym_good: [
+    '健身房大片感拉满！男朋友这运动风绝了～',
+    '运动后的好气色拍出来了，男朋友你懂健身美学！',
+    '活力满满！这张照片超有健康感～',
+    '男朋友这构图很有动感，运动风满分！',
+  ],
+  // 地铁/地下场景夸奖
+  subway_good: [
+    '地铁站拍出都市感了！男朋友这背景选得好～',
+    '地下空间也能这么有氛围感，构图很有想法！',
+    '男朋友找到了地铁最好的光线，这张绝了！',
+  ],
   // 超市/便利店场景夸奖
   // 泳池边夸奖
   pool_side_good: [
@@ -4339,6 +4352,10 @@ export async function analyzePhoto(
   if (safeBrightness >= 100 && safeBrightness <= 180 && sceneType === 'indoor' && safeSharpness > 100 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.home_plants_good))
   // 游乐园飞椅夸奖（户外 + 动感 = 活力场景）
   if (sceneType === 'outdoor' && safeSharpness > 120 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.amusement_ride_good))
+  // 健身房专属夸奖（总分 >= 75 时触发）
+  if (sceneType === 'gym' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.gym_good))
+  // 地铁站专属夸奖（总分 >= 75 时触发）
+  if (sceneType === 'subway' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.subway_good))
   // 礁石海浪夸奖（高亮度户外 + 特殊环境 = 礁石海岸）
   if (safeBrightness > 150 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.rocky_beach_good))
 
