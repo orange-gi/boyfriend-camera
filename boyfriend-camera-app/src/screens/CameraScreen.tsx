@@ -1051,7 +1051,7 @@ const styles = StyleSheet.create({
     zIndex: 200,
     pointerEvents: 'none',
   },
-  // 顶部控制栏 — 无背景色：相机界面视觉焦点是取景框，控件不抢镜
+  // 顶部控制栏
   topBarGlass: {
     position: 'absolute',
     top: 56,
@@ -1062,7 +1062,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 4,
   },
-  // 关闭/闪光灯按钮 — 最小化热区，无背景色：按钮是功能入口，不需要装饰
+  // 关闭/闪光灯按钮
   topBtn: {
     width: 48,
     height: 48,
@@ -1073,7 +1073,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 22,
   },
-  // 构图模式切换 — 极简透明按钮组，active态用主色
+  // 构图模式切换
   modeGroupGlass: {
     flexDirection: 'row',
     borderRadius: 14,
@@ -1097,7 +1097,7 @@ const styles = StyleSheet.create({
   modeBtnTextActive: {
     color: '#fff',
   },
-  // 顶部悬浮姿势引导卡 — 无背景：文字直接承载信息，极简留白
+  // 顶部悬浮姿势引导卡
   autoRecommendBadge: {
     backgroundColor: COLORS.primary,
     color: '#fff',
@@ -1155,7 +1155,7 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     fontWeight: '600',
   },
-  // 底部控制栏 — 无背景：减少视觉遮挡，最大化取景框视野
+  // 底部控制栏
   bottomBarGlass: {
     position: 'absolute',
     bottom: 20,
@@ -1167,8 +1167,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     zIndex: 20,
   },
-  // 侧边按钮 — 小圆形背景，与 shutter 的圆形呼应，形成视觉平衡
-  // 理由：shutter 是 80×80 圆形，sideBtn 无背景会显得空洞；加圆形背景后三个按钮形成平衡的圆形组合
+  // 侧边按钮
   sideBtn: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -1177,7 +1176,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: 'rgba(255,255,255,0.15)',
   },
-  // 侧边按钮文字 — 中文标签，去 emoji 装饰，保持克制
+  // 侧边按钮文字
   sideBtnIcon: {
     fontSize: 13,
     color: 'rgba(255,255,255,0.95)',
@@ -1264,7 +1263,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
     borderRadius: 16,
   },
-  // 选中态：主色文字 + 浅主色背景 pill，清晰但不抢镜
+  // 选中态
   categoryTabActive: {
     backgroundColor: hexAlpha(COLORS.primary, 0.1),
   },
@@ -1277,7 +1276,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
   },
-  // 分类标签数量文字 — muted 色，不抢主标签视觉权重
+  // 分类标签数量
   categoryTabCount: {
     fontSize: 12,
     color: COLORS.textMuted,
@@ -1348,7 +1347,7 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
-  // 搜索框：浅灰底 + 无边框，视觉分区清晰，不抢模态内容
+  // 搜索框
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
