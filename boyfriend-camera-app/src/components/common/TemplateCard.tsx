@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
     elevation: 2,
     marginRight: 8,
     marginBottom: 8,
-    borderWidth: 2,
-    borderColor: 'transparent',
+    // 无默认边框，仅选中态显示边框（减少视觉噪音）
   },
   cardSelected: {
+    borderWidth: 2,
     borderColor: COLORS.primary,
   },
   categoryBadge: {
