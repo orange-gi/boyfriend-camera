@@ -117,13 +117,11 @@ export default function ScoreBoard({ result }: Props) {
     <View style={styles.container}>
       {/* 总分卡片 — 简洁落地，无阴影 */}
       <View style={styles.totalCard}>
-        <View style={[styles.totalBadge, { backgroundColor: totalColor + '15' }]}>
-          <AnimatedNumber value={totalScore} style={[styles.totalScore, { color: totalColor }]} />
-          <Text style={[styles.totalLabel, { color: totalColor }]}>分</Text>
-        </View>
+        {/* 极简设计：分数数字本身已带颜色，去掉 badge 背景装饰，视觉更轻盈 */}
+        <AnimatedNumber value={totalScore} style={[styles.totalScore, { color: totalColor }]} />
+        <Text style={[styles.totalLabel, { color: totalColor }]}>分</Text>
         <View style={styles.totalMeta}>
           <Text style={[styles.totalGrade, { color: totalColor }]}>{scoreLabel(totalScore)}</Text>
-
         </View>
       </View>
 
@@ -164,15 +162,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  totalBadge: {
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 88,
-    flexDirection: 'row',
-    gap: 4,
-  },
+  // totalBadge 已删除 — 分数数字直接作为焦点，去掉装饰性容器背景
   totalScore: {
     fontSize: 48,
     fontWeight: 'bold',
