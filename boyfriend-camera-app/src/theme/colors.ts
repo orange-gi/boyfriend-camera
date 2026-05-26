@@ -24,6 +24,15 @@ export function scoreLabel(score: number): string {
   return '继续加油'
 }
 
+/** 根据分数返回字母等级：S/A/B/C/D */
+export function scoreGrade(score: number): string {
+  if (score >= 90) return 'S'
+  if (score >= 80) return 'A'
+  if (score >= 70) return 'B'
+  if (score >= 60) return 'C'
+  return 'D'
+}
+
 /** 分类色板（统一使用此处定义，各页面不再重复定义）
  * 所有颜色值来自 theme/index.ts 设计 tokens
  */

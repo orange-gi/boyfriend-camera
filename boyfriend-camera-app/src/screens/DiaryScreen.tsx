@@ -19,7 +19,7 @@ import { getDiary, writeDiary, getPeakScore, recalcPeakScore } from '../services
 import type { DiaryRecord } from '../services/diaryTypes'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, borderRadius, hexAlpha } from '../theme'
+import { COLORS, borderRadius, hexAlpha, scoreGrade as getScoreGrade, scoreColor } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 
 export default function DiaryScreen() {
@@ -205,8 +205,8 @@ export default function DiaryScreen() {
         })
       : ''
 
-    const sc = item.score >= 80 ? COLORS.scoreGreat : item.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
-    const scoreGrade = item.score >= 90 ? 'S' : item.score >= 80 ? 'A' : item.score >= 70 ? 'B' : item.score >= 60 ? 'C' : 'D'
+    const sc = scoreColor(item.score)
+    const grade = getScoreGrade(item.score)
     const prevRecord = records[index + 1]
     const scoreDiff = prevRecord ? item.score - prevRecord.score : null
 
@@ -229,7 +229,7 @@ export default function DiaryScreen() {
               </Text>
             )}
           </View>
-          <Text style={styles.scoreGrade}>{scoreGrade}</Text>
+          <Text style={styles.scoreGrade}>{grade}</Text>
         </View>
 
         {/* 右侧内容 */}

@@ -314,3 +314,31 @@ export const SPACING = spacing
 export const RADIUS = borderRadius
 export const SHADOWS = shadows
 export const TYPO = typography
+
+// ─────────────────────────────────────────────
+// 分数工具函数（避免循环依赖，直接在此定义）
+// ─────────────────────────────────────────────
+/** 根据分数返回对应颜色 */
+export function scoreColor(score: number): string {
+  if (score >= 80) return colors.scoreGreat
+  if (score >= 60) return colors.scoreOk
+  return colors.scoreBad
+}
+
+/** 根据分数返回等级文案（无 emoji，简洁克制） */
+export function scoreLabel(score: number): string {
+  if (score >= 90) return '完美'
+  if (score >= 80) return '优秀'
+  if (score >= 70) return '良好'
+  if (score >= 60) return '及格'
+  return '继续加油'
+}
+
+/** 根据分数返回字母等级：S/A/B/C/D */
+export function scoreGrade(score: number): string {
+  if (score >= 90) return 'S'
+  if (score >= 80) return 'A'
+  if (score >= 70) return 'B'
+  if (score >= 60) return 'C'
+  return 'D'
+}
