@@ -556,6 +556,13 @@ export default function CameraScreen() {
     return Array.from(cats)
   }, [templates, favoriteIds])
 
+  // 每个分类的模板数量（Round 4 UI 优化：显示在标签旁）
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { '全部': templates.length, '收藏': favoriteIds.length }
+    templates.forEach((t) => { if (t.category) counts[t.category] = (counts[t.category] || 0) + 1 })
+    return counts
+  }, [templates, favoriteIds])
+
   const filteredTemplates = useMemo(() => {
     let list: PoseTemplate[]
     if (selectedCategory === '收藏') {
@@ -825,6 +832,7 @@ export default function CameraScreen() {
               {categories.map((cat) => {
                 const color = CATEGORY_COLORS[cat] || COLORS.primary
                 const isSelected = selectedCategory === cat
+                const count = categoryCounts[cat] || 0
                 return (
                   <TouchableOpacity
                     key={cat}
@@ -840,7 +848,7 @@ export default function CameraScreen() {
                     }}
                     activeOpacity={0.72}
                     accessibilityRole="button"
-                    accessibilityLabel={`分类: ${cat}${isSelected ? '，已选中' : ''}`}
+                    accessibilityLabel={`分类: ${cat}，${count}个模板${isSelected ? '，已选中' : ''}`}
                   >
                     <Text
                       style={[
@@ -850,6 +858,11 @@ export default function CameraScreen() {
                       ]}
                     >
                       {cat}
+                      {count > 0 && (
+                        <Text style={[styles.categoryTabCount, isSelected && { color }]}>
+                          {' '}{count}
+                        </Text>
+                      )}
                     </Text>
                   </TouchableOpacity>
                 )
@@ -1263,6 +1276,12 @@ const styles = StyleSheet.create({
   categoryTabTextActive: {
     fontSize: 14,
     fontWeight: '700',
+  },
+  // 分类标签数量文字 — muted 色，不抢主标签视觉权重
+  categoryTabCount: {
+    fontSize: 12,
+    color: COLORS.textMuted,
+    fontWeight: '400',
   },
   templateList: {
     padding: 12,

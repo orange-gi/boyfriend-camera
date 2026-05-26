@@ -587,8 +587,18 @@ export default function ResultScreen() {
     )
   }
 
-  // 夸奖文案（分数段）
-  const getPraiseBannerText = () => {
+  // 夸奖横幅文字颜色（按分数段）— 用于个性化 praise 文本的视觉色彩
+  const getPraiseBannerColor = (): string => {
+    if (!scoreResult) return COLORS.warning
+    if (scoreResult.totalScore >= 90) return COLORS.scoreGreat
+    if (scoreResult.totalScore >= 80) return COLORS.primary
+    if (scoreResult.totalScore >= 70) return COLORS.success
+    if (scoreResult.totalScore >= 60) return COLORS.warning
+    return COLORS.danger
+  }
+  // 横幅主文本：优先用分析器的个性化夸奖，无则用分数段 fallback
+  const getPraiseBannerText = (): string => {
+    if (scoreResult && praiseList.length > 0) return praiseList[0]
     if (!scoreResult) return ''
     if (scoreResult.totalScore >= 90) return `${scoreResult.totalScore}分，太厉害了，完美之作！`
     if (scoreResult.totalScore >= 80) return `${scoreResult.totalScore}分，优秀，男朋友进步好大！`
@@ -596,17 +606,7 @@ export default function ResultScreen() {
     if (scoreResult.totalScore >= 60) return `${scoreResult.totalScore}分，及格啦，下次会更好！`
     return `${scoreResult.totalScore}分，继续加油，一定能越拍越好！`
   }
-
-  // 夸奖横幅文字颜色（按分数段）— 语义化命名，从 border → scoreColor
-  const getPraiseBannerColors = (): { scoreColor: string } => {
-    if (!scoreResult) return { scoreColor: COLORS.warning }
-    if (scoreResult.totalScore >= 90) return { scoreColor: COLORS.scoreGreat }
-    if (scoreResult.totalScore >= 80) return { scoreColor: COLORS.primary }
-    if (scoreResult.totalScore >= 70) return { scoreColor: COLORS.success }
-    if (scoreResult.totalScore >= 60) return { scoreColor: COLORS.warning }
-    return { scoreColor: COLORS.danger }
-  }
-  const praiseColors = getPraiseBannerColors()
+  const praiseColor = getPraiseBannerColor()
 
   return (
     <View style={styles.container}>
@@ -661,15 +661,12 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 夸奖横幅 — 文字颜色已暗示分数等级，无需多余左侧色条 */}
+        {/* 夸奖横幅 — 简洁单行：个性化夸奖优先，分数兜底 */}
         {!processing && (
           <View style={styles.praiseBanner}>
-            <Text style={[styles.praiseBannerScore, { color: praiseColors.scoreColor }]}>
+            <Text style={[styles.praiseBannerScore, { color: praiseColor }]}>
               {getPraiseBannerText()}
             </Text>
-            {scoreAnimationDone && praiseList.length > 0 && (
-              <Text style={styles.praiseBannerSub}>{praiseList[0]}</Text>
-            )}
           </View>
         )}
 
@@ -942,13 +939,7 @@ const styles = StyleSheet.create({
   praiseBannerScore: {
     fontSize: 17,
     fontWeight: '700',
-    marginBottom: 4,
     letterSpacing: -0.2,
-  },
-  praiseBannerSub: {
-    fontSize: 13,
-    color: COLORS.textSecondary,
-    lineHeight: 20,
   },
   // 建议横幅：去装饰化 — 去掉背景色块，用 muted 文字色传达次要层级
   // 理由：建议是补充信息，不应与夸奖横幅竞争视觉权重；textSecondary 已足够
