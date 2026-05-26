@@ -610,26 +610,24 @@ export default function ResultScreen() {
   }
 
   // 夸奖横幅文字颜色（按分数段）— 用于个性化 praise 文本的视觉色彩
-  const getPraiseBannerColor = (): string => {
-    if (!scoreResult) return COLORS.warning
-    if (scoreResult.totalScore >= 90) return COLORS.scoreGreat
-    if (scoreResult.totalScore >= 80) return COLORS.primary
-    if (scoreResult.totalScore >= 70) return COLORS.success
-    if (scoreResult.totalScore >= 60) return COLORS.warning
-    return COLORS.danger
+  // 合并PraiseBanner颜色与文本为单一计算，避免重复条件判断
+  const getPraiseInfo = (): { text: string; color: string } => {
+    if (scoreResult && praiseList.length > 0) {
+      const color = scoreResult.totalScore >= 90 ? COLORS.scoreGreat
+        : scoreResult.totalScore >= 80 ? COLORS.primary
+        : scoreResult.totalScore >= 70 ? COLORS.success
+        : scoreResult.totalScore >= 60 ? COLORS.warning
+        : COLORS.danger
+      return { text: praiseList[0], color }
+    }
+    if (!scoreResult) return { text: '', color: COLORS.warning }
+    if (scoreResult.totalScore >= 90) return { text: `${scoreResult.totalScore}分，完美之作！`, color: COLORS.scoreGreat }
+    if (scoreResult.totalScore >= 80) return { text: `${scoreResult.totalScore}分，男朋友进步好大！`, color: COLORS.primary }
+    if (scoreResult.totalScore >= 70) return { text: `${scoreResult.totalScore}分，继续保持！`, color: COLORS.success }
+    if (scoreResult.totalScore >= 60) return { text: `${scoreResult.totalScore}分，下次会更好！`, color: COLORS.warning }
+    return { text: `${scoreResult.totalScore}分，继续加油！`, color: COLORS.danger }
   }
-  // 横幅主文本：优先用分析器的个性化夸奖，无则用分数段 fallback
-  // 简洁优雅：去冗余——分数+简洁描述即可，情感由 color 承载
-  const getPraiseBannerText = (): string => {
-    if (scoreResult && praiseList.length > 0) return praiseList[0]
-    if (!scoreResult) return ''
-    if (scoreResult.totalScore >= 90) return `${scoreResult.totalScore}分，完美之作！`
-    if (scoreResult.totalScore >= 80) return `${scoreResult.totalScore}分，男朋友进步好大！`
-    if (scoreResult.totalScore >= 70) return `${scoreResult.totalScore}分，继续保持！`
-    if (scoreResult.totalScore >= 60) return `${scoreResult.totalScore}分，下次会更好！`
-    return `${scoreResult.totalScore}分，继续加油！`
-  }
-  const praiseColor = getPraiseBannerColor()
+  const praiseInfo = getPraiseInfo()
 
   return (
     <View style={styles.container}>
@@ -687,8 +685,8 @@ export default function ResultScreen() {
         {/* 夸奖横幅 — 无背景卡片：文字直接承载信息，极简留白 */}
         {!processing && (
           <View style={styles.praiseBanner}>
-            <Text style={[styles.praiseBannerScore, { color: praiseColor }]}>
-              {getPraiseBannerText()}
+            <Text style={[styles.praiseBannerScore, { color: praiseInfo.color }]}>
+              {praiseInfo.text}
             </Text>
           </View>
         )}
@@ -938,13 +936,14 @@ const styles = StyleSheet.create({
   praiseBanner: {
     marginHorizontal: 20,
     marginBottom: 8,
-    paddingVertical: 6,
+    paddingVertical: 4,
     // 简洁优雅：无背景色——文字直接承载信息，极简留白
   },
   praiseBannerScore: {
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: -0.1,
+    lineHeight: 24,
     // 简洁优雅：去掉 bgCard 包裹，文字直接呈现更轻盈
   },
   viewShot: {

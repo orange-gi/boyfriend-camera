@@ -639,7 +639,7 @@ export default function CameraScreen() {
         onTipPress={handleVoiceTipConfirm}
       />
 
-      {/* 顶部悬浮姿势引导卡 — 毛玻璃风格 */}
+      {/* 顶部悬浮姿势引导卡 — 毛玻璃风格，3元素：标签+文案+语音按钮 */}
       {activeTemplate && (
         <View style={styles.poseTipCardFrosted}>
           {(isAutoRecommended && autoRecommended?.id === activeTemplate.id) && (
@@ -654,15 +654,6 @@ export default function CameraScreen() {
             activeOpacity={0.72}
           >
             <Text style={styles.poseTipVoiceBtnText}>播放</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.poseTipClearBtn}
-            onPress={clearTemplate}
-            activeOpacity={0.72}
-            accessibilityRole="button"
-            accessibilityLabel="清除姿势模板"
-          >
-            <Text style={styles.poseTipClearBtnText}>✕</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -1117,7 +1108,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 108,
     left: 16,
-    right: 88,
+    right: 56,
     paddingVertical: 6,
     paddingHorizontal: 8,
     flexDirection: 'row',
@@ -1146,20 +1137,6 @@ const styles = StyleSheet.create({
   },
   poseTipVoiceBtnText: {
     fontSize: 16,
-  },
-  poseTipClearBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: COLORS.blackAlpha10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-  },
-  poseTipClearBtnText: {
-    fontSize: 14,
-    color: COLORS.textSecondary,
-    fontWeight: '600',
   },
   // 底部控制栏
   bottomBarGlass: {

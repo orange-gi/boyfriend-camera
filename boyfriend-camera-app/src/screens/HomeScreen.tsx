@@ -233,6 +233,7 @@ export default function HomeScreen() {
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
           <Text style={styles.bottomNavText}>进步日记</Text>
         </TouchableOpacity>
+        <View style={styles.bottomNavDivider} />
         <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
           <Text style={styles.bottomNavText}>拍照</Text>
         </TouchableOpacity>
@@ -298,8 +299,9 @@ const styles = StyleSheet.create({
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
   todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  bottomNav: { flexDirection: 'row', paddingVertical: 6, gap: 6 },
-  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, borderRadius: borderRadius.xl },
+  bottomNav: { flexDirection: 'row', paddingVertical: 6, backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, paddingHorizontal: 16, alignItems: 'center' },
+  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10 },
+  bottomNavDivider: { width: 1, height: 16, backgroundColor: COLORS.divider, flexShrink: 0 },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
   // 简洁优雅：borderRadius 20（与 diaryCard 一致）；padding 24（收紧留白）
