@@ -128,6 +128,31 @@ const FACE_TIPS = {
 
   CLOSE_ONE_EYE: '试试闭一只眼！俏皮又可爱，活泼感拉满～',
 
+  // 眼镜反光检测
+  GLASSES_REFLECTION: '眼镜反光了！稍微侧一下头躲开反光～',
+  GLASSES_REFLECTION_2: '镜片反光有点强！换个角度让眼镜不反光～',
+
+  // 肩膀位置
+  SHOULDERS_CROOKED: '肩膀稍微端平一点，这样气质更好～',
+
+  // 仰拍大长腿专属确认
+  LOW_ANGLE_CONFIRM: '仰拍角度绝了！腿看起来超长，就是现在！',
+
+  // 俯拍显脸小专属确认
+  HIGH_ANGLE_CONFIRM: '俯拍角度超显脸小！就是这个角度，按下去！',
+
+  // 侧颜确认
+  SIDE_PROFILE_GOOD: '侧颜超美！这个角度绝了，按下去！',
+
+  // 逆光确认
+  BACKLIGHT_SILHOUETTE: '逆光剪影好有意境！转过来让脸也亮起来试试～',
+
+  // 全身照确认
+  FULL_BODY_CONFIRM: '全身照构图超棒！背景也完整，按下去就是大片～',
+
+  // 半身照确认
+  HALF_BODY_CONFIRM: '半身照角度绝了！人景比例刚刚好～',
+
 
   SHOOT_NOW_LIGHT: '光线刚刚好！就是现在，按快门！',
   SHOOT_NOW_POSE: '姿势超棒！表情到位！按下去就是大片！',
