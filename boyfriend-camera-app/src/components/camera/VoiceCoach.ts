@@ -1925,8 +1925,9 @@ class VoiceCoach {
       '现在是金色时刻！夕阳的光最会说话，快拍！',
       '黄昏光线超美！男朋友抓紧时间，这光绝了！',
       'Golden Hour！男朋友快按快门，这光错过就没了！',
+      '黄昏光超温柔！抓紧拍，光线马上就没了～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 分数揭晓播报 — 分数动画完成后朗读总分，营造仪式感 */
@@ -3614,6 +3615,9 @@ class VoiceCoach {
       '姿势和模板完美匹配！按下去就是满分作品～',
       '完美！就是现在！按下去～',
       '姿势超棒！就是现在，按下去就是大片！',
+      '剪影对齐了！这个状态按下去就是好片～',
+      '站位完美！就是现在，笑一个拍下去～',
+      '姿势到位了！就是现在，按下快门～',
     ]
     await this.speak(pickRandom(tips), false)
   }
@@ -3626,6 +3630,8 @@ class VoiceCoach {
       '脸放中间！构图会更稳～',
       '九宫格对齐了！这个位置按下去～',
       '构图完美！光线也完美！三连击，按下去！',
+      '黄金构图点对上了！就是现在拍～',
+      '三分线对齐了！这个角度按下去就是大片～',
     ]
     await this.speak(pickRandom(tips), false)
   }
