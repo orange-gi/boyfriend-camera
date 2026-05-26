@@ -2968,6 +2968,28 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
+  /** 光线完美时的正向确认（补充 speakLowLightWarning / speakOverexposed） */
+  async speakLightingGood(): Promise<void> {
+    const tips = [
+      '光线刚刚好！就是现在，按下去就是大片～',
+      '这个光线绝了！皮肤通透又柔和，按快门～',
+      '柔光好美！按下去，这张绝了～',
+      '光线打在脸上刚刚好，继续保持这个角度～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 背景干净时的正向确认（补充 speakUglyBackgroundTip） */
+  async speakBackgroundGood(): Promise<void> {
+    const tips = [
+      '背景好干净！主体超突出，这构图绝了～',
+      '背景简洁又好看，这张有专业感～',
+      '干净的背景让整个人都发光，这角度选得好～',
+      '背景和衣服颜色好搭，这张绝了！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 早晨光线提示 */
   async speakMorningLightTip(): Promise<void> {
     const tips = [
