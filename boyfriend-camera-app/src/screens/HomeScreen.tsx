@@ -151,12 +151,12 @@ export default function HomeScreen() {
       {statsLoading ? (
         <View style={styles.statsCard}>
           <View style={styles.statsRow}>
-            {[0,1,2].map(i => (
+            {[{label:'已拍摄'},{label:'平均分'},{label:'姿势模板'}].map(({label}, i) => (
               <React.Fragment key={i}>
                 {i > 0 && <View style={styles.statDivider} />}
                 <View style={styles.statItem}>
                   <View style={styles.skeletonNum} />
-                  <Text style={styles.statsLoadingText}>{i === 0 ? '已拍摄' : i === 1 ? '平均分' : '姿势模板'}</Text>
+                  <Text style={styles.statLabel}>{label}</Text>
                 </View>
               </React.Fragment>
             ))}

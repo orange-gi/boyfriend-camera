@@ -154,12 +154,9 @@ export default function ResultScreen() {
 
   const cardSlide = useSharedValue(50)
 
-  // 初始化 VoiceCoach（TTS 引擎）
+  // 初始化 VoiceCoach（TTS 引擎，只初始化一次）
   useEffect(() => {
     VoiceCoach.initialize().catch(() => { /* ignore init errors */ })
-    return () => {
-      VoiceCoach.reset()
-    }
   }, [])
 
   useEffect(() => {
