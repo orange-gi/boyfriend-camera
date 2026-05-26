@@ -340,7 +340,8 @@ export default function DiaryScreen() {
             </View>
 
             <View style={styles.statsCard}>
-              <View style={styles.statsGrid}>
+              {/* 双行显式布局：每行 3 等宽卡片，视觉对称无错位 */}
+              <View style={styles.statsGridRow}>
                 <View style={styles.statCard}>
                   <AnimatedCountUp value={totalCount} style={[styles.statCardNum, { color: COLORS.textPrimary }]} />
                   <Text style={styles.statCardLabel}>拍照次数</Text>
@@ -353,6 +354,8 @@ export default function DiaryScreen() {
                   <AnimatedProgressNum value={totalProgress} style={[styles.statCardNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.textMuted }]} />
                   <Text style={styles.statCardLabel}>总进步</Text>
                 </View>
+              </View>
+              <View style={styles.statsGridRow}>
                 <View style={styles.statCard}>
                   <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: COLORS.warning }]} suffix="分" />
                   <Text style={styles.statCardLabel}>最高分</Text>
@@ -574,12 +577,10 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20,
   },
-  // 3×2 统计卡片网格：每行3卡，33.33% 配合 justifyContent:space-between 均分，无溢出风险
-  statsGrid: {
+  // 双行显式布局：每行 3 等宽卡片（flex:1），无 flexWrap 错位风险
+  statsGridRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    rowGap: 12,
+    marginBottom: 12,
   },
   statCard: {
     width: '33.33%',
