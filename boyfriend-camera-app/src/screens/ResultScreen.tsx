@@ -719,7 +719,6 @@ export default function ResultScreen() {
         {!processing && newRecordBanner && scoreResult && (
           <View style={styles.newRecordBanner}>
             <Text style={styles.newRecordBannerText}>破纪录了！历史最高分！</Text>
-            <Text style={styles.newRecordBannerSub}>男朋友太强了，继续保持这个状态！</Text>
           </View>
         )}
 
@@ -853,11 +852,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     color: COLORS.success,
-    marginBottom: 2,
-  },
-  newRecordBannerSub: {
-    fontSize: 13,
-    color: COLORS.textSecondary,
   },
   titleRow: {
     flexDirection: 'row',
