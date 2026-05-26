@@ -362,6 +362,12 @@ export default function ResultScreen() {
       })
       const isNewRecord = await updatePeakScore(analysis.totalScore)
 
+      // 日记写入确认 + 连续好评播报
+      try { VoiceCoach.speakDiaryWritten(analysis.totalScore) } catch {}
+      if (streakCount >= 3) {
+        track(() => { try { VoiceCoach.speakStreak(streakCount) } catch {} }, 1200)
+      }
+
       // 启动入场动画
       cardSlide.value = withTiming(0, { duration: 400 })
 

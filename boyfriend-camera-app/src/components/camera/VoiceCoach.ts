@@ -3637,6 +3637,16 @@ class VoiceCoach {
     }
   }
 
+  /** 日记写入确认（拍完照保存后，简要播报，不重复分数） */
+  async speakDiaryWritten(score: number): Promise<void> {
+    const tips = [
+      '已收录到日记～坚持记录，进步看得见！',
+      '日记更新！这张拍得不错哦～',
+      '记录成功，继续保持这个节奏！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
   /** 极低光警告 */
   async speakLowLightWarning(): Promise<void> {
     const tips = [
