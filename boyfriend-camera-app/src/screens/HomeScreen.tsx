@@ -65,6 +65,9 @@ export default function HomeScreen() {
       const today = new Date().toDateString()
       setTodayCount(diary.filter(r => new Date(r.date).toDateString() === today).length)
       if (diary.length > 0) {
+        const lastEntry = [...diary].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
+        const daysSince = Math.floor((Date.now() - new Date(lastEntry.date).getTime()) / 86400000)
+        if (daysSince >= 2) VoiceCoach.speakStreakBroken().catch(() => {})
         const avg = calcAvgScore(diary)
         setAvgScore(avg)
       }

@@ -230,7 +230,7 @@ export default function CameraScreen() {
     }
   }, [resetIdleTimer])
 
-  useBatteryMonitor(() => VoiceCoach.speak('手机快没电了！抓紧时间多拍几张～', true))
+  useBatteryMonitor(() => VoiceCoach.speakLowBatteryWarning())
 
   useEffect(() => {
     VoiceCoach.speakStabilityTip(stability.tiltX, stability.tiltY, stability.shakeLevel)
@@ -608,7 +608,7 @@ export default function CameraScreen() {
             }
           }}
           onBurstDone={(count) => {
-            VoiceCoach.speakBurstCaptureDone(count)
+            VoiceCoach.speakBurstSuccessTip(count)
             resetIdleTimer()
           }}
         />
