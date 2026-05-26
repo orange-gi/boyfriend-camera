@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
-  statsLoadingText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 4, alignSelf: 'center' },
+
   // 简洁优雅：保留进度条 + 右侧分数 + 左上趋势标签（圆点+文字），不堆砌
   trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[5], paddingTop: spacing[4], gap: spacing[2] },
   // 彩色小圆点作为趋势视觉锚点
