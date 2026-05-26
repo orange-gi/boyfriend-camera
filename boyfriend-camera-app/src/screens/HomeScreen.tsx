@@ -136,11 +136,7 @@ export default function HomeScreen() {
         const tip = getDailyTip()
         return (
           <Animated.View style={[styles.dailyTipCard, heroStyle]}>
-            <TouchableOpacity
-              style={styles.dailyTipTouchable}
-              onPress={dismissTip}
-              activeOpacity={0.85}
-            >
+            <TouchableOpacity onPress={dismissTip} activeOpacity={0.85} style={{ flex: 1 }}>
               <Text style={styles.dailyTipText}>{tip.text}</Text>
             </TouchableOpacity>
           </Animated.View>
@@ -268,17 +264,19 @@ const styles = StyleSheet.create({
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
   // 简洁优雅：无标签、无关闭按钮 — tip 文本本身就是内容
   // 微妙背景区分内容层级，留白与文字呼吸感充足
-  dailyTipCard: { marginBottom: spacing[4], backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, paddingVertical: spacing[3], paddingHorizontal: spacing[4] },
-  dailyTipTouchable: { },
+  // 简洁优雅：无背景卡片——仅靠左色条区分内容层级，留白充分，去掉多余的 TouchableOpacity 包裹
+  dailyTipCard: { marginBottom: spacing[4], borderRadius: borderRadius.lg, paddingVertical: spacing[3], paddingHorizontal: spacing[4], borderLeftWidth: 3, borderLeftColor: COLORS.primary },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  poseTipCard: { paddingVertical: spacing[3], marginBottom: spacing[5] },
-  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6] },
+  poseTipCard: { marginBottom: spacing[5] },
+  // 统一圆角：borderRadius.xl 与 onboardCard 等其他卡片一致，视觉更协调
+  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   skeletonNum: { width: 56, height: 36, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
-  statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
+  // 简洁优雅：分割线改细 0.5px，颜色更淡，视觉更轻不抢戏
+  statDivider: { width: 0.5, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
 
   // 简洁优雅：保留进度条 + 右侧分数 + 左上趋势标签（圆点+文字），不堆砌
   trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[5], paddingTop: spacing[4], gap: spacing[2] },
@@ -298,12 +296,13 @@ const styles = StyleSheet.create({
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
   todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  bottomNav: { flexDirection: 'row', paddingVertical: 6, backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, paddingHorizontal: 16, alignItems: 'center' },
-  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10 },
+  // 简洁优雅：去掉背景色——导航栏在 ScrollView 中，无背景反而更轻盈；padding 收敛
+  bottomNav: { flexDirection: 'row', borderRadius: borderRadius.xl, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
+  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  // 简洁优雅：borderRadius 20（与 diaryCard 一致）；padding 24（收紧留白）
-  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: 20, padding: 24, width: '100%', alignItems: 'center' },
+  // 简洁优雅：borderRadius 统一用 design token borderRadius['2xl']（20px），与其他卡片一致
+  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 24, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },
