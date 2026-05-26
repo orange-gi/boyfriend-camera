@@ -4944,6 +4944,50 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 雨天氛围提示 */
+  async speakRainyAtmosphereTip(): Promise<void> {
+    const tips = [
+      '雨天光线超柔和！靠在窗户边拍，皮肤状态最好～',
+      '雨天雾气蒙蒙的超有氛围感！这个天气拍出来好有意境～',
+      '雨天室内光线好均匀，随便拍都好看～',
+      '雨天光线偏冷白，后期可以加一点暖色调更温暖～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 拥挤场景处理提示 */
+  async speakCrowdedSceneTip(): Promise<void> {
+    const tips = [
+      '旁边人好多，稍微等一下或者换个角度躲开～',
+      '背景人太多了！开人像模式虚化，或者等人走开再拍～',
+      '换个角度试试！躲开路人背景会干净很多～',
+      '人多的时候找个角落或者低角度拍，人多也能出好片～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 镜子自拍角度提示 */
+  async speakMirrorAngleTip(): Promise<void> {
+    const tips = [
+      '镜子稍微斜一点拍！角度不要正对镜子，会有反光～',
+      '对着镜子自拍时，手机和镜子成45度角最经典～',
+      '镜子自拍稍微侧一点！完全正对会有反光～',
+      '手机斜着拿拍镜子，这个角度永远不出错～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 滤镜切换鼓励提示 */
+  async speakFilterEncourageTip(): Promise<void> {
+    const tips = [
+      '试试旁边的滤镜！每种感觉都不一样～',
+      '滑动看看其他滤镜，找到最喜欢的那一款～',
+      '不同滤镜感觉完全不同，多试试看～',
+      '滤镜会影响整体氛围！多切换几个看看效果～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
