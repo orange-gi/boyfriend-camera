@@ -1237,6 +1237,28 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '侧光拍照时让女朋友微微侧头，阴影会柔和很多～',
     '让光源在身后45度位置，这个角度光影最立体～',
   ],
+  // Round 2 新增：逆光补光专项建议（与 backlight 互补：强调补光策略）
+  backlight_fill_tip: [
+    '逆光时脸太暗了！打开闪光灯正面补光，让脸和背景都清晰～',
+    '背光场景用屏幕补光！把手机屏幕亮度调高，举到脸前补光～',
+    '逆光剪影很有意境！如果想让脸也亮起来，侧身转过来让光打在脸上～',
+    '逆光时让女朋友走到有遮挡的位置，减少背景光比～',
+    '没有闪光灯？找一块白纸或白墙，让它反射阳光到脸上～',
+    '背光太强时走到阴影处，让背景的光不至于太强～',
+    '逆光人像：让女朋友转过来一点，光比没那么大的时候效果最好～',
+    '户外逆光时走到树荫下，漫反射光让脸不会太暗～',
+  ],
+  // Round 2 新增：海边户外场景专项建议（强光+水面反射+沙砾眩光）
+  beach_specific: [
+    '海边阳光强烈容易过曝！找阴凉处或侧身躲开直射光～',
+    '沙子的反射光会让脸下半部分偏亮，站高一点或侧身避开～',
+    '海边风大头发容易乱！用手稍微固定一下再拍，表情会更清晰～',
+    '海水反光会让肤色偏蓝，稍微后期加一点暖色调会更自然～',
+    '阳光强烈时逆光拍剪影效果最好！转身让轮廓发光～',
+    '有墨镜时摘下来的一瞬间抓拍，眼神最灵动～',
+    '正午海边顶光太强，让女朋友找岩石或阳伞的阴影处拍～',
+    '海风吹起的头发超有动感！等一阵风吹来时按下快门～',
+  ],
   motion: [
     '要抓拍动态瞬间？提前对焦在主体位置～',
     '运动中拍糊了，试试用连拍模式多拍几张～',
@@ -3701,6 +3723,7 @@ export async function analyzePhoto(
   if (safeBrightness > 180 && exposureScore < 18 && faceCount > 0) {
     problems.push('backlight')
     suggestions.push(pickRandom(SUGGESTION_POOL.backlight))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.backlight_fill_tip))
     if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.flash_usage))
   }
 
@@ -4254,7 +4277,7 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(gymPool))
   }
   if (sceneType === 'beach' && totalScore < 75) {
-    const beachPool = SUGGESTION_POOL.beach_sunset_specific || SUGGESTION_POOL.bokeh
+    const beachPool = SUGGESTION_POOL.beach_specific || SUGGESTION_POOL.beach_sunset_specific || SUGGESTION_POOL.bokeh
     suggestions.push(pickRandom(beachPool))
   }
   if (sceneType === 'cherry_blossom' && totalScore < 75) {
@@ -4902,6 +4925,7 @@ export async function analyzePhoto(
   // 海边日落场景
   if (sceneType === 'beach_sunset') {
     suggestions.push(pickRandom(SUGGESTION_POOL.beach_sunset_specific))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.beach_specific))
   }
   // 雨天街景场景
   if (sceneType === 'rainy_street') {
