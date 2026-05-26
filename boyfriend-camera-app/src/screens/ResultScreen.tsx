@@ -676,15 +676,6 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 下次改进提示 — 去装饰化：移除标题和项目符号，只保留核心内容 */}
-        {!processing && scoreResult && scoreResult.suggestions && scoreResult.suggestions.length > 0 && (
-          <View style={styles.suggestionBanner}>
-            <Text style={styles.suggestionBannerText}>
-              {scoreResult.suggestions[0]}
-            </Text>
-          </View>
-        )}
-
         {/* 滤镜选择器 */}
         {!processing && (
           <View style={styles.filterPicker}>
@@ -940,19 +931,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
     letterSpacing: -0.2,
-  },
-  // 建议横幅：去装饰化 — 去掉背景色块，用 muted 文字色传达次要层级
-  // 理由：建议是补充信息，不应与夸奖横幅竞争视觉权重；textSecondary 已足够
-  suggestionBanner: {
-    marginHorizontal: 20,
-    marginBottom: 14,
-    paddingVertical: 6,
-    paddingHorizontal: 4,
-  },
-  suggestionBannerText: {
-    fontSize: 13,
-    color: COLORS.textMuted,
-    lineHeight: 20,
   },
   viewShot: {
     alignItems: 'center',
