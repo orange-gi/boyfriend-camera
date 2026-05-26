@@ -819,11 +819,14 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 20,
   },
-  // 破纪录横幅：去掉黄色背景，字重和大字号已传达重要性，避免同色块堆砌
+  // 破纪录横幅：克制的 success 色文字 + 淡背景 pill，庆祝但不俗气
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 10,
-    paddingVertical: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    backgroundColor: COLORS.successLight,
   },
   newRecordBannerText: {
     fontSize: 18,
