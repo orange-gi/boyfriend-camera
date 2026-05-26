@@ -1064,7 +1064,7 @@ const styles = StyleSheet.create({
   },
   topBtnText: {
     color: '#fff',
-    fontSize: 22,
+    fontSize: 17,
   },
   // 构图模式切换
   modeGroupGlass: {
@@ -1347,6 +1347,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.textPrimary,
     padding: 0,
+    paddingHorizontal: 4,
   },
   searchClear: {
     color: COLORS.textMuted,

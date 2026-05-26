@@ -696,7 +696,7 @@ export default function ResultScreen() {
         {/* 滤镜选择器 */}
         {!processing && (
           <View style={styles.filterPicker}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterPickerList}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterPickerList} showsVerticalScrollIndicator={false}>
               {FILTER_OPTIONS.map((f) => (
                 <FilterItem
                   key={f.key}
@@ -884,11 +884,11 @@ const styles = StyleSheet.create({
   filterPicker: {
     marginHorizontal: 20,
     marginTop: 8,
-    paddingVertical: 12,
   },
   filterPickerList: {
     flexDirection: 'row',
     paddingRight: 16,
+    paddingVertical: 12,
   },
   filterItem: {
     alignItems: 'center',
@@ -929,7 +929,7 @@ const styles = StyleSheet.create({
   },
   processingOverlay: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingVertical: 16,
     paddingHorizontal: 20,
   },
   processingSpinner: {
@@ -1016,7 +1016,6 @@ const styles = StyleSheet.create({
   },
   diaryEntryBtn: {
     alignItems: 'center',
-    paddingVertical: 14,
     marginHorizontal: 20,
   },
   diaryEntryBtnText: {
@@ -1048,7 +1047,7 @@ const styles = StyleSheet.create({
   // 简洁优雅：去掉左竖线装饰，仅用文字和浅色背景传达信息层级
   errorBanner: {
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 10,
     marginBottom: 12,
     alignItems: 'center',
     backgroundColor: COLORS.dangerLight,
