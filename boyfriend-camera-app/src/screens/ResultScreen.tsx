@@ -1,5 +1,5 @@
 /** ResultScreen - 拍照结果页 */
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   View,
@@ -613,9 +613,8 @@ export default function ResultScreen() {
     )
   }
 
-  // 夸奖横幅文字颜色（按分数段）— 用于个性化 praise 文本的视觉色彩
-  // 合并PraiseBanner颜色与文本为单一计算，避免重复条件判断
-  const getPraiseInfo = (): { text: string; color: string } => {
+  // 夸奖横幅文字颜色（按分数段）— 避免每次渲染重新计算
+  const praiseInfo = useMemo(() => {
     if (scoreResult && praiseList.length > 0) {
       const color = scoreResult.totalScore >= 90 ? COLORS.scoreGreat
         : scoreResult.totalScore >= 80 ? COLORS.primary
@@ -630,8 +629,7 @@ export default function ResultScreen() {
     if (scoreResult.totalScore >= 70) return { text: `${scoreResult.totalScore}分，继续保持！`, color: COLORS.success }
     if (scoreResult.totalScore >= 60) return { text: `${scoreResult.totalScore}分，下次会更好！`, color: COLORS.warning }
     return { text: `${scoreResult.totalScore}分，继续加油！`, color: COLORS.danger }
-  }
-  const praiseInfo = getPraiseInfo()
+  }, [scoreResult, praiseList])
 
   return (
     <View style={styles.container}>
