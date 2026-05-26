@@ -3317,6 +3317,19 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '冬天室内开灯时光线偏暖，适当调高亮度或靠近窗户～',
     '冬季室内外光比大，进门后等眼睛适应再拍，避免过暗或过曝～',
   ],
+  face_not_detected: [
+    '好像没拍到人脸哦～让他站近一点，光线充足的地方更容易识别～',
+    '没检测到人脸！让他走到光线均匀的地方，再拍一张～',
+    '人脸没识别到，让他正对镜头站近一点试试～',
+    '可能是光线太暗或太逆光了，让他走到光亮的地方～',
+    '试试让他离镜头近一些，表情大一点会更易识别～',
+  ],
+  motion_blur: [
+    '好像有拖影！让他双手握稳手机，或靠近拍～',
+    '有点糊，可能是手抖或被拍的人动了，再拍一张吧～',
+    '让男朋友双手撑住身体，按快门时屏住呼吸～',
+  ],
+
   // v5 新增：镜子自拍专属建议
   mirror_selfie_specific: [
     '对着镜子自拍时手机稍微斜一点，角度更好看，避免正面正对镜子有反光～',
@@ -3511,7 +3524,12 @@ export async function analyzePhoto(
   if (faceCount === 0) {
     compositionScore -= 20
     problems.push('composition')
-    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
+    // 光线正常且无脸 → 可能是拍人时没检测到人脸
+    if (safeBrightness >= 50 && safeBrightness <= 220) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.face_not_detected))
+    } else {
+      suggestions.push(pickRandom(SUGGESTION_POOL.composition))
+    }
   } else if (facePosition) {
     // 人脸是否在三分区
     const inThird =
@@ -3577,6 +3595,10 @@ export async function analyzePhoto(
   }
   if (safeSharpness < 50 && safeSharpness >= 30 && faceCount > 0 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.grainy_photo))
+  }
+  // 运动模糊：亮度正常但清晰度低（排除暗光噪点）
+  if (safeBrightness >= 100 && safeBrightness <= 200 && safeSharpness >= 40 && safeSharpness < 70 && faceCount > 0 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.motion_blur))
   }
   // 头发遮挡检测：清晰度低但亮度正常（不是暗光），且人脸面积正常 → 可能是头发遮挡
   if (safeSharpness < 80 && safeSharpness >= 40 && safeBrightness >= 100 && faceCount > 0 && facePosition && facePosition.area > 0.08 && facePosition.area < 0.4 && suggestions.length < 4) {
