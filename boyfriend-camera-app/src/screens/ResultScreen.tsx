@@ -940,7 +940,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 8,
   },
-  // 简洁优雅：borderRadius 20（统一按钮层级，与 HomeScreen/其他屏幕一致）；8% 透明度维持次级按钮的克制表达
+  // 简洁优雅：borderRadius 20（统一按钮层级，与 HomeScreen/其他屏幕一致）
+  // 次级按钮改为透明底 + 浅灰边框（去 alpha 装饰，保留功能层级）
   actionBtnSecondary: {
     flex: 1,
     flexDirection: 'row',
@@ -948,14 +949,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: 20,
-    backgroundColor: hexAlpha(COLORS.primary, 0.08),
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
   actionBtnSecondaryText: {
     fontSize: 14,
-    color: COLORS.textMuted,
+    color: COLORS.textSecondary,
     fontWeight: '600',
   },
   // 简洁优雅：borderRadius 20（与 actionBtnSecondary/actionBtnPrimary 统一）
+  // 分享按钮改为透明底 + primary 边框，视觉更轻盈克制
   actionBtnShare: {
     flex: 1,
     flexDirection: 'row',
@@ -963,7 +967,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: 20,
-    backgroundColor: hexAlpha(COLORS.primary, 0.12),
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: COLORS.primary,
   },
   actionBtnShareText: {
     fontSize: 14,
@@ -972,7 +978,7 @@ const styles = StyleSheet.create({
   },
   // 简洁优雅：borderRadius 20（与次级按钮统一，primary 按钮视觉已足够突出）
   actionBtnPrimary: {
-    flex: 1.6,
+    flex: 1.5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
