@@ -138,11 +138,7 @@ export default function HomeScreen() {
               onPress={dismissTip}
               activeOpacity={0.85}
             >
-              <View style={styles.dailyTipContent}>
-                <Text style={styles.dailyTipLabel}>今日技巧</Text>
-                <Text style={styles.dailyTipText}>{tip.text}</Text>
-              </View>
-              <Text style={styles.dailyTipCloseIcon}>×</Text>
+              <Text style={styles.dailyTipText}>{tip.text}</Text>
             </TouchableOpacity>
           </Animated.View>
         )
@@ -182,15 +178,16 @@ export default function HomeScreen() {
           </View>
           {diaryCount >= 2 && avgScore > 0 && (() => {
             const trendColor = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
-            const trendLabel = trend === 'up' ? '在进步，继续加油' : trend === 'down' ? '有点下滑，多拍几张' : '表现稳定'
+            const trendLabel = trend === 'up' ? '↑ 进步中' : trend === 'down' ? '↓ 下滑' : '→ 稳定'
             const scoreLevelColor = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
             return (
               <View style={styles.trendRow}>
-                <Text style={styles.trendText}>{trendLabel}</Text>
+                <View style={[styles.trendDot, { backgroundColor: scoreLevelColor }]} />
+                <Text style={[styles.trendLabel, { color: trendColor }]}>{trendLabel}</Text>
                 <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
                   <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: scoreLevelColor }]} />
                 </View>
-                <Text style={[styles.trendPercent, { color: scoreLevelColor }]}>{avgScore}分</Text>
+                <Text style={[styles.trendScore, { color: scoreLevelColor }]}>{avgScore}</Text>
               </View>
             )
           })()}
@@ -266,12 +263,10 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
+  // 简洁优雅：无标签、无关闭按钮 — tip 文本本身就是内容
   dailyTipCard: { marginBottom: spacing[4] },
-  dailyTipTouchable: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], paddingRight: spacing[2] },
-  dailyTipContent: { flex: 1 },
-  dailyTipLabel: { fontSize: typography.fontSize.xs, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium, marginBottom: 4 },
+  dailyTipTouchable: { paddingVertical: spacing[3] },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  dailyTipCloseIcon: { fontSize: 20, color: COLORS.textMuted, marginLeft: spacing[3], lineHeight: 20 },
   poseTipCard: { paddingLeft: spacing[3], paddingVertical: spacing[3], marginBottom: spacing[5] },
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
@@ -281,11 +276,15 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statDivider: { width: 1, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
   statsLoadingText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 4, alignSelf: 'center' },
-  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[5], paddingTop: spacing[4], gap: spacing[3] },
-  trendText: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, flexShrink: 0 },
-  trendBar: { flex: 1, height: 6, borderRadius: borderRadius.sm, overflow: 'hidden' },
+  // 简洁优雅：保留进度条 + 右侧分数 + 左上趋势标签（圆点+文字），不堆砌
+  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[5], paddingTop: spacing[4], gap: spacing[2] },
+  // 彩色小圆点作为趋势视觉锚点
+  trendDot: { width: 8, height: 8, borderRadius: 4, flexShrink: 0 },
+  trendLabel: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, flexShrink: 0, minWidth: 56 },
+  trendBar: { flex: 1, height: 4, borderRadius: borderRadius.sm, overflow: 'hidden' },
   trendBarFill: { height: '100%', borderRadius: borderRadius.sm },
-  trendPercent: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold, width: 36, textAlign: 'right', flexShrink: 0 },
+  // 分数用纯数字（无"分"字），与 statNumber 风格一致
+  trendScore: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, width: 28, textAlign: 'right', flexShrink: 0 },
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
   cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
   cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5, color: COLORS.textOnPrimary },
