@@ -3425,6 +3425,26 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '让男朋友换个角度试试，侧面比正面更有层次～',
     '身体微微前倾，会显得更有活力和互动感～',
   ],
+
+  // v8 新增：服装与背景颜色协调建议
+  outfit_color_match: [
+    '衣服颜色和背景太接近了，换个角度或背景躲开～',
+    '深色衣服在深色背景里不突出，背景换亮一点会更显眼～',
+    '浅色衣服在浅色背景里糊在一起了，找对比色背景试试～',
+    '衣服和背景撞色超好看，这张就是例子！',
+    '衣服颜色和背景太像了，稍微换个站位就能跳出来～',
+    '暖色衣服配冷调背景，这种对比超有层次感～',
+  ],
+
+  // v8 新增：场景等待时机建议（与 timing_tips 互补，专注即时等待）
+  scene_wait_tips: [
+    '等一下再拍！让女朋友先放松一下，等她状态最好的时候～',
+    '光线正在变！趁现在赶紧拍，这个时间很短～',
+    '等风吹过去再拍，不然头发会乱～',
+    '人走了再拍！旁边人多，等一下再按快门～',
+    '阳光被云遮住了，等云过去再拍，光线会更柔和～',
+    '这个光线再过几分钟就没了，趁现在赶紧拍～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -4982,6 +5002,18 @@ export async function analyzePhoto(
   // 低光环境建议
   if (safeBrightness < 80 && suggestions.length < 5) {
     suggestions.push(pickRandom(SUGGESTION_POOL.low_light_tips))
+  }
+
+  // v8 新增：服装与背景颜色协调建议（构图尚可但无明显问题时触发）
+  if (compositionScore >= 30 && totalScore >= 65 && totalScore < 80 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.outfit_color_match))
+  }
+
+  // v8 新增：拍摄时机建议（光照变化快的场景）
+  if (sceneType === 'outdoor' && safeBrightness >= 60 && safeBrightness <= 200 && suggestions.length < 5) {
+    if (Math.random() > 0.7) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.scene_wait_tips))
+    }
   }
 
   const uniquePraise = [...new Set(praise)]
