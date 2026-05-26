@@ -1243,15 +1243,15 @@ const styles = StyleSheet.create({
     gap: 4,
     flexDirection: 'row',
   },
+  // 简洁优雅：选中态仅靠颜色和字重区分，去背景 alpha 装饰
   categoryTab: {
     paddingHorizontal: 14,
     paddingVertical: 6,
     marginHorizontal: 2,
     borderRadius: 16,
   },
-  // 选中态
   categoryTabActive: {
-    backgroundColor: hexAlpha(COLORS.primary, 0.1),
+    // 不使用背景色，靠 color + fontWeight 承载选中态
   },
   categoryTabText: {
     fontSize: 14,
@@ -1285,6 +1285,7 @@ const styles = StyleSheet.create({
   },
   templateCardActive: {
     borderColor: COLORS.primary,
+    borderWidth: 2,
   },
   templateThumb: {
     width: SCREEN_W / 2 - 60,
