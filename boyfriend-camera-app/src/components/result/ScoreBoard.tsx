@@ -198,12 +198,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
   },
-  sectionTitle: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: COLORS.textSecondary,
-    marginBottom: 16,
-  },
   // 维度行 — 标签左 + bar+分数右
   dimRow: {
     flexDirection: 'row',

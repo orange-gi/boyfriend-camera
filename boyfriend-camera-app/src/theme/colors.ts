@@ -42,4 +42,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
   '构图技巧': colors.categoryComposition,
   '节日限定': colors.warning,
   '运动健身': colors.success,
+  '复古胶片': colors.purple,
+  '温泉': colors.categoryStyle,
+  '滑雪': colors.categoryOutdoor,
 }

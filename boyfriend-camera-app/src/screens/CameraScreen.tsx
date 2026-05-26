@@ -1205,9 +1205,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 6,
     marginHorizontal: 2,
+    borderRadius: 16,
   },
+  // 选中态：主色文字 + 浅主色背景 pill，清晰但不抢镜
   categoryTabActive: {
-    // 去背景色：纯文字权重 + 主色承载激活态，克制不抢镜
+    backgroundColor: hexAlpha(COLORS.primary, 0.1),
   },
   categoryTabText: {
     fontSize: 14,
