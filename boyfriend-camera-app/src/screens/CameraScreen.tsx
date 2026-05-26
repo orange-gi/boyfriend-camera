@@ -132,6 +132,10 @@ export default function CameraScreen() {
   const lastGroupLookAtCameraRef = useRef<number>(0)
   // 节流人脸位置 TTS
   const lastFaceTipRef = useRef<number>(0)
+  // 人脸丢失/重获检测
+  const prevFaceCountRef = useRef<number>(0)
+  const lastFaceLostRef = useRef<number>(0)
+  const lastFaceRegainedRef = useRef<number>(0)
   const lastSmileDetectedRef = useRef<number>(0)
   const lastSelfiePoseTipRef = useRef<number>(0)
   const lastBacklightRef = useRef<number>(0)
@@ -233,6 +237,10 @@ export default function CameraScreen() {
   }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
 
   // 人脸位置 TTS 提示（归一化坐标 + 面积，6s 节流）
+  // Round 3 扩展：同时处理人脸过大/过小/眼镜反光等专项提示
+  const lastFaceTooLargeRef = useRef<number>(0)
+  const lastFaceTooSmallRef = useRef<number>(0)
+  const lastGlassesRef = useRef<number>(0)
   useEffect(() => {
     if (faces.length !== 1) return
     const now = Date.now()
@@ -240,6 +248,40 @@ export default function CameraScreen() {
     lastFaceTipRef.current = now
     const face = faces[0]
     VoiceCoach.speakFaceTip(face.x, face.y, face.area).catch(() => {})
+    // 人脸面积过大（前置自拍）
+    if (cameraFacing === 'front' && face.area > 0.30) {
+      if (now - lastFaceTooLargeRef.current >= 10000) {
+        lastFaceTooLargeRef.current = now
+        VoiceCoach.speakFaceTooLarge().catch(() => {})
+      }
+    }
+    // 人脸面积过小（后置近景）
+    if (face.area < 0.06) {
+      if (now - lastFaceTooSmallRef.current >= 8000) {
+        lastFaceTooSmallRef.current = now
+        VoiceCoach.speakFaceTooSmall().catch(() => {})
+      }
+    }
+  }, [faces])
+
+  // 人脸丢失 / 重获检测（Round 3 新增）
+  useEffect(() => {
+    const now = Date.now()
+    const prev = prevFaceCountRef.current
+    if (prev > 0 && faces.length === 0) {
+      // 脸丢失
+      if (now - lastFaceLostRef.current >= 8000) {
+        lastFaceLostRef.current = now
+        VoiceCoach.speakFaceLost().catch(() => {})
+      }
+    } else if (prev === 0 && faces.length > 0) {
+      // 脸重新找到
+      if (now - lastFaceRegainedRef.current >= 10000) {
+        lastFaceRegainedRef.current = now
+        VoiceCoach.speakFaceRegained().catch(() => {})
+      }
+    }
+    prevFaceCountRef.current = faces.length
   }, [faces])
 
   // 低光 Proxy：后置摄像头且人脸面积很小(<0.04)，说明光线不足
