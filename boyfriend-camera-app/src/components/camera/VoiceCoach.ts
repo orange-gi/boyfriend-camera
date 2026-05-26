@@ -20,18 +20,13 @@ const FACE_TIPS = {
   GOOD_POSITION: '位置刚刚好！笑一个～',
   MULTI_FACE: '哇，有好多人～对焦在你身上哦',
   // 新增
-  GOOD_SIZE: '大小刚刚好！就是现在，按快门！',
-  FACE_TOO_EDGE: '往中间站一点点，脸有点靠边了～',
-  LOOK_AT_CAMERA: '看镜头！眼神更有神～',
-  BLINK_PROMPT: '眨眨眼活动一下，准备好再拍～',
-  GOOD_LIGHTING: '光线刚刚好！就是现在，拍！',
+
+
   TOO_DARK: '脸有点暗了，往光源方向靠近一点点～',
-  TOO_BRIGHT: '光线有点亮了，稍微侧身躲开强光～',
-  KEEP_STILL: '别动！就是现在，按快门！',
+
   // 新增边缘场景
   FACE_MOVING: '别动！脸不要晃来晃去的～',
-  FACE_MOVING_TOO_MUCH: '别晃来晃去的！站定之后再拍～',
-  CAMERA_MOVING: '手机在晃！先把手机拿稳再拍～',
+
   ALMOST_PERFECT: '就差一点点！稳住，按下去就是大片！',
   TRY_SIDE_FACE: '试试侧脸！轮廓感会更强～',
   TRY_BACK_VIEW: '背对镜头也超有感觉！转过去试试～',
@@ -41,41 +36,34 @@ const FACE_TIPS = {
   TRY_WIDER: '退后一点！让背景更完整～',
   CHECK_LIGHTING: '先看一下光线方向！脸要朝向光源～',
   FIND_WINDOW: '找个窗户边站！自然光最柔和～',
-  BACK_FROM_WINDOW: '离窗户近一点！脸会更亮～',
-  TURN_TOWARD_LIGHT: '转过身面对光源！脸太暗了～',
-  AVOID_HARSH_LIGHT: '躲开强光！找个柔和的地方～',
+
+
   GOLDEN_HOUR_NOW: '现在是黄金时段！赶紧拍，光线超美～',
   OVERCAST_PERFECT_TIME: '阴天光线好柔！随便拍都好看～',
-  SHOOT_DURING_GOLDEN: '趁现在光线好！赶紧拍一张～',
-  SUNSET_WINDOW: '夕阳光线超温柔！现在拍正合适～',
-  SUNSET_WINDOW_2: '傍晚光线好美！这时间段拍照绝了～',
+
+
+
   FACE_PARTIAL: '脸稍微侧了一点，正对镜头会更好看～',
   LOW_ANGLE_FACE: '抬头看镜头！低角度显下巴～',
   HIGH_ANGLE_FACE: '稍微低头一点点，眼睛更有神～',
   // 模板切换确认
   TEMPLATE_CHANGED: '已切换到新姿势！跟着指导摆好～',
   // 边缘场景补充
-  FACE_EDGE_LEFT: '脸靠左边缘了，往右挪一点点～',
-  FACE_EDGE_RIGHT: '脸靠右边缘了，往左挪一点点～',
-  FACE_EDGE_TOP: '脸太靠上了，往下站一点～',
-  FACE_EDGE_BOTTOM: '脸太靠近底部了，头稍微抬高一点～',
-  FACE_CENTERING: '脸稍微往中间挪一点点，构图会更稳～',
-  FACE_CENTER_PERFECT: '位置完美！就是现在，笑一个按下去！',
-  LOOK_LEFT_THEN_SMILE: '先看左边，再转头笑！这个表情超自然～',
-  LOOK_RIGHT_THEN_SMILE: '先看右边，再转头笑！自然的笑容马上就出来了～',
+
+
+
+
+
   // 新增：手势引导
   HAND_NATURAL: '手自然垂下就好！别紧贴身体，侧面更显瘦～',
   HAND_HIP_POSE: '双手叉腰！这个姿势显瘦又有气场～',
-  HAND_FINGERS_TIPS: '手指轻轻合拢，比张开更优雅～',
+
   // 新增：表情场景
   RELAX_SHOULDER_TIP: '肩膀放松一下！别端着，自然最美～',
   BREATH_RELAX: '深呼吸～放松再笑，这个表情最自然～',
-  THINK_HAPPY: '想一件开心的事！表情马上活起来～',
+
   // 新增：稳定性实时反馈
-  STEADY_NOW: '稳住！手不抖了，按下去～',
-  CAMERA_SHAKE_LESS: '好多了！继续稳住，按快门～',
-  SELFIE_TOO_HIGH: '手机稍微放低一点点，正面拍摄会更有神～',
-  SELFIE_TOO_LOW: '手机抬高一点！俯拍显脸小，下巴尖尖的～',
+
   // 拍摄成功
   SHOOT_GOOD: '姿势很棒！就是现在，按快门！',
   // 拍摄失败
@@ -97,15 +85,15 @@ const FACE_TIPS = {
   // 逆光场景
   BACKLIGHT_DETECTED: '逆光！脸有点黑，侧身转过来让光打在脸上～',
   BACKLIGHT_DETECTED_2: '背光场景！打开闪光灯补光，或者转过来面对光源～',
-  BACKLIGHT_HDR_HINT: '逆光场景明暗对比大！打开 HDR 模式，高光阴影都能保留～',
+
   // 成功抓拍倒计时
   COUNTDOWN_3: '三～',
   COUNTDOWN_2: '二～',
   COUNTDOWN_1: '一～',
   COUNTDOWN_GO: '拍！',
-  CAPTURE_SUCCESS: '太棒了！拍到了！这张绝了～',
-  CAPTURE_SUCCESS_2: '抓到了！这个表情太生动了～',
-  CAPTURE_SUCCESS_3: '完美！就是这张！',
+
+
+
   // 表情僵硬
   EXPRESSION_STIFF: '表情放松一点～嘴角微微上扬，自然最美～',
   EXPRESSION_STIFF_2: '别僵着！想想开心的事，笑一个试试～',
@@ -121,43 +109,38 @@ const FACE_TIPS = {
   BLURRY_PHOTO: '照片有点糊了！拿稳手机，或者站近一点～',
   BLURRY_PHOTO_2: '这张有点模糊，下一张拿稳试试～',
   // 前置摄像头提示
-  SELFIE_MODE: '自拍模式！找好角度，笑一个～',
-  SELFIE_TOO_CLOSE: '手机拿远一点！自拍离太近会变形～',
+
+
   // 后置摄像头提示
-  BACK_CAMERA: '后置镜头画质更好！让男朋友拿手机拍～',
+
   // 长时间无脸检测
-  NO_FACE_LONG: '等了好久都没看到人脸～轻轻挥挥手让我找到你～',
-  NO_FACE_10S: '十秒了还没看到你！挥挥手或者走近一点～',
+
   // 多人合照提示
   MULTI_FACE_TWO: '两个人的合照！靠近一点贴贴～',
   MULTI_FACE_THREE: '三个人的合照！大家站整齐一点～',
   MULTI_FACE_SQUEEZE: '人多挤不下！往后站一点大家都能入镜～',
   // 鼓励换姿势
-  TRY_NEW_POSE: '换个姿势试试！这个角度有点单调～',
+
   TRY_DIFFERENT_ANGLE: '试试换个角度拍！侧面也很美～',
   // 黄金时段提示
-  GOLDEN_HOUR: '这光线好温柔！现在是拍照的黄金时间～',
+
   // 尝试开闪光灯
-  TRY_FLASH: '光线有点暗～打开闪光灯试试～',
+
   CLOSE_ONE_EYE: '试试闭一只眼！俏皮又可爱，活泼感拉满～',
-  HAIR_OVER_FACE: '头发挡住脸了～轻轻拨开，光会更通透～',
-  HAND_NEAR_FACE: '手靠近脸可以显脸小！试试托腮或撩头发～',
-  BLUSH_HINT: '侧过脸让光打在颧骨上，皮肤会看起来更通透～',
+
+
   SHOOT_NOW_LIGHT: '光线刚刚好！就是现在，按快门！',
   SHOOT_NOW_POSE: '姿势超棒！表情到位！按下去就是大片！',
   SHOOT_NOW_PERFECT: '完美时刻！这光线这角度，按下去！',
-  KEEP_GOING: '继续拍！多拍几张选最好的～',
-  ONE_MORE_TRY: '再来一张！这张有进步空间，继续加油～',
-  GREAT_PROGRESS: '肉眼可见的进步！男朋友继续保持！',
+
 
   // 模板匹配度提示
-  TEMPLATE_MATCH_GOOD: '姿势和模板超配！就是现在拍！',
+
   TEMPLATE_MATCH_OFF: '姿势有点跑偏～跟着模板摆正一点～',
   // 夜景拍照提示
-  NIGHT_MODE_HINT: '晚上拍照记得打开闪光灯或找光源～',
+
   // 试拍建议
-  TRY_ONE_MORE: '多拍几张选最好的！第一张不一定最好～',
-  TRY_FIVE: '建议连拍几张！按快门别客气～',
+
   // HDR 模式提示
   HDR_HINT: '这个场景明暗对比大！打开 HDR 模式，高光阴影都能保留～',
   HDR_HINT_2: 'HDR 模式可以让亮部和暗部都清晰，打开试试～',
@@ -178,50 +161,45 @@ const FACE_TIPS = {
   TIMER_HINT: '用定时拍照！放在稳定的地方，自己也能入镜～',
   TIMER_HINT_2: '定时拍照设置三秒就够！给自己留出摆pose的时间～',
   TIMER_HINT_3: '定时拍照放在桌面或书架上！自己和男朋友都能入镜～',
-  TIMER_COUNTDOWN: '三二一！就是现在～',
-  TIMER_COUNTDOWN_2: '321！就是现在～',
-  TIMER_COUNTDOWN_3: '倒计时结束！按快门～',
+
+
+
   // 抓拍提示
-  CANDID_CAPTURE: '假装在看她/他！就是现在抓拍～',
-  CANDID_CAPTURE_2: '让她先动起来，然后抓拍！这个瞬间最自然～',
+
+
   // 逆光 HDR 提示
   BACKLIGHT_HDR: '逆光场景！打开 HDR 让脸和背景都清晰～',
   // 阴天提示
-  OVERCAST_HINT: '阴天光线好柔和！不用担心过曝，随便拍都好看～',
+
   // 室内反射提示
-  INDOOR_REFLECTION: '室内玻璃会反光！稍微侧身躲开反光～',
+
   // 傍晚提示
-  EVENING_GLOW: '傍晚光线好温柔！这时间段拍人像绝了～',
+
   // 微距模式提示
-  CLOSE_UP_HINT: '近拍模式！让花或小物件离镜头近一点，背景虚化超美～',
+
   // 防红眼提示
-  RED_EYE_HINT: '开闪光灯时记得避开正面直打，可以让女朋友稍微侧一点～',
+
   // 镜子自拍提示
-  MIRROR_SELFIE: '对着镜子自拍！手机稍微斜一点拍，角度更好看～',
+
   // 夕阳提示
-  SUNSET_GLOW_HINT: '夕阳余晖好浪漫！侧身站着让光打在侧脸上～',
+
   // 超市道具提示
-  SUPERMARKET_PROP: '拿个零食饮料当道具！俏皮可爱，互动感十足～',
+
   // 运动抓拍提示
-  MOTION_CAPTURE: '动起来抓拍！跑跳的瞬间最有活力～',
+
   // 俯拍全身提示
-  TOP_DOWN_FULL: '俯拍全身！男朋友站高一点，你躺下仰头看镜头～',
+
   // 仰拍大长腿提示
-  LOW_ANGLE_LEGS: '仰拍大长腿！男朋友蹲低，你踮起脚尖～',
-  GYM_CARDIO_TIP: '动感单车上身体微微前倾，笑着看向镜头，活力满满！',
-  RAINY_WINDOW_INDOOR: '雨天室内窗边超有氛围！让窗户的光打在侧脸上～',
-  SUNGLASSES_COOL: '戴墨镜超酷！稍微侧身站，摘下墨镜的一瞬间抓拍～',
+
+
 
   // 表情夸张提示
   BIGGER_SMILE: '笑容再大一点！这样更上镜～',
   RELAX_FACE: '表情放松一点～别僵着，自然最美～',
   // 拍摄前最后确认
-  ALMOST_THERE: '就差一点点了！位置很好，光线也棒，按！',
+
   // 情侣合照专属提示
-  COUPLE_SQUEEZE: '两个人再靠近一点！贴贴更甜蜜～',
-  COUPLE_LOOK_EACH_OTHER: '对视一下！这样拍出来超有感觉～',
-  COUPLE_HUG_FROM_BEHIND: '男生从后面抱！经典的甜蜜姿势～',
-  COUPLE_HOLD_HANDS_BACK: '牵手背对镜头，超有氛围感！',
+
   // 构图提醒
   USE_GRID: '打开九宫格！构图会好很多～',
   TRY_LOW_ANGLE: '蹲低一点！仰拍超级显腿长！',
@@ -235,191 +213,52 @@ const FACE_TIPS = {
   TRY_POUT: '嘟嘴卖萌！也很上镜～',
   TRY_CONFIDENT: '试试酷酷的表情！超级有范儿～',
   TRY_SURPRISED: '惊讶表情！眼睛睁大超可爱～',
-  LAST_CHANCE: '这张一定会很好看！鼓起勇气按下去！',
-  CHECK_MIRROR: '检查一下镜子里有没有乱！头发衣服都要整理好～',
-  GRAB_ATTENTION: '吸引她的注意力！逗她笑一下再按快门～',
-  TELL_JOKE: '给她讲个笑话！表情自然的时候抓拍～',
-  SQUEEZE_CHEEKS: '轻轻捏一下脸！自然的笑容马上出来～',
-  PLAY_MUSIC: '放一首她喜欢的歌！跟着节奏自然摇摆～',
-  DIRTY_LENS_HINT: '镜头好像有点脏！擦一下会更清晰～',
-  CHECK_FACE_IN_FRAME: '确认一下脸在屏幕里！别被切掉了～',
-  POSE_ADJUSTMENT: '稍微调整一下姿势！这个角度可以更好看～',
-  EXPRESSION_REFRESH: '表情换一换！试试酷酷的、甜甜的、酷甜的三种～',
-  LIGHT_CHECK: '确认一下光线方向！脸要朝向光源才好看～',
-  CHECK_HAIR: '头发稍微理一下！光线下会更通透～',
-  ADJUST_COLLAR: '领口整理一下！露出锁骨线条更好看～',
-  CLEAN_LENS: '镜头有指纹！用衣服擦一下会更清晰～',
-  STABILIZE_ARMS: '手臂夹紧身体！会更稳～',
+
+
   CHECK_BACKGROUND: '背景检查一下！太乱会抢戏～',
-  FIND_REFLECTION: '找个能反光的东西补光！眼神会亮很多～',
-  USE_WALL: '靠在墙上拍！身体不会晃～',
-  CHECK_HORIZON: '看一下地平线！别歪了～',
-  CLOSE_SPACE: '背景留少一点！人占画面大一点更好看～',
-  OPEN_SPACE: '退后一步！背景完整一点更有感觉～',
-  TURN_OFF_FLASH_AUTO: '闪光灯自动模式有点乱！手动开关试试～',
-  ANGLE_LEFT: '往左边偏一点！光线会更柔和～',
-  ANGLE_RIGHT: '往右边偏一点！换个角度试试～',
-  TRY_MIRROR_SELFIE: '对着镜子拍！角度更好控制～',
-  CHECK_EXPRESSION: '表情怎么样？自然放松最好看～',
-  SQUEEZE_SMILE: '嘴角上扬一点点！微笑最上镜～',
-  OPEN_EYES_WIDE: '眼睛睁大一点！眼神更有神～',
-  RELAX_SHOULDERS_TIP: '肩膀放松！别端着，自然就好～',
-  CHIN_DOWN_SLIGHTLY: '下巴稍微收一点点！下颌线更清晰～',
-  TILT_FACE_LEFT: '脸稍微往左歪一点点～',
-  TILT_FACE_RIGHT: '脸稍微往右歪一点点～',
-  MOVE_TO_WINDOW: '走到窗户边！自然光最柔和～',
-  SHADOW_CHECK: '脸上阴影太多！换个位置试试～',
-  SOFTEN_LIGHT: '光太硬了！找阴影处或用东西柔化～',
-  FACE_SCREEN_LIGHT: '用手机屏幕给脸补光！白色背景亮度刚好～',
-  USE_CEILING_REFLECT: '白墙会反光！靠近墙站脸会更亮～',
-  SUNBEAM_HINT: '有阳光的时候！侧身站着光影更立体～',
-  EVENING_SOFT_LIGHT: '傍晚光线超柔！趁现在多拍几张～',
-  NORTH_LIGHT_TIP: '北向窗户光线最柔和！适合拍人像～',
-  MOONLIGHT_HINT: '月光下也超浪漫！打开闪光灯补补光～',
-  CANDLE_WARM_LIGHT: '烛光超有氛围！让烛光打在脸上～',
-  STREET_LAMP_NIGHT: '路灯下光线暖暖的！站灯下脸更亮～',
-  NEON_COLORFUL: '霓虹灯下超酷！让光打在侧脸上～',
-  TRAIN_WINDOW_LIGHT: '火车窗边光线好均匀！靠着窗拍～',
-  SUBWAY_LIGHTS_COLD: '地铁站灯光冷调！侧身站着超有都市感～',
-  ROOFTOP_GLOW: '天台灯光好浪漫！打开闪光灯补补光～',
-  POOL_LIGHTS_NIGHT: '泳池灯光好梦幻！开闪光灯拍一张～',
-  CAMPFIRE_WARM: '营火边超有氛围！火光打在脸上好温暖～',
-  FIREWORKS_NIGHT: '烟花下超浪漫！开闪光灯抓拍瞬间～',
-  STADIUM_LIGHTS_BRIGHT: '体育场灯光超亮！表情放松自然拍～',
-  ZOO_ANIMAL_LIGHT: '动物园灯光均匀！和动物互动拍一张～',
-  AQUARIUM_BLUE: '水族馆蓝色光线超梦幻！侧身站着超美～',
-  CHRISTMAS_LIGHTS: '圣诞灯饰超有氛围！靠近灯串站着～',
-  HALLOWEEN_LIGHTS: '南瓜灯好可爱！侧身靠着拍一张～',
-  LANTERN_FESTIVAL: '元宵节灯笼超红！靠近灯笼站好～',
-  MUSIC_STAGE_LIGHT: '舞台灯光超有感觉！抬头看灯拍一张～',
-  GARDEN_FAIRY_LIGHT: '花园串灯超梦幻！站在灯下超浪漫～',
-  MARKET_STALL_WARM: '集市摊位灯光暖暖的！靠着摊位随意一点～',
-  BAKERY_DISPLAY: '面包店暖光好诱人！侧头微笑拍一张～',
-  CAFE_WINDOW_SEAT: '咖啡馆靠窗位置光线最好！坐窗边拍～',
-  BUBBLE_TIP: '吹个泡泡！透明泡泡在阳光下超梦幻～',
-  LEAF_PROP: '捡片落叶当道具！俏皮又自然～',
-  BALLOON_COLORFUL: '拿个彩色气球！活泼感十足～',
-  UMBRELLA_RAIN: '撑透明伞！雨天光线超柔和～',
-  SCARF_WIND: '披个围巾！风吹起来超有动感～',
-  HAT_STYLE: '戴个帽子！帽檐可以挡阳光还能凹造型～',
-  SUNGLASSES_STYLE: '戴墨镜超酷！摘下来的一瞬间抓拍～',
-  FLOWER_CROWN: '戴个花环！仙气飘飘的感觉～',
-  HAND_MIRROR: '拿个小镜子！对着镜子拍更有感觉～',
-  BOOK_PROP: '拿本书！假装在看书，文艺感拉满～',
-  BICYCLE_PROP: '骑个自行车！活力满满动感十足～',
-  COFFEE_CUP: '端着咖啡！生活感满满，好自然～',
-  ICE_CREAM_TIP: '拿着冰淇淋！俏皮可爱，嘴角沾一点更好笑～',
-  CAKE_CANDLE: '生日蛋糕前光线暖暖的！侧头笑一个～',
-  WINE_GLASS: '举杯庆祝一下！红酒杯超有氛围～',
-  PASTRY_BASKET: '端着甜点托盘！慵懒又高级～',
-  PLANT_GREEN: '抱着盆栽！绿植和人都好上镜～',
-  POSTER_BACK: '靠在海报墙！和海报互动超有感觉～',
-  GRAFFITI_WALL: '涂鸦墙前超酷！侧身站着超有态度～',
-  VINTAGE_DOOR: '老木门前超有故事感！靠着门拍一张～',
-  RAILING_VIEW: '靠着栏杆看远方！背景是城市天际线～',
-  BALCONY_FLOWER: '阳台花丛里光线好！蹲下来仰拍～',
-  STAIR_RAIL: '楼梯扶手边超有层次！侧身站着～',
-  WINDOW_CURTAIN: '拉起窗帘拍！光影斑驳超有感觉～',
-  BED_SHEETS: '躺在干净的床单上！俯拍仰头超有氛围～',
-  PILLOW_LAYER: '抱着枕头拍！慵懒可爱～',
-  KITCHEN_COOKING: '系上围裙做饭！生活感十足～',
-  BALCONY_SUNSET: '阳台看夕阳！逆光侧脸超浪漫～',
-  TERRACE_STARS: '天台看星星！仰头让星星落在眼睛里～',
-  SPRING_RAIN: '春雨绵绵的窗边超有氛围感！让窗户的光打在侧脸上～',
-  FOGGY_MORNING: '雾蒙蒙的早晨超有诗意！这个光线超柔和，拍～',
-  SUNSET_WINDOW_INDOOR: '傍晚斜阳从窗户洒进来，光影绝了！就在这拍～',
-  BACKLIGHT_SILHOUETTE: '逆光剪影超有感觉！转过身来，让光线打在侧脸上～',
-  WINDOW_LIGHT_NEAR: '脸稍微靠近窗户！自然光直接打在脸上～',
-  POSE_READY_NOW: '姿势摆好了！就是现在，按下去！',
-  POSE_ALMOST_THERE: '就差一点点！手的位置再调整一下～',
-  FACE_TOO_LEFT: '脸稍微往右挪！位置会更正～',
-  FACE_TOO_RIGHT: '脸稍微往左挪！位置会更正～',
-  STEP_CLOSER: '往前走一步！距离刚刚好～',
-  STEP_BACK: '退后一步！距离刚刚好～',
+
+
+
   // 情绪引导类
-  THINK_OF_SOMETHING: '想一件让你开心的事！这个表情最自然～',
-  LOOK_SIDEWAYS_NATURAL: '假装在看旁边什么东西！眼神会超自然～',
-  CLOSE_EYES_RELAX: '先闭眼放松，深呼吸～然后睁开眼看镜头！',
-  LAUGH_NATURALLY: '假装被逗笑了！自然生动的笑容马上出来～',
-  IMAGINE_FAVORITE_FOOD: '想象面前有最爱的美食！眼睛都亮了～',
-  THINK_OF_LOVED_ONE: '想象你喜欢的人！这个表情好甜～',
+
   // 拍摄技巧指导类
-  RULE_OF_THIRDS_REMINDER: '打开九宫格！人放在交叉点上更专业～',
-  LEADING_ROOM_HINT: '眼睛看的方向留点空间！画面会更舒服～',
-  SYMMETRY_HINT: '试试对称构图！正面站直超有气场～',
-  DIAGONAL_LEAD: '对角线构图超有动感！试试斜着站～',
-  FRAME_IN_FRAME: '找个框架构图！门框窗户都能当框架～',
-  DEPTH_LAYERS: '前景背景层次分明！让画面更有深度～',
+
+
   // 情侣互动类
-  HOLD_HANDS_TIGHT: '牵手！十指紧扣，超甜～',
-  HUG_FROM_BEHIND_IDLE: '从后面抱！环腰抱超温馨～',
-  PIGGYBACK_SHOT: '背起来！活力感满分～',
-  SPIN_TOGETHER: '原地转一圈！抓拍旋转的瞬间～',
-  WHISPER_SOMETHING: '凑近说悄悄话！这个距离好亲密～',
-  TOUCH_FOREHEADS: '额头碰额头！嘟嘴亲亲，超甜～',
-  PLAY_ROCK_SCISSORS: '猜拳！出拳的瞬间抓拍超有趣～',
-  BALANCE_GAME: '背靠背站起来！考验默契～',
+
+
+
+
+
   // 新场景提示
-  GYM_SQUAT_LUNGE: '深蹲或弓步！运动感超活力～',
-  YOGA_POSE_TIP: '瑜伽姿势超有气质！舒展身体慢慢来～',
-  DANCE_MOVE_HINT: '跟着音乐动起来！抓拍舞动的瞬间～',
-  COOKING_INTERACT: '一起做饭互动！切菜或品尝，抓拍生活感～',
-  READING_TOGETHER: '一起看书！这个安静瞬间好有氛围～',
-  COFFEE_TOAST_CHEERS: '举杯碰一下！咖啡红酒都可以～',
+
+
   BLOW_BUBBLES_FUN: '吹泡泡！这个画面好梦幻～',
-  PLAY_WITH_PET: '和宠物互动！自然的笑容最可爱～',
-  BLOW_DANDELION: '吹蒲公英！浪漫又自然～',
-  SWING_PARK: '荡秋千！裙子飘起来超美～',
-  SWING_SEESAW: '跷跷板！高低错落很有趣～',
-  STROLL_HOLD_HANDS: '牵手散步！走路的瞬间最自然～',
-  JUMP_EXCITED: '原地跳一下！活力满满～',
+
+
+
   WINK_CUTE: '眨一只眼！俏皮可爱～',
-  TONGUE_OUT_PLAYFUL: '吐舌头！俏皮可爱满分～',
+
   PEACE_SIGN: '比个耶！经典又可爱～',
   HEART_HAND_SIGN: '比心！爱心手势超甜～',
-  OK_GESTURE: 'OK手势！简单又好看～',
-  COVER_ONE_EYE_CUTE: '捂一只眼！可爱的遮脸pose～',
+
   // 光线微调类
-  NODERLIGHT_REPOSITION: '光源太低了！稍微抬头让光打在脸上～',
-  LIGHT_TOO_HIGH: '顶光阴影重！换个角度躲开顶光～',
-  SIDE_LIGHT_TOO_STRONG: '侧光太硬！稍微正对光源一点～',
-  BACKGROUND_LIGHT_TOO_BRIGHT: '背景太亮人太暗！打开闪光灯或走近光源～',
-  REFLECTOR_HINT: '白墙白纸都能反光！用它们补补光～',
-  SCREEN_LIGHT_TRICK: '手机屏幕对着脸！白色背景就是简易补光灯～',
+
+
   // 构图确认类
-  CENTER_FRAME: '脸放中间！构图会更稳～',
-  RULE_OF_THIRDS_ALIGN: '参考九宫格！人脸对准交叉点～',
-  DIAGONAL_COMPOSITION: '试试斜着站！打破常规更有趣～',
-  TIGHT_CROPPING: '拍近一点！特写更有冲击力～',
-  WIDER_BACKGROUND: '退后一点！让背景更完整～',
-  BALANCED_FRAME: '画面重心要稳！别让一边太空～',
-  WIND_HAIR_MESSY: '风把头发吹乱了！先拨开再拍，或者让风吹着也很有氛围～',
-  WIND_HAIR_NATURAL: '头发飘起来好美！就是现在抓拍发丝～',
-  COLD_BREATH_HINT: '天冷拍照哈气！先深呼吸憋住，按快门就不会哈气啦～',
-  HOT_WEATHER_GLOW: '天热光线强！找个阴凉处拍，皮肤不会油光～',
-  HARSH_NOON_LIGHT: '正午阳光好硬！等一下或者找个阴影处～',
-  CONCERT_LIGHTS: '演唱会的灯光超有氛围！让光打在脸上别挡住～',
-  FESTIVAL_LANTERNS: '节日灯笼好美！站在灯下让光打在脸上～',
-  SUBWAY_PLATFORM: '地铁站台光线冷调！侧身站着超有都市感～',
+
+
+
+
+
+
   CHEESE_HINT: '说"田七"！嘴型最自然～',
-  SAY_PRETEND: '假装在看旁边的风景！比看镜头自然一百倍～',
+
   EXPRESSION_SAY_YUM: '说"好吃"！表情最自然～',
-  CANDID_LOOK_SIDE: '往旁边看！就是现在抓拍～',
-  CANDID_LOOK_UP: '抬头看天空！就是现在抓拍～',
-  TEMPLATE_MATCH_HIGH: '姿势超准！就是这张，按快门！',
-  TEMPLATE_MATCH_MEDIUM: '姿势差不多对了！再微调一下就完美～',
-  BEACH_SAND_REFLECTION: '海边沙滩有倒影！蹲低一点拍出倒影～',
-  POOL_SIDE_FUN: '泳池边光影好漂亮！坐在池边看镜头笑～',
-  SNOW_BRIGHT_HINT: '雪地光线很强！戴墨镜或找阴影处，不然眼睛睁不开～',
-  RAINBOW_APPEAR: '哇，有彩虹！快站在彩虹方向拍一张～',
-  DOG_CAMERA_CURIOUS: '小狗狗在看镜头！就是现在抓拍～',
-  CAT_LOOK_AWAY: '猫咪在看别处！等它转过来或者假装喂它～',
-  CROWD_BACKGROUND: '背景人好多！稍微等人走开再拍，或者开人像模式虚化～',
-  CAMERA_DIRTY_LENS: '镜头好像脏了！先擦一下，拍出来会更清晰～',
-  CAMERA_UPSIDE_DOWN: '手机好像拿反了！把摄像头朝上拿好～',
-  FACE_LOCKED: '找到你了！就是现在，笑一个～',
-  CAMERA_TOO_CLOSE: '手机离脸太近了！稍微拿远一点点～',
-  LOW_BATTERY_HINT: '手机快没电了！抓紧时间多拍几张～',
+
+
+
+
   CAMERA_SWITCHED_FRONT: '切换到前置摄像头啦～找好角度，笑一个～',
   CAMERA_SWITCHED_FRONT_2: '自拍模式开启！侧脸也超好看，试试看～',
   CAMERA_SWITCHED_FRONT_3: '前置镜头就位！对着镜子找找最好的角度～',
@@ -432,154 +271,50 @@ const FACE_TIPS = {
   IDLE_TOO_LONG: '等了好一会儿了～动起来！换个姿势试试～',
   IDLE_TOO_LONG_2: '站太久了！换个角度或者走几步，照片会更有活力～',
   IDLE_TOO_LONG_3: '好安静呀～笑一个，逗逗她，让男朋友抓拍～',
-  FACE_FINDING_IN_PROGRESS: '正在识别人脸～等一下哦～',
+
   FACE_FOUND_CONFIRM: '找到脸了！就是现在，笑一个～',
   STORAGE_NEAR_FULL: '手机存储快满了！先清理一下再继续拍吧～',
   LOW_BATTERY_WARNING: '手机电量低了！抓紧时间拍几张～',
   TEMPLATE_MATCH_PERFECT: '姿势超准！这个角度绝了，按下去就是大片！',
-  TEMPLATE_MATCH_OFF_REFINE: '姿势稍微跑偏了～跟着剪影调整一下会更好～',
-  SELFIE_PANORAMA_HINT: '试试侧身站！45度侧脸最上镜，试试看～',
-  CROWD_AVOID_HINT: '旁边人多，稍微等一下或者换个角度躲开～',
-  SHADOW_ON_FACE_HINT: '脸上有阴影！稍微侧身躲开阴影，光会更干净～',
-  HANDLE_WITH_CARE: '手机拿稳！等她准备好再按快门～',
-  GLASSES_REFLECTION: '眼镜反光太亮了！稍微侧一下脸躲开光源～',
-  GLASSES_TILT: '镜片反光挡住眼睛了，抬头或低头一点点～',
-  EYE_CONTACT_HINT: '看镜头！眼神定住更有神～',
-  EYE_LOOK_AWAY_NATURAL: '假装看旁边的风景！比看镜头自然一百倍～',
-  GROUP_FACE_TOO_MANY: '找到好多人脸！对焦在最前面的人身上哦～',
-  GROUP_STAND_CLOSER: '大家再靠近一点！贴贴更入镜～',
-  GROUP_STAND_STAGGERED: '后排稍微错开站，这样每个人都能露出来～',
-  OUTFIT_BLEND_BACKGROUND: '衣服和背景颜色太像了！稍微换个角度躲开～',
+
   HAIR_WIND_MESSY: '风把头发吹乱了！先理一下再拍，或者让风吹着也很有氛围～',
-  EXPRESSION_THINK_OF_SONG: '想想你最喜欢的歌！这个表情最自然～',
-  EXPRESSION_NATURAL_BREATH: '深呼吸放松！表情会更自然～',
-  DRESS_COLOR_HINT: '衣服颜色和背景太接近了！换个角度或者背景躲开～',
-  HAIR_TUCK_EAR: '头发挡住耳朵了！轻轻拨到耳后，轮廓会更清晰～',
-  COLLAR_PULL: '领口歪了！轻轻整理一下，露出一边锁骨更好看～',
-  CHIN_UP_SLIGHT: '下巴稍微抬一点点！下颌线会更清晰立体～',
-  CHIN_DOWN_SLIGHT: '稍微收一下下巴！脖子显得更长，仪态更好～',
-  SHOULDER_DOWN: '肩膀放松往下沉！别端着，自然最美～',
-  ARM_NATURAL: '手臂自然垂下就好！别紧贴身体，显瘦～',
-  HAND_PLACE_HIP: '双手叉腰！这个姿势显瘦又有气场～',
-  HAND_TOUCH_NECK: '轻轻搭在脖子上！这个姿势知性又优雅～',
-  BODY_TURN_SLIGHT: '身体稍微侧一点！比正对镜头更显瘦～',
-  FACE_TURN_MICRO: '脸稍微转一点点！完全正脸会显胖，侧一点更立体～',
-  LIGHT_BALANCE_HINT: '脸上阴影太多了！稍微换个角度让光更均匀～',
-  EYES_FOCUS_DISTANCE: '眼神聚焦到镜头方向！别放空～',
-  TEETH_SHOW_SMILE: '露出上排牙齿笑！会更自信有感染力～',
+
+
+
+
   POSE_READY_HINT: '姿势摆好了！就是现在，按下去！',
   LIGHT_PERFECT_NOW: '光线完美！这个时刻拍出来一定超好看！',
-  RAINY_STREET_LAMP: '雨夜路灯下超有氛围！让雨滴打在伞上拍一张～',
-  RAIN_PUDDLE_REFLECTION: '地上有水洼！蹲低拍倒影，角度绝了～',
-  SNOW_CATCH_LIGHT: '雪地里光线反射强！戴墨镜或者眯眼笑～',
-  WIND_STRONG_STABILIZE: '风太大了！双手握稳手机，头发乱的时候别按～',
-  FOGGY_MYSTERY: '雾蒙蒙的超有氛围感！这个天气拍出来好有意境～',
-  MORNING_DEW: '早晨光线超通透！趁露水还在多拍几张～',
-  LEADING_LINE_HINT: '找一条引导线！道路围栏都能引导视线到人身上～',
-  SYMMETRY_BUILDING: '正面站直对称构图！这个角度气场全开～',
-  FRAME_BOUNDARY: '用门框窗户当框架！画面更有层次感～',
-  DEPTH_OF_FIELD_HINT: '走近主体！背景自然虚化，主体更突出～',
-  NEGATIVE_SPACE: '留白多一点！画面更透气，更有呼吸感～',
-  EYEBROW_RAISE: '眉毛稍微抬起来一点！眼睛会显得更大～',
-  JAWLINE_TIGHTEN: '舌尖顶住上颚！下颌线立刻变清晰～',
-  NECK_EXTEND: '脖子伸长一点！天鹅颈上线，气质立刻提升～',
-  SMILE_TENSION: '嘴角向耳朵方向拉！笑容会更开更灿烂～',
-  EYE_SQUINT_HINT: '笑的时候眼睛眯小一点！这个表情好甜～',
-  HAIR_MESSY_NATURAL: '头发有点乱但很有氛围感！自然的才是最美的～',
+
+
+
+
   HAIR_WIND_BLOW: '风把头发吹起来好美！就是现在抓拍～',
-  GLASSES_CLEAN: '眼镜有点反光，侧一下脸躲开光源～',
-  FACE_TOO_CLOSE_CAMERA: '手机离脸太近了，稍微拿远一点点～',
-  FACE_FAR_AWAY: '离镜头再近一点点，脸会更清晰～',
-  NECK_LINE_TIP: '下巴稍微抬一点点，脖子线条会更修长～',
-  COLLAR_STRAIGHTEN: '领口歪了，轻轻整理一下会更好看～',
-  SHOULDER_RELAX: '肩膀放松往下沉，别端着，气质立刻提升～',
-  ARM_AWAY_BODY: '手臂稍微离开身体，侧面会更显瘦～',
-  SIT_STRAIGHT: '坐直了！弯腰驼背会显得没精神～',
-  WAIST_HINT: '身体稍微前倾一点点，这样比例更好看～',
-  HAND_HIP_TIP: '双手叉腰！这个姿势显瘦又有气场～',
-  FINGER_TIPS: '手指轻轻合拢，比张开更优雅～',
-  STAND_ONE_LEG: '站立时重心放一只脚，腿看起来更直更长～',
-  MIRROR_ANGLE_HINT: '镜子稍微斜一点拍！角度不要正对镜子，会有反光～',
-  INDOOR_GLASS_REFLECT: '玻璃有反光！稍微侧身躲开反光～',
-  SCREEN_FILL_LIGHT: '用手机屏幕补光！白色背景对着脸，手机屏幕就是简易补光灯～',
-  WINDOW_SIDE_POSITION: '脸朝向窗户！光源要在脸的正面或侧面～',
-  STABILIZE_KNEE: '稍微弯一点膝盖，重心放低会更稳～',
-  SUNGLASSES_REMOVE: '墨镜挡住了眼神！摘下来拍照，眼睛会更有神～',
-  HAIR_TUCK_BEHIND: '头发挡脸了！轻轻拨到耳后，轮廓会更清晰～',
-  COLLAR_ADJUST_TIP: '领口稍微整理一下！露出一边锁骨会更好看～',
-  FACE_PARALLEL_WALL: '脸和墙壁平行！这样光线会更均匀～',
-  NIGHT_FACE_TOO_DARK: '夜景脸太暗了！靠近光源或打开闪光灯补光～',
-  STREET_NEON_FACE: '霓虹灯下超酷！让光打在侧脸上，表情放松一点～',
-  RAINY_WINDOW_MIST: '雨天雾气蒙蒙的，窗户上有一层水汽超有氛围感～',
-  TRAIN_WINDOW_LIGHT_TIP: '火车窗边光线均匀！靠窗坐，让光线打在脸上～',
-  CINEMA_GLOW_HINT: '电影院里屏幕光打在脸上超有感觉！侧脸对着屏幕～',
-  CROWD_AVOID_TIP: '旁边人多！等一下或者换个角度躲开路人～',
-  PET_JUMP_HINT: '和宠物互动！蹲下来和它平视，自然的笑容最可爱～',
-  BALLOON_PROP_TIP: '拿个气球当道具！活泼可爱，互动感十足～',
-  BICYCLE_PROP_TIP: '靠在自行车旁边！活力十足，姿势也更丰富～',
-  FLOWER_PROP_TIP: '拿束花当道具！捧着花或闻花香，自然又好看～',
-  BOOK_PROP_TIP: '拿本书当道具！假装在看书，文艺感拉满～',
-  FACE_LOOKING_DOWN_TOO_LONG: '抬起头看镜头！低头太久脖子会累，表情也看不见了～',
-  FACE_SQUINTING_HARD: '眼睛眯太紧了！稍微放松一点，眯眼会显得没精神～',
-  HAIR_EXTREMELY_MESSY: '头发太乱了！先理一下再拍，不然会抢戏～',
-  SHOULDER_UNEVEN: '肩膀歪了！站直了双肩对齐，仪态更好看～',
-  POSE_ARMS_WEIRD: '手臂姿势有点奇怪！自然垂下或叉腰就好，别僵着～',
-  LEGS_CROOKED: '腿稍微站直一点，歪着显得没精神～',
-  CHIN_TOO_UP: '下巴抬太高了！稍微收一点，下巴更尖～',
-  CHIN_TOO_DOWN: '下巴收太多了！抬起来一点点，眼睛更有神～',
-  EXPRESSION_FORCED: '表情别太夸张！自然一点最美～',
+
+
+
+
+
+
   GOOD_COMPOSITION_DETECTED: '构图很棒！就是这个位置，按下去！',
   PERFECT_MOMENT_NOW: '就是现在！这光这角度，绝了！',
-  PERFECT_FACE_AND_LIGHT: '位置完美！光线也完美！就是现在，按下去就是大片！',
-  PERFECT_ALL_IN_ONE: '构图完美！光线完美！姿势完美！三连击，按下去！',
+
   READY_TO_CAPTURE: '一切就绪！这个瞬间绝美，按快门！',
   CLICK_MOMENT: '现在光线好美！位置也对！赶紧按下去！',
   // 笑脸被检测到时的即时确认
   SMILE_DETECTED: '看到你在笑！就是这个表情，别动，按下去！',
   NATURAL_SMILE_DETECTED: '自然的笑容！好生动，按下去！',
-  SAY_CHEESE: '笑一个～茄子！',
-  READY_POSE: '准备好了吗？三、二、一！',
-  HOLD_STEADY_CAPTURE: '稳住！就是现在！',
-  GROUP_FOTO_GUIDE: '大家靠近一点！看镜头，笑一个～',
-  KEEP_STEADY_SHAKE: '手别抖！稳住～',
-  NIGHT_WARM_LIGHT: '夜色里暖暖的灯光打在脸上好温柔！就是现在拍～',
-  CITY_NIGHT_FACE: '城市夜景璀璨！让灯光打在脸上，超有氛围～',
-  BALCONY_NIGHT_TIP: '阳台夜景好浪漫！打开闪光灯补补光，脸会更亮～',
-  NEON_REFLECTION: '霓虹灯光斑驳打在脸上超美！侧身躲开直射光～',
-  THINK_OF_BEST_MOMENT: '想一件最开心的事！这个表情好生动～',
-  LOOK_INTO_EYES: '看着我！眼神更有神～',
-  LAUGH_LOUDLY: '大笑一个！夸张一点更好看～',
-  COUNT_TO_THREE: '一、二、三，笑！',
-  RULE_OF_THIRDS_REMIND: '参考九宫格！把脸放到交叉点上～',
-  LEADING_ROOM_CHECK: '眼睛看的方向留点空间，画面会更舒服～',
-  FACE_CENTER_REMIND: '脸放中间！构图会更稳～',
-  COMPOSITION_FINAL: '构图完美！就是现在，按下去！',
-  TEMPLATE_MATCH_PERFECT_NOW: '姿势超准！这个光线这角度，按下去就是大片！',
-  TEMPLATE_FACE_MOVE: '跟着模板稍微调整一下！就是现在，拍～',
-  COMPOSITION_OKAY_NOW: '构图差不多了！这个光线，按下去！',
-  COMPOSITION_ALMOST: '就差一点点！稍微调整一下站位～',
-  RULE_OF_THIRDS_ON: '打开九宫格！构图会好很多～',
+
+
   SMILE_CUTE_NOW: '这个表情好可爱！就是现在，按下去！',
   EXPRESSION_READY: '表情准备好了！笑一个，按快门！',
   POSE_PERFECT_TRY: '姿势超棒！就是现在，按下去就是大片！',
-  LIGHT_NICE_NOW: '光线刚刚好！就是现在，拍～',
-  LIGHT_SOFT_INDOOR: '室内柔光超适合拍照！随便拍都好看～',
-  LIGHT_HARD_AVOID: '光线有点硬！找个柔和的地方试试～',
+
+
   NOW_PERFECT: '现在光线完美！姿势也对！就是现在拍～',
-  KEEP_TRYING: '继续拍！多拍几张选最好的～',
-  GOOD_TAKING: '这张拍得好！继续保持这个感觉～',
-  MOTION_BLUR_HINT: '照片有点糊了！双手握稳手机，憋住气再按快门～',
-  HANDHELD_NIGHT_SHAKE: '晚上光线暗，手稍微抖照片就糊了！靠在墙上或用闪光灯～',
-  STEADY_NIGHT_SHOOT: '晚上稳住！双手握手机，憋住气轻轻按快门～',
-  THREE_FACES_DETECTED: '三个人！大家往中间靠，站整齐一点～',
-  FOUR_PLUS_FACES: '好多人一起拍！往后站一步，大家都能入镜～',
-  GROUP_SMILE_SYNC: '大家一起笑！一二三茄子～',
-  GROUP_LOOK_CAMERA: '大家看镜头！对焦在最前面的人身上～',
-  GROUP_LAYERED_STAND: '后排稍微错开站，这样每个人都能露出来～',
-  EXPRESSION_CHANGE_TRICK: '假装被逗笑！这个表情最自然～',
-  THINK_SURPRISE: '假装听到什么惊讶的事！表情马上活起来～',
-  RELAX_BEFORE_SMILE: '肩膀放松一下！表情会更自然～',
-  TAKE_DEEP_BREATH: '深呼吸～放松再笑，这个表情最自然～',
+
+
+
+
 }
 
 const STABILITY_TIPS = {
@@ -609,155 +344,58 @@ const STABILITY_TIPS = {
   BREATHE_STEADY: '深呼吸～稳住手，这光线不会再来！',
   WALL_SUPPORT: '靠墙拍更稳！找个支撑按快门～',
   WIDE_STANCE: '双脚分开站稳，像练功一样哈哈～',
-  ELBOW_SUPPORT: '手臂贴近身体更稳！试试看～',
-  TWO_HAND_GRIP: '双手握手机！会更稳更清晰～',
-  BREATHE_IN_OUT: '深吸一口气，憋住，按快门～',
-  RELAX_GRIP: '手机别握太紧！放松一点，手会更稳～',
-  GROUND_STANCE: '双脚与肩同宽站好，稳稳的～',
-  LOCK_ARMS: '手臂伸直锁住！比弯曲更稳～',
-  REST_ELBOW: '手臂靠在膝盖或桌子上，会稳很多～',
-  SIT_DOWN_STABLE: '坐下来拍比站着拍更稳，靠着椅背试试～',
-  USE_TIMER: '用定时拍照！放在桌面或稳定的地方，自己也能入镜～',
-  SUN_GLARE_SQUINT: '阳光太刺眼了！稍微侧身躲开强光，眼睛会更舒服～',
-  GLASS_FACE_REFLECTION: '玻璃有反光！稍微侧身躲开脸上的反光～',
-  MIRROR_CHECK_OUTFIT: '拍之前先检查一下镜子里！衣服领口都要整理好～',
-  POSE_CONFIRM_OK: '姿势到位了！表情准备好了吗？笑一个～',
-  POSE_MICRO_ADJUST: '就差一点点了！手的位置再微调一下～',
+
+
+
   STABLE_READY: '稳稳的！可以按快门了～',
   STEADY_AND_GOOD: '手稳了！光线也棒，现在拍正好～',
   HOLD_FOR_MOMENT: '稳住！就这个瞬间，按下去！',
-  TRIPOD_HINT: '找个稳定的支撑点放手机！靠在墙边更稳～',
-  SELFIE_STICK: '用自拍杆可以拉远距离，手更稳构图更好～',
-  BREATHE_IN_OUT_DEEP: '深吸一口气，憋住，轻轻按快门～',
-  BODY_WEIGHT_CENTER: '重心放低，双脚站稳，比什么都稳～',
-  ARM_TUCK_IN: '手臂贴近身体更稳！试试看～',
+
   // v6 新增稳定性提示
-  ELBOW_IN: '手臂贴近身体会更稳！试试把肘部收紧～',
-  HAND_STEADY: '手稳住了！就是现在，按下去～',
-  BODY_STABLE: '身体稳住！重心放低，稳稳的～',
-  SUPPORT_FOUND: '找到支撑点了！这下稳了，按快门～',
-  SELFIE_STICK_HINT: '用自拍杆拉远距离，手更稳构图更好～',
+
+
+
 }
 
 // 表情检测提示
 const EXPRESSION_TIPS = {
-  LOOK_SIDE_SMILE: '假装看旁边再转头笑，自然又灵动～',
-  HAND_ON_CHIN: '一只手托着下巴，显脸小的经典pose～',
-  ACT_SHAKE: '假装被什么东西吓到！这个表情好生动～',
+
   COUNT_SHEEP: '说"田七"！嘴型刚刚好，表情最自然～',
-  HAND_WAVE_SOFT: '轻轻挥手打招呼！幅度不要太大，自然最美～',
-  NOD_HEAD: '点点头配合微笑！头稍微动起来更有活力～',
-  SHAKE_HAIR_POSE: '甩一下头发！自然又有动感，就是现在抓拍～',
-  THINK_FUNNY: '想想最好笑的事！这个表情好自然～',
-  HAND_IN_HAIR: '手指轻轻拨弄头发，撩人又自然～',
-  BLOW_KISS: '嘟嘴送个飞吻，这个角度绝了！',
-  HEART_HANDS: '双手比个爱心，下巴微微抬起，超甜！',
-  FINGER_HEART: '手指比个小心心，眼睛看镜头笑～',
-  VICTORY_POSE: '比个耶！活力满满的笑容，就是现在！',
-  COVER_MOUTH_LAUGH: '捂嘴笑也好可爱，这个表情太加分了！',
-  PROFILE_LOOK: '侧脸看远方，氛围感拉满！',
-  HEAD_ON_SHOULDER: '歪头靠在肩上，温柔感溢出屏幕～',
-  HUG_SELF: '双手抱住自己，自然又可爱～',
-  POINT_DIRECTION: '手指指向远方，活泼又有趣！',
-  BARE_SHOULDER: '露出肩膀线条，优雅又显瘦！',
-  LEG_CROSS: '站立时双腿交叉，更显身材比例～',
-  ARM_ON_HEAD: '手臂举过头顶，延长身体线条～',
-  SIT_LEAN_WALL: '靠着墙坐着，慵懒又自然～',
-  SIT_FLOOR: '坐在地上，盘腿或伸腿都好看～',
-  BACK_AGAINST_WALL: '背靠墙站，肩颈放松，超有气场！',
-  LEAN_FORWARD_PHONE: '身体前倾假装看手机，这个角度超自然！',
+
+
+
+
+
   // 原有表情提示
   BLURRY: '照片有点糊了，让他手拿稳一点～',
   CLOSED_EYES: '好像有人闭眼了，提醒他睁大眼睛！',
-  NO_SMILE: '笑一个！自然一点更好看～',
+
   SMILING_GOOD: '这个笑容绝了！就是现在，按快门！',
   EYES_OPEN_GOOD: '眼神超有光，这表情太加分了！',
   YAW_LEFT: '脸稍微转过来一点，别侧太多',
   YAW_RIGHT: '脸稍微往这边转一点，别只露侧脸',
   ROLL_TILTED: '头稍微正一点，歪着显脸大哦～',
-  NERVOUS_FACE: '放松～别僵着，自然一点更好看～',
+
   TILTED_HEAD_GOOD: '歪头好可爱！就是现在按快门～',
   BOTH_EYES_CLOSED: '两只眼睛都闭了，提醒她睁开～',
-  TONGUE_OUT: '哈哈表情太搞怪了！这个也可以抓拍～',
+
   SURPRISED_FACE: '这惊讶表情好生动！就是现在！',
   SERIOUS_FACE: '表情太严肃了，笑一个试试～',
-  PERFECT_FACE: '表情完美！光线也棒，按快门的最佳时机！',
-  TALKING_FACE: '在说话的时候抓拍，自然又生动～',
-  WINK_POSE: '比个小心心或眨眨眼，俏皮感拉满！',
-  PEACE_SIGN_2: '比个耶或比个剪刀手，活力满满！',
-  HAND_WAVE: '轻轻挥手打招呼，自然又可爱～',
-  NECK_STRETCH: '伸长脖子，下巴微微收紧，脸更显小～',
-  SQUINT_SUN: '阳光刺眼眯眼时最自然！就是现在抓拍～',
-  LAUGH_HALF: '半笑着最上镜，嘴角上扬一点点就好～',
-  LIPS_POUT: '微微嘟嘴，超可爱！就是现在拍！',
-  HAIR_TOSS: '轻轻甩一下头发，风感十足！',
-  LOOK_AWAY_SLY: '假装看旁边，眼神更有戏～',
-  SIDE_SMILE: '侧脸微笑最有感觉！就是现在～',
-  FOCUS_BREATH: '深呼吸～放松肩膀，表情更自然～',
-  LOOK_DOWN_THEN_UP: '先低头看地，再抬眼看向镜头，自然抓拍～',
-  CHEEKS_PUFF: '鼓起腮帮子，超萌！可以抓拍～',
-  SULKING_FACE: '假装嘟嘴生气，好可爱！就是现在～',
-  SLEEPY_EYES: '睡眼惺忪也好美～就是现在拍！',
-  TONGUE_KISS: '嘟嘴送吻pose，超甜！',
-  STARING_INTENSE: '眼神放空看远方，更有故事感～',
+
+
+
   // 组合动作提示
-  MOVE_CLOSER: '靠近一点拍特写！',
-  MOVE_BACK: '退后一点，让背景更完整～',
-  COMBO_LOOKAWAY_SMILE: '假装看旁边，再转头对我笑～',
-  COMBO_HAND_HEART: '双手比个爱心，下巴微微抬起～',
-  COMBO_LEAN_FORWARD: '身体微微前倾，脸靠近镜头～',
-  COMBO_ARM_CROSS: '双手抱臂，下巴收紧，精神点！',
-  COMBO_CASUAL_HANDS_POCKET: '双手插兜，头微微歪，酷酷的～',
-  POSE_CHIN_REST: '下巴轻轻放在手背上，温柔又显脸小～',
-  POSE_LOOK_PHONE: '低头假装看手机，这个角度超自然！',
-  POSE_HAND_NECK: '一只手轻轻搭在脖子上，知性感拉满～',
-  POSE_POINT_CHIN: '手指轻轻点在下巴上，这个角度绝了！',
-  POSE_LEAN_WALL: '靠墙站好，肩颈放松，酷酷地看镜头～',
-  POSE_HAND_FACE: '一只手轻轻放在脸旁边，显脸小效果满分～',
-  POSE_FIGURE_8: '双手比个8放在下巴旁边，超显脸小！',
-  POSE_ARM_WAVE: '一只手臂举起来，活力感拉满！',
-  POSE_LIE_DOWN: '躺在草地上或床上，仰头看镜头，超有氛围～',
-  POSE_HAND_CHEEK: '双手托腮，甜美感拉满！',
-  POSE_KISS_FINGER: '手指轻轻亲一下，再指向镜头，俏皮死了！',
-  POSE_WAVE_BEYOND: '对着镜头轻轻挥手，活力满满～',
-  POSE_COUNTDOWN: '倒数321！就是现在！',
-  POSE_BREATH_IN: '深呼吸～肩膀放松，表情更自然～',
-  POSE_SHAKE_HAIR: '轻轻甩一下头发，动态抓拍更自然！',
-  POSE_FLOOR_CROSS_LEGS: '盘腿坐着，歪头看镜头，慵懒又自然～',
-  POSE_KNEEL: '单膝跪地，仰头看镜头，超有气场！',
-  POSE_HOLD_BALLOON: '拿着气球拍照，超有童话感～',
-  POSE_PET_CUDDLE: '和宠物互动抓拍，表情最自然可爱！',
-  POSE_HOLD_FLOWER: '捧着花束，侧头微笑，温柔感拉满～',
-  POSE_BOOK_READ: '假装看书或杂志，文艺感十足！',
-  POSE_MIRROR_SELFIE: '对着镜子自拍，抓拍最有感觉～',
-  POSE_ICE_CREAM: '拿着冰淇淋或咖啡，俏皮自然！',
-  POSE_SCARF_FLOW: '围巾或披肩随风飘动，动感抓拍超美！',
-  POSE_BATHROBE: '穿浴袍靠在窗边，慵懒又高级～',
-  POSE_UMBRELLA: '撑把透明伞，雨天氛围感绝了！',
-  POSE_BIKE: '骑着自行车或靠在一旁，活力满满！',
-  COLD_EXPRESSION: '表情稍微冷一点！嘴角不要上扬，眼神放空，超有气场～',
-  TEASING_LOOK: '调皮地歪头，嘴角微微上扬，这个表情绝了！',
-  LOOK_UP_GAZE: '抬头向上看，眼神更有灵气，这个角度超美～',
-  LIP_BITE: '轻轻咬一下下唇，这个表情好撩人！',
-  EYEBROW_RAISE_2: '轻轻抬一下眉毛，俏皮感立刻上来～',
-  GENUINE_SMILE: '这笑容好自然！比摆拍好看一百倍～',
-  TEASING_SMILE: '调皮地笑一个！比正襟危坐好看多了～',
-  CONFIDENT_SMILE: '自信的笑容最上镜！就是现在拍～',
-  RELAXED_SMILE: '放松的笑好美！自然流露的表情最动人～',
-  SOFT_GAZE: '眼神温柔一点！这个表情好有感觉～',
-  PROUD_LOOK: '自信地抬起头！这个表情好有气场～',
-  POUT_EXPRESSION: '微微嘟嘴！可爱俏皮满分～',
-  RELAXED_EYES: '眼睛放松，不要瞪！柔和的眼神更好看～',
+
+
+
+
+
+
+
   // v6 新增表情提示
-  GENTLE_SMILE: '温柔的微笑就好！不用笑得太大，自然最美～',
-  LAUGH_CUE: '假装被逗笑了！这个表情最生动～',
-  FEELING_HAPPY: '想象最爱的人！这个表情好甜～',
-  THINK_ABOUT_IT: '假装在想什么，表情马上活起来～',
-  POSE_WITH_OBJECT: '拿着道具互动！自然又可爱～',
-  CLOSE_ONE_EYE_TIP: '试试闭一只眼，俏皮又可爱～',
-  PEACE_SIGN_POSE: '比个耶！活力满满的姿势，这个角度绝了～',
-  SOFT_GAZE_LOOK: '眼神温柔一点！这个表情好有感觉～',
-  PROUD_HEAD_TILT: '自信地微微仰头！气场立刻不一样～',
+
+
+
 }
 
 // 每日首次打开欢迎语
