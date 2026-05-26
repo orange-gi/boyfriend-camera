@@ -1304,8 +1304,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 10,
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'transparent',
     overflow: 'hidden',
   },
   templateCardActive: {
@@ -1393,7 +1391,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: COLORS.bgCard,
     borderRadius: 10,
-    borderWidth: 1.5,
     padding: 6,
     overflow: 'hidden',
   },
