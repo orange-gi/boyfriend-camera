@@ -4988,6 +4988,37 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+  // ========== 新增场景 TTS ==========
+  /** 海边户外场景提醒 */
+  async speakBeachOutdoorTip(): Promise<void> {
+    const tips = [
+      '海边光线超通透！侧身站让光打在侧脸上，超有氛围～',
+      '海风吹起头发好美！就是现在抓拍～',
+      '海边阳光强，记得侧身躲开强光，或者等云遮住再拍～',
+      '沙滩有倒影！蹲低一点拍出倒影，角度绝了～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 冬季室内暖气场景 */
+  async speakWinterIndoorTip(): Promise<void> {
+    const tips = [
+      '冬天室内暖气光超柔和！靠窗边站，皮肤看起来超好～',
+      '冬季窗户边的自然光最柔和，拍人像绝了～',
+      '冬天户外冷，室内找光源！窗边的光是最好的拍照光～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 玻璃反光专项提示 */
+  async speakGlassReflectionTip(): Promise<void> {
+    const tips = [
+      '玻璃有反光！稍微侧身躲开脸上的反光～',
+      '靠近玻璃拍，让主体更突出，反光更干净～',
+      '商场橱窗可以当镜子用，侧身让灯光打在侧脸上～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
