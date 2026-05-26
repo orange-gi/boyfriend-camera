@@ -19,7 +19,7 @@ import { getDiary, writeDiary, getPeakScore, recalcPeakScore } from '../services
 import type { DiaryRecord } from '../services/diaryTypes'
 import { avgScore as calcAvgScore } from '../utils/scoring'
 import EmptyState from '../components/common/EmptyState'
-import { COLORS, borderRadius } from '../theme'
+import { COLORS, borderRadius, hexAlpha } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 
 export default function DiaryScreen() {
@@ -547,9 +547,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
+  // 统一 borderRadius: 12 与 statsCard/recordCard 一致，去除过大的 20px 圆角
   cameraBtn: {
     backgroundColor: COLORS.primary,
-    borderRadius: 20,
+    borderRadius: 12,
     paddingHorizontal: 18,
     paddingVertical: 10,
   },
@@ -743,9 +744,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.textMuted,
   },
+  // 统一 borderRadius: 12 与全局按钮圆角一致
   retryBtn: {
     backgroundColor: COLORS.primary,
-    borderRadius: 20,
+    borderRadius: 12,
     paddingHorizontal: 32,
     paddingVertical: 12,
     marginBottom: 16,
@@ -758,7 +760,7 @@ const styles = StyleSheet.create({
 
   sheetOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.45)',
+    backgroundColor: hexAlpha('#000', 0.45),
     justifyContent: 'flex-end',
   },
   sheetContainer: {
