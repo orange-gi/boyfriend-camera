@@ -866,8 +866,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   filterPicker: {
-    marginHorizontal: 16,
-    marginTop: 12,
+    marginHorizontal: 20,
+    marginTop: 8,
+    paddingVertical: 12,
   },
   filterPickerList: {
     flexDirection: 'row',

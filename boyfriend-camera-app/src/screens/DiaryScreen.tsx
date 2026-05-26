@@ -140,8 +140,9 @@ export default function DiaryScreen() {
   // 总进步 = 最新得分 - 初始得分（正数代表进步，负数代表退步）
   // records 按日期降序排列：records[0] = 最新，records[last] = 最旧
   // 用 oldest - newest = improvement，正数代表进步
+  // records 降序（最新在前），进步 = 最新分 - 初始分（正数代表提升）
   const totalProgress = totalCount >= 2
-    ? records[records.length - 1].score - records[0].score
+    ? records[0].score - records[records.length - 1].score
     : 0
 
   // 最高分：优先使用存储的巅峰分，兼顾日记内最高

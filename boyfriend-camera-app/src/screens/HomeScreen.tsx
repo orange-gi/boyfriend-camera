@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   dailyTipCard: { marginBottom: spacing[4] },
   dailyTipTouchable: { paddingVertical: spacing[3] },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  poseTipCard: { paddingLeft: spacing[3], paddingVertical: spacing[3], marginBottom: spacing[5] },
+  poseTipCard: { paddingVertical: spacing[3], marginBottom: spacing[5] },
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
