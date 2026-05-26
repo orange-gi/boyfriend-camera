@@ -53,7 +53,8 @@ export default function DiaryScreen() {
     setLoadError(false)
     try {
       const [diary, score] = await Promise.all([getDiary(), getPeakScore()])
-      setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+      // [...diary] 避免 sort() 变异原始数组（diary 来自 getDiary() 返回值，安全做法）
+      setRecords([...diary].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
       setPeakScore(score)
       // 加载完成后 TTS 播报（fire-and-forget，TTS 失败不影响 UI）
       if (diary.length > 0) {
@@ -123,7 +124,7 @@ export default function DiaryScreen() {
     setRefreshing(true)
     try {
       const [diary, score] = await Promise.all([getDiary(), getPeakScore()])
-      setRecords(diary.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+      setRecords([...diary].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
       setPeakScore(score)
     } catch { /* ignore */ }
     finally {
