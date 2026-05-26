@@ -138,8 +138,10 @@ export default function DiaryScreen() {
   const avgScore = calcAvgScore(records)
 
   // 总进步 = 最新得分 - 初始得分（正数代表进步，负数代表退步）
+  // records 按日期降序排列：records[0] = 最新，records[last] = 最旧
+  // 用 oldest - newest = improvement，正数代表进步
   const totalProgress = totalCount >= 2
-    ? records[0].score - records[records.length - 1].score
+    ? records[records.length - 1].score - records[0].score
     : 0
 
   // 最高分：优先使用存储的巅峰分，兼顾日记内最高
@@ -476,17 +478,18 @@ function AnimatedCountUp({ value, style, color, suffix = '' }: {
 }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
+  const safeValue = typeof value === 'number' && !isNaN(value) ? value : 0
 
   useEffect(() => {
     animValue.setValue(0)
     Animated.timing(animValue, {
-      toValue: value,
+      toValue: safeValue,
       duration: 800,
       useNativeDriver: false,
     }).start()
     const listener = animValue.addListener((v) => setDisplay(Math.round(v.value)))
     return () => animValue.removeListener(listener)
-  }, [value])
+  }, [safeValue])
 
   return (
     <Animated.Text style={[style, color ? { color } : {}]}>
