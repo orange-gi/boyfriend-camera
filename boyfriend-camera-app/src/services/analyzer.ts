@@ -3479,6 +3479,30 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '运动跟拍建议用连拍模式，多拍几张选最好的～',
     '跑跳跟拍时对焦点要一直追着人脸，连拍更容易出好片～',
   ],
+  // v5 新增：冬季室内场景建议（暖气房/窗户边）
+  winter_indoor_specific: [
+    '冬天室内暖气旁光线偏暖白，让脸朝向窗户获得更自然的光线～',
+    '冬季室内窗户是最佳光源，让脸正对或侧对窗户，避免顶光～',
+    '暖气房内空气干燥，皮肤容易反光，稍微侧身躲开直射光～',
+    '冬天室内开灯时光线偏暖，适当调高亮度或靠近窗户～',
+    '冬季室内外光比大，进门后等眼睛适应再拍，避免过暗或过曝～',
+  ],
+  // v5 新增：镜子自拍专属建议
+  mirror_selfie_specific: [
+    '对着镜子自拍时手机稍微斜一点，角度更好看，避免正面正对镜子有反光～',
+    '镜子自拍要让镜子里的脸和身体都完整入镜，注意构图～',
+    '浴室镜前光线均匀超显气质，侧身45度笑一个～',
+    '镜子反光太强时用衣服遮一下闪光灯，或者侧身躲开反光～',
+    '镜子自拍时背景也很重要，选择干净好看的镜子背景～',
+  ],
+  // v5 新增：雨天室内场景建议
+  spring_rain_specific: [
+    '雨天室内窗边超有氛围！让窗户的光打在侧脸上～',
+    '雨天光线柔和均匀，随便拍都好看，不用担心过曝～',
+    '雨滴打在窗户上有朦胧感，可以贴着窗户拍出雾气效果～',
+    '雨天室内注意白平衡，偏暖的灯光和冷调窗外形成对比更有氛围～',
+    '雨天光线偏暗，打开室内灯补光，让脸朝向光源～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -4930,6 +4954,18 @@ export async function analyzePhoto(
   // 复古胶片风场景
   if (sceneType === 'vintage_film') {
     suggestions.push(pickRandom(SUGGESTION_POOL.vintage_film_specific))
+  }
+  // 冬季室内场景（暖气房/窗户边）
+  if ((sceneType as string) === 'winter_indoor' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.winter_indoor_specific))
+  }
+  // 镜子自拍专属场景
+  if ((sceneType as string) === 'mirror' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.mirror_selfie_specific))
+  }
+  // 春雨室内场景
+  if ((sceneType as string) === 'spring_rain' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.spring_rain_specific))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
