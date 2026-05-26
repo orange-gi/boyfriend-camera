@@ -2372,6 +2372,16 @@ class VoiceCoach {
     await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
   }
 
+  /** 蓝调时刻提示（Blue Hour，日落后/日出前天色呈蓝调） */
+  async speakBlueHourTip(): Promise<void> {
+    const tips = [
+      '现在是蓝调时刻！天空和地面形成冷暖对比，拍一张剪影绝了～',
+      'Blue Hour 来了！天色蓝调配合城市灯光，氛围感拉满，男朋友赶紧拍～',
+      '蓝调时刻光线超独特！这个时间段拍夜景人像超级有感觉～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 运动抓拍提示 */
   async speakMotionCaptureTip(): Promise<void> {
     const tips = [
