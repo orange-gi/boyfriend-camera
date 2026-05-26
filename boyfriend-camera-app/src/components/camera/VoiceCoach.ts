@@ -1363,14 +1363,6 @@ class VoiceCoach {
   }
 
   /** 存储空间不足时提示 */
-  async speakStorageFull(): Promise<void> {
-    const tips = [
-      '手机存储快满了！先清理一下再继续拍吧～',
-      '存储空间不够了，删点照片腾出空间再拍～',
-      '手机快存满了，清理一下才能继续拍照哦～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 日记删除确认提示 */
   async speakDiaryDeleted(): Promise<void> {
@@ -1383,14 +1375,6 @@ class VoiceCoach {
   }
 
   /** 照片分享成功提示 */
-  async speakSharedSuccess(): Promise<void> {
-    const tips = [
-      '分享成功！让更多人来欣赏这张大片吧～',
-      '分享出去啦～男朋友这张拍得真好！',
-      '分享完成！把这张好看的照片分享给朋友们看吧～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 闭眼检测提示（MLKit 返回闭眼时调用） */
   async speakBlinkTip(): Promise<void> {
@@ -1403,35 +1387,10 @@ class VoiceCoach {
   }
 
   /** 人脸距离提示（faceArea 超出范围时调用） */
-  async speakFaceDistanceTip(tooFar: boolean): Promise<void> {
-    if (tooFar) {
-      const tips = [FACE_TIPS.FACE_TOO_FAR, FACE_TIPS.FACE_TOO_FAR_2]
-      await this.speak(pickRandom(tips))
-    } else {
-      const tips = [FACE_TIPS.FACE_TOO_NEAR, FACE_TIPS.FACE_TOO_NEAR_2]
-      await this.speak(pickRandom(tips))
-    }
-  }
 
   /** 逆光场景提示（检测到强背光时调用） */
-  async speakBacklightTip2(): Promise<void> {
-    const tips = [
-      FACE_TIPS.BACKLIGHT_DETECTED,
-      FACE_TIPS.BACKLIGHT_DETECTED_2,
-    ]
-    await this.speak(pickRandom(tips))
-  }
 
   /** 成功抓拍倒计时（3-2-1-拍！） */
-  async speakCaptureCountdown(): Promise<void> {
-    await this.speak(FACE_TIPS.COUNTDOWN_3, true)
-    await new Promise<void>(r => setTimeout(r, 800))
-    await this.speak(FACE_TIPS.COUNTDOWN_2, true)
-    await new Promise<void>(r => setTimeout(r, 800))
-    await this.speak(FACE_TIPS.COUNTDOWN_1, true)
-    await new Promise<void>(r => setTimeout(r, 800))
-    await this.speak(FACE_TIPS.COUNTDOWN_GO, true)
-  }
 
   /** 表情僵硬提示 */
   async speakStiffExpressionTip(): Promise<void> {
@@ -1567,24 +1526,8 @@ class VoiceCoach {
   }
 
   /** 背景太暗提示 */
-  async speakBackgroundDarkTip(): Promise<void> {
-    const tips = [
-      '背景太暗了！找个光源更亮的地方试试～',
-      '这张背景有点黑，男朋友换个角度让光打在背景上～',
-      '背景太暗了，打开闪光灯或找更亮的地方试试～',
-    ]
-    await this.speak(pickRandom(tips))
-  }
 
   /** 建议换个角度 */
-  async speakDifferentAngleTip(): Promise<void> {
-    const tips = [
-      FACE_TIPS.TRY_DIFFERENT_ANGLE,
-      '换个角度试试！侧面、正面不同角度感觉不一样～',
-      '稍微调整一下拍摄角度，画面会更丰富～',
-    ]
-    await this.speak(pickRandom(tips))
-  }
 
   /** 相册保存成功提示 */
   async speakSavedToAlbum(): Promise<void> {
@@ -1667,10 +1610,6 @@ class VoiceCoach {
   }
 
   /** 鼓励语播报 */
-  async speakEncouragement(): Promise<void> {
-    const tip = ENCOURAGEMENT[Math.floor(Math.random() * ENCOURAGEMENT.length)]
-    await this.speak(tip, true)
-  }
 
   /** 接近优秀（70-89分）时的语音提示 */
   async speakAlmostGreat(score: number): Promise<void> {
@@ -1693,15 +1632,6 @@ class VoiceCoach {
   }
 
   /** 情侣合照专属鼓励 */
-  async speakCoupleCheer(): Promise<void> {
-    const tips = [
-      '两个人靠近一点！甜蜜感拉满～',
-      '情侣照最重要的是互动！对视一下～',
-      '男生从后面环抱，超有感觉的！',
-      '背对镜头牵手，简约又甜蜜！',
-    ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
-  }
 
   /** 新纪录达成提示 */
   async speakNewRecord(previousScore: number, newScore: number): Promise<void> {
@@ -1988,43 +1918,9 @@ class VoiceCoach {
     } else {
       await this.speak(`${score}分，继续加油！多拍几张一定会越拍越好！`, false)
     }
-    // 鼓励型变体：补充一句温暖的话
-    await this.speakScoreEncouragement(score)
   }
 
   /** 分数段专属鼓励语（温暖补充） */
-  private async speakScoreEncouragement(score: number): Promise<void> {
-    const highPraise = [
-      '这张太惊艳了，女朋友要感动哭了！',
-      '男朋友你是偷偷请了摄影师吗！',
-      '这张可以直接当头像，太好看了！',
-    ]
-    const goodPraise = [
-      '进步好大！男朋友越拍越有感觉了～',
-      '这张很棒！继续保持，下一张冲击满分！',
-      '男朋友审美在线！再接再厉！',
-    ]
-    const okayPraise = [
-      '有亮点！多拍几张分数会更高的～',
-      '慢慢来，摄影师都是练出来的！',
-      '这张比之前好多了，继续加油！',
-    ]
-    const lowPraise = [
-      '没关系！每张大片都是练出来的～',
-      '男朋友别气馁，下次一定会更好！',
-      '第一次不够完美太正常了，多拍几张感觉就来了！',
-    ]
-
-    if (score >= 85) {
-      await this.speak(highPraise[Math.floor(Math.random() * highPraise.length)], false)
-    } else if (score >= 70) {
-      await this.speak(goodPraise[Math.floor(Math.random() * goodPraise.length)], false)
-    } else if (score >= 50) {
-      await this.speak(okayPraise[Math.floor(Math.random() * okayPraise.length)], false)
-    } else {
-      await this.speak(lowPraise[Math.floor(Math.random() * lowPraise.length)], false)
-    }
-  }
 
   /** 新纪录庆祝 */
   async speakNewRecordAlert(score: number): Promise<void> {
@@ -4087,30 +3983,10 @@ class VoiceCoach {
   }
 
   /** 连拍高产鼓励（拍了 5/10/15 张后） */
-  async speakBurstEncourage(count: number): Promise<void> {
-    const tips = [
-      `连拍${count}张！多拍几张选最好的，这种方法超有效～`,
-      `${count}张连拍！男朋友太努力了，继续保持这个节奏！`,
-      `拍了${count}张！量变引起质变，继续加油！`,
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 进步加速提示（分数比上次提升 10 分以上时） */
-  async speakScoreJumped(previousScore: number, newScore: number): Promise<void> {
-    const diff = newScore - previousScore
-    const tips = [
-      `比上次进步了${diff}分！男朋友你开窍了！`,
-      `${previousScore}分到${newScore}分，进步${diff}分！继续保持！`,
-      `一下子进步了${diff}分！男朋友学得好快！`,
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 模板加载缓慢提示 */
-  async speakTemplateLoadingSlow(): Promise<void> {
-    await this.speak('姿势模板加载中，耐心等一下～', false)
-  }
 
   /** 情侣互动专属提示（进阶版） */
   async speakCoupleInteractionTipV2(): Promise<void> {
@@ -4165,15 +4041,6 @@ class VoiceCoach {
   // 已在上方定义，此处补充以下新增方法：
 
   /** 光线太暗时提醒（与 speakLowLightWarning 不同：强调找光源策略） */
-  async speakLowLightTip(): Promise<void> {
-    const tips = [
-      '光线有点暗，打开补光灯或找亮一点的地方试试～',
-      '环境光不够，靠近窗户或打开手机闪光灯～',
-      '太暗了！找个光源或者打开屏幕补光吧～',
-      '光线不足噪点会很多，找个亮一点的地方拍会更好～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 完美拍摄时的鼓励 */
   async speakPerfectShotTip(): Promise<void> {
@@ -4339,99 +4206,24 @@ class VoiceCoach {
   /** ===== 2026-05-25 新增 TTS 场景 ===== */
 
   /** 对焦失焦提醒 */
-  async speakFocusLost(): Promise<void> {
-    const tips = [
-      '对焦跑掉了！点一下屏幕上的人脸位置，重新对焦～',
-      '对焦没对上！用手指点一下屏幕中间，让相机重新找到你～',
-      '相机对焦丢失了！在屏幕上点击人物位置，重新对焦～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 预览模式下确认拍摄 */
-  async speakPreviewReady(): Promise<void> {
-    const tips = [
-      '预览好了吗？准备好了就按快门吧～',
-      '这个角度不错！就是现在，按下去～',
-      '预览效果很好！按快门记录下来吧～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
 
   /** 持续稳定时的确认提示 */
-  async speakSteadyConfirmed(): Promise<void> {
-    const tips = [
-      '稳了稳了！就是现在，按下去就是大片！',
-      '手稳住了！姿势也对，按快门！',
-      '稳如磐石！这个瞬间绝了，按下去！',
-      '稳稳的！光线也刚好，就是这张了！',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
 
   /** 拍摄后夸奖确认（增强用户信心） */
-  async speakPhotoConfirmation(): Promise<void> {
-    const tips = [
-      '这张拍得不错！继续拍下去～',
-      '拍到了！多拍几张选最好的～',
-      '按下了！就是这张，感觉不错～',
-      '咔嚓！这张可以，继续保持～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 定时拍照倒计时中 */
-  async speakTimerRunning(seconds: number): Promise<void> {
-    const tips = [
-      `${seconds}秒后拍摄～摆好姿势别动哦～`,
-      `还有${seconds}秒！姿势准备好，马上拍～`,
-      `倒计时${seconds}秒！准备好了吗～`,
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 夜间手持不稳警告 */
-  async speakNightHandheldWarning(): Promise<void> {
-    const tips = [
-      '晚上光线暗！靠在墙上或找个支撑点拍～',
-      '晚上手机容易抖！把手机放在桌面或靠在墙上更稳～',
-      '夜间拍照要更稳！双手握手机，深呼吸后按快门～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 检测到自然表情时的正向确认（补充 speakSmileDetected） */
-  async speakExpressionDetected(): Promise<void> {
-    const tips = [
-      '表情好自然！就是这个感觉，按下去～',
-      '眼神到位了！表情超自然，按快门！',
-      '这表情好灵动！就是现在拍～',
-      '笑容好生动！这个瞬间绝了，按下去！',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 背景变干净时的确认提示 */
-  async speakBackgroundClear(): Promise<void> {
-    const tips = [
-      '背景干净了！这个位置超好看，按快门～',
-      '换了个好位置！背景干净主体突出，拍～',
-      '这个角度背景超简洁，就是现在拍！',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 黄金时刻拍摄确认（光线条件完美时） */
-  async speakGoldenLightConfirm(): Promise<void> {
-    const tips = [
-      '这光线绝了！就是现在拍，光影最美的时刻～',
-      '黄金光线！男朋友快按快门，这光太美了～',
-      '光影太漂亮了！赶紧拍一张，光线不会等人的～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 维度改善提示（构图/光线/表情/稳定某项提升时） */
   async speakImprovementDetected(dimension: 'composition' | 'exposure' | 'stability' | 'expression' | 'level'): Promise<void> {
@@ -4467,130 +4259,28 @@ class VoiceCoach {
   }
 
   /** 新纪录达成提示 */
-  async speakNewRecordSingle(score: number): Promise<void> {
-    const tips = [
-      `新纪录！${score}分！男朋友你开挂了吧！`,
-      `哇！${score}分创历史新高！要裱起来珍藏！`,
-      `${score}分！男朋友你太强了，新纪录诞生！`,
-      `史上最高分！${score}分！男朋友你是天才摄影师！`,
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 连胜警告（连续高分即将中断时） */
-  async speakStreakRiskWarning(count: number): Promise<void> {
-    const tips = [
-      `已经连续${count}张高分了！保持这个感觉别断！`,
-      `${count}连高分！摄影师养成了，别断在今天！`,
-      `${count}连击！男朋友你是开挂了吗？继续输出！`,
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 晨光拍摄提示（早晨黄金时段） */
-  async speakDawnLightTip(): Promise<void> {
-    const tips = [
-      '早安！早晨光线超通透，趁光线好多拍几张～',
-      '早起的光线最温柔！拍出来的皮肤状态最好～',
-      '清晨阳光暖洋洋，这个时间拍照绝了～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 蓝调时刻提示（黄昏） */
-  async speakBlueHourTip(): Promise<void> {
-    const tips = [
-      '蓝调时刻来啦！天空好蓝，光线最浪漫～',
-      '傍晚蓝光正在变！赶紧拍几张，这光稍纵即逝～',
-      '黄昏光线太美了！这个时间段拍逆光绝了～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 阴天人像提示（漫反射光优势） */
-  async speakOvercastPortraitTip(): Promise<void> {
-    const tips = [
-      '阴天光线超柔和！不用担心脸上有硬阴影，随便拍都好看～',
-      '阴天的云就是天然柔光箱！怼脸拍皮肤质感超好～',
-      '别等晴天了！阴天才是拍照的黄金天气，快拍！',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 硬光户外提示（正午强光） */
-  async speakHarshSunlightTip(): Promise<void> {
-    const tips = [
-      '正午阳光太硬了！找个树荫下拍，光线更柔和～',
-      '强光下脸上有硬阴影！躲到阴影里试试～',
-      '大中午拍照容易过曝，等云遮一下或找阴凉处～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 夜间拍摄手稳提示 */
-  async speakNightSteadyTip(): Promise<void> {
-    const tips = [
-      '晚上光线暗，按快门时双手握稳手机～',
-      '夜景手要更稳！靠在墙上或找个支撑点～',
-      '晚上拍照手抖容易糊，深呼吸憋住气再按快门～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 宠物合照提示（与宠物互动场景） */
-  async speakPetPhotoTip(): Promise<void> {
-    const tips = [
-      '和宠物互动抓拍！蹲下来和它平视，表情最自然～',
-      '趁宠物看向镜头时赶紧按快门！这个瞬间最可爱～',
-      '让宠物待在画面下方，上方留给主人，大片感十足～',
-      '和宠物贴贴拍！这个角度超有爱～',
-      '对着宠物说话或发出声音，趁它抬头时抓拍～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 泳池/水上场景提示 */
-  async speakPoolWaterTip(): Promise<void> {
-    const tips = [
-      '泳池边水光粼粼！侧身站着让光打在侧脸上，肤色超通透～',
-      '泳池水面的反光打在脸上超梦幻！这个角度绝了～',
-      '泳池边开闪光灯可以压掉水面反光，试试看～',
-      '日出日落时泳池边光线最温柔！赶紧拍几张～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 夜市美食场景提示 */
-  async speakNightMarketFoodTip(): Promise<void> {
-    const tips = [
-      '夜市灯光超有烟火气！食物和人一起来一张，氛围感绝了～',
-      '夜市光线偏暖偏暗，打开闪光灯补补光，食物会更诱人～',
-      '找个干净的摊位背景，让食物成为画面主角～',
-      '夜市人很多！开人像模式虚化背景，主体更突出～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 情侣贴贴提示（强调肢体互动） */
-  async speakCoupleSqueezeTip(): Promise<void> {
-    const tips = [
-      '两个人再靠近一点！贴贴更甜蜜，构图也更紧凑～',
-      '情侣照要的就是这种自然亲密感！靠近一点～',
-      '两个人贴在一起拍！这个距离超甜～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** 眼镜反光提示 */
-  async speakGlassesReflectionTip(): Promise<void> {
-    const tips = [
-      '眼镜反光太亮了！稍微侧一下脸躲开光源～',
-      '镜片反光挡住眼睛了，抬头或低头一点点～',
-      '眼镜反光有点重，试试换个角度让光打在镜片侧面～',
-      '戴眼镜拍照最怕反光！稍微侧身躲开强光就好啦～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 眼神交流提示 */
   async speakEyeContactTip(): Promise<void> {
@@ -4604,274 +4294,32 @@ class VoiceCoach {
   }
 
   /** 白墙反光补光提示 */
-  async speakWhiteWallReflectTip(): Promise<void> {
-    const tips = [
-      '白墙会反光！靠近墙站脸会更亮～',
-      '找面白墙靠近站！自然光打在脸上会柔和很多～',
-      '白色墙面就是免费的反光板！脸稍微面向墙方向～',
-      '墙面反光比直接光源更柔和！靠近白墙站试试～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 屏幕补光提示 */
-  async speakScreenFillLightTip(): Promise<void> {
-    const tips = [
-      '手机屏幕对着脸！白色背景就是简易补光灯～',
-      '用手机屏幕给脸补光！白色背景亮度刚刚好～',
-      '找个白色背景对着脸！屏幕补光最方便～',
-      '暗光时用手机屏幕照脸！白色界面就是补光神器～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 雨天氛围提示 */
-  async speakRainyAtmosphereTip(): Promise<void> {
-    const tips = [
-      '雨天光线超柔和！靠在窗户边拍，皮肤状态最好～',
-      '雨天雾气蒙蒙的超有氛围感！这个天气拍出来好有意境～',
-      '雨天室内光线好均匀，随便拍都好看～',
-      '雨天光线偏冷白，后期可以加一点暖色调更温暖～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 拥挤场景处理提示 */
-  async speakCrowdedSceneTip(): Promise<void> {
-    const tips = [
-      '旁边人好多，稍微等一下或者换个角度躲开～',
-      '背景人太多了！开人像模式虚化，或者等人走开再拍～',
-      '换个角度试试！躲开路人背景会干净很多～',
-      '人多的时候找个角落或者低角度拍，人多也能出好片～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 镜子自拍角度提示 */
-  async speakMirrorAngleTip(): Promise<void> {
-    const tips = [
-      '镜子稍微斜一点拍！角度不要正对镜子，会有反光～',
-      '对着镜子自拍时，手机和镜子成45度角最经典～',
-      '镜子自拍稍微侧一点！完全正对会有反光～',
-      '手机斜着拿拍镜子，这个角度永远不出错～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 滤镜切换鼓励提示 */
-  async speakFilterEncourageTip(): Promise<void> {
-    const tips = [
-      '试试旁边的滤镜！每种感觉都不一样～',
-      '滑动看看其他滤镜，找到最喜欢的那一款～',
-      '不同滤镜感觉完全不同，多试试看～',
-      '滤镜会影响整体氛围！多切换几个看看效果～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
   // ========== 新增场景 TTS ==========
   /** 海边户外场景提醒 */
-  async speakBeachOutdoorTip(): Promise<void> {
-    const tips = [
-      '海边光线超通透！侧身站让光打在侧脸上，超有氛围～',
-      '海风吹起头发好美！就是现在抓拍～',
-      '海边阳光强，记得侧身躲开强光，或者等云遮住再拍～',
-      '沙滩有倒影！蹲低一点拍出倒影，角度绝了～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 冬季室内暖气场景 */
-  async speakWinterIndoorTip(): Promise<void> {
-    const tips = [
-      '冬天室内暖气光超柔和！靠窗边站，皮肤看起来超好～',
-      '冬季窗户边的自然光最柔和，拍人像绝了～',
-      '冬天户外冷，室内找光源！窗边的光是最好的拍照光～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** 玻璃反光专项提示 */
-  async speakGlassReflectionTip(): Promise<void> {
-    const tips = [
-      '玻璃有反光！稍微侧身躲开脸上的反光～',
-      '靠近玻璃拍，让主体更突出，反光更干净～',
-      '商场橱窗可以当镜子用，侧身让灯光打在侧脸上～',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 
   /** v7 新增：服装背景颜色冲突提示 */
-  async speakOutfitClashTip(): Promise<void> {
-    const tips = [
-      '衣服颜色和背景太接近了，稍微换个站位试试～',
-      '换个角度，背景颜色和人分开会更突出～',
-      '找对比色背景！浅色衣服配深色背景，或反过来～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** v7 新增：表情引导专项提示 */
-  async speakExpressionGuidanceTip(): Promise<void> {
-    const tips = [
-      '假装被逗笑了！自然的笑容马上出来～',
-      '先低头，再抬头看镜头！这个表情最生动～',
-      '假装在看旁边的东西，然后转头笑，自然极了～',
-      '说"田七"的口型刚刚好，表情最自然～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** v7 新增：姿势引导提示 */
-  async speakPoseGuidanceTip(): Promise<void> {
-    const tips = [
-      '身体稍微侧一点，比正对镜头更显瘦～',
-      '手不知道往哪放？叉腰或自然垂下都比僵硬好～',
-      '换个角度试试，侧面比正面更有层次感～',
-      '身体微微前倾，显得更有活力和互动感～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
 
   /** v8 新增：场景氛围提示（雨天/阴天/黄金时段等） */
-  async speakSceneAtmosphereTip(sceneType: string): Promise<void> {
-    const tips: Record<string, string[]> = {
-      rainy: [
-        '雨天的光线好柔和！靠在窗户边拍，皮肤状态超好～',
-        '雨天光线偏暗，打开闪光灯补补光～',
-        '找有水坑的地方拍倒影，蹲低拍效果绝了～',
-      ],
-      cloudy: [
-        '阴天的云层就是天然柔光箱！拍出来的肤色超均匀～',
-        '阴天拍照最省心！光线均匀不刺眼，随便摆 pose 都好看～',
-        '快门速度会慢一些，让男朋友双手握稳手机～',
-      ],
-      golden_hour: [
-        '现在是黄金时段！侧身站着让光打在侧脸上，超有氛围感～',
-        'Golden Hour 稍纵即逝，这十分钟拍到就是赚到！',
-        '夕阳余晖好温柔！这个时刻拍出来一定超好看～',
-      ],
-      indoor: [
-        '室内最重要的是光线！靠近窗户站，皮肤会看起来更好～',
-        '找家里最亮的角落站，那里光线最均匀～',
-        '室内天花板灯可能会在脸上留下阴影，往边上站一站～',
-      ],
-      night: [
-        '夜景光线复杂，开闪光灯或找个光源补补光～',
-        '晚上拍照手要更稳！靠在墙上或双手握手机～',
-        '夜景里霓虹灯光打在脸上超有氛围感，侧身躲开直射光～',
-      ],
-      // Round 3 补充：SceneType enum 中已有的场景（speakSceneChangeTip 未覆盖的专项大气提示）
-      rooftop_daytime: [
-        '天台白天光线充足！找个阴凉角落避免直射强光～',
-        '天台视野开阔，背景干净，侧身站着拍超有感觉～',
-      ],
-      beach: [
-        '海边阳光强烈！找阴凉处或等云遮住太阳再拍～',
-        '海风大时等风停了再拍，头发才不会乱成一团～',
-      ],
-      snow: [
-        '雪天光线反射强烈！适当降低曝光补偿，避免过曝～',
-        '雪地拍完放大检查，脸部亮度是否合适～',
-      ],
-      gym: [
-        '健身房灯光偏暗黄！找靠窗位置或开闪光灯补光～',
-        '健身房镜子前光线均匀，镜前拍摄效果最好～',
-      ],
-      train: [
-        '火车车厢光线稳定！靠窗位置自然光最美～',
-        '站台等车间隙光线均匀，这个时机最适合拍照～',
-      ],
-      cafe: [
-        '咖啡馆暖黄色灯光超有氛围！靠近窗户自然光更均匀～',
-        '咖啡馆角落最安静，光线也最柔和，适合拍人像～',
-      ],
-      supermarket: [
-        '超市货架灯光偏白！找靠近窗户的位置让光线更自然～',
-        '超市冷藏区灯光过亮，避免站在正下方～',
-      ],
-      beach_sunset: [
-        '海边夕阳光超美！黄金时段光线稍纵即逝，赶紧拍～',
-        '海边日落背光剪影超浪漫，也可以侧身让光打侧脸～',
-      ],
-      rainy_street: [
-        '雨天街道光线柔和！找个有遮挡的站位，光线更均匀～',
-        '雨伞可以做道具！撑伞站着超有氛围感～',
-      ],
-      sunrise_morning: [
-        '清晨光线超通透！趁光线柔和多拍几张～',
-        '早起的阳光最温柔，这个时间拍照皮肤状态最好～',
-      ],
-      sunset: [
-        '夕阳余晖超美！侧身站让光打在侧脸上，轮廓绝了～',
-        '日落前半小时是拍照黄金时间，赶紧拍！',
-      ],
-      overcast: [
-        '阴天光线超柔和！不用担心过曝，随便拍都好看～',
-        '阴天拍人像皮肤最细腻，柔和光线是天然美颜～',
-      ],
-      cherry_blossom: [
-        '樱花季光线柔和！等风来让花瓣飘落，这个瞬间超美～',
-        '樱花树下人多的，找干净的枝干做引导线构图～',
-      ],
-      christmas: [
-        '圣诞灯光暖暖的！靠近光源让光打在脸上，超有氛围～',
-        '圣诞树前侧身拍，让灯光打在侧脸上更立体～',
-      ],
-      aquarium: [
-        '水族馆蓝色光线超梦幻！靠近玻璃让鱼群做背景～',
-        '水族馆光线偏暗，开闪光灯补补光效果更好～',
-      ],
-      campfire: [
-        '篝火旁让火光打在侧脸上，温暖又有氛围感～',
-        '夜晚火光下手要更稳，找支撑点再按快门～',
-      ],
-      hotspring: [
-        '温泉蒸汽缭绕超有氛围！让脸稍微靠近光源～',
-        '温泉雾气会让镜头起雾，擦干再拍更清晰～',
-      ],
-      vintage_film: [
-        '复古风格光线要偏暖！后期可以加颗粒感增加氛围～',
-        '复古风穿搭配暖色背景，胶片感更足～',
-      ],
-      meadow_ranch: [
-        '草原开阔无遮挡，正午光线强烈，等云来再拍～',
-        '草原骑马时让男友在侧面抓拍，动态感更强～',
-      ],
-      subway_escalator: [
-        '扶梯上光线冷调均匀！侧身站着拍都市感十足～',
-        '地铁站冷白灯光下，侧身角度让五官更立体～',
-      ],
-      graffiti: [
-        '涂鸦墙色彩斑斓！穿素色衣服对比更突出～',
-        '涂鸦墙前找干净角落，让主体更突出不杂乱～',
-      ],
-      festival_lights: [
-        '节庆灯饰璀璨！靠近灯串让光斑落在脸上超美～',
-        '节庆灯光偏暖白，找脸部光线均匀的角度～',
-      ],
-      ski_resort: [
-        '滑雪场白茫茫一片！穿亮色衣服更醒目～',
-        '雪地强反射容易过曝，适当降低曝光补偿～',
-      ],
-      old_town: [
-        '老城区光线有年代感！找白墙或青石板路做背景～',
-        '古镇小巷光影斑驳，侧身站着超有氛围～',
-      ],
-    }
-    const sceneTips = tips[sceneType] || tips['indoor']
-    await this.speak(pickRandom(sceneTips), true)
-  }
 
   /** v8 新增：服装与环境匹配提示 */
-  async speakOutfitEnvironmentTip(): Promise<void> {
-    const tips = [
-      '衣服颜色和背景太接近了，换个角度或背景躲开～',
-      '深色衣服在深色背景里不突出，换到亮一点的背景会更显眼～',
-      '浅色衣服在浅色背景里糊在一起了，找对比色背景试试～',
-      '衣服颜色和背景撞色超好看，这张就是例子！',
-    ]
-    await this.speak(pickRandom(tips), false)
-  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
