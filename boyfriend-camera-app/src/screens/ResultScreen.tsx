@@ -320,6 +320,33 @@ export default function ResultScreen() {
         if (analysis.stabilityScore < 14 && suggestCount > 0) {
           track(() => { try { VoiceCoach.speakBlurryTip() } catch {} }, 4200)
         }
+
+        // v6 新增：情侣/闺蜜合照专属提示（faceCount >= 2）
+        if (faces.length >= 2) {
+          track(() => { try { VoiceCoach.speakCouplePhotoTip() } catch {} }, 4500)
+        }
+
+        // v6 新增：构图偏了专属提示（compositionScore 低，且非 careful_framing 问题）
+        if (analysis.compositionScore < 28 && suggestCount > 0) {
+          track(() => { try { VoiceCoach.speakCompositionOffTip() } catch {} }, 4500)
+        }
+
+        // v6 新增：眼神引导提示（expressionScore 低时，在眨眼/僵硬之后）
+        if (analysis.expressionScore < 12 && suggestCount > 0) {
+          track(() => { try { VoiceCoach.speakEyeContactTip() } catch {} }, 4600)
+        }
+
+        // v6 新增：表情夸张引导（expressionScore 极低时）
+        if (analysis.expressionScore < 8 && suggestCount > 0) {
+          track(() => { try { VoiceCoach.speakExpressionExaggerateTip() } catch {} }, 4800)
+        }
+      }
+
+      // v6 新增：滤镜推荐 TTS（根据场景类型，在分数揭示后播报）
+      // sceneType 在上方已声明（line ~236），此处直接复用
+      const validSceneTypes = ['warm_light', 'cool_light', 'night', 'sunset', 'indoor', 'outdoor', 'portrait', 'food', 'street', 'night_photo', 'cloudy', 'golden_hour', 'natural_light']
+      if (sceneType && validSceneTypes.includes(sceneType)) {
+        track(() => { try { VoiceCoach.speakFilterTip(sceneType as any) } catch {} }, 5500)
       }
 
       await saveToDiary({
