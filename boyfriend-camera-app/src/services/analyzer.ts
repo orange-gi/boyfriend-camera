@@ -1069,6 +1069,39 @@ const PRAISE_POOL: Record<string, string[]> = {
     '男朋友越拍越有感觉了！这张很不错～',
     '进步肉眼可见！男朋友你是有在认真学的～',
   ],
+  // 樱花季专属夸奖
+  cherry_blossom_good: [
+    '樱花树下的人像绝了！粉嫩背景超有春日感～',
+    '樱花季的氛围感拉满了，男朋友你好会选场景！',
+    '花季人像超美！樱花和女朋友都很耀眼～',
+    '粉嫩樱花背景配美人，这张照片春天感十足！',
+  ],
+  // 海边沙滩专属夸奖
+  beach_good: [
+    '海风拂发超有感觉！男朋友这构图很有夏日感～',
+    '沙滩海边拍出度假感了！阳光打在脸上好美～',
+    '海边的光线超通透，这肤色绝了！',
+    '沙滩人像超有活力感，男朋友懂海边拍照美学～',
+  ],
+  // 雨天街道专属夸奖
+  rainy_street_good: [
+    '雨天街道拍出文艺感了！雨滴做装饰超有氛围～',
+    '雨天的氛围感拉满了，男朋友你好会选场景！',
+    '雨中的照片超有电影感，构图很有故事性～',
+    '雨天街道拍出情绪感了，这张好有感觉！',
+  ],
+  // 节日限定场景夸奖
+  christmas_good: [
+    '节日限定氛围感绝了！圣诞树灯光超有感觉～',
+    '节日装饰做背景超有仪式感，男朋友你懂浪漫！',
+    '节日限定照片好有过节气氛，构图超有心思～',
+  ],
+  // 复古胶片风格夸奖
+  vintage_film_good: [
+    '复古胶片感绝了！这色调好有故事感～',
+    '胶片质感超有年代感，男朋友你懂复古美学！',
+    '这种色调好有文艺气质，构图也很有味道～',
+  ],
 }
 
 // 建议文案池
@@ -4356,6 +4389,16 @@ export async function analyzePhoto(
   if (sceneType === 'gym' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.gym_good))
   // 地铁站专属夸奖（总分 >= 75 时触发）
   if (sceneType === 'subway' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.subway_good))
+  // 樱花季专属夸奖
+  if (sceneType === 'cherry_blossom' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.cherry_blossom_good))
+  // 海边沙滩专属夸奖
+  if (sceneType === 'beach' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.beach_good))
+  // 雨天街道专属夸奖
+  if (sceneType === 'rainy_street' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.rainy_street_good))
+  // 节日限定专属夸奖
+  if (sceneType === 'christmas' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.christmas_good))
+  // 复古胶片专属夸奖
+  if (sceneType === 'vintage_film' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.vintage_film_good))
   // 礁石海浪夸奖（高亮度户外 + 特殊环境 = 礁石海岸）
   if (safeBrightness > 150 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.rocky_beach_good))
 
