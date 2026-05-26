@@ -7,7 +7,7 @@
  * - safeBrightness: 将亮度值 clamp 到 [0, 255]
  * - safeSharpness: 将清晰度值 clamp 到 [0, 255]
  */
-import type { DiaryRecord } from '../services/analyzer'
+import type { DiaryRecord } from '../services/diaryTypes'
 
 /** 从文案数组随机抽取一项，空/未定义时返回空字符串 */
 export function pickRandom(arr: string[] | undefined): string {

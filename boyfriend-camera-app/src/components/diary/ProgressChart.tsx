@@ -16,7 +16,7 @@ import {
 } from '@shopify/react-native-skia'
 import { COLORS } from '../../theme/colors'
 import { colors } from '../../theme/index'
-import type { DiaryRecord } from '../../services/analyzer'
+import type { DiaryRecord } from '../../services/diaryTypes'
 
 interface Props {
   entries: DiaryRecord[]

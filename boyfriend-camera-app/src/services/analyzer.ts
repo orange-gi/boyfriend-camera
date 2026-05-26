@@ -6,6 +6,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { logger } from '../utils/logger'
 import { pickRandom, safeBrightness as clampBrightness, safeSharpness as clampSharpness } from '../utils/scoring'
+import type { DiaryRecord } from './diaryTypes'
 
 const DIARY_KEY = 'progress_diary'
 
@@ -5046,19 +5047,8 @@ export async function recalcPeakScore(diary: DiaryRecord[]): Promise<void> {
   }
 }
 
-// 进步日记存储
-export interface DiaryRecord {
-  date: string
-  score: number
-  suggestions: string[]
-  faceCount: number
-  /** 分项分数（用于进步检测） */
-  compositionScore?: number
-  exposureScore?: number
-  stabilityScore?: number
-  levelScore?: number
-  expressionScore?: number
-}
+// 进步日记存储（从 diaryTypes.ts 导入并重导出，避免循环依赖）
+export type { DiaryRecord } from './diaryTypes'
 
 export async function saveToDiary(record: DiaryRecord): Promise<boolean> {
   try {
