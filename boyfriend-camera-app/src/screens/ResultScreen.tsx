@@ -995,8 +995,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   // 简洁优雅：borderRadius 20（与次级按钮统一，primary 按钮视觉已足够突出）
+  // flex: 1 与其他按钮比例一致（三等分），视觉更均衡
   actionBtnPrimary: {
-    flex: 1.5,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

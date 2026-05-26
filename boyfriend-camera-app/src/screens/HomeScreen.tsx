@@ -268,8 +268,9 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
   // 简洁优雅：无标签、无关闭按钮 — tip 文本本身就是内容
-  dailyTipCard: { marginBottom: spacing[4] },
-  dailyTipTouchable: { paddingVertical: spacing[3] },
+  // 微妙背景区分内容层级，留白与文字呼吸感充足
+  dailyTipCard: { marginBottom: spacing[4], backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, paddingVertical: spacing[3], paddingHorizontal: spacing[4] },
+  dailyTipTouchable: { },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   poseTipCard: { paddingVertical: spacing[3], marginBottom: spacing[5] },
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.lg, padding: spacing[5], marginBottom: spacing[6] },
