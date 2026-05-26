@@ -5091,6 +5091,49 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** v8 新增：场景氛围提示（雨天/阴天/黄金时段等） */
+  async speakSceneAtmosphereTip(sceneType: string): Promise<void> {
+    const tips: Record<string, string[]> = {
+      rainy: [
+        '雨天的光线好柔和！靠在窗户边拍，皮肤状态超好～',
+        '雨天光线偏暗，打开闪光灯补补光～',
+        '找有水坑的地方拍倒影，蹲低拍效果绝了～',
+      ],
+      cloudy: [
+        '阴天的云层就是天然柔光箱！拍出来的肤色超均匀～',
+        '阴天拍照最省心！光线均匀不刺眼，随便摆 pose 都好看～',
+        '快门速度会慢一些，让男朋友双手握稳手机～',
+      ],
+      golden_hour: [
+        '现在是黄金时段！侧身站着让光打在侧脸上，超有氛围感～',
+        'Golden Hour 稍纵即逝，这十分钟拍到就是赚到！',
+        '夕阳余晖好温柔！这个时刻拍出来一定超好看～',
+      ],
+      indoor: [
+        '室内最重要的是光线！靠近窗户站，皮肤会看起来更好～',
+        '找家里最亮的角落站，那里光线最均匀～',
+        '室内天花板灯可能会在脸上留下阴影，往边上站一站～',
+      ],
+      night: [
+        '夜景光线复杂，开闪光灯或找个光源补补光～',
+        '晚上拍照手要更稳！靠在墙上或双手握手机～',
+        '夜景里霓虹灯光打在脸上超有氛围感，侧身躲开直射光～',
+      ],
+    }
+    const sceneTips = tips[sceneType] || tips['indoor']
+    await this.speak(pickRandom(sceneTips), true)
+  }
+
+  /** v8 新增：服装与环境匹配提示 */
+  async speakOutfitEnvironmentTip(): Promise<void> {
+    const tips = [
+      '衣服颜色和背景太接近了，换个角度或背景躲开～',
+      '深色衣服在深色背景里不突出，换到亮一点的背景会更显眼～',
+      '浅色衣服在浅色背景里糊在一起了，找对比色背景试试～',
+      '衣服颜色和背景撞色超好看，这张就是例子！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
