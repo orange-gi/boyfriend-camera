@@ -1108,22 +1108,24 @@ const styles = StyleSheet.create({
     right: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     paddingVertical: 14,
-    paddingHorizontal: 16,
     zIndex: 20,
   },
-  // 侧边按钮 — 纯图标文字，无背景
+  // 侧边按钮 — 小圆形背景，与 shutter 的圆形呼应，形成视觉平衡
+  // 理由：shutter 是 80×80 圆形，sideBtn 无背景会显得空洞；加圆形背景后三个按钮形成平衡的圆形组合
   sideBtn: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 48,
     height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(255,255,255,0.15)',
   },
-  // 侧边按钮 — 中文文字，字号适配，不再使用 emoji
+  // 侧边按钮文字 — 中文标签，去 emoji 装饰，保持克制
   sideBtnIcon: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.9)',
+    fontSize: 13,
+    color: 'rgba(255,255,255,0.95)',
     fontWeight: '600',
   },
 
