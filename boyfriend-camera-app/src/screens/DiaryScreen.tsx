@@ -571,15 +571,15 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20,
   },
-  // 3×2 统计卡片网格：每行3卡，宽均分，去 minWidth 避免 flex 冲突
+  // 3×2 统计卡片网格：每行3卡，33.33% 配合 justifyContent:space-between 均分，无溢出风险
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    justifyContent: 'space-between',
+    rowGap: 12,
   },
   statCard: {
-    // width: 33.33% 配合 gap=8 使 3 列均分，避免 flex:1 + minWidth:30% 的布局冲突
-    width: '31%',
+    width: '33.33%',
     alignItems: 'center',
     paddingVertical: 8,
   },
