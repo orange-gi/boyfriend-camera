@@ -1322,7 +1322,7 @@ class VoiceCoach {
 
   /** 选中新模板时的语音确认（比切换确认更具体） */
   async speakTemplateSelected(templateName: string): Promise<void> {
-    const tip = TEMPLATE_SELECT_TIPS[Math.floor(Math.random() * TEMPLATE_SELECT_TIPS.length)]
+    const tip = pickRandom(TEMPLATE_SELECT_TIPS)
     await this.speak(`${templateName}～${tip}`, true)
   }
 
