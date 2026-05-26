@@ -4900,6 +4900,50 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 眼镜反光提示 */
+  async speakGlassesReflectionTip(): Promise<void> {
+    const tips = [
+      '眼镜反光太亮了！稍微侧一下脸躲开光源～',
+      '镜片反光挡住眼睛了，抬头或低头一点点～',
+      '眼镜反光有点重，试试换个角度让光打在镜片侧面～',
+      '戴眼镜拍照最怕反光！稍微侧身躲开强光就好啦～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 眼神交流提示 */
+  async speakEyeContactTip(): Promise<void> {
+    const tips = [
+      '看镜头！眼神更有神～',
+      '眼神定住！这样拍出来更有感染力～',
+      '眼睛看着镜头方向！这个表情超有灵气～',
+      '眼神聚焦到镜头！别放空，这样更有神～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 白墙反光补光提示 */
+  async speakWhiteWallReflectTip(): Promise<void> {
+    const tips = [
+      '白墙会反光！靠近墙站脸会更亮～',
+      '找面白墙靠近站！自然光打在脸上会柔和很多～',
+      '白色墙面就是免费的反光板！脸稍微面向墙方向～',
+      '墙面反光比直接光源更柔和！靠近白墙站试试～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 屏幕补光提示 */
+  async speakScreenFillLightTip(): Promise<void> {
+    const tips = [
+      '手机屏幕对着脸！白色背景就是简易补光灯～',
+      '用手机屏幕给脸补光！白色背景亮度刚刚好～',
+      '找个白色背景对着脸！屏幕补光最方便～',
+      '暗光时用手机屏幕照脸！白色界面就是补光神器～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
