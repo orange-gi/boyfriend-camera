@@ -1439,8 +1439,11 @@ class VoiceCoach {
       FACE_TIPS.EXPRESSION_STIFF,
       FACE_TIPS.EXPRESSION_STIFF_2,
       FACE_TIPS.EXPRESSION_STIFF_3,
+      FACE_TIPS.EXPRESSION_SAY_YUM,
+      EXPRESSION_TIPS.COUNT_SHEEP,
       '表情稍微放松一点！想想开心的事，笑得更自然～',
       '别僵着！深呼吸一下，嘴角微微上扬，这个表情最好看～',
+      '试试说"田七"！口型刚刚好，表情最自然～',
     ]
     await this.speak(pickRandom(tips))
   }
