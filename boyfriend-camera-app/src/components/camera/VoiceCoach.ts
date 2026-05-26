@@ -5058,6 +5058,39 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** v7 新增：服装背景颜色冲突提示 */
+  async speakOutfitClashTip(): Promise<void> {
+    const tips = [
+      '衣服颜色和背景太接近了，稍微换个站位试试～',
+      '换个角度，背景颜色和人分开会更突出～',
+      '找对比色背景！浅色衣服配深色背景，或反过来～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** v7 新增：表情引导专项提示 */
+  async speakExpressionGuidanceTip(): Promise<void> {
+    const tips = [
+      '假装被逗笑了！自然的笑容马上出来～',
+      '先低头，再抬头看镜头！这个表情最生动～',
+      '假装在看旁边的东西，然后转头笑，自然极了～',
+      '说"田七"的口型刚刚好，表情最自然～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** v7 新增：姿势引导提示 */
+  async speakPoseGuidanceTip(): Promise<void> {
+    const tips = [
+      '身体稍微侧一点，比正对镜头更显瘦～',
+      '手不知道往哪放？叉腰或自然垂下都比僵硬好～',
+      '换个角度试试，侧面比正面更有层次感～',
+      '身体微微前倾，显得更有活力和互动感～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
