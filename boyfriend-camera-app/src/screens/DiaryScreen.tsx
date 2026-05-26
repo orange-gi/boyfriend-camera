@@ -36,6 +36,7 @@ export default function DiaryScreen() {
   // 骨架屏 shimmer 动画
   const skeletonOpacity = useRef(new Animated.Value(0.3)).current
   useEffect(() => {
+    VoiceCoach.initialize().catch(() => {}) // TTS 引擎初始化，失败静默降级
     const anim = Animated.loop(
       Animated.sequence([
         Animated.timing(skeletonOpacity, { toValue: 1, duration: 800, useNativeDriver: true }),

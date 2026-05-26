@@ -42,6 +42,7 @@ export default function HomeScreen() {
 
   const enterAnim = useSharedValue(0)
   useEffect(() => {
+    VoiceCoach.initialize().catch(() => {}) // TTS 引擎初始化，失败静默降级
     loadStats(); checkOnboard(); checkTipDismissed()
     enterAnim.value = withTiming(1, { duration: 350 })
   }, [])
