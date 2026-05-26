@@ -3451,6 +3451,20 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '雨后玻璃有水珠时拍特写，朦胧感很加分～',
     '反光太强时用手挡在镜头旁边，减少玻璃反光～',
   ],
+  // v5 新增：多光源复杂环境建议
+  multi_light_tips: [
+    '环境里光源太多脸上会有杂乱的阴影，换个位置躲开～',
+    '天花板的灯打在脸上会很难看，往光源方向侧身一点～',
+    '多个光源会让脸上有多种颜色的光，找到最柔和的那一个～',
+    '室内混合光源时，让脸正对最亮的光源方向～',
+  ],
+  // v5 新增：运动跟拍建议
+  motion_follow_tips: [
+    '边走边拍时尽量保持手机和人物在同一水平线上～',
+    '跟拍时步伐要稳，摄影师和被拍者同步移动更易出片～',
+    '运动跟拍建议用连拍模式，多拍几张选最好的～',
+    '跑跳跟拍时对焦点要一直追着人脸，连拍更容易出好片～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3887,6 +3901,19 @@ export async function analyzePhoto(
   }
   if (safeSharpness < 80 && !problems.includes('stability') && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.blurry))
+  }
+  // 镜面自拍/玻璃反光建议（mirror sceneType 已在 sceneType === 'mirror' 中处理）
+  // 此处补充：玻璃反光检测（当 brightness 在 100-180 且非室内专属场景时）
+  if (sceneType !== 'mirror' && sceneType !== 'cafe' && sceneType !== 'indoor' && safeBrightness >= 100 && safeBrightness <= 180 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.reflection_photo_tips))
+  }
+  // 多光源复杂环境建议（亮度在100-180之间但分布不均时）
+  if (safeBrightness >= 100 && safeBrightness <= 180 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.multi_light_tips))
+  }
+  // 运动跟拍建议（稳定分低且有运动模糊风险）
+  if (stabilityScore < 16 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.motion_follow_tips))
   }
   if (safeSharpness < 85 && safeSharpness >= 75 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.focus_tips))
