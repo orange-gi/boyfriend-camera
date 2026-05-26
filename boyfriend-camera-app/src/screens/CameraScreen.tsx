@@ -996,7 +996,7 @@ const styles = StyleSheet.create({
     zIndex: 200,
     pointerEvents: 'none',
   },
-  // 顶部控制栏 — 透明背景 + 轻量遮罩，避免花哨毛玻璃
+  // 顶部控制栏 — 无背景色：相机界面视觉焦点是取景框，控件不抢镜
   topBarGlass: {
     position: 'absolute',
     top: 56,
@@ -1005,16 +1005,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(0,0,0,0.32)',
-    borderRadius: 16,
-    paddingHorizontal: 6,
-    paddingVertical: 4,
+    paddingHorizontal: 4,
   },
-  // 关闭/闪光灯按钮 — 无背景色，纯图标+点击热区
+  // 关闭/闪光灯按钮 — 最小化热区，无背景色：按钮是功能入口，不需要装饰
   topBtn: {
-    width: 52,
-    height: 52,
-    borderRadius: 14,
+    width: 48,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1046,7 +1042,7 @@ const styles = StyleSheet.create({
   modeBtnTextActive: {
     color: '#fff',
   },
-  // 顶部悬浮姿势引导卡 — 简洁遮罩，轻量文字
+  // 顶部悬浮姿势引导卡 — 无背景：文字直接承载信息，极简留白
   autoRecommendBadge: {
     backgroundColor: COLORS.primary,
     color: '#fff',
@@ -1056,7 +1052,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 8,
     overflow: 'hidden',
-    marginRight: 4,
+    marginRight: 6,
     flexShrink: 0,
   },
   poseTipCardFrosted: {
@@ -1064,10 +1060,8 @@ const styles = StyleSheet.create({
     top: 108,
     left: 16,
     right: 88,
-    backgroundColor: 'rgba(0,0,0,0.28)',
-    borderRadius: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 4,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
@@ -1106,7 +1100,7 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     fontWeight: '600',
   },
-  // 底部控制栏 — 简洁遮罩，不喧宾夺主
+  // 底部控制栏 — 无背景：减少视觉遮挡，最大化取景框视野
   bottomBarGlass: {
     position: 'absolute',
     bottom: 20,
@@ -1115,10 +1109,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: 'rgba(0,0,0,0.32)',
-    borderRadius: 16,
     paddingVertical: 14,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     zIndex: 20,
   },
   // 侧边按钮 — 纯图标文字，无背景
