@@ -871,10 +871,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // 选中态：2px primary 边框，与未选中态形成明确区分
+  // 选中态：3px 白色实线环（兼容所有滤镜颜色，包括深色滤镜）
+  // 删 primary 色边框：深色滤镜上不可见，视觉欺骗
+  // 用白色环：任何滤镜底色上都有清晰对比，简洁克制
   filterCircleActive: {
-    borderWidth: 2,
-    borderColor: COLORS.primary,
+    borderWidth: 3,
+    borderColor: '#FFFFFF',
   },
   filterLabel: {
     fontSize: 11,
