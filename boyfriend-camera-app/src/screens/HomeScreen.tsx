@@ -265,7 +265,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
-  dailyTipCard: { marginBottom: spacing[4], borderRadius: borderRadius.lg, paddingVertical: spacing[3], paddingHorizontal: spacing[4], borderLeftWidth: 3, borderLeftColor: COLORS.primary },
+  dailyTipCard: { marginBottom: spacing[4], paddingVertical: spacing[2], paddingHorizontal: spacing[1] },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   poseTipCard: { marginBottom: spacing[5] },
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },

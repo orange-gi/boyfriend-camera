@@ -584,9 +584,10 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   statNum: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '700',
-    lineHeight: 32,
+    lineHeight: 34,
+    letterSpacing: -0.5,
   },
   statLabel: {
     fontSize: 11,
