@@ -42,14 +42,13 @@ export default function HomeScreen() {
 
   const enterAnim = useSharedValue(0)
   useEffect(() => {
-    VoiceCoach.initialize().catch(() => {}) // TTS 引擎初始化，失败静默降级
+    // TTS 初始化完成后播放欢迎语，避免初始化未完成时 speakDailyWelcome 被静默跳过
+    VoiceCoach.initialize()
+      .then(() => VoiceCoach.speakDailyWelcome(diaryCount === 0))
+      .catch(() => {})
     loadStats(); checkOnboard(); checkTipDismissed()
     enterAnim.value = withTiming(1, { duration: 350 })
   }, [])
-
-  useEffect(() => {
-    if (!statsLoading) VoiceCoach.speakDailyWelcome(diaryCount === 0)
-  }, [statsLoading])
 
   const isNewUser = diaryCount === 0
   useEffect(() => {
