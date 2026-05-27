@@ -19,9 +19,7 @@ const FACE_TIPS = {
   OFF_CENTER_BOTTOM: '镜头稍微上移一点',
   GOOD_POSITION: '位置刚刚好！笑一个～',
   MULTI_FACE: '哇，有好多人～对焦在你身上哦',
-  // 新增
-
-
+  // 新增场景提示
   TOO_DARK: '脸有点暗了，往光源方向靠近一点点～',
 
   // 新增边缘场景
@@ -37,23 +35,14 @@ const FACE_TIPS = {
   CHECK_LIGHTING: '先看一下光线方向！脸要朝向光源～',
   FIND_WINDOW: '找个窗户边站！自然光最柔和～',
 
-
   GOLDEN_HOUR_NOW: '现在是黄金时段！赶紧拍，光线超美～',
   OVERCAST_PERFECT_TIME: '阴天光线好柔！随便拍都好看～',
-
-
 
   FACE_PARTIAL: '脸稍微侧了一点，正对镜头会更好看～',
   LOW_ANGLE_FACE: '抬头看镜头！低角度显下巴～',
   HIGH_ANGLE_FACE: '稍微低头一点点，眼睛更有神～',
   // 模板切换确认
   TEMPLATE_CHANGED: '已切换到新姿势！跟着指导摆好～',
-  // 边缘场景补充
-
-
-
-
-
   // 新增：手势引导
   HAND_NATURAL: '手自然垂下就好！别紧贴身体，侧面更显瘦～',
   HAND_HIP_POSE: '双手叉腰！这个姿势显瘦又有气场～',
@@ -61,8 +50,6 @@ const FACE_TIPS = {
   // 新增：表情场景
   RELAX_SHOULDER_TIP: '肩膀放松一下！别端着，自然最美～',
   BREATH_RELAX: '深呼吸～放松再笑，这个表情最自然～',
-
-  // 新增：稳定性实时反馈
 
   // 拍摄成功
   SHOOT_GOOD: '姿势很棒！就是现在，按快门！',
@@ -92,8 +79,6 @@ const FACE_TIPS = {
   COUNTDOWN_1: '一～',
   COUNTDOWN_GO: '拍！',
 
-
-
   // 表情僵硬
   EXPRESSION_STIFF: '表情放松一点～嘴角微微上扬，自然最美～',
   EXPRESSION_STIFF_2: '别僵着！想想开心的事，笑一个试试～',
@@ -108,24 +93,12 @@ const FACE_TIPS = {
   // 模糊 / 抖动
   BLURRY_PHOTO: '照片有点糊了！拿稳手机，或者站近一点～',
   BLURRY_PHOTO_2: '这张有点模糊，下一张拿稳试试～',
-  // 前置摄像头提示
-
-
-  // 后置摄像头提示
-
-  // 长时间无脸检测
-
   // 多人合照提示
   MULTI_FACE_TWO: '两个人的合照！靠近一点贴贴～',
   MULTI_FACE_THREE: '三个人的合照！大家站整齐一点～',
   MULTI_FACE_SQUEEZE: '人多挤不下！往后站一点大家都能入镜～',
   // 鼓励换姿势
-
   TRY_DIFFERENT_ANGLE: '试试换个角度拍！侧面也很美～',
-  // 黄金时段提示
-
-  // 尝试开闪光灯
-
   CLOSE_ONE_EYE: '试试闭一只眼！俏皮又可爱，活泼感拉满～',
 
   // 眼镜反光检测
@@ -153,19 +126,13 @@ const FACE_TIPS = {
   // 半身照确认
   HALF_BODY_CONFIRM: '半身照角度绝了！人景比例刚刚好～',
 
-
   SHOOT_NOW_LIGHT: '光线刚刚好！就是现在，按快门！',
   SHOOT_NOW_POSE: '姿势超棒！表情到位！按下去就是大片！',
   SHOOT_NOW_PERFECT: '完美时刻！这光线这角度，按下去！',
 
-
   // 模板匹配度提示
 
   TEMPLATE_MATCH_OFF: '姿势有点跑偏～跟着模板摆正一点～',
-  // 夜景拍照提示
-
-  // 试拍建议
-
   // HDR 模式提示
   HDR_HINT: '这个场景明暗对比大！打开 HDR 模式，高光阴影都能保留～',
   HDR_HINT_2: 'HDR 模式可以让亮部和暗部都清晰，打开试试～',
@@ -187,44 +154,13 @@ const FACE_TIPS = {
   TIMER_HINT_2: '定时拍照设置三秒就够！给自己留出摆pose的时间～',
   TIMER_HINT_3: '定时拍照放在桌面或书架上！自己和男朋友都能入镜～',
 
-
-
   // 抓拍提示
-
-
   // 逆光 HDR 提示
   BACKLIGHT_HDR: '逆光场景！打开 HDR 让脸和背景都清晰～',
-  // 阴天提示
-
-  // 室内反射提示
-
-  // 傍晚提示
-
-  // 微距模式提示
-
-  // 防红眼提示
-
-  // 镜子自拍提示
-
-  // 夕阳提示
-
-  // 超市道具提示
-
-  // 运动抓拍提示
-
-  // 俯拍全身提示
-
-  // 仰拍大长腿提示
-
-
-
   // 表情夸张提示
   BIGGER_SMILE: '笑容再大一点！这样更上镜～',
   RELAX_FACE: '表情放松一点～别僵着，自然最美～',
-  // 拍摄前最后确认
-
-  // 情侣合照专属提示
-
+  // 表情与动作提示
   // 构图提醒
   USE_GRID: '打开九宫格！构图会好很多～',
   TRY_LOW_ANGLE: '蹲低一点！仰拍超级显腿长！',
@@ -239,50 +175,19 @@ const FACE_TIPS = {
   TRY_CONFIDENT: '试试酷酷的表情！超级有范儿～',
   TRY_SURPRISED: '惊讶表情！眼睛睁大超可爱～',
 
-
   CHECK_BACKGROUND: '背景检查一下！太乱会抢戏～',
-
-
-
-  // 情绪引导类
-
-  // 拍摄技巧指导类
-
-
-  // 情侣互动类
-
-
-
-
-
-  // 新场景提示
-
-
+  // 表情与动作提示
   BLOW_BUBBLES_FUN: '吹泡泡！这个画面好梦幻～',
-
-
 
   WINK_CUTE: '眨一只眼！俏皮可爱～',
 
   PEACE_SIGN: '比个耶！经典又可爱～',
   HEART_HAND_SIGN: '比心！爱心手势超甜～',
 
-  // 光线微调类
-
-
-  // 构图确认类
-
-
-
-
-
-
+  // 构图与光线提示
   CHEESE_HINT: '说"田七"！嘴型最自然～',
 
   EXPRESSION_SAY_YUM: '说"好吃"！表情最自然～',
-
-
-
 
   CAMERA_SWITCHED_FRONT: '切换到前置摄像头啦～找好角度，笑一个～',
   CAMERA_SWITCHED_FRONT_2: '自拍模式开启！侧脸也超好看，试试看～',
@@ -304,21 +209,10 @@ const FACE_TIPS = {
 
   HAIR_WIND_MESSY: '风把头发吹乱了！先理一下再拍，或者让风吹着也很有氛围～',
 
-
-
-
   POSE_READY_HINT: '姿势摆好了！就是现在，按下去！',
   LIGHT_PERFECT_NOW: '光线完美！这个时刻拍出来一定超好看！',
 
-
-
-
   HAIR_WIND_BLOW: '风把头发吹起来好美！就是现在抓拍～',
-
-
-
-
-
 
   GOOD_COMPOSITION_DETECTED: '构图很棒！就是这个位置，按下去！',
   PERFECT_MOMENT_NOW: '就是现在！这光这角度，绝了！',
@@ -329,16 +223,11 @@ const FACE_TIPS = {
   SMILE_DETECTED: '看到你在笑！就是这个表情，别动，按下去！',
   NATURAL_SMILE_DETECTED: '自然的笑容！好生动，按下去！',
 
-
   SMILE_CUTE_NOW: '这个表情好可爱！就是现在，按下去！',
   EXPRESSION_READY: '表情准备好了！笑一个，按快门！',
   POSE_PERFECT_TRY: '姿势超棒！就是现在，按下去就是大片！',
 
-
   NOW_PERFECT: '现在光线完美！姿势也对！就是现在拍～',
-
-
-
 
 }
 
@@ -370,15 +259,11 @@ const STABILITY_TIPS = {
   WALL_SUPPORT: '靠墙拍更稳！找个支撑按快门～',
   WIDE_STANCE: '双脚分开站稳，像练功一样哈哈～',
 
-
-
   STABLE_READY: '稳稳的！可以按快门了～',
   STEADY_AND_GOOD: '手稳了！光线也棒，现在拍正好～',
   HOLD_FOR_MOMENT: '稳住！就这个瞬间，按下去！',
 
   // v6 新增稳定性提示
-
-
 
 }
 
@@ -2261,7 +2146,6 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
-
 
   /** 情侣甜蜜互动提示 */
   async speakCoupleSweetTip(): Promise<void> {
@@ -4312,7 +4196,6 @@ class VoiceCoach {
     }
   }
 
-
   /** 超市便利店场景提示 */
   async speakSupermarketTip(): Promise<void> {
     const tips = [
@@ -4352,9 +4235,7 @@ class VoiceCoach {
 
   /** 预览模式下确认拍摄 */
 
-
   /** 持续稳定时的确认提示 */
-
 
   /** 拍摄后夸奖确认（增强用户信心） */
 

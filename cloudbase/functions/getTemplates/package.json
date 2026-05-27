@@ -1,0 +1,6 @@
+{
+  "name": "getTemplates",
+  "version": "1.0.0",
+  "description": "男友相机 - 姿势模板云函数（无外部依赖）",
+  "main": "index.js"
+}
