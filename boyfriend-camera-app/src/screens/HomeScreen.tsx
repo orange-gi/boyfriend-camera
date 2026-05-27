@@ -265,9 +265,23 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
-  dailyTipCard: { marginBottom: spacing[4], paddingVertical: spacing[2], paddingHorizontal: spacing[1] },
+  // 每日提示卡：左 accent 竖线，视觉区分提示与普通文本
+  dailyTipCard: {
+    marginBottom: spacing[4],
+    paddingVertical: spacing[2],
+    paddingLeft: spacing[3],
+    borderLeftWidth: 2,
+    borderLeftColor: COLORS.primary,
+  },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  poseTipCard: { marginBottom: spacing[5] },
+  // 新用户姿势提示卡：同款左 accent，与 dailyTipCard 视觉统一
+  poseTipCard: {
+    marginBottom: spacing[5],
+    paddingVertical: spacing[2],
+    paddingLeft: spacing[3],
+    borderLeftWidth: 2,
+    borderLeftColor: COLORS.info,
+  },
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
