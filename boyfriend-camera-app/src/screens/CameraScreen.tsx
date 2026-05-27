@@ -3,7 +3,7 @@
  * 改进：顶部悬浮姿势引导卡、拍照闪白动画、模板选择弹窗优化
  */
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { RootStackParamList } from '../../App'
 import {
@@ -23,7 +23,6 @@ import {
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { logger } from '../utils/logger'
-import { useFocusEffect } from '@react-navigation/native'
 import CompositionLines from '../components/camera/CompositionLines'
 import PoseTemplateOverlay, { type PoseTemplate } from '../components/camera/PoseTemplateOverlay'
 import StabilityIndicator from '../components/camera/StabilityIndicator'

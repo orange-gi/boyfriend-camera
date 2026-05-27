@@ -145,9 +145,8 @@ export default function DiaryScreen() {
 
   // 最高分：优先使用存储的巅峰分，兼顾日记内最高
   const maxScore = peakScore > 0 ? peakScore : (totalCount > 0 ? records.reduce((max, r) => (r.score > max ? r.score : max), 0) : 0)
-  // recentScore available as records[0]?.score when needed
 
-  // 成就徽章文案（提取为 useMemo 消除 IIFE 反模式）
+  // 成就徽章文案（useMemo 缓存，避免每次渲染重算）
   const achievementBadge = useMemo(() => {
     const label =
       maxScore === 100 ? '满分达成' :
@@ -163,7 +162,6 @@ export default function DiaryScreen() {
       COLORS.textMuted
     return { label, color }
   }, [maxScore, avgScore])
-  // recentScore available as records[0]?.score when needed
 
   // 周统计数据
   const weeklyStats = useMemo(() => {
@@ -196,9 +194,6 @@ export default function DiaryScreen() {
     }
     return { weekAvg, weekCount, streak }
   }, [records])
-
-  // 进步趋势文案
-  // trendInfo computed inline when needed via calcAvgScore
 
   // FlatList 数据（保留完整 DiaryRecord 以支持 ProgressChart 和 diff 计算）
   // entries 直接使用 records；ProgressChart 内部切片取最近 10 条
