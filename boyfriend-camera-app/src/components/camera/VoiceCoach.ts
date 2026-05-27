@@ -961,27 +961,58 @@ class VoiceCoach {
   }
   /** 推荐下一步动作（拍照后） */
   async speakNextTip(previousScore: number): Promise<void> {
-    if (previousScore < 60) {
+    if (previousScore < 40) {
       const tips = [
-        '换个角度试试，让女朋友站到窗边～',
-        '光线不好的时候，靠近一点开闪光灯试试～',
-        '试试让人把手举起来，和背景形成高低差～',
-        '换个位置试试，背景干净更显高级感～',
+        '别灰心！换个光线好一点的地方，靠近窗户试试～',
+        '背景有点乱，找个干净的墙或者白墙背景会好很多～',
+        '让男朋友打开九宫格辅助线，把人放在交叉点上试试～',
+        '双手握稳手机，深呼吸再按快门，稳定性很重要～',
+        '换个位置试试，让人站到光源方向，脸会更亮～',
       ]
       await this.speak(pickRandom(tips), true)
-    } else if (previousScore < 80) {
+    } else if (previousScore < 60) {
+      const tips = [
+        '比之前好了！光线再讲究一点就更棒了～',
+        '换个角度试试，让人稍微侧身站会更显瘦～',
+        '试试靠近一点拍，大头照比远景更容易得高分～',
+        '背景再干净一点，简洁背景更显高级感～',
+        '光线再均匀一点，让脸正对光源方向～',
+      ]
+      await this.speak(pickRandom(tips), true)
+    } else if (previousScore < 75) {
       const tips = [
         '这张不错！再试一个角度，找到最美的光线～',
         '动作可以再丰富一点，比如歪头或者托腮～',
         '换个姿势试试，和背景互动一下会更有趣～',
         '再来一张！光线刚好的时候多拍几张选最好的～',
+        '表情再自然一点，笑一个试试～',
       ]
       await this.speak(pickRandom(tips), true)
-    } else {
+    } else if (previousScore < 85) {
+      const tips = [
+        '这张超棒！离大片只差一点点，注意一下光线角度～',
+        '表情到位了！换个背景试试，层次感会更丰富～',
+        '男朋友审美开窍了！再来一张，肯定能冲满分～',
+        '构图已经很好了！手再稳一点点就完美了～',
+        '这张有氛围感！光线再柔和一点就更绝了～',
+      ]
+      await this.speak(pickRandom(tips), true)
+    } else if (previousScore < 95) {
       const tips = [
         '哇塞！这张绝了！可以直接发朋友圈！',
         '男朋友你是开挂了吗？这张太美了吧！',
         '这张我要存下来当头像！继续这个感觉！',
+        '男朋友审美在线！再来几张，冲满分！',
+        '大片感拉满！这张值得永久收藏～',
+      ]
+      await this.speak(pickRandom(tips), true)
+    } else {
+      const tips = [
+        '满分！男朋友摄影师天赋满点！这张绝了！',
+        '满分满分！这构图这光线简直是教科书级别！',
+        '男朋友已经超越男朋友了，这是专业摄影师水平！',
+        '这张可以直接上杂志封面了！满分满分！',
+        '满分神作！男朋友从青铜直接上王者！',
       ]
       await this.speak(pickRandom(tips), true)
     }
