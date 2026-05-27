@@ -351,46 +351,44 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            <View style={styles.statsCard}>
-              {/* 双行显式布局：每行 3 等宽卡片，视觉对称无错位 */}
-              <View style={styles.statsGridRow}>
-                <View style={styles.statCard}>
-                  <AnimatedCountUp value={totalCount} style={[styles.statCardNum, { color: COLORS.textPrimary }]} />
-                  <Text style={styles.statCardLabel}>拍照次数</Text>
-                </View>
-                <View style={styles.statCard}>
-                  <AnimatedCountUp value={avgScore} style={[styles.statCardNum, { color: COLORS.primary }]} suffix="分" />
-                  <Text style={styles.statCardLabel}>平均分</Text>
-                </View>
-                <View style={styles.statCard}>
-                  <AnimatedProgressNum value={totalProgress} style={[styles.statCardNum, { color: totalProgress >= 0 ? COLORS.success : COLORS.textMuted }]} />
-                  <Text style={styles.statCardLabel}>总进步</Text>
-                </View>
+            {/* 简洁优雅：单行横排 3 核心指标，无背景卡片，无阴影，数字靠颜色和字重承载层级 */}
+            <View style={styles.statsRow}>
+              <View style={styles.statItem}>
+                <Text style={[styles.statNum, { color: COLORS.textPrimary }]}>{totalCount}</Text>
+                <Text style={styles.statLabel}>张</Text>
               </View>
-              <View style={styles.statsGridRow}>
-                <View style={styles.statCard}>
-                  <AnimatedCountUp value={maxScore} style={[styles.statCardNum, { color: COLORS.warning }]} suffix="分" />
-                  <Text style={styles.statCardLabel}>最高分</Text>
+              <View style={styles.statDivider} />
+              <View style={styles.statItem}>
+                <View style={styles.statNumRow}>
+                  <Text style={[styles.statNum, { color: achievementBadge.color }]}>{avgScore}</Text>
+                  <Text style={[styles.statLabel, { color: achievementBadge.color }]}>{achievementBadge.label}</Text>
                 </View>
-                <View style={styles.statCard}>
-                  <Text style={[styles.statCardNum, { color: weeklyStats.weekAvg >= 80 ? COLORS.success : weeklyStats.weekAvg >= 60 ? COLORS.warning : COLORS.textMuted }]}>
-                    {weeklyStats.weekAvg > 0 ? weeklyStats.weekAvg : '-'}
-                  </Text>
-                  <Text style={styles.statCardLabel}>本周均分</Text>
-                </View>
-                <View style={styles.statCard}>
-                  <Text style={[styles.statCardNum, { color: COLORS.textPrimary }]}>{weeklyStats.weekCount}</Text>
-                  <Text style={styles.statCardLabel}>本周拍摄</Text>
-                </View>
+                <Text style={styles.statLabel}>平均分</Text>
+              </View>
+              <View style={styles.statDivider} />
+              <View style={styles.statItem}>
+                <Text style={[styles.statNum, { color: COLORS.warning }]}>{maxScore}</Text>
+                <Text style={styles.statLabel}>最高分</Text>
               </View>
             </View>
 
-            {totalCount > 0 && (
-              <View style={styles.achievementBadge}>
-                <Text style={[styles.achievementBadgeText, { color: achievementBadge.color }]}>{achievementBadge.label}</Text>
-                <Text style={styles.achievementCount}> · {totalCount}张照片 · 最高{peakScore}分</Text>
-              </View>
-            )}
+            {/* 本周动态：单独一行，无背景，靠文字颜色区分 */}
+            <View style={styles.weekRow}>
+              <Text style={styles.weekLabel}>本周</Text>
+              <Text style={[styles.weekNum, { color: weeklyStats.weekAvg >= 80 ? COLORS.success : weeklyStats.weekAvg >= 60 ? COLORS.warning : COLORS.textMuted }]}>
+                {weeklyStats.weekAvg > 0 ? `均分${weeklyStats.weekAvg}` : '-'}
+              </Text>
+              <Text style={styles.weekSep}>·</Text>
+              <Text style={[styles.weekNum, { color: COLORS.textPrimary }]}>
+                {weeklyStats.weekCount > 0 ? `${weeklyStats.weekCount}张` : '暂无'}
+              </Text>
+              {weeklyStats.streak > 0 && (
+                <>
+                  <Text style={styles.weekSep}>·</Text>
+                  <Text style={[styles.weekNum, { color: COLORS.primary }]}>{weeklyStats.streak}天连续</Text>
+                </>
+              )}
+            </View>
 
             <ProgressChart entries={entries} height={200} />
           </>
@@ -570,31 +568,59 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
   },
-  statsCard: {
-    backgroundColor: COLORS.bgCard,
-    borderRadius: borderRadius.xl,
-    padding: 20,
-    marginBottom: 20,
-  },
-  // 双行显式布局：每行 3 等宽卡片（flex:1），无 flexWrap 错位风险
-  statsGridRow: {
+  // 简洁优雅：单行横排核心指标，无背景无阴影，靠文字本身传达信息
+  statsRow: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 12,
+    gap: 0,
   },
-  statCard: {
-    width: '33.33%',
+  statItem: {
+    flex: 1,
     alignItems: 'center',
     paddingVertical: 8,
   },
-  statCardNum: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
+  statNumRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 4,
   },
-  statCardLabel: {
+  statNum: {
+    fontSize: 28,
+    fontWeight: '700',
+    lineHeight: 32,
+  },
+  statLabel: {
     fontSize: 11,
     color: COLORS.textMuted,
-    marginTop: 4,
+    marginTop: 2,
+  },
+  statDivider: {
+    width: 0.5,
+    height: 36,
+    backgroundColor: COLORS.divider,
+  },
+  // 本周动态：一行文字，靠颜色区分重要程度
+  weekRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 24,
+    gap: 6,
+  },
+  weekLabel: {
+    fontSize: 12,
+    color: COLORS.textMuted,
+    fontWeight: '600',
+  },
+  weekNum: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  weekSep: {
+    fontSize: 12,
+    color: COLORS.divider,
   },
   recordCard: {
     flexDirection: 'row',
@@ -705,24 +731,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: COLORS.skeletonBase,
   },
-  // 成就徽章 — 简洁文字设计：等级色文字 + 副标题用 muted 色
-  achievementBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    marginTop: 16,
-    marginBottom: 8,
-    gap: 0,
-  },
-  achievementBadgeText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  achievementCount: {
-    fontSize: 12,
-    color: COLORS.textMuted,
-  },
-
   emptyErrorCard: {
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
