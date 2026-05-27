@@ -16,7 +16,7 @@ interface Props {
   /** 可选取消回调 */
   onCancel?: () => void
   cancelLabel?: string
-  /** 图标表情 */
+  /** 图标文字（可自定义，如'整理中'） */
   icon?: string
 }
 
@@ -27,7 +27,7 @@ export default function LoadingOverlay({
   visible = true,
   onCancel,
   cancelLabel = '取消',
-  icon = '📸',
+  icon,
 }: Props) {
   if (!visible) return null
 
@@ -36,7 +36,7 @@ export default function LoadingOverlay({
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.icon}>{icon}</Text>
+        {icon && <Text style={styles.icon}>{icon}</Text>}
         <ActivityIndicator size="large" color={COLORS.primary} style={styles.spinner} />
         <Text style={styles.text}>{message}</Text>
         {stepMessage && <Text style={styles.step}>{stepMessage}</Text>}

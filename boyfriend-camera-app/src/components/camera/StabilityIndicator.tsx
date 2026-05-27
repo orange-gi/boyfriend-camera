@@ -156,9 +156,9 @@ export default function StabilityIndicator({
         </Animated.View>
       </View>
 
-      {/* 标签 */}
+      {/* 标签：去 emoji 装饰，简洁文字承载状态信息 */}
       <Text style={[styles.label, { color: bubbleColor }]}>
-        {isStable && shakeLevel < SHAKE_WARNING ? '✓ 水平' : shakeLevel > SHAKE_WARNING ? '⚠ 手抖' : '↗ 倾斜'}
+        {isStable && shakeLevel < SHAKE_WARNING ? '水平' : shakeLevel > SHAKE_WARNING ? '手抖' : '倾斜'}
       </Text>
     </View>
   )
