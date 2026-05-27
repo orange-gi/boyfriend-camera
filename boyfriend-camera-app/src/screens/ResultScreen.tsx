@@ -481,6 +481,8 @@ export default function ResultScreen() {
         friendlyError = '分析出了点小问题，请重新拍照试试'
       }
       setError(friendlyError)
+      // TTS 语音提示分析失败，鼓励重试
+      VoiceCoach.speakAnalysisError().catch(() => {})
       setScoreResult({
         totalScore: 72,
         compositionScore: 35,

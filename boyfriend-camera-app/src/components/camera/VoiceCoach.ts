@@ -4490,6 +4490,47 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** AI 分析失败时的语音提示 */
+  async speakAnalysisError(): Promise<void> {
+    const tips = [
+      '分析出了点小状况～没关系，重新拍一张试试',
+      '这次没分析成功，再拍一张吧',
+      '分析失败了，不过没关系，多拍几张总有一张能分析成功～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 模板同步失败提示 */
+  async speakTemplateSyncFailed(): Promise<void> {
+    const tips = [
+      '模板加载失败了，没关系，本地模板也能用～',
+      '网络不太好，模板没加载完，不过内置的姿势也够用啦～',
+      '模板加载失败了，不过本地模板也能拍出好看的照片～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 鼓励重试（低分后） */
+  async speakRetryEncourage(): Promise<void> {
+    const tips = [
+      '没关系！多拍几张就能找到感觉，男朋友加油～',
+      '这张不行没关系，深呼吸，再来一张！',
+      '摄影师也是练出来的！多拍几张，男朋友肯定越来越好的～',
+      '这张不太满意？没关系，好照片都在后面呢～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 照片保存成功提示 */
+  async speakSaveSuccess(): Promise<void> {
+    const tips = [
+      '保存成功啦～可以去相册里看看这张！',
+      '已保存！这张不错哦～',
+      '保存好了～这张可以收藏起来！',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
