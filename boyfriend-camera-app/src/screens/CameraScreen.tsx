@@ -1080,6 +1080,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 4,
     borderRadius: borderRadius.xl,
+    backgroundColor: 'rgba(0,0,0,0.35)',
     overflow: 'hidden',
   },
   // 简洁优雅：topBtn 移除半透明背景，仅靠文字传达功能，按压态足够
@@ -1181,6 +1182,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     zIndex: 20,
     borderRadius: 16,
+    backgroundColor: 'rgba(0,0,0,0.35)',
     overflow: 'hidden',
   },
   // 侧边按钮

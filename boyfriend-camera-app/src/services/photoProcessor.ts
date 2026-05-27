@@ -194,7 +194,6 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
  * 获取 ColorMatrix 参数
  * 格式: [r, g, b, a, t] 每通道乘数 + 偏移（4×5 矩阵）
  * 组合: 饱和度 → 对比度 → 亮度
- * 组合: 饱和度 → 对比度 → 亮度
  */
 export function getColorMatrix(filterName: FilterKey | null): number[] {
   const identity = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
