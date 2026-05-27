@@ -4565,6 +4565,56 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 模板自动推荐时的确认语（温馨提醒，让用户知道正在使用智能推荐） */
+  async speakTemplateAutoRecommend(templateName: string): Promise<void> {
+    const tips = [
+      `智能推荐了「${templateName}」，这个姿势很适合现在的光线和场景哦～`,
+      `发现一个超适合的姿势「${templateName}」，要不要试试看～`,
+      `根据场景推荐了「${templateName}」，跟着做效果会更好～`,
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 今日总结 TTS（当日拍摄超过 5 张时播报） */
+  async speakDaySummary(photoCount: number, avgScore: number): Promise<void> {
+    if (photoCount >= 10) {
+      await this.speak(`今天拍了 ${photoCount} 张！平均分 ${avgScore}，男朋友太努力了！继续加油～`, true)
+    } else if (photoCount >= 5) {
+      await this.speak(`今天拍了 ${photoCount} 张！平均分 ${avgScore}，拍得不错哦～`, true)
+    }
+  }
+
+  /** 表情指导 TTS（笑容检测后进一步引导） */
+  async speakSmileGuidance(smileLevel: 'small' | 'medium' | 'big'): Promise<void> {
+    const tips = {
+      small: [
+        '嘴角再微微上扬一点点，这个笑容刚刚好～',
+        '再自然地笑开一点，照片会更生动～',
+      ],
+      medium: [
+        '这个笑容很自然！保持住，按快门～',
+        '笑得刚刚好！就是现在，按下去～',
+      ],
+      big: [
+        '笑容超灿烂！这个表情绝了，按下去就是大片～',
+        '大笑超有感染力！就是现在，别动，按快门～',
+      ],
+    }
+    const pool = tips[smileLevel] || tips.medium
+    await this.speak(pickRandom(pool), false)
+  }
+
+  /** 拥挤场景引导 TTS */
+  async speakCrowdedSceneTip(): Promise<void> {
+    const tips = [
+      '周围人有点多，稍微等一等，等人走过去再拍～',
+      '背景有点挤，等人少一点背景会更干净～',
+      '找个没人的角度，或者稍微等一下，路人走了再拍～',
+      '人多背景乱，试试稍微蹲低一点，用前景遮挡杂乱背景～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
