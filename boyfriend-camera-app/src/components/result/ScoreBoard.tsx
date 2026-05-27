@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   suggestBubble: {
-    backgroundColor: COLORS.primary + '10',
+    backgroundColor: COLORS.primaryLight,
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 14,
