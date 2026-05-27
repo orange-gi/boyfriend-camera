@@ -131,6 +131,8 @@ export default function CameraScreen() {
   const lastGroupLookAtCameraRef = useRef<number>(0)
   // 节流人脸位置 TTS
   const lastFaceTipRef = useRef<number>(0)
+  // 首次人脸检测（Session 级 TTS）
+  const hasSeenFaceRef = useRef(false)
   // 人脸丢失/重获检测
   const prevFaceCountRef = useRef<number>(0)
   const lastFaceLostRef = useRef<number>(0)
@@ -196,6 +198,7 @@ export default function CameraScreen() {
           }
         } catch { /* ignore */ }
       })()
+      hasSeenFaceRef.current = false // 每次激活相机时重置，人脸首次检测 TTS 可再次触发
       return () => setIsActive(false)
     }, [])
   )
@@ -263,10 +266,15 @@ export default function CameraScreen() {
     }
   }, [faces])
 
-  // 人脸丢失 / 重获检测（Round 3 新增）
+  // 人脸丢失 / 重获检测
   useEffect(() => {
     const now = Date.now()
     const prev = prevFaceCountRef.current
+    // 首次检测到人脸 — Session 级别，只触发一次
+    if (!hasSeenFaceRef.current && faces.length > 0) {
+      hasSeenFaceRef.current = true
+      VoiceCoach.speakFaceFoundReady().catch(() => {})
+    }
     if (prev > 0 && faces.length === 0) {
       // 脸丢失
       if (now - lastFaceLostRef.current >= 8000) {
