@@ -463,59 +463,6 @@ export default function DiaryScreen() {
   )
 }
 
-/** 数字递增动画组件 */
-function AnimatedCountUp({ value, style, suffix = '' }: {
-  value: number
-  style: import('react-native').StyleProp<import('react-native').TextStyle>
-  suffix?: string
-}) {
-  const animValue = useRef(new Animated.Value(0)).current
-  const [display, setDisplay] = React.useState(0)
-  const safeValue = typeof value === 'number' && !isNaN(value) ? value : 0
-
-  useEffect(() => {
-    animValue.setValue(0)
-    Animated.timing(animValue, {
-      toValue: safeValue,
-      duration: 800,
-      useNativeDriver: false,
-    }).start()
-    const listener = animValue.addListener((v) => setDisplay(Math.round(v.value)))
-    return () => animValue.removeListener(listener)
-  }, [safeValue])
-
-  return (
-    <Animated.Text style={style}>
-      {display}{suffix}
-    </Animated.Text>
-  )
-}
-
-/** 进步数字动画（纯数字+颜色，无箭头装饰） */
-function AnimatedProgressNum({ value, style }: { value: number; style: import('react-native').StyleProp<import('react-native').TextStyle> }) {
-  const animValue = useRef(new Animated.Value(0)).current
-  const [display, setDisplay] = React.useState(0)
-
-  useEffect(() => {
-    animValue.setValue(0)
-    Animated.timing(animValue, {
-      toValue: value,
-      duration: 600,
-      useNativeDriver: false,
-    }).start()
-    const listener = animValue.addListener((v) => setDisplay(Math.round(v.value)))
-    return () => animValue.removeListener(listener)
-  }, [value])
-
-  const color = value >= 0 ? COLORS.success : COLORS.primary
-
-  return (
-    <Animated.Text style={[style, { color }]}>
-      {display >= 0 ? `+${display}` : display}
-    </Animated.Text>
-  )
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
