@@ -856,8 +856,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 20,
   },
-  // 破纪录横幅：克制的 success 色文字 + 淡背景 pill，庆祝但不俗气
-  // 简洁优雅：去掉 successLight 背景——纯色文字已有足够视觉冲击
+  // 破纪录提示：纯文字无背景，克制简洁
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 6,
@@ -938,7 +937,7 @@ const styles = StyleSheet.create({
   processingSpinner: {
     marginBottom: 12,
   },
-  // 简洁优雅：praiseBanner 与 ScoreBoard 之间留 12px 呼吸空间，避免 suggestCard 下沿贴文字
+  // praiseBanner 与 ScoreBoard 留呼吸空间
   praiseBanner: {
     marginHorizontal: 20,
     marginTop: 12,
@@ -953,7 +952,7 @@ const styles = StyleSheet.create({
   viewShot: {
     alignItems: 'center',
   },
-  // 简洁优雅：actions marginTop 收紧（16 > 20），与 filterPicker 的视觉距离更紧凑
+  // 操作按钮行
   actions: {
     flexDirection: 'row',
     gap: 10,
@@ -1013,7 +1012,7 @@ const styles = StyleSheet.create({
     color: COLORS.textOnPrimary,
     fontWeight: 'bold',
   },
-  // 简洁优雅：diaryEntryBtn 与 actions 左对齐（marginHorizontal: 20），视觉更整齐
+  // diaryEntryBtn 左对齐
   diaryEntryBtn: {
     marginHorizontal: 20,
   },
