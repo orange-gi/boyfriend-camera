@@ -3779,7 +3779,7 @@ export async function analyzePhoto(
   const { lastScore, recentAvg, streakCount = 0, totalShoots = 0, isFirstPhoto, sceneType, lastCompositionScore, lastExpressionScore, lastExposureScore, lastStabilityScore, isCouplePhoto, peakScore } = context
   const problems: string[] = []
   const suggestions: string[] = []
-  const praise: string[] = []
+  let praise: string[] = []
 
   // 构图分 0-40
   let compositionScore = 40
@@ -4353,10 +4353,11 @@ export async function analyzePhoto(
 
   // 场景专属夸奖
   if (sceneType === 'outdoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.outdoor_good))
-  if (sceneType === 'indoor' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.indoor_good))
-  if (compositionScore >= 28 && compositionScore < 35 && totalScore >= 70) {
-    praise.push(pickRandom(PRAISE_POOL.composition_okay))
+  // indoor_good 在亮度推断夸奖中还有一次，此处限制条件避免重复
+  if (sceneType === 'indoor' && totalScore >= 75 && !(safeBrightness >= 80 && safeBrightness <= 160 && exposureScore >= 25)) {
+    praise.push(pickRandom(PRAISE_POOL.indoor_good))
   }
+
   // 曝光一般（18-24分）但整体不错的鼓励
   if (exposureScore >= 18 && exposureScore < 25 && totalScore >= 70) {
     praise.push(pickRandom(PRAISE_POOL.exposure_okay))
@@ -4587,12 +4588,12 @@ export async function analyzePhoto(
   }
 
   // 基于亮度的场景推断夸奖
-  // 明亮户外场景（户外阳光充足）
-  if (safeBrightness > 180 && facePosition && compositionScore >= 35 && totalScore >= 75) {
+  // 明亮户外场景（无 sceneType 时根据亮度推断；有 sceneType 时由上方处理）
+  if (!sceneType && safeBrightness > 180 && facePosition && compositionScore >= 35 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.outdoor_good))
   }
-  // 室内柔和光场景（亮度适中，非直射阳光）
-  if (safeBrightness >= 80 && safeBrightness <= 160 && exposureScore >= 25 && totalScore >= 78) {
+  // 室内柔和光场景（无 sceneType 时根据亮度推断；有 sceneType 时由上方处理）
+  if (!sceneType && safeBrightness >= 80 && safeBrightness <= 160 && exposureScore >= 25 && totalScore >= 78) {
     praise.push(pickRandom(PRAISE_POOL.indoor_good))
   }
   // 逆光/戏剧光场景（高对比度，背景亮主体暗或有轮廓光）
@@ -4892,12 +4893,6 @@ export async function analyzePhoto(
     praise.push(pickRandom(PRAISE_POOL.couple_photo))
   }
 
-  // 户外高光环境夸奖（户外+高亮度+构图好）
-  if (sceneType === 'outdoor' && safeBrightness >= 160 && compositionScore >= 35 && totalScore >= 75) {
-    praise.push(pickRandom(PRAISE_POOL.outdoor_good))
-  }
-
-
   // 晨光夸奖（亮度适中偏高+户外+构图好）
   if (safeBrightness >= 140 && safeBrightness <= 220 && compositionScore >= 35 && totalScore >= 75) {
     praise.push(pickRandom(PRAISE_POOL.morning_light_good))
@@ -5012,6 +5007,9 @@ export async function analyzePhoto(
       praise.push('加油！多拍几张，摄影师也是练出来的～')
     }
   }
+
+  // 去除重复 praise（同一条文案只出现一次）
+  praise = praise.filter((item, idx) => praise.indexOf(item) === idx)
 
   // 场景专属建议（基于 sceneType 上下文补充，使用安全访问防止未定义池崩溃）
   if (sceneType === 'outdoor' && totalScore < 80) {
