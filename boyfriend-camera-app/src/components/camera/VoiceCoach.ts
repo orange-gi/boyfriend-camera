@@ -4654,6 +4654,68 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 墨镜/强光刺眼提示 */
+  async speakGlareWarning(): Promise<void> {
+    const tips = [
+      '看起来有点刺眼！让女朋友摘下墨镜，拍照更好看～',
+      '强光下眼睛睁不开，摘掉墨镜试试，表情会更清晰～',
+      '有墨镜的话可以先摘下来拍几张，然后再戴回去～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 逆光拍摄引导（CameraScreen 使用） */
+  async speakBacklightTipV2(): Promise<void> {
+    const tips = [
+      '逆光太强了！转过身让光打在脸上，肤色会更通透～',
+      '背光场景脸太黑了！稍微转过来面对光源，或者打开闪光灯补光～',
+      '逆光剪影好浪漫！但想让脸也亮起来，就转过来面对光源～',
+      '背光时打开 HDR 模式，让脸和背景都清晰～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 阴凉处建议 */
+  async speakShadeTip(): Promise<void> {
+    const tips = [
+      '阳光太晒了！找个阴凉处站，光线柔和皮肤状态更好～',
+      '找个树荫或建筑阴影，光线会更柔和，脸上的阴影也更少～',
+      '强光下脸会有硬阴影，移到阴凉处再拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 水面倒影拍摄提示 */
+  async speakWaterReflectionTip(): Promise<void> {
+    const tips = [
+      '找找地面的水洼！低角度拍倒影，上下对称超有层次～',
+      '雨后积水超适合拍倒影！蹲低一点，让倒影和实景一起入镜～',
+      '水面倒影时要找风平浪静的时候拍，水面越静倒影越清晰～',
+      '对着水面侧身站，让倒影和本人一起入镜，画面超有层次～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 动态/运动中拍摄提示 */
+  async speakMotionWarningTip(): Promise<void> {
+    const tips = [
+      '女朋友在动！等她停下来再按快门，这样更清晰～',
+      '捕捉动态瞬间最好用连拍模式，按住快门别松手～',
+      '动起来的时候抓拍最生动！连拍几张选最好的那张～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 拍摄角度确认（角度合适时） */
+  async speakAngleConfirmed(): Promise<void> {
+    const tips = [
+      '角度刚刚好！这个视角绝了，按下去就是大片～',
+      '这个角度好美！就是现在，按快门！',
+      '光线和角度都到位了！这光这角度，按下去！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
