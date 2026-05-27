@@ -4434,6 +4434,51 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 自拍距离太近（前置摄像头 Face.area > 0.22 时触发） */
+  async speakSelfieTooClose(): Promise<void> {
+    const tips = [
+      '手机拿远一点！自拍离太近会变形～',
+      '拿远一点！太近拍出来脸会显大哦～',
+      '往后退一步，离远点拍更显脸小～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 手抖/不稳定提示（手稳提示） */
+  async speakHoldSteady(): Promise<void> {
+    const tips = [
+      '手稳住！',
+      '稳住稳住～',
+      '稳住，别动！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 手机歪斜提示 */
+  async speakPhoneTilted(): Promise<void> {
+    const tips = [
+      '手机歪了，扶正再拍～',
+      '扶正一下手机，歪了～',
+      '把手机摆正再拍～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 相机设备不可用提示 */
+  async speakCameraUnavailable(): Promise<void> {
+    await this.speak('相机设备不可用，请检查摄像头是否正常', true)
+  }
+
+  /** 打开姿势模板提示 */
+  async speakOpenTemplate(): Promise<void> {
+    const tips = [
+      '打开姿势模板',
+      '戳这里选个姿势模板',
+      '点开模板看看怎么摆pose',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }

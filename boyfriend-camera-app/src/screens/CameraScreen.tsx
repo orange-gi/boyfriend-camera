@@ -302,7 +302,7 @@ export default function CameraScreen() {
     if (now - lastSelfieWarningRef.current < 4000) return // 4s 节流
     if (faces.length > 0 && faces[0].area > 0.22) {
       lastSelfieWarningRef.current = now
-      VoiceCoach.speak('手机拿远一点！自拍离太近会变形～', false)
+      VoiceCoach.speakSelfieTooClose()
     }
     // 头发遮挡检测：前置自拍时人脸靠上（可能被刘海遮挡），节流 10s
     if (cameraFacing === 'front' && faces.length === 1) {
@@ -511,11 +511,11 @@ export default function CameraScreen() {
   const handleStabilityUnstable = useCallback(() => {
     const tiltMag = Math.sqrt(stability.tiltX ** 2 + stability.tiltY ** 2)
     if (stability.shakeLevel > 0.65) {
-      VoiceCoach.speak('手稳住！', true)
+      VoiceCoach.speakHoldSteady()
     } else if (tiltMag > 10) {
-      VoiceCoach.speak('手机歪了，扶正再拍～', true)
+      VoiceCoach.speakPhoneTilted()
     } else {
-      VoiceCoach.speak('稳住！别动！', true)
+      VoiceCoach.speakHoldSteady()
     }
   }, [stability.tiltX, stability.tiltY, stability.shakeLevel])
 
@@ -603,7 +603,7 @@ export default function CameraScreen() {
             if (err === 'permission_denied') {
               VoiceCoach.speakCameraPermissionDenied()
             } else {
-              VoiceCoach.speak('相机设备不可用，请检查摄像头是否正常', true)
+              VoiceCoach.speakCameraUnavailable()
             }
           }}
           onBurstDone={(count) => {
@@ -715,7 +715,7 @@ export default function CameraScreen() {
         <TouchableOpacity
           style={styles.sideBtn}
           onPress={() => {
-            VoiceCoach.speak('打开姿势模板', false)
+            VoiceCoach.speakOpenTemplate()
             setShowTemplateModal(true)
           }}
           activeOpacity={0.72}
