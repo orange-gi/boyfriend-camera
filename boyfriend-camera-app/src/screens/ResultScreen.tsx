@@ -945,7 +945,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: -0.1,
     lineHeight: 24,
-    // 简洁优雅：去掉 bgCard 包裹，文字直接呈现更轻盈
   },
   viewShot: {
     alignItems: 'center',
@@ -1040,13 +1039,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
-  // 去装饰化：errorBanner 移除浅色背景，文字 + 边框足够传达错误层级
+  // 去装饰化：去掉 bgCard 背景，danger 色文字已足够传达错误层级
   errorBanner: {
     paddingHorizontal: 16,
     paddingVertical: 10,
     marginBottom: 12,
     alignItems: 'center',
-    backgroundColor: COLORS.bgCard,
     borderRadius: 10,
   },
   errorBannerBtns: {
