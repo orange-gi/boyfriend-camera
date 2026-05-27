@@ -1375,6 +1375,8 @@ class VoiceCoach {
       '看着半透明轮廓站好～',
       '参照剪影摆好姿势～',
       '跟着虚影位置站好～',
+      '看看屏幕上虚线轮廓，站到对应位置就好～',
+      '半透明模板出现了！照着摆，效果更佳～',
     ]
     await this.speak(pickRandom(tips), true)
   }
@@ -1423,6 +1425,7 @@ class VoiceCoach {
       '删除成功！这张照片的记录已经从日记里移除了～',
       '删掉啦～这张照片不在日记里了～',
       '记录已删除！重新拍一张更好的吧～',
+      '日记里这张已移除！再拍一张更满意的～',
     ]
     await this.speak(pickRandom(tips), true)
   }
@@ -2481,6 +2484,7 @@ class VoiceCoach {
       '没有模板限制啦，自由拍摄更自然～',
       '模板去除，跟着感觉拍就好～',
       '关闭模板引导，随心所欲拍～',
+      '自由模式开启！男朋友自由发挥吧～',
     ]
     await this.speak(pickRandom(tips), false)
   }
@@ -3322,7 +3326,12 @@ class VoiceCoach {
 
   /** 照片已删除提示 */
   async speakPhotoDeleted(): Promise<void> {
-    await this.speak('这张已删除！换个姿势再拍一张吧～', true)
+    const tips = [
+      '这张已删除！换个姿势再拍一张吧～',
+      '删除成功！男朋友继续加油，再拍一张～',
+      '已移除～没关系，好照片还在后面呢～',
+    ]
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 达成新里程碑提示 */
@@ -3775,6 +3784,7 @@ class VoiceCoach {
       '日记还是空的！先去拍一张吧～',
       '还没有记录呢！去拍照看看男朋友进步了没有～',
       '日记等着你来填满！先拍一张试试～',
+      '进步日记还没开始呢～去拍一张，记录男朋友的成长～',
     ]
     await this.speak(pickRandom(tips), false)
   }
