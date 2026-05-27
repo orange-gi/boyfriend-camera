@@ -265,30 +265,21 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
-  // 简洁优雅：无标签、无关闭按钮 — tip 文本本身就是内容
-  // 微妙背景区分内容层级，留白与文字呼吸感充足
-  // 简洁优雅：无背景卡片——仅靠左色条区分内容层级，留白充分，去掉多余的 TouchableOpacity 包裹
   dailyTipCard: { marginBottom: spacing[4], borderRadius: borderRadius.lg, paddingVertical: spacing[3], paddingHorizontal: spacing[4], borderLeftWidth: 3, borderLeftColor: COLORS.primary },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   poseTipCard: { marginBottom: spacing[5] },
-  // 统一圆角：borderRadius.xl 与 onboardCard 等其他卡片一致，视觉更协调
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   skeletonNum: { width: 56, height: 36, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
-  // 简洁优雅：分割线改细 0.5px，颜色更淡，视觉更轻不抢戏
   statDivider: { width: 0.5, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
-
-  // 简洁优雅：保留进度条 + 右侧分数 + 左上趋势标签（圆点+文字），不堆砌
   trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[5], paddingTop: spacing[4], gap: spacing[2] },
-  // 彩色小圆点作为趋势视觉锚点
   trendDot: { width: 8, height: 8, borderRadius: 4, flexShrink: 0 },
   trendLabel: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, flexShrink: 0, minWidth: 56 },
   trendBar: { flex: 1, height: 4, borderRadius: borderRadius.sm, overflow: 'hidden' },
   trendBarFill: { height: '100%', borderRadius: borderRadius.sm },
-  // 分数用纯数字（无"分"字），与 statNumber 风格一致
   trendScore: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, width: 28, textAlign: 'right', flexShrink: 0 },
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
   cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
@@ -299,12 +290,10 @@ const styles = StyleSheet.create({
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
   todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  // 简洁优雅：去掉背景色——导航栏在 ScrollView 中，无背景反而更轻盈；padding 收敛
   bottomNav: { flexDirection: 'row', borderRadius: borderRadius.xl, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  // 简洁优雅：borderRadius 统一用 design token borderRadius['2xl']（20px），与其他卡片一致
   onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 24, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
