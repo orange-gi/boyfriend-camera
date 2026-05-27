@@ -672,7 +672,7 @@ export default function ResultScreen() {
 
         {/* 标题栏 */}
         <View style={styles.titleRow}>
-          <Text style={[styles.title, { color: COLORS.textPrimary }]}>拍照分析</Text>
+          <Text style={styles.title}>拍照分析</Text>
           <TouchableOpacity onPress={handleHome} activeOpacity={0.72}>
             <Text style={styles.homeTextLink}>返回</Text>
           </TouchableOpacity>
@@ -877,6 +877,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: COLORS.textPrimary,
   },
   homeTextLink: {
     fontSize: 15,
