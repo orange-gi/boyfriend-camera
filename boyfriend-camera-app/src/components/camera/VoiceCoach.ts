@@ -2531,12 +2531,6 @@ class VoiceCoach {
       bw: '黑白',
       portrait: '人像',
       food: '美食',
-      landscape: '风景',
-      night: '夜景',
-      sunset: '日落',
-      floral: '花季',
-      snow: '雪景',
-      golden: '金棕',
       cinematic: '电影',
     }
     const label = filterLabels[filterName] || filterName
