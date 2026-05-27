@@ -3723,21 +3723,28 @@ export async function analyzePhoto(
   // 曝光分 0-30
   let exposureScore = 30
   if (safeBrightness < 40) {
+    // 严重欠曝
     exposureScore -= 20
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
-  } else if (safeBrightness >= 40 && safeBrightness < 60) {
-    // 填充 40-60 低亮度灰色地带：轻度欠曝
+  } else if (safeBrightness < 60) {
+    // 轻度欠曝（40-59）
     exposureScore -= 8
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
+  } else if (safeBrightness < 80) {
+    // 轻微欠曝（60-79）：通用曝光建议
+    exposureScore -= 5
+    problems.push('exposure')
+    suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
   } else if (safeBrightness > 220) {
+    // 严重过曝
     exposureScore -= 15
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.over_exposure))
     if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.lighting_harsh_single))
-  } else if (safeBrightness > 200 || safeBrightness < 80) {
-    // 轻微亮度偏差：只推一条通用曝光建议，避免冗余
+  } else if (safeBrightness > 200) {
+    // 轻度过曝（201-220）
     exposureScore -= 8
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
