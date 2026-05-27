@@ -240,18 +240,16 @@ export default function ResultScreen() {
         else break
       }
 
-      // 模拟分析参数（真实场景由 MLKit 人脸检测 + 亮度分析提供）
-      // 使用 Date.now() 变化确保每次拍摄都有不同的模拟参数，增加多样性
-      const ts = Date.now()
-      const photoTimestamp = photoPath
-        ? parseInt(photoPath.match(/\d+/g)?.join('') || '0', 10) % 255
-        : 140
-      // brightness: 模拟值 50-230，涵盖暗光、正常、过曝场景
-      const brightness = Math.max(30, Math.min(230, 50 + ((ts + photoTimestamp * 7) % 180)))
-      // sharpness: 模拟值 60-180，涵盖模糊到清晰
-      const sharpness = 60 + ((ts * 13) % 120)
-      // tiltAngle: 模拟值 -15° 到 +15°
-      const tiltAngle = (((ts * 17 + photoTimestamp * 3) % 300) - 150) * 0.1
+      // 基于人脸检测结果计算真实参数
+      // tiltAngle: 使用人脸 rollAngle（头部倾斜）作为照片倾斜角，MLKit 检测失败时回退到 0
+      const tiltAngle = (faceData.rollAngle !== undefined) ? faceData.rollAngle : 0
+      // sharpness: 人脸检测置信度转 sharpness（confidence 0.8-0.95 → sharpness 130-200），检测本身就说明图像足够清晰
+      const confidence = faceData.confidence ?? 0.85
+      const sharpness = Math.round(100 + confidence * 100)
+      // brightness: 使用 faceData 的 area 作为亮度推断（脸大=近=可能更亮），兼顾 faceCount（人多=场景亮）
+      // area 0.02-0.3 → brightness 100-160；faceCount >= 2 时额外加 20
+      const baseBrightness = Math.round(100 + (faceData.area ?? 0.1) * 300)
+      const brightness = Math.min(230, Math.max(80, baseBrightness + (faces.length >= 2 ? 20 : 0)))
 
       const sceneType = getSceneType(templateCategory)
 
