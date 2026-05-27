@@ -3570,6 +3570,14 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '阳光被云遮住了，等云过去再拍，光线会更柔和～',
     '这个光线再过几分钟就没了，趁现在赶紧拍～',
   ],
+  // 泳池边专属建议（水边户外/泳池场景）
+  swimming_pool_specific: [
+    '泳池边逆光拍超有氛围！转过身让光打在脸上，肤色通透～',
+    '水面反光会让脸偏蓝，试试稍微仰头让更多天空光进来～',
+    '泳池边背景要干净！避开泳池边缘的瓷砖线，主体更突出～',
+    '水汽缭绕时皮肤显得超柔和，这个湿度感绝了，抓紧拍～',
+    '泳池边的蓝色调配「清凉」滤镜更配，夏日感拉满～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3581,7 +3589,7 @@ export type SceneType =
   | 'ancient_town' | 'lighthouse' | 'subway' | 'supermarket' | 'rooftop_party' | 'farm'
   | 'graffiti' | 'aquarium' | 'chapel' | 'market_stall' | 'bakery' | 'carousel' | 'greenhouse'
   | 'tent_camp' | 'graduation' | 'festival_lights' | 'graduation_outdoor' | 'old_town'
-  | 'beach_sunset' | 'rainy_street' | 'morning_run' | 'bookstore' | 'mirror' | 'carnival' | 'beach'
+  | 'beach_sunset' | 'rainy_street' | 'morning_run' | 'bookstore' | 'mirror' | 'carnival' | 'beach' | 'swimming_pool'
   | 'dance_performance' | 'red_autumn_detail' | 'rooftop_daytime' | 'amusement_carnival'
   | 'airport_station' | 'meadow_ranch' | 'subway_escalator'
   | 'sunset' | 'overcast' | 'hotspring' | 'vintage_film'
@@ -5116,6 +5124,10 @@ export async function analyzePhoto(
   // 镜子自拍专属场景
   if ((sceneType as string) === 'mirror' && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.mirror_selfie_specific))
+  }
+  // 泳池边专属场景
+  if ((sceneType as string) === 'swimming_pool' && totalScore < 75) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.swimming_pool_specific))
   }
   // 春雨室内场景
   if ((sceneType as string) === 'spring_rain' && totalScore < 75) {
