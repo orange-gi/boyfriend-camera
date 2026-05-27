@@ -645,6 +645,54 @@ class VoiceCoach {
     await this.speak(FACE_TIPS.GOOD_POSITION)
   }
 
+  /** 眼镜反光提示 */
+  async speakGlassesReflection(): Promise<void> {
+    const tips = [FACE_TIPS.GLASSES_REFLECTION, FACE_TIPS.GLASSES_REFLECTION_2]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 人脸过远提示 */
+  async speakFaceTooFar(): Promise<void> {
+    const tips = [FACE_TIPS.FACE_TOO_FAR, FACE_TIPS.FACE_TOO_FAR_2]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 逆光检测提示 */
+  async speakBacklightDetected(): Promise<void> {
+    const tips = [FACE_TIPS.BACKLIGHT_DETECTED, FACE_TIPS.BACKLIGHT_DETECTED_2]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 俯拍角度确认提示 */
+  async speakHighAngleConfirm(): Promise<void> {
+    await this.speak(FACE_TIPS.HIGH_ANGLE_CONFIRM, true)
+  }
+
+  /** 仰拍角度确认提示 */
+  async speakLowAngleConfirm(): Promise<void> {
+    await this.speak(FACE_TIPS.LOW_ANGLE_CONFIRM, true)
+  }
+
+  /** 侧颜确认提示 */
+  async speakSideProfileGood(): Promise<void> {
+    await this.speak(FACE_TIPS.SIDE_PROFILE_GOOD, true)
+  }
+
+  /** 全身照确认提示 */
+  async speakFullBodyConfirm(): Promise<void> {
+    await this.speak(FACE_TIPS.FULL_BODY_CONFIRM, true)
+  }
+
+  /** 半身照确认提示 */
+  async speakHalfBodyConfirm(): Promise<void> {
+    await this.speak(FACE_TIPS.HALF_BODY_CONFIRM, true)
+  }
+
+  /** 肩膀歪斜提示 */
+  async speakShouldersCrooked(): Promise<void> {
+    await this.speak(FACE_TIPS.SHOULDERS_CROOKED, true)
+  }
+
   /** 根据稳定性状态播报提示 */
   async speakStabilityTip(
     tiltX: number,
