@@ -275,13 +275,13 @@ const styles = StyleSheet.create({
     borderLeftColor: COLORS.primary,
   },
   dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  // 新用户姿势提示卡：同款左 accent，与 dailyTipCard 视觉统一
+  // 新用户姿势提示卡：与每日提示卡统一用 primary 色，符合简洁优雅极致原则
   poseTipCard: {
     marginBottom: spacing[5],
     paddingVertical: spacing[2],
     paddingLeft: spacing[3],
     borderLeftWidth: 2,
-    borderLeftColor: COLORS.info,
+    borderLeftColor: COLORS.primary,
   },
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
