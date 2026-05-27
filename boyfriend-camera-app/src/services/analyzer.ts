@@ -326,6 +326,23 @@ const PRAISE_POOL: Record<string, string[]> = {
     '外景拍得太好了，有大片感！',
     '逆光剪影好有意境，男朋友你懂浪漫啊～',
     '这个取景也太会选了吧，审美在线！',
+    '户外光线好通透！背景和人都很和谐，男朋友太会了！',
+    '天公作美！这光线打在脸上好温柔，男朋友你懂找光～',
+    '户外取景超有感觉！人和背景的层次感绝了～',
+    '男朋友把户外的感觉都拍出来了，这张绝了！',
+    '户外场景选得好，光影层次分明，超有感觉！',
+    '男朋友的户外取景进步好大，这张构图讲究！',
+    '天晴光线好通透！男朋友这张拍出了高级感！',
+    '户外拍摄完美捕捉到光影层次，这张绝了！',
+  ],
+
+  // 新增：夜间拍照（无人脸夜景城市灯光场景）praise
+  night_photo_good: [
+    '夜景拍得超有氛围感！城市灯光配美人，男朋友太会了～',
+    '夜拍大片感拉满！这灯光打在脸上好温柔～',
+    '男朋友把夜景拍出了电影感，这构图绝了！',
+    '霓虹灯光下也能这么美，男朋友审美在线！',
+    '夜晚的城市灯光配美人，这张照片超有故事感！',
   ],
   // 美食摄影专项表扬（无人脸+亮度合适+构图好）
   food_photo_good: [
@@ -4432,6 +4449,28 @@ export async function analyzePhoto(
   if (sceneType === 'christmas' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.christmas_good))
   // 复古胶片专属夸奖
   if (sceneType === 'vintage_film' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.vintage_film_good))
+  // 咖啡馆场景专属夸奖
+  if (sceneType === 'cafe' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.cafe_scene_good))
+  // 温泉泡汤专属夸奖
+  if (sceneType === 'hotspring' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.hotspring_good))
+  // 雪景专属夸奖
+  if (sceneType === 'snow' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.snow_scene_good))
+  // 天台夜景专属夸奖
+  if (sceneType === 'rooftop_night' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.rooftop_night_good))
+  // 书店/图书馆专属夸奖
+  if (sceneType === 'bookstore' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.bookstore_good))
+  // 演唱会专属夸奖
+  if (sceneType === 'dance_performance' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.concert_good))
+  // 夜市小吃专属夸奖
+  if (sceneType === 'market_stall' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.night_market_good))
+  // 烘焙坊专属夸奖
+  if (sceneType === 'bakery' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.bakery_good))
+  // 闺蜜逛街专属夸奖
+  if (sceneType === 'carnival' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.bestie_street_good))
+  // 夜景暗光专项夸奖（亮度偏低但总分高）
+  if (safeBrightness < 80 && safeBrightness >= 30 && totalScore >= 78) {
+    praise.push(pickRandom(PRAISE_POOL.night_photo_good))
+  }
   // 礁石海浪夸奖（高亮度户外 + 特殊环境 = 礁石海岸）
   if (safeBrightness > 150 && sceneType === 'outdoor' && compositionScore >= 30 && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.rocky_beach_good))
 
