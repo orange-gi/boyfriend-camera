@@ -351,7 +351,6 @@ export default function DiaryScreen() {
                 <Text style={[styles.statNum, { color: COLORS.textPrimary }]}>{totalCount}</Text>
                 <Text style={styles.statLabel}>张</Text>
               </View>
-              <View style={styles.statDivider} />
               <View style={styles.statItem}>
                 <View style={styles.statNumRow}>
                   <Text style={[styles.statNum, { color: achievementBadge.color }]}>{avgScore}</Text>
@@ -359,7 +358,6 @@ export default function DiaryScreen() {
                 </View>
                 <Text style={styles.statLabel}>平均分</Text>
               </View>
-              <View style={styles.statDivider} />
               <View style={styles.statItem}>
                 <Text style={[styles.statNum, { color: COLORS.warning }]}>{maxScore}</Text>
                 <Text style={styles.statLabel}>最高分</Text>
@@ -511,7 +509,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
+    marginBottom: 16,
     gap: 0,
   },
   statItem: {
@@ -535,15 +533,10 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     marginTop: 2,
   },
-  statDivider: {
-    width: 0.5,
-    height: 36,
-    backgroundColor: COLORS.divider,
-  },
+  // 去装饰化：移除 statDivider — 数字靠颜色和字重承载层级，无需额外分割线
   weekRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
     marginBottom: 24,
     gap: 6,
   },
@@ -564,9 +557,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
-    padding: 16,
-    marginBottom: 10,
-    gap: 14,
+    padding: 12,
+    marginBottom: 8,
+    gap: 12,
   },
   scoreBadge: {
     width: 56,
@@ -641,13 +634,10 @@ const styles = StyleSheet.create({
     padding: 40,
   },
   loadingCenter: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingVertical: 60,
   },
+  // 去装饰化：移除 emptyErrorCard 的 bgCard 背景——错误状态不需要额外视觉层级，颜色本身已传达信息
   emptyErrorCard: {
-    backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
     padding: 32,
     marginBottom: 16,
