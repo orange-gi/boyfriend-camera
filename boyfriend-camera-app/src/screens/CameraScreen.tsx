@@ -643,7 +643,7 @@ export default function CameraScreen() {
               {cameraError === 'permission_denied' ? '相机权限未授权，请去设置中开启' : '相机设备不可用'}
             </Text>
             <TouchableOpacity onPress={() => setCameraError(null)} activeOpacity={0.72}>
-              <Text style={styles.cameraErrorClose}>✕</Text>
+              <Text style={styles.cameraErrorClose}>关闭</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -712,7 +712,7 @@ export default function CameraScreen() {
               accessibilityLabel={`构图模式: ${m === 'grid' ? '九宫格' : m === 'golden' ? '黄金螺旋' : '三角构图'}${mode === m ? '，已选中' : ''}`}
             >
               <Text style={[styles.modeBtnText, mode === m && styles.modeBtnTextActive]}>
-                {m === 'grid' ? '▦' : m === 'golden' ? '◎' : '△'}
+                {m === 'grid' ? '九宫' : m === 'golden' ? '黄金' : '三角'}
               </Text>
             </TouchableOpacity>
           ))}
@@ -726,7 +726,7 @@ export default function CameraScreen() {
           accessibilityRole="button"
           accessibilityLabel="关闭拍照"
         >
-          <Text style={styles.topBtnText}>✕</Text>
+          <Text style={styles.topBtnText}>关闭</Text>
         </TouchableOpacity>
       </View>
 
@@ -811,7 +811,7 @@ export default function CameraScreen() {
               />
               {templateSearch.length > 0 && (
                 <TouchableOpacity onPress={() => setTemplateSearch('')} activeOpacity={0.72}>
-                  <Text style={styles.searchClear}>✕</Text>
+                  <Text style={styles.searchClear}>清除</Text>
                 </TouchableOpacity>
               )}
             </View>
