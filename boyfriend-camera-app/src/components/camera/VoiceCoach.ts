@@ -1350,6 +1350,17 @@ class VoiceCoach {
     await this.speak(`${templateName}～${tip}`, true)
   }
 
+  /** 模板选中后站位引导 */
+  async speakTemplateStandBy(): Promise<void> {
+    const tips = [
+      '跟着半透明剪影站位～',
+      '看着半透明轮廓站好～',
+      '参照剪影摆好姿势～',
+      '跟着虚影位置站好～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 建议尝试新模板（同一模板用过多次时） */
   async speakTryNewTemplate(): Promise<void> {
     const tips = [

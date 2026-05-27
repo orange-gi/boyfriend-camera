@@ -149,7 +149,7 @@ export default function CameraScreen() {
     autoRecTimeoutRef.current = []
     setActiveTemplate(template)
     VoiceCoach.speakTemplateSelected(template.name)
-    VoiceCoach.speak(`跟着半透明剪影站位～`, true)
+    VoiceCoach.speakTemplateStandBy()
     if (template.voiceTip) {
       const t1 = setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 2800)
       autoRecTimeoutRef.current.push(t1)

@@ -477,8 +477,10 @@ export default function DiaryScreen() {
 }
 
 /** 数字递增动画组件 */
-function AnimatedCountUp({ value, style, color, suffix = '' }: {
-  value: number; style: import('react-native').StyleProp<import('react-native').TextStyle>; color?: string; suffix?: string
+function AnimatedCountUp({ value, style, suffix = '' }: {
+  value: number
+  style: import('react-native').StyleProp<import('react-native').TextStyle>
+  suffix?: string
 }) {
   const animValue = useRef(new Animated.Value(0)).current
   const [display, setDisplay] = React.useState(0)
@@ -496,7 +498,7 @@ function AnimatedCountUp({ value, style, color, suffix = '' }: {
   }, [safeValue])
 
   return (
-    <Animated.Text style={[style, color ? { color } : {}]}>
+    <Animated.Text style={style}>
       {display}{suffix}
     </Animated.Text>
   )
