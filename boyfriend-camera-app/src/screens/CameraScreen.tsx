@@ -429,6 +429,17 @@ export default function CameraScreen() {
     activeTemplateRef.current = activeTemplate
   }, [activeTemplate])
 
+  // 模板同步失败时 TTS 提醒（仅首次出错时播报，避免骚扰）
+  const lastTemplateErrorRef = useRef<string | null>(null)
+  useEffect(() => {
+    if (templatesError && templatesError !== lastTemplateErrorRef.current) {
+      lastTemplateErrorRef.current = templatesError
+      VoiceCoach.speakTemplateSyncFailed().catch(() => {})
+    } else if (!templatesError) {
+      lastTemplateErrorRef.current = null
+    }
+  }, [templatesError])
+
   // 实际执行拍照的内部函数（读取 ref 保证闭包新鲜）
   const doCapture = async () => {
     captureRetryRef.current = doCapture // 让 Alert 重试按钮能调用最新闭包的 doCapture
