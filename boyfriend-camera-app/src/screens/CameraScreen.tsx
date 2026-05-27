@@ -1055,12 +1055,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
   },
-  // 关闭/闪光灯按钮
+  // 简洁优雅：topBtn 移除半透明背景，仅靠文字传达功能，按压态足够
   topBtn: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: 'rgba(255,255,255,0.15)',
     alignItems: 'center',
     justifyContent: 'center',
   },

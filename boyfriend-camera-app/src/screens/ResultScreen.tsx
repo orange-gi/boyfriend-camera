@@ -1024,11 +1024,12 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontWeight: '500',
   },
+  // 去装饰化：errorContainer 移除 bgCard 背景，错误状态不需要额外视觉层级
   errorContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.bgCard,
+    backgroundColor: COLORS.bg,
   },
   errorText: {
     fontSize: 16,
@@ -1045,13 +1046,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
-  // 简洁优雅：去掉左竖线装饰，仅用文字和浅色背景传达信息层级
+  // 去装饰化：errorBanner 移除浅色背景，文字 + 边框足够传达错误层级
   errorBanner: {
     paddingHorizontal: 16,
     paddingVertical: 10,
     marginBottom: 12,
     alignItems: 'center',
-    backgroundColor: COLORS.dangerLight,
+    backgroundColor: COLORS.bgCard,
+    borderRadius: 10,
   },
   errorBannerBtns: {
     flexDirection: 'row',
