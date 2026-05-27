@@ -650,7 +650,9 @@ export default function CameraScreen() {
       {activeTemplate && (
         <View style={styles.poseTipCardFrosted}>
           {(isAutoRecommended && autoRecommended?.id === activeTemplate.id) && (
-            <Text style={styles.autoRecommendBadge}>智能推荐</Text>
+            <View style={styles.autoRecommendBadge}>
+              <Text style={styles.autoRecommendBadgeText}>智能推荐</Text>
+            </View>
           )}
           <Text style={styles.poseTipText} numberOfLines={1}>
             {activeTemplate.voiceTip || activeTemplate.name}
@@ -1103,15 +1105,16 @@ const styles = StyleSheet.create({
   // 顶部悬浮姿势引导卡
   autoRecommendBadge: {
     backgroundColor: COLORS.primary,
-    color: COLORS.textOnPrimary,
-    fontSize: 10,
-    fontWeight: '700',
+    borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 2,
-    borderRadius: 8,
-    overflow: 'hidden',
     marginRight: 6,
     flexShrink: 0,
+  },
+  autoRecommendBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: COLORS.textOnPrimary,
   },
   poseTipCardFrosted: {
     position: 'absolute',
