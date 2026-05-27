@@ -5,7 +5,7 @@
  * 核心流程：
  * 1. processPhoto - 图片元数据记录和裁剪参数计算
  * 2. saveToAlbum - 保存到系统相册
- * 3. getColorMatrix - 滤镜 ColorMatrix 参数计算（用于 Skia 实时滤镜渲染）
+ * 3. getColorMatrix - 滤镜 ColorMatrix 参数计算
  */
 import { Platform } from 'react-native'
 import RNFS from 'react-native-fs'
@@ -44,7 +44,7 @@ const FILTER_PARAMS: Record<FilterKey, { brightness: number; contrast: number; s
  * 核心流程：
  * 1. 读取图片并复制到缓存目录
  * 2. 记录处理元数据（裁剪参数、滤镜名称、人脸位置）
- * 3. 元数据写入缓存文件，ComparisonCard Skia 层读取渲染实时滤镜
+ * 3. 元数据写入缓存文件，供后续读取使用
  *
  * @param imagePath 图片路径（本地 file:// 或绝对路径）
  * @param options 处理选项
@@ -191,9 +191,9 @@ export async function saveToAlbum(imagePath: string): Promise<boolean> {
 }
 
 /**
- * 获取 Skia ColorMatrix 参数
- * 用于 Skia.ColorFilter.MakeMatrix() 实时滤镜渲染
- * 格式: [r, g, b, a, t] 每通道乘数 + 偏移
+ * 获取 ColorMatrix 参数
+ * 格式: [r, g, b, a, t] 每通道乘数 + 偏移（4×5 矩阵）
+ * 组合: 饱和度 → 对比度 → 亮度
  * 组合: 饱和度 → 对比度 → 亮度
  */
 export function getColorMatrix(filterName: FilterKey | null): number[] {

@@ -169,44 +169,48 @@ export default function ResultScreen() {
   const [error, setError] = useState<string | null>(null)
   // 滤镜滑动引导 TTS（分数动画完成后播报）
   // scoreAnimationDone 移至 useEffect 内部 ref 追踪，无需独立状态
-  // TTS 用 ref 追踪，避免 scoreAnimationDone 状态导致额外渲染
+  // TTS 评分播报：用 scoreResultRef 追踪当前已播报的分数，避免重复触发
+  const scoreResultRef = useRef<ScoreResult | null>(null)
+  // scoreAnimationRef: 动画完成后标记为 true，驱动 TTS 播报
   const scoreAnimationRef = useRef(false)
   useEffect(() => {
-    if (!scoreAnimationRef.current) return
+    // 仅在有分数且动画完成时触发 TTS
+    if (!scoreResult || !scoreAnimationRef.current) return
+    // 防止同一分数重复播报（ResultScreen 重渲染时）
+    if (scoreResultRef.current === scoreResult) return
+    scoreResultRef.current = scoreResult
     const tid = setTimeout(() => {
       try {
-        if (scoreResult) {
-          VoiceCoach.speakScoreReveal(scoreResult.totalScore)
-          // 满分时追加满分专属庆祝 TTS（接在分数播报之后）
-          if (scoreResult.totalScore === 100) {
-            track(() => { try { VoiceCoach.speakPerfectScore(scoreResult.totalScore) } catch {} }, 2500)
-          }
-          // 夜景场景（曝光分低+总分低）时追加夜景氛围提示
-          if (scoreResult.exposureScore < 20 && scoreResult.totalScore < 75) {
-            track(() => { try { VoiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
-          }
-          // 表情优秀夸奖（expressionScore >= 18 时触发）
-          if (scoreResult.expressionScore >= 18 && scoreResult.totalScore >= 75) {
-            track(() => { try { VoiceCoach.speakExpressionGreat() } catch {} }, 4000)
-          }
-          // 完美拍摄夸奖（总分 >= 90）
-          if (scoreResult.totalScore >= 90) {
-            track(() => { try { VoiceCoach.speakPerfectShotTip() } catch {} }, 3500)
-          }
-          // 接近满分夸奖（总分 80-89）
-          if (scoreResult.totalScore >= 80 && scoreResult.totalScore < 90) {
-            track(() => { try { VoiceCoach.speakAlmostGreat(scoreResult.totalScore) } catch {} }, 3500)
-          }
-          // 低分温柔鼓励（总分 < 50）
-          if (scoreResult.totalScore < 50) {
-            track(() => { try { VoiceCoach.speakLowScore(scoreResult.totalScore) } catch {} }, 4000)
-          }
+        VoiceCoach.speakScoreReveal(scoreResult.totalScore)
+        // 满分时追加满分专属庆祝 TTS（接在分数播报之后）
+        if (scoreResult.totalScore === 100) {
+          track(() => { try { VoiceCoach.speakPerfectScore(scoreResult.totalScore) } catch {} }, 2500)
+        }
+        // 夜景场景（曝光分低+总分低）时追加夜景氛围提示
+        if (scoreResult.exposureScore < 20 && scoreResult.totalScore < 75) {
+          track(() => { try { VoiceCoach.speakNightAmbianceTip() } catch {} }, 3500)
+        }
+        // 表情优秀夸奖（expressionScore >= 18 时触发）
+        if (scoreResult.expressionScore >= 18 && scoreResult.totalScore >= 75) {
+          track(() => { try { VoiceCoach.speakExpressionGreat() } catch {} }, 4000)
+        }
+        // 完美拍摄夸奖（总分 >= 90）
+        if (scoreResult.totalScore >= 90) {
+          track(() => { try { VoiceCoach.speakPerfectShotTip() } catch {} }, 3500)
+        }
+        // 接近满分夸奖（总分 80-89）
+        if (scoreResult.totalScore >= 80 && scoreResult.totalScore < 90) {
+          track(() => { try { VoiceCoach.speakAlmostGreat(scoreResult.totalScore) } catch {} }, 3500)
+        }
+        // 低分温柔鼓励（总分 < 50）
+        if (scoreResult.totalScore < 50) {
+          track(() => { try { VoiceCoach.speakLowScore(scoreResult.totalScore) } catch {} }, 4000)
         }
       } catch {}
       track(() => { try { VoiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
     }, 500)
     return () => clearTimeout(tid)
-  })
+  }, [scoreResult])
   const [newRecordBanner, setNewRecordBanner] = useState(false)
   const viewShotRef = useRef<ViewShotRef | null>(null)
   const { faces } = useFaceDetection()
