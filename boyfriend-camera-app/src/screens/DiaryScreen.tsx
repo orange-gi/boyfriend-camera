@@ -505,17 +505,17 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
   },
+  // 简洁优雅：去掉 statDivider，靠数字颜色/字重承载层级，视觉更通透
   statsRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     marginBottom: 16,
-    gap: 0,
+    paddingHorizontal: 16,
   },
   statItem: {
-    flex: 1,
     alignItems: 'center',
-    paddingVertical: 8,
+    flex: 1,
   },
   statNumRow: {
     flexDirection: 'row',
