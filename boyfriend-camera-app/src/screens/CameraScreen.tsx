@@ -1435,10 +1435,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   favoriteBtnActive: {
-    backgroundColor: COLORS.categoryCouple,
+    backgroundColor: COLORS.primary,
   },
   favoriteBtnText: {
-    color: COLORS.categoryCouple,
+    color: COLORS.primary,
     fontSize: 14,
     fontWeight: '600',
   },

@@ -74,11 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     minWidth: 200,
     maxWidth: 300,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 8,
+    // 简洁优雅：去阴影——loading 遮罩应轻盈不抢眼，半透明背景足够区分层次
   },
   icon: {
     fontSize: 32,
@@ -127,14 +123,11 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     marginTop: 16,
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: COLORS.textMuted,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
   },
   cancelBtnText: {
     fontSize: 13,
-    color: COLORS.textMuted,
+    color: COLORS.textSecondary,
   },
 })
