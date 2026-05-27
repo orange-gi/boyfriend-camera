@@ -547,7 +547,7 @@ const styles = StyleSheet.create({
   // 统一 borderRadius: 12 与 statsCard/recordCard 一致，去除过大的 20px 圆角
   cameraBtn: {
     backgroundColor: COLORS.primary,
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     paddingHorizontal: 18,
     paddingVertical: 10,
   },
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
   },
   statsCard: {
     backgroundColor: COLORS.bgCard,
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     padding: 20,
     marginBottom: 20,
   },
@@ -599,7 +599,7 @@ const styles = StyleSheet.create({
   recordCard: {
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     padding: 16,
     marginBottom: 10,
     gap: 14,
@@ -725,7 +725,7 @@ const styles = StyleSheet.create({
 
   emptyErrorCard: {
     backgroundColor: COLORS.bgCard,
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     padding: 32,
     marginBottom: 16,
     alignItems: 'center',
@@ -744,7 +744,7 @@ const styles = StyleSheet.create({
   // 统一 borderRadius: 12 与全局按钮圆角一致
   retryBtn: {
     backgroundColor: COLORS.primary,
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     paddingHorizontal: 32,
     paddingVertical: 12,
     marginBottom: 16,
@@ -762,8 +762,8 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     backgroundColor: COLORS.bgCard,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    borderTopLeftRadius: borderRadius['3xl'],
+    borderTopRightRadius: borderRadius['3xl'],
     paddingHorizontal: 24,
     paddingTop: 16,
     paddingBottom: 40,

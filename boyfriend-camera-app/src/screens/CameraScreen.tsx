@@ -34,6 +34,7 @@ import { useSceneRecommendation } from '../hooks/useSceneRecommendation'
 import { useBatteryMonitor } from '../hooks/useBatteryMonitor'
 import CameraView, { CameraViewRef } from '../components/camera/CameraView'
 import { COLORS, CATEGORY_COLORS } from '../theme/colors'
+import { borderRadius } from '../theme'
 
 type CompositionMode = 'grid' | 'golden' | 'triangle'
 
@@ -1014,7 +1015,7 @@ const styles = StyleSheet.create({
     left: 16,
     right: 16,
     backgroundColor: COLORS.blackAlpha40,
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
@@ -1051,7 +1052,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 4,
     backgroundColor: 'rgba(0,0,0,0.35)',
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     overflow: 'hidden',
   },
   // 简洁优雅：topBtn 移除半透明背景，仅靠文字传达功能，按压态足够
@@ -1077,7 +1078,7 @@ const styles = StyleSheet.create({
   modeBtn: {
     width: 38,
     height: 38,
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1280,7 +1281,7 @@ const styles = StyleSheet.create({
   templateCard: {
     flex: 1,
     backgroundColor: COLORS.bgCard,
-    borderRadius: 12,
+    borderRadius: borderRadius.xl,
     padding: 10,
     alignItems: 'center',
     overflow: 'hidden',
