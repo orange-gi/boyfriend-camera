@@ -37,6 +37,7 @@ export default function HomeScreen() {
   const [statsLoading, setStatsLoading] = useState(true)
   const [poseTipIndex, setPoseTipIndex] = useState(0)
   const [todayCount, setTodayCount] = useState(0)
+  const [totalProgress, setTotalProgress] = useState<number | null>(null)
   const { templates, loading: templatesLoading, error: templatesError, refresh } = useTemplates()
 
   const enterAnim = useSharedValue(0)
@@ -65,11 +66,19 @@ export default function HomeScreen() {
       const today = new Date().toDateString()
       setTodayCount(diary.filter(r => new Date(r.date).toDateString() === today).length)
       if (diary.length > 0) {
-        const lastEntry = [...diary].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
+        const sortedByDate = [...diary].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        const firstEntry = sortedByDate[0]
+        const lastEntry = sortedByDate[sortedByDate.length - 1]
         const daysSince = Math.floor((Date.now() - new Date(lastEntry.date).getTime()) / 86400000)
         if (daysSince >= 2) VoiceCoach.speakStreakBroken().catch(() => {})
         const avg = calcAvgScore(diary)
         setAvgScore(avg)
+        // 总进步 = 最新分 - 首张分（有正负值表示进步或退步）
+        if (diary.length >= 2) {
+          setTotalProgress(lastEntry.score - firstEntry.score)
+        } else {
+          setTotalProgress(null)
+        }
       }
       if (diary.length >= 4) {
         const sorted = [...diary]
@@ -186,6 +195,14 @@ export default function HomeScreen() {
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: avgScoreColor }]}>{avgScore}</Text>
               <Text style={styles.statLabel}>平均分</Text>
+              {totalProgress !== null && (
+                <Text style={[
+                  styles.progressTag,
+                  { color: totalProgress >= 0 ? COLORS.success : COLORS.primary },
+                ]}>
+                  {totalProgress >= 0 ? `+${totalProgress}` : totalProgress} vs首张
+                </Text>
+              )}
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
@@ -283,6 +300,8 @@ const styles = StyleSheet.create({
   skeletonNum: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48, color: COLORS.divider, marginBottom: 4, textAlign: 'center' },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
+  // 简洁优雅：进步标签，无背景色，仅靠文字颜色传达方向
+  progressTag: { fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, marginTop: 2 },
   statDivider: { width: 0.5, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
   trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[5], paddingTop: spacing[4], gap: spacing[2] },
   trendDot: { width: 8, height: 8, borderRadius: 4, flexShrink: 0 },
