@@ -42,16 +42,22 @@ export default function StabilityIndicator({
     const targetX = Math.max(-MAX_OFFSET, Math.min(MAX_OFFSET, (tiltX / 45) * MAX_OFFSET))
     const targetY = Math.max(-MAX_OFFSET, Math.min(MAX_OFFSET, (tiltY / 45) * MAX_OFFSET))
 
-    Animated.spring(bubbleX, {
+    const animX = Animated.spring(bubbleX, {
       toValue: targetX,
       useNativeDriver: true,
       friction: 8,
-    }).start()
-    Animated.spring(bubbleY, {
+    })
+    const animY = Animated.spring(bubbleY, {
       toValue: targetY,
       useNativeDriver: true,
       friction: 8,
-    }).start()
+    })
+    animX.start()
+    animY.start()
+    return () => {
+      animX.stop()
+      animY.stop()
+    }
   }, [tiltX, tiltY])
 
   // 晃动警告动画
