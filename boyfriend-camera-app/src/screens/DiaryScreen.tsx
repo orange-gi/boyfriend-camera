@@ -64,6 +64,13 @@ export default function DiaryScreen() {
     }
   }, [])
 
+  // 日记为空时 TTS 引导（fire-and-forget）
+  useEffect(() => {
+    if (!loading && !loadError && records.length === 0) {
+      VoiceCoach.speakDiaryEmpty().catch(() => {})
+    }
+  }, [loading, loadError, records.length])
+
   useFocusEffect(useCallback(() => {
     loadDiaryData()
   }, []))
@@ -260,12 +267,10 @@ export default function DiaryScreen() {
     return (
       <View style={styles.emptyContainer}>
         {loading ? (
-          // 骨架屏左对齐，模拟真实内容布局；shimmer 动画让加载状态更自然
-          <Animated.View style={styles.skeletonContent}>
-            <View style={[styles.skeletonAvatar, { backgroundColor: COLORS.skeletonBase }]} />
-            <View style={[styles.skeletonTitle, { backgroundColor: COLORS.skeletonBase }]} />
-            <View style={[styles.skeletonBtn, { backgroundColor: COLORS.skeletonBase }]} />
-          </Animated.View>
+          // 加载中：居中 ActivityIndicator，符合简洁优雅极致原则
+          <View style={styles.loadingCenter}>
+            <ActivityIndicator size="large" color={COLORS.primary} />
+          </View>
         ) : loadError ? (
           <>
             <View style={styles.emptyErrorCard}>
@@ -688,29 +693,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
     padding: 40,
   },
-  skeletonContent: {
-    alignSelf: 'stretch',
-  },
-  skeletonAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: COLORS.skeletonBase,
-    marginBottom: 12,
-  },
-  skeletonTitle: {
-    width: 160,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: COLORS.skeletonBase,
-    marginBottom: 8,
-  },
-
-  skeletonBtn: {
-    width: 140,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: COLORS.skeletonBase,
+  loadingCenter: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 60,
   },
   emptyErrorCard: {
     backgroundColor: COLORS.bgCard,

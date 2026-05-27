@@ -137,6 +137,8 @@ export default function CameraScreen() {
   const prevFaceCountRef = useRef<number>(0)
   const lastFaceLostRef = useRef<number>(0)
   const lastFaceRegainedRef = useRef<number>(0)
+  // 无人脸长期警告（30s 一次，避免骚扰）
+  const lastNoFaceLongTipRef = useRef<number>(0)
   const lastSmileDetectedRef = useRef<number>(0)
   const lastSelfiePoseTipRef = useRef<number>(0)
   const lastBacklightRef = useRef<number>(0)
@@ -287,6 +289,11 @@ export default function CameraScreen() {
         lastFaceRegainedRef.current = now
         VoiceCoach.speakFaceRegained().catch(() => {})
       }
+    }
+    // 无人脸长期警告（30s 一次，避免频繁打扰）
+    if (faces.length === 0 && now - lastNoFaceLongTipRef.current >= 30000) {
+      lastNoFaceLongTipRef.current = now
+      VoiceCoach.speakNoFaceLongTip().catch(() => {})
     }
     prevFaceCountRef.current = faces.length
   }, [faces])
