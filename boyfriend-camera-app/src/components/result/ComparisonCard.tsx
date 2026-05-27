@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     // borderRadius 由父容器 card 的 overflow:hidden 处理，无需重复设置
   },
   placeholderText: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   cardLabelText: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 11,
     fontWeight: '600',
   },
