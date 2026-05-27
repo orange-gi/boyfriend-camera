@@ -3691,6 +3691,26 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '人脸正好在视觉焦点上，这构图太讲究了！',
     '背景留白刚刚好，呼吸感十足，这张绝了！',
   ],
+  // 雨天窗户摄影（超热门的氛围感场景）
+  window_rain_tip: [
+    '雨天玻璃写个字超有氛围感！水珠在玻璃上做装饰～',
+    '窗外朦胧的雨景超有感觉！对焦在玻璃上的水珠纹理～',
+    '雨天拍摄等公交车，玻璃上的雨滴超有电影感～',
+    '玻璃上有雾气时写字超浪漫！用手指在玻璃上写个字～',
+  ],
+  // 霓虹灯/夜景都市场景建议
+  neon_light_specific: [
+    '霓虹灯光斑斓！侧脸让灯光打在脸上会超有质感～',
+    '城市夜景光线复杂！找一块干净的背景避开杂光～',
+    '霓虹灯偏色严重！稍微降低饱和度让肤色更自然～',
+    '夜景拍摄人脸容易偏色，开屏幕补光校正白平衡～',
+  ],
+  // 雨雪天气路面反光建议
+  wet_ground_reflection: [
+    '积水倒影超美！找个小水洼，低角度拍出倒影效果～',
+    '雨后地面反光超有层次！俯拍积水中的倒影绝了～',
+    '湿漉漉的地面反光会让照片更有氛围感！',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3935,6 +3955,23 @@ export async function analyzePhoto(
     }
   }
 
+  // 雨天窗户拍摄提示（室内 + 低亮度 + 无强光直射）
+  if (sceneType === 'indoor' && brightness < 100 && faceCount > 0 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.window_rain_tip))
+  }
+
+  // 霓虹夜景提示（夜间城市户外 + 中低亮度）
+  const localNight = brightness < 90 || (sceneType !== undefined &&
+    ['rooftop_night', 'night_market', 'starry_night', 'carnival'].includes(sceneType))
+  if (localNight && sceneType === 'outdoor' && brightness >= 30 && brightness <= 120 && faceCount > 0 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.neon_light_specific))
+  }
+
+  // 雨后地面反光提示（户外 + 低亮度，可能是雨后场景）
+  const isWetGroundScene = (sceneType === 'outdoor' && brightness >= 60 && brightness <= 140) || sceneType === 'rainy_street'
+  if (isWetGroundScene && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.wet_ground_reflection))
+  }
   // 稳定分 0-20
   let stabilityScore = 20
   if (safeSharpness < 50) {
