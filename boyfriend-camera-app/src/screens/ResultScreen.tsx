@@ -152,6 +152,10 @@ export default function ResultScreen() {
           if (scoreResult.totalScore >= 80 && scoreResult.totalScore < 90) {
             track(() => { try { VoiceCoach.speakAlmostGreat(scoreResult.totalScore) } catch {} }, 3500)
           }
+          // 低分温柔鼓励（总分 < 50）
+          if (scoreResult.totalScore < 50) {
+            track(() => { try { VoiceCoach.speakLowScore(scoreResult.totalScore) } catch {} }, 4000)
+          }
         }
       } catch {}
       track(() => { try { VoiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
@@ -590,7 +594,7 @@ export default function ResultScreen() {
   }
 
   function handleGoCamera() {
-    VoiceCoach.speakRetryTip(scoreResult?.totalScore ?? 0)
+    VoiceCoach.speakNextTip(scoreResult?.totalScore ?? 0)
     navigation.navigate({ name: 'Camera' as const, params: { templateId: undefined } })
   }
 
