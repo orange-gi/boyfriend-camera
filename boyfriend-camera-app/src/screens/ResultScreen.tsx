@@ -121,11 +121,12 @@ export default function ResultScreen() {
 
   const [comparisonUri, setComparisonUri] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
-  const [scoreAnimationDone, setScoreAnimationDone] = useState(false)
   // 滤镜滑动引导 TTS（分数动画完成后播报）
-  // 修复：scoreResult 作为依赖，同时在 setTimeout 内用 captured 变量捕获最新值避免闭包过期
+  // scoreAnimationDone 移至 useEffect 内部 ref 追踪，无需独立状态
+  // TTS 用 ref 追踪，避免 scoreAnimationDone 状态导致额外渲染
+  const scoreAnimationRef = useRef(false)
   useEffect(() => {
-    if (!scoreAnimationDone) return
+    if (!scoreAnimationRef.current) return
     const tid = setTimeout(() => {
       try {
         if (scoreResult) {
@@ -159,7 +160,7 @@ export default function ResultScreen() {
       track(() => { try { VoiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
     }, 500)
     return () => clearTimeout(tid)
-  }, [scoreAnimationDone, scoreResult])
+  })
   const [newRecordBanner, setNewRecordBanner] = useState(false)
   const viewShotRef = useRef<ViewShotRef | null>(null)
   const { faces } = useFaceDetection()
@@ -388,8 +389,9 @@ export default function ResultScreen() {
         track(() => { try { VoiceCoach.speakStreak(streakCount) } catch {} }, 1200)
       }
 
-      // 启动入场动画
+      // 启动入场动画 + 标记动画完成（TTS 播报触发）
       cardSlide.value = withTiming(0, { duration: 400 })
+      scoreAnimationRef.current = true
 
       // 稳定分低时的 TTS 提示（照片歪斜或手抖）
       if (analysis.stabilityScore < 16) {
@@ -449,7 +451,6 @@ export default function ResultScreen() {
       if (screenshotTimerRef.current) clearTimeout(screenshotTimerRef.current)
       screenshotTimerRef.current = setTimeout(async () => {
         if (!mountedRef.current) return
-        setScoreAnimationDone(true)
         if (viewShotRef.current) {
           try {
             const uri = await viewShotRef.current.capture()
