@@ -907,19 +907,19 @@ class VoiceCoach {
       await this.speak(FACE_TIPS.OVERCAST_PERFECT_TIME, true)
       return
     }
-    // 健身房场景
+    // 健身房场景 → 委托给专用方法，避免文案重复
     if (sceneType === 'gym') {
-      await this.speak('健身房灯光均匀，开闪光灯或找窗边，活力满满拍起来～', true)
+      await this.speakGymTip()
       return
     }
-    // 海边/沙滩场景
+    // 海边/沙滩场景 → 委托给专用方法
     if (sceneType === 'beach') {
-      await this.speak('海边阳光强烈，找阴凉处或用闪光灯补光～', true)
+      await this.speakBeachTip()
       return
     }
-    // 雨天街头场景
+    // 雨天街头场景 → 委托给专用方法
     if (sceneType === 'rainy_street') {
-      await this.speak('雨天光线柔和，靠窗户边拍超有氛围感～', true)
+      await this.speakRainyTip()
       return
     }
     // 默认推荐人像模式
