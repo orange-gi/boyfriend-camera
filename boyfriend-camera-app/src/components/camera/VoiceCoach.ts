@@ -3375,6 +3375,30 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** 夕阳剪影场景提示 */
+  async speakSilhouetteTip(): Promise<void> {
+    const tips = [
+      '逆光剪影超有氛围！让轮廓发光，人物暗一些也很有感觉～',
+      '剪影拍摄时让女朋友站在光源正对面，轮廓会更清晰～',
+      '夕阳逆光剪影绝了！转过来让光打在侧脸上又是另一种感觉～',
+      '剪影背景要干净！找地平线或纯色背景会更突出主体～',
+      '逆光发丝光超美！让光从身后打过来，发丝会发光～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 商场/步行街场景提示 */
+  async speakShoppingStreetTip(): Promise<void> {
+    const tips = [
+      '商场橱窗灯光超有都市感！侧身让橱窗光勾勒轮廓～',
+      '步行街人多背景杂，等人少的时候抓紧拍～',
+      '商场光线偏白偏蓝，打开屏幕补光让肤色更自然～',
+      '步行街找面干净橱窗玻璃，当镜子自拍也很有质感～',
+      '商场找光斑！找阳光直射和有阴影交替的地方拍～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 反光面拍摄提示（镜子/玻璃/水面） */
   async speakReflectionShotTip(): Promise<void> {
     const tips = [
