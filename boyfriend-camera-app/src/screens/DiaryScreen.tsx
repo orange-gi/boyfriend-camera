@@ -139,14 +139,30 @@ export default function DiaryScreen() {
 
   // 总进步 = 最新得分 - 初始得分（正数代表进步，负数代表退步）
   // records 按日期降序排列：records[0] = 最新，records[last] = 最旧
-  // 用 oldest - newest = improvement，正数代表进步
-  // records 降序（最新在前），进步 = 最新分 - 初始分（正数代表提升）
   const totalProgress = totalCount >= 2
     ? records[0].score - records[records.length - 1].score
     : 0
 
   // 最高分：优先使用存储的巅峰分，兼顾日记内最高
   const maxScore = peakScore > 0 ? peakScore : (totalCount > 0 ? records.reduce((max, r) => (r.score > max ? r.score : max), 0) : 0)
+  // recentScore available as records[0]?.score when needed
+
+  // 成就徽章文案（提取为 useMemo 消除 IIFE 反模式）
+  const achievementBadge = useMemo(() => {
+    const label =
+      maxScore === 100 ? '满分达成' :
+      avgScore >= 90 ? '大师级' :
+      avgScore >= 80 ? '专业级' :
+      avgScore >= 70 ? '进阶中' :
+      avgScore >= 60 ? '成长中' :
+      '新手期'
+    const color =
+      maxScore === 100 ? COLORS.warning :
+      avgScore >= 80 ? COLORS.success :
+      avgScore >= 60 ? COLORS.info :
+      COLORS.textMuted
+    return { label, color }
+  }, [maxScore, avgScore])
   // recentScore available as records[0]?.score when needed
 
   // 周统计数据
@@ -374,28 +390,12 @@ export default function DiaryScreen() {
               </View>
             </View>
 
-            {totalCount > 0 && (() => {
-              const badgeLabel =
-                maxScore === 100 ? '满分达成' :
-                avgScore >= 90 ? '大师级' :
-                avgScore >= 80 ? '专业级' :
-                avgScore >= 70 ? '进阶中' :
-                avgScore >= 60 ? '成长中' :
-                '新手期'
-              const badgeColor =
-                maxScore === 100 ? COLORS.warning :
-                avgScore >= 80 ? COLORS.success :
-                avgScore >= 60 ? COLORS.info :
-                COLORS.textMuted
-              return (
-                <View style={styles.achievementBadge}>
-                  <Text style={[styles.achievementBadgeText, { color: badgeColor }]}>{badgeLabel}</Text>
-                  {totalCount > 0 && (
-                    <Text style={styles.achievementCount}> · {totalCount}张照片 · 最高{peakScore}分</Text>
-                  )}
-                </View>
-              )
-            })()}
+            {totalCount > 0 && (
+              <View style={styles.achievementBadge}>
+                <Text style={[styles.achievementBadgeText, { color: achievementBadge.color }]}>{achievementBadge.label}</Text>
+                <Text style={styles.achievementCount}> · {totalCount}张照片 · 最高{peakScore}分</Text>
+              </View>
+            )}
 
             <ProgressChart entries={entries} height={200} />
           </>
