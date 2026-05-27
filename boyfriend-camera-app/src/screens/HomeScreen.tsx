@@ -1,7 +1,7 @@
 /**
  * HomeScreen - 首页
  */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -130,7 +130,7 @@ export default function HomeScreen() {
   const totalTemplates = templates.length
   const avgScoreColor = scoreColor(avgScore)
 
-  // 每日提示卡（IIFE → 声明式，避免 JSX 中混入逻辑）
+  // 每日提示卡
   const dailyTipCard = !tipDismissed ? (
     <Animated.View style={[styles.dailyTipCard, heroStyle]}>
       <TouchableOpacity onPress={dismissTip} activeOpacity={0.85} style={{ flex: 1 }}>
@@ -139,8 +139,9 @@ export default function HomeScreen() {
     </Animated.View>
   ) : null
 
-  // 趋势进度条（IIFE → 声明式，颜色计算提前）
-  const trendRowEl = (diaryCount >= 2 && avgScore > 0) ? (() => {
+  // 趋势进度条（useMemo 缓存，避免每次渲染重新计算）
+  const trendRowEl = useMemo(() => {
+    if (diaryCount < 2 || avgScore <= 0) return null
     const tc = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
     const tl = trend === 'up' ? '↑ 进步中' : trend === 'down' ? '↓ 下滑' : '→ 稳定'
     const lc = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
@@ -154,7 +155,7 @@ export default function HomeScreen() {
         <Text style={[styles.trendScore, { color: lc }]}>{avgScore}</Text>
       </View>
     )
-  })() : null
+  }, [diaryCount, avgScore, trend])
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>

@@ -10,6 +10,7 @@ import {
   Alert,
   Animated,
   Modal,
+  ActivityIndicator,
 } from 'react-native'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -33,21 +34,9 @@ export default function DiaryScreen() {
   const [clearAllVisible, setClearAllVisible] = useState(false)
   const [loadError, setLoadError] = useState(false)
   const deleteSheetY = useRef(new Animated.Value(300)).current
-  // 骨架屏 shimmer 动画
-  const skeletonOpacity = useRef(new Animated.Value(0.3)).current
   useEffect(() => {
     VoiceCoach.initialize().catch(() => {}) // TTS 引擎初始化，失败静默降级
-    const anim = Animated.loop(
-      Animated.sequence([
-        Animated.timing(skeletonOpacity, { toValue: 1, duration: 800, useNativeDriver: true }),
-        Animated.timing(skeletonOpacity, { toValue: 0.3, duration: 800, useNativeDriver: true }),
-      ])
-    )
-    anim.start()
-    return () => anim.stop()
   }, [])
-
-  const skeletonOpacityStyle = { opacity: skeletonOpacity }
 
   const loadDiaryData = useCallback(async () => {
     setLoading(true)
@@ -272,7 +261,7 @@ export default function DiaryScreen() {
       <View style={styles.emptyContainer}>
         {loading ? (
           // 骨架屏左对齐，模拟真实内容布局；shimmer 动画让加载状态更自然
-          <Animated.View style={[styles.skeletonContent, skeletonOpacityStyle]}>
+          <Animated.View style={styles.skeletonContent}>
             <View style={[styles.skeletonAvatar, { backgroundColor: COLORS.skeletonBase }]} />
             <View style={[styles.skeletonTitle, { backgroundColor: COLORS.skeletonBase }]} />
             <View style={[styles.skeletonBtn, { backgroundColor: COLORS.skeletonBase }]} />
