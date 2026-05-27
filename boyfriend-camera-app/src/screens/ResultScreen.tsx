@@ -936,26 +936,27 @@ const styles = StyleSheet.create({
   processingSpinner: {
     marginBottom: 12,
   },
+  // 简洁优雅：praiseBanner 与 ScoreBoard 之间留 12px 呼吸空间，避免 suggestCard 下沿贴文字
   praiseBanner: {
     marginHorizontal: 20,
-    marginBottom: 8,
-    paddingVertical: 4,
-    // 简洁优雅：无背景色——文字直接承载信息，极简留白
+    marginTop: 12,
+    marginBottom: 6,
   },
   praiseBannerScore: {
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: -0.1,
-    lineHeight: 24,
+    lineHeight: 20,
   },
   viewShot: {
     alignItems: 'center',
   },
+  // 简洁优雅：actions marginTop 收紧（16 > 20），与 filterPicker 的视觉距离更紧凑
   actions: {
     flexDirection: 'row',
     gap: 10,
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginTop: 16,
     marginBottom: 8,
   },
   actionBtnSecondary: {
@@ -1010,8 +1011,8 @@ const styles = StyleSheet.create({
     color: COLORS.textOnPrimary,
     fontWeight: 'bold',
   },
+  // 简洁优雅：diaryEntryBtn 与 actions 左对齐（marginHorizontal: 20），视觉更整齐
   diaryEntryBtn: {
-    alignItems: 'center',
     marginHorizontal: 20,
   },
   diaryEntryBtnText: {
