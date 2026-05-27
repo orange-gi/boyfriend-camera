@@ -1,7 +1,7 @@
 /**
  * analyzer.ts - 规则引擎评分与分析 v5
  * 纯本地分析，无需 AI
- * v5: 新增 10 个场景专属 SUGGESTION_POOL（地铁夜间/春日花园/冬季室内/镜面自拍/健身房镜子/泳池水边/雨天窗户/游乐场/节日灯展/动态摄影）
+ * v6: 补全 SceneType（neon_light/airport），扩展 ResultScreen 场景映射 40+ 分类
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { logger } from '../utils/logger'
@@ -3898,7 +3898,7 @@ export type SceneType =
   | 'beach_sunset' | 'rainy_street' | 'morning_run' | 'bookstore' | 'mirror' | 'carnival' | 'beach' | 'swimming_pool'
   | 'dance_performance' | 'red_autumn_detail' | 'rooftop_daytime' | 'amusement_carnival'
   | 'airport_station' | 'meadow_ranch' | 'subway_escalator'
-  | 'sunset' | 'overcast' | 'hotspring' | 'vintage_film'
+  | 'sunset' | 'overcast' | 'hotspring' | 'vintage_film' | 'neon_light' | 'airport'
 
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */
