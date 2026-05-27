@@ -1124,7 +1124,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     zIndex: 20,
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: 'rgba(0,0,0,0.15)',
     borderRadius: 10,
     overflow: 'hidden',
   },
