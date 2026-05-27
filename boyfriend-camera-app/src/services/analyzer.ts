@@ -3839,6 +3839,15 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '除了脸之外什么都看不见，背景有点太暗了，补点光会更好～',
     '夜景人像需要环境光，打开闪光灯或让人靠近光源～',
   ],
+  // Round 2 新增：机场/车站出行场景专项建议
+  airport_station_specific: [
+    '机场车站光线复杂，找落地窗边站，自然光最柔和～',
+    '车站里人来人往背景乱，蹲低仰拍让天花板成背景更干净～',
+    '机场候机厅光线均匀，适合拍人像！找座位旁边的区域站好～',
+    '出行场景行李箱也是道具！推着走或靠在旁边都很自然～',
+    '高铁站站台光线偏暗，打开手机闪光灯补光，别让脸太暗～',
+    '候机厅落地窗前光线超美，正侧光让五官轮廓更立体～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -5350,6 +5359,10 @@ export async function analyzePhoto(
   // 机场/火车站场景
   if (sceneType === 'airport_station') {
     suggestions.push(pickRandom(SUGGESTION_POOL.airport_station_tips))
+    // Round 2 新增：机场场景专属构图/光线建议
+    if (suggestions.length < 4) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.airport_station_specific))
+    }
   }
   // 草原/牧场场景
   if (sceneType === 'meadow_ranch') {
