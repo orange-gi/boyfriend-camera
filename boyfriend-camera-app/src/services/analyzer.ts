@@ -1,7 +1,6 @@
 /**
- * analyzer.ts - 规则引擎评分与分析 v5
+ * analyzer.ts - 规则引擎评分与分析 v7
  * 纯本地分析，无需 AI
- * v6: 补全 SceneType（neon_light/airport），扩展 ResultScreen 场景映射 40+ 分类
  */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { logger } from '../utils/logger'
@@ -1137,6 +1136,18 @@ const PRAISE_POOL: Record<string, string[]> = {
     '复古胶片感绝了！这色调好有故事感～',
     '胶片质感超有年代感，男朋友你懂复古美学！',
     '这种色调好有文艺气质，构图也很有味道～',
+  ],
+  // 霓虹灯夜景专属夸奖
+  neon_light_good: [
+    '霓虹灯光打在脸上好美！这种赛博氛围感绝了～',
+    '霓虹夜色超有氛围，你男朋友把城市的繁华都拍进去了！',
+    '彩色灯光让这张照片好有故事感，男朋友你太会了！',
+  ],
+  // 机场车站专属夸奖
+  airport_good: [
+    '机场/车站拍出了旅行的感觉，这张照片好有故事感～',
+    '行走的画面超有动感，男朋友抓拍的时机刚刚好！',
+    '旅途中的照片最有回忆感，这张好珍贵～',
   ],
   // 剪影专属夸奖（逆光剪影）
   silhouette_praise: [
@@ -4810,6 +4821,10 @@ export async function analyzePhoto(
   if (sceneType === 'christmas' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.christmas_good))
   // 复古胶片专属夸奖
   if (sceneType === 'vintage_film' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.vintage_film_good))
+  // 霓虹灯夜景专属夸奖
+  if (sceneType === 'neon_light' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.neon_light_good))
+  // 机场车站专属夸奖
+  if (sceneType === 'airport' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.airport_good))
   // 咖啡馆场景专属夸奖
   if (sceneType === 'cafe' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.cafe_scene_good))
   // 温泉泡汤专属夸奖
