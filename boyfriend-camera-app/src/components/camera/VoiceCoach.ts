@@ -4615,6 +4615,45 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 夜市美食场景 TTS */
+  async speakNightMarketFoodTip(): Promise<void> {
+    const tips = [
+      '夜市灯光超有烟火气！让美食和灯光一起入镜，氛围感绝了～',
+      '夜市拍美食，打开手机手电筒补补光，食物颜色会更鲜艳～',
+      '夜市背景霓虹灯好热闹！侧身站让灯光打在脸上，超有感觉～',
+      '夜市人多找干净的角落，让美食做主体，灯光做背景～',
+      '夜市灯光偏暖，食物用暖色调滤镜更诱人，食欲感拉满！',
+      '夜市拍人和美食，让女朋友捧着食物笑一个，画面超生动～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 星空夜景场景 TTS */
+  async speakStarryNightTip(): Promise<void> {
+    const tips = [
+      '星空夜景要长曝光，手机拿稳了不要动，憋住气按快门～',
+      '星空背景很暗，男朋友要站在灯光下或打开闪光灯补光，人脸才清晰～',
+      '星空夜景后期可以稍微提亮人脸，让主体更突出～',
+      '拍星空时背景全黑也没关系，打开闪光灯让人亮起来，星星依然在～',
+      '星空夜景三脚架最好，没有的话找平台放稳手机再拍～',
+      '星空人像让女朋友仰望星空，表情自然又浪漫，按下去就是大片！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 新年/跨年庆典场景 TTS */
+  async speakNewYearTip(): Promise<void> {
+    const tips = [
+      '新年庆典灯光超有氛围感！表情开心一点，和灯光一起入镜～',
+      '节日烟花和灯光做背景，让女朋友在前面笑一个，画面超有纪念意义！',
+      '跨年夜人多背景乱，蹲低一点让天空和灯光成背景，人物更突出～',
+      '节日灯光打在脸上好温柔！侧身让光勾勒轮廓，超有氛围感～',
+      '新年庆典用「暖阳」滤镜最合适，节日氛围感拉满！',
+      '节日人多注意安全，拍照时看好手机别被人挤掉～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
