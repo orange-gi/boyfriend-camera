@@ -1,21 +1,11 @@
 /**
  * ProgressChart - 进步日记曲线
- * 使用 @shopify/react-native-skia 绘制折线图
+ * 使用纯 React Native Animated API 绘制（兼容 React 19）
+ * Skia 与 React 19 不兼容，已移除
  */
-import React, { useMemo } from 'react'
-import { View, Text, StyleSheet, useWindowDimensions } from 'react-native'
-import {
-  Canvas,
-  Path,
-  Skia,
-  Line,
-  Text as SkiaText,
-  vec,
-  Circle,
-  matchFont,
-} from '@shopify/react-native-skia'
+import React, { useMemo, useEffect, useRef } from 'react'
+import { View, Text, StyleSheet, useWindowDimensions, Animated } from 'react-native'
 import { COLORS } from '../../theme/colors'
-import { colors } from '../../theme/index'
 import type { DiaryRecord } from '../../services/diaryTypes'
 
 interface Props {
@@ -23,28 +13,25 @@ interface Props {
   height?: number
 }
 
-const PADDING = { L: 44, R: 12, T: 20, B: 36 }
+const PAD = { L: 44, R: 12, T: 20, B: 36 }
 
 export default function ProgressChart({ entries, height = 200 }: Props) {
   const { width: screenWidth } = useWindowDimensions()
   const width = screenWidth - 32
+  const chartW = width - PAD.L - PAD.R
+  const chartH = height - PAD.T - PAD.B
 
-  // 排序：按时间升序
-  const sorted = useMemo((): DiaryRecord[] =>
-    [...entries]
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .slice(-10),
-    [entries]
+  const sorted = useMemo(
+    (): DiaryRecord[] =>
+      [...entries]
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        .slice(-10),
+    [entries],
   )
 
-  const chartW = width - PADDING.L - PADDING.R
-  const chartH = height - PADDING.T - PADDING.B
-
-  // 空状态 — 去 emoji：纯几何线条，克制不抢镜
   if (sorted.length === 0) {
     return (
       <View style={[styles.empty, { height }]}>
-        {/* 简约趋势线图标：一条水平虚线+右侧小圆点，传达「待续」含义 */}
         <View style={styles.emptyIconWrap}>
           <View style={styles.emptyLine} />
           <View style={styles.emptyDot} />
@@ -55,14 +42,23 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
     )
   }
 
-  // 单点：展示分数圆环
   if (sorted.length === 1) {
     const score = sorted[0].score
-
     return (
       <View style={[styles.container, { height }]}>
         <View style={styles.singlePoint}>
-          <Text style={[styles.singleScore, { color: score >= 80 ? COLORS.scoreGreat : score >= 60 ? COLORS.scoreOk : COLORS.scoreBad }]}>
+          <Text
+            style={[
+              styles.singleScore,
+              {
+                color:
+                  score >= 80
+                    ? COLORS.scoreGreat
+                    : score >= 60
+                    ? COLORS.scoreOk
+                    : COLORS.scoreBad,
+              },
+            ]}>
             {score}
           </Text>
           <Text style={styles.singleLabel}>首次得分</Text>
@@ -74,49 +70,31 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
     )
   }
 
-  // 坐标转换
-  const toX = (i: number) => PADDING.L + (i / (sorted.length - 1)) * chartW
-  const toY = (score: number) => PADDING.T + (1 - score / 100) * chartH
+  const maxScore = useMemo(
+    () => (sorted.length > 0 ? sorted.reduce((m, e) => (e.score > m ? e.score : m), 0) : 0),
+    [sorted],
+  )
+  const toX = (i: number) => PAD.L + (i / (sorted.length - 1)) * chartW
+  const toY = (score: number) => PAD.T + (1 - score / 100) * chartH
+
+  // 动画进度（0→1，触发入场动画）
+  const animProgress = useRef(new Animated.Value(0)).current
+  useEffect(() => {
+    animProgress.setValue(0)
+    Animated.timing(animProgress, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: false,
+    }).start()
+  }, [entries.length])
 
   // Y 轴刻度
   const yTicks = [0, 25, 50, 75, 100]
 
-  // 折线 path
-  const linePath = useMemo(() => {
-    const path = Skia.Path.Make()
-    sorted.forEach((e, i) => {
-      const x = toX(i)
-      const y = toY(e.score)
-      i === 0 ? path.moveTo(x, y) : path.lineTo(x, y)
-    })
-    return path
-  }, [sorted])
-
-  // 数据点（提取为 useMemo 避免 Canvas 内 IIFE 每次 render 重算）
-  const maxScore = useMemo(() =>
-    sorted.length > 0 ? sorted.reduce((m, e) => (e.score > m ? e.score : m), 0) : 0,
-    [sorted]
-  )
-  const dataPoints = useMemo(() =>
-    sorted.map((e, i) => {
-      const x = toX(i)
-      const y = toY(e.score)
-      const dotColor = e.score >= 80 ? COLORS.scoreGreat : e.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
-      const isMax = e.score === maxScore
-      return (
-        <React.Fragment key={i}>
-          <Circle cx={x} cy={y} r={isMax ? 6 : 4} color={isMax ? colors.warning : dotColor} />
-          <Circle cx={x} cy={y} r={isMax ? 3 : 2} color="#fff" />
-        </React.Fragment>
-      )
-    }),
-    [sorted, maxScore]
-  )
-
   return (
     <View style={[styles.container, { height }]}>
       {/* Y 轴刻度标签 */}
-      <View style={[styles.yAxis, { left: 0, top: 0, bottom: 0, width: PADDING.L }]}>
+      <View style={[styles.yAxis, { left: 0, top: 0, bottom: 0, width: PAD.L }]}>
         {yTicks.map((t) => (
           <Text key={t} style={[styles.yLabel, { top: toY(t) - 6 }]}>
             {t}
@@ -124,54 +102,101 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
         ))}
       </View>
 
-      <Canvas style={{ width, height }}>
-        {/* 水平参考线 */}
-        {yTicks.map((t) => (
-          <Line
-            key={t}
-            p1={vec(PADDING.L, toY(t))}
-            p2={vec(width - PADDING.R, toY(t))}
-            color={COLORS.divider}
-            strokeWidth={1}
-          />
-        ))}
-
-
-
-        {/* 折线 */}
-        <Path
-          path={linePath}
-          color={COLORS.primary}
-          strokeWidth={2.5}
-          style="stroke"
-          strokeCap="round"
-          strokeJoin="round"
+      {/* 水平参考线 */}
+      {yTicks.map((t) => (
+        <View
+          key={t}
+          style={[
+            styles.gridLine,
+            {
+              left: PAD.L,
+              right: PAD.R,
+              top: toY(t),
+            },
+          ]}
         />
+      ))}
 
-        {/* 数据点 */}
-        {dataPoints}
+      {/* 折线（用 View 段模拟，动画驱动 opacity） */}
+      {sorted.map((entry, i) => {
+        if (i === 0) return null
+        const x1 = toX(i - 1)
+        const y1 = toY(sorted[i - 1].score)
+        const x2 = toX(i)
+        const y2 = toY(entry.score)
+        const dx = x2 - x1
+        const dy = y2 - y1
+        const len = Math.sqrt(dx * dx + dy * dy)
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI)
+        const isHigh = entry.score >= 80
+        const color = isHigh ? COLORS.scoreGreat : entry.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
 
-        {/* X 轴日期标签（稀疏显示） */}
-        {sorted.map((e, i) => {
-          const show = sorted.length <= 5 || i === 0 || i === sorted.length - 1 || i % Math.ceil(sorted.length / 4) === 0
-          if (!show) return null
-          return (
-            <SkiaText
-              key={i}
-              text={new Date(e.date).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' })}
-              x={toX(i) - 20}
-              y={height - 8}
-              font={matchFont({ fontSize: 10, fontFamily: 'System' })}
-              color={COLORS.textMuted}
-            />
-          )
-        })}
-      </Canvas>
+        return (
+          <AnimatedLine
+            key={i}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            color={color}
+            animProgress={animProgress}
+            index={i}
+          />
+        )
+      })}
 
-      {/* 最高/最低分标签 */}
-      {sorted.length > 0 && (() => {
-        const maxEntry = sorted.reduce((a, b) => a.score > b.score ? a : b)
-        const minEntry = sorted.reduce((a, b) => a.score < b.score ? a : b)
+      {/* 数据点 */}
+      {sorted.map((entry, i) => {
+        const x = toX(i)
+        const y = toY(entry.score)
+        const isMax = entry.score === maxScore
+        const dotColor =
+          entry.score >= 80
+            ? COLORS.scoreGreat
+            : entry.score >= 60
+            ? COLORS.scoreOk
+            : COLORS.scoreBad
+
+        return (
+          <AnimatedDot
+            key={i}
+            x={x}
+            y={y}
+            color={isMax ? COLORS.warning : dotColor}
+            isMax={isMax}
+            animProgress={animProgress}
+            index={i}
+          />
+        )
+      })}
+
+      {/* X 轴日期标签 */}
+      {sorted.map((entry, i) => {
+        const show =
+          sorted.length <= 5 ||
+          i === 0 ||
+          i === sorted.length - 1 ||
+          i % Math.ceil(sorted.length / 4) === 0
+        if (!show) return null
+        return (
+          <Text
+            key={i}
+            style={[
+              styles.xLabel,
+              { left: toX(i) - 20, bottom: 6 },
+            ]}>
+            {new Date(entry.date).toLocaleDateString('zh-CN', {
+              month: 'numeric',
+              day: 'numeric',
+            })}
+          </Text>
+        )
+      })}
+
+      {/* 图例 */}
+      {(() => {
+        const maxEntry = sorted.reduce((a, b) => (a.score > b.score ? a : b))
+        const minEntry = sorted.reduce((a, b) => (a.score < b.score ? a : b))
         return (
           <View style={styles.legendRow}>
             <View style={styles.legendItem}>
@@ -187,6 +212,75 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
         )
       })()}
     </View>
+  )
+}
+
+/** 动画线条段 */
+function AnimatedLine({
+  x1, y1, x2, y2, color, animProgress, index,
+}: {
+  x1: number; y1: number; x2: number; y2: number
+  color: string; animProgress: Animated.Value; index: number
+}) {
+  const dx = x2 - x1
+  const dy = y2 - y1
+  const len = Math.sqrt(dx * dx + dy * dy)
+  const angle = Math.atan2(dy, dx) * (180 / Math.PI)
+
+  const opacity = animProgress.interpolate({
+    inputRange: [(index - 1) / 10, index / 10],
+    outputRange: [0, 1],
+    extrapolate: 'clamp',
+  })
+
+  return (
+    <Animated.View
+      style={[
+        styles.lineSegment,
+        {
+          left: x1,
+          top: y1,
+          width: len,
+          transform: [{ rotate: `${angle}deg` }],
+          backgroundColor: color,
+          opacity,
+        },
+      ]}
+    />
+  )
+}
+
+/** 动画数据点 */
+function AnimatedDot({
+  x, y, color, isMax, animProgress, index,
+}: {
+  x: number; y: number; color: string; isMax: boolean
+  animProgress: Animated.Value; index: number
+}) {
+  const scale = animProgress.interpolate({
+    inputRange: [index / 10, (index + 1) / 10],
+    outputRange: [0, 1],
+    extrapolate: 'clamp',
+  })
+
+  const r = isMax ? 6 : 4
+
+  return (
+    <Animated.View
+      style={[
+        styles.dot,
+        {
+          left: x - r,
+          top: y - r,
+          width: r * 2,
+          height: r * 2,
+          borderRadius: r,
+          backgroundColor: color,
+          transform: [{ scale }],
+        },
+      ]}>
+      {isMax && <View style={[styles.dotInner, { backgroundColor: '#fff' }]} />}
+    </Animated.View>
   )
 }
 
@@ -206,10 +300,38 @@ const styles = StyleSheet.create({
     width: 28,
     textAlign: 'right',
   },
+  gridLine: {
+    position: 'absolute',
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: COLORS.divider,
+  },
+  lineSegment: {
+    position: 'absolute',
+    height: 2.5,
+    transformOrigin: 'left center',
+  },
+  dot: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dotInner: {
+    position: 'absolute',
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  xLabel: {
+    position: 'absolute',
+    fontSize: 10,
+    color: COLORS.textMuted,
+    width: 40,
+    textAlign: 'center',
+  },
   legendRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: PADDING.L,
+    paddingHorizontal: PAD.L,
     paddingBottom: 8,
     gap: 12,
   },
@@ -234,15 +356,12 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     height: 28,
   },
-  // 水平虚线：传达「数据待续」
-  // 水平细线：极简无装饰，传达「待续」
   emptyLine: {
     width: 48,
     height: 1,
     borderTopWidth: 1,
     borderTopColor: COLORS.divider,
   },
-  // 末端小圆点
   emptyDot: {
     width: 6,
     height: 6,
