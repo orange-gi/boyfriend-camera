@@ -1065,7 +1065,7 @@ const styles = StyleSheet.create({
   // 重试按钮：语义上非危险操作，用 primary 替代 danger
   errorRetryBtn: {
     backgroundColor: COLORS.primary,
-    borderRadius: 16,
+    borderRadius: borderRadius.lg,
     paddingHorizontal: 20,
     paddingVertical: 7,
   },
@@ -1087,6 +1087,6 @@ const styles = StyleSheet.create({
   noPhotoContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, gap: 8 },
   noPhotoTitle: { fontSize: 20, fontWeight: 'bold' },
   noPhotoDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22 },
-  noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: 14, paddingHorizontal: 28, paddingVertical: 12 },
+  noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: borderRadius.md, paddingHorizontal: 28, paddingVertical: 12 },
   noPhotoBtnText: { color: COLORS.textOnPrimary, fontSize: 16, fontWeight: 'bold' },
 })
