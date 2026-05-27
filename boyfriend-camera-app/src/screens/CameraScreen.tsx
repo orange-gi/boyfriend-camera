@@ -856,7 +856,7 @@ export default function CameraScreen() {
                     key={cat}
                     style={[
                       styles.categoryTab,
-                      isSelected && styles.categoryTabActive,
+                      isSelected && { borderBottomWidth: 2, borderBottomColor: color },
                     ]}
                     onPress={() => {
                       if (selectedCategory !== cat) {
@@ -1270,16 +1270,16 @@ const styles = StyleSheet.create({
     gap: 4,
     flexDirection: 'row',
   },
-  // 简洁优雅：选中态仅靠颜色和字重区分，去背景 alpha 装饰
+  // categoryTabActive：内联样式 { borderBottomWidth: 2, borderBottomColor: color }
+  // 设计理由：分类标签文字较小，仅靠字重+颜色区分选中态不够直观
+  // 2px 下划线是最小化选中态指示器，不增加视觉噪音，与类别色呼应
   categoryTab: {
     paddingHorizontal: 14,
     paddingVertical: 4,
     marginHorizontal: 2,
     borderRadius: 16,
   },
-  categoryTabActive: {
-    // 不使用背景色，靠 color + fontWeight 承载选中态
-  },
+
   categoryTabText: {
     fontSize: 14,
     color: COLORS.textMuted,
