@@ -12,7 +12,7 @@ import RNFS from 'react-native-fs'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 import { logger } from '../utils/logger'
 
-// 核心滤镜（与 ResultScreen CoreFilter 保持一致）
+// 核心滤镜（与 ResultScreen FilterKey 保持一致）
 export type FilterKey = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
 
 export interface ProcessOptions {

@@ -25,14 +25,12 @@ import type { RootStackParamList } from '../../App'
 import ComparisonCard from '../components/result/ComparisonCard'
 import ScoreBoard from '../components/result/ScoreBoard'
 import type { ScoreResult } from '../components/result/ScoreBoard'
-import { processPhoto, saveToAlbum } from '../services/photoProcessor'
+import { processPhoto, saveToAlbum, type FilterKey } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult, type SceneType } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
 import { COLORS, typography, borderRadius } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
-
-type CoreFilter = 'warm' | 'cool' | 'vivid' | 'soft' | 'bw' | 'portrait' | 'food' | 'cinematic'
 
 /** 映射模板分类 → analyzer SceneType（精确分类让夜间/节庆等场景获得专属建议） */
 function getSceneType(category: string | null | undefined): SceneType {
@@ -61,7 +59,7 @@ function getSceneType(category: string | null | undefined): SceneType {
 }
 
 // 模块层常量：避免 useState initializer 每次渲染重建
-const CAT_FILTER_MAP: Record<string, CoreFilter> = {
+const CAT_FILTER_MAP: Record<string, FilterKey> = {
   '餐厅美食': 'food',
   '户外风景': 'warm',
   '城市街拍': 'cinematic',
@@ -96,7 +94,7 @@ const SCENE_TO_FILTER_TIP: Partial<Record<SceneType, 'indoor' | 'outdoor' | 'foo
   hotspring: 'natural_light',
 }
 
-const FILTER_OPTIONS: Array<{ key: CoreFilter; label: string; color: string }> = [
+const FILTER_OPTIONS: Array<{ key: FilterKey; label: string; color: string }> = [
   { key: 'warm', label: '暖黄', color: COLORS.filterWarm },
   { key: 'cool', label: '冷调', color: COLORS.filterCool },
   { key: 'vivid', label: '生动', color: COLORS.filterVivid },
@@ -117,8 +115,8 @@ export default function ResultScreen() {
   const [praiseList, setPraiseList] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [processing, setProcessing] = useState(true)
-  const [selectedFilter, setSelectedFilter] = useState<CoreFilter>(
-    (templateCategory ? (CAT_FILTER_MAP[templateCategory] ?? 'warm') : 'warm') as CoreFilter
+  const [selectedFilter, setSelectedFilter] = useState<FilterKey>(
+    (templateCategory ? (CAT_FILTER_MAP[templateCategory] ?? 'warm') : 'warm') as FilterKey
   )
 
   const [comparisonUri, setComparisonUri] = useState<string>('')
