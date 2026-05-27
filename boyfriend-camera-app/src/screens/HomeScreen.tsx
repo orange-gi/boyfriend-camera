@@ -130,18 +130,35 @@ export default function HomeScreen() {
   const totalTemplates = templates.length
   const avgScoreColor = scoreColor(avgScore)
 
+  // 每日提示卡（IIFE → 声明式，避免 JSX 中混入逻辑）
+  const dailyTipCard = !tipDismissed ? (
+    <Animated.View style={[styles.dailyTipCard, heroStyle]}>
+      <TouchableOpacity onPress={dismissTip} activeOpacity={0.85} style={{ flex: 1 }}>
+        <Text style={styles.dailyTipText}>{getDailyTip().text}</Text>
+      </TouchableOpacity>
+    </Animated.View>
+  ) : null
+
+  // 趋势进度条（IIFE → 声明式，颜色计算提前）
+  const trendRowEl = (diaryCount >= 2 && avgScore > 0) ? (() => {
+    const tc = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
+    const tl = trend === 'up' ? '↑ 进步中' : trend === 'down' ? '↓ 下滑' : '→ 稳定'
+    const lc = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
+    return (
+      <View style={styles.trendRow}>
+        <View style={[styles.trendDot, { backgroundColor: lc }]} />
+        <Text style={[styles.trendLabel, { color: tc }]}>{tl}</Text>
+        <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
+          <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: lc }]} />
+        </View>
+        <Text style={[styles.trendScore, { color: lc }]}>{avgScore}</Text>
+      </View>
+    )
+  })() : null
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-      {!tipDismissed && (() => {
-        const tip = getDailyTip()
-        return (
-          <Animated.View style={[styles.dailyTipCard, heroStyle]}>
-            <TouchableOpacity onPress={dismissTip} activeOpacity={0.85} style={{ flex: 1 }}>
-              <Text style={styles.dailyTipText}>{tip.text}</Text>
-            </TouchableOpacity>
-          </Animated.View>
-        )
-      })()}
+      {dailyTipCard}
 
       {statsLoading ? (
         <View style={styles.statsCard}>
@@ -175,21 +192,7 @@ export default function HomeScreen() {
               <Text style={styles.statLabel}>姿势模板</Text>
             </View>
           </View>
-          {diaryCount >= 2 && avgScore > 0 && (() => {
-            const trendColor = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
-            const trendLabel = trend === 'up' ? '↑ 进步中' : trend === 'down' ? '↓ 下滑' : '→ 稳定'
-            const scoreLevelColor = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
-            return (
-              <View style={styles.trendRow}>
-                <View style={[styles.trendDot, { backgroundColor: scoreLevelColor }]} />
-                <Text style={[styles.trendLabel, { color: trendColor }]}>{trendLabel}</Text>
-                <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
-                  <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: scoreLevelColor }]} />
-                </View>
-                <Text style={[styles.trendScore, { color: scoreLevelColor }]}>{avgScore}</Text>
-              </View>
-            )
-          })()}
+          {trendRowEl}
         </Animated.View>
       ) : null}
 
