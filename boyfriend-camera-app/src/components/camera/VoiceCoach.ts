@@ -607,7 +607,7 @@ function pickStabilityTip(category: 'STABLE' | 'SHAKY' | 'EXTREME_SHAKE' | 'TILT
     TILTED: [STABILITY_TIPS.TILTED, STABILITY_TIPS.TILTED_2, STABILITY_TIPS.TILTED_3, STABILITY_TIPS.TILTED_4, STABILITY_TIPS.TILTED_5, STABILITY_TIPS.TILTED_6],
   }
   const pool = variants[category] || [STABILITY_TIPS.STABLE]
-  return pool[Math.floor(Math.random() * pool.length)]
+  return pickRandom(pool)
 }
 
 class VoiceCoach {
@@ -958,8 +958,7 @@ class VoiceCoach {
         '试试让人把手举起来，和背景形成高低差～',
         '换个位置试试，背景干净更显高级感～',
       ]
-      const tip = tips[Math.floor(Math.random() * tips.length)]
-      await this.speak(tip, true)
+      await this.speak(pickRandom(tips), true)
     } else if (previousScore < 80) {
       const tips = [
         '这张不错！再试一个角度，找到最美的光线～',
@@ -967,16 +966,14 @@ class VoiceCoach {
         '换个姿势试试，和背景互动一下会更有趣～',
         '再来一张！光线刚好的时候多拍几张选最好的～',
       ]
-      const tip = tips[Math.floor(Math.random() * tips.length)]
-      await this.speak(tip, true)
+      await this.speak(pickRandom(tips), true)
     } else {
       const tips = [
         '哇塞！这张绝了！可以直接发朋友圈！',
         '男朋友你是开挂了吗？这张太美了吧！',
         '这张我要存下来当头像！继续这个感觉！',
       ]
-      const tip = tips[Math.floor(Math.random() * tips.length)]
-      await this.speak(tip, true)
+      await this.speak(pickRandom(tips), true)
     }
   }
 
@@ -1072,7 +1069,7 @@ class VoiceCoach {
     }
     const arr = tips[sceneType] || []
     if (arr.length > 0) {
-      await this.speak(arr[Math.floor(Math.random() * arr.length)], true)
+      await this.speak(pickRandom(arr), true)
     }
   }
 
@@ -1294,8 +1291,7 @@ class VoiceCoach {
     }
     const arr = tips[category]
     if (arr && arr.length > 0) {
-      const tip = arr[Math.floor(Math.random() * arr.length)]
-      await this.speak(tip, true)
+      await this.speak(pickRandom(arr), true)
     } else {
       // 通用场景提示（未知分类兜底）
       await this.speak('这个场景光线要注意！找好角度，自然光最美丽～', true)
@@ -1311,8 +1307,7 @@ class VoiceCoach {
       '好漂亮！男朋友你真棒～',
       '咔嚓！等不及看照片了！',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 模板切换确认 */
@@ -1354,7 +1349,7 @@ class VoiceCoach {
    */
   async speakDailyWelcome(isFirstToday: boolean): Promise<void> {
     if (!isFirstToday) return
-    const tip = WELCOME_TIPS[Math.floor(Math.random() * WELCOME_TIPS.length)]
+    const tip = pickRandom(WELCOME_TIPS)
     await this.speak(tip, false)
   }
 
@@ -1629,7 +1624,7 @@ class VoiceCoach {
       `${score}分，已经很棒了！再拍一张挑战满分！`,
       `就差一点到优秀！${score}分，距离大片只差一点点！`,
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 重新再拍的建议（低于50分） */
@@ -1639,7 +1634,7 @@ class VoiceCoach {
       `根据建议${suggestion}，再拍一次一定更好！`,
       `建议${suggestion}，男朋友再试一次吧！`,
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 情侣合照专属鼓励 */
@@ -1652,8 +1647,7 @@ class VoiceCoach {
       `${newScore}分！历史新高！男朋友你是最棒的！`,
       `哇塞！${newScore}分！男朋友拍照技术又进化了！`,
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 进步日记里程碑提示 */
@@ -1681,7 +1675,7 @@ class VoiceCoach {
       ],
     }
     const arr = tips[type] || []
-    if (arr.length > 0) await this.speak(arr[Math.floor(Math.random() * arr.length)], true)
+    if (arr.length > 0) await this.speak(pickRandom(arr), true)
   }
 
   /** 比拼模式提示（对比两张照片时） */
@@ -1692,14 +1686,14 @@ class VoiceCoach {
         `比上次高了${diff}分！男朋友越拍越好了！`,
         `${diff}分的进步！这张构图/光线更棒了～`,
       ]
-      await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+      await this.speak(pickRandom(tips), true)
     } else {
       const tips = [
         '这张和上次差不多，男朋友继续保持～',
         '分数差不多，但每张都在进步！',
         '再来一张试试，找找更好的角度～',
       ]
-      await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+      await this.speak(pickRandom(tips), true)
     }
   }
 
@@ -1750,8 +1744,7 @@ class VoiceCoach {
     }
     const arr = tips[poseType] || []
     if (arr.length > 0) {
-      const tip = arr[Math.floor(Math.random() * arr.length)]
-      await this.speak(tip, true)
+      await this.speak(pickRandom(arr), true)
     }
   }
 
@@ -1766,8 +1759,7 @@ class VoiceCoach {
     }
     const arr = tips[comboType] || []
     if (arr.length > 0) {
-      const tip = arr[Math.floor(Math.random() * arr.length)]
-      await this.speak(tip, true)
+      await this.speak(pickRandom(arr), true)
     }
   }
 
@@ -1778,8 +1770,7 @@ class VoiceCoach {
       '光线太晒了！换个角度或者等云来～',
       '让女朋友眯眼睛了！找个柔和的光线更好看～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 对焦确认提示（告诉用户相机已对焦到正确位置） */
@@ -1789,8 +1780,7 @@ class VoiceCoach {
       '找到你了！笑一个，咔嚓！',
       '锁定！准备好就拍～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 构图完美时机提示 */
@@ -1800,8 +1790,7 @@ class VoiceCoach {
       '位置刚刚好！就是现在，拍！',
       '一切就绪！男朋友按快门的最佳时机！',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 过曝警告提示 */
@@ -1811,8 +1800,7 @@ class VoiceCoach {
       '脸有点过曝，往阴影处挪一点点～',
       '背景太亮脸黑了！调整一下角度，让脸朝向光源～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip)
+    await this.speak(pickRandom(tips))
   }
 
   /** 欠曝（太暗）提示 */
@@ -1822,8 +1810,7 @@ class VoiceCoach {
       '脸有点黑，让女朋友面向光源站～',
       '光线不够，找个亮一点的地方试试～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip)
+    await this.speak(pickRandom(tips))
   }
 
   /** 进步表扬提示 */
@@ -1833,8 +1820,7 @@ class VoiceCoach {
       `比上次高了${diff}分！这张构图/光线更棒了～`,
       `${diff}分的进步！男朋友开窍了！`,
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 倒计时提示（3-2-1） */
@@ -1851,7 +1837,7 @@ class VoiceCoach {
       `${score}分不是终点！男朋友继续加油！`,
       `${score}分只是开始！再来一张，肯定会更好！`,
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 满分/接近满分庆祝 */
@@ -1861,7 +1847,7 @@ class VoiceCoach {
       `${score}分！男朋友摄影师天赋觉醒！这张要存档一万年！`,
       `${score}分大片！这张照片可以直接上杂志封面了！`,
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 连续好评播报 */
@@ -1871,7 +1857,7 @@ class VoiceCoach {
       `${count}连拍都是好片！男朋友你是专业的吗！`,
       `${count}次都这么高分，这摄影师养成了！`,
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 模板分类切换提示 */
@@ -1886,7 +1872,7 @@ class VoiceCoach {
       '城市街拍': ['城市街拍！找个有特色的背景，照片更有故事感～', '街头模式！城市的角落都是大片背景～'],
     }
     const pool = tips[category] || [`已切换到${category}场景～`] 
-    await this.speak(pool[Math.floor(Math.random() * pool.length)], true)
+    await this.speak(pickRandom(pool), true)
   }
 
   /** 晨光拍摄提示 */
@@ -1896,7 +1882,7 @@ class VoiceCoach {
       '晨光时光光线超美！趁现在多拍几张～',
       '早起的福利！这种光线拍照最好看了～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 夜景拍摄提示 */
@@ -1908,7 +1894,7 @@ class VoiceCoach {
       '夜景模式！让脸上的光均匀一点，出来的照片会很美～',
       '晚上拍照要稳住！男朋友尽量让手机正对着脸～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 金色时刻提示 */
@@ -1947,7 +1933,7 @@ class VoiceCoach {
       `${score}分！历史最高！男朋友进化了！`,
       `新纪录达成！${score}分！男朋友太厉害了！`,
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 里程碑庆祝 */
@@ -1970,7 +1956,7 @@ class VoiceCoach {
       `才${score}分而已呀～告诉他哪里没做好，下次一定更好看！`,
       `${score}分不是终点！把这张当参考，告诉男友下次怎么改进～`,
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 全能满分播报（四维全部高分时） */
@@ -1980,7 +1966,7 @@ class VoiceCoach {
       '全能选手！构图光线稳定构图都是满分！摄影师认证！',
       '太惊艳了！四个维度全部拿满，男朋友你简直是天生的摄影师！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 首次使用引导语（第一次拍照前播报） */
@@ -1990,7 +1976,7 @@ class VoiceCoach {
       '拍照前先选个喜欢的姿势模板，让男朋友照着剪影站就好！',
       '建议先选个简单的姿势～男朋友照着屏幕上的人形剪影站就 OK！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 夜间拍摄引导 */
@@ -2000,7 +1986,7 @@ class VoiceCoach {
       '晚上拍照，打开闪光灯或者找街灯当光源，脸不要背光！',
       '夜晚光线复杂，让女朋友靠近光源或者打开手机闪光灯～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 连拍模式引导 */
@@ -2010,7 +1996,7 @@ class VoiceCoach {
       '连拍中！多拍几张选最自然的表情～',
       '别客气，多拍几张！连拍模式帮你抓最自然的那一刻！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 好光线专项表扬 */
@@ -2022,7 +2008,7 @@ class VoiceCoach {
       '逆光也太有感觉了吧！这光线男朋友你怎么找到的！',
       '脸上的光超均匀！男朋友终于学会找光了，感动！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 姿势完美达标表扬 */
@@ -2034,7 +2020,7 @@ class VoiceCoach {
       '男朋友完全学到了！这个姿势绝了！',
       '照着模板摆的姿势超标准！男朋友悟性太高了！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 进步鼓励语（非分数驱动，通用进度鼓励） */
@@ -2049,7 +2035,7 @@ class VoiceCoach {
         '继续加油！每拍一张都在进步～',
         '男朋友正在飞速成长，继续保持这个势头！',
       ]
-      await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+      await this.speak(pickRandom(tips), true)
       return
     }
     if (totalPhotos < 20) {
@@ -2058,7 +2044,7 @@ class VoiceCoach {
         '拍了这么多张，进步肉眼可见！',
         '男朋友越来越会拍了，继续保持！',
       ]
-      await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+      await this.speak(pickRandom(tips), true)
       return
     }
     const tips = [
@@ -2066,7 +2052,7 @@ class VoiceCoach {
       '男朋友已经从新手进化成高手，继续探索更多姿势吧～',
       '哇！已经拍了这么多！男朋友的拍照水平简直开挂了！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakPerfectMoment(): Promise<void> {
@@ -2076,7 +2062,7 @@ class VoiceCoach {
       '天时地利人和！男朋友这张拍出来一定是神作！',
       '这光线这角度这表情，绝了！赶紧按快门别浪费！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakFaceTooSmall(): Promise<void> {
@@ -2104,7 +2090,7 @@ class VoiceCoach {
       '这风吹得正好！让头发再飘一下，超有氛围！',
       '风来了别动！就是现在，让头发飘起来抓拍！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakGoodBackground(): Promise<void> {
@@ -2117,7 +2103,7 @@ class VoiceCoach {
       '这张可以直接发朋友圈！配文都不用想了，就这张！',
       '男朋友这张绝了！必须分享一下，让大家都看看！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakKeepPractice(): Promise<void> {
@@ -2126,7 +2112,7 @@ class VoiceCoach {
       '拍照就是熟能生巧！继续拍，你男友会越来越好的！',
       '每拍一张都是进步！男朋友加油，继续练习！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakMirrorShot(): Promise<void> {
@@ -2138,7 +2124,7 @@ class VoiceCoach {
       '试试定时拍摄！十秒足够摆好姿势，男朋友也可以入镜了～',
       '打开定时器！摆好姿势再拍，男朋友也能一起合照了～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 侧颜/角度提示 */
@@ -2148,7 +2134,7 @@ class VoiceCoach {
       '换个角度拍！侧面比正脸更有故事感～',
       '侧身回眸是最经典的姿势之一，试试看～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 多人合照提示 */
@@ -2159,7 +2145,7 @@ class VoiceCoach {
       4: ['四个人站好！稍微错开一点位置～', '人多往后退一步！让大家都能入镜～'],
     }
     const pool = tips[count] || tips[2]
-    await this.speak(pool[Math.floor(Math.random() * pool.length)], true)
+    await this.speak(pickRandom(pool), true)
   }
 
   /** 大风天提示 */
@@ -2169,7 +2155,7 @@ class VoiceCoach {
       '风来了别动！让头发自然飘一下，这个瞬间抓拍绝了～',
       '有风吹的时候最适合拍动态感，等风再吹一次赶紧拍～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 阴天提示 */
@@ -2179,7 +2165,7 @@ class VoiceCoach {
       '云层就是天然柔光箱！阴天拍出来皮肤超细腻～',
       '阴天拍照不用担心过曝，光线均匀柔和，随便拍都好看～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 雨天提示 */
@@ -2215,7 +2201,7 @@ class VoiceCoach {
       '这种光线下侧颜最有感觉！让女朋友稍微转头～',
       '侧光最能勾勒轮廓，试试让光打在脸的侧面～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
 
@@ -2226,7 +2212,7 @@ class VoiceCoach {
       '两个人靠在一起笑一个，甜蜜感要溢出屏幕了！',
       '牵手、转圈、互相逗笑，情侣照最重要的是自然～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 逆光 HDR 提示 */
@@ -2236,7 +2222,7 @@ class VoiceCoach {
       '背景亮人脸暗！打开 HDR 或者转过来面对光源～',
       '背光拍剪影也超美！转过身为背光试试～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 阴天拍照提示 */
@@ -2246,7 +2232,7 @@ class VoiceCoach {
       '云层就是天然柔光箱，拍出来皮肤超好的～',
       '阴天光线超均匀！找个漂亮的背景开始拍吧～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 连拍提示 */
@@ -2256,7 +2242,7 @@ class VoiceCoach {
       '连拍模式开起来！动起来抓拍的瞬间最自然～',
       '连拍是抓拍神器！让女朋友做动作然后按下去～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 定时拍照提示 */
@@ -2266,7 +2252,7 @@ class VoiceCoach {
       '三二一！就是现在～',
       '定时拍照可以摆好pose再拍，不用急～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 抓拍提示 */
@@ -2276,7 +2262,7 @@ class VoiceCoach {
       '让她先动起来然后抓拍，这个瞬间最自然～',
       '假装看旁边再转头笑，自然又灵动～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 夕阳拍照提示 */
@@ -2286,7 +2272,7 @@ class VoiceCoach {
       '现在是黄金时段！赶紧拍，光线超美～',
       '傍晚光线好温柔！这时间段拍照绝了～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 超市道具提示 */
@@ -2296,7 +2282,7 @@ class VoiceCoach {
       '超市里的小道具超适合拍照！拿个零食摆 pose～',
       '拿着冰淇淋或咖啡，笑着看镜头，俏皮感拉满～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 俯拍全身提示 */
@@ -2306,7 +2292,7 @@ class VoiceCoach {
       '从上往下拍超显脸小！男朋友把手机举高一点～',
       '俯拍可以拍全身躺着的感觉，超有氛围感～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 仰拍大长腿提示 */
@@ -2316,7 +2302,7 @@ class VoiceCoach {
       '从下往上拍超级显腿长！男朋友快蹲下去～',
       '低角度仰拍大长腿效果绝了！蹲低拍起来～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 表情夸张提示 */
@@ -2326,7 +2312,7 @@ class VoiceCoach {
       '表情放松一点～别僵着，自然最美～',
       '表情夸张一点！生动活泼更有感染力～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 夜拍模式提示 */
@@ -2336,7 +2322,7 @@ class VoiceCoach {
       '夜景光线复杂，打开闪光灯照亮人脸～',
       '暗光环境下手要更稳！双手拿手机，靠墙拍～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 室内反射提示 */
@@ -2346,7 +2332,7 @@ class VoiceCoach {
       '玻璃橱窗会反射，让男朋友换个角度躲开～',
       '反光太明显了，稍微转一下躲开玻璃反光～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 傍晚拍照提示 */
@@ -2356,7 +2342,7 @@ class VoiceCoach {
       'Golden Hour 光线好美，男朋友抓到了！',
       '夕阳余晖把人拍得好温柔！男朋友这光用绝了～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 蓝调时刻提示（Blue Hour，日落后/日出前天色呈蓝调） */
@@ -2376,7 +2362,7 @@ class VoiceCoach {
       '动感活力感满满！男朋友抓拍到你的快乐瞬间！',
       '跑起来、跳起来！活力瞬间最生动～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 黄金时段提示 */
@@ -2386,7 +2372,7 @@ class VoiceCoach {
       'Golden Hour 光线最温柔！拍人像的黄金时间～',
       '趁现在光线好！赶紧拍一张，光线不会再来～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 新手引导提示（第一次打开相机） */
@@ -2396,7 +2382,7 @@ class VoiceCoach {
       '先用姿势模板练习！屏幕上会出现半透明剪影，照着站就 OK～',
       '拍照前先选个喜欢的姿势，让男朋友照着屏幕上的轮廓站～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 提醒男朋友对焦 */
@@ -2406,7 +2392,7 @@ class VoiceCoach {
       '先点一下屏幕对焦在人脸上，出来的照片会更清晰～',
       '点击屏幕上人脸的位置对焦，这样主体会更清晰～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 引导缩小背景 */
@@ -2416,7 +2402,7 @@ class VoiceCoach {
       '镜头再近一点点！主体大一点更上镜～',
       '放大一点拍！特写比远景更有冲击力～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 引导拉开距离 */
@@ -2426,7 +2412,7 @@ class VoiceCoach {
       '拉远一点！这样背景和人物关系更好看～',
       '退后一步！让更多环境入镜，构图更有层次～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 滤镜已应用提示 */
@@ -2438,8 +2424,7 @@ class VoiceCoach {
       '滤镜去掉了，还是原图最真实～',
       '恢复原始色调，这张本来就好看～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 模板已清除提示 */
@@ -2450,8 +2435,7 @@ class VoiceCoach {
       '模板去除，跟着感觉拍就好～',
       '关闭模板引导，随心所欲拍～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 分享成功提示 */
@@ -2462,8 +2446,7 @@ class VoiceCoach {
       '分享成功！等着被点赞吧～',
       '发出去了！男朋友继续加油哦～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 里程碑庆祝提示 */
@@ -2475,8 +2458,7 @@ class VoiceCoach {
       perfect: ['满分作品诞生！男朋友你是怎么做到的！', '满分！男朋友这张直接封神了！', '完美！满分作品！男朋友已经超越全国99%的男生了！'],
     }
     const arr = tips[milestone] || tips.perfect
-    const tip = arr[Math.floor(Math.random() * arr.length)]
-    await this.speak(tip, true)
+    await this.speak(pickRandom(arr), true)
   }
 
   /** 滤镜滑动提示（ResultScreen 滤镜区出现时播报） */
@@ -2486,8 +2468,7 @@ class VoiceCoach {
       '试试不同的滤镜，每种风格都不一样哦～',
       '向左滑动查看更多滤镜，找到最适合这张照片的风格～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, false)
+    await this.speak(pickRandom(tips), false)
   }
 
   async speakFilterApplied(filterName: string): Promise<void> {
@@ -2514,8 +2495,7 @@ class VoiceCoach {
       `${label}色调好搭！男朋友这张绝了～`,
       `试试这个${label}滤镜！色调刚刚好～`,
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 分享提示 */
@@ -2527,8 +2507,7 @@ class VoiceCoach {
       '这张大片感十足！分享出去让大家羡慕一下～',
       '男朋友这张可以上摄影展了！快去分享吧～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 重拍鼓励提示 */
@@ -2540,23 +2519,20 @@ class VoiceCoach {
         '热身而已！重新拍一张，男朋友摄影师要上线了～',
         '这张有点糊了～下次稳一点再按快门，肯定能过～',
       ]
-      const tip = tips[Math.floor(Math.random() * tips.length)]
-      await this.speak(tip, true)
+      await this.speak(pickRandom(tips), true)
     } else if (score < 60) {
       const tips = [
         '这张还不错！但还有提升空间，再拍一张试试？',
         '有进步了！再调整一下角度就是大片了～',
         '比上次好多了！继续加油，下次冲满分～',
       ]
-      const tip = tips[Math.floor(Math.random() * tips.length)]
-      await this.speak(tip, false)
+      await this.speak(pickRandom(tips), false)
     } else {
       const tips = [
         '这张已经很好了！不满意的话再拍一张试试～',
         '挺不错的！如果想更好就再拍一张～',
       ]
-      const tip = tips[Math.floor(Math.random() * tips.length)]
-      await this.speak(tip, false)
+      await this.speak(pickRandom(tips), false)
     }
   }
 
@@ -2567,8 +2543,7 @@ class VoiceCoach {
       '这张拍得怎么样呢？男朋友准备好接受评分了吗～',
       '结果出来了！男朋友的摄影水平公开处刑时间到～',
     ]
-    const tip = tips[Math.floor(Math.random() * tips.length)]
-    await this.speak(tip, false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 多人合照提示 */
@@ -2579,7 +2554,7 @@ class VoiceCoach {
       '后排的稍微露个额头出来，不然会被挡住～',
       '连拍几张选最好的，每个人表情都在线～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 阴天摄影提示 */
@@ -2590,7 +2565,7 @@ class VoiceCoach {
       '没有强光直射，侧脸大胆拍，光比会很舒服～',
       '虽然天阴，但阴天的漫反射光其实超适合拍人像～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 镜面倒影提示 */
@@ -2601,7 +2576,7 @@ class VoiceCoach {
       '有反光的地方稍微侧身，手机镜头和光源别在同一直线～',
       '玻璃橱窗也能当镜子用，找好角度躲开反光～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 窗边光线提示 */
@@ -2612,7 +2587,7 @@ class VoiceCoach {
       '窗光侧脸最有立体感，让脸稍微侧向窗户～',
       '阴天的窗边光线是天然的柔光箱，拍出来皮肤超细腻～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 表情夸张提示（表情僵硬时） */
@@ -2623,7 +2598,7 @@ class VoiceCoach {
       '假装被什么逗乐了，眼睛也会亮起来～',
       '表情自然最重要，不用刻意摆拍，真实最美～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 镜子自拍提示 */
@@ -2634,7 +2609,7 @@ class VoiceCoach {
       '全身镜自拍显腿长！站在镜子前笑一个～',
       '镜子里的倒影也很美！试试拍镜子里的自己～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 海边拍照提示 */
@@ -2660,7 +2635,7 @@ class VoiceCoach {
       '白茫茫的背景超浪漫！稍微过曝一点白雪才不灰～',
       '雪景里的彩色围巾超好看，是加分项哦～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 游乐场/嘉年华提示 */
@@ -2672,7 +2647,7 @@ class VoiceCoach {
       '游乐场夜景灯光璀璨！背对灯光拍剪影超浪漫～',
       '过山车抓拍表情超刺激！让男朋友对准脸按快门～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 毕业照提示 */
@@ -2683,7 +2658,7 @@ class VoiceCoach {
       '毕业袍纽扣解开一颗，脖子线条更修长～',
       '学士帽歪一点戴更活泼！别太端正了～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 天台夜景提示 */
@@ -2695,7 +2670,7 @@ class VoiceCoach {
       '夜景拍摄要双手拿稳手机，或者靠在栏杆上更稳～',
       '天台侧光拍侧脸超有层次感，试试看～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 健身房/运动风提示 */
@@ -2719,7 +2694,7 @@ class VoiceCoach {
       '樱花季逆光拍发丝发光绝了！让阳光从背后打过来～',
       '樱花雨飘落时抓拍超有意境，多拍几张选最好的～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakDancePerformanceTip(): Promise<void> {
@@ -2730,7 +2705,7 @@ class VoiceCoach {
       '表演现场光线复杂，开闪光灯补光效果更好～',
       '跟着节奏动起来的时候抓拍，表情最生动～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakRedAutumnTip(): Promise<void> {
@@ -2741,7 +2716,7 @@ class VoiceCoach {
       '红叶背景颜色很鲜艳，衣服选浅色更突出主体～',
       '蹲低仰拍让叶子落在头顶上方，超有氛围感～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakFestivalLightsTip(): Promise<void> {
@@ -2752,7 +2727,7 @@ class VoiceCoach {
       '灯展逆光超浪漫！转过来让脸朝向光源试试～',
       '灯展背景五彩缤纷，衣服选纯色更突出主体～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakAmusementTip(): Promise<void> {
@@ -2763,7 +2738,7 @@ class VoiceCoach {
       '摩天轮里光线柔和，这个角度超浪漫～',
       '过山车尖叫瞬间超生动！抓拍表情最自然～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakRooftopDaytimeTip(): Promise<void> {
@@ -2774,7 +2749,7 @@ class VoiceCoach {
       '天台俯拍全身照超显气场！男朋友站高一点～',
       '正午天台光线太硬，找个下午时段光线更柔和～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   async speakMeadowRanchTip(): Promise<void> {
@@ -2785,7 +2760,7 @@ class VoiceCoach {
       '草原背景干净开阔，人站中间或偏左构图都很好看～',
       '牧场木栅栏做前景虚化，超有田园感～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   // 拍摄前引导
@@ -2798,7 +2773,7 @@ class VoiceCoach {
       '先问一句这样可以吗！十张里能挑出一两张特别好的！',
       '先确认一下背景干净不干净，杂乱的背景会抢戏～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+    await this.speak(pickRandom(tips), false)
   }
 
   // 拍摄中实时指导
@@ -2811,7 +2786,7 @@ class VoiceCoach {
       '位置刚刚好！就是现在，按快门！',
       '表情超自然！别动，就是现在拍！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   // 拍完后自动播报
@@ -2872,34 +2847,33 @@ class VoiceCoach {
       carousel: ['旋转木马超有童话感！侧身坐着歪头看镜头～', '旋转木马灯光暖暖的，光打在侧脸上超有氛围～'],
     }
     const tips = sceneTips[sceneType] || ['换个角度试试！光影会更丰富～']
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 切换到前置摄像头 */
   async speakCameraSwitchedFront(): Promise<void> {
     const tips = [FACE_TIPS.CAMERA_SWITCHED_FRONT, FACE_TIPS.CAMERA_SWITCHED_FRONT_2, FACE_TIPS.CAMERA_SWITCHED_FRONT_3]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 切换到后置摄像头 */
   async speakCameraSwitchedBack(): Promise<void> {
     const tips = [FACE_TIPS.CAMERA_SWITCHED_BACK, FACE_TIPS.CAMERA_SWITCHED_BACK_2, FACE_TIPS.CAMERA_SWITCHED_BACK_3]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 连拍完成汇总 */
   async speakBurstCaptureDone(count: number): Promise<void> {
     const pools = [FACE_TIPS.BURST_CAPTURE_DONE, FACE_TIPS.BURST_CAPTURE_DONE_2, FACE_TIPS.BURST_CAPTURE_DONE_3]
-    let text = pools[Math.floor(Math.random() * pools.length)]
-    // 替换占位符 X
-    text = text.replace('X', String(count))
+    let text = pickRandom(pools)
+    if (text.includes('X')) text = text.replace('X', String(count))
     await this.speak(text, true)
   }
 
   /** 停留过久的鼓励语 */
   async speakIdleTooLong(): Promise<void> {
     const tips = [FACE_TIPS.IDLE_TOO_LONG, FACE_TIPS.IDLE_TOO_LONG_2, FACE_TIPS.IDLE_TOO_LONG_3]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 模板匹配度提升提示 */
@@ -2942,7 +2916,7 @@ class VoiceCoach {
       '跟着剪影站好了就按快门！差不多就行～',
       '不用完美！先拍一张看看效果～',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], false)
+    await this.speak(pickRandom(tips), false)
   }
 
   /** 构图线模式切换成功提示 */
@@ -2973,7 +2947,7 @@ class VoiceCoach {
       '男生从后面抱！经典的甜蜜姿势～',
       '牵手背对镜头，超有氛围感！',
     ]
-    await this.speak(tips[Math.floor(Math.random() * tips.length)], true)
+    await this.speak(pickRandom(tips), true)
   }
 
   /** 光线完美时的正向确认（补充 speakLowLightWarning / speakOverexposed） */
