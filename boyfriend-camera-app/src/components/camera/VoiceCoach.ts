@@ -4471,6 +4471,100 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 地铁夜间场景 TTS */
+  async speakMetroNightTip(): Promise<void> {
+    const tips = [
+      '地铁站灯光偏暗！找靠近灯箱或指示牌的位置站～',
+      '地铁站台光线复杂，打开闪光灯补补光～',
+      '地铁站里找干净背景！站牌或白墙都可以～',
+      '地铁出口光线明暗变化大，等眼睛适应再拍～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 春日花园/踏青场景 TTS */
+  async speakSpringGardenTip(): Promise<void> {
+    const tips = [
+      '春日花园光线超通透！花丛中笑着看镜头～',
+      '樱花季光线斑驳！风吹过来时按下快门，超美～',
+      '春天户外光线正好！侧身站着让花丛做背景～',
+      '踏青时找干净草地做背景，人物居中或三分都好看～',
+      '春日光线偏暖，后期稍微降降色温会更自然～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 镜面自拍 TTS */
+  async speakMirrorPhotoTip(): Promise<void> {
+    const tips = [
+      '对着镜子自拍！手机稍微斜一点，避免镜面反光～',
+      '浴室镜前光线均匀超显气质！侧身45度笑一个～',
+      '全身镜自拍要拍到脚尖！确保镜子里能看到脚，腿更显长～',
+      '镜子太大时只拍上半身，构图会更饱满～',
+      '镜子自拍选干净的背景！脏镜子会让画面大打折扣～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 泳池/水边场景 TTS */
+  async speakPoolWaterTip(): Promise<void> {
+    const tips = [
+      '泳池边逆光拍超有氛围！转过身让光打在脸上～',
+      '水面反光会让脸偏蓝，稍微仰头让天空光进来～',
+      '泳池边找干净背景！避开瓷砖线，主体更突出～',
+      '水边风大时等风停的瞬间拍，头发飘起来的动态感超美～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 雨天窗户摄影 TTS */
+  async speakWindowRainTip(): Promise<void> {
+    const tips = [
+      '雨天窗户光线超柔和！靠在窗户边拍皮肤状态超好～',
+      '雨滴落在玻璃上很有氛围感！利用这个元素超有意境～',
+      '雨伞也是很好的拍照道具！撑伞站着超有感觉～',
+      '玻璃上有雾气时用手指写字！趁雾气还在赶紧拍～',
+      '雨天的散射光超柔和，拍出来的皮肤状态比晴天还好～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 游乐场飞椅/嘉年华 TTS */
+  async speakCarnivalRideTip(): Promise<void> {
+    const tips = [
+      '旋转飞椅上海风扑面！裙摆飞扬的瞬间按下快门，动感十足～',
+      '摩天轮转到最高点时俯拍城市，背景超开阔～',
+      '碰碰车场地灯光闪烁，抓拍被撞瞬间的表情超有趣～',
+      '过山车尖叫瞬间超生动！抓拍表情最自然～',
+      '跟着节奏动起来时抓拍，表情最生动自然～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 节日灯展/灯会 TTS */
+  async speakFestivalLightNightTip(): Promise<void> {
+    const tips = [
+      '灯展场景色彩斑斓！侧身站着让灯光打侧脸上，超有氛围～',
+      '灯串做前景虚化超美！让灯串靠近镜头，人在后面超有层次～',
+      '节日彩灯下拍剪影也超浪漫！背对灯光让轮廓发光～',
+      '灯展背景五彩缤纷，衣服选纯色更突出主体～',
+      '灯展人多时等一等，或者开人像模式虚化背景～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 运动/动态摄影 TTS */
+  async speakMotionPhotoTip(): Promise<void> {
+    const tips = [
+      '跑跳瞬间最容易出好照片！按住快门连拍别松手～',
+      '跑跳时对焦点要一直追着人脸，连拍更容易出好片～',
+      '追焦拍摄时对焦在眼睛上，连拍捕捉最清晰的一帧～',
+      '边跑边拍会让画面更动感，但也更容易糊，稳一点效果更好～',
+      '动态抓拍建议用连拍模式，多拍几张选最好的～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
