@@ -1117,7 +1117,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   modeBtnTextActive: {
-    color: '#fff',
+    color: COLORS.textOnDark,
   },
   // 顶部悬浮姿势引导卡
   autoRecommendBadge: {
@@ -1347,7 +1347,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   retryBtnText: {
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 13,
     fontWeight: 'bold',
   },

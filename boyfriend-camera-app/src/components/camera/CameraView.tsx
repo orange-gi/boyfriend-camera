@@ -233,13 +233,13 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   permissionText: {
-    color: '#fff',
+    color: colors.textOnDark,
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 8,
   },
   permissionSubText: {
-    color: 'rgba(255,255,255,0.6)',
+    color: colors.whiteAlpha60,
     fontSize: 13,
     textAlign: 'center',
     marginBottom: 20,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
   },
   permissionBtnText: {
-    color: '#fff',
+    color: colors.textOnPrimary,
     fontSize: 16,
     fontWeight: '600',
   },

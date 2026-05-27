@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   progressTrack: {
     flex: 1,
     height: 4,
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.skeletonBase,
     borderRadius: 2,
     overflow: 'hidden',
   },
