@@ -384,43 +384,19 @@ const STABILITY_TIPS = {
 
 // 表情检测提示
 const EXPRESSION_TIPS = {
-
+  // 表情提示
   COUNT_SHEEP: '说"田七"！嘴型刚刚好，表情最自然～',
-
-
-
-
-
-  // 原有表情提示
   BLURRY: '照片有点糊了，让他手拿稳一点～',
   CLOSED_EYES: '好像有人闭眼了，提醒他睁大眼睛！',
-
   SMILING_GOOD: '这个笑容绝了！就是现在，按快门！',
   EYES_OPEN_GOOD: '眼神超有光，这表情太加分了！',
   YAW_LEFT: '脸稍微转过来一点，别侧太多',
   YAW_RIGHT: '脸稍微往这边转一点，别只露侧脸',
   ROLL_TILTED: '头稍微正一点，歪着显脸大哦～',
-
   TILTED_HEAD_GOOD: '歪头好可爱！就是现在按快门～',
   BOTH_EYES_CLOSED: '两只眼睛都闭了，提醒她睁开～',
-
   SURPRISED_FACE: '这惊讶表情好生动！就是现在！',
   SERIOUS_FACE: '表情太严肃了，笑一个试试～',
-
-
-
-  // 组合动作提示
-
-
-
-
-
-
-
-  // v6 新增表情提示
-
-
-
 }
 
 // 每日首次打开欢迎语
