@@ -514,7 +514,6 @@ function AnimatedProgressNum({ value, style }: { value: number; style: import('r
   }, [value])
 
   const color = value >= 0 ? COLORS.success : COLORS.primary
-  // 简洁优雅：去掉箭头，颜色+符号已足够传达方向信息
 
   return (
     <Animated.Text style={[style, { color }]}>
@@ -542,7 +541,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
-  // 统一 borderRadius: 12 与 statsCard/recordCard 一致，去除过大的 20px 圆角
   cameraBtn: {
     backgroundColor: COLORS.primary,
     borderRadius: borderRadius.xl,
@@ -568,7 +566,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
   },
-  // 简洁优雅：单行横排核心指标，无背景无阴影，靠文字本身传达信息
   statsRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -601,7 +598,6 @@ const styles = StyleSheet.create({
     height: 36,
     backgroundColor: COLORS.divider,
   },
-  // 本周动态：一行文字，靠颜色区分重要程度
   weekRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -630,7 +626,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     gap: 14,
   },
-  // 去装饰化：分数主数字 + diff 同行，grade 作为下标注；视觉更舒展
   scoreBadge: {
     width: 56,
     alignItems: 'flex-start',
@@ -648,7 +643,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 26,
   },
-  // grade 作为下标注（小字 muted 色），与主分数形成层级
   scoreGrade: {
     fontSize: 10,
     fontWeight: '600',
@@ -675,7 +669,6 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     fontWeight: '600',
   },
-  // 简洁圆点指示器替代实心标签（去装饰化）
   newTagDot: {
     width: 8,
     height: 8,
@@ -705,11 +698,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
     padding: 40,
   },
-  // 骨架屏左对齐，模拟真实记录卡片布局，不再居中显得刻意
   skeletonContent: {
     alignSelf: 'stretch',
   },
-  // 骨架屏头像圆 — 语义化命名（不是 emoji）
   skeletonAvatar: {
     width: 48,
     height: 48,
@@ -738,7 +729,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     alignItems: 'center',
   },
-  // 空错误状态用横杠占位 — 语义化命名（不是 emoji）
   emptyErrorTitle: {
     fontSize: 18,
     fontWeight: '600',
@@ -749,7 +739,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.textMuted,
   },
-  // 统一 borderRadius: 12 与全局按钮圆角一致
   retryBtn: {
     backgroundColor: COLORS.primary,
     borderRadius: borderRadius.xl,
