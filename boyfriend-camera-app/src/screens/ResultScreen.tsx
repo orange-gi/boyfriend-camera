@@ -903,11 +903,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   // 选中态：3px 白色实线环（兼容所有滤镜颜色，包括深色滤镜）
-  // 删 primary 色边框：深色滤镜上不可见，视觉欺骗
   // 用白色环：任何滤镜底色上都有清晰对比，简洁克制
   filterCircleActive: {
     borderWidth: 3,
-    borderColor: '#FFFFFF',
+    borderColor: COLORS.whiteAlpha95,
   },
   filterLabel: {
     fontSize: 11,

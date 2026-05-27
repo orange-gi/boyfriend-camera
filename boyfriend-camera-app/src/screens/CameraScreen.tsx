@@ -1057,14 +1057,17 @@ const styles = StyleSheet.create({
   },
   // 关闭/闪光灯按钮
   topBtn: {
-    width: 48,
-    height: 48,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,255,255,0.15)',
     alignItems: 'center',
     justifyContent: 'center',
   },
   topBtnText: {
-    color: '#fff',
+    color: COLORS.whiteAlpha95,
     fontSize: 17,
+    fontWeight: '300',
   },
   // 构图模式切换
   modeGroupGlass: {
@@ -1093,7 +1096,7 @@ const styles = StyleSheet.create({
   // 顶部悬浮姿势引导卡
   autoRecommendBadge: {
     backgroundColor: COLORS.primary,
-    color: '#fff',
+    color: COLORS.textOnPrimary,
     fontSize: 10,
     fontWeight: '700',
     paddingHorizontal: 8,
@@ -1120,22 +1123,24 @@ const styles = StyleSheet.create({
   },
   poseTipText: {
     flex: 1,
-    fontSize: 14,
-    color: COLORS.textOnDark,
-    fontWeight: '600',
+    fontSize: 13,
+    color: COLORS.whiteAlpha95,
+    fontWeight: '500',
     lineHeight: 20,
   },
   poseTipVoiceBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     backgroundColor: COLORS.primary,
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
   },
   poseTipVoiceBtnText: {
-    fontSize: 16,
+    fontSize: 11,
+    color: COLORS.textOnPrimary,
+    fontWeight: '600',
   },
   // 底部控制栏
   bottomBarGlass: {
@@ -1159,12 +1164,12 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: COLORS.whiteAlpha15,
   },
   // 侧边按钮文字
   sideBtnIcon: {
     fontSize: 13,
-    color: 'rgba(255,255,255,0.95)',
+    color: COLORS.whiteAlpha95,
     fontWeight: '600',
   },
 
@@ -1177,29 +1182,29 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   shutterOuter: {
-    width: 80,
-    height: 80,
-    borderRadius: 16,
-    borderWidth: 4,
-    borderColor: COLORS.whiteAlpha80,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    borderWidth: 3,
+    borderColor: COLORS.whiteAlpha90,
     alignItems: 'center',
     justifyContent: 'center',
   },
   shutterOuterCapturing: {
     borderColor: COLORS.primary,
-    transform: [{ scale: 0.95 }],
+    transform: [{ scale: 0.92 }],
   },
   shutterInner: {
-    width: 60,
-    height: 60,
-    borderRadius: 14,
+    width: 58,
+    height: 58,
+    borderRadius: 29,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   shutterInnerCapturing: {
     backgroundColor: COLORS.primary,
-    transform: [{ scale: 0.95 }],
+    transform: [{ scale: 0.92 }],
   },
   modalBackdrop: {
     flex: 1,
