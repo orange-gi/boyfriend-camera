@@ -922,6 +922,16 @@ class VoiceCoach {
       await this.speakRainyTip()
       return
     }
+    // 镜子自拍场景 → 委托给专用方法
+    if (sceneType === 'mirror') {
+      await this.speakMirrorSelfieTip()
+      return
+    }
+    // 泳池边场景 → 委托给专用方法
+    if (sceneType === 'swimming_pool') {
+      await this.speakSwimmingPoolTip()
+      return
+    }
     // 默认推荐人像模式
     await this.speak(FACE_TIPS.PORTRAIT_MODE, true)
   }
@@ -2601,17 +2611,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 镜子自拍提示 */
-  async speakMirrorSelfieTip(): Promise<void> {
-    const tips = [
-      '对着镜子自拍！手机稍微斜一点拍，角度更好看～',
-      '浴室镜自拍光线好均匀，试试歪头笑一个～',
-      '全身镜自拍显腿长！站在镜子前笑一个～',
-      '镜子里的倒影也很美！试试拍镜子里的自己～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
-
   /** 海边拍照提示 */
   async speakBeachTip(): Promise<void> {
     const tips = [
@@ -2623,6 +2622,32 @@ class VoiceCoach {
       '海边拍逆光剪影效果最好！让轮廓发光～',
       '沙滩做背景干净开阔，人居中或三分都好看～',
       '紫外线强！让女朋友涂好防晒再出去拍～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 镜子自拍提示 */
+  async speakMirrorSelfieTip(): Promise<void> {
+    const tips = [
+      '对着镜子侧身站！45 度角轮廓最立体，别正面怼镜子会有反光～',
+      '浴室镜子有雾气时皮肤超柔和！趁雾还没散赶紧拍～',
+      '镜子反光太强了，稍微侧一点躲开强光点～',
+      '镜子里的你和本人都入镜，画面层次感绝了！',
+      '手举到镜子前互动一下，比呆呆站着更有趣～',
+      '选择干净的镜子背景，脏镜子会让画面打折～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 泳池边拍照提示 */
+  async speakSwimmingPoolTip(): Promise<void> {
+    const tips = [
+      '泳池边逆光超有氛围！转过身让光打在脸上，肤色通透～',
+      '水面反光会让肤色偏蓝，稍微仰头躲开水面强反光～',
+      '水汽缭绕时皮肤显得超柔和！这个湿度感绝了，抓紧拍～',
+      '避开泳池瓷砖边线，背景干净主体才更突出～',
+      '泳池边的蓝色调配「清凉」滤镜更配，夏日感拉满～',
+      '有水珠时皮肤更有光泽！趁身上还有水珠时拍～',
     ]
     await this.speak(pickRandom(tips), true)
   }
