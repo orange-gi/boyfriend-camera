@@ -1068,7 +1068,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 4,
-    backgroundColor: 'rgba(0,0,0,0.2)',
     borderRadius: borderRadius.xl,
     overflow: 'hidden',
   },
@@ -1170,7 +1169,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 14,
     zIndex: 20,
-    backgroundColor: 'rgba(0,0,0,0.2)',
     borderRadius: 16,
     overflow: 'hidden',
   },
@@ -1181,7 +1179,6 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: 'rgba(255,255,255,0.1)',
   },
   // 侧边按钮文字
   sideBtnIcon: {
@@ -1202,13 +1199,10 @@ const styles = StyleSheet.create({
     width: 76,
     height: 76,
     borderRadius: 38,
-    borderWidth: 3,
-    borderColor: COLORS.whiteAlpha90,
     alignItems: 'center',
     justifyContent: 'center',
   },
   shutterOuterCapturing: {
-    borderColor: COLORS.primary,
     transform: [{ scale: 0.92 }],
   },
   shutterInner: {
@@ -1236,7 +1230,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     paddingBottom: 24,
-    maxHeight: '75%',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -1267,7 +1260,7 @@ const styles = StyleSheet.create({
   // 简洁优雅：选中态仅靠颜色和字重区分，去背景 alpha 装饰
   categoryTab: {
     paddingHorizontal: 14,
-    paddingVertical: 6,
+    paddingVertical: 4,
     marginHorizontal: 2,
     borderRadius: 16,
   },

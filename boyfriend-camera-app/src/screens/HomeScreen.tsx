@@ -168,7 +168,7 @@ export default function HomeScreen() {
               <React.Fragment key={i}>
                 {i > 0 && <View style={styles.statDivider} />}
                 <View style={styles.statItem}>
-                  <View style={styles.skeletonNum} />
+                  <Text style={styles.skeletonNum}>—</Text>
                   <Text style={styles.statLabel}>{label}</Text>
                 </View>
               </React.Fragment>
@@ -266,27 +266,21 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { paddingTop: 56, paddingHorizontal: spacing[5], paddingBottom: 0 },
-  // 每日提示卡：左 accent 竖线，视觉区分提示与普通文本
+  // 每日提示卡：去装饰化，纯文字留白
   dailyTipCard: {
     marginBottom: spacing[4],
     paddingVertical: spacing[2],
-    paddingLeft: spacing[3],
-    borderLeftWidth: 2,
-    borderLeftColor: COLORS.primary,
   },
-  dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  // 新用户姿势提示卡：与每日提示卡统一用 primary 色，符合简洁优雅极致原则
+  dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textMuted, lineHeight: 22 },
+  // 新用户姿势提示卡：去装饰化
   poseTipCard: {
     marginBottom: spacing[5],
     paddingVertical: spacing[2],
-    paddingLeft: spacing[3],
-    borderLeftWidth: 2,
-    borderLeftColor: COLORS.primary,
   },
   statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
-  skeletonNum: { width: 56, height: 36, borderRadius: 8, backgroundColor: COLORS.divider, marginBottom: 4 },
+  skeletonNum: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48, color: COLORS.divider, marginBottom: 4, textAlign: 'center' },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   statDivider: { width: 0.5, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
@@ -305,7 +299,7 @@ const styles = StyleSheet.create({
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
   todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  bottomNav: { flexDirection: 'row', borderRadius: borderRadius.xl, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
+  bottomNav: { flexDirection: 'row', paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
   bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
