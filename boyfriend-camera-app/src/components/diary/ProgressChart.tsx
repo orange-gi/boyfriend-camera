@@ -32,10 +32,6 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
   if (sorted.length === 0) {
     return (
       <View style={[styles.empty, { height }]}>
-        <View style={styles.emptyIconWrap}>
-          <View style={styles.emptyLine} />
-          <View style={styles.emptyDot} />
-        </View>
         <Text style={styles.emptyTitle}>还没有进步记录</Text>
         <Text style={styles.emptySub}>拍几张照片，就能看到分数一点点变高啦</Text>
       </View>
@@ -350,30 +346,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 32,
   },
-  emptyIconWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 14,
-    height: 28,
-  },
-  emptyLine: {
-    width: 48,
-    height: 1,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.divider,
-  },
-  emptyDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: COLORS.textMuted,
-    marginLeft: 2,
-  },
   emptyTitle: {
     fontSize: 15,
     fontWeight: '600',
     color: COLORS.textPrimary,
     marginBottom: 6,
+    textAlign: 'center',
   },
   emptySub: {
     fontSize: 13,
