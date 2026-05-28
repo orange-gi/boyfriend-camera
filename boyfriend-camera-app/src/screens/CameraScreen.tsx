@@ -674,24 +674,17 @@ export default function CameraScreen() {
         onTipPress={handleVoiceTipConfirm}
       />
 
-      {/* 顶部悬浮姿势引导卡 — 毛玻璃风格，3元素：标签+文案+语音按钮 */}
+      {/* 简洁优雅极致：姿势引导卡去装饰化 — 仅保留核心信息，删播放按钮 */}
       {activeTemplate && (
         <View style={styles.poseTipCardFrosted}>
-          {(isAutoRecommended && autoRecommended?.id === activeTemplate.id) && (
+          {isAutoRecommended && autoRecommended?.id === activeTemplate.id && (
             <View style={styles.autoRecommendBadge}>
-              <Text style={styles.autoRecommendBadgeText}>智能推荐</Text>
+              <Text style={styles.autoRecommendBadgeText}>智能</Text>
             </View>
           )}
           <Text style={styles.poseTipText} numberOfLines={1}>
             {activeTemplate.voiceTip || activeTemplate.name}
           </Text>
-          <TouchableOpacity
-            style={styles.poseTipVoiceBtn}
-            onPress={handleVoiceTipConfirm}
-            activeOpacity={0.72}
-          >
-            <Text style={styles.poseTipVoiceBtnText}>播放</Text>
-          </TouchableOpacity>
         </View>
       )}
 
@@ -1124,17 +1117,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   modeBtnText: {
-    color: 'rgba(255,255,255,0.55)',
-    fontSize: 17,
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: 14,
   },
   modeBtnTextActive: {
     color: COLORS.textOnDark,
   },
-  // 顶部悬浮姿势引导卡
+  // 简洁优雅：姿势引导卡去装饰化 — 无背景无边框，仅文字信息
   autoRecommendBadge: {
     backgroundColor: COLORS.primary,
-    borderRadius: 8,
-    paddingHorizontal: 8,
+    borderRadius: 6,
+    paddingHorizontal: 6,
     paddingVertical: 2,
     marginRight: 6,
     flexShrink: 0,
@@ -1155,31 +1148,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     zIndex: 20,
-    backgroundColor: 'rgba(0,0,0,0.15)',
-    borderRadius: 10,
+    // 去装饰化：无背景色，仅靠文字承载信息
+    backgroundColor: 'rgba(0,0,0,0.08)',
+    borderRadius: 8,
     overflow: 'hidden',
   },
   poseTipText: {
     flex: 1,
     fontSize: 13,
-    color: COLORS.whiteAlpha95,
+    color: 'rgba(255,255,255,0.92)',
     fontWeight: '500',
-    lineHeight: 20,
+    lineHeight: 18,
   },
-  poseTipVoiceBtn: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: COLORS.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-  },
-  poseTipVoiceBtnText: {
-    fontSize: 11,
-    color: COLORS.textOnPrimary,
-    fontWeight: '600',
-  },
+  // 播放按钮已移除（简洁优雅：卡片本身承载信息，无需额外操作入口）
   // 底部控制栏
   bottomBarGlass: {
     position: 'absolute',
