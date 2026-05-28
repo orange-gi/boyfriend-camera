@@ -149,7 +149,7 @@ export default function HomeScreen() {
     </Animated.View>
   ) : null
 
-  // 趋势进度条（useMemo 缓存，避免每次渲染重新计算）
+  // 简洁优雅：趋势行仅保留数字和方向，删除冗余进度条
   const trendRowEl = useMemo(() => {
     if (diaryCount < 2 || avgScore <= 0) return null
     const tc = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
@@ -157,12 +157,8 @@ export default function HomeScreen() {
     const lc = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
     return (
       <View style={styles.trendRow}>
-        <View style={[styles.trendDot, { backgroundColor: lc }]} />
-        <Text style={[styles.trendLabel, { color: tc }]}>{tl}</Text>
-        <View style={[styles.trendBar, { backgroundColor: COLORS.divider }]}>
-          <View style={[styles.trendBarFill, { width: `${avgScore}%` as const, backgroundColor: lc }]} />
-        </View>
         <Text style={[styles.trendScore, { color: lc }]}>{avgScore}</Text>
+        <Text style={[styles.trendLabel, { color: tc }]}>{tl}</Text>
       </View>
     )
   }, [diaryCount, avgScore, trend])
@@ -304,13 +300,10 @@ const styles = StyleSheet.create({
   // 简洁优雅：进步标签，无背景色，仅靠文字颜色传达方向
   progressTag: { fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, marginTop: 2 },
   statDivider: { width: 0.5, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
-  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[5], paddingTop: spacing[4], gap: spacing[2] },
-  trendDot: { width: 8, height: 8, borderRadius: 4, flexShrink: 0 },
-  trendLabel: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, flexShrink: 0, minWidth: 56 },
-  trendBar: { flex: 1, height: 4, borderRadius: borderRadius.sm, overflow: 'hidden' },
-  trendBarFill: { height: '100%', borderRadius: borderRadius.sm },
-  trendScore: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, width: 28, textAlign: 'right', flexShrink: 0 },
-  cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[7] },
+  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[4], paddingTop: spacing[4], gap: spacing[2] },
+  trendLabel: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.medium, flexShrink: 0 },
+  trendScore: { fontSize: typography.fontSize.lg, fontWeight: typography.fontWeight.bold, color: COLORS.textMuted, flexShrink: 0 },
+  cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[6] },
   cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
   cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5, color: COLORS.textOnPrimary },
   newBadge: { backgroundColor: hexAlpha(COLORS.bgCard, 0.25), borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2 },

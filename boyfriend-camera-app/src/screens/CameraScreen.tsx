@@ -1115,11 +1115,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '300',
   },
-  // 构图模式切换
+  // 简洁优雅：构图模式切换，去掉可见容器背景，按钮自成一组
   modeGroupGlass: {
     flexDirection: 'row',
-    borderRadius: 14,
-    padding: 2,
     gap: 2,
   },
   modeBtn: {
