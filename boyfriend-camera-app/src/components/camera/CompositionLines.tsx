@@ -3,7 +3,7 @@
  * 使用纯 React Native View 绘制（兼容 React 19）
  * Skia 与 React 19 不兼容，已移除
  */
-import React, { useMemo } from 'react'
+import React from 'react'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 type CompositionMode = 'grid' | 'golden' | 'triangle'

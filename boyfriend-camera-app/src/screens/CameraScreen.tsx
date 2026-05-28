@@ -147,7 +147,6 @@ export default function CameraScreen() {
   const lastBacklightRef = useRef<number>(0)
   const lastLowLightRef = useRef<number>(0)
   const lastBokehTipRef = useRef<number>(0)
-  const lastEveningTipRef = useRef<number>(0)
   const eveningTipFiredRef = useRef<boolean>(false)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
@@ -187,7 +186,6 @@ export default function CameraScreen() {
   const {
     recommended: autoRecommended,
     markManual: markManualTemplate,
-    resetAuto: resetAutoTemplate,
     isAutoRecommended,
   } = useSceneRecommendation({
     templates,
@@ -262,7 +260,6 @@ export default function CameraScreen() {
   // Round 3 扩展：同时处理人脸过大/过小/眼镜反光等专项提示
   const lastFaceTooLargeRef = useRef<number>(0)
   const lastFaceTooSmallRef = useRef<number>(0)
-  const lastGlassesRef = useRef<number>(0)
   useEffect(() => {
     if (faces.length !== 1) return
     const now = Date.now()
@@ -613,13 +610,6 @@ export default function CameraScreen() {
       return next
     })
   }, [resetIdleTimer])
-
-  const clearTemplate = useCallback(() => {
-    setActiveTemplate(null)
-    VoiceCoach.stop()
-    VoiceCoach.speakTemplateCleared()
-    resetAutoTemplate()
-  }, [resetAutoTemplate])
 
   const handleClose = useCallback(() => {
     VoiceCoach.stop()

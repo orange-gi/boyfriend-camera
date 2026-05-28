@@ -120,10 +120,6 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
         const y1 = toY(sorted[i - 1].score)
         const x2 = toX(i)
         const y2 = toY(entry.score)
-        const dx = x2 - x1
-        const dy = y2 - y1
-        const len = Math.sqrt(dx * dx + dy * dy)
-        const angle = Math.atan2(dy, dx) * (180 / Math.PI)
         const isHigh = entry.score >= 80
         const color = isHigh ? COLORS.scoreGreat : entry.score >= 60 ? COLORS.scoreOk : COLORS.scoreBad
 
