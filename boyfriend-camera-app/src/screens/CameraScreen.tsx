@@ -1149,40 +1149,37 @@ const styles = StyleSheet.create({
   },
   // 简洁优雅：姿势引导卡去装饰化 — 无背景无边框，仅文字信息
   autoRecommendBadge: {
-    backgroundColor: COLORS.primary,
-    borderRadius: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    borderRadius: 4,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
     marginRight: 6,
     flexShrink: 0,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.4)',
   },
   autoRecommendBadgeText: {
     fontSize: 10,
-    fontWeight: '700',
-    color: COLORS.textOnPrimary,
+    fontWeight: '600',
+    color: 'rgba(255,255,255,0.85)',
   },
   poseTipCardFrosted: {
     position: 'absolute',
     top: 108,
     left: 16,
     right: 56,
-    paddingVertical: 6,
+    paddingVertical: 5,
     paddingHorizontal: 8,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
     zIndex: 20,
-    // 去装饰化：无背景色，仅靠文字承载信息
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    borderRadius: 8,
-    overflow: 'hidden',
   },
   poseTipText: {
     flex: 1,
-    fontSize: 13,
-    color: 'rgba(255,255,255,0.92)',
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.88)',
     fontWeight: '500',
-    lineHeight: 18,
+    lineHeight: 17,
   },
   // 播放按钮已移除（简洁优雅：卡片本身承载信息，无需额外操作入口）
   // 底部控制栏
@@ -1204,15 +1201,15 @@ const styles = StyleSheet.create({
   sideBtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 46,
+    height: 46,
+    borderRadius: 23,
   },
   // 侧边按钮文字
   sideBtnIcon: {
-    fontSize: 13,
+    fontSize: 12,
     color: COLORS.whiteAlpha95,
-    fontWeight: '600',
+    fontWeight: '500',
   },
 
   shutter: {

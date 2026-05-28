@@ -167,7 +167,7 @@ export default function PoseTemplateOverlay({ template, onTipPress }: Props) {
       {/* 语音提示气泡 */}
       {template.voiceTip && (
         <View style={styles.voiceTipBubble} pointerEvents="box-none">
-          <Text style={styles.voiceTipText}>💬 {template.voiceTip}</Text>
+          <Text style={styles.voiceTipText}>{template.voiceTip}</Text>
           {onTipPress && (
             <TouchableOpacity
               style={styles.voiceTipBtn}
@@ -194,17 +194,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nameTag: {
-    backgroundColor: colors.primaryLight,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
     marginTop: 4,
     alignSelf: 'center',
   },
   nameTagText: {
-    color: colors.textOnPrimary,
-    fontSize: 11,
-    fontWeight: 'bold',
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: 10,
+    fontWeight: '600',
   },
   scaleControls: {
     position: 'absolute',
@@ -231,17 +231,17 @@ const styles = StyleSheet.create({
     bottom: 220,
     left: 16,
     right: 60,
-    backgroundColor: colors.whiteAlpha95,
-    borderRadius: 12,
-    padding: 12,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: 10,
+    padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
   voiceTipText: {
     flex: 1,
     color: colors.textPrimary,
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 12,
+    lineHeight: 17,
   },
   voiceTipBtn: {
     marginLeft: 8,
