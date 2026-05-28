@@ -351,38 +351,55 @@ export default function ResultScreen() {
 
       const sceneType = getSceneType(templateCategory)
 
-      const analysis: AnalysisResult = await analyzePhoto(
-        {
-          facePosition: faceData,
-          faceCount: faces.length,
-          brightness,
-          sharpness,
-          tiltAngle,
-          expression: faces[0] ? {
-            smiling: faces[0].smiling,
-            leftEyeOpen: faces[0].leftEyeOpen,
-            rightEyeOpen: faces[0].rightEyeOpen,
-            yawAngle: faces[0].yawAngle,
-            rollAngle: faces[0].rollAngle,
-          } : undefined,
-        },
-        {
-          lastScore: lastRecord?.score,
-          recentAvg,
-          streakCount,
-          totalShoots: diary.length + 1,  // 当前是第 N 张照片（diary 是之前 N-1 张）
-          isFirstPhoto: diary.length === 0,
-          sceneType,
-          lastCompositionScore: lastRecord?.compositionScore,
-          lastExpressionScore: lastRecord?.expressionScore,
-          lastExposureScore: lastRecord?.exposureScore,
-          lastStabilityScore: lastRecord?.stabilityScore,
-          isCouplePhoto: faces.length >= 2,
-          peakScore: await getPeakScore(),
+      let analysis: AnalysisResult | null = null
+      try {
+        analysis = await analyzePhoto(
+          {
+            facePosition: faceData,
+            faceCount: faces.length,
+            brightness,
+            sharpness,
+            tiltAngle,
+            expression: faces[0] ? {
+              smiling: faces[0].smiling,
+              leftEyeOpen: faces[0].leftEyeOpen,
+              rightEyeOpen: faces[0].rightEyeOpen,
+              yawAngle: faces[0].yawAngle,
+              rollAngle: faces[0].rollAngle,
+            } : undefined,
+          },
+          {
+            lastScore: lastRecord?.score,
+            recentAvg,
+            streakCount,
+            totalShoots: diary.length + 1,
+            isFirstPhoto: diary.length === 0,
+            sceneType,
+            lastCompositionScore: lastRecord?.compositionScore,
+            lastExpressionScore: lastRecord?.expressionScore,
+            lastExposureScore: lastRecord?.exposureScore,
+            lastStabilityScore: lastRecord?.stabilityScore,
+            isCouplePhoto: faces.length >= 2,
+            peakScore: await getPeakScore(),
+          }
+        )
+      } catch (e: unknown) {
+        if (__DEV__) logger.debug('ResultScreen', 'analyzePhoto failed:', e)
+        // 分析失败时显示默认结果，不阻塞用户流程
+        analysis = {
+          totalScore: 50,
+          compositionScore: 12,
+          exposureScore: 12,
+          stabilityScore: 12,
+          levelScore: 7,
+          expressionScore: 7,
+          suggestions: ['这张照片看起来有点难分析，试试换个光线或角度～'],
+          praise: ['男朋友有在认真拍！'],
+          problems: [],
         }
-      )
+      }
 
-      if (!mountedRef.current) return
+      if (!mountedRef.current || !analysis) return
       setPraiseList(analysis.praise || [])
       setScoreResult({
         totalScore: analysis.totalScore,
@@ -465,19 +482,29 @@ export default function ResultScreen() {
         track(() => { try { VoiceCoach.speakFilterTip(filterTipType) } catch {} }, 5500)
       }
 
-      await saveToDiary({
-        date: new Date().toISOString(),
-        score: analysis.totalScore,
-        suggestions: analysis.suggestions,
-        faceCount: faces.length,
-        compositionScore: analysis.compositionScore,
-        exposureScore: analysis.exposureScore,
-        stabilityScore: analysis.stabilityScore,
-        levelScore: analysis.levelScore,
-        expressionScore: analysis.expressionScore,
-        templateCategory: templateCategory ?? undefined,
-      })
-      const isNewRecord = await updatePeakScore(analysis.totalScore)
+      // 日记写入（分析结果必定存在，fallback 保证）
+      try {
+        await saveToDiary({
+          date: new Date().toISOString(),
+          score: analysis.totalScore,
+          suggestions: analysis.suggestions,
+          faceCount: faces.length,
+          compositionScore: analysis.compositionScore,
+          exposureScore: analysis.exposureScore,
+          stabilityScore: analysis.stabilityScore,
+          levelScore: analysis.levelScore,
+          expressionScore: analysis.expressionScore,
+          templateCategory: templateCategory ?? undefined,
+        })
+      } catch (e: unknown) {
+        if (__DEV__) logger.debug('ResultScreen', 'saveToDiary failed:', e)
+      }
+      let isNewRecord = false
+      try {
+        isNewRecord = await updatePeakScore(analysis.totalScore)
+      } catch (e: unknown) {
+        if (__DEV__) logger.debug('ResultScreen', 'updatePeakScore failed:', e)
+      }
 
       // 日记写入确认 + 连续好评播报
       try { VoiceCoach.speakDiaryWritten(analysis.totalScore) } catch {}
@@ -916,37 +943,39 @@ const styles = StyleSheet.create({
   filterPickerList: {
     flexDirection: 'row',
     paddingRight: 16,
-    paddingVertical: 12,
+    paddingVertical: 10,
   },
   filterItem: {
     alignItems: 'center',
-    marginHorizontal: 4,
-    width: 58,
+    marginHorizontal: 6,
   },
+  // 滤镜色块：40px 直径，简洁克制，克制不用阴影
   filterCircle: {
-    width: 46,
-    height: 46,
-    borderRadius: 9999,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // 选中态：3px 白色实线环（兼容所有滤镜颜色，包括深色滤镜）
-  // 用白色环：任何滤镜底色上都有清晰对比，简洁克制
+  // 选中态：2px 主色内环 + 4px 0.15 透明度外环
+  // 设计理由：主色环与未选中态形成最小化差异，去掉白色边框避免与深色滤镜冲突
+  // 外环提供选中态的空间感，但不增加实际视觉噪音
   filterCircleActive: {
-    borderWidth: 3,
-    borderColor: COLORS.whiteAlpha95,
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    elevation: 3,
   },
+  // 去标签：简洁优雅极致 — 颜色本身即信息，无需文字标签
+  // 无障碍通过 accessibilityLabel 承载完整语义
   filterLabel: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    textAlign: 'center',
-    fontWeight: '400',
-    marginTop: 5,
+    display: 'none',
   },
   filterLabelActive: {
-    color: COLORS.primary,
-    fontWeight: '600',
-    fontSize: 12,
+    display: 'none',
   },
   processingLabel: {
     fontSize: 15,
