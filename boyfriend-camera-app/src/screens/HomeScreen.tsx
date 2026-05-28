@@ -143,7 +143,7 @@ export default function HomeScreen() {
   // 每日提示卡
   const dailyTipCard = !tipDismissed ? (
     <Animated.View style={[styles.dailyTipCard, heroStyle]}>
-      <TouchableOpacity onPress={dismissTip} activeOpacity={0.85} style={{ flex: 1 }}>
+      <TouchableOpacity onPress={dismissTip} activeOpacity={0.85} style={{ flex: 1 }} accessibilityRole="button" accessibilityLabel="关闭每日提示" accessibilityHint="单击关闭每日拍照提示">
         <Text style={styles.dailyTipText}>{getDailyTip().text}</Text>
       </TouchableOpacity>
     </Animated.View>
@@ -244,10 +244,10 @@ export default function HomeScreen() {
       )}
 
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
-        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72}>
+        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72} accessibilityRole="button" accessibilityLabel="进步日记" accessibilityHint="查看历史拍照记录和进步轨迹">
           <Text style={styles.bottomNavText}>进步日记</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72}>
+        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72} accessibilityRole="button" accessibilityLabel="拍照" accessibilityHint="开始拍照">
           <Text style={styles.bottomNavText}>拍照</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -266,8 +266,11 @@ export default function HomeScreen() {
             <Text style={styles.onboardTitle}>{ONBOARD_STEPS[onboardStep].title}</Text>
             <Text style={styles.onboardDesc}>{ONBOARD_STEPS[onboardStep].desc}</Text>
             <View style={styles.onboardBtns}>
-              {onboardStep > 0 && <TouchableOpacity style={styles.onboardBackBtn} onPress={() => setOnboardStep(onboardStep - 1)} activeOpacity={0.72}><Text style={styles.onboardBackBtnText}>‹ 上一步</Text></TouchableOpacity>}
-              <TouchableOpacity style={[styles.onboardNextBtn, onboardStep === 0 && styles.onboardNextBtnFull]} onPress={nextOnboardStep} activeOpacity={0.72}>
+              {onboardStep > 0 && <TouchableOpacity style={styles.onboardBackBtn} onPress={() => setOnboardStep(onboardStep - 1)} activeOpacity={0.72} accessibilityRole="button" accessibilityLabel="上一步" accessibilityHint="返回引导的上一歩">
+                <Text style={styles.onboardBackBtnText}>‹ 上一步</Text>
+              </TouchableOpacity>}
+              <TouchableOpacity style={[styles.onboardNextBtn, onboardStep === 0 && styles.onboardNextBtnFull]} onPress={nextOnboardStep} activeOpacity={0.72} accessibilityRole="button" accessibilityLabel={onboardStep === ONBOARD_STEPS.length - 1 ? '开始使用' : '下一步'} accessibilityHint={onboardStep === ONBOARD_STEPS.length - 1 ? '开始使用男友相机' : '继续到下一步'}>
+
                 <Text style={styles.onboardNextBtnText}>{onboardStep < ONBOARD_STEPS.length - 1 ? '下一步 →' : '开始使用'}</Text>
               </TouchableOpacity>
             </View>
