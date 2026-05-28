@@ -3140,6 +3140,56 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 站姿/坐姿体态提示 */
+  async speakPostureTip(): Promise<void> {
+    const tips = [
+      '站姿时稍微收腹挺胸，仪态会好很多～',
+      '站姿时重心放一只脚，腿会显得更直更长～',
+      '双肩放松下沉，别端着会更自然～',
+      '脖子伸长一点点，天鹅颈上线，气质立刻提升～',
+      '站姿时收下巴一点点，下颌线会清晰很多～',
+      '侧身站比正对镜头更显瘦，试试 45 度角～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 侧颜拍摄提示 */
+  async speakSideProfileTip(): Promise<void> {
+    const tips = [
+      '侧脸超显气质！让光打在侧脸上，轮廓会更立体～',
+      '拍侧脸时让女朋友看向远方，眼神更有故事感～',
+      '侧颜逆光剪影超有意境，试试这个角度～',
+      '低头看地面时从侧面拍，超有意境的低头侧颜～',
+      '侧脸时让头发别在耳后，露出完整侧颜轮廓会更优雅～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 背景简洁度提示 */
+  async speakBackgroundTip(): Promise<void> {
+    const tips = [
+      '背景太杂乱了！找个干净简洁的背景让人物更突出～',
+      '找面纯色的墙或者干净的天空当背景，超容易出片～',
+      '户外拍照时背景太乱，试试仰拍让天空当背景～',
+      '打开人像模式虚化背景，主体立刻突出～',
+      '背景延伸线可以让照片更有纵深感～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 拍摄角度提示 */
+  async speakAngleTip(): Promise<void> {
+    const tips = [
+      '稍微蹲低一点从下往上拍，显腿长！',
+      '从侧面 45 度角拍比正脸更显瘦，试试这个角度～',
+      '仰拍时让女朋友抬头看镜头，下巴会更尖～',
+      '俯拍时让女朋友低头收下巴，双下巴立刻消失～',
+      '高角度俯拍适合想显脸小的女生～',
+      '低角度仰拍适合想显腿长的全身照～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }

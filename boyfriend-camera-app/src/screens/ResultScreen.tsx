@@ -624,6 +624,23 @@ export default function ResultScreen() {
         }
       }
 
+      // 背景/体态/侧颜/角度专项提示（根据建议内容关键字触发）
+      if (analysis.suggestions) {
+        const suggText = analysis.suggestions.join('')
+        if (suggText.includes('背景') && analysis.suggestions.length > 0) {
+          track(() => { try { VoiceCoach.speakBackgroundTip() } catch {} }, 5000)
+        }
+        if (suggText.includes('站姿') || suggText.includes('坐姿') || suggText.includes('收腹') || suggText.includes('双肩') || suggText.includes('天鹅颈')) {
+          track(() => { try { VoiceCoach.speakPostureTip() } catch {} }, 5200)
+        }
+        if (suggText.includes('侧脸') || suggText.includes('侧颜') || suggText.includes('侧身')) {
+          track(() => { try { VoiceCoach.speakSideProfileTip() } catch {} }, 5200)
+        }
+        if (suggText.includes('角度') || suggText.includes('仰拍') || suggText.includes('俯拍') || suggText.includes('蹲低')) {
+          track(() => { try { VoiceCoach.speakAngleTip() } catch {} }, 5400)
+        }
+      }
+
       // TTS 朗读夸奖文案（分数 ≥ 90 时，截取前 50 字朗读）
       const praiseToSpeak = analysis.praise?.[0]?.slice(0, 50) || ''
       if (praiseToSpeak) {
