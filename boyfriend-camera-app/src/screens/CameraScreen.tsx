@@ -146,6 +146,8 @@ export default function CameraScreen() {
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
   const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
+  // 追踪 handleSelectTemplate 的 voiceTip timeout（避免组件卸载后仍触发 TTS）
+  const templateVoiceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleAutoRecommended = useCallback((template: PoseTemplate) => {
     // 先清除之前的 timeout
@@ -169,6 +171,10 @@ export default function CameraScreen() {
     return () => {
       autoRecTimeoutRef.current.forEach(clearTimeout)
       autoRecTimeoutRef.current = []
+      if (templateVoiceTimeoutRef.current) {
+        clearTimeout(templateVoiceTimeoutRef.current)
+        templateVoiceTimeoutRef.current = null
+      }
     }
   }, [])
 
@@ -509,9 +515,13 @@ export default function CameraScreen() {
     if (isSwitch) VoiceCoach.speakTemplateChanged()
     // 模板选中确认语
     VoiceCoach.speakTemplateSelected(template.name)
-    // 随后朗读具体动作指导
+    // 随后朗读具体动作指导（tracked timeout，组件卸载时清理）
     if (template.voiceTip) {
-      setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 1500)
+      if (templateVoiceTimeoutRef.current) clearTimeout(templateVoiceTimeoutRef.current)
+      templateVoiceTimeoutRef.current = setTimeout(() => {
+        templateVoiceTimeoutRef.current = null
+        VoiceCoach.speakTemplateTip(template.voiceTip)
+      }, 1500)
     }
     // 模板分类专属提示
     if (template.category) {
