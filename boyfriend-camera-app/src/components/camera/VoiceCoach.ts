@@ -1979,6 +1979,20 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
+  /** 酒吧霓虹灯场景提示 */
+  async speakNeonLightTip(): Promise<void> {
+    const tips = [
+      '酒吧霓虹灯超有氛围！侧脸对着光源，灯光打在侧脸上超美～',
+      '霓虹灯下拍剪影也很酷！背对灯光让轮廓发光～',
+      '酒吧灯光五彩斑斓，衣服选深色或纯色更出片～',
+      '霓虹灯做背景虚化超有氛围感！人像模式开起来～',
+      '酒吧光线复杂，找一处光源正对或侧对脸，别让脸完全在暗处～',
+      '霓虹灯下可以靠近光源拍特写，光线打在皮肤上很柔～',
+      '酒吧拍的话靠近窗户或者霓虹灯牌，光会更干净～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 金色时刻提示 */
   async speakGoldenHour(): Promise<void> {
     const tips = [

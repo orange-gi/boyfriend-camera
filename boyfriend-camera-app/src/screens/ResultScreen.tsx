@@ -258,7 +258,7 @@ export default function ResultScreen() {
         }
         // 酒吧霓虹灯（总分 >= 60）
         if (templateCategory === '酒吧霓虹灯' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakFestivalLightsTip() } catch {} }, 2500)
+          track(() => { try { VoiceCoach.speakNeonLightTip() } catch {} }, 2500)
         }
         // 演唱会现场（总分 >= 60）
         if (templateCategory === '演唱会现场' && scoreResult.totalScore >= 60) {
