@@ -315,6 +315,34 @@ export default function ResultScreen() {
         if ((templateCategory === '画廊博物馆' || templateCategory === '艺术展馆') && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakChapelTip() } catch {} }, 2500)
         }
+        // 露营帐篷（总分 >= 60）
+        if (templateCategory === '露营帐篷' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakTentCampTip() } catch {} }, 2500)
+        }
+        // 湖边水景（总分 >= 60）
+        if (templateCategory === '湖边水景' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakLakeWaterTip() } catch {} }, 2500)
+        }
+        // 圣诞氛围（总分 >= 60）
+        if (templateCategory === '圣诞氛围' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakChristmasTip() } catch {} }, 2500)
+        }
+        // 温泉场景（总分 >= 60）
+        if (templateCategory === '温泉泡汤' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakHotspringTip() } catch {} }, 2500)
+        }
+        // 超市便利店（总分 >= 60）
+        if (templateCategory === '超市便利店' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakSupermarketTip() } catch {} }, 2500)
+        }
+        // 礁石海浪（总分 >= 60）
+        if (templateCategory === '礁石海浪' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakRockyBeachTip() } catch {} }, 2500)
+        }
+        // 游乐园嘉年华（总分 >= 60）
+        if (templateCategory === '游乐园嘉年华' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakCarnivalTip() } catch {} }, 2500)
+        }
       } catch {}
     }, 800)
     return () => clearTimeout(tid)

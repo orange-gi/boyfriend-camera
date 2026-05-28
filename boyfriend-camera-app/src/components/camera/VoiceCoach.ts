@@ -645,24 +645,6 @@ class VoiceCoach {
     await this.speak(FACE_TIPS.GOOD_POSITION)
   }
 
-  /** 眼镜反光提示 */
-
-  /** 人脸过远提示 */
-
-  /** 逆光检测提示 */
-
-  /** 俯拍角度确认提示 */
-
-  /** 仰拍角度确认提示 */
-
-  /** 侧颜确认提示 */
-
-  /** 全身照确认提示 */
-
-  /** 半身照确认提示 */
-
-  /** 肩膀歪斜提示 */
-
   /** 根据稳定性状态播报提示 */
   async speakStabilityTip(
     tiltX: number,
@@ -3187,6 +3169,90 @@ class VoiceCoach {
       '俯拍时让女朋友低头收下巴，双下巴立刻消失～',
       '高角度俯拍适合想显脸小的女生～',
       '低角度仰拍适合想显腿长的全身照～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 露营帐篷场景 TTS */
+  async speakTentCampTip(): Promise<void> {
+    const tips = [
+      '帐篷前光线超美！靠近帐篷站着，背景超有户外感～',
+      '露营场景选个干净的背景，让人和帐篷成为主体～',
+      '帐篷前的篝火灯光打在脸上超有感觉，但别太靠近火源～',
+      '露营帐篷前超有氛围感！傍晚的光线拍出来超温柔～',
+      '在帐篷前拍个背影也很美，让篝火或星空做背景～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 湖边水景场景 TTS */
+  async speakLakeWaterTip(): Promise<void> {
+    const tips = [
+      '湖边光线超柔和！侧身站着让水面反光打在脸上～',
+      '湖边风大拍的时候让女友站稳，头发乱的瞬间抓拍～',
+      '湖边拍摄选个无风的时间段，水平如镜效果最好～',
+      '水边拍照要注意别让水溅到镜头上～',
+      '湖边光线柔和，拍侧脸最有感觉！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 圣诞氛围场景 TTS */
+  async speakChristmasTip(): Promise<void> {
+    const tips = [
+      '圣诞灯串当背景超有氛围感！让女友靠近灯串站着～',
+      '圣诞树前侧身站好，灯光打脸上超温暖～',
+      '圣诞氛围最重要的是暖调光线，让脸靠近光源～',
+      '双手捧脸或抱膝坐好，圣诞感十足！',
+      '圣诞树彩灯当背景，侧身站好让灯光打侧脸～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 温泉场景 TTS */
+  async speakHotspringTip(): Promise<void> {
+    const tips = [
+      '温泉水汽缭绕超有氛围！表情放松自然最好看～',
+      '泡汤场景要注意光线不要太暗，让脸朝向光源～',
+      '温泉场景适合侧身或回眸，慵懒感十足～',
+      '温泉边光线偏暖，让蒸汽柔化光线，皮肤看起来超好～',
+      '泡汤时别让蒸汽模糊镜头，保持镜头干净～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 超市便利店场景 TTS */
+  async speakSupermarketTip(): Promise<void> {
+    const tips = [
+      '超市道具互动超可爱！拿个零食或水果做道具～',
+      '超市货架前光线均匀，但背景比较杂乱，靠近镜头让背景虚化～',
+      '超市便利店的冰柜灯光超有氛围感，站在旁边拍～',
+      '超市里光线复杂，找个不背光的角落站～',
+      '拿商品做道具，俏皮地看向镜头，日常生活感满满～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 礁石海浪场景 TTS */
+  async speakRockyBeachTip(): Promise<void> {
+    const tips = [
+      '礁石浪花感拍出来了，男朋友有天赋！',
+      '海边礁石的氛围感绝了，超有感觉！',
+      '浪花和人物关系处理得太好了！',
+      '男朋友把海边的浪漫都定格了！',
+      '礁石上有青苔会滑，站好别动再拍～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 游乐园嘉年华场景 TTS */
+  async speakCarnivalTip(): Promise<void> {
+    const tips = [
+      '游乐园光线复杂，找个不逆光的角度～',
+      '旋转木马、摩天轮前拍照，超有童话感！',
+      '游乐园的背景很丰富，让人站在前面笑一个～',
+      '动感活力感满满！男朋友抓拍到你的快乐瞬间！',
+      '游乐园大片感十足，笑容超有感染力！',
     ]
     await this.speak(pickRandom(tips), true)
   }
