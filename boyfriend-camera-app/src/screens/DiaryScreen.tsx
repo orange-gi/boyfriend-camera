@@ -373,15 +373,11 @@ export default function DiaryScreen() {
               <Text style={[styles.weekNum, { color: weeklyStats.weekAvg >= 80 ? COLORS.success : weeklyStats.weekAvg >= 60 ? COLORS.warning : COLORS.textMuted }]}>
                 {weeklyStats.weekAvg > 0 ? `均分${weeklyStats.weekAvg}` : '-'}
               </Text>
-              <Text style={styles.weekSep}>·</Text>
               <Text style={[styles.weekNum, { color: COLORS.textPrimary }]}>
                 {weeklyStats.weekCount > 0 ? `${weeklyStats.weekCount}张` : '暂无'}
               </Text>
               {weeklyStats.streak > 0 && (
-                <>
-                  <Text style={styles.weekSep}>·</Text>
-                  <Text style={[styles.weekNum, { color: COLORS.primary }]}>{weeklyStats.streak}天连续</Text>
-                </>
+                <Text style={[styles.weekNum, { color: COLORS.primary }]}>{weeklyStats.streak}天连续</Text>
               )}
             </View>
 
@@ -541,7 +537,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 24,
-    gap: 6,
+    gap: 10,
   },
   weekLabel: {
     fontSize: 12,
@@ -551,10 +547,6 @@ const styles = StyleSheet.create({
   weekNum: {
     fontSize: 12,
     fontWeight: '600',
-  },
-  weekSep: {
-    fontSize: 12,
-    color: COLORS.divider,
   },
   recordCard: {
     flexDirection: 'row',
