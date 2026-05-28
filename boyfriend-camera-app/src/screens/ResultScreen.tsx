@@ -219,6 +219,7 @@ export default function ResultScreen() {
         // 海边/日落场景（总分 >= 65 时触发出片感）
         if (templateCategory === '户外海边日落' && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakBeachSunsetTip() } catch {} }, 2500)
+          track(() => { try { VoiceCoach.speakGoldenHourTip() } catch {} }, 3500)
         }
         if (templateCategory === '户外海边' && scoreResult.totalScore >= 65) {
           track(() => { try { VoiceCoach.speakBeachTip() } catch {} }, 2500)
@@ -261,7 +262,7 @@ export default function ResultScreen() {
         }
         // 夜景系列（夜景/星空夜景/桥上夜景，总分 >= 60）
         if ((templateCategory === '夜景' || templateCategory === '星空夜景' || templateCategory === '桥上夜景') && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakNightTip() } catch {} }, 2500)
+          track(() => { try { VoiceCoach.speakUrbanNightTip() } catch {} }, 2500)
         }
         // 酒吧霓虹灯（总分 >= 60）
         if (templateCategory === '酒吧霓虹灯' && scoreResult.totalScore >= 60) {
