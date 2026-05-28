@@ -1299,11 +1299,11 @@ const styles = StyleSheet.create({
   // categoryTabActive：内联样式 { borderBottomWidth: 2, borderBottomColor: color }
   // 设计理由：分类标签文字较小，仅靠字重+颜色区分选中态不够直观
   // 2px 下划线是最小化选中态指示器，不增加视觉噪音，与类别色呼应
+  // borderRadius 移除：非选中标签无背景，borderRadius 不产生视觉作用
   categoryTab: {
     paddingHorizontal: 14,
     paddingVertical: 4,
     marginHorizontal: 2,
-    borderRadius: 16,
   },
 
   categoryTabText: {
@@ -1435,7 +1435,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgCard,
     borderRadius: 16,
     padding: 20,
-    width: '88%',
+    width: '100%',
     maxWidth: 320,
     alignItems: 'center',
   },
@@ -1460,8 +1460,6 @@ const styles = StyleSheet.create({
   previewTip: {
     fontSize: 12,
     color: COLORS.primary,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
     marginBottom: 12,
     textAlign: 'center',
   },
