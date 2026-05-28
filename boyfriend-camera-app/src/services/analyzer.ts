@@ -2691,6 +2691,19 @@ const SUGGESTION_POOL: Record<string, string[]> = {
   // 街头艺术墙场景
   // 镜子房间/镜面场景
   // 水下场景
+  // 特殊风格（创意/艺术/超现实/极简/波普等）
+  special_style_specific: [
+    '这张特殊风格照片超有艺术感！创意满分～',
+    '艺术风格照需要光线干净！背景别太杂乱才能突出风格～',
+    '创意照片可以尝试不同角度，仰拍俯拍都能出奇效～',
+    '极简风格要舍得留白！画面越简洁越有张力～',
+    '波普风色彩要大胆，对比强烈才够味～',
+    '复古风格重在氛围！光线、色调、道具缺一不可～',
+    '黑白极简最考验构图！去掉颜色，线条和形状说话～',
+    '艺术照要让背景配合主体，别让背景抢了风头～',
+    '创意拍摄多试几个角度，同一个姿势换个视角完全不一样～',
+    '极简风注意边缘留白，主体周围不要有干扰元素～',
+  ],
   creative_composition: [
     '试试用引导线构图！栏杆、道路、墙壁都能引导视线到主体～',
     '找个前景框架（门框、窗户、树枝）把主体框住，画面更有层次～',
@@ -4143,6 +4156,7 @@ export type SceneType =
   | 'dance_performance' | 'red_autumn_detail' | 'rooftop_daytime' | 'amusement_carnival'
   | 'airport_station' | 'meadow_ranch' | 'subway_escalator'
   | 'sunset' | 'overcast' | 'hotspring' | 'vintage_film' | 'neon_light' | 'airport'
+  | 'special_style'
 
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */
@@ -5782,6 +5796,10 @@ export async function analyzePhoto(
     if (Math.random() > 0.7) {
       suggestions.push(pickRandom(SUGGESTION_POOL.scene_wait_tips))
     }
+  }
+  // 特殊风格场景：创意/艺术/极简/波普等
+  if (sceneType === 'special_style') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.special_style_specific))
   }
 
   const uniquePraise = [...new Set(praise)]

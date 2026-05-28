@@ -46,7 +46,7 @@ function getSceneType(category: string | null | undefined): SceneType {
     '室内人像': 'indoor',
     '餐厅美食': 'cafe',
     '情侣合照': 'other',  // 情侣场景由 photoCount/isCouplePhoto 驱动
-    '特殊风格': 'other',
+    '特殊风格': 'special_style',
     '自拍技巧': 'other',  // 自拍由 faceCount === 1 场景判断
     '节日限定': 'christmas',
     '运动健身': 'gym',
