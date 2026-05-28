@@ -4130,34 +4130,34 @@ export async function analyzePhoto(
   }
 
   // 亮度中等但构图/曝光分数不高时，可能是对比度问题
-  if (brightness >= 80 && brightness <= 170 && compositionScore < 32 && exposureScore < 22 && suggestions.length < 4) {
+  if (safeBrightness >= 80 && safeBrightness <= 170 && compositionScore < 32 && exposureScore < 22 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.washed_out))
     problems.push('washed_out')
   }
 
   // 过饱和检测：极亮户外场景（阳光直射）可能导致颜色过艳
-  if (brightness > 200 && sceneType === 'outdoor' && suggestions.length < 4) {
+  if (safeBrightness > 200 && sceneType === 'outdoor' && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.over_saturated))
     problems.push('over_saturated')
   }
 
   // 强日光户外建议：正午/夏季户外亮度高且直射
-  if (brightness > 170 && sceneType === 'outdoor' && suggestions.length < 4) {
+  if (safeBrightness > 170 && sceneType === 'outdoor' && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.harsh_sunlight_outdoor))
   }
 
   // 雾霾天建议：户外亮度偏低且散射光柔和（用简单亮度范围，不依赖后定义变量）
-  if (brightness >= 80 && brightness <= 160 && sceneType === 'outdoor' && exposureScore >= 15 && suggestions.length < 4) {
+  if (safeBrightness >= 80 && safeBrightness <= 160 && sceneType === 'outdoor' && exposureScore >= 15 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.smoke_haze_tips))
   }
 
   // 地铁/地下空间暗光建议
-  if (sceneType === 'subway' && brightness < 120 && suggestions.length < 4) {
+  if (sceneType === 'subway' && safeBrightness < 120 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.metro_subway_tips))
   }
 
   // 室内暖黄光源或有色灯光下，可能影响肤色
-  if (faceCount > 0 && brightness >= 100 && brightness <= 200 && sceneType === 'indoor' && suggestions.length < 4) {
+  if (faceCount > 0 && safeBrightness >= 100 && safeBrightness <= 200 && sceneType === 'indoor' && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.skin_tone_cast))
     problems.push('skin_tone_cast')
   }
@@ -4171,44 +4171,42 @@ export async function analyzePhoto(
   }
 
   // 雨天窗户拍摄提示（室内 + 低亮度 + 无强光直射）
-  if (sceneType === 'indoor' && brightness < 100 && faceCount > 0 && suggestions.length < 5) {
+  if (sceneType === 'indoor' && safeBrightness < 100 && faceCount > 0 && suggestions.length < 5) {
     suggestions.push(pickRandom(SUGGESTION_POOL.window_rain_tip))
   }
 
   // 霓虹夜景提示（夜间城市户外 + 中低亮度）
-  const localNight = brightness < 90 || (sceneType !== undefined &&
-    ['rooftop_night', 'neon_light', 'starry_night', 'carnival'].includes(sceneType))
-  if (localNight && sceneType === 'outdoor' && brightness >= 30 && brightness <= 120 && faceCount > 0 && suggestions.length < 5) {
+  if ((safeBrightness < 90 || ['rooftop_night', 'neon_light', 'starry_night', 'carnival'].includes(sceneType || '')) && sceneType === 'outdoor' && safeBrightness >= 30 && safeBrightness <= 120 && faceCount > 0 && suggestions.length < 5) {
     suggestions.push(pickRandom(SUGGESTION_POOL.neon_light_specific))
   }
 
   // 雨后地面反光提示（户外 + 低亮度，可能是雨后场景）
-  const isWetGroundScene = (sceneType === 'outdoor' && brightness >= 60 && brightness <= 140) || sceneType === 'rainy_street'
+  const isWetGroundScene = (sceneType === 'outdoor' && safeBrightness >= 60 && safeBrightness <= 140) || sceneType === 'rainy_street'
   if (isWetGroundScene && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.wet_ground_reflection))
   }
   // 阴天户外场景（曝光合适但亮度偏灰）
-  if (sceneType === 'outdoor' && brightness >= 80 && brightness <= 180 && suggestions.length < 4) {
+  if (sceneType === 'outdoor' && safeBrightness >= 80 && safeBrightness <= 180 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.overcast_outdoor))
   }
   // 室内暗光场景
-  if (sceneType === 'indoor' && brightness < 80 && faceCount > 0 && suggestions.length < 4) {
+  if (sceneType === 'indoor' && safeBrightness < 80 && faceCount > 0 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.indoor_dark))
   }
   // 屏幕/眼镜反光（亮度局部过高但整体不过曝）
-  if (brightness > 180 && brightness < 230 && faceCount > 0 && suggestions.length < 4) {
+  if (safeBrightness > 180 && safeBrightness < 230 && faceCount > 0 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.screen_reflection))
   }
   // 极低清晰度 + 正常亮度 → 可能是手指遮挡镜头或镜头脏污
-  if (safeSharpness < 40 && brightness >= 80 && brightness <= 200 && faceCount > 0 && facePosition && facePosition.area > 0.05 && facePosition.area < 0.5 && suggestions.length < 4) {
+  if (safeSharpness < 40 && safeBrightness >= 80 && safeBrightness <= 200 && faceCount > 0 && facePosition && facePosition.area > 0.05 && facePosition.area < 0.5 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.finger_covering_lens))
   }
   // 背景极暗但人脸正常 → 可能是纯黑背景或逆光剪影
-  if (brightness < 60 && faceCount > 0 && facePosition && facePosition.area > 0.08 && facePosition.area < 0.5 && suggestions.length < 4) {
+  if (safeBrightness < 60 && faceCount > 0 && facePosition && facePosition.area > 0.08 && facePosition.area < 0.5 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.background_near_black))
   }
   // 强逆光剪影：背景亮+脸部暗
-  if (brightness > 160 && exposureScore < 15 && faceCount > 0 && suggestions.length < 4) {
+  if (safeBrightness > 160 && exposureScore < 15 && faceCount > 0 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.backlit_silhouette))
   }
   // 2-3人小团体：构图建议侧重层次和站位
@@ -4216,7 +4214,7 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.small_group))
   }
   // 美食场景：室内+食物相关提示
-  if (sceneType === 'indoor' && brightness >= 80 && brightness <= 200 && faceCount > 0 && suggestions.length < 4) {
+  if (sceneType === 'indoor' && safeBrightness >= 80 && safeBrightness <= 200 && faceCount > 0 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.food_blogging))
   }
   // 侧颜照：检测侧脸角度
@@ -4313,11 +4311,11 @@ export async function analyzePhoto(
 
   // ===== 场景匹配度推断 =====
   // 推断当前照片的主体类型与场景是否匹配（纯本地规则）
-  const isNightScene = brightness < 90 || (sceneType !== undefined &&
+  const isNightScene = safeBrightness < 90 || (sceneType !== undefined &&
     ['rooftop_night', 'neon_light', 'starry_night', 'camping_campfire'].includes(sceneType))
-  const isPortraitScene = faceCount > 0 && brightness >= 60 && brightness <= 200
-  const isFoodScene = faceCount === 0 && brightness >= 60 && brightness <= 200
-  const isLandscapeScene = faceCount === 0 && brightness >= 80 && brightness <= 220
+  const isPortraitScene = faceCount > 0 && safeBrightness >= 60 && safeBrightness <= 200
+  const isFoodScene = faceCount === 0 && safeBrightness >= 60 && safeBrightness <= 200
+  const isLandscapeScene = faceCount === 0 && safeBrightness >= 80 && safeBrightness <= 220
 
   // 场景匹配度评分（0-1）
   let sceneMatchScore = 1.0
@@ -4328,9 +4326,9 @@ export async function analyzePhoto(
   } else if (isNightScene) {
     sceneMatchScore = faceCount > 0 && stabilityScore >= 12 ? 0.8 : 0.4
   } else if (isFoodScene) {
-    sceneMatchScore = brightness >= 80 && brightness <= 180 && compositionScore >= 25 ? 0.8 : 0.4
+    sceneMatchScore = safeBrightness >= 80 && safeBrightness <= 180 && compositionScore >= 25 ? 0.8 : 0.4
   } else if (isLandscapeScene) {
-    sceneMatchScore = brightness >= 80 && brightness <= 200 ? 0.8 : 0.5
+    sceneMatchScore = safeBrightness >= 80 && safeBrightness <= 200 ? 0.8 : 0.5
   }
 
   // ===== 表情僵硬但其他维度优秀时的鼓励型建议 =====
@@ -4365,7 +4363,7 @@ export async function analyzePhoto(
   if (isFoodScene && compositionScore >= 25 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.food_scene_specific))
   }
-  if (isLandscapeScene && compositionScore >= 28 && brightness >= 80 && brightness <= 200) {
+  if (isLandscapeScene && compositionScore >= 28 && safeBrightness >= 80 && safeBrightness <= 200) {
     praise.push(pickRandom(PRAISE_POOL.landscape_photo_good))
   }
   // 风景美照专属满分 praise
@@ -4377,10 +4375,10 @@ export async function analyzePhoto(
   // 日落/黄昏黄金时段（17:00-19:00）
   {
     const h = new Date().getHours()
-    if (h >= 17 && h <= 19 && brightness >= 60 && brightness <= 200 && suggestions.length < 4) {
+    if (h >= 17 && h <= 19 && safeBrightness >= 60 && safeBrightness <= 200 && suggestions.length < 4) {
       suggestions.push(pickRandom(SUGGESTION_POOL.sunset_golden_hour))
     }
-    if (h >= 5 && h <= 8 && brightness >= 60 && brightness <= 180 && suggestions.length < 4) {
+    if (h >= 5 && h <= 8 && safeBrightness >= 60 && safeBrightness <= 180 && suggestions.length < 4) {
       suggestions.push(pickRandom(SUGGESTION_POOL.sunrise_morning))
     }
   }
@@ -4389,7 +4387,7 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.night_handheld))
   }
   // 硬光室内（亮度够但有顶光阴影）
-  if (sceneType === 'indoor' && brightness >= 100 && brightness <= 200 && Math.abs(tiltAngle) > 5 && suggestions.length < 4) {
+  if (sceneType === 'indoor' && safeBrightness >= 100 && safeBrightness <= 200 && Math.abs(tiltAngle) > 5 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.harsh_light_indoor))
   }
   // 暗光人像（人脸存在但亮度不足）
@@ -4397,7 +4395,7 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.low_light_portrait))
   }
   // 阴天柔光（亮度均衡但无强光直射）
-  if (sceneType === 'outdoor' && brightness >= 80 && brightness <= 170 && exposureScore >= 20 && suggestions.length < 4) {
+  if (sceneType === 'outdoor' && safeBrightness >= 80 && safeBrightness <= 170 && exposureScore >= 20 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.cloud_soft_light))
   }
   // 雨天户外（低亮度场景下有湿度感）
@@ -4797,7 +4795,7 @@ export async function analyzePhoto(
     if (suggestions.length < 5) suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_extended))
   }
   // 夜景氛围建议（夜景且曝光一般）
-  if (brightness < 90 && sceneType !== 'indoor' && exposureScore < 25 && totalScore < 75) {
+  if (safeBrightness < 90 && sceneType !== 'indoor' && exposureScore < 25 && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.night_ambiance_tips))
   }
   // 室内背景太暗建议
