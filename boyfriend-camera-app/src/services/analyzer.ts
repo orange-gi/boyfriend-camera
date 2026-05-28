@@ -4439,6 +4439,30 @@ export async function analyzePhoto(
   if (brightness > 180 && brightness < 230 && faceCount > 0 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.screen_reflection))
   }
+  // 极低清晰度 + 正常亮度 → 可能是手指遮挡镜头或镜头脏污
+  if (safeSharpness < 40 && brightness >= 80 && brightness <= 200 && faceCount > 0 && facePosition && facePosition.area > 0.05 && facePosition.area < 0.5 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.finger_covering_lens))
+  }
+  // 背景极暗但人脸正常 → 可能是纯黑背景或逆光剪影
+  if (brightness < 60 && faceCount > 0 && facePosition && facePosition.area > 0.08 && facePosition.area < 0.5 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.background_near_black))
+  }
+  // 强逆光剪影：背景亮+脸部暗
+  if (brightness > 160 && exposureScore < 15 && faceCount > 0 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.backlit_silhouette))
+  }
+  // 2-3人小团体：构图建议侧重层次和站位
+  if (faceCount >= 2 && faceCount <= 3 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.small_group))
+  }
+  // 美食场景：室内+食物相关提示
+  if (sceneType === 'indoor' && brightness >= 80 && brightness <= 200 && faceCount > 0 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.food_blogging))
+  }
+  // 侧颜照：检测侧脸角度
+  if (faceCount > 0 && expression && expression.yawAngle !== undefined && (expression.yawAngle > 25 || expression.yawAngle < -25) && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.profile_shot))
+  }
   // 稳定分 0-20
   let stabilityScore = 20
   if (safeSharpness < 50) {
