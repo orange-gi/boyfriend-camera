@@ -268,6 +268,18 @@ export default function ResultScreen() {
         if ((templateCategory === '闺蜜合照' || templateCategory === '大合照') && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakBestiePoseTip() } catch {} }, 2500)
         }
+        // 书店阅读（总分 >= 65 时触发书香氛围感）
+        if (templateCategory === '书店阅读' && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakBookstoreTip() } catch {} }, 2500)
+        }
+        // 涂鸦墙（总分 >= 65 时触发都市感夸奖）
+        if (templateCategory === '涂鸦墙' && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakGraffitiTip() } catch {} }, 2500)
+        }
+        // 阳台早餐（总分 >= 65 时触发清晨光线夸奖）
+        if (templateCategory === '阳台早餐' && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakMorningTip() } catch {} }, 2500)
+        }
       } catch {}
     }, 800)
     return () => clearTimeout(tid)
