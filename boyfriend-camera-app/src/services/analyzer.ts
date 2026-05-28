@@ -3309,14 +3309,6 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '互相整理头发或衣领，自然又亲密～',
   ],
   // 黄金时段拍照建议
-  // 多人合照构图建议
-  group_photo_extended: [
-    '闺蜜照站成一排太无聊！试试错落有致，前后排错开～',
-    '中间的人可以稍微往前站，后排踮脚或举手，这样大家都能露出来～',
-    '多人拍摄时找一个共同视线点（比如相机），避免各看各的～',
-    '合照里穿相近色系的衣服会更和谐高级，不一定要完全一样～',
-    '最后排踮脚、前排蹲下，这个经典队形适合所有人入镜～',
-  ],
   // 自拍专属姿势建议
   selfie_pose_tips: [
     '对着镜子自拍！手机稍微斜一点拍，角度更好看～',
@@ -3494,6 +3486,19 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '闺蜜照尽量找干净的背景！人多背景杂，虚化效果会更干净～',
     '多人拍照时对焦在中间的人，这样前后都能清晰～',
     '合照表情要同步！大家统一说"茄子"或"田七"，表情最一致～',
+  ],
+  // 多人合照构图专项扩充（与 group_photo_tips/group_photo_hint 互补：专注构图位置）
+  group_photo_extended: [
+    '闺蜜照站成一排太无聊！试试错落有致，前后排错开～',
+    '中间的人可以稍微往前站，后排踮脚或举手，这样大家都能露出来～',
+    '多人拍摄时找一个共同视线点（比如相机），避免各看各的～',
+    '合照里穿相近色系的衣服会更和谐高级，不一定要完全一样～',
+    '最后排踮脚、前排蹲下，这个经典队形适合所有人入镜～',
+    '多人合照试试从高往低俯拍，大家脸都不会被挡～',
+    '两排站位时后排稍微错开站，层次感马上出来～',
+    '合照别站太直！微微转身或歪头会更自然～',
+    '三脚架或让路人帮忙拍，解放双手做姿势更方便～',
+    '多人自拍用倒计时或手势快门，避免有人手短拍不到～',
   ],
   // v5 新增：抬头角度 / 双下巴预防建议（head tilt 相关场景）
   chin_angle: [
@@ -4804,6 +4809,10 @@ export async function analyzePhoto(
   }
   if (faceCount >= 2 && compositionScore < 35 && totalScore >= 40 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.couple_photo_hint))
+  }
+  // 情侣姿势专项建议（构图一般但姿势可优化时触发）
+  if (faceCount === 2 && compositionScore < 30 && totalScore >= 35 && suggestions.length < 5) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.couple_pose_hint))
   }
   const nowHour = new Date().getHours()
   if (nowHour >= 6 && nowHour <= 9 && sceneType === 'outdoor' && safeBrightness >= 120 && totalScore >= 40 && suggestions.length < 4) {
