@@ -31,7 +31,10 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
 
   if (sorted.length === 0) {
     return (
-      <View style={[styles.empty, { height }]}>
+      <View
+        style={[styles.empty, { height }]}
+        accessibilityLabel="进步曲线图为空，还没有拍照记录"
+      >
         <Text style={styles.emptyTitle}>还没有进步记录</Text>
         <Text style={styles.emptySub}>拍几张照片，就能看到分数一点点变高啦</Text>
       </View>
@@ -41,7 +44,10 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
   if (sorted.length === 1) {
     const score = sorted[0].score
     return (
-      <View style={[styles.container, { height }]}>
+      <View
+        style={[styles.container, { height }]}
+        accessibilityLabel={`进步曲线图，仅 1 条记录，得分 ${sorted[0].score} 分`}
+      >
         <View style={styles.singlePoint}>
           <Text
             style={[
@@ -96,7 +102,11 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
   }, [sorted])
 
   return (
-    <View style={[styles.container, { height }]}>
+    <View
+      style={[styles.container, { height }]}
+      accessibilityRole="image"
+      accessibilityLabel={`进步曲线图，共 ${sorted.length} 条记录，最高 ${legendData?.maxEntry.score ?? 0} 分，最低 ${legendData?.minEntry.score ?? 0} 分`}
+    >
       {/* Y 轴刻度标签 */}
       <View style={[styles.yAxis, { left: 0, top: 0, bottom: 0, width: PAD.L }]}>
         {yTicks.map((t) => (
