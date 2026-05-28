@@ -295,8 +295,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing[5],
     paddingVertical: spacing[2],
   },
-  // 简洁优雅：去掉 backgroundColor 和 borderRadius — bg === bgCard 皆为白，
-  // borderRadius 是装饰性噪音；留 padding 和 marginBottom 保持布局呼吸感
+  // statsCard: 无背景色（透明融入父容器 bg），无 borderRadius — 简洁克制的内嵌统计卡
   statsCard: { padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
