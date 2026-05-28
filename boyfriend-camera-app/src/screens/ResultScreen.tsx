@@ -748,20 +748,21 @@ export default function ResultScreen() {
 
   // 夸奖横幅文字颜色（按分数段）— 避免每次渲染重新计算
   const praiseInfo = useMemo(() => {
+    const score = scoreResult?.totalScore ?? 0
+    const color = score >= 90 ? COLORS.scoreGreat
+      : score >= 80 ? COLORS.primary
+      : score >= 70 ? COLORS.success
+      : score >= 60 ? COLORS.warning
+      : COLORS.danger
     if (scoreResult && praiseList.length > 0) {
-      const color = scoreResult.totalScore >= 90 ? COLORS.scoreGreat
-        : scoreResult.totalScore >= 80 ? COLORS.primary
-        : scoreResult.totalScore >= 70 ? COLORS.success
-        : scoreResult.totalScore >= 60 ? COLORS.warning
-        : COLORS.danger
-      return { text: praiseList[0], color }
+      return { score, text: praiseList[0], color }
     }
-    if (!scoreResult) return { text: '', color: COLORS.warning }
-    if (scoreResult.totalScore >= 90) return { text: `${scoreResult.totalScore}分，完美之作！`, color: COLORS.scoreGreat }
-    if (scoreResult.totalScore >= 80) return { text: `${scoreResult.totalScore}分，男朋友进步好大！`, color: COLORS.primary }
-    if (scoreResult.totalScore >= 70) return { text: `${scoreResult.totalScore}分，继续保持！`, color: COLORS.success }
-    if (scoreResult.totalScore >= 60) return { text: `${scoreResult.totalScore}分，下次会更好！`, color: COLORS.warning }
-    return { text: `${scoreResult.totalScore}分，继续加油！`, color: COLORS.danger }
+    if (!scoreResult) return { score: 0, text: '', color: COLORS.warning }
+    if (score >= 90) return { score, text: '完美之作！', color }
+    if (score >= 80) return { score, text: '男朋友进步好大！', color }
+    if (score >= 70) return { score, text: '继续保持！', color }
+    if (score >= 60) return { score, text: '下次会更好！', color }
+    return { score, text: '继续加油！', color }
   }, [scoreResult, praiseList])
 
   return (
@@ -810,11 +811,14 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 夸奖横幅 — 无背景卡片：文字直接承载信息，极简留白 */}
+        {/* 夸奖横幅 — 无背景：分数数字用强调色，描述文字用中性色，层级分明 */}
         {!processing && (
           <View style={styles.praiseBanner}>
             <Text style={[styles.praiseBannerScore, { color: praiseInfo.color }]}>
-              {praiseInfo.text}
+              {praiseInfo.score}
+            </Text>
+            <Text style={[styles.praiseBannerScore, { color: COLORS.textPrimary }]}>
+              {`分 ${praiseInfo.text}`}
             </Text>
           </View>
         )}
