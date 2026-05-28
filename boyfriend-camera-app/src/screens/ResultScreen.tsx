@@ -974,17 +974,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // 选中态：2px 主色内环 + 4px 0.15 透明度外环
-  // 设计理由：主色环与未选中态形成最小化差异，去掉白色边框避免与深色滤镜冲突
-  // 外环提供选中态的空间感，但不增加实际视觉噪音
+  // 选中态：2px 主色边框
+  // 设计理由：纯边框是最小化选中指示器，无额外视觉噪音
   filterCircleActive: {
     borderWidth: 2,
     borderColor: COLORS.primary,
-    shadowColor: COLORS.primary,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.35,
-    shadowRadius: 6,
-    elevation: 3,
   },
   // 去标签：简洁优雅极致 — 颜色本身即信息，无需文字标签
   // 无障碍通过 accessibilityLabel 承载完整语义
