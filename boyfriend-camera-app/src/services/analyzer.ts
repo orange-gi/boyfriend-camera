@@ -1955,6 +1955,16 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '超市零食区超适合做道具！拿一包喜欢的零食比个耶，俏皮可爱～',
   ],
   // 露台派对场景建议
+  camping_campfire_specific: [
+    '篝火火光打在脸上超有氛围感！但火光忽明忽暗，连拍几张最稳定的～',
+    '篝火旁拍摄时别让男朋友太靠近火，脸上的火光太亮会过曝～',
+    '露营场景天色暗得早，要抓紧黄昏时段拍照光线最好～',
+    '篝火边的暖光超有氛围！让火光打在脸上，侧脸或3/4侧脸最出片～',
+    '篝火照亮范围有限，让女友靠近火堆一点，脸部会更清晰明亮～',
+    '夜晚露营光线暗，拍照时手要更稳！建议开启闪光灯补光～',
+    '篝火边的烟雾会让照片有朦胧感，避开烟雾方向拍会更清晰～',
+    '露营时带个小灯串做补光，挂在脸上方做眼神光，超有氛围感～',
+  ],
   rooftop_party_specific: [
     '露台派对灯光璀璨！背景和人要均衡～',
     '天台夜景璀璨，打开闪光灯照亮人脸～',
@@ -4345,13 +4355,7 @@ export async function analyzePhoto(
   // 进阶构图建议（高分段但有提升空间）
   if (totalScore >= 70 && totalScore < 85 && compositionScore >= 30 && suggestions.length < 2) {
     // 进阶构图四选一：对称构图/引导线/留白/高级构图
-    const advCompPool = [
-      SUGGESTION_POOL.symmetry_composition,
-      SUGGESTION_POOL.leading_line,
-      SUGGESTION_POOL.negative_space,
-      SUGGESTION_POOL.advanced_composition,
-    ]
-    suggestions.push(pickRandom(advCompPool[Math.floor(Math.random() * advCompPool.length)]))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   if (absTilt > 3 && totalScore >= 40 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.posture_body))
@@ -4543,32 +4547,26 @@ export async function analyzePhoto(
 
   // 场景专属建议（部分 pool 键未定义时回退到通用建议）
   if (sceneType === 'outdoor' && totalScore < 75) {
-    const outdoorPool = SUGGESTION_POOL.outdoor_specific || SUGGESTION_POOL.composition
-    suggestions.push(pickRandom(outdoorPool))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   if (sceneType === 'indoor' && totalScore < 75) {
-    const indoorPool = SUGGESTION_POOL.indoor_specific || SUGGESTION_POOL.composition
-    suggestions.push(pickRandom(indoorPool))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   if (sceneType === 'cafe' && totalScore < 75) {
-    const cafePool = SUGGESTION_POOL.cafe_specific || SUGGESTION_POOL.composition
-    suggestions.push(pickRandom(cafePool))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   if (sceneType === 'rooftop_night' && totalScore < 75) {
-    const rooftopPool = SUGGESTION_POOL.rooftop_night_specific || SUGGESTION_POOL.night
-    suggestions.push(pickRandom(rooftopPool))
+    suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
   }
   if (sceneType === 'camping_campfire' && totalScore < 75) {
     const campPool = SUGGESTION_POOL.camping_campfire_specific || SUGGESTION_POOL.composition
     suggestions.push(pickRandom(campPool))
   }
   if (sceneType === 'snow' && totalScore < 75) {
-    const snowPool = SUGGESTION_POOL.snow_specific || SUGGESTION_POOL.exposure
-    suggestions.push(pickRandom(snowPool))
+    suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
   }
   if (sceneType === 'ski_resort' && totalScore < 75) {
-    const skiPool = SUGGESTION_POOL.ski_resort_specific || SUGGESTION_POOL.composition
-    suggestions.push(pickRandom(skiPool))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   if (sceneType === 'gym' && totalScore < 75) {
     const gymPool = SUGGESTION_POOL.gym_specific || SUGGESTION_POOL.stability
@@ -4603,8 +4601,7 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(dancePool))
   }
   if (isCouplePhoto && totalScore < 75) {
-    const couplePool = SUGGESTION_POOL.couple_specific || SUGGESTION_POOL.composition
-    suggestions.push(pickRandom(couplePool))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   // 情侣互动专属建议（情侣照且有进步空间）
   if (isCouplePhoto && faceCount >= 2 && totalScore >= 55 && totalScore < 75) {
@@ -5114,29 +5111,29 @@ export async function analyzePhoto(
 
   // 场景专属建议（基于 sceneType 上下文补充，使用安全访问防止未定义池崩溃）
   if (sceneType === 'outdoor' && totalScore < 80) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.outdoor_specific || SUGGESTION_POOL.composition))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   if (safeBrightness < 50 && totalScore < 80) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.night_specific || SUGGESTION_POOL.exposure))
+    suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
   }
   if (isCouplePhoto && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.couple_specific || SUGGESTION_POOL.composition))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   if (sceneType === 'indoor' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.indoor_specific || SUGGESTION_POOL.composition))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   // 咖啡馆场景建议
   if (safeBrightness >= 80 && safeBrightness <= 180 && sceneType === 'indoor' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.cafe_specific || SUGGESTION_POOL.composition))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   // 雪景/滑雪场景建议
   if (safeBrightness >= 160 && sceneType === 'outdoor' && totalScore < 78) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.snow_specific || SUGGESTION_POOL.exposure))
-    suggestions.push(pickRandom(SUGGESTION_POOL.ski_resort_specific || SUGGESTION_POOL.composition))
+    suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
+    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   // 天台夜景建议
   if (safeBrightness < 80 && sceneType === 'outdoor' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.rooftop_night_specific || SUGGESTION_POOL.exposure))
+    suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
   }
   // 露营篝火建议
   if (safeBrightness >= 40 && safeBrightness <= 100 && sceneType === 'outdoor' && totalScore < 70) {
@@ -5173,7 +5170,7 @@ export async function analyzePhoto(
   }
   // 动物园场景
   if (sceneType === 'zoo') {
-    suggestions.push(pickRandom(SUGGESTION_POOL.zoo_specific || SUGGESTION_POOL.aquarium_specific))
+    suggestions.push(pickRandom(SUGGESTION_POOL.aquarium_specific))
   }
   // 古镇老街场景
   if (sceneType === 'ancient_town') {
