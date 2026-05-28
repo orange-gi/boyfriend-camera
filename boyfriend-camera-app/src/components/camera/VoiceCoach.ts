@@ -4847,6 +4847,72 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** HDR 模式已开启提示 */
+  async speakHDRApplied(): Promise<void> {
+    const tips = [
+      'HDR 模式已开启！明暗细节都能保留，逆光也不怕～',
+      'HDR 已开！高光阴影都能兼顾，这光这角度绝了～',
+      '已开启 HDR！强光和阴影都能保留，画质更细腻～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 夜景模式已开启提示 */
+  async speakNightModeEnabled(): Promise<void> {
+    const tips = [
+      '夜景模式已开启！手拿稳了，等待多帧合成～',
+      '夜景模式开了！手机会自动优化，暗光也能拍清晰～',
+      '已切换到夜景模式！手要稳，等处理完成再动～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 人像模式已开启提示 */
+  async speakPortraitModeEnabled(): Promise<void> {
+    const tips = [
+      '人像模式已开启！背景会自动虚化，主体更突出～',
+      '人像模式开了！找点光源做虚化光斑，效果超美～',
+      '已切换到人像模式！靠近一点拍，虚化效果更明显～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 连拍模式已开启提示 */
+  async speakBurstModeEnabled(): Promise<void> {
+    const tips = [
+      '连拍模式已开启！按住快门别松手，我来帮你选最好的～',
+      '连拍开了！动起来抓拍，最自然的表情就在某一瞬间～',
+      '已开启连拍！多拍几张，总有一张完美的～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 定时拍摄已开启提示 */
+  async speakTimerEnabled(seconds: number): Promise<void> {
+    const tips = [
+      `定时拍摄已开启！${seconds}秒后自动拍照，准备好姿势～`,
+      `已设置${seconds}秒定时！摆好姿势，时间一到自动拍～`,
+      `${seconds}秒倒计时开始！趁现在调整好表情和姿势～`,
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 构图引导提示（九宫格/黄金螺旋/三角构图切换确认） */
+  async speakCompositionGuideMode(mode: 'grid' | 'golden' | 'triangle'): Promise<void> {
+    const labels: Record<string, string> = {
+      grid: '九宫格',
+      golden: '黄金螺旋',
+      triangle: '三角构图',
+    }
+    const label = labels[mode] || mode
+    const tips = [
+      `已切换到${label}构图！这个方式让画面更有层次感～`,
+      `${label}模式开了！参照辅助线调整位置～`,
+      `构图已切换为${label}！主体放在关键位置，效果更专业～`,
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
