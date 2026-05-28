@@ -66,14 +66,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 6,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    elevation: 2,
     marginRight: 8,
     marginBottom: 8,
-    // 无默认边框，仅选中态显示边框（减少视觉噪音）
   },
   cardSelected: {
     borderWidth: 2,
