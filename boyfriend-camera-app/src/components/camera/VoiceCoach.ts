@@ -4913,6 +4913,69 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 模板匹配成功提示（检测到当前姿势接近某个模板） */
+  async speakTemplateMatched(templateName: string): Promise<void> {
+    const tips = [
+      `姿势很棒！这个${templateName}的感觉拿捏了～`,
+      `${templateName}姿势很到位！就是现在，按下去就是大片～`,
+      `这个角度绝了！${templateName}效果超棒，按快门！`,
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 情侣互动专属提示（检测到 2 人，情侣合照场景） */
+  async speakCoupleLookAtEachOther(): Promise<void> {
+    const tips = [
+      '情侣照让两人对视一下！这个瞬间抓拍超甜～',
+      '两人深情对视的瞬间！就是现在，按快门～',
+      '情侣对视的角度超美！让男朋友等女朋友看过来时按下快门～',
+      '两人靠在一起，男朋友看女朋友！这个角度绝了～',
+      '情侣对视最自然！让两人聊聊天抓拍这个瞬间～',
+      '两人牵着手对视笑一个！温馨感爆棚～',
+      '男朋友侧脸看女朋友！这个角度超有氛围感～',
+      '情侣互动时抓拍最自然！让两人自然聊天，按下快门～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 天气提示（根据光线和天气给出拍照建议） */
+  async speakWeatherTip(weather: 'sunny' | 'cloudy' | 'rainy' | 'foggy'): Promise<void> {
+    const tips: Record<string, string[]> = {
+      sunny: [
+        '阳光明媚！侧光或逆光拍最有层次感～',
+        '光线充足！找一处有树荫的地方，让光斑打在脸上～',
+        '强光下要避免正午顶光，早晚光线最柔和～',
+      ],
+      cloudy: [
+        '阴天光线柔和均匀，是拍照的好天气！',
+        '阴天没有强光，光线自然柔和，拍人像很舒服～',
+        '阴天光线偏暗，可以稍微提高一点曝光补偿～',
+      ],
+      rainy: [
+        '雨天有氛围！找一处有积水的地面拍倒影～',
+        '雨天光线柔和，但是要注意手机防水～',
+        '雨伞是超棒的道具！红色或透明伞最有意境～',
+      ],
+      foggy: [
+        '雾天光线超柔和！有朦胧的氛围感～',
+        '雾天拍远景超美！但是手机对焦可能会有挑战～',
+        '雾天的散射光让皮肤看起来超好！',
+      ],
+    }
+    const arr = tips[weather] || tips.cloudy
+    await this.speak(pickRandom(arr), false)
+  }
+
+  /** 无效拍摄提示（检测到质量过低的照片） */
+  async speakInvalidCapture(): Promise<void> {
+    const tips = [
+      '这张照片糊了或者太暗，等条件好一些再拍～',
+      '检测到这张照片质量问题，重新拍一张吧～',
+      '这张没拍好，别灰心！调整一下再拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
