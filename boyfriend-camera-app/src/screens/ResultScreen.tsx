@@ -235,6 +235,10 @@ export default function ResultScreen() {
         if (templateCategory === '雨天街头' && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakRainyTip() } catch {} }, 2500)
         }
+        // 镜面自拍（总分 >= 60）— speakMirrorSelfieTip 已定义但之前未接入
+        if (templateCategory === '镜面自拍' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakMirrorSelfieTip() } catch {} }, 2500)
+        }
         // 户外街拍光线好时（总分 >= 75）
         if ((templateCategory === '街头随拍' || templateCategory === '城市街拍') && scoreResult.exposureScore >= 22 && scoreResult.totalScore >= 75) {
           track(() => { try { VoiceCoach.speakBacklitTip() } catch {} }, 2500)
