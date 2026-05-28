@@ -280,6 +280,14 @@ export default function ResultScreen() {
         if (templateCategory === '阳台早餐' && scoreResult.totalScore >= 65) {
           track(() => { try { VoiceCoach.speakMorningTip() } catch {} }, 2500)
         }
+        // 雪景拍照（总分 >= 60 时触发冰雪场景专属技巧）
+        if (templateCategory === '雪景拍照' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakSnowTip() } catch {} }, 2500)
+        }
+        // 滑雪（总分 >= 60 时触发运动摄影专属技巧，与健身房同用 gym tip）
+        if (templateCategory === '滑雪' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakGymTip() } catch {} }, 2500)
+        }
       } catch {}
     }, 800)
     return () => clearTimeout(tid)
@@ -986,11 +994,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // 选中态：2px 主色边框
-  // 设计理由：纯边框是最小化选中指示器，无额外视觉噪音
+  // 选中态：2px 白色圆环
+  // 设计理由：白色圆环在暖/冷/明/暗各色圆上都形成清晰对比，是最通用的选中指示器
+  // 不选主色是因为暖色调滤镜（暖黄/美食）上主色不够突出；白色形成自然"发光"效果
   filterCircleActive: {
     borderWidth: 2,
-    borderColor: COLORS.primary,
+    borderColor: '#FFFFFF',
   },
   // 去标签：简洁优雅极致 — 颜色本身即信息，无需文字标签
   // 无障碍通过 accessibilityLabel 承载完整语义
