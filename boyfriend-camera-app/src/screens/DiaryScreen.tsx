@@ -498,13 +498,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
   },
-  // 简洁优雅：去掉 statDivider，靠数字颜色/字重承载层级，视觉更通透
+  // 简洁优雅：去掉 statDivider 和 paddingHorizontal —
+  // 数字靠颜色和字重承载层级；paddingHorizontal 破坏与上方 header/list 的对齐一致性
   statsRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     marginBottom: 16,
-    paddingHorizontal: 16,
   },
   statItem: {
     alignItems: 'center',
@@ -542,6 +542,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
+  // 简洁优雅：去掉 backgroundColor — bg === bgCard 皆为白，
+  // recordCard 是记录分隔线，borderRadius 是最小化圆角（16px），
+  // 留 padding 和 marginBottom 保持记录间呼吸感
   recordCard: {
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
