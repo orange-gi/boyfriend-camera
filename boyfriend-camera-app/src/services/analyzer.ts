@@ -1191,6 +1191,22 @@ const PRAISE_POOL: Record<string, string[]> = {
     '天台派对灯光打在脸上超好看，这氛围感满分！',
     '夜幕下的天台超浪漫，男朋友你这角度选绝了！',
   ],
+  // Round 2 新增：天台日光夸奖（rooftop_daytime 场景）
+  rooftop_daytime_good: [
+    '天台日光超通透！背景干净人突出，这张绝了～',
+    '白天在天台拍光线超足！肤色通透感拉满～',
+    '天台日光构图好干净，男朋友这角度选得妙！',
+    '阳光充足的天台拍照，皮肤质感超好！',
+    '天台日光充足，背景干净，这张大白超有活力～',
+  ],
+  // Round 2 新增：镜子自拍夸奖（mirror 场景）
+  mirror_selfie_good: [
+    '镜子自拍角度绝了！这光线这角度绝了～',
+    '镜子里的倒影和本人都超美，层次感绝了！',
+    '浴室雾气自拍好梦幻！皮肤质感超柔和～',
+    '镜子自拍构图好讲究，这张绝了！',
+    '镜子里的你和本人都入镜，画面好丰富～',
+  ],
   // Round 2 新增：农场牧场场景夸奖
   farm_good: [
     '农场田园风超有活力！这光线打在脸上好自然～',
@@ -4741,6 +4757,10 @@ export async function analyzePhoto(
   if (sceneType === 'dance_performance' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.concert_good))
   // 天台派对专属夸奖
   if (sceneType === 'rooftop_party' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.rooftop_party_good))
+  // 天台日光专属夸奖（Round 2 新增）
+  if (sceneType === 'rooftop_daytime' && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.rooftop_daytime_good))
+  // 镜子自拍专属夸奖（Round 2 新增）
+  if (sceneType === 'mirror' && totalScore >= 72) praise.push(pickRandom(PRAISE_POOL.mirror_selfie_good))
   // 农场田园专属夸奖
   if (sceneType === 'farm' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.farm_good))
   // 夜市小吃专属夸奖
