@@ -1257,7 +1257,10 @@ const styles = StyleSheet.create({
   },
   modalCloseBtn: {
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingVertical: 10,
+    // 无障碍：确保按钮至少 44px 高
+    minHeight: 44,
+    justifyContent: 'center',
   },
   modalClose: {
     fontSize: 15,

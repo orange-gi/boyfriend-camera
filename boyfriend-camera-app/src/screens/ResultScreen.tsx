@@ -819,7 +819,7 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 查看进步日记入口 */}
+        {/* 查看进步日记入口 — 简洁文字链，克制不抢主操作注意力 */}
         {!processing && (
           <TouchableOpacity
             style={styles.diaryEntryBtn}
@@ -982,8 +982,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     paddingHorizontal: 20,
-    marginTop: 16,
-    marginBottom: 8,
+    marginTop: 20,
+    marginBottom: 4,
   },
   actionBtnSecondary: {
     flex: 1,
@@ -1023,11 +1023,18 @@ const styles = StyleSheet.create({
   // diaryEntryBtn 左对齐
   diaryEntryBtn: {
     marginHorizontal: 20,
+    paddingVertical: 12,
+    // 无障碍：文字链接至少 44px 高
+    minHeight: 44,
+    // 上方分隔线替代背景色，保持简洁优雅
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: COLORS.divider,
+    marginTop: 4,
   },
   diaryEntryBtnText: {
     fontSize: 14,
     color: COLORS.primary,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   // 去装饰化：errorContainer 移除 bgCard 背景，错误状态不需要额外视觉层级
   errorContainer: {

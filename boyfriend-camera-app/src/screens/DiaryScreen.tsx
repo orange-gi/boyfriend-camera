@@ -692,7 +692,8 @@ const styles = StyleSheet.create({
   },
   sheetBtn: {
     flex: 1,
-    paddingVertical: 14,
+    // 无障碍：确保按钮至少 44px 高
+    paddingVertical: 22,
     borderRadius: 25,
     alignItems: 'center',
   },
