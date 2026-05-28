@@ -207,8 +207,8 @@ export default function HomeScreen() {
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
-              <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{totalTemplates}</Text>
-              <Text style={styles.statLabel}>姿势模板</Text>
+              <Text style={[styles.statNumber, { color: COLORS.textMuted, fontSize: 28, lineHeight: 36 }]}>{totalTemplates}</Text>
+              <Text style={[styles.statLabel, { color: COLORS.textMuted }]}>姿势模板</Text>
             </View>
           </View>
           {trendRowEl}
@@ -320,8 +320,8 @@ const styles = StyleSheet.create({
   todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   bottomNav: { flexDirection: 'row', paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
-  bottomNavBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
-  bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted },
+  bottomNavBtn: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
+  bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
   onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 24, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
