@@ -1181,6 +1181,22 @@ const PRAISE_POOL: Record<string, string[]> = {
     '这张构图干净利落，主体超突出，男朋友进步好大！',
     '构图感满分！男朋友已经超越全国 90% 的男友摄影师了！',
   ],
+  // Round 2 新增：天台派对场景夸奖
+  rooftop_party_good: [
+    '天台派对感拉满！夜景灯光和人都超有氛围～',
+    '天台派对光线超有层次，男朋友这构图绝了！',
+    '都市夜景配美人，这张照片超有故事感！',
+    '天台派对灯光打在脸上超好看，这氛围感满分！',
+    '夜幕下的天台超浪漫，男朋友你这角度选绝了！',
+  ],
+  // Round 2 新增：农场牧场场景夸奖
+  farm_good: [
+    '农场田园风超有活力！这光线打在脸上好自然～',
+    '在大自然的怀抱里，这张照片好有生命力！',
+    '田园背景超干净，人物超突出，男朋友好会选景！',
+    '农场光线好通透，这肤色绝了，男朋友太会拍了！',
+    '男朋友把田园风拍出了大片感，这张绝了！',
+  ],
 }
 
 // 建议文案池
@@ -4837,6 +4853,10 @@ export async function analyzePhoto(
   if (sceneType === 'bookstore' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.bookstore_good))
   // 演唱会专属夸奖
   if (sceneType === 'dance_performance' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.concert_good))
+  // 天台派对专属夸奖
+  if (sceneType === 'rooftop_party' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.rooftop_party_good))
+  // 农场田园专属夸奖
+  if (sceneType === 'farm' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.farm_good))
   // 夜市小吃专属夸奖
   if (sceneType === 'market_stall' && totalScore >= 75) praise.push(pickRandom(PRAISE_POOL.night_market_good))
   // 烘焙坊专属夸奖
