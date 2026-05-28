@@ -679,7 +679,8 @@ export default function ResultScreen() {
   }
 
   function handleGoCamera() {
-    VoiceCoach.speakNextTip(scoreResult?.totalScore ?? 0)
+    // 没有找到图片时：鼓励重试，而非播放「下次再试」Tips
+    try { VoiceCoach.speakRetryEncourage() } catch {}
     navigation.navigate({ name: 'Camera' as const, params: { templateId: undefined } })
   }
 
