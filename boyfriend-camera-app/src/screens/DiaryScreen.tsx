@@ -244,6 +244,9 @@ export default function DiaryScreen() {
           <View style={styles.recordHeader}>
             <Text style={styles.recordDate}>{dateStr} {timeStr}</Text>
             <View style={styles.recordRight}>
+              {item.templateCategory && (
+                <Text style={styles.templateCategoryBadge}>{item.templateCategory}</Text>
+              )}
               {index === 0 && <View style={[styles.newTagDot]} />}
             </View>
           </View>
@@ -598,6 +601,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+  },
+  templateCategoryBadge: {
+    fontSize: 11,
+    color: COLORS.textMuted,
+    backgroundColor: COLORS.bg,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: borderRadius.full,
+    overflow: 'hidden',
+    maxWidth: 80,
   },
   recordDate: {
     fontSize: 14,

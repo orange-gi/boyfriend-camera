@@ -460,6 +460,7 @@ export default function ResultScreen() {
         stabilityScore: analysis.stabilityScore,
         levelScore: analysis.levelScore,
         expressionScore: analysis.expressionScore,
+        templateCategory: templateCategory ?? undefined,
       })
       const isNewRecord = await updatePeakScore(analysis.totalScore)
 

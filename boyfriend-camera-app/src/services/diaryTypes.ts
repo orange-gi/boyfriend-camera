@@ -16,4 +16,6 @@ export interface DiaryRecord {
   stabilityScore?: number
   levelScore?: number
   expressionScore?: number
+  /** 使用的姿势模板分类（如"情侣合照"、"城市街拍"），便于在日记中回溯当时的拍摄场景 */
+  templateCategory?: string
 }
