@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  Share,
 } from 'react-native'
 
 import Animated, {
@@ -627,59 +626,6 @@ export default function ResultScreen() {
     }
   }
 
-  async function handleShare() {
-    VoiceCoach.speakShareTip()
-    try {
-      let pathToShare = comparisonUri || processedPath || photoPath
-      if (!pathToShare) {
-        Alert.alert('分享失败', '照片还没处理好，稍后再试～')
-        return
-      }
-      if (!pathToShare.startsWith('file://') && !pathToShare.startsWith('http')) {
-        pathToShare = `file://${pathToShare}`
-      }
-      const shareMessages = scoreResult && scoreResult.totalScore >= 80
-        ? [
-            `用「男友相机」拍了一张 ${scoreResult.totalScore} 分的照片，男朋友太会拍了！`,
-            `${scoreResult.totalScore}分神作！男朋友摄影师天赋满点！`,
-            `满分之作！这张 ${scoreResult.totalScore} 分的照片要永久保存！`,
-            `${scoreResult.totalScore}分的男朋友视角，闺蜜看了都羡慕！`,
-            `${scoreResult.totalScore}分的约会照，男朋友开窍了！`,
-          ]
-        : scoreResult && scoreResult.totalScore >= 60
-        ? [
-            `用「男友相机」拍了一张 ${scoreResult.totalScore} 分的照片，越拍越好了呢～`,
-            `${scoreResult.totalScore}分！男朋友进步肉眼可见！`,
-            `${scoreResult.totalScore}分，继续加油，下次冲满分！`,
-          ]
-        : [
-            `用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片，继续加油！`,
-            `${scoreResult?.totalScore ?? '--'}分起步，每拍一张都在进步～`,
-          ]
-      const baseMessage = shareMessages[Math.floor(Math.random() * shareMessages.length)]
-      const shareMessage = praiseList[0]
-        ? `${baseMessage}\n「${praiseList[0].slice(0, 25)}...」`
-        : baseMessage
-      const shareOptions = {
-        title: '男友相机 - 拍照分析',
-        message: shareMessage,
-        url: pathToShare,
-      }
-      await Share.share(shareOptions)
-    } catch (e: unknown) {
-      const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : ''
-      if (errorMsg.includes('User did not share') || errorMsg.includes('cancelled')) return
-      try {
-        const fallbackMessages = [
-          `我用「男友相机」拍了一张 ${scoreResult?.totalScore ?? '--'} 分的照片！快来看看～`,
-          `男友相机新照片 ${scoreResult?.totalScore ?? '--'} 分！男朋友在进步中～`,
-        ]
-        const fallbackMessage = fallbackMessages[Math.floor(Math.random() * fallbackMessages.length)]
-        await Share.share({ message: fallbackMessage })
-      } catch { /* ignore */ }
-    }
-  }
-
   function handleRetry() {
     // 直接跳转相机重拍，体验更流畅
     navigation.navigate({ name: 'Camera' as const, params: {} })
@@ -738,7 +684,7 @@ export default function ResultScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* 错误提示 + 重试 */}
+        {/* 错误提示 — 简洁两按钮：重试 + 返回 */}
         {error && !processing && (
           <View style={styles.errorBanner}>
             <Text style={styles.errorBannerText}>{error}</Text>
@@ -748,14 +694,7 @@ export default function ResultScreen() {
                 onPress={runAnalysis}
                 activeOpacity={0.72}
               >
-                <Text style={styles.errorRetryBtnText}>重试</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.errorRetryBtn}
-                onPress={handleGoCamera}
-                activeOpacity={0.72}
-              >
-                <Text style={styles.errorRetryBtnText}>再拍一张</Text>
+                <Text style={styles.errorRetryBtnText}>重试分析</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.errorRetryBtn, styles.errorSecondaryBtn]}
@@ -852,7 +791,7 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 操作按钮 */}
+        {/* 操作按钮 — 简洁两按钮：重拍 + 保存到相册 */}
         {!processing && (
           <View style={styles.actions}>
             <TouchableOpacity
@@ -864,17 +803,6 @@ export default function ResultScreen() {
               accessibilityHint="返回相机重新拍摄"
             >
               <Text style={styles.actionBtnSecondaryText}>重拍</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.actionBtnShare}
-              onPress={handleShare}
-              activeOpacity={0.72}
-              accessibilityRole="button"
-              accessibilityLabel="分享"
-              accessibilityHint="将照片分享给好友"
-            >
-              <Text style={styles.actionBtnShareText}>分享</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -1074,23 +1002,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   // 简洁优雅：borderRadius 20（与 actionBtnSecondary/actionBtnPrimary 统一）
-  actionBtnShare: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 14,
-    borderRadius: borderRadius['2xl'],
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: COLORS.primary,
-  },
-  actionBtnShareText: {
-    fontSize: 14,
-    color: COLORS.primary,
-    fontWeight: '600',
-  },
-  // 简洁优雅：borderRadius 20（与次级按钮统一，primary 按钮视觉已足够突出）
   actionBtnPrimary: {
     flex: 1,
     flexDirection: 'row',
