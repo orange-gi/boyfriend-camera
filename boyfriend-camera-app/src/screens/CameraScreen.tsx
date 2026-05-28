@@ -125,6 +125,9 @@ export default function CameraScreen() {
   const lastSelfieWarningRef = useRef<number>(0)
   const lastHairTipRef = useRef<number>(0)
   const lastMultiFaceWarningRef = useRef<number>(0)
+  const lastGroupTipRef = useRef<number>(0)
+  const lastLowLightTipRef = useRef<number>(0)
+  const lastBacklitTipRef = useRef<number>(0)
   const lastExpressionTipRef = useRef<number>(0)
   // 节流正视镜头和多人合照不看镜头 TTS
   const lastLookAtCameraRef = useRef<number>(0)
@@ -313,6 +316,17 @@ export default function CameraScreen() {
     if (faces[0].area < 0.04) {
       lastLowLightRef.current = now
       VoiceCoach.speakLowLightWarning().catch(() => {})
+      if (now - lastLowLightTipRef.current >= 15000) {
+        lastLowLightTipRef.current = now
+        VoiceCoach.speakLowLightTip().catch(() => {})
+      }
+    }
+    // 逆光检测：后置+人脸面积适中但仍偏小，说明脸偏暗（可能是逆光）
+    if (faces[0].area >= 0.04 && faces[0].area < 0.08) {
+      if (now - lastBacklitTipRef.current >= 15000) {
+        lastBacklitTipRef.current = now
+        VoiceCoach.speakBacklitTip().catch(() => {})
+      }
     }
   }, [faces, cameraFacing])
 
@@ -343,8 +357,18 @@ export default function CameraScreen() {
       // 多人合照专属姿势提示（节流独立于上面）
       if (faces.length === 2) {
         VoiceCoach.speakCoupleInteractionTipV2().catch(() => {})
+        // 2人合照专属提示
+        if (now - lastGroupTipRef.current >= 12000) {
+          lastGroupTipRef.current = now
+          VoiceCoach.speakGroupTip().catch(() => {})
+        }
       } else if (faces.length > 2) {
         VoiceCoach.speakGroupPhotoTipV2().catch(() => {})
+        // 人多拥挤提示
+        if (now - lastGroupTipRef.current >= 10000) {
+          lastGroupTipRef.current = now
+          VoiceCoach.speakCrowdedTip().catch(() => {})
+        }
       }
     }
     // 表情实时分析 TTS（前置摄像头+单人脸+8s 节流）

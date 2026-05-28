@@ -4980,6 +4980,56 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 低光环境提示 */
+  async speakLowLightTip(): Promise<void> {
+    const tips = [
+      '光线有点暗，找个亮的地方拍照会更清晰～',
+      '这里好暗！试试靠窗或者开灯，脸会更亮～',
+      '暗光环境容易糊片，让男朋友稳住手再拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 逆光场景提示 */
+  async speakBacklitTip(): Promise<void> {
+    const tips = [
+      '逆光拍剪影超有氛围！但脸太黑了，下回试试侧过来一点～',
+      '背光环境容易脸黑，可以让人转个角度或打开补光～',
+      '这个逆光很有感觉！稍微转一下身，光线更均衡～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 人多嘈杂场景提示 */
+  async speakCrowdedTip(): Promise<void> {
+    const tips = [
+      '周围人太多了！稍微等一等，等人走过去再拍～',
+      '这里人好多！找个人少的角落背景会更干净～',
+      '人多的时候试试仰拍，背景干净人还是主角～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 屏幕反光提示 */
+  async speakScreenReflectionTip(): Promise<void> {
+    const tips = [
+      '脸上有反光！换个角度躲开那些亮的地方～',
+      '这个反光好明显！稍微转一下手机就好了～',
+      '灯光在脸上留了光斑，往边上站一站躲开～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 多人合照提示 */
+  async speakGroupTip(): Promise<void> {
+    const tips = [
+      '合照要照顾到每个人！让大家站近一点但别挤～',
+      '几个人站一排容易脸叠在一起，试试错落站位～',
+      '合照啦！让每个人都能露脸，站成弧形最好看～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
