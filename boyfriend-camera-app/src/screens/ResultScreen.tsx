@@ -1083,7 +1083,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   errorSecondaryBtn: {
-    backgroundColor: COLORS.bgCard,
+    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: COLORS.danger,
   },
