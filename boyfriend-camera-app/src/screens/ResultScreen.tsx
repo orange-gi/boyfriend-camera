@@ -237,6 +237,22 @@ export default function ResultScreen() {
         if ((templateCategory === '街头随拍' || templateCategory === '城市街拍') && scoreResult.exposureScore >= 22 && scoreResult.totalScore >= 75) {
           track(() => { try { VoiceCoach.speakBacklitTip() } catch {} }, 2500)
         }
+        // 情侣合照（总分 >= 65 时触发动态互动感）
+        if (templateCategory === '情侣合照' && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakCouplePhotoTip() } catch {} }, 2500)
+        }
+        // 节日限定（总分 >= 60 时触发灯展氛围感）
+        if (templateCategory === '节日限定' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakFestivalLightsTip() } catch {} }, 2500)
+        }
+        // 室内人像（总分 >= 65 时触发室内光线技巧）
+        if (templateCategory === '室内人像' && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakIndoorPortraitTip() } catch {} }, 2500)
+        }
+        // 自拍技巧（总分 >= 60 时触发自拍角度技巧）
+        if (templateCategory === '自拍技巧' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakSelfieTip() } catch {} }, 2500)
+        }
       } catch {}
     }, 800)
     return () => clearTimeout(tid)
