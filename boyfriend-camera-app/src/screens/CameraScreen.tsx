@@ -1,6 +1,6 @@
 /**
- * CameraScreen - 拍照页 v3
- * 改进：顶部悬浮姿势引导卡、拍照闪白动画、模板选择弹窗优化
+ * CameraScreen - 拍照页 v4
+ * 迭代优化：代码清洁，CameraScreen 文档更新
  */
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
