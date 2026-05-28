@@ -542,9 +542,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
-  // 简洁优雅：去掉 backgroundColor — bg === bgCard 皆为白，
-  // recordCard 是记录分隔线，borderRadius 是最小化圆角（16px），
-  // 留 padding 和 marginBottom 保持记录间呼吸感
+  // recordCard：白底灰边日记记录卡片，borderRadius 统一 XL 级别
   recordCard: {
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
