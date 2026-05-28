@@ -4976,6 +4976,26 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 分析完成提示（照片分析完成，可查看结果） */
+  async speakAnalysisComplete(): Promise<void> {
+    const tips = [
+      '分析完成！来看看这张照片哪里可以更好～',
+      '照片分析好了！点进去看看分数和建议吧～',
+      '分析结果出来了！看看这次能打多少分～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 模板同步成功提示（区别于同步失败的 speakTemplateSyncFailed） */
+  async speakTemplateSynced(count: number): Promise<void> {
+    const tips = [
+      `姿势模板已更新！共${count}个新姿势等你解锁～`,
+      `模板库同步完成，${count}个姿势已就绪！`,
+      `${count}个新姿势模板已加载！试试新pose吧～`,
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
