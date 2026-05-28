@@ -2189,10 +2189,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  async speakMirrorShot(): Promise<void> {
-    await this.speak('用镜子拍可以消除男友手残视角！这个方法绝了～', true)
-  }
-
   async speakTimerMode(): Promise<void> {
     const tips = [
       '试试定时拍摄！十秒足够摆好姿势，男朋友也可以入镜了～',
@@ -3550,18 +3546,6 @@ class VoiceCoach {
       '夜景光线复杂，打开闪光灯或找光源更亮的地方～',
       '晚上拍照手要更稳！双手握手机，深呼吸后按快门～',
       '夜景模式拍完要等一下，让手机自动合成多帧～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
-
-  /** 连拍鼓励提示 — 引导男朋友多拍几张提升成功率 */
-  async speakStreakEncourage(): Promise<void> {
-    const tips = [
-      '多拍几张！按住快门别松手，总有一张完美的～',
-      '连拍模式开启！多按几张，男朋友总能找到最好的角度～',
-      '连拍！多拍总没错，最好的表情往往在不经意间～',
-      '连拍模式拍起来！多按几张成功率更高～',
-      '多拍几张保险！连拍模式下男朋友尽情按快门～',
     ]
     await this.speak(pickRandom(tips), true)
   }
