@@ -4804,7 +4804,7 @@ class VoiceCoach {
   }
 
   /** 天气提示（根据光线和天气给出拍照建议） */
-  async speakWeatherTip(weather: 'sunny' | 'cloudy' | 'rainy' | 'foggy'): Promise<void> {
+  async speakWeatherTip(weather: 'sunny' | 'cloudy' | 'rainy' | 'foggy' | 'snowy'): Promise<void> {
     const tips: Record<string, string[]> = {
       sunny: [
         '阳光明媚！侧光或逆光拍最有层次感～',
@@ -4825,6 +4825,11 @@ class VoiceCoach {
         '雾天光线超柔和！有朦胧的氛围感～',
         '雾天拍远景超美！但是手机对焦可能会有挑战～',
         '雾天的散射光让皮肤看起来超好！',
+      ],
+      snowy: [
+        '雪天光线超柔和！白茫茫的背景超浪漫～',
+        '雪天拍摄要注意曝光补偿，稍微减一点EV避免过曝～',
+        '雪天是拍照的好天气！但是注意手机保暖和电量～',
       ],
     }
     const arr = tips[weather] || tips.cloudy
