@@ -210,7 +210,37 @@ export default function ResultScreen() {
       track(() => { try { VoiceCoach.speakFilterSwipeHint() } catch {} }, 1500)
     }, 500)
     return () => clearTimeout(tid)
-  }, [scoreResult])
+  }, [scoreResult, templateCategory])
+
+  // 场景专属 TTS（在结果页展示后播报，不干扰分数播报）
+  useEffect(() => {
+    if (!templateCategory || !scoreResult) return
+    const tid = setTimeout(() => {
+      try {
+        // 海边/日落场景（总分 >= 65 时触发出片感）
+        if ((templateCategory === '户外海边日落' || templateCategory === '户外海边') && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakBeachTip() } catch {} }, 2500)
+        }
+        // 泳池边（总分 >= 60）
+        if (templateCategory === '泳池边' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakSwimmingPoolTip() } catch {} }, 2500)
+        }
+        // 运动健身（总分 >= 60）
+        if (templateCategory === '运动健身' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakGymTip() } catch {} }, 2500)
+        }
+        // 雨天街头（总分 >= 60）
+        if (templateCategory === '雨天街头' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakRainyTip() } catch {} }, 2500)
+        }
+        // 户外街拍光线好时（总分 >= 75）
+        if ((templateCategory === '街头随拍' || templateCategory === '城市街拍') && scoreResult.exposureScore >= 22 && scoreResult.totalScore >= 75) {
+          track(() => { try { VoiceCoach.speakBacklitTip() } catch {} }, 2500)
+        }
+      } catch {}
+    }, 800)
+    return () => clearTimeout(tid)
+  }, [templateCategory, scoreResult])
   const [newRecordBanner, setNewRecordBanner] = useState(false)
   const viewShotRef = useRef<ViewShotRef | null>(null)
   const { faces } = useFaceDetection()
