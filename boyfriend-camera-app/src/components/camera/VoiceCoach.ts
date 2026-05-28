@@ -3092,6 +3092,54 @@ class VoiceCoach {
     const arr = tips[sceneType] || tips.outdoor
     await this.speak(pickRandom(arr), true)
   }
+
+  /** 冬季拍照专属提示（雪景/寒冷环境） */
+  async speakWinterTip(): Promise<void> {
+    const tips = [
+      '雪地里光线反射很强，脸上的阴影不好控制，稍微仰头让雪反射到脸上～',
+      '雪天拍完赶紧回室内暖和，别让女朋友冻太久～',
+      '雪景背景白茫茫，开闪光灯补光让脸和背景平衡～',
+      '雪天户外光线超通透！皮肤看起来超细腻，赶紧多拍几张～',
+      '雪地里穿亮色外套！红色或黄色在雪地里超显眼～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 春季拍照专属提示（花季/踏青） */
+  async speakSpringTip(): Promise<void> {
+    const tips = [
+      '春天光线好柔和！樱花树下侧身站，超有春日感～',
+      '户外踏青时让女朋友站在花丛前，笑着抓拍～',
+      '春季阳光明媚！找好角度，让光打在侧脸上～',
+      '春天户外光线超通透！皮肤看起来超好，赶紧多拍～',
+      '春游踏青时找个干净的背景，让人和花成为主角～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 秋季拍照专属提示（红叶/落叶） */
+  async speakAutumnTip(): Promise<void> {
+    const tips = [
+      '秋天红叶超美！让女朋友站在红叶前，超有秋日感～',
+      '落叶地上光影斑驳，蹲低一点拍超有氛围感～',
+      '秋天光线偏暖，暖色系穿搭和秋景超配～',
+      '红叶季光线柔和！皮肤看起来超好，多拍几张～',
+      '秋天逆光拍红叶，超有电影感！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 夜景城市灯光专属提示（霓虹/都市夜景） */
+  async speakUrbanNightTip(): Promise<void> {
+    const tips = [
+      '夜景光线复杂，找个光源在背后或侧面的位置～',
+      '霓虹灯下皮肤会显得更白净，让女友靠近光源～',
+      '夜拍时手要稳，憋住呼吸再按快门～',
+      '城市灯光斑斓！侧身站着让灯光打在脸上超有氛围～',
+      '夜景背景灯光超有感觉，打开闪光灯补光让脸更清晰～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
