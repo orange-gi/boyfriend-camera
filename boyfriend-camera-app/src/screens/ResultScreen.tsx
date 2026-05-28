@@ -252,6 +252,22 @@ export default function ResultScreen() {
         if (templateCategory === '自拍技巧' && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakSelfieTip() } catch {} }, 2500)
         }
+        // 夜景系列（夜景/星空夜景/桥上夜景，总分 >= 60）
+        if ((templateCategory === '夜景' || templateCategory === '星空夜景' || templateCategory === '桥上夜景') && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakNightTip() } catch {} }, 2500)
+        }
+        // 酒吧霓虹灯（总分 >= 60）
+        if (templateCategory === '酒吧霓虹灯' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakFestivalLightsTip() } catch {} }, 2500)
+        }
+        // 演唱会现场（总分 >= 60）
+        if (templateCategory === '演唱会现场' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakDancePerformanceTip() } catch {} }, 2500)
+        }
+        // 闺蜜合照（总分 >= 60）
+        if ((templateCategory === '闺蜜合照' || templateCategory === '大合照') && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakBestiePoseTip() } catch {} }, 2500)
+        }
       } catch {}
     }, 800)
     return () => clearTimeout(tid)
