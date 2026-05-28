@@ -3501,17 +3501,6 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '对着镜子拍时手机稍微抬高一点俯拍，显脸小角度绝了～',
     '浴室有雾气时皮肤超柔和，趁雾没散赶紧拍几张～',
   ],
-  // v5 新增：雨天室内场景建议
-  spring_rain_specific: [
-    '雨天室内窗边超有氛围！让窗户的光打在侧脸上～',
-    '雨天光线柔和均匀，随便拍都好看，不用担心过曝～',
-    '雨滴打在窗户上有朦胧感，可以贴着窗户拍出雾气效果～',
-    '雨天室内注意白平衡，偏暖的灯光和冷调窗外形成对比更有氛围～',
-    '雨天光线偏暗，打开室内灯补光，让脸朝向光源～',
-    '春雨天光线柔和超适合拍人像，皮肤状态看起来超好～',
-    '雨天靠在窗边拍，光影斑驳超有氛围感～',
-  ],
-
   // v6 新增：滤镜匹配建议（用户选了滤镜但场景不适合时给出提示）
   filter_tips: [
     '这个滤镜和场景很搭！暖色调配暖光，男朋友审美在线～',
@@ -5402,10 +5391,6 @@ export async function analyzePhoto(
   // 泳池边专属场景
   if ((sceneType as string) === 'swimming_pool' && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.swimming_pool_specific))
-  }
-  // 春雨室内场景
-  if ((sceneType as string) === 'spring_rain' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.spring_rain_specific))
   }
   // 天气光比建议（光线过暗或过亮时触发）
   if ((safeBrightness < 60 || safeBrightness > 200) && suggestions.length < 5) {
