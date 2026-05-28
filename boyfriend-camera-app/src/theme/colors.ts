@@ -1,37 +1,17 @@
 /**
  * 主题色 - 向后兼容导出层
  * 新代码请直接从 'src/theme/index.ts' 导入
- *   import { colors, typography, spacing, borderRadius, shadows } from '../theme'
+ *   import { COLORS, scoreColor, scoreLabel, scoreGrade } from '../theme'
  */
-import { colors } from './index'
+import { colors, scoreColor, scoreLabel, scoreGrade } from './index'
 
 // 向后兼容别名
 export const COLORS = colors
 
-/** 根据分数返回对应颜色 */
-export function scoreColor(score: number): string {
-  if (score >= 80) return colors.scoreGreat
-  if (score >= 60) return colors.scoreOk
-  return colors.scoreBad
-}
+// 从 index.ts 统一导出，不再重复定义
+// scoreColor / scoreLabel / scoreGrade 已移至 theme/index.ts
 
-/** 根据分数返回等级文案（无 emoji，简洁克制） */
-export function scoreLabel(score: number): string {
-  if (score >= 90) return '完美'
-  if (score >= 80) return '优秀'
-  if (score >= 70) return '良好'
-  if (score >= 60) return '及格'
-  return '继续加油'
-}
-
-/** 根据分数返回字母等级：S/A/B/C/D */
-export function scoreGrade(score: number): string {
-  if (score >= 90) return 'S'
-  if (score >= 80) return 'A'
-  if (score >= 70) return 'B'
-  if (score >= 60) return 'C'
-  return 'D'
-}
+export { scoreColor, scoreLabel, scoreGrade }
 
 /** 分类色板（统一使用此处定义，各页面不再重复定义）
  * 所有颜色值来自 theme/index.ts 设计 tokens
