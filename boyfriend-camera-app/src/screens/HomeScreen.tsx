@@ -151,7 +151,8 @@ export default function HomeScreen() {
 
   // 简洁优雅：趋势行仅保留数字和方向，删除冗余进度条
   const trendRowEl = useMemo(() => {
-    if (diaryCount < 2 || avgScore <= 0) return null
+    // 趋势需要至少 4 条数据（前后期各 2 条）才有意义；少于 4 条时隐藏趋势指标
+    if (diaryCount < 4 || avgScore <= 0) return null
     const tc = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
     const tl = trend === 'up' ? '↑ 进步中' : trend === 'down' ? '↓ 下滑' : '→ 稳定'
     const lc = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
