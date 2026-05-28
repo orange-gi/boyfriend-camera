@@ -1380,7 +1380,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginHorizontal: 16,
     marginBottom: 10,
-    height: 38,
+    height: 44,
     backgroundColor: COLORS.bg,
     borderRadius: 10,
   },
@@ -1390,6 +1390,7 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     padding: 0,
     paddingHorizontal: 4,
+    minHeight: 44,
   },
   searchClear: {
     color: COLORS.textMuted,
