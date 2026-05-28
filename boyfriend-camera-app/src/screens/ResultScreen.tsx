@@ -811,14 +811,12 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 夸奖横幅 — 无背景：分数数字用强调色，描述文字用中性色，层级分明 */}
+        {/* 夸奖横幅 — 简洁优雅：分数数字与描述合并为一行，数字用强调色，描述用次级色，层级靠字重区分 */}
         {!processing && (
           <View style={styles.praiseBanner}>
-            <Text style={[styles.praiseBannerScore, { color: praiseInfo.color }]}>
-              {praiseInfo.score}
-            </Text>
-            <Text style={[styles.praiseBannerScore, { color: COLORS.textPrimary }]}>
-              {`分 ${praiseInfo.text}`}
+            <Text style={styles.praiseBannerScore}>
+              <Text style={{ color: praiseInfo.color, fontWeight: '800' }}>{praiseInfo.score}</Text>
+              <Text style={{ color: COLORS.textSecondary, fontWeight: '400' }}> 分 {praiseInfo.text}</Text>
             </Text>
           </View>
         )}
@@ -972,14 +970,11 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 20,
   },
-  // 破纪录提示：纯文字无背景，克制简洁
+  // 破纪录提示：纯文字，简洁优雅极致 — 成功色文字本身承载信息，无需背景色块装饰
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 6,
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 20,
-    backgroundColor: hexAlpha(COLORS.success, 0.12),
+    paddingVertical: 4,
     alignSelf: 'flex-start',
   },
   newRecordBannerText: {
@@ -1055,16 +1050,15 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   // praiseBanner 与 ScoreBoard 留呼吸空间
+  // praiseBanner 分数文字合并为单行内联样式，靠 Text 组件内嵌控制颜色层级
   praiseBanner: {
     marginHorizontal: 20,
     marginTop: 12,
     marginBottom: 6,
   },
   praiseBannerScore: {
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: -0.1,
-    lineHeight: 20,
+    fontSize: 17,
+    lineHeight: 24,
   },
   viewShot: {
     alignItems: 'center',
