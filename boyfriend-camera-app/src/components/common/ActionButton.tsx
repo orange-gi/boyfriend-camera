@@ -28,7 +28,7 @@ const variantStyles: Record<Variant, { container: ViewStyle; text: TextStyle }> 
       backgroundColor: COLORS.primary,
       borderWidth: 0,
     },
-    text: { color: '#fff', fontWeight: 'bold' },
+    text: { color: COLORS.textOnPrimary, fontWeight: 'bold' },
   },
   secondary: {
     container: {
@@ -43,7 +43,7 @@ const variantStyles: Record<Variant, { container: ViewStyle; text: TextStyle }> 
       backgroundColor: COLORS.danger,
       borderWidth: 0,
     },
-    text: { color: '#fff', fontWeight: 'bold' },
+    text: { color: COLORS.textOnPrimary, fontWeight: 'bold' },
   },
   ghost: {
     container: {

@@ -1069,7 +1069,7 @@ const styles = StyleSheet.create({
   // 不选主色是因为暖色调滤镜（暖黄/美食）上主色不够突出；白色形成自然"发光"效果
   filterCircleActive: {
     borderWidth: 2,
-    borderColor: '#FFFFFF',
+    borderColor: COLORS.textOnPrimary,
   },
   processingLabel: {
     fontSize: 15,
