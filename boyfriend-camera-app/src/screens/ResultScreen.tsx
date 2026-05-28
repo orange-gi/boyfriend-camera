@@ -1078,21 +1078,27 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   // 重试按钮：语义上非危险操作，用 primary 替代 danger
+  // 无障碍：paddingVertical ≥ 22 确保触摸目标 ≥ 44px
   errorRetryBtn: {
     backgroundColor: COLORS.primary,
     borderRadius: borderRadius.lg,
     paddingHorizontal: 20,
-    paddingVertical: 7,
+    paddingVertical: 11,
+    minHeight: 44,
   },
   errorRetryBtnText: {
     fontSize: 13,
     color: COLORS.textOnPrimary,
     fontWeight: '600',
   },
+  // 无障碍：确保触摸目标 ≥ 44px
   errorSecondaryBtn: {
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: COLORS.danger,
+    paddingVertical: 11,
+    minHeight: 44,
+    paddingHorizontal: 20,
   },
   errorSecondaryBtnText: {
     fontSize: 13,
@@ -1102,6 +1108,6 @@ const styles = StyleSheet.create({
   noPhotoContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, gap: 8 },
   noPhotoTitle: { fontSize: 20, fontWeight: 'bold' },
   noPhotoDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22 },
-  noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: borderRadius.md, paddingHorizontal: 28, paddingVertical: 12 },
+  noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: borderRadius.md, paddingHorizontal: 28, paddingVertical: 11, minHeight: 44 },
   noPhotoBtnText: { color: COLORS.textOnPrimary, fontSize: 16, fontWeight: 'bold' },
 })
