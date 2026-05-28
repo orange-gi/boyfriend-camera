@@ -3055,6 +3055,43 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 黄金时段专属提示（户外场景检测到 Golden Hour 时触发） */
+  async speakGoldenHourTip(): Promise<void> {
+    const tips = [
+      '现在是黄金时段！光线超美，赶紧多拍几张～',
+      '日落前20分钟光线最温柔！这个时间段拍人像绝了～',
+      'Golden Hour 来啦！让光打在侧脸上，超有氛围感～',
+      '黄昏的光最会说话！这个时间段拍照超有感觉～',
+      '傍晚的光好温柔，让男朋友赶紧拍，光线不会再来啦～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 模板匹配度优秀时提示（姿势接近模板指导时触发） */
+  async speakTemplateMatchTip(): Promise<void> {
+    const tips = [
+      '姿势超准！这个角度绝了，按下去就是大片～',
+      '完全复刻了模板！这个状态按下去肯定好看～',
+      '姿势一模一样！这张拍出来一定很惊艳～',
+      '跟模板完全对齐了！这个瞬间拍下来就是完美～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 穿搭建议（特定场景提示服装搭配） */
+  async speakDressCodeTip(sceneType: string): Promise<void> {
+    const tips: Record<string, string[]> = {
+      beach: ['海边穿浅色或亮色衣服超上镜！白色连衣裙或浅蓝最配～', '海边适合飘逸的长裙！风吹起来超有感觉～'],
+      snow: ['雪地里穿亮色外套！红色或黄色在雪地里超显眼～', '白色或浅色衣服在雪地里超仙！别穿太深的颜色～'],
+      night: ['夜景适合穿浅色或亮色衣服，在暗背景里更突出～', '晚上拍照穿有反光材质或亮片的衣服，霓虹灯下超美～'],
+      cafe: ['咖啡馆适合文艺风穿搭！米色、驼色系超有氛围～', '小资风连衣裙或针织衫，咖啡馆里超上镜～'],
+      outdoor: ['户外适合休闲风！浅色系衣服和绿植背景超配～', '户外穿自然色系最上镜，白色或浅蓝都很清爽～'],
+      garden: ['温室花房穿浅色或碎花！和绿植背景超搭～', '花卉背景配浅色系衣服，仙女感满满～'],
+    }
+    const arr = tips[sceneType] || tips.outdoor
+    await this.speak(pickRandom(arr), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
