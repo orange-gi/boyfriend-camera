@@ -997,12 +997,6 @@ const FilterItem = React.memo(function FilterItem({
       accessibilityHint="单击切换滤镜"
     >
       <View style={[styles.filterCircle, { backgroundColor: filter.color }, isActive ? styles.filterCircleActive : null]} />
-      <Text style={[
-        styles.filterLabel,
-        isActive ? styles.filterLabelActive : null,
-      ]}>
-        {filter.label}
-      </Text>
     </TouchableOpacity>
   )
 })
@@ -1075,14 +1069,6 @@ const styles = StyleSheet.create({
   filterCircleActive: {
     borderWidth: 2,
     borderColor: '#FFFFFF',
-  },
-  // 去标签：简洁优雅极致 — 颜色本身即信息，无需文字标签
-  // 无障碍通过 accessibilityLabel 承载完整语义
-  filterLabel: {
-    display: 'none',
-  },
-  filterLabelActive: {
-    display: 'none',
   },
   processingLabel: {
     fontSize: 15,

@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
   cardImage: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    // borderRadius 由父容器 card 的 overflow:hidden 处理，无需重复设置
   },
   placeholderText: {
     color: COLORS.textOnPrimary,
@@ -166,7 +165,6 @@ const styles = StyleSheet.create({
   },
   filterOverlay: {
     ...StyleSheet.absoluteFill,
-    // borderRadius 由父容器 card 的 overflow:hidden 处理，无需重复设置
   },
   cardLabel: {
     position: 'absolute',
