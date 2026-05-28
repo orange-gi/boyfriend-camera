@@ -5814,6 +5814,14 @@ export async function analyzePhoto(
   if (sceneType === 'hotspring') {
     suggestions.push(pickRandom(SUGGESTION_POOL.hotspring_specific))
   }
+  // 阴天户外场景（户外 + 中低亮度散射光）
+  if (sceneType === 'overcast') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.overcast_tips))
+  }
+  // 日落场景
+  if (sceneType === 'sunset') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.sunset_specific))
+  }
   // 复古胶片风场景
   if (sceneType === 'vintage_film') {
     suggestions.push(pickRandom(SUGGESTION_POOL.vintage_film_specific))
