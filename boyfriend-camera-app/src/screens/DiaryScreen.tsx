@@ -189,7 +189,7 @@ export default function DiaryScreen() {
   // entries 直接使用 records；ProgressChart 内部切片取最近 10 条
   const entries: DiaryRecord[] = records
 
-  const renderRecord = ({ item, index }: { item: DiaryRecord; index: number }) => {
+  const renderRecord = useCallback(({ item, index }: { item: DiaryRecord; index: number }) => {
     const date = new Date(item.date)
     const isValidDate = !isNaN(date.getTime())
     const dateStr = isValidDate
@@ -258,7 +258,10 @@ export default function DiaryScreen() {
         </View>
       </TouchableOpacity>
     )
-  }
+  }, [records, showDeleteSheet])
+
+  // useMemo 稳定化 FlatList data，避免每次渲染创建新数组导致 VirtualizedList 失效
+  const listData = useMemo(() => records.slice(0, 20), [records])
 
   if (totalCount === 0) {
     return (
@@ -298,7 +301,7 @@ export default function DiaryScreen() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={records.slice(0, 20)}
+        data={listData}
         keyExtractor={(item) => item.date}
         renderItem={renderRecord}
         initialNumToRender={8}

@@ -87,6 +87,14 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
   // Y 轴刻度
   const yTicks = [0, 25, 50, 75, 100]
 
+  // 图例数据：max/min 用 useMemo 缓存，避免在 JSX 的 IIFE 中每次渲染重算
+  const legendData = useMemo(() => {
+    if (sorted.length === 0) return null
+    const maxEntry = sorted.reduce((a, b) => (a.score > b.score ? a : b))
+    const minEntry = sorted.reduce((a, b) => (a.score < b.score ? a : b))
+    return { maxEntry, minEntry }
+  }, [sorted])
+
   return (
     <View style={[styles.container, { height }]}>
       {/* Y 轴刻度标签 */}
@@ -185,24 +193,20 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
         )
       })}
 
-      {/* 图例 */}
-      {(() => {
-        const maxEntry = sorted.reduce((a, b) => (a.score > b.score ? a : b))
-        const minEntry = sorted.reduce((a, b) => (a.score < b.score ? a : b))
-        return (
-          <View style={styles.legendRow}>
-            <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: COLORS.scoreGreat }]} />
-              <Text style={styles.legendText}>最高 {maxEntry.score}分</Text>
-            </View>
-            <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: COLORS.scoreBad }]} />
-              <Text style={styles.legendText}>最低 {minEntry.score}分</Text>
-            </View>
-            <Text style={styles.legendCount}>共 {sorted.length} 次拍摄</Text>
+      {/* 图例 — 使用 useMemo 缓存的 legendData */}
+      {legendData && (
+        <View style={styles.legendRow}>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: COLORS.scoreGreat }]} />
+            <Text style={styles.legendText}>最高 {legendData.maxEntry.score}分</Text>
           </View>
-        )
-      })()}
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: COLORS.scoreBad }]} />
+            <Text style={styles.legendText}>最低 {legendData.minEntry.score}分</Text>
+          </View>
+          <Text style={styles.legendCount}>共 {sorted.length} 次拍摄</Text>
+        </View>
+      )}
     </View>
   )
 }

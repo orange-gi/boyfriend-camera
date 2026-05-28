@@ -322,8 +322,8 @@ const styles = StyleSheet.create({
   bottomNavBtn: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  // 简洁优雅：去掉 backgroundColor — bg === bgCard 皆为白，背景无意义；maxWidth 替代 100% 避免过大
-  onboardCard: { borderRadius: borderRadius['2xl'], padding: 24, maxWidth: 340, width: '100%', alignItems: 'center' },
+  // 白色卡片衬底：半透明遮罩下必须有白色背景才能区分层级，简洁优雅不等于无背景
+  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 24, maxWidth: 340, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },
