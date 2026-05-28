@@ -106,7 +106,7 @@ export function useFaceDetection() {
 
   /**
    * 处理单帧图像，检测人脸
-   * @param frame VisionCamera 的 Frame 对象
+   * @param frame VisionCamera 的 Frame 对象（接入 MLKit 时传入真实 Frame）
    * @param cameraFacing 'front' | 'back' — 用于 Mock 模式生成合理人脸
    * @returns 检测到的人脸列表
    */
@@ -118,22 +118,36 @@ export function useFaceDetection() {
     // 安装: npm install @react-native-ml-kit/face-detection
     // import FaceDetection from '@react-native-ml-kit/face-detection'
     //
-    // const result = await FaceDetection.processImage(frame as android.graphics.Bitmap)
-    // const detected: FaceInfo[] = (Array.isArray(result) ? result : [result]).map(f => ({
-    //   x: f.frame?.x ? f.frame.x / frame.width : 0.5,
-    //   y: f.frame?.y ? f.frame.y / frame.height : 0.4,
-    //   width: f.frame?.width ? f.frame.width / frame.width : 0.3,
-    //   height: f.frame?.height ? f.frame.height / frame.height : 0.4,
-    //   area: f.frame
-    //     ? (f.frame.width * f.frame.height) / (frame.width * frame.height)
-    //     : 0.12,
-    //   yawAngle: f.yawAngle ?? 0,
-    //   rollAngle: f.rollAngle ?? 0,
-    //   leftEyeOpen: (f.leftEyeOpenProbability ?? 0) > 0.5,
-    //   rightEyeOpen: (f.rightEyeOpenProbability ?? 0) > 0.5,
-    //   smiling: (f.smilingProbability ?? 0) > 0.6,
-    //   confidence: f.probability ?? 0.85,
-    // }))
+    // // MLKit 返回的原始人脸类型（接入时确保 @types 已安装）
+    // interface MLKitFace {
+    //   frame?: { x: number; y: number; width: number; height: number }
+    //   yawAngle?: number
+    //   rollAngle?: number
+    //   leftEyeOpenProbability?: number
+    //   rightEyeOpenProbability?: number
+    //   smilingProbability?: number
+    // }
+    //
+    // const raw = await FaceDetection.processImage(frame) as MLKitFace | MLKitFace[]
+    // const faces = (Array.isArray(raw) ? raw : [raw]).filter(Boolean) as MLKitFace[]
+    // const detected: FaceInfo[] = faces.map(f => {
+    //   const fw = f.frame?.width ?? 0
+    //   const fh = f.frame?.height ?? 0
+    //   const normArea = fw > 0 && fh > 0 ? (fw * fh) / (frame.width * frame.height) : 0.12
+    //   return {
+    //     x: f.frame ? f.frame.x / frame.width : 0.5,
+    //     y: f.frame ? f.frame.y / frame.height : 0.4,
+    //     width: fw / frame.width || 0.3,
+    //     height: fh / frame.height || 0.4,
+    //     area: normArea,
+    //     yawAngle: f.yawAngle ?? 0,
+    //     rollAngle: f.rollAngle ?? 0,
+    //     leftEyeOpen: (f.leftEyeOpenProbability ?? 0) > 0.5,
+    //     rightEyeOpen: (f.rightEyeOpenProbability ?? 0) > 0.5,
+    //     smiling: (f.smilingProbability ?? 0) > 0.6,
+    //     confidence: 0.85,
+    //   }
+    // })
     // setFaces(detected)
     // return detected
 
