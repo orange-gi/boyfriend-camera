@@ -1145,13 +1145,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
-  // 去装饰化：去掉 bgCard 背景，danger 色文字已足够传达错误层级
+  // 去装饰化：去掉 bgCard 背景和 borderRadius，danger 色文字已足够传达错误层级
   errorBanner: {
     paddingHorizontal: 16,
     paddingVertical: 10,
     marginBottom: 12,
     alignItems: 'center',
-    borderRadius: 10,
   },
   errorBannerBtns: {
     flexDirection: 'row',
