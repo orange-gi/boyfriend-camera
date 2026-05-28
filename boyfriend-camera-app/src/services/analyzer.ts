@@ -3071,6 +3071,8 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '居中构图适合证件照，但日常拍照稍微偏移更有艺术感～',
     '黄金螺旋构图比三分法更高级，让主体落在螺旋线上～',
     '试试把人脸放在右上或左下交叉点，画面立刻变专业～',
+    '让人物稍微偏离画面中心约三分之一，视觉重心会更舒服～',
+    '留白在人物视线方向，照片会有呼吸感和故事感～',
   ],
   side_profile_hint: [
     '侧脸超显气质！让光打在侧脸上，轮廓会更立体～',
@@ -3970,6 +3972,8 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '镜头脏了！用衣服擦一下镜头再拍会更清晰～',
     '有东西挡住镜头边缘了！稍微调整一下手机位置～',
     '镜头被手指碰到了，擦干净再拍效果更好～',
+    '手机壳边缘挡住摄像头了，把手机壳往下拉一点再拍～',
+    '摄像头旁边的手指点到镜头了，把手指移开再按快门～',
   ],
   // v8 新新增：机位角度过仰/过俯建议
   camera_angle_extreme: [
@@ -4514,7 +4518,7 @@ export async function analyzePhoto(
 
   // 霓虹夜景提示（夜间城市户外 + 中低亮度）
   const localNight = brightness < 90 || (sceneType !== undefined &&
-    ['rooftop_night', 'night_market', 'starry_night', 'carnival'].includes(sceneType))
+    ['rooftop_night', 'neon_light', 'starry_night', 'carnival'].includes(sceneType))
   if (localNight && sceneType === 'outdoor' && brightness >= 30 && brightness <= 120 && faceCount > 0 && suggestions.length < 5) {
     suggestions.push(pickRandom(SUGGESTION_POOL.neon_light_specific))
   }
@@ -4651,7 +4655,7 @@ export async function analyzePhoto(
   // ===== 场景匹配度推断 =====
   // 推断当前照片的主体类型与场景是否匹配（纯本地规则）
   const isNightScene = brightness < 90 || (sceneType !== undefined &&
-    ['rooftop_night', 'night_market', 'starry_night', 'camping_campfire'].includes(sceneType))
+    ['rooftop_night', 'neon_light', 'starry_night', 'camping_campfire'].includes(sceneType))
   const isPortraitScene = faceCount > 0 && brightness >= 60 && brightness <= 200
   const isFoodScene = faceCount === 0 && brightness >= 60 && brightness <= 200
   const isLandscapeScene = faceCount === 0 && brightness >= 80 && brightness <= 220
@@ -4738,7 +4742,7 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.cloud_soft_light))
   }
   // 雨天户外（低亮度场景下有湿度感）
-  if (safeBrightness >= 30 && safeBrightness <= 100 && sceneType !== undefined && ['rainy', 'outdoor'].includes(sceneType) && suggestions.length < 4) {
+  if (safeBrightness >= 30 && safeBrightness <= 100 && (sceneType === 'rainy_street' || sceneType === 'outdoor') && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.rainy_outdoor))
   }
 

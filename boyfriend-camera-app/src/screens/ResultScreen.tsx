@@ -288,6 +288,22 @@ export default function ResultScreen() {
         if (templateCategory === '滑雪' && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakGymTip() } catch {} }, 2500)
         }
+        // 水族馆（总分 >= 60）
+        if (templateCategory === '水族馆' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakAquariumTip() } catch {} }, 2500)
+        }
+        // 游乐园/摩天轮/旋转木马（总分 >= 60）
+        if ((templateCategory === '游乐园' || templateCategory === '摩天轮' || templateCategory === '旋转木马') && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakAmusementTip() } catch {} }, 2500)
+        }
+        // 天台派对（总分 >= 60）
+        if (templateCategory === '天台派对' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakFestivalLightsTip() } catch {} }, 2500)
+        }
+        // 面包房/烘焙坊（总分 >= 65）
+        if (templateCategory === '面包房' && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakBakeryTip() } catch {} }, 2500)
+        }
       } catch {}
     }, 800)
     return () => clearTimeout(tid)
