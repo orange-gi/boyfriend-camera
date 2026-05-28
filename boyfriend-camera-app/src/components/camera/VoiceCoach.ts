@@ -3050,17 +3050,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 模板匹配度优秀时提示（姿势接近模板指导时触发） */
-  async speakTemplateMatchTip(): Promise<void> {
-    const tips = [
-      '姿势超准！这个角度绝了，按下去就是大片～',
-      '完全复刻了模板！这个状态按下去肯定好看～',
-      '姿势一模一样！这张拍出来一定很惊艳～',
-      '跟模板完全对齐了！这个瞬间拍下来就是完美～',
-    ]
-    await this.speak(pickRandom(tips), true)
-  }
-
   /** 穿搭建议（特定场景提示服装搭配） */
   async speakDressCodeTip(sceneType: string): Promise<void> {
     const tips: Record<string, string[]> = {
