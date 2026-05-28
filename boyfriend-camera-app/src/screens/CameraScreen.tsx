@@ -330,6 +330,18 @@ export default function CameraScreen() {
     }
   }, [faces, cameraFacing])
 
+  // 背景虚化提示（前置自拍）：人脸面积适中偏小（0.05-0.15）且在中心区域
+  useEffect(() => {
+    if (cameraFacing !== 'front') return
+    if (faces.length !== 1) return
+    const now = Date.now()
+    const face = faces[0]
+    const inCenter = face.x > 0.25 && face.x < 0.75 && face.y > 0.25 && face.y < 0.75
+    if (inCenter && face.area >= 0.05 && face.area <= 0.15 && now - lastLowLightRef.current >= 20000) {
+      VoiceCoach.speakBokehTip().catch(() => {})
+    }
+  }, [faces, cameraFacing])
+
   // 自拍距离 TTS 检查（前置摄像头下，Face 面积 > 0.22 时提示退远）
   useEffect(() => {
     if (cameraFacing !== 'front') return
@@ -1137,13 +1149,14 @@ const styles = StyleSheet.create({
   modeBtnTextActive: {
     color: COLORS.textOnDark,
   },
-  // 简洁优雅：姿势引导卡去装饰化 — 无背景无边框，仅文字信息
+  // 简洁优雅：智能推荐标签 — 微透明背景承载文字，确保在深色相机画面上清晰可见
   autoRecommendBadge: {
     borderRadius: 4,
     paddingHorizontal: 5,
     paddingVertical: 1,
     marginRight: 6,
     flexShrink: 0,
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   autoRecommendBadgeText: {
     fontSize: 10,

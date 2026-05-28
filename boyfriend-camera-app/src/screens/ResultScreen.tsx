@@ -27,7 +27,7 @@ import type { ScoreResult } from '../components/result/ScoreBoard'
 import { processPhoto, saveToAlbum, type FilterKey } from '../services/photoProcessor'
 import { analyzePhoto, saveToDiary, getDiary, getPeakScore, updatePeakScore, type AnalysisResult, type SceneType } from '../services/analyzer'
 import { useFaceDetection } from '../hooks/useFaceDetection'
-import { COLORS, borderRadius } from '../theme'
+import { COLORS, borderRadius, hexAlpha } from '../theme'
 import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 
@@ -217,7 +217,10 @@ export default function ResultScreen() {
     const tid = setTimeout(() => {
       try {
         // 海边/日落场景（总分 >= 65 时触发出片感）
-        if ((templateCategory === '户外海边日落' || templateCategory === '户外海边') && scoreResult.totalScore >= 65) {
+        if (templateCategory === '户外海边日落' && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakBeachSunsetTip() } catch {} }, 2500)
+        }
+        if (templateCategory === '户外海边' && scoreResult.totalScore >= 65) {
           track(() => { try { VoiceCoach.speakBeachTip() } catch {} }, 2500)
         }
         // 泳池边（总分 >= 60）
@@ -303,6 +306,10 @@ export default function ResultScreen() {
         // 面包房/烘焙坊（总分 >= 65）
         if (templateCategory === '面包房' && scoreResult.totalScore >= 65) {
           track(() => { try { VoiceCoach.speakBakeryTip() } catch {} }, 2500)
+        }
+        // 教堂/画廊场景（总分 >= 60）
+        if ((templateCategory === '画廊博物馆' || templateCategory === '艺术展馆') && scoreResult.totalScore >= 60) {
+          track(() => { try { VoiceCoach.speakChapelTip() } catch {} }, 2500)
         }
       } catch {}
     }, 800)
@@ -965,10 +972,14 @@ const styles = StyleSheet.create({
   newRecordBanner: {
     marginHorizontal: 20,
     marginTop: 6,
-    paddingVertical: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    borderRadius: 20,
+    backgroundColor: hexAlpha(COLORS.success, 0.12),
+    alignSelf: 'flex-start',
   },
   newRecordBannerText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: COLORS.success,
   },
