@@ -1046,6 +1046,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 4,
   },
+  // 简洁优雅：去掉 borderWidth — secondary 按钮靠文字颜色承载层级，无需装饰性边框
   actionBtnSecondary: {
     flex: 1,
     flexDirection: 'row',
@@ -1054,8 +1055,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: borderRadius['2xl'],
     backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: COLORS.border,
   },
   actionBtnSecondaryText: {
     fontSize: 14,
