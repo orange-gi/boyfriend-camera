@@ -1026,10 +1026,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     // 无障碍：文字链接至少 44px 高
     minHeight: 44,
-    // 上方分隔线替代背景色，保持简洁优雅
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: COLORS.divider,
-    marginTop: 4,
+    // 上方留白分隔，避免 border-top 装饰线
+    marginTop: 20,
   },
   diaryEntryBtnText: {
     fontSize: 14,
