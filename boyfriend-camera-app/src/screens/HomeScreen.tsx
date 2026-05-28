@@ -198,7 +198,7 @@ export default function HomeScreen() {
                   styles.progressTag,
                   { color: totalProgress >= 0 ? COLORS.success : COLORS.primary },
                 ]}>
-                  {totalProgress >= 0 ? `+${totalProgress}` : totalProgress} vs首张
+                  {totalProgress >= 0 ? `+${totalProgress} ↑` : `${totalProgress} ↓`}
                 </Text>
               )}
             </View>
