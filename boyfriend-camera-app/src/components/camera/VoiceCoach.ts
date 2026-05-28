@@ -130,9 +130,6 @@ const FACE_TIPS = {
   SHOOT_NOW_POSE: '姿势超棒！表情到位！按下去就是大片！',
   SHOOT_NOW_PERFECT: '完美时刻！这光线这角度，按下去！',
 
-  // 模板匹配度提示
-
-  TEMPLATE_MATCH_OFF: '姿势有点跑偏～跟着模板摆正一点～',
   // HDR 模式提示
   HDR_HINT: '这个场景明暗对比大！打开 HDR 模式，高光阴影都能保留～',
   HDR_HINT_2: 'HDR 模式可以让亮部和暗部都清晰，打开试试～',
@@ -205,7 +202,6 @@ const FACE_TIPS = {
   FACE_FOUND_CONFIRM: '找到脸了！就是现在，笑一个～',
   STORAGE_NEAR_FULL: '手机存储快满了！先清理一下再继续拍吧～',
   LOW_BATTERY_WARNING: '手机电量低了！抓紧时间拍几张～',
-  TEMPLATE_MATCH_PERFECT: '姿势超准！这个角度绝了，按下去就是大片！',
 
   HAIR_WIND_MESSY: '风把头发吹乱了！先理一下再拍，或者让风吹着也很有氛围～',
 
