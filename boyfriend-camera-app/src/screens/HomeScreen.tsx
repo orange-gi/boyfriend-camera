@@ -17,14 +17,16 @@ import VoiceCoach from '../components/camera/VoiceCoach'
 import { logger } from '../utils/logger'
 import { ONBOARD_STEPS, FIRST_TIME_POSE_TIPS, DAILY_TIPS } from '../constants/homeData'
 
-/** 模块层常量：日内每天固定，同一天内调用结果相同，无需每次渲染重建 */
+
+
+const ONBOARD_KEY = 'onboarded_v4'
+const TIP_DISMISS_KEY = 'tip_dismissed_today_v4'
+
+/** 模块层常量：日内每天固定，同一天内调用结果相同 */
 function getDailyTip() {
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
   return DAILY_TIPS[dayOfYear % DAILY_TIPS.length]
 }
-
-const ONBOARD_KEY = 'onboarded_v4'
-const TIP_DISMISS_KEY = 'tip_dismissed_today_v4'
 
 export default function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>()
