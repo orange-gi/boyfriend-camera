@@ -146,6 +146,9 @@ export default function CameraScreen() {
   const lastSelfiePoseTipRef = useRef<number>(0)
   const lastBacklightRef = useRef<number>(0)
   const lastLowLightRef = useRef<number>(0)
+  const lastBokehTipRef = useRef<number>(0)
+  const lastEveningTipRef = useRef<number>(0)
+  const eveningTipFiredRef = useRef<boolean>(false)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
   const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -206,6 +209,12 @@ export default function CameraScreen() {
           } else {
             // 非首次打开也给一个相机设置提示
             VoiceCoach.speakCameraSetupTip()
+          }
+          // 傍晚时段（17-19点）触发出片感提示（仅首次触发）
+          const hour = new Date().getHours()
+          if (!eveningTipFiredRef.current && (hour >= 17 && hour <= 19)) {
+            eveningTipFiredRef.current = true
+            setTimeout(() => VoiceCoach.speakEveningTip().catch(() => {}), 5000)
           }
         } catch { /* ignore */ }
       })()
@@ -330,14 +339,15 @@ export default function CameraScreen() {
     }
   }, [faces, cameraFacing])
 
-  // 背景虚化提示（前置自拍）：人脸面积适中偏小（0.05-0.15）且在中心区域
+  // 背景虚化提示（前置自拍）：人脸面积适中偏小（0.05-0.15）且在中心区域，独立节流 ref
   useEffect(() => {
     if (cameraFacing !== 'front') return
     if (faces.length !== 1) return
     const now = Date.now()
     const face = faces[0]
     const inCenter = face.x > 0.25 && face.x < 0.75 && face.y > 0.25 && face.y < 0.75
-    if (inCenter && face.area >= 0.05 && face.area <= 0.15 && now - lastLowLightRef.current >= 20000) {
+    if (inCenter && face.area >= 0.05 && face.area <= 0.15 && now - lastBokehTipRef.current >= 20000) {
+      lastBokehTipRef.current = now
       VoiceCoach.speakBokehTip().catch(() => {})
     }
   }, [faces, cameraFacing])
