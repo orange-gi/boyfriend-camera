@@ -375,7 +375,9 @@ export default function DiaryScreen() {
               )}
             </View>
 
-            <ProgressChart entries={entries} height={200} />
+            <View style={styles.chartContainer}>
+              <ProgressChart entries={entries} height={200} />
+            </View>
           </>
         }
         ListFooterComponent={<View style={{ height: 40 }} />}
@@ -530,17 +532,20 @@ const styles = StyleSheet.create({
   weekRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 16,
     gap: 10,
   },
   weekLabel: {
-    fontSize: 12,
+    fontSize: 11,
     color: COLORS.textMuted,
-    fontWeight: '600',
+    fontWeight: '500',
   },
   weekNum: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
+  },
+  chartContainer: {
+    marginTop: 20,
   },
   // recordCard：白底灰边日记记录卡片，borderRadius 统一 XL 级别
   recordCard: {
