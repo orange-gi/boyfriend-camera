@@ -2695,6 +2695,62 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** 站姿/坐姿姿势语音提示（posture_tips 对应） */
+  async speakPostureTip(): Promise<void> {
+    const tips = [
+      '站姿挺胸收腹，气质立刻不一样！男朋友学起来～',
+      '双肩放松下沉，整个人会更自然～',
+      '脖子稍微伸长一点，下巴微收，天鹅颈上线～',
+      '站姿时重心放一只脚，腿部线条会更修长～',
+      '让女朋友双脚分开与肩同宽，站得更稳拍照更自然～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 坐姿拍照提示 */
+  async speakSittingTip(): Promise<void> {
+    const tips = [
+      '坐姿拍照背要挺直！驼背显没精神～',
+      '坐的时候收腹挺胸，气质马上不一样～',
+      '双腿交叠放，一条腿往前伸会显腿长～',
+      '坐着时上半身稍微前倾一点，仪态会更好看～',
+      '靠背坐比瘫着坐更上镜，背挺直来～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 侧身站姿提示 */
+  async speakSidePoseTip(): Promise<void> {
+    const tips = [
+      '侧身站比正对镜头更显瘦，试试 45 度角～',
+      '侧身对着镜头，肩膀稍微往后收，绝了～',
+      '侧身站让光线打在侧脸上，轮廓感超强～',
+      '侧身稍微回头看镜头，这个角度最显瘦～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 下巴角度提示（收下巴显脸小） */
+  async speakChinTip(): Promise<void> {
+    const tips = [
+      '稍微收一点点下巴！下颌线立刻清晰，显脸小～',
+      '下巴微微往下压，脖子会显得更长，脸也更小～',
+      '收下巴让下颌线出来，拍照会更上镜～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 服装配色提示（color_balance 对应） */
+  async speakClothesTip(): Promise<void> {
+    const tips = [
+      '衣服和背景颜色接近的话，换个角度让主体更突出～',
+      '深色衣服配浅背景会更有层次感～',
+      '全身照衣服别超过三个主色调，耐看更高级～',
+      '莫兰迪色调穿搭在照片里超有文艺感～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
   /** 樱花季提示 */
   async speakCherryBlossomTip(): Promise<void> {
     const tips = [
