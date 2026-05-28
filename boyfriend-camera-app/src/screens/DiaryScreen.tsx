@@ -588,14 +588,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
+  // 简洁优雅：去掉 backgroundColor — bg === 白，色块无意义，纯文字标签更克制
   templateCategoryBadge: {
     fontSize: 11,
     color: COLORS.textMuted,
-    backgroundColor: COLORS.bg,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: borderRadius.full,
-    overflow: 'hidden',
+    paddingHorizontal: 4,
     maxWidth: 80,
   },
   recordDate: {

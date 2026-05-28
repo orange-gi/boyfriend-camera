@@ -292,7 +292,8 @@ const styles = StyleSheet.create({
     marginBottom: spacing[5],
     paddingVertical: spacing[2],
   },
-  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
+  // 简洁优雅：去掉 backgroundColor — bg === bgCard 皆为白，背景无视觉区分，移除减少代码噪音
+  statsCard: { borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
   statsRow: { flexDirection: 'row', alignItems: 'center' },
   statItem: { flex: 1, alignItems: 'center' },
   skeletonNum: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48, color: COLORS.divider, marginBottom: 4, textAlign: 'center' },
@@ -307,7 +308,8 @@ const styles = StyleSheet.create({
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[6] },
   cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
   cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5, color: COLORS.textOnPrimary },
-  newBadge: { backgroundColor: hexAlpha(COLORS.bgCard, 0.25), borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2 },
+  // 简洁优雅：去掉背景色 — 新标签本身承载信息，无需装饰性背景
+  newBadge: { borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2 },
   newBadgeText: { color: COLORS.textOnPrimary, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold },
   cameraBtnSub: { marginTop: spacing[3] },
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
@@ -317,7 +319,8 @@ const styles = StyleSheet.create({
   bottomNavBtn: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 24, width: '100%', alignItems: 'center' },
+  // 简洁优雅：去掉 backgroundColor — bg === bgCard 皆为白，背景无意义；maxWidth 替代 100% 避免过大
+  onboardCard: { borderRadius: borderRadius['2xl'], padding: 24, maxWidth: 340, width: '100%', alignItems: 'center' },
   onboardStepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 24 },
   onboardDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.divider },
   onboardDotActive: { backgroundColor: COLORS.primary, width: 20 },
