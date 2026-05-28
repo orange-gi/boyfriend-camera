@@ -903,11 +903,6 @@ export default function CameraScreen() {
                       ]}
                     >
                       {cat}
-                      {count > 0 && (
-                        <Text style={[styles.categoryTabCount, isSelected && { color }]}>
-                          {' '}{count}
-                        </Text>
-                      )}
                     </Text>
                   </TouchableOpacity>
                 )
@@ -992,9 +987,6 @@ export default function CameraScreen() {
                       <Text style={styles.templateName} numberOfLines={1}>
                         {item.name}
                       </Text>
-                      {item.voiceTip && (
-                        <Text style={styles.templateVoiceTip} numberOfLines={1}>{item.voiceTip}</Text>
-                      )}
                     </TouchableOpacity>
                   )
                 }}
@@ -1154,8 +1146,6 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     marginRight: 6,
     flexShrink: 0,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.4)',
   },
   autoRecommendBadgeText: {
     fontSize: 10,
@@ -1301,12 +1291,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
   },
-  // 分类标签数量
-  categoryTabCount: {
-    fontSize: 12,
-    color: COLORS.textMuted,
-    fontWeight: '400',
-  },
   templateList: {
     padding: 12,
   },
@@ -1336,12 +1320,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.textPrimary,
     marginTop: 6,
-    textAlign: 'center',
-  },
-  templateVoiceTip: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    marginTop: 4,
     textAlign: 'center',
   },
   loadingContainer: {
