@@ -56,7 +56,7 @@ function getSceneType(category: string | null | undefined): SceneType {
     '温泉': 'hotspring',
     '户外海边日落': 'beach_sunset',
     '雨天街头': 'rainy_street',
-    '演唱会现场': 'other',
+    '演唱会现场': 'dance_performance',
     '酒吧霓虹灯': 'neon_light',
     '阳台早餐': 'other',
     '艺术展馆': 'indoor',
