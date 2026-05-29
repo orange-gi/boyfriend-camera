@@ -2824,6 +2824,30 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  /** 春花季场景 TTS — 樱花/桃花/油菜花通用 */
+  async speakSpringFlowersTip(): Promise<void> {
+    const tips = [
+      '花季光线超柔和！站在花丛前侧身微笑，皮肤通透～',
+      '樱花树下拍侧脸最有感觉！光影斑驳超浪漫～',
+      '花瓣当道具，捧着脸笑超有春日感～',
+      '樱花树下的侧逆光超美，稍微过曝一点点也好看～',
+      '花季光线最温柔，正面或侧光都能拍出好效果～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 灯塔海边场景 TTS */
+  async speakLighthouseTip(): Promise<void> {
+    const tips = [
+      '灯塔海边超有电影感！侧身站着让灯塔成为背景～',
+      '海边风大头发容易乱，男朋友要抓紧时机抓拍～',
+      '灯塔旁的礁石当道具，自然靠上去表情放松～',
+      '海风吹起头发超浪漫，这个瞬间最上镜！',
+      '灯塔和海浪的背景超有层次，侧身站好让光打在侧脸上～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   /** 礁石海浪场景 TTS */
   async speakRockyBeachTip(): Promise<void> {
     const tips = [
@@ -2909,7 +2933,7 @@ class VoiceCoach {
       case 'hotspring':
         await this.speakHotspringTip(); break
       case 'cherry_blossom':
-        await this.speakSpringTip(); break
+        await this.speakSpringFlowersTip(); break
       case 'ski_resort':
         await this.speakSnowTip(); break
       case 'train':
@@ -2917,7 +2941,7 @@ class VoiceCoach {
       case 'zoo':
         await this.speakGymTip(); break
       case 'lighthouse':
-        await this.speakBeachTip(); break
+        await this.speakLighthouseTip(); break
       case 'farm':
         await this.speakOutdoorTip(); break
       case 'greenhouse':
