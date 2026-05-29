@@ -1,5 +1,19 @@
 /** ResultScreen - 拍照结果页 */
 import React, { useEffect, useState, useRef, useMemo } from 'react'
+
+// VoiceCoach scene-specific TTS 方法类型（消除 as any  unsafe cast）
+// 所有 SCENE_TTS_MAP 中的 method 均为无参数 async 方法
+type SceneTtsMethod =
+  | 'speakAmusementTip' | 'speakAquariumTip' | 'speakBacklitTip' | 'speakBakeryTip'
+  | 'speakBeachSunsetTip' | 'speakBeachTip' | 'speakBestiePoseTip' | 'speakBookstoreTip'
+  | 'speakCarnivalTip' | 'speakChapelTip' | 'speakChristmasTip' | 'speakCouplePhotoTip'
+  | 'speakDancePerformanceTip' | 'speakFestivalLightsTip' | 'speakGraffitiTip' | 'speakGymTip'
+  | 'speakHotspringTip' | 'speakIndoorPortraitTip' | 'speakLakeWaterTip' | 'speakLighthouseTip'
+  | 'speakMirrorSelfieTip' | 'speakMorningTip' | 'speakNeonLightTip' | 'speakOldTownTip'
+  | 'speakRainyTip' | 'speakRockyBeachTip' | 'speakSelfieTip' | 'speakSnowTip'
+  | 'speakSpringFlowersTip' | 'speakSupermarketTip' | 'speakSwimmingPoolTip' | 'speakTentCampTip'
+  | 'speakUrbanNightTip' | 'speakVintageFilmTip'
+  | 'speakGoldenHourTip'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   View,
@@ -126,7 +140,7 @@ const CAT_FILTER_MAP: Record<string, FilterKey> = {
 /** 将 analyzer SceneType 映射到 speakFilterTip 的合法类型（避免 as any） */
 // 场景 → TTS 方法映射表（简洁优雅：数据驱动替代 30+ if 语句，新增场景只需加一行）
 // 格式：templateCategory → { method: speakMethodName, minScore, extraMethod? }
-const SCENE_TTS_MAP: Record<string, { method: string; minScore?: number; extraMethod?: string; extraMinScore?: number; exposureMin?: number }> = {
+const SCENE_TTS_MAP: Record<string, { method: SceneTtsMethod; minScore?: number; extraMethod?: SceneTtsMethod; extraMinScore?: number; exposureMin?: number }> = {
   '户外海边日落': { method: 'speakBeachSunsetTip', minScore: 60, extraMethod: 'speakGoldenHourTip', extraMinScore: 60 },
   '户外海边': { method: 'speakBeachTip', minScore: 65 },
   '泳池边': { method: 'speakSwimmingPoolTip', minScore: 60 },
@@ -272,7 +286,7 @@ export default function ResultScreen() {
           const mainOk = !minScore || scoreResult.totalScore >= minScore
           const exposureOk = !exposureMin || scoreResult.exposureScore >= exposureMin
           if (mainOk && exposureOk) {
-            const speak = (m: string, delay: number) => track(() => { try { (VoiceCoach as any)[m]() } catch {} }, delay)
+            const speak = (m: SceneTtsMethod, delay: number) => track(() => { try { (VoiceCoach as Record<SceneTtsMethod, () => void>)[m]() } catch {} }, delay)
             speak(method, 2500)
             if (extraMethod && (!extraMinScore || scoreResult.totalScore >= extraMinScore)) {
               speak(extraMethod, 3500)
