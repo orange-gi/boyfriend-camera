@@ -3148,6 +3148,46 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 低存储空间警告 */
+  async speakLowStorageWarning(): Promise<void> {
+    const tips = [
+      '手机存储快满了！先清理一下再继续拍吧～',
+      '存储空间不够了！删点照片或者清理一下 app 缓存～',
+      '空间快满了！建议先清理相册再继续拍美美的照片～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 网络连接错误（模板加载失败等） */
+  async speakConnectionError(): Promise<void> {
+    const tips = [
+      '网络不太好，模板加载失败了，本地模板也能用～',
+      '网络连接失败，本地姿势模板已经够用啦～',
+      '网络不稳定，但没关系，内置的姿势也能拍出好看的照片～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 拍照倒计时提示（三二一） */
+  async speakCountdown(count: number): Promise<void> {
+    const labels: Record<number, string> = {
+      3: FACE_TIPS.COUNTDOWN_3,
+      2: FACE_TIPS.COUNTDOWN_2,
+      1: FACE_TIPS.COUNTDOWN_1,
+      0: FACE_TIPS.COUNTDOWN_GO,
+    }
+    await this.speak(labels[count] || `${count}`, true)
+  }
+
+  /** 笑脸抓拍倒计时（倒计时结束时提示） */
+  async speakSmileCountdown(count: number): Promise<void> {
+    if (count > 0) {
+      await this.speak(`${count}～`, true)
+    } else {
+      await this.speak('笑一个！', true)
+    }
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }

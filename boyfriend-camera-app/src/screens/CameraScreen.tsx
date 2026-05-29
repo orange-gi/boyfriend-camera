@@ -727,6 +727,18 @@ export default function CameraScreen() {
           <Text style={styles.poseTipText} numberOfLines={1}>
             {activeTemplate.voiceTip || activeTemplate.name}
           </Text>
+          <TouchableOpacity
+            onPress={() => {
+              VoiceCoach.speakTemplateCleared()
+              setActiveTemplate(null)
+              resetIdleTimer()
+            }}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            accessibilityLabel="关闭姿势模板"
+            accessibilityRole="button"
+          >
+            <Text style={styles.poseTipClear}>×</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -1172,12 +1184,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 108,
     left: 16,
-    right: 56,
+    right: 72,
     paddingVertical: 5,
     paddingHorizontal: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 4,
     zIndex: 20,
     // 简洁优雅极致：半透明深色背景确保白字在相机预览（复杂背景）上始终可读
     backgroundColor: 'rgba(0,0,0,0.42)',
@@ -1189,6 +1201,14 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.88)',
     fontWeight: '500',
     lineHeight: 17,
+  },
+  // 模板关闭按钮：简洁×符号，无背景色，克制不抢注意力
+  poseTipClear: {
+    fontSize: 16,
+    color: 'rgba(255,255,255,0.55)',
+    fontWeight: '300',
+    lineHeight: 18,
+    padding: 2,
   },
   // 播放按钮已移除（简洁优雅：卡片本身承载信息，无需额外操作入口）
   // 底部控制栏
