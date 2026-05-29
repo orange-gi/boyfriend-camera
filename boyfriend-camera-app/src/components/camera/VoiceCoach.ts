@@ -3188,6 +3188,44 @@ class VoiceCoach {
       await this.speak('笑一个！', true)
     }
   }
+
+  /** 高分近在咫尺（78-79分专属激励） */
+  async speakNearHighScore(): Promise<void> {
+    const tips = [
+      '就差一点点就到80分了！再拍一张，一定能冲过去！',
+      '78分！男朋友你太接近高分了，再来一张肯定能冲上80！',
+      '差一点就是大片了！再尝试一次，80分在向你招手～',
+      '男朋友你太接近80分了！光线或构图再讲究一点，马上冲线！',
+      '78分！男朋友感觉马上就要爆发了，再拍一张冲80！',
+      '79分！就差一点点！换个姿势或调整光线，下一张就是80+！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 强光环境拍摄建议（正午/海边/雪地等高光场景） */
+  async speakDaylightTip(): Promise<void> {
+    const tips = [
+      '正午光线太强容易过曝！找个阴影处或侧身躲开直射光～',
+      '强光下逆光拍剪影效果最好！转身让轮廓发光～',
+      '正午阳光直射容易有难看的阴影，走到阴凉处光线更柔和～',
+      '强光下用屏幕补光！把手机屏幕亮度调高，举到脸前补光～',
+      '阳光太刺眼可以找个树荫或建筑阴影，光线会柔和很多～',
+      '正午拍人像找个柔和的散射光，侧身或找阴影处最理想～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 对焦丢失提示（相机无法对焦时） */
+  async speakFocusLostTip(): Promise<void> {
+    const tips = [
+      '对焦丢了！点击屏幕重新对焦一下，或者换个角度试试～',
+      '相机对不上焦，试试靠近一点或者点击屏幕重新对焦～',
+      '对焦不稳定！找个有明显边缘的地方，或者点击屏幕对焦～',
+      '相机对不上焦，可能是光线太暗或者主体不明确，稍微调整一下～',
+      '对焦丢了！换个角度，或者靠近主体再试试～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
