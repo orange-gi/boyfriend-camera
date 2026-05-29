@@ -597,9 +597,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   // 简洁优雅：去掉 backgroundColor — bg === 白，色块无意义，纯文字标签更克制
+  // 改进：templateCategoryBadge 缩小字号 + 降低权重，与 recordDate（粗体主时间）形成明确层级
   templateCategoryBadge: {
     fontSize: 11,
+    fontWeight: '500',
     color: COLORS.textMuted,
+    // 去掉 backgroundColor 和 padding：纯文字小标签，靠字号/字重区分层级，不额外占空间
   },
   recordDate: {
     fontSize: 14,
