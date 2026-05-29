@@ -1112,10 +1112,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     borderRadius: borderRadius.xl,
     backgroundColor: 'rgba(0,0,0,0.35)',
-    // 简洁优雅：overflow:hidden 已移除 — bar 子元素均为内联文字/按钮，
-    // 无子元素超出 borderRadius 范围，保留溢出可减少裁切计算
   },
-  // 简洁优雅：topBtn 移除半透明背景，仅靠文字传达功能，按压态足够
   topBtn: {
     width: 44,
     height: 44,
@@ -1200,8 +1197,6 @@ const styles = StyleSheet.create({
     zIndex: 20,
     borderRadius: 16,
     backgroundColor: 'rgba(0,0,0,0.35)',
-    // 简洁优雅：overflow:hidden 已移除 — bottomBar 子元素（sideBtn/shutter）尺寸
-    // 明确且小于容器宽高，溢出裁切不产生视觉作用
   },
   // 侧边按钮
   sideBtn: {
@@ -1308,13 +1303,11 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  // 设计理由：padding: 6 — 收紧内容到缩略图的间距，模板缩略图本身是
-  // 最核心的信息载体，边距缩小让卡片更"满"，视觉更聚焦；配合 templateThumb 100px 保持比例
   templateCard: {
     flex: 1,
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
-    padding: 6,
+    padding: 4,
     alignItems: 'center',
     overflow: 'hidden',
   },
@@ -1326,7 +1319,7 @@ const styles = StyleSheet.create({
   templateThumb: {
     width: SCREEN_W / 2 - 60,
     height: 100,
-    borderRadius: 10,
+    borderRadius: 8,
   },
   templateName: {
     fontSize: 13,
