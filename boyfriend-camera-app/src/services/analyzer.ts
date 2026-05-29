@@ -4660,6 +4660,7 @@ export async function analyzePhoto(
   // 模拟检测：极亮环境下+脸部面积大，推测可能有眼镜反光
   if (safeBrightness > 190 && facePosition && facePosition.area > 0.2 && totalScore >= 40 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.glasses_reflection))
+    suggestions.push(pickRandom(SUGGESTION_POOL.glass_reflection_tips))
   }
   if (faceCount >= 2 && compositionScore < 35 && totalScore >= 40 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.group_photo_position))
@@ -5503,6 +5504,7 @@ export async function analyzePhoto(
   // 水族馆场景
   if (sceneType === 'aquarium') {
     suggestions.push(pickRandom(SUGGESTION_POOL.aquarium_specific))
+    suggestions.push(pickRandom(SUGGESTION_POOL.aquarium_tips))
   }
   // 教堂婚礼场景
   if (sceneType === 'chapel') {
@@ -5597,6 +5599,7 @@ export async function analyzePhoto(
   // 舞蹈/表演场景
   if (sceneType === 'dance_performance') {
     suggestions.push(pickRandom(SUGGESTION_POOL.dance_performance_tips))
+    suggestions.push(pickRandom(SUGGESTION_POOL.concert_tips))
   }
   // 红叶特写场景
   if (sceneType === 'red_autumn_detail') {
