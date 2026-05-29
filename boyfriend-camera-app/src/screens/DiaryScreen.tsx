@@ -241,7 +241,6 @@ export default function DiaryScreen() {
               {item.templateCategory && (
                 <Text style={styles.templateCategoryBadge}>{item.templateCategory}</Text>
               )}
-              {index === 0 && <View style={[styles.newTagDot]} />}
             </View>
           </View>
 
@@ -613,12 +612,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.textSecondary,
     fontWeight: '600',
-  },
-  newTagDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: COLORS.primary,
   },
   // 简洁优雅：recordTip 改为单行显示，超出省略号；多建议时用数字徽章提示，保持卡片整洁
   recordTipRow: {
