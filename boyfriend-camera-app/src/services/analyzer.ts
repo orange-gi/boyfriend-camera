@@ -2277,6 +2277,17 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '白色雪地背景超干净，穿深色衣服更突出主体～',
     '雪天户外光偏冷白，后期加一点暖色调会更温暖～',
   ],
+  // 滑雪场景建议
+  ski_resort_tips: [
+    '雪场光线强烈！戴墨镜避免眯眼，摘下时让脸稍微侧一点～',
+    '雪地反射强，围巾或帽子是天然暖色反光板，让皮肤更通透～',
+    '滑雪服颜色鲜艳！白茫茫的背景让主体超突出～',
+    '雪道缆车前拍一张！雪山背景干净简洁，构图超有空间感～',
+    '滑完雪的脸红扑扑超可爱！侧逆光让皮肤看起来通透～',
+    '雪场蓝天白云光线均匀，不用担心脸部阴影～',
+    '雪地拍完赶紧回暖气！冻红的鼻尖虽然可爱但别拍太久～',
+    '雪地反射紫外线强，摘下墨镜时眼睛容易眯，试着侧身站～',
+  ],
   // 游乐场/嘉年华建议
   carnival_tips: [
     '游乐场的彩色灯光超有活力！让男朋友找好角度拍～',
@@ -4708,7 +4719,7 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
   }
   if (sceneType === 'ski_resort' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
+    suggestions.push(pickRandom(SUGGESTION_POOL.ski_resort_tips))
   }
   if (sceneType === 'gym' && totalScore < 75) {
     const gymPool = SUGGESTION_POOL.gym_specific || SUGGESTION_POOL.stability
