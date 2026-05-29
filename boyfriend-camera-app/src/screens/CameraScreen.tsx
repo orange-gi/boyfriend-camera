@@ -1292,14 +1292,11 @@ const styles = StyleSheet.create({
   },
   // categoryTabActive：内联样式 { borderBottomWidth: 2, borderBottomColor: color }
   // 设计理由：分类标签文字较小，仅靠字重+颜色区分选中态不够直观
-  // 2px 下划线是最小化选中态指示器，不增加视觉噪音，与类别色呼应
-  // borderRadius 移除：非选中标签无背景，borderRadius 不产生视觉作用
-  categoryTab: {
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    marginHorizontal: 2,
-    // 简洁优雅：去掉所有边框装饰，靠字重+颜色区分选中态，最小化视觉噪音
-  },
+  // categoryTab：无背景文字标签，靠字重+颜色区分选中态
+  // 设计理由：去掉 paddingHorizontal/paddingVertical/marginHorizontal — 文字本身承载信息，
+  // 无背景色时边距不产生视觉作用，仅增加标签区域的无效点击目标
+  categoryTab: {},
+
 
   categoryTabText: {
     fontSize: 14,
@@ -1314,31 +1311,34 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   templateRow: {
-    gap: 12,
-    marginBottom: 12,
+    gap: 10,
+    marginBottom: 10,
   },
+  // 设计理由：padding: 8（原来是 10）— 收紧内容到缩略图的间距，模板缩略图本身是
+  // 最核心的信息载体，边距缩小让卡片更"满"，视觉更聚焦；配合 templateThumb 110px 保持比例
   templateCard: {
     flex: 1,
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
-    padding: 10,
+    padding: 8,
     alignItems: 'center',
     overflow: 'hidden',
   },
+
   templateCardActive: {
     borderColor: COLORS.primary,
     borderWidth: 2,
   },
   templateThumb: {
     width: SCREEN_W / 2 - 60,
-    height: 120,
+    height: 110,
     borderRadius: 10,
   },
   templateName: {
     fontSize: 13,
     fontWeight: '600',
     color: COLORS.textPrimary,
-    marginTop: 6,
+    marginTop: 4,
     textAlign: 'center',
   },
   loadingContainer: {

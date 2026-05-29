@@ -1226,6 +1226,6 @@ const styles = StyleSheet.create({
   noPhotoContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60, gap: 8 },
   noPhotoTitle: { fontSize: 20, fontWeight: 'bold' },
   noPhotoDesc: { fontSize: 15, textAlign: 'center', lineHeight: 22 },
-  noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: borderRadius.md, paddingHorizontal: 28, paddingVertical: 11, minHeight: 44 },
+  noPhotoBtn: { marginTop: 8, backgroundColor: COLORS.primary, borderRadius: borderRadius['2xl'], paddingHorizontal: 28, paddingVertical: 11, minHeight: 44 },
   noPhotoBtnText: { color: COLORS.textOnPrimary, fontSize: 16, fontWeight: 'bold' },
 })
