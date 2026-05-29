@@ -4031,7 +4031,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
 
 /** 场景类型枚举 — 覆盖所有专属文案场景 */
 export type SceneType =
-  | 'indoor' | 'outdoor' | 'other' | 'cafe' | 'rooftop_night' | 'camping_campfire'
+  | 'indoor' | 'outdoor' | 'other' | 'cafe' | 'rooftop_night' | 'starry_night' | 'camping_campfire'
   | 'snow' | 'ski_resort' | 'cherry_blossom' | 'christmas' | 'gym' | 'zoo' | 'train'
   | 'ancient_town' | 'lighthouse' | 'subway' | 'supermarket' | 'rooftop_party' | 'farm'
   | 'graffiti' | 'aquarium' | 'chapel' | 'market_stall' | 'bakery' | 'carousel' | 'greenhouse'
