@@ -68,11 +68,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 24,
     zIndex: 9999,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 5,
+    // 简洁优雅极致：去阴影装饰，颜色对比已足够承载视觉层级
   },
   message: {
     fontSize: 14,
