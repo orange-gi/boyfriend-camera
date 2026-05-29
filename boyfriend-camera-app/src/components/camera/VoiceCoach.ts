@@ -697,7 +697,7 @@ class VoiceCoach {
   }
 
   /** 滤镜推荐提示（基于场景类型） */
-  async speakFilterTip(sceneType: 'warm_light' | 'cool_light' | 'night' | 'sunset' | 'indoor' | 'outdoor' | 'portrait' | 'food' | 'street' | 'night_photo' | 'cloudy' | 'golden_hour' | 'natural_light'): Promise<void> {
+  async speakFilterTip(sceneType: 'warm_light' | 'cool_light' | 'night' | 'sunset' | 'indoor' | 'outdoor' | 'portrait' | 'food' | 'street' | 'night_photo' | 'cloudy' | 'golden_hour' | 'natural_light' | 'aquarium' | 'concert' | 'neon_light'): Promise<void> {
     const tips: Record<string, string[]> = {
       warm_light: ['暖色调照片用暖色滤镜更好看～试试「暖阳」滤镜', '这种自然光用暖色滤镜超搭！'],
       cool_light: ['冷色调光线配冷色滤镜，氛围感绝绝子～', '这种光线下冷色滤镜很有质感！'],
@@ -712,6 +712,9 @@ class VoiceCoach {
       cloudy: ['阴天光线柔和，用「生动」滤镜增加色彩感～', '阴天拍照「柔光」滤镜让皮肤看起来更通透！'],
       golden_hour: ['黄金时段用「黄金」滤镜，光线更温暖浓郁～', '这个时间段的光配「暖阳」滤镜绝了！'],
       natural_light: ['自然光拍照「柔光」滤镜最适合，还原真实肤色～', '自然光下「柔和」滤镜，皮肤质感超好！'],
+      aquarium: ['水族馆蓝色光影配「电影」或「蓝调」滤镜，梦幻感拉满～', '水族馆用「冷色」滤镜，让蓝色鱼光更通透！'],
+      concert: ['演唱会灯光闪烁配「电影」滤镜，氛围感绝绝子～', '演唱会用「胶片」滤镜，霓虹灯光更有质感！'],
+      neon_light: ['霓虹灯光配「电影」滤镜赛博感拉满！', '霓虹灯下「冷色」滤镜让光线更有赛博朋克感～'],
     }
     const arr = tips[sceneType] || []
     if (arr.length > 0) {
@@ -2655,6 +2658,9 @@ class VoiceCoach {
       cafe: ['咖啡馆适合文艺风穿搭！米色、驼色系超有氛围～', '小资风连衣裙或针织衫，咖啡馆里超上镜～'],
       outdoor: ['户外适合休闲风！浅色系衣服和绿植背景超配～', '户外穿自然色系最上镜，白色或浅蓝都很清爽～'],
       garden: ['温室花房穿浅色或碎花！和绿植背景超搭～', '花卉背景配浅色系衣服，仙女感满满～'],
+      aquarium: ['水族馆穿浅色或亮色衣服！蓝色鱼光下更显肤色通透～', '水族馆适合白色或浅蓝色衣服，和蓝色光影超配～'],
+      concert: ['演唱会穿有反光材质或亮片的衣服，灯光下超闪耀～', '演唱会穿黑色或深色衣服，舞台灯光下更酷！'],
+      neon_light: ['霓虹灯光下穿深色或亮色衣服，和灯光形成对比超酷～', '赛博朋克风穿黑色或荧光色，在霓虹灯下超显眼～'],
     }
     const arr = tips[sceneType] || tips.outdoor
     await this.speak(pickRandom(arr), true)
