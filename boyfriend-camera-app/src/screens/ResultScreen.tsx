@@ -540,11 +540,26 @@ export default function ResultScreen() {
       } catch (e: unknown) {
         if (__DEV__) logger.debug('ResultScreen', 'saveToDiary failed:', e)
       }
+      // 提前获取当前 peakScore（用于临近高分检测）
+      let currentPeak = 0
+      try { currentPeak = await getPeakScore() } catch {}
+
       let isNewRecord = false
       try {
         isNewRecord = await updatePeakScore(analysis.totalScore)
       } catch (e: unknown) {
         if (__DEV__) logger.debug('ResultScreen', 'updatePeakScore failed:', e)
+      }
+
+      // 临近历史高分 TTS（未破纪录但分数接近峰值，激励用户继续）
+      if (!isNewRecord && currentPeak > 0 && analysis.totalScore >= currentPeak - 5 && analysis.totalScore < currentPeak) {
+        track(() => { try { VoiceCoach.speakNearHighScore() } catch {} }, 2000)
+      }
+
+      // 日记里程碑 TTS（第 5 张照片触发首次里程碑）
+      const totalPhotos = diary.length + 1
+      if (totalPhotos === 5) {
+        track(() => { try { VoiceCoach.speakDiaryMilestone('first') } catch {} }, 1800)
       }
 
       // 日记写入确认 + 连续好评播报
