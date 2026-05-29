@@ -1113,7 +1113,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     borderRadius: borderRadius.xl,
     backgroundColor: 'rgba(0,0,0,0.35)',
-    overflow: 'hidden',
+    // 简洁优雅：overflow:hidden 已移除 — bar 子元素均为内联文字/按钮，
+    // 无子元素超出 borderRadius 范围，保留溢出可减少裁切计算
   },
   // 简洁优雅：topBtn 移除半透明背景，仅靠文字传达功能，按压态足够
   topBtn: {
@@ -1200,7 +1201,8 @@ const styles = StyleSheet.create({
     zIndex: 20,
     borderRadius: 16,
     backgroundColor: 'rgba(0,0,0,0.35)',
-    overflow: 'hidden',
+    // 简洁优雅：overflow:hidden 已移除 — bottomBar 子元素（sideBtn/shutter）尺寸
+    // 明确且小于容器宽高，溢出裁切不产生视觉作用
   },
   // 侧边按钮
   sideBtn: {
