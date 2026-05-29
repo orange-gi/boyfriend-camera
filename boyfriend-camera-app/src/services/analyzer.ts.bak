@@ -3518,6 +3518,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '三脚架或让路人帮忙拍，解放双手做姿势更方便～',
     '多人自拍用倒计时或手势快门，避免有人手短拍不到～',
   ],
+  // v5 新增：抬头角度 / 双下巴预防建议（head tilt 相关场景）
   chin_angle: [
     '稍微抬点头，下巴微微收紧，脸部轮廓会更清晰～',
     '头微微往上抬一点，避免下巴堆叠，侧面轮廓更利落～',
@@ -3526,6 +3527,8 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '别低头！抬起下巴收紧脖颈，气质立刻不一样～',
     '从下往上拍时让对方把下巴抬起来，脸会更显小～',
   ],
+  // v5 新增：手部遮挡脸部建议
+  // v5 新增：玻璃反光 / 镜面拍摄建议
   reflection_photo_tips: [
     '玻璃上有反光时让脸贴近一点，减少杂乱的背景倒影～',
     '镜面自拍稍微斜一点拍，避免拍到镜头本身～',
@@ -3536,6 +3539,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '泳池水面有倒影时让人站在水边，低角度拍出对称感～',
     '玻璃橱窗有杂光时贴近玻璃，主体更突出，倒影更干净～',
   ],
+  // v5 新增：多光源复杂环境建议
   multi_light_tips: [
     '环境里光源太多脸上会有杂乱的阴影，换个位置躲开～',
     '天花板的灯打在脸上会很难看，往光源方向侧身一点～',
@@ -3544,6 +3548,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '白墙白纸都能反光，用它们给阴影面补光，肤色更均匀～',
     '多个灯泡颜色不一时，让脸朝向最白的那盏灯，肤色更自然～',
   ],
+  // v5 新增：运动跟拍建议
   motion_follow_tips: [
     '边走边拍时尽量保持手机和人物在同一水平线上～',
     '跟拍时步伐要稳，摄影师和被拍者同步移动更易出片～',
@@ -3552,6 +3557,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '追焦拍摄时对焦在眼睛上，连拍捕捉最清晰的一帧～',
     '边跑边拍会让画面更动感，但也更容易糊，稳一点效果更好～',
   ],
+  // v5 新增：冬季室内场景建议（暖气房/窗户边）
   winter_indoor_specific: [
     '冬天室内暖气旁光线偏暖白，让脸朝向窗户获得更自然的光线～',
     '冬季室内窗户是最佳光源，让脸正对或侧对窗户，避免顶光～',
@@ -3588,6 +3594,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '手机抖动会让整张照片变糊，深呼吸憋住气再拍～',
   ],
 
+  // v5 新增：镜子自拍专属建议
   mirror_selfie_specific: [
     '对着镜子自拍时手机稍微斜一点，角度更好看，避免正面正对镜子有反光～',
     '镜子自拍要让镜子里的脸和身体都完整入镜，注意构图～',
@@ -3597,6 +3604,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '对着镜子拍时手机稍微抬高一点俯拍，显脸小角度绝了～',
     '浴室有雾气时皮肤超柔和，趁雾没散赶紧拍几张～',
   ],
+  // v6 新增：滤镜匹配建议（用户选了滤镜但场景不适合时给出提示）
   filter_tips: [
     '这个滤镜和场景很搭！暖色调配暖光，男朋友审美在线～',
     '滤镜和光线有点不搭，可以试试根据光线强度选滤镜～',
@@ -3606,6 +3614,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '冷色调滤镜配阴天光线，氛围感十足！',
   ],
 
+  // v6 新增：自拍距离专属建议
   selfie_distance: [
     '手机离脸太近了，稍微拿远一点点，大头照会更自然～',
     '这张怼脸自拍有点变形了，往后退一步试试～',
@@ -3615,6 +3624,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '自拍时让男友把手机拉远一点，加1.5倍数码变焦更清晰～',
   ],
 
+  // v6 新增：对焦提醒建议
   focus_reminder: [
     '对焦点好像不在脸上，拍照前先在屏幕上点一下人脸位置～',
     '这张对焦有点跑，下次点屏幕确认对焦在人脸上～',
@@ -3625,6 +3635,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '移动位置后重新对焦，确保主体始终清晰～',
   ],
 
+  // v6 新增：天气光比对比度建议
   weather_contrast: [
     '阴天光线柔和但偏暗，可以稍微调高亮度，皮肤会更通透～',
     '阳光强烈时光比大，打开 HDR 模式高光阴影都能保留～',
@@ -3635,6 +3646,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '雨后阳光出来时空气最通透，这个时刻拍照绝了～',
   ],
 
+  // v7 新增：表情夸张引导建议（expressionScore 极低时）
   expression_exaggerate: [
     '表情稍微夸张一点！大笑或嘟嘴都比面无表情好看～',
     '太严肃了！试试夸张的表情，照片会更有感染力～',
@@ -3645,6 +3657,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '表情夸张不等于做作！自然的感染力才最重要～',
   ],
 
+  // v7 新增：服装与背景颜色不搭建议
   outfit_background_clash: [
     '衣服颜色和背景太接近了，有点糊在一起，换个角度试试～',
     '服装和背景撞色了，人物不够突出，找个对比色背景会更好～',
@@ -3655,6 +3668,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '穿浅色衣服在深色背景前更显气质，深色衣服反之亦然～',
   ],
 
+  // v7 新增：表情引导专项建议（独立于 no_smile / stiff_expression）
   expression_guidance: [
     '告诉她"假装被逗笑了"，这个表情最自然生动～',
     '让她先不看镜头，自然转头时抓拍，表情最自然～',
@@ -3665,6 +3679,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '用道具互动！拿本书或咖啡杯，自然生动的表情就来了～',
   ],
 
+  // v7 新增：夜间手持稳定建议（夜景专属）
   night_handheld_tips: [
     '夜景光线暗，手稍微抖照片就糊了！靠在墙上或用闪光灯～',
     '晚上拍照双手握稳手机，憋住气轻轻按快门～',
@@ -3675,6 +3690,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '夜间拍完立刻检查，模糊了马上重新拍，光线随时在变～',
   ],
 
+  // v7 新增：姿势引导建议（构图尚可但姿势平淡时）
   pose_guidance: [
     '换个姿势试试！站着比坐着更有气场～',
     '身体稍微侧一点，比正对镜头更显瘦～',
@@ -3685,6 +3701,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '让肩膀稍微往后收一点，背挺直气质立刻提升～',
   ],
 
+  // v8 新增：服装与背景颜色协调建议
   outfit_color_match: [
     '衣服颜色和背景太接近了，换个角度或背景躲开～',
     '深色衣服在深色背景里不突出，背景换亮一点会更显眼～',
@@ -3694,6 +3711,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '暖色衣服配冷调背景，这种对比超有层次感～',
   ],
 
+  // v8 新增：场景等待时机建议（与 timing_tips 互补，专注即时等待）
   scene_wait_tips: [
     '等一下再拍！让女朋友先放松一下，等她状态最好的时候～',
     '光线正在变！趁现在赶紧拍，这个时间很短～',
@@ -3741,6 +3759,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '雨后慢跑道或石板路有积水时，俯拍倒影超有艺术感～',
     '水洼拍摄要低角度，让手机尽量贴近水面效果最好～',
   ],
+  // v8 新增：手挡住镜头提示
   finger_covering_lens: [
     '好像有手指挡住镜头了！检查一下手机边缘～',
     '镜头好像被挡住了，让男朋友换个握持方式～',
@@ -3751,6 +3770,7 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '手机壳边缘挡住摄像头了，把手机壳往下拉一点再拍～',
     '摄像头旁边的手指点到镜头了，把手指移开再按快门～',
   ],
+  // v8 新增：背景完全无光提示
   background_near_black: [
     '背景太暗了，整个人像悬浮在黑夜里，打开闪光灯或找光源～',
     '除了脸之外什么都看不见，背景有点太暗了，补点光会更好～',
@@ -4030,6 +4050,8 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '面包房有复古感！和木质装饰互动一下更有感觉～',
   ],
 }
+
+// pickRandom 已迁移到 ../utils/scoring.ts
 
 /** 场景类型枚举 — 覆盖所有专属文案场景 */
 export type SceneType =
@@ -4540,22 +4562,27 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.reflection_photo_tips))
   }
 
+  // v7 新增：表情夸张引导（expressionScore 极低且有提升空间时）
   if (expressionScore < 10 && faceCount > 0 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.expression_exaggerate))
   }
 
+  // v7 新增：姿势引导建议（构图尚可但姿势平淡时）
   if (compositionScore >= 28 && totalScore < 75 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.pose_guidance))
   }
 
+  // v7 新增：表情引导专项（独立于僵硬/无笑容场景）
   if (faceCount > 0 && expressionScore >= 10 && expressionScore < 15 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.expression_guidance))
   }
 
+  // v7 新增：服装背景颜色冲突建议（构图好但主体不突出时）
   if (compositionScore >= 30 && expressionScore >= 15 && totalScore < 80 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.outfit_background_clash))
   }
 
+  // v7 新增：夜间手持稳定专项建议（夜景专属，低分时覆盖通用稳定建议）
   if (isNightScene && stabilityScore < 14 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.night_handheld_tips))
   }
@@ -5730,10 +5757,12 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.low_light_tips))
   }
 
+  // v8 新增：服装与背景颜色协调建议（构图尚可但无明显问题时触发）
   if (compositionScore >= 30 && totalScore >= 65 && totalScore < 80 && suggestions.length < 5) {
     suggestions.push(pickRandom(SUGGESTION_POOL.outfit_color_match))
   }
 
+  // v8 新增：拍摄时机建议（光照变化快的场景）
   if (sceneType === 'outdoor' && safeBrightness >= 60 && safeBrightness <= 200 && suggestions.length < 5) {
     if (Math.random() > 0.7) {
       suggestions.push(pickRandom(SUGGESTION_POOL.scene_wait_tips))
