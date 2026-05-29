@@ -3999,6 +3999,32 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '商场橱窗玻璃会反光，稍微侧身躲开～',
     '手机屏幕补光时别对着玻璃，会产生反光～',
   ],
+  // 咖啡馆场景专属建议
+  cafe_scene_suggestion: [
+    '咖啡馆暖光超适合拍照！靠近窗户让自然光打进来～',
+    '咖啡馆里的台灯光线偏暖，让女友靠近台灯坐～',
+    '咖啡馆有复古感！侧身站在复古装饰前超有氛围～',
+    '咖啡馆镜子前光线很均匀！侧身站好拍一张～',
+    '咖啡馆里的绿植做背景超清新！靠近站好～',
+    '手捧咖啡杯和镜头互动，表情自然又可爱～',
+    '咖啡馆角落光线偏暗，靠近窗户或开手机补光～',
+    '咖啡馆装修有质感！和有趣的背景互动一下～',
+    '咖啡杯举到嘴边笑一个，画面生动感满满～',
+    '咖啡馆窗外有好看风景时，侧身看向窗外构图更有故事～',
+  ],
+  // 面包房/烘焙坊专属建议
+  bakery_suggestion: [
+    '面包房暖黄色灯光超柔和！让女友靠近玻璃橱窗站～',
+    '面包房光线偏暖偏暗，靠近橱窗或开手机补光～',
+    '捧着面包或甜点互动，画面生动感满满～',
+    '面包房货架前光线均匀！站在货架旁侧身微笑～',
+    '烘焙坊的暖光打在脸上超好看！自然微笑就好～',
+    '面包甜点做前景虚化，画面更有层次感～',
+    '面包房里找一面白墙当背景，简洁又干净～',
+    '烘焙坊光线偏暗，让男友开闪光灯或靠近光源～',
+    '面包出炉的瞬间超有氛围！等待时机抓拍～',
+    '面包房有复古感！和木质装饰互动一下更有感觉～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -4802,7 +4828,8 @@ export async function analyzePhoto(
     suggestions.push(pickRandom(SUGGESTION_POOL.composition))
   }
   if (sceneType === 'cafe' && totalScore < 75) {
-    suggestions.push(pickRandom(SUGGESTION_POOL.composition))
+    const cafePool = SUGGESTION_POOL.cafe_scene_suggestion || SUGGESTION_POOL.composition
+    suggestions.push(pickRandom(cafePool))
   }
   if (sceneType === 'rooftop_night' && totalScore < 75) {
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
@@ -5471,7 +5498,8 @@ export async function analyzePhoto(
   }
   // 烘焙甜点场景
   if (sceneType === 'bakery') {
-    suggestions.push(pickRandom(SUGGESTION_POOL.bakery_specific))
+    const pool = SUGGESTION_POOL.bakery_suggestion || SUGGESTION_POOL.bakery_specific
+    suggestions.push(pickRandom(pool))
   }
   // 旋转木马场景
   if (sceneType === 'carousel') {
