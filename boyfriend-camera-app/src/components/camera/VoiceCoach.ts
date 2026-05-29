@@ -2892,6 +2892,10 @@ class VoiceCoach {
         await this.speakOutdoorTip(); break
       case 'cafe':
         await this.speakCafeTip(); break
+      case 'rooftop_party':
+        await this.speakFestivalLightsTip(); break
+      case 'rooftop_daytime':
+        await this.speakMorningTip(); break
       case 'rooftop_night':
         await this.speakNightTip(); break
       case 'beach':

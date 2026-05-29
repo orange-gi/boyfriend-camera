@@ -292,9 +292,9 @@ export default function ResultScreen() {
         if (templateCategory === '雪景拍照' && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakSnowTip() } catch {} }, 2500)
         }
-        // 滑雪（总分 >= 60 时触发运动摄影专属技巧，与健身房同用 gym tip）
+        // 滑雪（总分 >= 60 时触发冰雪场景专属技巧，用 snow tip 代替 gym tip）
         if (templateCategory === '滑雪' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakGymTip() } catch {} }, 2500)
+          track(() => { try { VoiceCoach.speakSnowTip() } catch {} }, 2500)
         }
         // 水族馆（总分 >= 60）
         if (templateCategory === '水族馆' && scoreResult.totalScore >= 60) {
@@ -304,9 +304,9 @@ export default function ResultScreen() {
         if ((templateCategory === '游乐园' || templateCategory === '摩天轮' || templateCategory === '旋转木马') && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakAmusementTip() } catch {} }, 2500)
         }
-        // 天台派对（总分 >= 60）
+        // 天台派对（总分 >= 60，用城市夜景 tip 替代，与节日限定重复播报取消）
         if (templateCategory === '天台派对' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakFestivalLightsTip() } catch {} }, 2500)
+          track(() => { try { VoiceCoach.speakUrbanNightTip() } catch {} }, 2500)
         }
         // 面包房/烘焙坊（总分 >= 65）
         if (templateCategory === '面包房' && scoreResult.totalScore >= 65) {
