@@ -3801,15 +3801,49 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '侧颜照让光从侧面打过来，五官轮廓立竿见影～',
     '侧颜时眼睛看向远方不要死盯镜头，自然感更强～',
   ],
-  // 多人合照时有人闭眼
-  // 手部姿势引导
-  // 镜头眩光
-  // 新增：情侣照专属建议
-  // 新增：近距离特写建议
-  // 新增：全身照建议
-  // 新增：配饰道具建议
-  // 新增：背景简洁度建议
-  // 新增：拍摄角度建议
+  // 新增：雨天场景建议
+  rainy_scene_tips: [
+    '雨天光线柔和，照片自带氛围感！打开相机网格线参照构图～',
+    '雨伞做道具超有氛围感，让雨伞遮住半边脸，超神秘～',
+    '雨天室内窗户光线超均匀，躲在窗边拍一张，皮肤状态超好～',
+    '雨天的反射和倒影超有感觉，找水坑蹲低拍，超有意境～',
+    '雨丝飘落在脸上时按下快门，动态抓拍超有氛围感～',
+    '雨天的天空是天然的柔光箱，不用担心过曝，随意拍都好看～',
+  ],
+  // 新增：室内日常场景建议（无特定问题时补充）
+  indoor_daily_tips: [
+    '室内自然光是最好的光源，找窗户边站～',
+    '室内天花板灯会在脸上留下难看的阴影，侧身躲开～',
+    '室内光线不均匀时让脸朝向最亮的方向～',
+    '家里找纯色背景（白墙/窗帘），构图更干净～',
+    '室内拍摄打开九宫格网格，构图更专业～',
+  ],
+  // 新增：夜景进阶建议
+  night_advanced_tips: [
+    '夜景拍摄打开闪光灯补光，光线会更均匀～',
+    '夜景人脸太暗时，让女朋友靠近光源或打开手机手电筒补光～',
+    '夜晚室内可用台灯做主光源，让女朋友侧对台灯，光影更有层次～',
+    '夜景拍摄避免正对强光源，会产生镜头光晕～',
+    '夜晚街拍时商店橱窗灯光是很好的补光源～',
+    '手机夜景模式可以大幅提升清晰度，打开试试～',
+  ],
+  // 新增：海岛度假场景建议
+  island_tips: [
+    '海岛阳光强烈，正午顶光下拍出来脸会很暗，找树荫或等阳光斜一点～',
+    '海边尽量在早上或傍晚拍，光线柔和不刺眼～',
+    '海岛沙滩反光强，脸部容易过曝，让女朋友侧身躲开阳光直射～',
+    '泳衣/泳装照用毛巾或外套先遮住，正式拍时再拿开～',
+    '海岛浪大站不稳，找退潮时拍摄更安全～',
+    '防水手机套可以带到海边，拍水下的画面超有感觉～',
+  ],
+  // 新增：晨间光线专项建议
+  morning_light_tips: [
+    '清晨阳光柔和，这是一天中最适合拍照的时段～',
+    '早安光线打在脸上超通透，皮肤看起来零瑕疵～',
+    '早晨8-9点的阳光最温柔，男朋友抓紧这个黄金时间～',
+    '早起拍照光线超好，趁着阳光拍几张～',
+    '清晨阳光是天然的柔光箱，随意拍都好看～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -4369,6 +4403,30 @@ export async function analyzePhoto(
   }
   if (safeBrightness >= 80 && safeBrightness <= 150 && sceneType === 'outdoor' && exposureScore >= 18 && totalScore >= 40 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.overcast_tips))
+  }
+  // 晨间光线专属建议（早晨6-10点户外场景）
+  if ((hourNow >= 6 && hourNow < 10) && sceneType === 'outdoor' && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.morning_light_tips))
+  }
+  // 室内日常补充建议（无特定技术问题时）
+  if (sceneType === 'indoor' && exposureScore >= 20 && totalScore >= 40 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.indoor_daily_tips))
+  }
+  // 夜景进阶建议（夜间场景曝光尚可但有提升空间）
+  if (isNightScene && exposureScore >= 15 && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.night_advanced_tips))
+  }
+  // 雨天场景专属建议（户外阴雨天气）
+  if (sceneType === 'rainy_street' && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rainy_scene_tips))
+  }
+  // 镜子自拍专项建议
+  if (sceneType === 'mirror' && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.mirror_selfie_tips))
+  }
+  // 海岛度假场景建议
+  if ((sceneType === 'beach' || sceneType === 'beach_sunset') && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.island_tips))
   }
 
   if (compositionScore >= 25 && compositionScore < 35 && suggestions.length < 3) {
