@@ -2946,6 +2946,12 @@ class VoiceCoach {
         await this.speakHarshSunlightTip(); break
       case 'foggy':
         await this.speakFoggyWeatherTip(); break
+      case 'neon_light':
+        await this.speakNeonLightTip(); break
+      case 'bookstore':
+        await this.speakBookstoreTip(); break
+      case 'morning_run':
+        await this.speakMorningTip(); break
       default:
         // 未知场景不播报，静默降级
         break

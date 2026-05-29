@@ -148,6 +148,7 @@ export default function CameraScreen() {
   const lastLowLightRef = useRef<number>(0)
   const lastBokehTipRef = useRef<number>(0)
   const eveningTipFiredRef = useRef<boolean>(false)
+  const morningTipFiredRef = useRef<boolean>(false)
   // VoiceCoach 是默认导出的实例，直接引用即可
   // 跟踪 handleAutoRecommended 产生的 setTimeout，组件卸载时清理
   const autoRecTimeoutRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -213,6 +214,11 @@ export default function CameraScreen() {
           if (!eveningTipFiredRef.current && (hour >= 17 && hour <= 19)) {
             eveningTipFiredRef.current = true
             setTimeout(() => VoiceCoach.speakEveningTip().catch(() => {}), 5000)
+          }
+          // 清晨时段（6-9点）触发晨光提示（仅首次触发）
+          if (!morningTipFiredRef.current && (hour >= 6 && hour <= 9)) {
+            morningTipFiredRef.current = true
+            setTimeout(() => VoiceCoach.speakMorningTip().catch(() => {}), 5000)
           }
         } catch { /* ignore */ }
       })()
