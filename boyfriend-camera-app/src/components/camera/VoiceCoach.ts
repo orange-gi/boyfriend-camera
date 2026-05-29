@@ -3122,6 +3122,158 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /**
+   * 场景路由：统一入口，根据 scene 类型分发到对应 speak 方法
+   * 覆盖主要拍照场景，让外部调用方无需关心具体方法名
+   *
+   * scene 类型对照：
+   *  indoor          → 室内场景（咖啡馆/家居/书店）
+   *  outdoor         → 户外日常（公园/街道/校园）
+   *  cafe            → 餐厅美食（咖啡馆/火锅/甜品店）
+   *  rooftop_night   → 天台夜景（霓虹灯光）
+   *  beach           → 海边户外（沙滩/海浪/日落）
+   *  beach_sunset    → 海边日落（逆光剪影）
+   *  swimming_pool   → 泳池边（水面反光）
+   *  snow            → 雪景（强反射/围巾）
+   *  hotspring       → 温泉场景（水汽/石墙）
+   *  gym             → 健身房（镜子构图）
+   *  rainy           → 雨天（窗户/倒影）
+   *  subway          → 地铁暗光（站台灯）
+   *  street          → 城市街拍（橱窗/霓虹）
+   *  vintage_film    → 复古胶片风
+   *  carnival        → 游乐园嘉年华
+   *  graffiti        → 涂鸦墙
+   *  aquarium        → 水族馆蓝色场景
+   *  bookstore       → 书店文艺场景
+   *  festival_lights → 灯展节日
+   *  dance_performance → 演唱会舞台
+   *  spring          → 春季/樱花
+   *  autumn          → 秋季/红叶
+   *  winter          → 冬季
+   *  graduation      → 毕业照
+   *  couple          → 情侣合照
+   *  selfie          → 自拍
+   *  backlight       → 逆光场景
+   *  low_light       → 低光暗光
+   *  harsh_sunlight  → 强日光户外
+   *  foggy           → 雾霾天气
+   */
+  async getSpeechForScene(scene: string): Promise<void> {
+    switch (scene) {
+      case 'indoor':
+        await this.speakIndoorPortraitTip(); break
+      case 'outdoor':
+        await this.speakOutdoorTip(); break
+      case 'cafe':
+        await this.speakCafeTip(); break
+      case 'rooftop_night':
+        await this.speakNightTip(); break
+      case 'beach':
+        await this.speakBeachTip(); break
+      case 'beach_sunset':
+        await this.speakBeachSunsetTip(); break
+      case 'swimming_pool':
+        await this.speakSwimmingPoolTip(); break
+      case 'snow':
+        await this.speakSnowTip(); break
+      case 'hotspring':
+        await this.speakHotspringTip(); break
+      case 'gym':
+        await this.speakGymTip(); break
+      case 'rainy':
+        await this.speakRainyTip(); break
+      case 'subway':
+        await this.speakSubwayDarkTip(); break
+      case 'street':
+        await this.speakUrbanNightTip(); break
+      case 'vintage_film':
+        await this.speakVintageFilmTip(); break
+      case 'carnival':
+        await this.speakCarnivalTip(); break
+      case 'graffiti':
+        await this.speakGraffitiTip(); break
+      case 'aquarium':
+        await this.speakAquariumTip(); break
+      case 'bookstore':
+        await this.speakBookstoreTip(); break
+      case 'festival_lights':
+        await this.speakFestivalLightsTip(); break
+      case 'dance_performance':
+        await this.speakDancePerformanceTip(); break
+      case 'spring':
+        await this.speakSpringTip(); break
+      case 'autumn':
+        await this.speakAutumnTip(); break
+      case 'winter':
+        await this.speakWinterTip(); break
+      case 'graduation':
+        await this.speakGraduationTip(); break
+      case 'couple':
+        await this.speakCouplePhotoTip(); break
+      case 'selfie':
+        await this.speakSelfieTip(); break
+      case 'backlight':
+        await this.speakBacklightTip(); break
+      case 'low_light':
+        await this.speakLowLightTip(); break
+      case 'harsh_sunlight':
+        await this.speakHarshSunlightTip(); break
+      case 'foggy':
+        await this.speakFoggyWeatherTip(); break
+      default:
+        // 未知场景不播报，静默降级
+        break
+    }
+  }
+
+  /** 户外日常场景 */
+  async speakOutdoorTip(): Promise<void> {
+    const tips = [
+      '户外光线好！找顺光或侧光的位置，脸会更亮～',
+      '户外拍照避免正午顶光，找树荫或等云遮光～',
+      '户外阳光下背景过曝，侧身躲开天空入镜会好很多～',
+      '户外找干净的背景，让女朋友更突出～',
+      '户外自然光最温柔，正对光源让脸均匀受光～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 咖啡馆餐厅场景 */
+  async speakCafeTip(): Promise<void> {
+    const tips = [
+      '咖啡馆里找窗边座位，自然光打在脸上超好看～',
+      '餐厅灯光偏暖黄，让女朋友靠近台灯或烛光坐～',
+      '美食照光线要充足，举起筷子或杯子让光打在手上～',
+      '咖啡馆装修复杂，找纯色墙面做背景会更干净～',
+      '餐厅室内偏暗，打开闪光灯或屏幕补光效果最好～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 复古胶片风场景 */
+  async speakVintageFilmTip(): Promise<void> {
+    const tips = [
+      '复古胶片风适合侧光，让光影层次更丰富～',
+      '胶片感推荐稍微过曝补偿阴影，宽容度更高～',
+      '复古胶片选 Kodak Gold 色调，黄橙暖色最有感觉～',
+      '胶片风适合暖色调穿搭，颜色对比让画面更鲜活～',
+      '胶片颗粒感用滤镜模拟即可，不用真的用胶片机～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 毕业照场景 */
+  async speakGraduationTip(): Promise<void> {
+    const tips = [
+      '毕业照选黄昏前光线最柔和，不要正午顶光拍～',
+      '抛帽瞬间超有活力！连拍几张总有一张完美～',
+      '毕业袍解开最上面一颗扣子更休闲更自然～',
+      '和同学朋友靠近贴贴合照，画面更温馨～',
+      '学士帽流苏拨到一边更活泼，试试看～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
