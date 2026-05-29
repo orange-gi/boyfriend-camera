@@ -930,6 +930,7 @@ const FilterItem = React.memo(function FilterItem({
       accessibilityHint="单击切换滤镜"
     >
       <View style={[styles.filterCircle, { backgroundColor: filter.color }, isActive ? styles.filterCircleActive : null]} />
+      <Text style={[styles.filterLabel, isActive ? styles.filterLabelActive : null]}>{filter.label}</Text>
     </TouchableOpacity>
   )
 })
@@ -987,6 +988,16 @@ const styles = StyleSheet.create({
   filterItem: {
     alignItems: 'center',
     marginHorizontal: 5,
+  },
+  filterLabel: {
+    fontSize: 10,
+    color: COLORS.textMuted,
+    marginTop: 4,
+    fontWeight: '500',
+  },
+  filterLabelActive: {
+    color: COLORS.textPrimary,
+    fontWeight: '700',
   },
   // 滤镜色块：36px 直径，简洁克制，克制不用阴影
   filterCircle: {
