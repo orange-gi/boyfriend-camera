@@ -968,10 +968,10 @@ const styles = StyleSheet.create({
   },
   // 破纪录提示：纯文字，简洁优雅极致 — 成功色文字本身承载信息，无需背景色块装饰
   newRecordBanner: {
+    // 简洁优雅极致：去除不必要的 paddingVertical 和 alignSelf
+    // 仅靠文字颜色承载信息层级，无需背景色装饰
     marginHorizontal: 20,
     marginTop: 6,
-    paddingVertical: 4,
-    alignSelf: 'flex-start',
   },
   newRecordBannerText: {
     fontSize: 15,
@@ -1009,20 +1009,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   filterLabel: {
-    fontSize: 10,
+    fontSize: 11,
     color: COLORS.textMuted,
-    marginTop: 4,
+    marginTop: 5,
     fontWeight: '500',
   },
   filterLabelActive: {
     color: COLORS.textPrimary,
     fontWeight: '700',
   },
-  // 滤镜色块：36px 直径，简洁克制，克制不用阴影
+  // 滤镜色块：40px 直径，简洁克制，克制不用阴影
+  // 设计理由：40px 相比 36px 提供更大的触摸目标（≥ 44px 包括 label），同时保持视觉克制
+  // 无阴影/渐变 — 颜色本身承载视觉层级，无需额外装饰
   filterCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
