@@ -124,6 +124,50 @@ const CAT_FILTER_MAP: Record<string, FilterKey> = {
 }
 
 /** 将 analyzer SceneType 映射到 speakFilterTip 的合法类型（避免 as any） */
+// 场景 → TTS 方法映射表（简洁优雅：数据驱动替代 30+ if 语句，新增场景只需加一行）
+// 格式：templateCategory → { method: speakMethodName, minScore, extraMethod? }
+const SCENE_TTS_MAP: Record<string, { method: string; minScore?: number; extraMethod?: string; extraMinScore?: number; exposureMin?: number }> = {
+  '户外海边日落': { method: 'speakBeachSunsetTip', minScore: 60, extraMethod: 'speakGoldenHourTip', extraMinScore: 60 },
+  '户外海边': { method: 'speakBeachTip', minScore: 65 },
+  '泳池边': { method: 'speakSwimmingPoolTip', minScore: 60 },
+  '运动健身': { method: 'speakGymTip', minScore: 60 },
+  '雨天街头': { method: 'speakRainyTip', minScore: 60 },
+  '镜面自拍': { method: 'speakMirrorSelfieTip', minScore: 60 },
+  '街头随拍': { method: 'speakBacklitTip', minScore: 75, exposureMin: 22 },
+  '城市街拍': { method: 'speakBacklitTip', minScore: 75, exposureMin: 22 },
+  '情侣合照': { method: 'speakCouplePhotoTip', minScore: 65 },
+  '节日限定': { method: 'speakFestivalLightsTip', minScore: 60 },
+  '室内人像': { method: 'speakIndoorPortraitTip', minScore: 65 },
+  '自拍技巧': { method: 'speakSelfieTip', minScore: 60 },
+  '夜景': { method: 'speakUrbanNightTip', minScore: 60 },
+  '星空夜景': { method: 'speakUrbanNightTip', minScore: 60 },
+  '桥上夜景': { method: 'speakUrbanNightTip', minScore: 60 },
+  '酒吧霓虹灯': { method: 'speakNeonLightTip', minScore: 60 },
+  '演唱会现场': { method: 'speakDancePerformanceTip', minScore: 60 },
+  '闺蜜合照': { method: 'speakBestiePoseTip', minScore: 60 },
+  '大合照': { method: 'speakBestiePoseTip', minScore: 60 },
+  '书店阅读': { method: 'speakBookstoreTip', minScore: 65 },
+  '涂鸦墙': { method: 'speakGraffitiTip', minScore: 65 },
+  '阳台早餐': { method: 'speakMorningTip', minScore: 65 },
+  '雪景拍照': { method: 'speakSnowTip', minScore: 60 },
+  '滑雪': { method: 'speakSnowTip', minScore: 60 },
+  '水族馆': { method: 'speakAquariumTip', minScore: 60 },
+  '游乐园': { method: 'speakAmusementTip', minScore: 60 },
+  '摩天轮': { method: 'speakAmusementTip', minScore: 60 },
+  '旋转木马': { method: 'speakAmusementTip', minScore: 60 },
+  '天台派对': { method: 'speakUrbanNightTip', minScore: 60 },
+  '面包房': { method: 'speakBakeryTip', minScore: 65 },
+  '画廊博物馆': { method: 'speakChapelTip', minScore: 60 },
+  '艺术展馆': { method: 'speakChapelTip', minScore: 60 },
+  '露营帐篷': { method: 'speakTentCampTip', minScore: 60 },
+  '湖边水景': { method: 'speakLakeWaterTip', minScore: 60 },
+  '圣诞氛围': { method: 'speakChristmasTip', minScore: 60 },
+  '温泉泡汤': { method: 'speakHotspringTip', minScore: 60 },
+  '超市便利店': { method: 'speakSupermarketTip', minScore: 60 },
+  '礁石海浪': { method: 'speakRockyBeachTip', minScore: 60 },
+  '游乐园嘉年华': { method: 'speakCarnivalTip', minScore: 60 },
+}
+
 const SCENE_TO_FILTER_TIP: Partial<Record<SceneType, 'indoor' | 'outdoor' | 'food' | 'night' | 'street' | 'sunset' | 'natural_light'>> = {
   indoor: 'indoor',
   outdoor: 'outdoor',
@@ -227,6 +271,14 @@ export default function ResultScreen() {
         // 泳池边（总分 >= 60）
         if (templateCategory === '泳池边' && scoreResult.totalScore >= 60) {
           track(() => { try { VoiceCoach.speakSwimmingPoolTip() } catch {} }, 2500)
+        }
+        // 赏樱（总分 >= 65 时触发春花季专属 TTS）
+        if (templateCategory === '赏樱' && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakSpringFlowersTip() } catch {} }, 2500)
+        }
+        // 灯塔海边（总分 >= 65 时触发灯塔海景专属 TTS）
+        if (templateCategory === '灯塔' && scoreResult.totalScore >= 65) {
+          track(() => { try { VoiceCoach.speakLighthouseTip() } catch {} }, 2500)
         }
         // 运动健身（总分 >= 60）
         if (templateCategory === '运动健身' && scoreResult.totalScore >= 60) {
