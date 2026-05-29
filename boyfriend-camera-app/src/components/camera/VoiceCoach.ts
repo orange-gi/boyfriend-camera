@@ -2910,80 +2910,101 @@ class VoiceCoach {
    */
   async getSpeechForScene(scene: string): Promise<void> {
     switch (scene) {
+      // ── 室内 ──────────────────────────────────────────
       case 'indoor':
         await this.speakIndoorPortraitTip(); break
-      case 'outdoor':
-        await this.speakOutdoorTip(); break
       case 'cafe':
+      case 'vintage_cafe':
         await this.speakCafeTip(); break
-      case 'rooftop_party':
-        await this.speakFestivalLightsTip(); break
-      case 'rooftop_daytime':
-        await this.speakMorningTip(); break
-      case 'rooftop_night':
-        await this.speakNightTip(); break
+      case 'bookstore':
+        await this.speakBookstoreTip(); break
+      case 'bakery':
+        await this.speakBakeryTip(); break
+      case 'supermarket':
+        await this.speakSupermarketTip(); break
+      // ── 户外 ──────────────────────────────────────────
+      case 'outdoor':
+      case 'farm':
+      case 'greenhouse':
+      case 'graduation_outdoor':
+      case 'overcast':
+      case 'meadow_ranch':
+      case 'special_style':
+        await this.speakOutdoorTip(); break
       case 'beach':
+      case 'island_beach':
         await this.speakBeachTip(); break
       case 'beach_sunset':
+      case 'sunset':
         await this.speakBeachSunsetTip(); break
       case 'swimming_pool':
         await this.speakSwimmingPoolTip(); break
       case 'snow':
+      case 'ski_resort':
         await this.speakSnowTip(); break
       case 'hotspring':
         await this.speakHotspringTip(); break
       case 'cherry_blossom':
+      case 'spring':
         await this.speakSpringFlowersTip(); break
-      case 'ski_resort':
-        await this.speakSnowTip(); break
-      case 'train':
-        await this.speakSubwayDarkTip(); break
-      case 'zoo':
-        await this.speakGymTip(); break
+      case 'autumn':
+      case 'red_autumn_detail':
+        await this.speakAutumnTip(); break
+      case 'winter':
+        await this.speakWinterTip(); break
       case 'lighthouse':
         await this.speakLighthouseTip(); break
-      case 'farm':
-        await this.speakOutdoorTip(); break
-      case 'greenhouse':
-        await this.speakOutdoorTip(); break
       case 'tent_camp':
         await this.speakTentCampTip(); break
-      case 'supermarket':
-        await this.speakSupermarketTip(); break
-      case 'bakery':
-        await this.speakBakeryTip(); break
-      case 'carousel':
-        await this.speakCarnivalTip(); break
-      case 'old_town':
-        await this.speakBookstoreTip(); break
-      case 'gym':
-        await this.speakGymTip(); break
-      case 'rainy':
-        await this.speakRainyTip(); break
-      case 'subway':
-        await this.speakSubwayDarkTip(); break
-      case 'street':
-        await this.speakUrbanNightTip(); break
-      case 'vintage_film':
-        await this.speakVintageFilmTip(); break
-      case 'carnival':
-        await this.speakCarnivalTip(); break
       case 'graffiti':
         await this.speakGraffitiTip(); break
       case 'aquarium':
+      case 'zoo_aquarium':
         await this.speakAquariumTip(); break
+      case 'graduation':
+        await this.speakGraduationTip(); break
+      case 'old_town':
+      case 'ancient_town':
+        await this.speakBookstoreTip(); break
+      // ── 夜景/霓虹 ─────────────────────────────────────
+      case 'rooftop_night':
+      case 'rooftop_party':
+        await this.speakFestivalLightsTip(); break
+      case 'rooftop_daytime':
+      case 'morning_run':
+        await this.speakMorningTip(); break
+      case 'street':
+      case 'market_stall':
+      case 'bridge_river':
+        await this.speakUrbanNightTip(); break
+      case 'neon_light':
+        await this.speakNeonLightTip(); break
+      case 'train':
+      case 'train_journey':
+      case 'subway':
+      case 'airport':
+      case 'airport_station':
+      case 'subway_escalator':
+        await this.speakSubwayDarkTip(); break
+      case 'vintage_film':
+        await this.speakVintageFilmTip(); break
       case 'festival_lights':
         await this.speakFestivalLightsTip(); break
       case 'dance_performance':
         await this.speakDancePerformanceTip(); break
-      case 'spring':
-        await this.speakSpringTip(); break
-      case 'autumn':
-        await this.speakAutumnTip(); break
-      case 'winter':
-        await this.speakWinterTip(); break
-      case 'graduation':
-        await this.speakGraduationTip(); break
+      case 'rainy':
+        await this.speakRainyTip(); break
+      // ── 特殊场景 ──────────────────────────────────────
+      case 'gym':
+      case 'zoo':
+        await this.speakGymTip(); break
+      case 'carousel':
+      case 'carnival':
+      case 'amusement_carnival':
+        await this.speakCarnivalTip(); break
+      case 'chapel':
+        await this.speakChapelTip(); break
+      // ── 通用场景 ──────────────────────────────────────
       case 'couple':
         await this.speakCouplePhotoTip(); break
       case 'selfie':
@@ -2996,83 +3017,8 @@ class VoiceCoach {
         await this.speakHarshSunlightTip(); break
       case 'foggy':
         await this.speakFoggyWeatherTip(); break
-      case 'neon_light':
-        await this.speakNeonLightTip(); break
-      case 'bookstore':
-        await this.speakBookstoreTip(); break
-      case 'morning_run':
-        await this.speakMorningTip(); break
-      case 'ancient_town':
-      case 'old_town':
-        await this.speakBookstoreTip(); break
-      case 'market_stall':
-      case 'bridge_river':
-        await this.speakUrbanNightTip(); break
-      case 'chapel':
-        await this.speakChapelTip(); break
-      case 'graduation_outdoor':
-        await this.speakOutdoorTip(); break
-      case 'amusement_carnival':
-        await this.speakCarnivalTip(); break
-      case 'airport':
-      case 'airport_station':
-      case 'subway_escalator':
-        await this.speakSubwayDarkTip(); break
-      case 'sunset':
-        await this.speakBeachSunsetTip(); break
-      case 'overcast':
-        await this.speakOutdoorTip(); break
-      case 'island_beach':
-      case 'beach':
-        await this.speakBeachTip(); break
-      case 'vintage_cafe':
-      case 'cafe':
-        await this.speakCafeTip(); break
-      case 'train':
-      case 'train_journey':
-        await this.speakSubwayDarkTip(); break
-      case 'zoo':
-      case 'zoo_aquarium':
-        await this.speakAquariumTip(); break
-      case 'snow':
-      case 'ski_resort':
-        await this.speakSnowTip(); break
-      case 'hotspring':
-        await this.speakHotspringTip(); break
-      case 'red_autumn_detail':
-        await this.speakAutumnTip(); break
-      case 'meadow_ranch':
-        await this.speakOutdoorTip(); break
-      case 'neon_light':
-        await this.speakNeonLightTip(); break
-      case 'vintage_film':
-        await this.speakVintageFilmTip(); break
-      case 'graffiti':
-        await this.speakGraffitiTip(); break
-      case 'special_style':
-        await this.speakOutdoorTip(); break
-      case 'festival_lights':
-        await this.speakFestivalLightsTip(); break
-      case 'dance_performance':
-        await this.speakDancePerformanceTip(); break
-      case 'gym':
-        await this.speakGymTip(); break
-      case 'carnival':
-        await this.speakCarnivalTip(); break
-      case 'tent_camp':
-        await this.speakTentCampTip(); break
-      case 'supermarket':
-        await this.speakSupermarketTip(); break
-      case 'bakery':
-        await this.speakBakeryTip(); break
-      case 'greenhouse':
-        await this.speakSpringFlowersTip(); break
-      case 'carousel':
-        await this.speakCarnivalTip(); break
-      case 'bookstore':
-        await this.speakBookstoreTip(); break
+      // ── 兜底未知场景 ─────────────────────────────────
       default:
-        // 未知场景不播报，静默降级
         break
     }
   }
