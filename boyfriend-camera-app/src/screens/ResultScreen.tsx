@@ -770,21 +770,18 @@ export default function ResultScreen() {
   }
 
   // 夸奖横幅文字颜色（按分数段）— 避免每次渲染重新计算
+  // 颜色阈值与 theme/index.ts scoreColor() 保持一致：80+绿/60-79橙/<60红
   const praiseInfo = useMemo(() => {
     const score = scoreResult?.totalScore ?? 0
-    const color = score >= 90 ? COLORS.scoreGreat
-      : score >= 80 ? COLORS.primary
-      : score >= 70 ? COLORS.success
-      : score >= 60 ? COLORS.warning
-      : COLORS.danger
+    const color = score >= 80 ? COLORS.scoreGreat
+      : score >= 60 ? COLORS.scoreOk
+      : COLORS.scoreBad
     if (scoreResult && praiseList.length > 0) {
       return { score, text: praiseList[0], color }
     }
-    if (!scoreResult) return { score: 0, text: '', color: COLORS.warning }
-    if (score >= 90) return { score, text: '完美之作！', color }
+    if (!scoreResult) return { score: 0, text: '', color: COLORS.scoreOk }
     if (score >= 80) return { score, text: '男朋友进步好大！', color }
-    if (score >= 70) return { score, text: '继续保持！', color }
-    if (score >= 60) return { score, text: '下次会更好！', color }
+    if (score >= 60) return { score, text: '继续保持！', color }
     return { score, text: '继续加油！', color }
   }, [scoreResult, praiseList])
 
