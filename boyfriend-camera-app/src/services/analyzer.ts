@@ -5514,7 +5514,7 @@ export async function analyzePhoto(
     levelScore,
     expressionScore,
     suggestions: uniqueSuggestions,
-    problems,
+    problems: [...new Set(problems)],  // 去重，避免同一问题多次标记
     praise: uniquePraise,
   }
 }
