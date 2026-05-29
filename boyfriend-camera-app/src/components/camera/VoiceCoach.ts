@@ -2202,11 +2202,41 @@ class VoiceCoach {
 
 
 
-  /** 强日光户外建议 — 正午/夏季户外亮度高直射（Round 2 新增） */
+    /** 强日光户外建议 — 正午/夏季户外亮度高直射 */
+  async speakHarshSunlightTip(): Promise<void> {
+    const tips = [
+      '阳光太晒了！找树荫或建筑阴影处，光线更柔和～',
+      '正午顶光太强！站在阴影里，脸上的光会更均匀～',
+      '强光下容易过曝，侧身躲开太阳直射会好很多～',
+      '阳光太烈了！稍微等云遮一下，或者找阴影拍～',
+      '户外太晒了！靠近建筑物站，让它挡住强光～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 
-  /** 雾霾天/沙尘天建议（Round 2 新增） */
+  /** 雾霾天/沙尘天建议 */
+  async speakFoggyWeatherTip(): Promise<void> {
+    const tips = [
+      '今天有点雾霾，光线比较柔和反而适合拍照～',
+      '雾蒙蒙的光线拍出来很柔和，找个前景虚化一下会很有层次～',
+      '灰蒙蒙的天气光线均匀！拍逆光剪影效果会很好～',
+      '雾霾天光线偏冷白，后期可以加一点暖色调让照片更有氛围～',
+      '这个天气适合拍柔光人像，找个干净的背景就很好看～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 
-  /** 地铁/地下空间暗光建议（Round 2 新增） */
+  /** 地铁/地下空间暗光建议 */
+  async speakSubwayDarkTip(): Promise<void> {
+    const tips = [
+      '地铁里光线暗！靠近站台灯或出口光再拍～',
+      '地下空间光线不足，找扶梯口或出口的光源～',
+      '地铁站里开闪光灯试试，不然脸会太暗～',
+      '地下空间光线偏冷白，开屏幕补光效果最好～',
+      '地下站比较暗，让女朋友靠近灯箱或广告牌站～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 
   /** 照片已保存到相册（ResultScreen 保存成功后播报） */
 
