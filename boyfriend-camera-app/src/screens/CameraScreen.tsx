@@ -783,7 +783,7 @@ export default function CameraScreen() {
           accessibilityRole="button"
           accessibilityLabel="关闭拍照"
         >
-          <Text style={styles.topBtnText}>关闭</Text>
+          <Text style={{color:'rgba(255,255,255,0.7)',fontSize:22,fontWeight:'300',lineHeight:24}}>×</Text>
         </TouchableOpacity>
       </View>
 
@@ -1151,12 +1151,12 @@ const styles = StyleSheet.create({
   modeBtn: {
     width: 38,
     height: 38,
-    borderRadius: borderRadius.xl,
     alignItems: 'center',
     justifyContent: 'center',
   },
   modeBtnActiveGlass: {
     backgroundColor: COLORS.primary,
+    borderRadius: 0,
   },
   modeBtnText: {
     color: 'rgba(255,255,255,0.7)',
@@ -1205,7 +1205,7 @@ const styles = StyleSheet.create({
   // 模板关闭按钮：简洁×符号，无背景色，克制不抢注意力
   poseTipClear: {
     fontSize: 16,
-    color: 'rgba(255,255,255,0.55)',
+    color: 'rgba(255,255,255,0.5)',
     fontWeight: '300',
     lineHeight: 18,
     padding: 2,
