@@ -925,15 +925,18 @@ export default function CameraScreen() {
                     accessibilityRole="button"
                     accessibilityLabel={`分类: ${cat}，${count}个模板${isSelected ? '，已选中' : ''}`}
                   >
-                    <Text
-                      style={[
-                        isSelected
-                          ? [styles.categoryTabTextActive, { color }]
-                          : styles.categoryTabText,
-                      ]}
-                    >
-                      {cat}
-                    </Text>
+                    <View style={styles.categoryTabLabel}>
+                      <Text
+                        style={[
+                          isSelected
+                            ? [styles.categoryTabTextActive, { color }]
+                            : styles.categoryTabText,
+                        ]}
+                      >
+                        {cat}
+                      </Text>
+                      {isSelected && <View style={[styles.categoryTabIndicator, { backgroundColor: color }]} />}
+                    </View>
                   </TouchableOpacity>
                 )
               })}
@@ -1322,6 +1325,20 @@ const styles = StyleSheet.create({
   categoryTabTextActive: {
     fontSize: 14,
     fontWeight: '700',
+  },
+  // 分类标签：文字+下划线指示器，下划线颜色跟随分类主色
+  // 设计理由：替换原有 opacity 区分方式，下划线更明确地指示当前选中分类，且不增加额外背景色块
+  categoryTabLabel: {
+    alignItems: 'center',
+    paddingBottom: 2,
+  },
+  categoryTabIndicator: {
+    position: 'absolute',
+    bottom: -4,
+    left: 4,
+    right: 4,
+    height: 2,
+    borderRadius: 1,
   },
   templateList: {
     padding: 8,
