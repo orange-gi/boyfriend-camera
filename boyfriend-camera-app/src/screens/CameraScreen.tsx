@@ -1149,6 +1149,7 @@ const styles = StyleSheet.create({
   modeBtnText: {
     color: 'rgba(255,255,255,0.7)',
     fontSize: 14,
+    fontWeight: '600',
   },
   modeBtnTextActive: {
     color: COLORS.textOnDark,
