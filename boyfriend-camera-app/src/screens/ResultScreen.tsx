@@ -130,6 +130,8 @@ const SCENE_TTS_MAP: Record<string, { method: string; minScore?: number; extraMe
   '户外海边日落': { method: 'speakBeachSunsetTip', minScore: 60, extraMethod: 'speakGoldenHourTip', extraMinScore: 60 },
   '户外海边': { method: 'speakBeachTip', minScore: 65 },
   '泳池边': { method: 'speakSwimmingPoolTip', minScore: 60 },
+  '赏樱': { method: 'speakSpringFlowersTip', minScore: 65 },
+  '灯塔': { method: 'speakLighthouseTip', minScore: 65 },
   '运动健身': { method: 'speakGymTip', minScore: 60 },
   '雨天街头': { method: 'speakRainyTip', minScore: 60 },
   '镜面自拍': { method: 'speakMirrorSelfieTip', minScore: 60 },
@@ -260,141 +262,19 @@ export default function ResultScreen() {
     if (!templateCategory || !scoreResult) return
     const tid = setTimeout(() => {
       try {
-        // 海边/日落场景（总分 >= 65 时触发出片感）
-        if (templateCategory === '户外海边日落' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakBeachSunsetTip() } catch {} }, 2500)
-          track(() => { try { VoiceCoach.speakGoldenHourTip() } catch {} }, 3500)
-        }
-        if (templateCategory === '户外海边' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakBeachTip() } catch {} }, 2500)
-        }
-        // 泳池边（总分 >= 60）
-        if (templateCategory === '泳池边' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakSwimmingPoolTip() } catch {} }, 2500)
-        }
-        // 赏樱（总分 >= 65 时触发春花季专属 TTS）
-        if (templateCategory === '赏樱' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakSpringFlowersTip() } catch {} }, 2500)
-        }
-        // 灯塔海边（总分 >= 65 时触发灯塔海景专属 TTS）
-        if (templateCategory === '灯塔' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakLighthouseTip() } catch {} }, 2500)
-        }
-        // 运动健身（总分 >= 60）
-        if (templateCategory === '运动健身' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakGymTip() } catch {} }, 2500)
-        }
-        // 雨天街头（总分 >= 60）
-        if (templateCategory === '雨天街头' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakRainyTip() } catch {} }, 2500)
-        }
-        // 镜面自拍（总分 >= 60）— speakMirrorSelfieTip 已定义但之前未接入
-        if (templateCategory === '镜面自拍' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakMirrorSelfieTip() } catch {} }, 2500)
-        }
-        // 户外街拍光线好时（总分 >= 75）
-        if ((templateCategory === '街头随拍' || templateCategory === '城市街拍') && scoreResult.exposureScore >= 22 && scoreResult.totalScore >= 75) {
-          track(() => { try { VoiceCoach.speakBacklitTip() } catch {} }, 2500)
-        }
-        // 情侣合照（总分 >= 65 时触发动态互动感）
-        if (templateCategory === '情侣合照' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakCouplePhotoTip() } catch {} }, 2500)
-        }
-        // 节日限定（总分 >= 60 时触发灯展氛围感）
-        if (templateCategory === '节日限定' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakFestivalLightsTip() } catch {} }, 2500)
-        }
-        // 室内人像（总分 >= 65 时触发室内光线技巧）
-        if (templateCategory === '室内人像' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakIndoorPortraitTip() } catch {} }, 2500)
-        }
-        // 自拍技巧（总分 >= 60 时触发自拍角度技巧）
-        if (templateCategory === '自拍技巧' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakSelfieTip() } catch {} }, 2500)
-        }
-        // 夜景系列（夜景/星空夜景/桥上夜景，总分 >= 60）
-        if ((templateCategory === '夜景' || templateCategory === '星空夜景' || templateCategory === '桥上夜景') && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakUrbanNightTip() } catch {} }, 2500)
-        }
-        // 酒吧霓虹灯（总分 >= 60）
-        if (templateCategory === '酒吧霓虹灯' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakNeonLightTip() } catch {} }, 2500)
-        }
-        // 演唱会现场（总分 >= 60）
-        if (templateCategory === '演唱会现场' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakDancePerformanceTip() } catch {} }, 2500)
-        }
-        // 闺蜜合照（总分 >= 60）
-        if ((templateCategory === '闺蜜合照' || templateCategory === '大合照') && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakBestiePoseTip() } catch {} }, 2500)
-        }
-        // 书店阅读（总分 >= 65 时触发书香氛围感）
-        if (templateCategory === '书店阅读' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakBookstoreTip() } catch {} }, 2500)
-        }
-        // 涂鸦墙（总分 >= 65 时触发都市感夸奖）
-        if (templateCategory === '涂鸦墙' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakGraffitiTip() } catch {} }, 2500)
-        }
-        // 阳台早餐（总分 >= 65 时触发清晨光线夸奖）
-        if (templateCategory === '阳台早餐' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakMorningTip() } catch {} }, 2500)
-        }
-        // 雪景拍照（总分 >= 60 时触发冰雪场景专属技巧）
-        if (templateCategory === '雪景拍照' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakSnowTip() } catch {} }, 2500)
-        }
-        // 滑雪（总分 >= 60 时触发冰雪场景专属技巧，用 snow tip 代替 gym tip）
-        if (templateCategory === '滑雪' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakSnowTip() } catch {} }, 2500)
-        }
-        // 水族馆（总分 >= 60）
-        if (templateCategory === '水族馆' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakAquariumTip() } catch {} }, 2500)
-        }
-        // 游乐园/摩天轮/旋转木马（总分 >= 60）
-        if ((templateCategory === '游乐园' || templateCategory === '摩天轮' || templateCategory === '旋转木马') && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakAmusementTip() } catch {} }, 2500)
-        }
-        // 天台派对（总分 >= 60，用城市夜景 tip 替代，与节日限定重复播报取消）
-        if (templateCategory === '天台派对' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakUrbanNightTip() } catch {} }, 2500)
-        }
-        // 面包房/烘焙坊（总分 >= 65）
-        if (templateCategory === '面包房' && scoreResult.totalScore >= 65) {
-          track(() => { try { VoiceCoach.speakBakeryTip() } catch {} }, 2500)
-        }
-        // 教堂/画廊场景（总分 >= 60）
-        if ((templateCategory === '画廊博物馆' || templateCategory === '艺术展馆') && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakChapelTip() } catch {} }, 2500)
-        }
-        // 露营帐篷（总分 >= 60）
-        if (templateCategory === '露营帐篷' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakTentCampTip() } catch {} }, 2500)
-        }
-        // 湖边水景（总分 >= 60）
-        if (templateCategory === '湖边水景' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakLakeWaterTip() } catch {} }, 2500)
-        }
-        // 圣诞氛围（总分 >= 60）
-        if (templateCategory === '圣诞氛围' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakChristmasTip() } catch {} }, 2500)
-        }
-        // 温泉场景（总分 >= 60）
-        if (templateCategory === '温泉泡汤' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakHotspringTip() } catch {} }, 2500)
-        }
-        // 超市便利店（总分 >= 60）
-        if (templateCategory === '超市便利店' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakSupermarketTip() } catch {} }, 2500)
-        }
-        // 礁石海浪（总分 >= 60）
-        if (templateCategory === '礁石海浪' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakRockyBeachTip() } catch {} }, 2500)
-        }
-        // 游乐园嘉年华（总分 >= 60）
-        if (templateCategory === '游乐园嘉年华' && scoreResult.totalScore >= 60) {
-          track(() => { try { VoiceCoach.speakCarnivalTip() } catch {} }, 2500)
+        // 简洁优雅：数据驱动播报 — SCENE_TTS_MAP 中一个 lookup 替代 30+ if 语句
+        const sceneConfig = SCENE_TTS_MAP[templateCategory]
+        if (sceneConfig) {
+          const { method, minScore, extraMethod, extraMinScore, exposureMin } = sceneConfig
+          const mainOk = !minScore || scoreResult.totalScore >= minScore
+          const exposureOk = !exposureMin || scoreResult.exposureScore >= exposureMin
+          if (mainOk && exposureOk) {
+            const speak = (m: string, delay: number) => track(() => { try { (VoiceCoach as any)[m]() } catch {} }, delay)
+            speak(method, 2500)
+            if (extraMethod && (!extraMinScore || scoreResult.totalScore >= extraMinScore)) {
+              speak(extraMethod, 3500)
+            }
+          }
         }
       } catch {}
     }, 800)
