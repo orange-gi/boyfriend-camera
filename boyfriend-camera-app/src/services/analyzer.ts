@@ -3909,6 +3909,69 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '早起拍照光线超好，趁着阳光拍几张～',
     '清晨阳光是天然的柔光箱，随意拍都好看～',
   ],
+  // Round 2 新增：海岛沙滩专项建议
+  island_beach_tips: [
+    '海岛阳光强烈容易过曝，找阴凉处或侧身躲开直射光～',
+    '海水反光会让肤色偏蓝，稍微后期加一点暖色调会更自然～',
+    '海岛紫外线强，涂好防晒再出去拍，晒红了就不好看了～',
+    '低角度仰拍让海和天空同时入镜，构图更有张力～',
+    '海风吹起头发超浪漫！等一阵风吹来时按下快门～',
+    '有墨镜时摘下来的一瞬间抓拍，眼神最灵动～',
+    '海边风大头发容易乱，拍照前先整理一下再拍～',
+    '海岛沙滩反光强，脸部容易过曝，让女朋友侧身躲开阳光直射～',
+  ],
+  // Round 2 新增：火车旅行专项建议
+  train_journey_tips: [
+    '火车车窗光线超美！让女友靠在窗边，让自然光打在侧脸上～',
+    '站台等火车进站抓拍！背景有纵深感，超有故事感～',
+    '候车大厅找一处有光线的地方，侧身站让光打在脸上～',
+    '绿皮火车内部光线偏暗，靠近车窗让脸部受光更清晰～',
+    '站台铁轨旁拍一张侧身照，背景有纵深感，超有电影感～',
+  ],
+  // Round 2 新增：桥上/河边专项建议
+  bridge_river_tips: [
+    '桥上风大，拍摄时让手机拿稳，防止风吹晃动～',
+    '桥上夜景要开闪光灯或找光源补光，桥灯往往打在桥体而不是人脸上～',
+    '桥上人多找好角度，让灯光成为背景而不是干扰～',
+    '河边水面倒影超浪漫，等水面平静时按下快门～',
+    '河边的晨雾或夕阳超有氛围感，等这个时刻拍～',
+    '桥上拍全身时，让女生站在桥的视觉焦点上，构图超有张力～',
+  ],
+  // Round 2 新增：复古咖啡馆专项建议
+  vintage_cafe_tips: [
+    '复古咖啡馆暖黄色灯光超有氛围感！让脸稍微侧一点躲开正面的强光～',
+    '捧着咖啡侧身看窗外，文艺感拉满～',
+    '咖啡馆里不要开闪光灯会影响别人，靠窗边站让脸亮起来～',
+    '木质装修是天然背景！靠在操作台旁拿个咖啡，文艺感满满～',
+    '清晨的咖啡馆光线最好！阳光透过窗户洒进来，超有氛围感～',
+  ],
+  // Round 2 新增：天台派对扩展建议
+  rooftop_party_extended_tips: [
+    '天台派对灯光璀璨！背景和人要均衡，让城市灯光成为背景～',
+    '天台派对风大！让女友背对风站，拍照前先把头发整理好～',
+    '派对灯串可以做前景虚化！让灯串靠近镜头，人在后面超有氛围～',
+    '天台派对夜晚背景灯光闪烁，稍微提高曝光让人脸更亮～',
+    '天台派对夜晚光线复杂，让女友稍微侧身让脸部正对光源～',
+  ],
+  // Round 2 新增：晨跑运动专项建议
+  morning_run_tips: [
+    '晨跑时光线超柔和！汗水和阳光让皮肤看起来超好～',
+    '早晨的光线拍人像绝了，皮肤通透感满分～',
+    '运动后的笑容最自然！趁着出汗前拍一张～',
+    '晨跑背景要干净，找个跑道或公园草坪～',
+    '早晨阳光下侧逆光最有活力！让光打在侧脸上～',
+    '运动中抓拍最自然，让男朋友对准你连拍～',
+  ],
+  // Round 2 新增：动物园/水族馆专项建议
+  zoo_aquarium_tips: [
+    '水族馆光线超梦幻！站在大鱼缸前，笑一个～',
+    '水族馆里光线偏暗偏蓝，打开闪光灯补光～',
+    '大鱼缸玻璃会反光，稍微侧身躲开～',
+    '水族馆蓝色光线超梦幻！让女友站在鱼群前侧身拍，超有氛围感～',
+    '动物园里找干净的围栏或围栏外的背景，避免杂乱背景干扰～',
+    '动物园光线取决于天气，阳光充足时脸部光线最均匀～',
+    '用手机屏幕补光！在暗处用手机屏幕照亮女友脸部，超有效的～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -3924,7 +3987,7 @@ export type SceneType =
   | 'dance_performance' | 'red_autumn_detail' | 'rooftop_daytime' | 'amusement_carnival'
   | 'airport_station' | 'meadow_ranch' | 'subway_escalator'
   | 'sunset' | 'overcast' | 'hotspring' | 'vintage_film' | 'neon_light' | 'airport'
-  | 'special_style'
+  | 'special_style' | 'island_beach' | 'bridge_river' | 'vintage_cafe' | 'train_journey' | 'zoo_aquarium'
 
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */
@@ -5625,6 +5688,47 @@ export async function analyzePhoto(
   // 特殊风格场景：创意/艺术/极简/波普等
   if (sceneType === 'special_style') {
     suggestions.push(pickRandom(SUGGESTION_POOL.special_style_specific))
+  }
+
+  // Round 2 新增：海岛沙滩场景建议触发
+  if (sceneType === 'island_beach') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.island_beach_tips))
+  }
+
+  // Round 2 新增：火车旅行场景建议触发
+  if (sceneType === 'train' || sceneType === 'train_journey') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.train_journey_tips))
+  }
+
+  // Round 2 新增：桥上/河边场景建议触发
+  if (sceneType === 'bridge_river' || sceneType === 'rooftop_night') {
+    if (suggestions.length < 6) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.bridge_river_tips))
+    }
+  }
+
+  // Round 2 新增：复古咖啡馆场景建议触发
+  if (sceneType === 'vintage_cafe' || sceneType === 'cafe') {
+    if (suggestions.length < 6) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.vintage_cafe_tips))
+    }
+  }
+
+  // Round 2 新增：天台派对扩展建议触发
+  if (sceneType === 'rooftop_party') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.rooftop_party_extended_tips))
+  }
+
+  // Round 2 新增：晨跑运动场景建议触发
+  if (sceneType === 'morning_run' || sceneType === 'outdoor') {
+    if (suggestions.length < 6 && Math.random() > 0.6) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.morning_run_tips))
+    }
+  }
+
+  // Round 2 新增：动物园/水族馆场景建议触发
+  if (sceneType === 'zoo' || sceneType === 'aquarium') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.zoo_aquarium_tips))
   }
 
   const uniquePraise = [...new Set(praise)]
