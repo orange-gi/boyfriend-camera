@@ -3002,6 +3002,75 @@ class VoiceCoach {
         await this.speakBookstoreTip(); break
       case 'morning_run':
         await this.speakMorningTip(); break
+      case 'ancient_town':
+      case 'old_town':
+        await this.speakBookstoreTip(); break
+      case 'market_stall':
+      case 'bridge_river':
+        await this.speakUrbanNightTip(); break
+      case 'chapel':
+        await this.speakChapelTip(); break
+      case 'graduation_outdoor':
+        await this.speakOutdoorTip(); break
+      case 'amusement_carnival':
+        await this.speakCarnivalTip(); break
+      case 'airport':
+      case 'airport_station':
+      case 'subway_escalator':
+        await this.speakSubwayDarkTip(); break
+      case 'sunset':
+        await this.speakBeachSunsetTip(); break
+      case 'overcast':
+        await this.speakOutdoorTip(); break
+      case 'island_beach':
+      case 'beach':
+        await this.speakBeachTip(); break
+      case 'vintage_cafe':
+      case 'cafe':
+        await this.speakCafeTip(); break
+      case 'train':
+      case 'train_journey':
+        await this.speakSubwayDarkTip(); break
+      case 'zoo':
+      case 'zoo_aquarium':
+        await this.speakAquariumTip(); break
+      case 'snow':
+      case 'ski_resort':
+        await this.speakSnowTip(); break
+      case 'hotspring':
+        await this.speakHotspringTip(); break
+      case 'red_autumn_detail':
+        await this.speakAutumnTip(); break
+      case 'meadow_ranch':
+        await this.speakOutdoorTip(); break
+      case 'neon_light':
+        await this.speakNeonLightTip(); break
+      case 'vintage_film':
+        await this.speakVintageFilmTip(); break
+      case 'graffiti':
+        await this.speakGraffitiTip(); break
+      case 'special_style':
+        await this.speakOutdoorTip(); break
+      case 'festival_lights':
+        await this.speakFestivalLightsTip(); break
+      case 'dance_performance':
+        await this.speakDancePerformanceTip(); break
+      case 'gym':
+        await this.speakGymTip(); break
+      case 'carnival':
+        await this.speakCarnivalTip(); break
+      case 'tent_camp':
+        await this.speakTentCampTip(); break
+      case 'supermarket':
+        await this.speakSupermarketTip(); break
+      case 'bakery':
+        await this.speakBakeryTip(); break
+      case 'greenhouse':
+        await this.speakSpringFlowersTip(); break
+      case 'carousel':
+        await this.speakCarnivalTip(); break
+      case 'bookstore':
+        await this.speakBookstoreTip(); break
       default:
         // 未知场景不播报，静默降级
         break
