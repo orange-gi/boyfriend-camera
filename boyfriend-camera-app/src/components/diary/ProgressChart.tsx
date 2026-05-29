@@ -151,6 +151,7 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
             color={color}
             animProgress={animProgress}
             index={i}
+            total={sorted.length}
           />
         )
       })}
@@ -176,6 +177,7 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
             isMax={isMax}
             animProgress={animProgress}
             index={i}
+            total={sorted.length}
           />
         )
       })}
@@ -223,18 +225,21 @@ export default function ProgressChart({ entries, height = 200 }: Props) {
 
 /** 动画线条段 */
 function AnimatedLine({
-  x1, y1, x2, y2, color, animProgress, index,
+  x1, y1, x2, y2, color, animProgress, index, total,
 }: {
   x1: number; y1: number; x2: number; y2: number
-  color: string; animProgress: Animated.Value; index: number
+  color: string; animProgress: Animated.Value; index: number; total: number
 }) {
   const dx = x2 - x1
   const dy = y2 - y1
   const len = Math.sqrt(dx * dx + dy * dy)
   const angle = Math.atan2(dy, dx) * (180 / Math.PI)
 
+  // 动态范围：确保每段在整个动画进度中都能完整展示
+  const startP = Math.max(0, (index - 1) / total)
+  const endP = Math.min(1, index / total)
   const opacity = animProgress.interpolate({
-    inputRange: [(index - 1) / 10, index / 10],
+    inputRange: [startP, endP],
     outputRange: [0, 1],
     extrapolate: 'clamp',
   })
@@ -258,13 +263,16 @@ function AnimatedLine({
 
 /** 动画数据点 */
 function AnimatedDot({
-  x, y, color, isMax, animProgress, index,
+  x, y, color, isMax, animProgress, index, total,
 }: {
   x: number; y: number; color: string; isMax: boolean
-  animProgress: Animated.Value; index: number
+  animProgress: Animated.Value; index: number; total: number
 }) {
+  // 动态范围：确保每个点在整个动画进度中都能完整展示
+  const startP = Math.max(0, index / total)
+  const endP = Math.min(1, (index + 1) / total)
   const scale = animProgress.interpolate({
-    inputRange: [index / 10, (index + 1) / 10],
+    inputRange: [startP, endP],
     outputRange: [0, 1],
     extrapolate: 'clamp',
   })
