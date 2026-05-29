@@ -1606,11 +1606,11 @@ class VoiceCoach {
 
 
   async speakFaceTooSmall(): Promise<void> {
-    await this.speak('人太小了！往前走两步，让脸大一点点，画面会更饱满～', true)
+    await this.speak(FACE_TIPS.TOO_SMALL, true)
   }
 
   async speakFaceTooLarge(): Promise<void> {
-    await this.speak('脸占画面太大了！稍微退后一点点，留点背景更好看～', true)
+    await this.speak(FACE_TIPS.TOO_LARGE, true)
   }
 
   /** 人脸偏中心提示 */
