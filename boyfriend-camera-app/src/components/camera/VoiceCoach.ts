@@ -3274,6 +3274,72 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 雨季/雨天场景 TTS */
+  async speakRainySceneTip(): Promise<void> {
+    const tips = [
+      '雨天的光线超柔和，皮肤看起来超细腻～',
+      '雨伞遮住半边脸，超有神秘感！',
+      '雨天室内窗边光线最均匀，拍一张试试～',
+      '雨后的倒影超有感觉，找水坑拍一张～',
+      '雨丝飘在脸上时按下快门，绝美～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 晨间光线 TTS */
+  async speakMorningLightTip(): Promise<void> {
+    const tips = [
+      '清晨阳光最温柔，皮肤看起来零瑕疵！',
+      '早安！趁着早上光线好赶紧拍几张～',
+      '早晨的光打在人脸上超通透，男朋友快拍！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 海岛度假场景 TTS */
+  async speakIslandTip(): Promise<void> {
+    const tips = [
+      '海岛阳光太强，正午顶光脸会太暗，找树荫下拍～',
+      '海边早上或傍晚光线最柔和，男朋友挑好时间！',
+      '海岛沙滩反光强，侧身站躲开阳光直射～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 镜子自拍场景 TTS */
+  async speakMirrorTip(): Promise<void> {
+    const tips = [
+      '浴室镜子光线超均匀，这角度绝了！',
+      '镜子侧身45度比正面更显瘦，试试看～',
+      '商场试衣间的镜子光线最好，顺手拍一张～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 摄影进阶技巧 TTS */
+  async speakPhotographyTip(): Promise<void> {
+    const tips = [
+      '打开九宫格网格，把人脸放在交叉点上，构图立刻变专业！',
+      '光线打在脸上时稍微侧身，立体感马上出来～',
+      '背景太乱就靠近一点，让人占画面更大，背景自然虚化～',
+      '拍逆光剪影超有感觉，让女朋友背对光源站～',
+      '三分法构图最稳，把主体放在画面三分之一处～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 情侣互动姿势 TTS */
+  async speakCouplePoseTip(): Promise<void> {
+    const tips = [
+      '两人靠近贴贴，额头碰额头，超甜！',
+      '背对镜头牵手，男友从背后揽住你的腰～',
+      '两人对视笑一个，连拍抓拍最自然的瞬间～',
+      '假装亲一下侧脸，这个角度绝了～',
+      '两人手牵手站好，一起看镜头，甜蜜满分！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
