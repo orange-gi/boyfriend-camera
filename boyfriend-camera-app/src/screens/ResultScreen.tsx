@@ -549,6 +549,8 @@ export default function ResultScreen() {
 
       // 日记写入确认 + 连续好评播报
       try { VoiceCoach.speakDiaryWritten(analysis.totalScore) } catch {}
+      // 场景完成鼓励（新 TTS 方法）
+      track(() => { try { VoiceCoach.speakSceneComplete() } catch {} }, 600)
       if (streakCount >= 3) {
         track(() => { try { VoiceCoach.speakStreak(streakCount) } catch {} }, 1200)
       }

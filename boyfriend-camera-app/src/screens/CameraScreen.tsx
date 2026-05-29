@@ -162,6 +162,7 @@ export default function CameraScreen() {
     setActiveTemplate(template)
     VoiceCoach.speakTemplateSelected(template.name)
     VoiceCoach.speakTemplateStandBy()
+    VoiceCoach.speakTemplateGuide()
     if (template.voiceTip) {
       const t1 = setTimeout(() => VoiceCoach.speakTemplateTip(template.voiceTip), 2800)
       autoRecTimeoutRef.current.push(t1)
@@ -564,6 +565,8 @@ export default function CameraScreen() {
     if (isSwitch) VoiceCoach.speakTemplateChanged()
     // 模板选中确认语
     VoiceCoach.speakTemplateSelected(template.name)
+    VoiceCoach.speakTemplateGuide()
+    VoiceCoach.speakMoodTip()
     // 随后朗读具体动作指导（tracked timeout，组件卸载时清理）
     if (template.voiceTip) {
       if (templateVoiceTimeoutRef.current) clearTimeout(templateVoiceTimeoutRef.current)

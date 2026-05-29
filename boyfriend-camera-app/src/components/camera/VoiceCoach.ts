@@ -3063,6 +3063,43 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 模板引导提示（新用户第一次使用模板时） */
+  async speakTemplateGuide(): Promise<void> {
+    const tips = [
+      '半透明剪影就是参考姿势！跟着轮廓站好，就能拍出专业感～',
+      '这个姿势模板可以帮助男朋友找到最佳角度，跟着剪影调整站位吧～',
+      '姿势模板是拍照指南！参照半透明轮廓站好，效果会让你惊喜的～',
+      '屏幕上出现了姿势参考！照着虚线轮廓站，马上就能拍出大片感～',
+      '姿势模板就是男朋友的拍照秘籍！跟着做，分数蹭蹭上涨～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 情绪引导提示（拍摄前鼓励放松） */
+  async speakMoodTip(): Promise<void> {
+    const tips = [
+      '深呼吸～放松肩膀，嘴角自然上扬就最好看～',
+      '想一件让你开心的事！这个表情最生动～',
+      '肩膀沉下去，脸部肌肉放松，这个状态最上镜～',
+      '笑一个吧！自然的笑容比什么都好看～',
+      '想象面前有只可爱的小猫，眼神都亮了～',
+      '深呼吸，憋住气，按下快门的那一刻最自然～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 场景完成鼓励（成功拍摄一张场景照后） */
+  async speakSceneComplete(): Promise<void> {
+    const tips = [
+      '这张拍出感觉了！男朋友继续加油，下一张会更好～',
+      '这个场景光线拿捏得刚好，继续保持这个状态！',
+      '姿势越来越有感觉了！男朋友悟性很强嘛～',
+      '拍出大片感了！今天的照片都可以发朋友圈了～',
+      '男朋友这构图很有进步！继续保持这个感觉～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
