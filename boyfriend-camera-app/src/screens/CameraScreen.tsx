@@ -894,7 +894,6 @@ export default function CameraScreen() {
                   <TouchableOpacity
                     key={cat}
                     style={[
-                      styles.categoryTab,
                       isSelected && { opacity: 1 },
                       !isSelected && { opacity: 0.55 },
                     ]}
@@ -1292,13 +1291,6 @@ const styles = StyleSheet.create({
     gap: 4,
     flexDirection: 'row',
   },
-  // categoryTabActive：内联样式 { borderBottomWidth: 2, borderBottomColor: color }
-  // 设计理由：分类标签文字较小，仅靠字重+颜色区分选中态不够直观
-  // categoryTab：无背景文字标签，靠字重+颜色区分选中态
-  // 设计理由：去掉 paddingHorizontal/paddingVertical/marginHorizontal — 文字本身承载信息，
-  // 无背景色时边距不产生视觉作用，仅增加标签区域的无效点击目标
-  categoryTab: {},
-
 
   categoryTabText: {
     fontSize: 14,
