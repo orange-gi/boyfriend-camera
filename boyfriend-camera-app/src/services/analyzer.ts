@@ -3972,6 +3972,31 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '动物园光线取决于天气，阳光充足时脸部光线最均匀～',
     '用手机屏幕补光！在暗处用手机屏幕照亮女友脸部，超有效的～',
   ],
+  // Round 1 新增：春花季专项建议（樱花/桃花/油菜花通用）
+  spring_flowers_tips: [
+    '花季光线超柔和！站在花丛前侧身微笑，皮肤通透～',
+    '樱花树下拍侧脸最有感觉！光影斑驳超浪漫～',
+    '花季人多背景杂，开大光圈虚化人群更干净～',
+    '花瓣当道具，捧着脸笑超有春日感～',
+    '樱花树下的侧逆光超美！稍微过曝一点点也好看～',
+    '花季光线最温柔，正面或侧光都能拍出好效果～',
+    '找个花少的地方让人站，画面会更干净主体更突出～',
+  ],
+  // Round 1 新增：逆光发丝光专项建议
+  backlit_hair_light_tips: [
+    '逆光发丝光超美！让阳光从身后打过来，头发会发光～',
+    '侧逆光拍人像最温柔！光影勾勒轮廓超有氛围～',
+    '发丝光需要逆光，让女友背对光源站～',
+    '逆光时脸会变黑，开闪光灯补光或侧身躲开～',
+  ],
+  // Round 1 新增：玻璃反光专项建议（橱窗/车窗/眼镜反光）
+  glass_reflection_tips: [
+    '玻璃反光有点强！稍微侧身躲开反光～',
+    '眼镜反光了，稍微侧一下头躲开反光～',
+    '车窗玻璃会反光，找个角度让光不在脸上～',
+    '商场橱窗玻璃会反光，稍微侧身躲开～',
+    '手机屏幕补光时别对着玻璃，会产生反光～',
+  ],
 }
 
 // pickRandom 已迁移到 ../utils/scoring.ts
@@ -5729,6 +5754,17 @@ export async function analyzePhoto(
   // Round 2 新增：动物园/水族馆场景建议触发
   if (sceneType === 'zoo' || sceneType === 'aquarium') {
     suggestions.push(pickRandom(SUGGESTION_POOL.zoo_aquarium_tips))
+  }
+
+  // Round 1 新增：春花季场景（樱花/桃花/油菜花）
+  if (sceneType === 'cherry_blossom') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.spring_flowers_tips))
+    suggestions.push(pickRandom(SUGGESTION_POOL.cherry_blossom_tips))
+  }
+
+  // Round 1 新增：逆光发丝光专项检测（背景亮+脸部曝光正常=可能是逆光发丝光）
+  if (safeBrightness > 150 && faceCount > 0 && exposureScore >= 18 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.backlit_hair_light_tips))
   }
 
   const uniquePraise = [...new Set(praise)]
