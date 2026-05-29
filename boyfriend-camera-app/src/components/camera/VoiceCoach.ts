@@ -2972,8 +2972,6 @@ class VoiceCoach {
         await this.speakGraffitiTip(); break
       case 'aquarium':
         await this.speakAquariumTip(); break
-      case 'bookstore':
-        await this.speakBookstoreTip(); break
       case 'festival_lights':
         await this.speakFestivalLightsTip(); break
       case 'dance_performance':
