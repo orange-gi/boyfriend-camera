@@ -4013,6 +4013,7 @@ export type SceneType =
   | 'airport_station' | 'meadow_ranch' | 'subway_escalator'
   | 'sunset' | 'overcast' | 'hotspring' | 'vintage_film' | 'neon_light' | 'airport'
   | 'special_style' | 'island_beach' | 'bridge_river' | 'vintage_cafe' | 'train_journey' | 'zoo_aquarium'
+  | 'spring' | 'autumn' | 'winter' | 'street' | 'couple' | 'backlight' | 'low_light' | 'harsh_sunlight' | 'foggy'
 
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */
