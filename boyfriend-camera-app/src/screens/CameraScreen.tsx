@@ -1308,19 +1308,19 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   templateList: {
-    padding: 12,
+    padding: 8,
   },
   templateRow: {
-    gap: 10,
-    marginBottom: 10,
+    gap: 8,
+    marginBottom: 8,
   },
-  // 设计理由：padding: 8（原来是 10）— 收紧内容到缩略图的间距，模板缩略图本身是
-  // 最核心的信息载体，边距缩小让卡片更"满"，视觉更聚焦；配合 templateThumb 110px 保持比例
+  // 设计理由：padding: 6 — 收紧内容到缩略图的间距，模板缩略图本身是
+  // 最核心的信息载体，边距缩小让卡片更"满"，视觉更聚焦；配合 templateThumb 100px 保持比例
   templateCard: {
     flex: 1,
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
-    padding: 8,
+    padding: 6,
     alignItems: 'center',
     overflow: 'hidden',
   },
@@ -1331,7 +1331,7 @@ const styles = StyleSheet.create({
   },
   templateThumb: {
     width: SCREEN_W / 2 - 60,
-    height: 110,
+    height: 100,
     borderRadius: 10,
   },
   templateName: {
@@ -1430,15 +1430,15 @@ const styles = StyleSheet.create({
   previewCard: {
     backgroundColor: COLORS.bgCard,
     borderRadius: 16,
-    padding: 20,
+    padding: 16,
     width: '100%',
     maxWidth: 320,
     alignItems: 'center',
   },
   previewImage: {
     width: 160,
-    height: 220,
-    marginBottom: 18,
+    height: 200,
+    marginBottom: 14,
   },
   previewName: {
     fontSize: 20,

@@ -1045,22 +1045,22 @@ const styles = StyleSheet.create({
   },
   filterPicker: {
     marginHorizontal: 20,
-    marginTop: 8,
+    marginTop: 4,
   },
   filterPickerList: {
     flexDirection: 'row',
     paddingRight: 16,
-    paddingVertical: 10,
+    paddingVertical: 6,
   },
   filterItem: {
     alignItems: 'center',
-    marginHorizontal: 6,
+    marginHorizontal: 5,
   },
-  // 滤镜色块：40px 直径，简洁克制，克制不用阴影
+  // 滤镜色块：36px 直径，简洁克制，克制不用阴影
   filterCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1089,7 +1089,7 @@ const styles = StyleSheet.create({
   // praiseBanner 分数文字合并为单行内联样式，靠 Text 组件内嵌控制颜色层级
   praiseBanner: {
     marginHorizontal: 20,
-    marginTop: 12,
+    marginTop: 8,
     marginBottom: 6,
   },
   praiseBannerScore: {
@@ -1148,7 +1148,7 @@ const styles = StyleSheet.create({
     // 无障碍：文字链接至少 44px 高
     minHeight: 44,
     // 上方留白分隔，避免 border-top 装饰线
-    marginTop: 20,
+    marginTop: 12,
   },
   diaryEntryBtnText: {
     fontSize: 14,
