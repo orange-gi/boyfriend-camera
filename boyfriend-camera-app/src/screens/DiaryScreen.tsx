@@ -250,9 +250,14 @@ export default function DiaryScreen() {
           )}
 
           {item.suggestions.length > 0 && (
-            <Text style={styles.recordTip} numberOfLines={2}>
-              {item.suggestions[0]}
-            </Text>
+            <View style={styles.recordTipRow}>
+              <Text style={styles.recordTip} numberOfLines={1}>
+                {item.suggestions[0]}
+              </Text>
+              {item.suggestions.length > 1 && (
+                <Text style={styles.suggestionCountBadge}>+{item.suggestions.length - 1}</Text>
+              )}
+            </View>
           )}
 
         </View>
@@ -615,11 +620,25 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: COLORS.primary,
   },
+  // 简洁优雅：recordTip 改为单行显示，超出省略号；多建议时用数字徽章提示，保持卡片整洁
+  recordTipRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 6,
+    gap: 6,
+  },
   recordTip: {
+    flex: 1,
     fontSize: 13,
     color: COLORS.textMuted,
-    marginTop: 8,
-    lineHeight: 20,
+    lineHeight: 18,
+  },
+  // 简洁优雅：建议数量徽章，仅颜色承载层级，无背景色块
+  suggestionCountBadge: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: COLORS.primary,
+    flexShrink: 0,
   },
   faceCount: {
     fontSize: 12,
