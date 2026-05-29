@@ -303,7 +303,6 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   // 简洁优雅：进步标签，无背景色，仅靠文字颜色传达方向
   progressTag: { fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, marginTop: 2 },
-  statDivider: { width: 0.5, height: 36, backgroundColor: COLORS.divider, marginHorizontal: spacing[2] },
   trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[4], paddingTop: spacing[4], gap: spacing[2] },
   trendLabel: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.medium, flexShrink: 0 },
   trendScore: { fontSize: typography.fontSize.lg, fontWeight: typography.fontWeight.bold, color: COLORS.textMuted, flexShrink: 0 },
