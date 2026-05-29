@@ -3090,6 +3090,17 @@ class VoiceCoach {
   }
 
   /** 场景完成鼓励（成功拍摄一张场景照后） */
+  async speakZooTip(): Promise<void> {
+    const tips = [
+      '动物园光线比较复杂，找个有窗光的区域拍，光线会更柔和～',
+      '动物园背景人比较多，开人像模式虚化背景，主体超突出！',
+      '动物和主人互动时抓拍！这个瞬间最自然～',
+      '动物园户外光线好，避开正午顶光，早晚拍摄效果更佳～',
+      '和小动物互动时让男朋友低角度拍，画面超有感觉！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   async speakSceneComplete(): Promise<void> {
     const tips = [
       '这张拍出感觉了！男朋友继续加油，下一张会更好～',
