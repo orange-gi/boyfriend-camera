@@ -2908,6 +2908,30 @@ class VoiceCoach {
         await this.speakSnowTip(); break
       case 'hotspring':
         await this.speakHotspringTip(); break
+      case 'cherry_blossom':
+        await this.speakSpringTip(); break
+      case 'ski_resort':
+        await this.speakSnowTip(); break
+      case 'train':
+        await this.speakSubwayDarkTip(); break
+      case 'zoo':
+        await this.speakGymTip(); break
+      case 'lighthouse':
+        await this.speakBeachTip(); break
+      case 'farm':
+        await this.speakOutdoorTip(); break
+      case 'greenhouse':
+        await this.speakOutdoorTip(); break
+      case 'tent_camp':
+        await this.speakTentCampTip(); break
+      case 'supermarket':
+        await this.speakSupermarketTip(); break
+      case 'bakery':
+        await this.speakBakeryTip(); break
+      case 'carousel':
+        await this.speakCarnivalTip(); break
+      case 'old_town':
+        await this.speakBookstoreTip(); break
       case 'gym':
         await this.speakGymTip(); break
       case 'rainy':
