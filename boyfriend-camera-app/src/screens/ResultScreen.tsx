@@ -837,6 +837,34 @@ export default function ResultScreen() {
           </View>
         )}
 
+        {/* 分数维度分解 — 简洁优雅：4条细横条承载构图/光线/表情/稳定四维分数
+            设计理由：总分只是一个数字，四维分解让用户知道进步方向
+            无边框/无背景色/无阴影 — 条本身用文字颜色深浅区分活跃度
+        */}
+        {!processing && scoreResult && (
+          <View style={styles.scoreBreakdown}>
+            {[
+              { label: '构图', score: scoreResult.compositionScore, max: 40 },
+              { label: '光线', score: scoreResult.exposureScore, max: 30 },
+              { label: '表情', score: scoreResult.expressionScore, max: 20 },
+              { label: '稳定', score: scoreResult.stabilityScore, max: 20 },
+            ].map(({ label, score, max }) => (
+              <View key={label} style={styles.scoreBreakdownRow}>
+                <Text style={styles.scoreBreakdownLabel}>{label}</Text>
+                <View style={styles.scoreBreakdownTrack}>
+                  <View
+                    style={[
+                      styles.scoreBreakdownFill,
+                      { width: `${Math.round((score / max) * 100)}%` },
+                    ]}
+                  />
+                </View>
+                <Text style={styles.scoreBreakdownNum}>{score}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+
         {/* 滤镜选择器 */}
         {!processing && (
           <View style={styles.filterPicker}>
@@ -1074,6 +1102,41 @@ const styles = StyleSheet.create({
   praiseBannerScore: {
     fontSize: 17,
     lineHeight: 24,
+  },
+  // 分数维度分解 — 简洁优雅极致：4条极细横条，文字色彩承载信息
+  scoreBreakdown: {
+    marginHorizontal: 20,
+    marginTop: 4,
+    marginBottom: 8,
+  },
+  scoreBreakdownRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+    gap: 8,
+  },
+  scoreBreakdownLabel: {
+    fontSize: 11,
+    color: COLORS.textMuted,
+    width: 28,
+  },
+  scoreBreakdownTrack: {
+    flex: 1,
+    height: 3,
+    backgroundColor: COLORS.divider,
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  scoreBreakdownFill: {
+    height: '100%',
+    backgroundColor: COLORS.textSecondary,
+    borderRadius: 2,
+  },
+  scoreBreakdownNum: {
+    fontSize: 11,
+    color: COLORS.textSecondary,
+    width: 20,
+    textAlign: 'right',
   },
   viewShot: {
     alignItems: 'center',
