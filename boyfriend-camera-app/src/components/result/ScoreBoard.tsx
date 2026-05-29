@@ -227,21 +227,20 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: COLORS.textMuted,
   },
-  // 建议区
+  // 建议区 — 简化层级：去掉 suggestBubble 独立背景色，融入卡片底色
+  // 主建议靠左对齐文字色区分，后续建议降一级灰度
   suggestCard: {
     backgroundColor: COLORS.bgCard,
     borderRadius: 12,
     padding: 16,
   },
   suggestBubble: {
-    backgroundColor: COLORS.primaryLight,
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    // 去掉背景色：主建议靠文字字重（bold）+ 字号（14）承载层级，视觉更轻盈
     marginBottom: 12,
   },
   suggestBubbleText: {
     fontSize: 14,
+    fontWeight: '700',
     color: COLORS.textPrimary,
     lineHeight: 22,
   },
