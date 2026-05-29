@@ -895,7 +895,8 @@ export default function CameraScreen() {
                     key={cat}
                     style={[
                       styles.categoryTab,
-                      isSelected && { borderBottomWidth: 2, borderBottomColor: color },
+                      isSelected && { opacity: 1 },
+                      !isSelected && { opacity: 0.55 },
                     ]}
                     onPress={() => {
                       if (selectedCategory !== cat) {
@@ -1174,6 +1175,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     zIndex: 20,
+    // 简洁优雅极致：半透明深色背景确保白字在相机预览（复杂背景）上始终可读
+    backgroundColor: 'rgba(0,0,0,0.42)',
+    borderRadius: 8,
   },
   poseTipText: {
     flex: 1,
@@ -1292,8 +1296,9 @@ const styles = StyleSheet.create({
   // borderRadius 移除：非选中标签无背景，borderRadius 不产生视觉作用
   categoryTab: {
     paddingHorizontal: 14,
-    paddingVertical: 4,
+    paddingVertical: 6,
     marginHorizontal: 2,
+    // 简洁优雅：去掉所有边框装饰，靠字重+颜色区分选中态，最小化视觉噪音
   },
 
   categoryTabText: {

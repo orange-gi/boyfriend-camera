@@ -173,7 +173,6 @@ export default function HomeScreen() {
           <View style={styles.statsRow}>
             {[{label:'已拍摄'},{label:'平均分'},{label:'姿势模板'}].map(({label}, i) => (
               <React.Fragment key={i}>
-                {i > 0 && <View style={styles.statDivider} />}
                 <View style={styles.statItem}>
                   <Text style={styles.skeletonNum}>—</Text>
                   <Text style={styles.statLabel}>{label}</Text>
@@ -189,7 +188,6 @@ export default function HomeScreen() {
               <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{diaryCount}</Text>
               <Text style={styles.statLabel}>已拍摄</Text>
             </View>
-            <View style={styles.statDivider} />
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: avgScoreColor }]}>{avgScore}</Text>
               <Text style={styles.statLabel}>平均分</Text>
@@ -202,7 +200,6 @@ export default function HomeScreen() {
                 </Text>
               )}
             </View>
-            <View style={styles.statDivider} />
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: COLORS.textMuted, fontSize: 28, lineHeight: 36 }]}>{totalTemplates}</Text>
               <Text style={[styles.statLabel, { color: COLORS.textMuted }]}>姿势模板</Text>
@@ -297,8 +294,10 @@ const styles = StyleSheet.create({
   },
   // statsCard: 无背景色（透明融入父容器 bg），无 borderRadius — 简洁克制的内嵌统计卡
   statsCard: { padding: spacing[5], marginBottom: spacing[6] },
-  statsRow: { flexDirection: 'row', alignItems: 'center' },
-  statItem: { flex: 1, alignItems: 'center' },
+  // 简洁优雅：去掉 statDivider — 三个指标靠间距和字重自然分隔，无需装饰性竖线
+  statsRow: { flexDirection: 'row', alignItems: 'stretch' },
+  // 简洁优雅：statItem 无需额外 border/padding，去掉所有装饰性样式
+  statItem: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   skeletonNum: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48, color: COLORS.divider, marginBottom: 4, textAlign: 'center' },
   statNumber: { fontSize: typography.fontSize['5xl'], fontWeight: typography.fontWeight.bold, lineHeight: 48 },
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
@@ -311,8 +310,8 @@ const styles = StyleSheet.create({
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[6] },
   cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
   cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5, color: COLORS.textOnPrimary },
-  // 简洁优雅：去掉背景色 — 新标签本身承载信息，无需装饰性背景
-  newBadge: { borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2 },
+  // 简洁优雅：白底半透明背景，确保「新」字在 primary 按钮上清晰可见
+  newBadge: { borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2, backgroundColor: 'rgba(255,255,255,0.18)' },
   newBadgeText: { color: COLORS.textOnPrimary, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold },
   cameraBtnSub: { marginTop: spacing[3] },
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
