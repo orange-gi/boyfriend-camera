@@ -5622,6 +5622,29 @@ export async function getDiary(): Promise<DiaryRecord[]> {
   }
 }
 
+/**
+ * 根据总分返回对应的颜色值（0-100）
+ * 用于 UI 展示时快速获取语义化颜色
+ */
+export function getScoreColor(score: number): string {
+  if (score >= 90) return '#22c55e' // 绿色 — 优秀
+  if (score >= 75) return '#3b82f6' // 蓝色 — 良好
+  if (score >= 60) return '#f59e0b' // 黄色/橙色 — 及格
+  if (score >= 40) return '#f97316' // 橙色 — 需改进
+  return '#ef4444' // 红色 — 需努力
+}
+
+/**
+ * 根据总分返回对应的文字标签
+ */
+export function getScoreLabel(score: number): string {
+  if (score >= 90) return '优秀'
+  if (score >= 75) return '良好'
+  if (score >= 60) return '及格'
+  if (score >= 40) return '需改进'
+  return '需努力'
+}
+
 /** 表情检测数据结构（用于 VoiceCoach 提示） */
 export interface EmotionDetection {
   smiling?: number // 0-1 概率
