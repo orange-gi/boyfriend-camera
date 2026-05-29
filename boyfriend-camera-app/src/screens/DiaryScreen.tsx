@@ -465,14 +465,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   listContent: {
-    paddingTop: 20,
-    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingHorizontal: 16,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   title: {
     fontSize: 30,
@@ -509,7 +509,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   statItem: {
     alignItems: 'center',
@@ -555,16 +555,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
-    padding: 12,
+    padding: 10,
     marginBottom: 8,
-    gap: 12,
+    gap: 10,
   },
   scoreBadge: {
-    width: 56,
+    width: 52,
     alignItems: 'flex-start',
     justifyContent: 'center',
     flexShrink: 0,
-    paddingVertical: 4,
   },
   scoreRow: {
     flexDirection: 'row',
@@ -601,8 +600,6 @@ const styles = StyleSheet.create({
   templateCategoryBadge: {
     fontSize: 11,
     color: COLORS.textMuted,
-    paddingHorizontal: 4,
-    maxWidth: 80,
   },
   recordDate: {
     fontSize: 14,
@@ -697,7 +694,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignItems: 'center',
   },
-  sheetCancelBtn: {},
+  sheetCancelBtn: { backgroundColor: 'transparent' },
   sheetCancelBtnText: {
     fontSize: 16,
     fontWeight: '600',

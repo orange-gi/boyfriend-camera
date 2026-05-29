@@ -1115,7 +1115,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRadius: borderRadius['2xl'],
-    backgroundColor: 'transparent',
   },
   actionBtnSecondaryText: {
     fontSize: 14,
@@ -1212,8 +1211,6 @@ const styles = StyleSheet.create({
   // 无障碍：确保触摸目标 ≥ 44px
   errorSecondaryBtn: {
     backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: COLORS.danger,
     paddingVertical: 11,
     minHeight: 44,
     paddingHorizontal: 20,
