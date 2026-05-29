@@ -140,7 +140,7 @@ export default function HomeScreen() {
   const totalTemplates = templates.length
   const avgScoreColor = scoreColor(avgScore)
 
-  // 每日提示卡
+  // 每日提示卡 — 引导文案用 textSecondary（非 muted）确保可读性，层级清晰
   const dailyTipCard = !tipDismissed ? (
     <Animated.View style={[styles.dailyTipCard, heroStyle]}>
       <TouchableOpacity onPress={dismissTip} activeOpacity={0.85} style={{ flex: 1 }} accessibilityRole="button" accessibilityLabel="关闭每日提示" accessibilityHint="单击关闭每日拍照提示">
@@ -149,16 +149,13 @@ export default function HomeScreen() {
     </Animated.View>
   ) : null
 
-  // 简洁优雅：趋势行仅保留数字和方向，删除冗余进度条
+  // 趋势行 — 简洁克制冷静设计：去掉 trendScore 冗余的 avgScore 显示（已有 statsRow 承载），trendRow 仅展示方向标签
   const trendRowEl = useMemo(() => {
-    // 趋势需要至少 4 条数据（前后期各 2 条）才有意义；少于 4 条时隐藏趋势指标
     if (diaryCount < 4 || avgScore <= 0) return null
     const tc = trend === 'up' ? COLORS.success : trend === 'down' ? COLORS.danger : COLORS.textMuted
     const tl = trend === 'up' ? '↑ 进步中' : trend === 'down' ? '↓ 下滑' : '→ 稳定'
-    const lc = avgScore >= 80 ? COLORS.success : avgScore >= 60 ? COLORS.warning : COLORS.primary
     return (
       <View style={styles.trendRow}>
-        <Text style={[styles.trendScore, { color: lc }]}>{avgScore}</Text>
         <Text style={[styles.trendLabel, { color: tc }]}>{tl}</Text>
       </View>
     )
@@ -183,6 +180,7 @@ export default function HomeScreen() {
         </View>
       ) : diaryCount > 0 ? (
         <Animated.View style={[styles.statsCard, statsStyle]}>
+          {/* statsCard 加 bgCard 背景 — 与 ResultScreen 的 totalCard/dimsCard 保持视觉一致，有"锚点"感 */}
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{diaryCount}</Text>
@@ -241,10 +239,27 @@ export default function HomeScreen() {
       )}
 
       <Animated.View style={[styles.bottomNav, featuresStyle]}>
-        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })} activeOpacity={0.72} accessibilityRole="button" accessibilityLabel="进步日记" accessibilityHint="查看历史拍照记录和进步轨迹">
-          <Text style={styles.bottomNavText}>进步日记</Text>
+        {/* 底部导航：diaryBtn 和 cameraBtn 各占 50%，当前屏幕对应的按钮用 primary 色高亮 */}
+        <TouchableOpacity
+          style={[styles.bottomNavBtn, styles.bottomNavBtnHalf]}
+          onPress={() => navigation.navigate({ name: 'Diary' as const, params: undefined })}
+          activeOpacity={0.72}
+          accessibilityRole="button"
+          accessibilityLabel="进步日记"
+          accessibilityHint="查看历史拍照记录和进步轨迹"
+        >
+          <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>进步日记</Text>
+          {/* 活跃指示线：简洁克制的 active 状态视觉提示 */}
+          <View style={[styles.bottomNavIndicator, { backgroundColor: COLORS.primary }]} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavBtn} onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })} activeOpacity={0.72} accessibilityRole="button" accessibilityLabel="拍照" accessibilityHint="开始拍照">
+        <TouchableOpacity
+          style={[styles.bottomNavBtn, styles.bottomNavBtnHalf]}
+          onPress={() => navigation.navigate({ name: 'Camera' as const, params: {} })}
+          activeOpacity={0.72}
+          accessibilityRole="button"
+          accessibilityLabel="拍照"
+          accessibilityHint="开始拍照"
+        >
           <Text style={styles.bottomNavText}>拍照</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -286,14 +301,14 @@ const styles = StyleSheet.create({
     marginBottom: spacing[4],
     paddingVertical: spacing[2],
   },
-  dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textMuted, lineHeight: 22 },
+  dailyTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
   // 新用户姿势提示卡：去装饰化
   poseTipCard: {
     marginBottom: spacing[5],
     paddingVertical: spacing[2],
   },
   // statsCard: 无背景色（透明融入父容器 bg），无 borderRadius — 简洁克制的内嵌统计卡
-  statsCard: { padding: spacing[5], marginBottom: spacing[6] },
+  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
   // 简洁优雅：去掉 statDivider — 三个指标靠间距和字重自然分隔，无需装饰性竖线
   statsRow: { flexDirection: 'row', alignItems: 'stretch' },
   // 简洁优雅：statItem 无需额外 border/padding，去掉所有装饰性样式
@@ -303,11 +318,10 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: 2, fontWeight: typography.fontWeight.medium },
   // 简洁优雅：进步标签，无背景色，仅靠文字颜色传达方向
   progressTag: { fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, marginTop: 2 },
-  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[4], paddingTop: spacing[4], gap: spacing[2] },
-  trendLabel: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.medium, flexShrink: 0 },
-  trendScore: { fontSize: typography.fontSize.lg, fontWeight: typography.fontWeight.bold, color: COLORS.textMuted, flexShrink: 0 },
+  trendRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing[4], paddingTop: spacing[4] },
+  trendLabel: { fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold },
   cameraBtnWrapper: { alignItems: 'center', marginBottom: spacing[6] },
-  cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.full, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
+  cameraBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: borderRadius.xl, paddingVertical: 20, paddingHorizontal: 56, gap: spacing[2], backgroundColor: COLORS.primary },
   cameraBtnText: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, letterSpacing: 0.5, color: COLORS.textOnPrimary },
   // 简洁优雅：白底半透明背景，确保「新」字在 primary 按钮上清晰可见
   newBadge: { borderRadius: borderRadius.full, paddingHorizontal: spacing[2], paddingVertical: 2, backgroundColor: 'rgba(255,255,255,0.18)' },
@@ -316,9 +330,12 @@ const styles = StyleSheet.create({
   cameraBtnSubText: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, textAlign: 'center' },
   todayCountBadge: { fontSize: typography.fontSize.sm, color: COLORS.textMuted, marginTop: spacing[2], textAlign: 'center' },
   poseTipText: { fontSize: typography.fontSize.md, color: COLORS.textSecondary, lineHeight: 22 },
-  bottomNav: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  bottomNav: { flexDirection: 'row', alignItems: 'stretch', backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, overflow: 'hidden' },
   bottomNavBtn: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 14 },
+  bottomNavBtnHalf: { flex: 1 },
   bottomNavText: { fontSize: typography.fontSize.md, color: COLORS.textMuted, fontWeight: typography.fontWeight.medium },
+  bottomNavTextActive: { color: COLORS.primary },
+  bottomNavIndicator: { position: 'absolute', bottom: 0, left: '25%', right: '25%', height: 2, borderRadius: 1 },
   onboardOverlay: { flex: 1, backgroundColor: COLORS.blackAlpha50, justifyContent: 'center', alignItems: 'center', padding: 24 },
   // 白色卡片衬底：半透明遮罩下必须有白色背景才能区分层级，简洁优雅不等于无背景
   onboardCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius['2xl'], padding: 24, maxWidth: 340, width: '100%', alignItems: 'center' },
