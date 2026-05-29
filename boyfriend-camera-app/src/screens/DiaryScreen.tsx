@@ -550,7 +550,7 @@ const styles = StyleSheet.create({
   chartContainer: {
     marginTop: 20,
   },
-  // recordCard：白底灰边日记记录卡片，borderRadius 统一 XL 级别
+  // recordCard：无边框日记卡片，靠 bgCard(#FFF) 与 bg(#FAFAFA) 的微弱色差区分层次
   recordCard: {
     flexDirection: 'row',
     backgroundColor: COLORS.bgCard,
