@@ -543,8 +543,6 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 表情动作提示（随机抽取） */
-  /** 随机姿势提示（不指定类型，随机引导） */
   async speakRandomPoseTip(): Promise<void> {
     const tips = [
       FACE_TIPS.BIGGER_SMILE,
@@ -601,11 +599,8 @@ class VoiceCoach {
     }
   }
 
-  /** 拍摄模式提示（人像/HDR/全景/专业/连拍） */
 
-  /** 推荐拍照模式（根据场景自动推荐最佳模式） */
 
-  /** 快速姿势提示（从常用姿势中随机抽取） */
   async speakQuickPoseTip(): Promise<void> {
     const pool = [
       FACE_TIPS.TRY_SIDE_FACE,
@@ -628,9 +623,7 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(pool), true)
   }
-  /** 推荐下一步动作（拍照后） */
 
-  /** 表情分析提示（基于 MLKit 检测结果） */
   async speakExpressionTip(params: EmotionDetection): Promise<void> {
     const { smiling, leftEyeOpen, rightEyeOpen, yawAngle, rollAngle, sharpness, mouthOpen } = params
 
@@ -1112,9 +1105,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 存储空间不足时提示 */
 
-  /** 日记删除确认提示 */
   async speakDiaryDeleted(): Promise<void> {
     const tips = [
       '删除成功！这张照片的记录已经从日记里移除了～',
@@ -1125,9 +1116,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 照片分享成功提示 */
 
-  /** 闭眼检测提示（MLKit 返回闭眼时调用） */
   async speakBlinkTip(): Promise<void> {
     const tips = [
       FACE_TIPS.BLINK_DETECTED,
@@ -1137,13 +1126,9 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
-  /** 人脸距离提示（faceArea 超出范围时调用） */
 
-  /** 逆光场景提示（检测到强背光时调用） */
 
-  /** 成功抓拍倒计时（3-2-1-拍！） */
 
-  /** 表情僵硬提示 */
   async speakStiffExpressionTip(): Promise<void> {
     const tips = [
       FACE_TIPS.EXPRESSION_STIFF,
@@ -1250,9 +1235,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
-  /** 姿势匹配提示 — 模板匹配度高时鼓励拍摄 */
 
-  /** 画面过满提示（与 crowdedPlaceTip 互补，更多场景） */
   async speakTooFullTip(): Promise<void> {
     const tips = [
       '画面有点挤，退后一点让背景多一点～',
@@ -1272,11 +1255,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
-  /** 背景太暗提示 */
 
-  /** 建议换个角度 */
 
-  /** 相册保存成功提示 */
   async speakSavedToAlbum(): Promise<void> {
     await this.speak(FACE_TIPS.SAVED_TO_ALBUM, true)
   }
@@ -1296,15 +1276,10 @@ class VoiceCoach {
     await this.speak(pickRandom(tips))
   }
 
-  /** 脸在移动提示 */
 
-  /** 脸部分出镜提示 */
 
-  /** 低角度提示 */
 
-  /** 高角度提示 */
 
-  /** 人脸检测到确认 + 引导拍照 */
   async speakFaceFoundReady(): Promise<void> {
     await this.speak(FACE_TIPS.FACE_FOUND_CONFIRM, false)
   }
@@ -1346,9 +1321,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 鼓励语播报 */
 
-  /** 接近优秀（70-89分）时的语音提示 */
   async speakAlmostGreat(score: number): Promise<void> {
     const tips = [
       `${score}分！差一点就完美了！男朋友继续加油！`,
@@ -1358,11 +1331,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 重新再拍的建议（低于50分） */
 
-  /** 情侣合照专属鼓励 */
 
-  /** 新纪录达成提示 */
   async speakNewRecord(previousScore: number, newScore: number): Promise<void> {
     const tips = [
       `新纪录达成！从${previousScore}分到${newScore}分，太厉害了！`,
@@ -1438,25 +1408,15 @@ class VoiceCoach {
     }
   }
 
-  /** 姿势动作提示（引导摆姿势） */
 
-  /** 组合动作提示（引导组合多个动作） */
 
-  /** 强烈日光建议提示 */
 
-  /** 对焦确认提示（告诉用户相机已对焦到正确位置） */
 
-  /** 构图完美时机提示 */
 
-  /** 过曝警告提示 */
 
-  /** 欠曝（太暗）提示 */
 
-  /** 进步表扬提示 */
 
-  /** 倒计时提示（3-2-1） */
 
-  /** 低分鼓励（总分 < 50） */
   async speakLowScore(score: number): Promise<void> {
     const tips = [
       `这张只有${score}分，没关系！多拍几张就好啦～`,
@@ -1486,9 +1446,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 模板分类切换提示 */
 
-  /** 晨光拍摄提示 */
   async speakMorningTip(): Promise<void> {
     const tips = [
       '早上的光线好柔和，现在拍照超适合！',
@@ -1524,10 +1482,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 金色时刻提示 */
 
-  /** 分数揭晓播报 — 分数动画完成后朗读总分，营造仪式感 */
-  /** 分数揭示 — 鼓励型变体（根据最终分数传入不同语气） */
   async speakScoreReveal(score: number): Promise<void> {
     if (score >= 90) {
       await this.speak(`${score}分！满分之作！男朋友你太强了！`, true)
@@ -1542,11 +1497,8 @@ class VoiceCoach {
     }
   }
 
-  /** 分数段专属鼓励语（温暖补充） */
 
-  /** 新纪录庆祝 */
 
-  /** 里程碑庆祝 */
   async speakMilestone(count: number): Promise<void> {
     const msgs: Record<number, string> = {
       10: '十连拍达成！男朋友进步肉眼可见！',
@@ -1558,21 +1510,13 @@ class VoiceCoach {
     await this.speak(msg, true)
   }
 
-  /** 极低分鼓励（<50分），温柔安抚而不是打击） */
 
-  /** 全能满分播报（四维全部高分时） */
 
-  /** 首次使用引导语（第一次拍照前播报） */
 
-  /** 夜间拍摄引导 */
 
-  /** 连拍模式引导 */
 
-  /** 好光线专项表扬 */
 
-  /** 姿势完美达标表扬 */
 
-  /** 进步鼓励语（非分数驱动，通用进度鼓励） */
   async speakProgressEncouragement(totalPhotos: number): Promise<void> {
     if (totalPhotos === 0) {
       await this.speak('开启你的拍照之旅吧！第一张永远是最好的开始～', true)
@@ -1613,9 +1557,7 @@ class VoiceCoach {
     await this.speak(FACE_TIPS.TOO_LARGE, true)
   }
 
-  /** 人脸偏中心提示 */
 
-  /** 雨天提示 */
   async speakRainyTip(): Promise<void> {
     const tips = [
       '雨天的光线超柔和！找个窗户边，光影绝绝子～',
@@ -1641,29 +1583,17 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 侧光拍摄提示 */
 
-  /** 情侣甜蜜互动提示 */
 
-  /** 逆光 HDR 提示 */
 
-  /** 阴天拍照提示 */
 
-  /** 连拍提示 */
 
-  /** 定时拍照提示 */
 
-  /** 抓拍提示 */
 
-  /** 夕阳拍照提示 */
 
-  /** 超市道具提示 */
 
-  /** 俯拍全身提示 */
 
-  /** 仰拍大长腿提示 */
 
-  /** 表情夸张提示 */
   async speakExpressionExaggerateTip(): Promise<void> {
     const tips = [
       '笑容再大一点！这样更上镜～',
@@ -1673,11 +1603,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 夜拍模式提示 */
 
-  /** 室内反射提示 */
 
-  /** 傍晚拍照提示 */
   async speakEveningTip(): Promise<void> {
     const tips = [
       '傍晚光线好温柔！这时间段拍人像绝了～',
@@ -1687,24 +1614,14 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 蓝调时刻提示（Blue Hour，日落后/日出前天色呈蓝调） */
 
-  /** 运动抓拍提示 */
 
-  /** 黄金时段提示 */
 
-  /** 新手引导提示（第一次打开相机） */
 
-  /** 提醒男朋友对焦 */
 
-  /** 引导缩小背景 */
 
-  /** 引导拉开距离 */
 
-  /** 滤镜已应用提示 */
-  /** 滤镜移除提示 */
 
-  /** 模板已清除提示 */
   async speakTemplateCleared(): Promise<void> {
     const tips = [
       '模板已关闭，自由发挥吧～',
@@ -1716,11 +1633,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 分享成功提示 */
 
-  /** 里程碑庆祝提示 */
 
-  /** 滤镜滑动提示（ResultScreen 滤镜区出现时播报） */
   async speakFilterSwipeHint(): Promise<void> {
     const tips = [
       '滤镜可以左右滑动切换，找到最喜欢的那一款～',
@@ -1753,11 +1667,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 分享提示 */
 
-  /** 重拍鼓励提示 */
 
-  /** 分数展示前提示（处理完成，即将出结果） */
   async speakProcessingDone(): Promise<void> {
     const tips = [
       '分析完成！来看看这张表现怎么样～',
@@ -1767,17 +1678,11 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 多人合照提示 */
 
-  /** 阴天摄影提示 */
 
-  /** 镜面倒影提示 */
 
-  /** 窗边光线提示 */
 
-  /** 表情夸张提示（表情僵硬时） */
 
-  /** 海边拍照提示 */
   async speakBeachTip(): Promise<void> {
     const tips = [
       '海边阳光强烈容易过曝！找岩石阴影处拍，光线更柔和～',
@@ -1829,13 +1734,9 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 游乐场/嘉年华提示 */
 
-  /** 毕业照提示 */
 
-  /** 天台夜景提示 */
 
-  /** 健身房/运动风提示 */
   async speakGymTip(): Promise<void> {
     const tips = [
       '健身房找镜子拍！镜子里外都能入镜，构图超丰富～',
@@ -1848,17 +1749,11 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 站姿/坐姿姿势语音提示（posture_tips 对应） */
 
-  /** 坐姿拍照提示 */
 
-  /** 侧身站姿提示 */
 
-  /** 下巴角度提示（收下巴显脸小） */
 
-  /** 服装配色提示（color_balance 对应） */
 
-  /** 樱花季提示 */
 
   async speakDancePerformanceTip(): Promise<void> {
     const tips = [
@@ -1916,23 +1811,16 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 连拍完成汇总 */
 
-  /** 停留过久的鼓励语 */
   async speakIdleTooLong(): Promise<void> {
     const tips = [FACE_TIPS.IDLE_TOO_LONG, FACE_TIPS.IDLE_TOO_LONG_2, FACE_TIPS.IDLE_TOO_LONG_3]
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 模板匹配度提升提示 */
 
-  /** 亮度突变提示（走出阴影/进入阴影） */
 
-  /** 连续高分连续达成提示 */
 
-  /** 模板超时提醒（用户一直在看模板但没拍） */
 
-  /** 构图线模式切换成功提示 */
   async speakGridModeChanged(mode: 'grid' | 'golden' | 'triangle'): Promise<void> {
     const labels: Record<string, string> = {
       grid: '九宫格',
@@ -1966,21 +1854,13 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 光线完美时的正向确认（补充 speakLowLightWarning / speakOverexposed） */
 
-  /** 背景干净时的正向确认（补充 speakUglyBackgroundTip） */
 
-  /** 早晨光线提示 */
 
-  /** 人多场所拍摄提示 */
 
-  /** 自拍杆提示 */
 
-  /** 照片预览模糊警告 */
 
-  /** 照片已保存提示 */
 
-  /** 模板分类切换提示 */
   async speakTemplateCategorySwitched(category: string): Promise<void> {
     // 完整覆盖云函数 getTemplates 所有分类
     const catLabels: Record<string, string> = {
@@ -2003,15 +1883,10 @@ class VoiceCoach {
     await this.speak(`已切换到${label}模板，找个好位置开始拍吧～`, false)
   }
 
-  /** 连续拍摄过多提醒（防止电量过快消耗） */
 
-  /** 存储空间不足提醒 */
 
-  /** 电量低提醒 */
 
-  /** 模板匹配度反馈 */
 
-  /** 笑脸检测到时的即时确认 */
   async speakSmileDetected(): Promise<void> {
     const tips = [
       FACE_TIPS.SMILE_DETECTED,
@@ -2024,29 +1899,17 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 构图完美时的提示 */
 
-  /** 光线完美时的提示 */
 
-  /** 背景检查提醒 */
 
-  /** 表情自然时的鼓励 */
 
-  /** 连拍完成提示 */
 
-  /** 情绪引导提示（根据检测到的情绪给出具体引导） */
 
-  /** 姿势确认提示（模板匹配度高时播报） */
 
-  /** 宠物拍照提示 */
 
-  /** 镜子自拍提示 */
 
-  /** 海边泳池场景提示 */
 
-  /** 车内拍照提示 */
 
-  /** 日记加载完成提示 */
   async speakDiaryLoaded(count: number): Promise<void> {
     if (count === 0) {
       await this.speak('进步日记是空的！先去拍一张吧～', true)
@@ -2078,25 +1941,15 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 照片已删除提示 */
 
-  /** 达成新里程碑提示 */
 
-  /** 夜景闪光灯提示 */
 
-  /** 窗户人像提示 */
 
-  /** 秋季红叶/色彩环境提示 */
 
-  /** 夕阳剪影场景提示 */
 
-  /** 商场/步行街场景提示 */
 
-  /** 反光面拍摄提示（镜子/玻璃/水面） */
 
-  /** 情侣合照专属姿势提示 */
 
-  /** 闺蜜合照专属提示 */
   async speakBestiePoseTip(): Promise<void> {
     const tips = [
       '两个人靠近一点！闺蜜照就是要贴贴才好看～',
@@ -2108,15 +1961,10 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 首次拍摄引导提示 */
 
-  /** 存储空间不足提示 */
 
-  /** HDR 模式提示 */
 
-  /** 构图最后确认提示 */
 
-  /** 人脸丢失提示 — 实时检测中人脸突然消失时触发 */
   async speakFaceLost(): Promise<void> {
     const tips = [
       '看不到脸了！再靠近一点，让相机找到你～',
@@ -2151,11 +1999,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 姿势完美匹配提示 — 模板匹配度 95%+ 时 */
 
-  /** 接近满分提示 — 95-99 分区间 */
 
-  /** 夜景拍摄引导提示 */
 
   async speakBacklightGuide(): Promise<void> {
     const tips = [
@@ -2238,11 +2083,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 照片已保存到相册（ResultScreen 保存成功后播报） */
 
-  /** 分享准备就绪 */
 
-  /** 日记为空时的引导提示 */
   async speakDiaryEmpty(): Promise<void> {
     const tips = [
       '日记还是空的！先去拍一张吧～',
@@ -2255,9 +2097,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 用户跳过自动推荐的模板 */
 
-  /** 连拍串断裂提醒 */
   async speakStreakBroken(): Promise<void> {
     const tips = [
       '连续拍照断了～没关系，今天重新开始！',
@@ -2267,9 +2107,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 接近每日目标时的鼓励 */
 
-  /** 检测到正视镜头（眼神到位）— 正向确认 */
   async speakFaceLookAtCamera(): Promise<void> {
     const tips = [
       '眼神到位了！就是现在，笑一个按下去～',
@@ -2305,9 +2143,7 @@ class VoiceCoach {
     await this.speak(pickRandom(pool), false)
   }
 
-  /** 完美时刻综合播报（构图+光线+姿势均到位时） */
 
-  /** 多人合照中有人没看镜头 */
   async speakGroupLookAtCamera(): Promise<void> {
     const tips = [
       '大家都在看镜头吗？提醒一下还没看过来的人～',
@@ -2326,11 +2162,8 @@ class VoiceCoach {
   // carousel | greenhouse | tent_camp | graduation | old_town | beach_sunset |
   // rainy_street | morning_run | bookstore | beach | airport_station | meadow_ranch
 
-  /** 天台派对场景 */
 
-  /** 农场田园场景 */
 
-  /** 涂鸦墙场景 */
   async speakGraffitiTip(): Promise<void> {
     const tips = [
       '涂鸦墙前超酷！侧身站着，超有态度～',
@@ -2360,15 +2193,10 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 集市摊位场景 */
 
-  /** 旋转木马场景 */
 
-  /** 温室植物园场景 */
 
-  /** 帐篷露营场景 */
 
-  /** 海边日落场景 */
   async speakBeachSunsetTip(): Promise<void> {
     const tips = [
       '海边夕阳余晖超浪漫！侧身站着让光打在侧脸上，轮廓绝了～',
@@ -2378,11 +2206,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 雨天街头场景 */
 
-  /** 晨跑运动场景 */
 
-  /** 书店文艺场景 */
   async speakBookstoreTip(): Promise<void> {
     const tips = [
       '书店里的光线超有质感！靠在书架旁边，文艺感拉满～',
@@ -2392,19 +2217,12 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 地铁站场景 */
 
-  /** 地铁扶梯场景 */
 
-  /** 机场车站场景 */
 
-  /** 海滩泳池派对场景 */
 
-  /** 早晨拍照提示 */
 
-  /** 连续拍摄激励 */
 
-  /** 首次拍照引导 */
   async speakFirstPhotoTip(): Promise<void> {
     const tips = [
       '第一次拍！不用紧张，随便找个好看的角度按下去就是进步～',
@@ -2414,15 +2232,10 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 定时拍照提示（扩展版，支持秒数参数） */
 
-  /** 连拍高产鼓励（拍了 5/10/15 张后） */
 
-  /** 进步加速提示（分数比上次提升 10 分以上时） */
 
-  /** 模板加载缓慢提示 */
 
-  /** 情侣互动专属提示（进阶版） */
   async speakCoupleInteractionTipV2(): Promise<void> {
     const tips = [
       '情侣照可以试试从后面环抱！甜蜜感拉满～',
@@ -2480,9 +2293,7 @@ class VoiceCoach {
   // speakBacklightTip/speakGoldenHourTip/speakPortraitModeTip/speakCompositionGuide/speakLowBattery
   // 已在上方定义，此处补充以下新增方法：
 
-  /** 光线太暗时提醒（与 speakLowLightWarning 不同：强调找光源策略） */
 
-  /** 完美拍摄时的鼓励 */
   async speakPerfectShotTip(): Promise<void> {
     const tips = [
       '这张绝了！完美构图加自然表情，超级加分～',
@@ -2506,19 +2317,12 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 健身房镜子拍照提示 */
 
-  /** 火车窗边拍照提示 */
 
-  /** 节日灯展/灯会拍照提示 */
 
-  /** 雨天室内窗边拍照提示 */
 
-  /** 雪天拍照提示 */
 
-  /** 演唱会现场拍照提示 */
 
-  /** 照片数量里程碑提示（进入进步日记时播报） */
   async speakPhotoCountMilestone(count: number): Promise<void> {
     if (count >= 100) {
       const tips = [
@@ -2551,9 +2355,7 @@ class VoiceCoach {
     }
   }
 
-  /** 超市便利店场景提示 */
 
-  /** 室内人像场景提示 */
   async speakIndoorPortraitTip(): Promise<void> {
     const tips = [
       '室内找窗边！自然光最柔和～',
@@ -2564,29 +2366,17 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 户外风景场景提示 */
 
-  /** ===== 2026-05-25 新增 TTS 场景 ===== */
 
-  /** 对焦失焦提醒 */
 
-  /** 预览模式下确认拍摄 */
 
-  /** 持续稳定时的确认提示 */
 
-  /** 拍摄后夸奖确认（增强用户信心） */
 
-  /** 定时拍照倒计时中 */
 
-  /** 夜间手持不稳警告 */
 
-  /** 检测到自然表情时的正向确认（补充 speakSmileDetected） */
 
-  /** 背景变干净时的确认提示 */
 
-  /** 黄金时刻拍摄确认（光线条件完美时） */
 
-  /** 维度改善提示（构图/光线/表情/稳定某项提升时） */
   async speakImprovementDetected(dimension: 'composition' | 'exposure' | 'stability' | 'expression' | 'level'): Promise<void> {
     const tips: Record<string, string[]> = {
       composition: [
@@ -2619,31 +2409,18 @@ class VoiceCoach {
     await this.speak(pickRandom(pool), false)
   }
 
-  /** 新纪录达成提示 */
 
-  /** 连胜警告（连续高分即将中断时） */
 
-  /** 晨光拍摄提示（早晨黄金时段） */
 
-  /** 蓝调时刻提示（黄昏） */
 
-  /** 阴天人像提示（漫反射光优势） */
 
-  /** 硬光户外提示（正午强光） */
 
-  /** 夜间拍摄手稳提示 */
 
-  /** 宠物合照提示（与宠物互动场景） */
 
-  /** 泳池/水上场景提示 */
 
-  /** 夜市美食场景提示 */
 
-  /** 情侣贴贴提示（强调肢体互动） */
 
-  /** 眼镜反光提示 */
 
-  /** 眼神交流提示 */
   async speakEyeContactTip(): Promise<void> {
     const tips = [
       '看镜头！眼神更有神～',
@@ -2654,35 +2431,20 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 白墙反光补光提示 */
 
-  /** 屏幕补光提示 */
 
-  /** 雨天氛围提示 */
 
-  /** 拥挤场景处理提示 */
 
-  /** 镜子自拍角度提示 */
 
-  /** 滤镜切换鼓励提示 */
   // ========== 新增场景 TTS ==========
-  /** 海边户外场景提醒 */
 
-  /** 冬季室内暖气场景 */
 
-  /** 玻璃反光专项提示 */
 
-  /** v7 新增：服装背景颜色冲突提示 */
 
-  /** v7 新增：表情引导专项提示 */
 
-  /** v7 新增：姿势引导提示 */
 
-  /** v8 新增：场景氛围提示（雨天/阴天/黄金时段等） */
 
-  /** v8 新增：服装与环境匹配提示 */
 
-  /** 烘焙坊/面包店场景提示（Round 2 新增） */
   async speakBakeryTip(): Promise<void> {
     const tips = [
       '暖黄色灯光让皮肤超通透！靠窗边或台灯旁站～',
@@ -2695,11 +2457,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 泳池边场景提示（Round 2 新增） */
 
-  /** 车内自拍场景提示（Round 2 新增） */
 
-  /** 自拍距离太近（前置摄像头 Face.area > 0.22 时触发） */
   async speakSelfieTooClose(): Promise<void> {
     const tips = [
       '手机拿远一点！自拍离太近会变形～',
@@ -2779,75 +2538,40 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
-  /** 照片保存成功提示 */
 
-  /** 地铁夜间场景 TTS */
 
-  /** 春日花园/踏青场景 TTS */
 
-  /** 镜面自拍 TTS */
 
-  /** 泳池/水边场景 TTS */
 
-  /** 雨天窗户摄影 TTS */
 
-  /** 游乐场飞椅/嘉年华 TTS */
 
-  /** 节日灯展/灯会 TTS */
 
-  /** 运动/动态摄影 TTS */
 
-  /** 模板自动推荐时的确认语（温馨提醒，让用户知道正在使用智能推荐） */
 
-  /** 今日总结 TTS（当日拍摄超过 5 张时播报） */
 
-  /** 表情指导 TTS（笑容检测后进一步引导） */
 
-  /** 拥挤场景引导 TTS */
 
-  /** 夜市美食场景 TTS */
 
-  /** 星空夜景场景 TTS */
 
-  /** 新年/跨年庆典场景 TTS */
 
-  /** 墨镜/强光刺眼提示 */
 
-  /** 逆光拍摄引导（CameraScreen 使用） */
 
-  /** 阴凉处建议 */
 
-  /** 水面倒影拍摄提示 */
 
-  /** 动态/运动中拍摄提示 */
 
-  /** 拍摄角度确认（角度合适时） */
 
-  /** HDR 模式已开启提示 */
 
-  /** 夜景模式已开启提示 */
 
-  /** 人像模式已开启提示 */
 
-  /** 连拍模式已开启提示 */
 
-  /** 定时拍摄已开启提示 */
 
-  /** 构图引导提示（九宫格/黄金螺旋/三角构图切换确认） */
 
-  /** 模板匹配成功提示（检测到当前姿势接近某个模板） */
 
-  /** 情侣互动专属提示（检测到 2 人，情侣合照场景） */
 
-  /** 天气提示（根据光线和天气给出拍照建议） */
 
-  /** 无效拍摄提示（检测到质量过低的照片） */
 
-  /** 分析完成提示（照片分析完成，可查看结果） */
 
-  /** 模板同步成功提示（区别于同步失败的 speakTemplateSyncFailed） */
 
-  /** 低光环境提示 */
   async speakLowLightTip(): Promise<void> {
     const tips = [
       '光线有点暗，找个亮的地方拍照会更清晰～',
@@ -2883,9 +2607,7 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 屏幕反光提示 */
 
-  /** 多人合照提示 */
   async speakGroupTip(): Promise<void> {
     const tips = [
       '合照要照顾到每个人！让大家站近一点但别挤～',
@@ -2897,11 +2619,8 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
-  /** 夜间手持防抖提示（夜景模式/暗光场景） */
 
-  /** 穿搭与背景配色提示（时尚场景） */
 
-  /** 背景虚化强化提示 */
   async speakBokehTip(): Promise<void> {
     const tips = [
       '背景有点实！让人物离背景远一点，虚化会更明显～',
