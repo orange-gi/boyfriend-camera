@@ -3101,6 +3101,28 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), true)
   }
 
+  async speakFarmTip(): Promise<void> {
+    const tips = [
+      '农场光线好开阔！早晨或傍晚会更有氛围感～',
+      '牧场拍照背景选蓝天白云或者小动物，超有感觉！',
+      '田埂小路往前走几步让男朋友从后面拍，风景大片感拉满！',
+      '农家小院找一面老墙做背景，岁月感十足～',
+      '拍农场记得带草帽或者篮子当道具，画面更有故事感！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  async speakAirportTip(): Promise<void> {
+    const tips = [
+      '机场大厅光线比较复杂，找窗边或者登机口拍，光线更好～',
+      '候机厅的玻璃窗是天然柔光箱！侧光打在脸上超好看～',
+      '登机牌和机票做道具，让男朋友低角度仰拍，超有范儿！',
+      '机场吊饰和指示牌做背景，记录旅途出发的好心情～',
+      '候机时对着玻璃窗自拍，光线柔和又有旅途感！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
   async speakSceneComplete(): Promise<void> {
     const tips = [
       '这张拍出感觉了！男朋友继续加油，下一张会更好～',

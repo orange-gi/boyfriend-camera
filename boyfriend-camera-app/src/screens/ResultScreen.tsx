@@ -15,6 +15,7 @@ type SceneTtsMethod =
   | 'speakUrbanNightTip' | 'speakVintageFilmTip'
   | 'speakGoldenHourTip'
   | 'speakGraduationTip' | 'speakZooTip'
+  | 'speakFarmTip' | 'speakAirportTip'
   | 'speakGoldenHourTip'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
@@ -189,6 +190,8 @@ const SCENE_TTS_MAP: Record<string, { method: SceneTtsMethod; minScore?: number;
   '游乐园嘉年华': { method: 'speakCarnivalTip', minScore: 60 },
   '毕业照': { method: 'speakGraduationTip', minScore: 60 },
   '动物园': { method: 'speakZooTip', minScore: 60 },
+  '农场牧场': { method: 'speakFarmTip', minScore: 60 },
+  '机场车站': { method: 'speakAirportTip', minScore: 60 },
 }
 
 const SCENE_TO_FILTER_TIP: Partial<Record<SceneType, 'indoor' | 'outdoor' | 'food' | 'night' | 'street' | 'sunset' | 'natural_light'>> = {
