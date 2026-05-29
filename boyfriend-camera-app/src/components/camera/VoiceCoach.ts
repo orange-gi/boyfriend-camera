@@ -426,9 +426,7 @@ class VoiceCoach {
       this.speaking = true
       await Tts.stop()
       await Tts.speak(text)
-      this.speaking = false
     } catch (e: unknown) {
-      this.speaking = false
       // 忽略 TTS 播报异常（用户静音/系统繁忙/无语音引擎）
       const errStr = e instanceof Error ? e.message : typeof e === 'string' ? e : String(e ?? '')
       if (
@@ -442,6 +440,8 @@ class VoiceCoach {
       } else {
         logger.error('VoiceCoach', 'speak failed:', e)
       }
+    } finally {
+      this.speaking = false
     }
   }
 
@@ -2220,6 +2220,18 @@ class VoiceCoach {
     await this.speak(pickRandom(tips), false)
   }
 
+  /** 古镇老街场景 */
+  async speakOldTownTip(): Promise<void> {
+    const tips = [
+      '古镇老街背景超有历史感！站在石板路上侧身微笑～',
+      '老街光线柔和，避开正午直射光，早晚更有氛围～',
+      '古镇的砖墙、老门当背景，文艺感十足～',
+      '古镇人如果多，开大光圈虚化人群更干净～',
+      '老街的石板路和古建筑超有层次感，侧身站好～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
 
 
 
@@ -2965,7 +2977,7 @@ class VoiceCoach {
         await this.speakGraduationTip(); break
       case 'old_town':
       case 'ancient_town':
-        await this.speakBookstoreTip(); break
+        await this.speakOldTownTip(); break
       // ── 夜景/霓虹 ─────────────────────────────────────
       case 'rooftop_night':
       case 'rooftop_party':
