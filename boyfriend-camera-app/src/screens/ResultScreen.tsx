@@ -858,7 +858,10 @@ export default function ResultScreen() {
                   <View
                     style={[
                       styles.scoreBreakdownFill,
-                      { width: `${Math.round((score / max) * 100)}%` },
+                      {
+                        width: `${Math.round((score / max) * 100)}%`,
+                        backgroundColor: getScoreFillColor(score, max),
+                      },
                     ]}
                   />
                 </View>
@@ -976,6 +979,15 @@ export default function ResultScreen() {
 }
 
 /** FilterItem - 带动画反馈的滤镜选项组件 */
+// 简洁优雅：分数条颜色按得分率区分 — 红/橙/绿三档，无需图例，靠颜色直觉传达好坏
+// 设计理由：单一颜色无法区分高低分；动态配色让用户一眼看出哪个维度是短板
+function getScoreFillColor(score: number, max: number): string {
+  const pct = score / max
+  if (pct >= 0.7) return COLORS.success  // ≥70%: 绿色=好
+  if (pct >= 0.4) return COLORS.warning // ≥40%: 橙色=中
+  return COLORS.danger                 // <40%: 红色=差
+}
+
 const FilterItem = React.memo(function FilterItem({
   filter,
   isActive,
@@ -1123,11 +1135,12 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     width: 28,
   },
+  // 简洁优雅：track 高度 5px（原 3px），配合动态颜色更有视觉存在感
   scoreBreakdownTrack: {
     flex: 1,
-    height: 3,
+    height: 5,
     backgroundColor: COLORS.divider,
-    borderRadius: 2,
+    borderRadius: 3,
     overflow: 'hidden',
   },
   scoreBreakdownFill: {
@@ -1145,12 +1158,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   // 操作按钮行
+  // 简洁优雅：按钮底部留 24px（原 4px），避免贴边，与上方元素有足够呼吸空间
   actions: {
     flexDirection: 'row',
     gap: 10,
     paddingHorizontal: 20,
     marginTop: 20,
-    marginBottom: 4,
+    marginBottom: 24,
   },
   // 简洁优雅：去掉 borderWidth — secondary 按钮靠文字颜色承载层级，无需装饰性边框
   actionBtnSecondary: {
