@@ -117,6 +117,15 @@ function getSceneType(category: string | null | undefined): SceneType {
     '机场车站': 'airport',
     '镜面自拍': 'mirror',
     '大合照': 'carnival',
+    'KTV': 'other',
+    '火车旅行': 'train',
+    '赏花': 'cherry_blossom',
+    '花卉市场': 'outdoor',
+    '雨天室内': 'indoor',
+    '雨天户外': 'rainy_street',
+    '早安': 'outdoor',
+    '夕阳': 'outdoor',
+    '夜晚': 'rooftop_night',
   }
   return map[category] ?? 'other'
 }
