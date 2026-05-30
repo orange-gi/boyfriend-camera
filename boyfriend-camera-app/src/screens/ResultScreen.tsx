@@ -1024,9 +1024,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 4,
   },
+  // 去装饰化：移除 filterPickerList 的 paddingRight — 横向滚动列表不需要额外尾部留白
   filterPickerList: {
     flexDirection: 'row',
-    paddingRight: 16,
     paddingVertical: 6,
   },
   filterItem: {
@@ -1046,12 +1046,11 @@ const styles = StyleSheet.create({
   // 滤镜色块：40px 直径，简洁克制，克制不用阴影
   // 设计理由：40px 相比 36px 提供更大的触摸目标（≥ 44px 包括 label），同时保持视觉克制
   // 无阴影/渐变 — 颜色本身承载视觉层级，无需额外装饰
+  // 去装饰化：移除 alignItems/justifyContent（纯色圆形无需居中内容）
   filterCircle: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   // 选中态：2px 白色圆环
   // 设计理由：白色圆环在暖/冷/明/暗各色圆上都形成清晰对比，是最通用的选中指示器
