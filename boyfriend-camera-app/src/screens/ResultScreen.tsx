@@ -16,6 +16,8 @@ type SceneTtsMethod =
   | 'speakGoldenHourTip'
   | 'speakGraduationTip' | 'speakZooTip'
   | 'speakFarmTip' | 'speakAirportTip'
+  | 'speakHumanitiesTip' | 'speakIndoorSceneTip' | 'speakIndoorDailyTip'
+  | 'speakOutdoorSceneryTip' | 'speakCompositionGuideTip'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   View,
@@ -145,6 +147,7 @@ const CAT_FILTER_MAP: Record<string, FilterKey> = {
 const SCENE_TTS_MAP: Record<string, { method: SceneTtsMethod; minScore?: number; extraMethod?: SceneTtsMethod; extraMinScore?: number; exposureMin?: number }> = {
   '户外海边日落': { method: 'speakBeachSunsetTip', minScore: 60, extraMethod: 'speakGoldenHourTip', extraMinScore: 60 },
   '户外海边': { method: 'speakBeachTip', minScore: 65 },
+  '户外风景': { method: 'speakOutdoorSceneryTip', minScore: 60 },
   '泳池边': { method: 'speakSwimmingPoolTip', minScore: 60 },
   '赏樱': { method: 'speakSpringFlowersTip', minScore: 65 },
   '灯塔': { method: 'speakLighthouseTip', minScore: 65 },
@@ -153,10 +156,14 @@ const SCENE_TTS_MAP: Record<string, { method: SceneTtsMethod; minScore?: number;
   '镜面自拍': { method: 'speakMirrorSelfieTip', minScore: 60 },
   '街头随拍': { method: 'speakBacklitTip', minScore: 75, exposureMin: 22 },
   '城市街拍': { method: 'speakBacklitTip', minScore: 75, exposureMin: 22 },
+  '人文风景': { method: 'speakHumanitiesTip', minScore: 65 },
   '情侣合照': { method: 'speakCouplePhotoTip', minScore: 65 },
   '节日限定': { method: 'speakFestivalLightsTip', minScore: 60 },
   '室内人像': { method: 'speakIndoorPortraitTip', minScore: 65 },
+  '室内场景': { method: 'speakIndoorSceneTip', minScore: 65 },
+  '室内日常': { method: 'speakIndoorDailyTip', minScore: 65 },
   '自拍技巧': { method: 'speakSelfieTip', minScore: 60 },
+  '构图技巧': { method: 'speakCompositionGuideTip', minScore: 65 },
   '夜景': { method: 'speakUrbanNightTip', minScore: 60 },
   '星空夜景': { method: 'speakUrbanNightTip', minScore: 60 },
   '桥上夜景': { method: 'speakUrbanNightTip', minScore: 60 },
