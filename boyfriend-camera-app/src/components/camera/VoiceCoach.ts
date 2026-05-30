@@ -3374,6 +3374,48 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), true)
   }
+
+  /** 过度摆拍提示 — 提醒用户放松自然 */
+  async speakOverPosedTip(): Promise<void> {
+    const tips = [
+      '姿势有点太刻意了！自然一点，假装在做别的事被抓拍，表情会更生动～',
+      '摆拍痕迹有点重！试着假装在看远处的东西，被发现的那瞬间表情最自然～',
+      '这个姿势太用力了！深呼吸放松，假装旁边有只猫，表情马上灵动起来～',
+      '太刻意了反而不好看！假装在等人，自然地被男朋友抓拍，这个瞬间最自然～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 多人自拍提示 */
+  async speakGroupSelfieTip(): Promise<void> {
+    const tips = [
+      '多人自拍站两边让中间的人举手机，角度最公平～',
+      '自拍杆举高让所有人都入镜！稍微仰角俯拍，大家脸都不会被挡～',
+      '多人自拍用倒计时！这样大家都能准备好看镜头～',
+      '多人合照背景要干净！找面纯色墙，这样每个人都能被看清～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 闪光灯过强提示 */
+  async speakFlashHarshTip(): Promise<void> {
+    const tips = [
+      '闪光灯打得太强了！离远一点让光更柔和，肤色更自然～',
+      '闪光灯直接打脸有点硬，试试离远一点或侧着打～',
+      '闪光灯太近了！稍微退后两步，脸上的光会更均匀～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 构图稳定但无亮点提示 — 及格分鼓励突破 */
+  async speakSafeButBlandTip(): Promise<void> {
+    const tips = [
+      '这张及格了！但还能更好！换个角度试试～',
+      '构图稳了！下次试试换个姿势或光线，会有惊喜哦～',
+      '及格没问题！换个背景或表情，进步会更快～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
