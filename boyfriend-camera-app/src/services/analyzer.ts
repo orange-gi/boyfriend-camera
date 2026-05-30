@@ -3751,6 +3751,50 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '手机壳边缘挡住摄像头了，把手机壳往下拉一点再拍～',
     '摄像头旁边的手指点到镜头了，把手指移开再按快门～',
   ],
+  // 怼脸特写专项建议
+  close_up_tips: [
+    '怼脸拍皮肤质感太清晰了！稍微退远一点点会更柔和～',
+    '近景特写对焦要精准！点一下脸部再按快门～',
+    '特写时脸上任何细节都会被放大，表情要放松再拍～',
+    '怼脸拍光线要柔和！侧光比正面光更有立体感～',
+    '近距离拍摄容易产生透视变形，脸稍微侧一点更自然～',
+    '特写最重要的是眼神！眼睛有光，整张脸都活了～',
+    '怼脸自拍找个好角度！下巴微收，眼睛更有神～',
+    '近景特写光线偏暗的话，打开屏幕补光或靠近窗户～',
+  ],
+  // 全身照专项建议
+  full_body_tips: [
+    '全身照构图时头顶留白三分之一，画面会更舒适～',
+    '全身照背景要干净简洁！杂乱背景会让主体不突出～',
+    '拍全身时站姿很重要，一条腿稍微弯曲会更显瘦～',
+    '全身照要展示完整！脚不要被截掉，构图才完整～',
+    '拍全身时男朋友蹲低一点拍，仰角显腿长～',
+    '全身照让人站在画面中间偏左/偏右，比完全居中更有趣～',
+    '全身照背景选择很重要！简洁干净的背景最适合～',
+    '户外全身照选好背景后，让女朋友走动起来抓拍最自然～',
+  ],
+  // 半身照专项建议
+  half_body_tips: [
+    '半身照构图最经典！膝盖以上或腰部以上都算半身～',
+    '半身照重点是上半身！表情和姿势要更突出～',
+    '半身照让人稍微侧身站，比正对镜头更显瘦～',
+    '拍半身时手不知道往哪放？叉腰或轻轻搭在腰上～',
+    '半身照光线要均匀！侧光最能展现上半身轮廓～',
+    '半身照背景虚化一点更好看！打开人像模式试试～',
+    '半身照构图时头部在画面上方三分之一处最舒服～',
+    '拍半身照让男朋友蹲低一点，从腰部位置仰拍最显瘦～',
+  ],
+  // 滤镜推荐专项建议
+  filter_suggestion: [
+    '试试换个滤镜！暖色调会让这张更有复古感～',
+    '这张加点锐化滤镜会让细节更清晰～',
+    '暖黄滤镜配这张超有胶片感！试试看～',
+    '这张稍微降低饱和度会更有质感，试试黑白或褪色滤镜～',
+    '人像照用「人像」滤镜皮肤会更通透～',
+    '这张配「电影」滤镜会更有故事感！',
+    '美食照试试「美食」滤镜，色彩会更诱人～',
+    '夜景配「电影」或「胶片」滤镜超有氛围～',
+  ],
   background_near_black: [
     '背景太暗了，整个人像悬浮在黑夜里，打开闪光灯或找光源～',
     '除了脸之外什么都看不见，背景有点太暗了，补点光会更好～',
@@ -4183,11 +4227,22 @@ export async function analyzePhoto(
     if (facePosition.area > 0.65) {
       if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.face_too_close))
     }
+    // 怼脸特写（面积 0.3-0.65）
+    if (facePosition.area >= 0.3 && facePosition.area <= 0.65 && suggestions.length < 4) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.close_up_tips))
+    }
     // 景大人小（面积小于0.08但不为0，说明人太小了）
     if (facePosition.area > 0 && facePosition.area < 0.08 && compositionScore < 30) {
       if (suggestions.length < 4) {
         suggestions.push(pickRandom(SUGGESTION_POOL.subject_too_small_generic))
       }
+      if (suggestions.length < 4) {
+        suggestions.push(pickRandom(SUGGESTION_POOL.full_body_tips))
+      }
+    }
+    // 半身照（面积 0.08-0.3）
+    if (facePosition.area >= 0.08 && facePosition.area < 0.3 && suggestions.length < 4) {
+      suggestions.push(pickRandom(SUGGESTION_POOL.half_body_tips))
     }
     // 人像构图留白建议
     if (faceCount > 0 && compositionScore >= 30 && suggestions.length < 4) {
@@ -5736,6 +5791,10 @@ export async function analyzePhoto(
   // 滤镜匹配提示（场景分低但整体分中等时）
   if (totalScore >= 55 && totalScore < 75 && suggestions.length < 4) {
     suggestions.push(pickRandom(SUGGESTION_POOL.filter_tips))
+  }
+  // 滤镜建议（高分照片推荐尝试不同滤镜提升效果）
+  if (totalScore >= 75 && totalScore < 90 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.filter_suggestion))
   }
 
   // 去重：避免多条相同建议/夸奖（同一个维度触发多个条件时可能重复）
