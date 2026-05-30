@@ -292,7 +292,7 @@ export default function ResultScreen() {
           const mainOk = !minScore || scoreResult.totalScore >= minScore
           const exposureOk = !exposureMin || scoreResult.exposureScore >= exposureMin
           if (mainOk && exposureOk) {
-            const speak = (m: SceneTtsMethod, delay: number) => track(() => { try { (VoiceCoach as Record<SceneTtsMethod, () => void>)[m]() } catch {} }, delay)
+            const speak = (m: SceneTtsMethod, delay: number) => track(() => { try { (VoiceCoach as unknown as Record<SceneTtsMethod, () => Promise<void>>)[m]() } catch {} }, delay)
             speak(method, 2500)
             if (extraMethod && (!extraMinScore || scoreResult.totalScore >= extraMinScore)) {
               speak(extraMethod, 3500)

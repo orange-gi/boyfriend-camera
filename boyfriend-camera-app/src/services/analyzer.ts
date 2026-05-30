@@ -4054,6 +4054,30 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '顶光硬邦邦的，侧身或找个柔和的光源会更好～',
     '这个光太硬了，脸上的阴影好奇怪，往边上站站躲开～',
   ],
+  // 清晨日出光线（早晨柔和暖光）
+  sunrise_morning_tips: [
+    '清晨的光线超柔和！这个时间拍照皮肤状态最好～',
+    '日出光线打在脸上超温柔，男朋友赶紧抓拍～',
+    '早安光线好通透！侧脸对着光源拍出来绝美～',
+    '清晨的逆光最温柔，拍出来头发都在发光～',
+    '早晨6-8点的光线最柔，这会儿拍最出片～',
+  ],
+  // 玻璃/镜面反光（橱窗/镜子/水面反光）
+  reflection_surface: [
+    '玻璃有反光！稍微侧身或用衣物遮挡一下～',
+    '镜面反光有点强，让男朋友调整一下角度躲开反光～',
+    '橱窗玻璃反光很强，稍微侧一点就能躲开～',
+    '拍镜子时手机稍微斜一点，避免镜头本身被拍进去～',
+    '玻璃反光可以当创意元素！试试让反光形成框架构图～',
+  ],
+  // 逆光窗边（室内靠窗但背对窗外强光）
+  window_backlit: [
+    '窗边逆光！脸有点黑了，转过身让脸朝向窗户～',
+    '背光拍摄脸太暗，走到窗边让光打在脸上～',
+    '窗外的光太亮了，站在窗户正对面让光打在脸上～',
+    '逆光时打开手机闪光灯补光，或者换个角度面对光源～',
+    '这个角度是逆光，把脸稍微转过来一点，躲开窗外强光～',
+  ],
 }
 
 /** 场景类型枚举 — 覆盖所有专属文案场景 */
@@ -4611,6 +4635,18 @@ export async function analyzePhoto(
   // 晨间光线专属建议（早晨6-10点户外场景）
   if ((hourNow >= 6 && hourNow < 10) && sceneType === 'outdoor' && totalScore >= 40 && suggestions.length < 3) {
     suggestions.push(pickRandom(SUGGESTION_POOL.morning_light_tips))
+  }
+  // 清晨日出光线建议（早晨户外亮度偏低但柔和时）
+  if ((hourNow >= 6 && hourNow < 10) && sceneType === 'outdoor' && safeBrightness < 120 && totalScore >= 40 && suggestions.length < 3) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.sunrise_morning_tips))
+  }
+  // 室内窗边逆光检测（亮度高但曝光分低=可能是逆光）
+  if (sceneType === 'indoor' && safeBrightness > 180 && exposureScore < 18 && suggestions.length < 4) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.window_backlit))
+  }
+  // 玻璃/镜面反光建议（室内有反光表面时）
+  if (sceneType === 'indoor' && exposureScore >= 18 && suggestions.length < 4 && Math.random() > 0.7) {
+    suggestions.push(pickRandom(SUGGESTION_POOL.reflection_surface))
   }
   // 室内日常补充建议（无特定技术问题时）
   if (sceneType === 'indoor' && exposureScore >= 20 && totalScore >= 40 && suggestions.length < 4) {
