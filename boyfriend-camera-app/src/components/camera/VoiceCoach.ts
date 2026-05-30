@@ -1487,16 +1487,62 @@ class VoiceCoach {
 
 
   async speakScoreReveal(score: number): Promise<void> {
-    if (score >= 90) {
-      await this.speak(`${score}分！满分之作！男朋友你太强了！`, true)
+    if (score >= 95) {
+      const tips = [
+        `${score}分！满分神作！男朋友你是开挂了吧！这张太绝了！`,
+        `${score}分！男朋友摄影师天赋满点！这张要存档一万年！`,
+        `${score}分大片！这张照片可以直接上杂志封面了！`,
+        `${score}分！男朋友从青铜上王者，这张绝了！`,
+      ]
+      await this.speak(pickRandom(tips), true)
+    } else if (score >= 90) {
+      const tips = [
+        `${score}分！满分之作！男朋友你太强了！`,
+        `${score}分！男朋友审美持续爆发，这张绝了！`,
+        `${score}分大片！这张构图精准光线完美，值得裱起来！`,
+        `${score}分！男朋友把我拍成了大片女主角，这张绝了！`,
+      ]
+      await this.speak(pickRandom(tips), true)
     } else if (score >= 80) {
-      await this.speak(`${score}分！高分！男朋友表现很棒！`, false)
+      const tips = [
+        `${score}分！高分！男朋友表现很棒！`,
+        `${score}分！男朋友审美开窍，这张构图感绝了！`,
+        `${score}分！光线和构图都在线，这张好有feel！`,
+        `${score}分！男朋友把我拍出了高级感，距离90分只差一点点！`,
+      ]
+      await this.speak(pickRandom(tips), false)
     } else if (score >= 70) {
-      await this.speak(`${score}分！不错不错，继续保持！`, false)
+      const tips = [
+        `${score}分！不错不错，继续保持！`,
+        `${score}分！男朋友越拍越好，这张有被惊喜到！`,
+        `${score}分！构图讲究了，继续保持这个状态！`,
+        `${score}分！男朋友进步肉眼可见，这张很不错！`,
+      ]
+      await this.speak(pickRandom(tips), false)
     } else if (score >= 60) {
-      await this.speak(`${score}分！及格啦，下次会更好！`, false)
+      const tips = [
+        `${score}分！及格啦，下次会更好！`,
+        `${score}分！男朋友正在通往高分的路上，这张很有潜力！`,
+        `${score}分！再注意一个细节就能上70了！`,
+        `${score}分！男朋友有在认真拍，再精细一点点就是大片了！`,
+      ]
+      await this.speak(pickRandom(tips), false)
+    } else if (score >= 40) {
+      const tips = [
+        `${score}分，继续加油！多拍几张一定会越拍越好！`,
+        `${score}分！没关系，每张大片都是练出来的！`,
+        `${score}分！男朋友有在认真拍，继续练习几次就及格了！`,
+        `${score}分！多拍几张感觉就来了，继续保持！`,
+      ]
+      await this.speak(pickRandom(tips), false)
     } else {
-      await this.speak(`${score}分，继续加油！多拍几张一定会越拍越好！`, false)
+      const tips = [
+        `${score}分！没关系，摄影师也是练出来的，继续加油！`,
+        `${score}分！第一次不够完美太正常了，多拍几张就好啦！`,
+        `${score}分！男朋友有在认真拍，这感觉越来越对了！`,
+        `${score}分！男朋友正在进化中，下次会更棒！`,
+      ]
+      await this.speak(pickRandom(tips), false)
     }
   }
 
@@ -1504,10 +1550,14 @@ class VoiceCoach {
 
   async speakMilestone(count: number): Promise<void> {
     const msgs: Record<number, string> = {
+      5: '五张达成！男朋友已经上路了，继续拍！',
       10: '十连拍达成！男朋友进步肉眼可见！',
       20: '二十连拍里程碑！摄影师已在线！',
+      30: '三十次快门！男朋友感觉越来越好了！',
       50: '五十次快门！男朋友你是被拍照耽误的摄影师！',
       100: '百次快门达成！男朋友已经是拍照达人了！',
+      200: '两百次！男朋友摄影师资格认证，这水平可以接单了！',
+      500: '五百次快门！男朋友是拍照狂魔了，继续探索更多风格吧！',
     }
     const msg = msgs[count] || `${count}次拍摄达成！继续加油！`
     await this.speak(msg, true)
