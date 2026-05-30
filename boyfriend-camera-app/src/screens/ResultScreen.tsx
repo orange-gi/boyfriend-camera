@@ -847,38 +847,6 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* 分数维度分解 — 简洁优雅：4条细横条承载构图/光线/表情/稳定四维分数
-            设计理由：总分只是一个数字，四维分解让用户知道进步方向
-            无边框/无背景色/无阴影 — 条本身用文字颜色深浅区分活跃度
-        */}
-        {!processing && scoreResult && (
-          <View style={styles.scoreBreakdown}>
-            {[
-              { label: '构图', score: scoreResult.compositionScore, max: 40 },
-              { label: '曝光', score: scoreResult.exposureScore, max: 30 },
-              { label: '稳定', score: scoreResult.stabilityScore, max: 20 },
-              { label: '表情', score: scoreResult.expressionScore, max: 20 },
-              { label: '水平', score: scoreResult.levelScore, max: 10 },
-            ].map(({ label, score, max }) => (
-              <View key={label} style={styles.scoreBreakdownRow}>
-                <Text style={styles.scoreBreakdownLabel}>{label}</Text>
-                <View style={styles.scoreBreakdownTrack}>
-                  <View
-                    style={[
-                      styles.scoreBreakdownFill,
-                      {
-                        width: `${Math.round((score / max) * 100)}%`,
-                        backgroundColor: getScoreFillColor(score, max),
-                      },
-                    ]}
-                  />
-                </View>
-                <Text style={styles.scoreBreakdownNum}>{score}</Text>
-              </View>
-            ))}
-          </View>
-        )}
-
         {/* 滤镜选择器 */}
         {!processing && (
           <View style={styles.filterPicker}>
@@ -987,15 +955,6 @@ export default function ResultScreen() {
 }
 
 /** FilterItem - 带动画反馈的滤镜选项组件 */
-// 简洁优雅：分数条颜色按得分率区分 — 红/橙/绿三档，无需图例，靠颜色直觉传达好坏
-// 设计理由：单一颜色无法区分高低分；动态配色让用户一眼看出哪个维度是短板
-function getScoreFillColor(score: number, max: number): string {
-  const pct = score / max
-  if (pct >= 0.7) return COLORS.success  // ≥70%: 绿色=好
-  if (pct >= 0.4) return COLORS.warning // ≥40%: 橙色=中
-  return COLORS.danger                 // <40%: 红色=差
-}
-
 const FilterItem = React.memo(function FilterItem({
   filter,
   isActive,
@@ -1125,42 +1084,6 @@ const styles = StyleSheet.create({
   praiseBannerScore: {
     fontSize: 17,
     lineHeight: 24,
-  },
-  // 分数维度分解 — 简洁优雅极致：4条极细横条，文字色彩承载信息
-  scoreBreakdown: {
-    marginHorizontal: 20,
-    marginTop: 4,
-    marginBottom: 8,
-  },
-  scoreBreakdownRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5,
-    gap: 8,
-  },
-  scoreBreakdownLabel: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-    width: 28,
-  },
-  // 简洁优雅：track 高度 5px（原 3px），配合动态颜色更有视觉存在感
-  scoreBreakdownTrack: {
-    flex: 1,
-    height: 5,
-    backgroundColor: COLORS.divider,
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  scoreBreakdownFill: {
-    height: '100%',
-    backgroundColor: COLORS.textSecondary,
-    borderRadius: 2,
-  },
-  scoreBreakdownNum: {
-    fontSize: 11,
-    color: COLORS.textSecondary,
-    width: 20,
-    textAlign: 'right',
   },
   viewShot: {
     alignItems: 'center',
