@@ -180,7 +180,6 @@ export default function HomeScreen() {
         </View>
       ) : diaryCount > 0 ? (
         <Animated.View style={[styles.statsCard, statsStyle]}>
-          {/* statsCard 加 bgCard 背景 — 与 ResultScreen 的 totalCard/dimsCard 保持视觉一致，有"锚点"感 */}
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: COLORS.textPrimary }]}>{diaryCount}</Text>
@@ -308,7 +307,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing[2],
   },
   // statsCard: 无背景色（透明融入父容器 bg），无 borderRadius — 简洁克制的内嵌统计卡
-  statsCard: { backgroundColor: COLORS.bgCard, borderRadius: borderRadius.xl, padding: spacing[5], marginBottom: spacing[6] },
+  statsCard: { padding: spacing[5], marginBottom: spacing[6] },
   // 简洁优雅：去掉 statDivider — 三个指标靠间距和字重自然分隔，无需装饰性竖线
   statsRow: { flexDirection: 'row', alignItems: 'stretch' },
   // 简洁优雅：statItem 无需额外 border/padding，去掉所有装饰性样式

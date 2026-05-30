@@ -3331,6 +3331,49 @@ class VoiceCoach {
       await this.speak('试试左滑调滤镜，找到最喜欢的风格～', true)
     }
   }
+
+  /** 衣着与背景颜色协调提示（正反馈） */
+  async speakOutfitColorMatchTip(): Promise<void> {
+    const tips = [
+      '衣服颜色和背景好搭！这配色好舒服～',
+      '穿着和场景很配！整体色调统一看起来超和谐～',
+      '衣服和环境呼应了，这张好有整体感～',
+      '颜色搭配好协调！男朋友这配色感觉不错～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 衣着与背景颜色冲突提示（建议改进） */
+  async speakOutfitColorClashTip(): Promise<void> {
+    const tips = [
+      '衣服颜色和背景太接近了，下次试试对比色会更突出～',
+      '背景颜色有点花哨，换个简洁背景人会更突出哦～',
+      '穿的衣服和背景融在一起了，试试换个颜色的衣服～',
+    ]
+    await this.speak(pickRandom(tips))
+  }
+
+  /** 构图优秀时的即时表扬（拍照过程中发现好构图） */
+  async speakFramingGreatTip(): Promise<void> {
+    const tips = [
+      '构图超棒！这个角度绝了，按下去就是大片！',
+      '这构图感绝了，男朋友开窍了！',
+      '背景和人物关系处理得刚刚好，这张绝了！',
+      '构图拿捏住了！这姿势按下去准没错～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 最佳拍摄时机倒计时（光线+位置+表情同时到位） */
+  async speakBestMomentCountdown(): Promise<void> {
+    const tips = [
+      '三～二～一～就是现在！',
+      '现在光线好！表情到位！姿势完美！按下去！',
+      '完美时刻！就是这一秒！',
+      '现在！光线！表情！全部到位！按！',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
