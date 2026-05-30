@@ -16,7 +16,6 @@ type SceneTtsMethod =
   | 'speakGoldenHourTip'
   | 'speakGraduationTip' | 'speakZooTip'
   | 'speakFarmTip' | 'speakAirportTip'
-  | 'speakGoldenHourTip'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   View,
