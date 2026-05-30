@@ -3133,6 +3133,45 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 人多场景躲避人群提示（景点/节假日拍照） */
+  async speakCrowdAvoidTip(): Promise<void> {
+    const tips = [
+      '旁边人太多了！稍微等一等，等人走过再拍～',
+      '旅游景点背景太乱，试试蹲低一点从下往上拍，人少景美～',
+      '人多的地方打开人像模式！大光圈虚化人群，主体超突出～',
+      '换个角度躲人群！稍微侧一点或者仰拍，背景立刻干净～',
+      '人多时让女友往前走两步，男朋友在后面跟拍，抓拍最自然～',
+      '节假日人多很正常！找个没人的角落，或者换个时间再来～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 海边风大场景提示（头发乱/裙摆飘） */
+  async speakBeachWindTip(): Promise<void> {
+    const tips = [
+      '海风把头发吹起来了！这个瞬间好浪漫，让男朋友赶紧抓拍～',
+      '海边风大，头发乱的瞬间也很有氛围感，让男朋友连拍几张～',
+      '风大的时候别急着整理头发！这个瞬间最生动，连拍选最好的～',
+      '海风太大可以让女友背过身去，等风停了一瞬间转头抓拍～',
+      '裙摆被风吹起来好美！男朋友赶紧按快门，这个瞬间绝了～',
+      '风大时找个避风的角度，石头后面或者背风处拍～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
+
+  /** 镜子自拍角度引导 */
+  async speakMirrorAngleTip(): Promise<void> {
+    const tips = [
+      '镜子里的角度试试侧身站！比正对镜子更有层次感～',
+      '对着镜子侧45度，肩膀和脸都入镜，构图更好看～',
+      '镜子自拍试试稍微抬头，下巴会显得更尖～',
+      '镜子里的手可以放在下巴旁边，显得脸更小～',
+      '对着镜子找找最佳角度，不同角度差距很大哦～',
+      '镜子自拍侧身更上镜！试试让一只脚稍微伸出来，显得腿长～',
+    ]
+    await this.speak(pickRandom(tips), false)
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
