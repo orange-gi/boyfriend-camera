@@ -11,6 +11,7 @@ import {
   Animated,
   Modal,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -33,7 +34,7 @@ export default function DiaryScreen() {
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
   const [clearAllVisible, setClearAllVisible] = useState(false)
   const [loadError, setLoadError] = useState(false)
-  const deleteSheetY = useRef(new Animated.Value(300)).current
+  const deleteSheetY = useRef(new Animated.Value(Dimensions.get('window').height)).current
   useEffect(() => {
     VoiceCoach.initialize().catch(() => {}) // TTS 引擎初始化，失败静默降级
   }, [])
@@ -387,7 +388,6 @@ export default function DiaryScreen() {
             </View>
           </>
         }
-        ListFooterComponent={<View style={{ height: 40 }} />}
         showsVerticalScrollIndicator={false}
       />
 
@@ -471,6 +471,7 @@ const styles = StyleSheet.create({
   listContent: {
     paddingTop: 16,
     paddingHorizontal: 16,
+    paddingBottom: 40,
   },
   header: {
     flexDirection: 'row',
