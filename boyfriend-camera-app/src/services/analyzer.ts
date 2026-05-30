@@ -4144,6 +4144,35 @@ const SUGGESTION_POOL: Record<string, string[]> = {
     '逆光时打开手机闪光灯补光，或者换个角度面对光源～',
     '这个角度是逆光，把脸稍微转过来一点，躲开窗外强光～',
   ],
+
+  // Round 2 新增：KTV/卡拉OK场景建议
+  ktv_karaoke: [
+    'KTV 里灯光忽明忽暗，打开闪光灯补光让脸更亮～',
+    '霓虹灯下侧身站好，让灯光勾勒出脸部轮廓，超有氛围～',
+    'KTV 背景五颜六色，靠近镜头让背景自动虚化，主角更突出～',
+    '跟着节奏动起来！表情夸张一点抓拍，最有感染力～',
+  ],
+
+  // Round 2 新增：花店场景建议
+  flower_shop: [
+    '花店里光线柔和！捧一束鲜花，低头闻花香，超有氛围感～',
+    '花店背景色彩丰富，让花束成为前景虚化，人比花娇～',
+    '站在花架旁侧身微笑，花香配上甜甜的笑容，太美了～',
+  ],
+
+  // Round 2 新增：春季出游场景建议
+  spring_outdoor: [
+    '春天户外光线超柔和！找片草地或花丛，站着笑一个～',
+    '春季出游最重要的是自然感！表情放松，笑容灿烂最加分～',
+    '春天绿叶做背景超清新！侧身站着，阳光打在侧脸上～',
+  ],
+
+  // Round 2 新增：秋季红叶场景建议
+  autumn_leaves: [
+    '秋天红叶背景超有层次感！让叶子成为前景虚化，画面更丰富～',
+    '红叶季光线偏暖，可以让男友稍微过曝一点点，肤色更通透～',
+    '站在红叶树下抬头看，光影斑驳超有氛围感～',
+  ],
 }
 
 /** 场景类型枚举 — 覆盖所有专属文案场景 */
@@ -4159,6 +4188,7 @@ export type SceneType =
   | 'sunset' | 'overcast' | 'hotspring' | 'vintage_film' | 'neon_light' | 'airport'
   | 'special_style' | 'island_beach' | 'bridge_river' | 'vintage_cafe' | 'train_journey' | 'zoo_aquarium'
   | 'spring' | 'autumn' | 'winter' | 'street' | 'couple' | 'backlight' | 'low_light' | 'harsh_sunlight' | 'foggy'
+  | 'ktv_karaoke' | 'flower_shop' | 'sunrise_morning' | 'spring_outdoor' | 'autumn_leaves'
 
 export interface AnalyzeContext {
   /** 上次得分（进步检测） */
@@ -5930,6 +5960,31 @@ export async function analyzePhoto(
   // Round 2 新增：动物园/水族馆场景建议触发
   if (sceneType === 'zoo' || sceneType === 'aquarium') {
     suggestions.push(pickRandom(SUGGESTION_POOL.zoo_aquarium_tips))
+  }
+
+  // Round 2 新增：KTV/卡拉OK场景建议触发
+  if (sceneType === 'ktv_karaoke') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.ktv_karaoke))
+  }
+
+  // Round 2 新增：花店场景建议触发
+  if (sceneType === 'flower_shop') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.flower_shop))
+  }
+
+  // Round 2 新增：日出清晨场景建议触发
+  if (sceneType === 'sunrise_morning') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.sunrise_morning))
+  }
+
+  // Round 2 新增：春季出游场景建议触发
+  if (sceneType === 'spring_outdoor') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.spring_outdoor))
+  }
+
+  // Round 2 新增：秋季红叶场景建议触发
+  if (sceneType === 'autumn_leaves') {
+    suggestions.push(pickRandom(SUGGESTION_POOL.autumn_leaves))
   }
 
   // Round 1 新增：春花季场景（樱花/桃花/油菜花）
