@@ -4330,22 +4330,26 @@ export async function analyzePhoto(
     exposureScore -= 8
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.under_exposure))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.low_light))
   } else if (safeBrightness < 80) {
     // 轻微欠曝（60-79）：通用曝光建议
     exposureScore -= 5
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.low_light))
   } else if (safeBrightness > 220) {
     // 严重过曝
     exposureScore -= 15
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.over_exposure))
     if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.lighting_harsh_single))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.harsh_light))
   } else if (safeBrightness > 200) {
     // 轻度过曝（201-220）
     exposureScore -= 8
     problems.push('exposure')
     suggestions.push(pickRandom(SUGGESTION_POOL.exposure))
+    if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.harsh_light))
   }
   if (exposureScore >= 28) praise.push(pickRandom(PRAISE_POOL.exposure_great))
   if (exposureScore >= 28 && (safeBrightness >= 80 && safeBrightness <= 180)) praise.push(pickRandom(PRAISE_POOL.brightness_perfect))
@@ -4508,6 +4512,7 @@ export async function analyzePhoto(
     if (yawAngle !== undefined && Math.abs(yawAngle) > 30) {
       expressionScore -= 4
       if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.side_profile_hint))
+      if (suggestions.length < 4) suggestions.push(pickRandom(SUGGESTION_POOL.face_partial))
     }
     // 轻微偏头（15-30度，仍可看到正脸但不够居中）
     if (yawAngle !== undefined && Math.abs(yawAngle) > 15 && Math.abs(yawAngle) <= 30) {
