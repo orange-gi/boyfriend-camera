@@ -3297,6 +3297,40 @@ class VoiceCoach {
     ]
     await this.speak(pickRandom(tips), false)
   }
+
+  /** 拍摄完成会话总结（引导用户保存或继续拍摄） */
+  async speakSessionComplete(): Promise<void> {
+    const tips = [
+      '这张拍好了！保存到相册，或者继续多拍几张～',
+      '拍到满意的啦！要不要保存下来，还是再试一张？',
+      '这张不错！保存到相册，下次翻看会很有成就感哦～',
+      '拍好了～可以保存到相册，或者拉着男朋友继续拍更多好看的～',
+      '这张绝了！保存下来，下一张会更精彩哦～',
+    ]
+    await this.speak(pickRandom(tips), true)
+  }
+
+  /** 根据场景推荐滤镜（场景分析后主动推荐） */
+  async speakFilterRecommendation(sceneCategory: string): Promise<void> {
+    const recs: Record<string, string[]> = {
+      '室内日常': ['室内照用「柔和」滤镜最自然，皮肤看起来细腻～', '室内暖光用「暖黄」滤镜会增加温馨感哦～'],
+      '室内场景': ['室内场景用「柔和」滤镜最耐看～', '室内用「人像」滤镜皮肤通透又自然～'],
+      '户外风景': ['户外光线好！「生动」滤镜让颜色更鲜活～', '户外用「暖黄」滤镜最搭，光线会显得更通透～'],
+      '城市街拍': ['街拍用「电影」滤镜超有质感！', '城市感用「电影」滤镜让照片更有故事感～'],
+      '夜景': ['夜景用「电影」滤镜绝了，氛围感拉满！', '晚上拍照「胶片」滤镜最有质感～'],
+      '餐厅美食': ['美食照用「美食」滤镜，食欲感拉满！', '餐厅暖光配「暖黄」滤镜，照片看起来超好吃～'],
+      '特殊风格': ['风格照试试「生动」滤镜，颜色会更浓郁～', '特殊风格用「电影」滤镜最有大片感～'],
+      '户外海边': ['海边用「暖黄」滤镜！阳光感十足～', '沙滩大海配「生动」滤镜，颜色超好看～'],
+      '室内人像': ['人像用「人像」滤镜，皮肤通透又自然～', '室内人像「柔和」滤镜最耐看～'],
+    }
+    const arr = recs[sceneCategory]
+    if (arr && arr.length > 0) {
+      await this.speak(pickRandom(arr), true)
+    } else {
+      // 通用推荐
+      await this.speak('试试左滑调滤镜，找到最喜欢的风格～', true)
+    }
+  }
 }
 
 export { FACE_TIPS, STABILITY_TIPS, EXPRESSION_TIPS }
