@@ -226,13 +226,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 24,
   },
+  // 语音提示气泡：白色半透明背景 + 细边框保证在任何背景上都可见
   voiceTipBubble: {
     position: 'absolute',
     bottom: 220,
     left: 16,
     right: 60,
-    backgroundColor: 'rgba(255,255,255,0.9)',
+    backgroundColor: 'rgba(255,255,255,0.92)',
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.08)',
     padding: 10,
     flexDirection: 'row',
     alignItems: 'center',

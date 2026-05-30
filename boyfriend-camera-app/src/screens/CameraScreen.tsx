@@ -1342,12 +1342,13 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
   },
   categoryTabIndicator: {
+    // 细线装饰：2px 高度分隔模板区和操作区，去 borderRadius 保持锐利边缘
     position: 'absolute',
     bottom: -4,
     left: 4,
     right: 4,
     height: 2,
-    borderRadius: 1,
+    borderRadius: 0,
   },
   templateList: {
     padding: 8,

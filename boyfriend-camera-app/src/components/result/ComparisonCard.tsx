@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   cardLabelRight: {
     right: 8,
   },
-  // 激活态：改为 primary 色，与 danger 语义区分（激活=选中，非危险）
+  // 激活态：primary 色标识当前选中状态
   cardLabelActive: {
     backgroundColor: COLORS.primary,
   },
