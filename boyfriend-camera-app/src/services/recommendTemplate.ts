@@ -20,6 +20,7 @@ const LIGHTING_CATEGORY_MAP: Record<string, string[]> = {
   bright: ['户外风景', '特殊风格', '城市街拍'],  // 明亮户外适合风景和街拍
   backlit: ['室内日常', '室内场景'], // 逆光场景适合室内
   unknown: [],
+  night: ['特殊风格', '室内场景', '夜景灯光'],
 }
 
 function scoreTemplate(template: PoseTemplate, ctx: SceneContext): number {
