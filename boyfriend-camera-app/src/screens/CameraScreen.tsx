@@ -1013,14 +1013,20 @@ export default function CameraScreen() {
                       accessibilityLabel={`姿势模板: ${item.name}${isActive ? '，已选中' : ''}`}
                       accessibilityHint="单击选择此姿势模板"
                     >
-                      {/* 选中态角标已移除 — 选择态由 borderColor + backgroundColor 承载，
-                          无需额外角标，避免角落装饰元素干扰模板缩略图 */}
-                      <Image
-                        source={{ uri: item.thumbnail }}
-                        style={styles.templateThumb}
-                        resizeMode="contain"
-                      />
-                      <Text style={styles.templateName} numberOfLines={1}>
+                      {/* 简洁优雅：去掉选中态角标，borderColor + 缩略图叠加分类色点承载选中信息 */}
+                      <View style={styles.templateThumbWrapper}>
+                        <Image
+                          source={{ uri: item.thumbnail }}
+                          style={styles.templateThumb}
+                          resizeMode="cover"
+                        />
+                        {/* 分类色点：左上角小圆点，4px，靠颜色区分分类 */}
+                        <View style={[
+                          styles.categoryDot,
+                          { backgroundColor: CATEGORY_COLORS[item.category || ''] || COLORS.primary }
+                        ]} />
+                      </View>
+                      <Text style={[styles.templateName, isActive && styles.templateNameActive]} numberOfLines={1}>
                         {item.name}
                       </Text>
                     </TouchableOpacity>
@@ -1350,30 +1356,56 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
+  // 简洁优雅：templateCard 无 padding，缩略图撑满卡片，靠 borderRadius 形成圆角边缘
   templateCard: {
     flex: 1,
     backgroundColor: COLORS.bgCard,
     borderRadius: borderRadius.xl,
-    padding: 4,
     alignItems: 'center',
     overflow: 'hidden',
   },
-
+  // 简洁优雅：active 状态用 2px 主色边框 + 缩略图叠加深色透明层，层次清晰
   templateCardActive: {
     borderColor: COLORS.primary,
     borderWidth: 2,
   },
-  templateThumb: {
+  // templateThumbWrapper 承载缩略图和分类色点
+  templateThumbWrapper: {
     width: SCREEN_W / 2 - 60,
-    height: 100,
-    borderRadius: 8,
+    height: 96,
+    position: 'relative',
+  },
+  // 简洁优雅：缩略图撑满 wrapper，cover 模式更有视觉冲击力，8px 圆角
+  templateThumb: {
+    width: '100%',
+    height: '100%',
+    borderTopLeftRadius: borderRadius.xl,
+    borderTopRightRadius: borderRadius.xl,
+  },
+  // 分类色点：左上角 4px 小圆点，靠颜色承载分类信息，克制不抢眼
+  // 设计理由：替代原有角标，4px 圆点比角标更简洁；颜色本身已足够区分分类
+  categoryDot: {
+    position: 'absolute',
+    top: 6,
+    left: 6,
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    zIndex: 1,
   },
   templateName: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: COLORS.textPrimary,
-    marginTop: 4,
+    fontSize: 12,
+    fontWeight: '500',
+    color: COLORS.textSecondary,
+    marginTop: 5,
+    marginBottom: 6,
     textAlign: 'center',
+    paddingHorizontal: 4,
+  },
+  // 简洁优雅：active 时名称用主色 + 字重加粗，与非 active 态形成明确对比
+  templateNameActive: {
+    color: COLORS.primary,
+    fontWeight: '700',
   },
   loadingContainer: {
     padding: 16,
