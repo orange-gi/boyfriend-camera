@@ -848,9 +848,10 @@ export default function ResultScreen() {
           <View style={styles.scoreBreakdown}>
             {[
               { label: '构图', score: scoreResult.compositionScore, max: 40 },
-              { label: '光线', score: scoreResult.exposureScore, max: 30 },
-              { label: '表情', score: scoreResult.expressionScore, max: 20 },
+              { label: '曝光', score: scoreResult.exposureScore, max: 30 },
               { label: '稳定', score: scoreResult.stabilityScore, max: 20 },
+              { label: '表情', score: scoreResult.expressionScore, max: 20 },
+              { label: '水平', score: scoreResult.levelScore, max: 10 },
             ].map(({ label, score, max }) => (
               <View key={label} style={styles.scoreBreakdownRow}>
                 <Text style={styles.scoreBreakdownLabel}>{label}</Text>
